@@ -5,3 +5,4 @@
  * *Ogre*: Render Engine - [http://uhasseltaacgua.googlecode.com/files/sdk.rar Download (Compiled by PJ, 75MB)]
 
  * *Ogre Max Viewer*: Bekijken van 3D Modellen - [http://www.ogremax.com/Packages/OgreMaxViewers2.2.5.7z Download]
+  * Bij ontbreken "XINPUT1_3.dll", installeer de [http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=0cef8180-e94a-4f56-b157-5ab8109cb4f5 DirectX End-User Runtimes].
