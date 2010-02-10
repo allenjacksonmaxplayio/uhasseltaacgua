@@ -1,6 +1,4 @@
 #labels Featured,Phase-Requirements,Phase-Implementation
-#Alles over het geluid
-
 = Content =
 
   # Audio Library
