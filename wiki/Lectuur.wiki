@@ -1,0 +1,6 @@
+= Lectuur =
+
+ * (Article) The Guerilla Guide to Game Code - [http://jrouwe.nl/guerrillaguide/GuerrillaGuideToGameCode.pdf Download (PDF)]
+ * (Book) Game Coding Complete, Chapters 2 and 3 - [http://www.amazon.co.uk/Game-Coding-Complete-Mike-McShaffry/dp/1584506806/ref=sr_1_1?ie=UTF8&s=books&qid=1265833532&sr=8-1 Amazon.co.uk]
+ * (Article) Gamasutra.com - Designing Design Tools [http://www.gamasutra.com/view/feature/3443/designing_design_tools.php View article]
+ * (Book) Game Programming Gems 1-6
