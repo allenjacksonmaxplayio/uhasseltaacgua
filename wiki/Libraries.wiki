@@ -6,3 +6,8 @@
 
  * *Ogre Max Viewer*: Bekijken van 3D Modellen - [http://www.ogremax.com/Packages/OgreMaxViewers2.2.5.7z Download]
   * Bij ontbreken dlls (XINPUT1_3.dll, d3dx9_41.dll, ...), installeer de [http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=0cef8180-e94a-4f56-b157-5ab8109cb4f5 DirectX End-User Runtimes].
+
+ * *FMOD*: Geluid library - [http://www.fmod.org/ FMOD Home]
+  * Kleine tutorial: [http://www.gamedev.net/reference/articles/article2098.asp gamedev]
+  * Closed source, enkel dll files maar wel heel flexibel
+    * Handig voor omgevings-afhankelijke geluiden: [http://www.fmod.org/wiki/index.php5?title=Theme_stack Theme_stack]
