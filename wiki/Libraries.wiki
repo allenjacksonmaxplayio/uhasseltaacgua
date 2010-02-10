@@ -1,0 +1,7 @@
+#labels Featured,Phase-Implementation
+= Libraries en Software =
+
+ * *Havok*: Physics & Animation, [http://software.intel.com/sites/havok/download/Havok_Physics_Animation_660_PC_XS_win32_VS2008_keycode_perpetual_20090704.zip|Havok Physics and Havok Animation SDKs for Programmers (6.6.0)]
+ * *Ogre* Render Engine, [http://uhasseltaacgua.googlecode.com/files/sdk.rar|Download (Compiled by PJ, 75MB)]
+
+ * *Ogre Max Viewer*: Bekijken van 3D Modellen [http://www.ogremax.com/Packages/OgreMaxViewers2.2.5.7z|Download]
