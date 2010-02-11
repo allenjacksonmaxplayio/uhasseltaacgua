@@ -1,0 +1,17 @@
+#labels Phase-Requirements,Phase-Design,Featured
+= Content =
+
+  # Talen
+
+= Talen =
+== LUA ==
+Zeer veel gebruikte scripting taal, en ook heel uitgebreid volgens mij
+  * [http://www.debian-administration.org/articles/264 Mooi voorbeeld]
+
+== Python ==
+Ook een zeer veel gebruikte taal, is meer een gewone programmeertaal, maar kan je ondertussen zowat alles mee :). Ook heel veel documentatie over te vinden volgens mij
+  * [http://docs.python.org/extending/ Hoe te implementeren]
+
+== Squirrel ==
+Niet opgegeven door hasselt, maar wel vaak gebruikt volgens mij...
+  * [http://squirrel-lang.org/forums/thread/830.aspx Squirrel VS LUA]
