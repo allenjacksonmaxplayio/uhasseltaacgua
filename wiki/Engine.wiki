@@ -1,0 +1,37 @@
+#summary Beschrijving engine iteraties en effecten ervan voor andere groepsleden.
+
+= Engine evolutie =
+== Iteratie 1 (klaar in week 2) ==
+
+Basisarchitectuur engine klaar.
+Toepassing enigen architectuur met 2 componenten: planeet (vlak) + hovercraft (blokje) + controls om blokje naar voor, achter en zijwaarts te bewegen.
+
+Effect op andere mensen:
+  * PJ: kan blokje en wereld vervangen door gemodelleerde objecten
+  * Tobias: kan controls blokje in handen nemen om ipv links rechts voor en achter stuurbewegingen te bekomen + basic physics blokje (hellen bij bocht, zwaartekracht en frictie, …)
+  * Nick: kan geluid geven aan scène + basic GUI tonen op scherm.
+
+== Iteratie 2 (klaar in week 3) ==
+
+Alle entiteiten worden gemodelleerd in engine met basisrepresentatie (blokjes, ….). XML toepassen in wereldscene. Ipv vlak een bol gebruiken. Camera plaatsen.
+
+Effect op andere mensen:
+  * Tobias: physics planeet (zwaartekracht planeet)
+  * Nick: sound van verschillende objecten + begin AI
+  * Olivier: netwerk entiteiten doorsturen en serializeren
+  * PJ: modellen maken en XML exporteren
+
+== Iteratie 3 (klaar in week 4) ==
+
+Objecten zoals jumps en portalen (van elk 1) in wereld zetten. Meerdere planeten maken.
+
+Effect op andere mensen:
+  * Tobias: jumps en portals gebruiken om andere planeten te bereiken met andere zwaartekracht.
+  * Nick + Olivier: AI + path finding
+  * PJ: modellen
+  * Olivier: networking
+  * Nick: GUI verder afmaken
+  * Dirk: scripting syntax voorbereiden
+
+== Iteratie 4 ==
+...
