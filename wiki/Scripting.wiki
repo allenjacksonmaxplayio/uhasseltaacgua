@@ -1,7 +1,7 @@
 #labels Phase-Requirements,Phase-Design,Featured
 = Content =
-
   # Talen
+  # Benodigde features
 
 = Talen =
 == LUA ==
@@ -15,3 +15,7 @@ Ook een zeer veel gebruikte taal, is meer een gewone programmeertaal, maar kan j
 == Squirrel ==
 Niet opgegeven door hasselt, maar wel vaak gebruikt volgens mij...
   * [http://squirrel-lang.org/forums/thread/830.aspx Squirrel VS LUA]
+
+= Benodigde features =
+  # Muziek dynamisch starten/stoppen (bv. afhankelijk van positie of locatie in de wereld)
+  # AI tegenstanders hun routines
