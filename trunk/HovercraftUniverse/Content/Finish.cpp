@@ -2,8 +2,6 @@
 
 namespace HovUni {
 
-namespace Content {
-
 Finish::Finish( TiXmlElement * data )
 {
 	//We are loading a Finish!
@@ -12,8 +10,6 @@ Finish::Finish( TiXmlElement * data )
 
 Finish::~Finish(void)
 {
-}
-
 }
 
 }

@@ -6,8 +6,6 @@
 
 namespace HovUni {
 
-namespace Content {
-
 /**
  * @author PJ
  */ 
@@ -133,8 +131,6 @@ public:
 		mAcceleration = acceleration;
 	}
 };
-
-}
 
 }
 

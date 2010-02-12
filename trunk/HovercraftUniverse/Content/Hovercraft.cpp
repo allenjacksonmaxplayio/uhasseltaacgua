@@ -3,8 +3,6 @@
 
 namespace HovUni {
 
-namespace Content {
-
 Hovercraft::Hovercraft(TiXmlElement * data)
 {
 	TiXmlNode * node;
@@ -65,8 +63,6 @@ Hovercraft::Hovercraft(TiXmlElement * data)
 
 Hovercraft::~Hovercraft(void)
 {
-}
-
 }
 
 }

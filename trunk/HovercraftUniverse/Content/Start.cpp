@@ -2,8 +2,6 @@
 
 namespace HovUni {
 
-namespace Content {
-
 Start::Start( TiXmlElement * data )
 {
 	//We are loading a Start!
@@ -12,8 +10,6 @@ Start::Start( TiXmlElement * data )
 
 Start::~Start(void)
 {
-}
-
 }
 
 }

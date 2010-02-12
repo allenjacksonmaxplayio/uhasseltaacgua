@@ -5,8 +5,6 @@
 
 namespace HovUni {
 
-namespace Content {
-
 /**
  * @author PJ
  */ 
@@ -18,8 +16,6 @@ public:
 
 	~Finish(void);
 };
-
-}
 
 }
 
