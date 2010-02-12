@@ -1,5 +1,3 @@
-#Compilatie & Run
-
 = Introduction =
 
 Compilatie & Run.
@@ -35,5 +33,3 @@ RUN
     * Voor Release mode hebt vul dit in: $(SolutionDir)bin\release
   # Kies toepassen
   # Duw op F5
-
-
