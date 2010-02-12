@@ -9,7 +9,7 @@ SVN checkout:
 
 http://code.google.com/p/uhasseltaacgua/source/checkout
 
-Het project staat in "trunk\HovercraftUniverse", vanaf nu ook wel de project map genoemd.
+Het project staat in {{{"trunk\HovercraftUniverse"}}}, vanaf nu ook wel de project map genoemd.
 
 DEPENDENCIES: windows packages
 
@@ -21,7 +21,7 @@ DEPENDENCIES: windows packages
 
 COMPILE
 
-  # Open trunk\HovercraftUniverse\HovercraftUniverse.sln
+  # Open {{{trunk\HovercraftUniverse\HovercraftUniverse.sln}}}
   # Duw op F7
 
 RUN
@@ -29,7 +29,7 @@ RUN
   # Rechts klik op HovercraftUniverse project (eerste subitem in de boom links).
   # Kies properties uit de drop down menu, nu opent een nieuw venster.
   # Kies Debugging en vul Working directory in afhankelijk van de mode, deze lees je naast Configuration in de titelbar en is of Debug of Release.
-    * Voor Debug mode hebt vul dit in: $(SolutionDir)bin\debug
-    * Voor Release mode hebt vul dit in: $(SolutionDir)bin\release
+    * Voor Debug mode hebt vul dit in: {{{$(SolutionDir)bin\debug}}}
+    * Voor Release mode hebt vul dit in: {{{$(SolutionDir)bin\release}}}
   # Kies toepassen
   # Duw op F5
