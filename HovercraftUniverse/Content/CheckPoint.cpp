@@ -3,8 +3,6 @@
 
 namespace HovUni {
 
-namespace Content {
-
 CheckPoint::CheckPoint( TiXmlElement * data )
 {
 	TiXmlNode * node;
@@ -35,8 +33,6 @@ CheckPoint::CheckPoint( TiXmlElement * data )
 
 CheckPoint::~CheckPoint(void)
 {
-}
-
 }
 
 }
