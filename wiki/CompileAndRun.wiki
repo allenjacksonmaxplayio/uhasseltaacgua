@@ -43,9 +43,9 @@ EXTRA
 
 Zet volgende regels onder {{{Zip=../../media/packs/skybox.zip}}}
 
-FileSystem=../../../art/materials
-FileSystem=../../../art/materials/scripts
-FileSystem=../../../art/materials/textures
-FileSystem=../../../art/models
+{{{FileSystem=../../../art/materials}}}
+{{{FileSystem=../../../art/materials/scripts}}}
+{{{FileSystem=../../../art/materials/textures}}}
+{{{FileSystem=../../../art/models}}}
 
 In {{{$(SolutionDir)bin\debug\resource.cfg}}} en {{{$(SolutionDir)bin\release\resource.cfg}}} om onze art te gebruiken!
