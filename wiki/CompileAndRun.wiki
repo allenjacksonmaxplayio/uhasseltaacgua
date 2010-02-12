@@ -38,3 +38,14 @@ de file plugins.cfg aan te passen. Zet een {{{#}}} voor de directx10 renderer.
     * Voor Release mode hebt vul dit in: {{{$(SolutionDir)bin\release}}}
   # Kies toepassen
   # Duw op F5
+
+EXTRA
+
+Zet volgende regels onder {{{Zip=../../media/packs/skybox.zip}}}
+
+FileSystem=../../../art/materials
+FileSystem=../../../art/materials/scripts
+FileSystem=../../../art/materials/textures
+FileSystem=../../../art/models
+
+In {{{$(SolutionDir)bin\debug\resource.cfg}}} en {{{$(SolutionDir)bin\release\resource.cfg}}} om onze art te gebruiken!
