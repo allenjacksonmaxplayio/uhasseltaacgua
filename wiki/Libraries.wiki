@@ -1,7 +1,10 @@
 #labels Featured,Phase-Implementation
 = Libraries en Software =
 
- * *Havok*: Physics & Animation - [http://software.intel.com/sites/havok/download/Havok_Physics_Animation_660_PC_XS_win32_VS2008_keycode_perpetual_20090704.zip Havok Physics and Havok Animation SDKs for Programmers (6.6.0)]
+ * *Havok*: Physics & Animation - [http://software.intel.com/sites/havok/download/Havok_Physics_Animation_660_PC_XS_win32_VS2008_keycode_perpetual_20090704.zip Havok Physics and Havok Animation SDKs for Programmers (6.6.0)] 
+Merk op dat dit niet de laatste versie is (namelijk 7.1). Ik (PJ) heb deze getest en er zaten bugs in de planet gravity demo wat de basis is van ons spel daarom lijkt het het beste
+om deze versie (voorlopig) links te laten liggen.
+
  * *Ogre*: Render Engine - [http://uhasseltaacgua.googlecode.com/files/sdk.rar Download (Compiled by PJ, 75MB)]
 
  * *Ogre Max Viewer*: Bekijken van 3D Modellen - [http://www.ogremax.com/Packages/OgreMaxViewers2.2.5.7z Download]
