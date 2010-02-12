@@ -42,6 +42,8 @@ virtual void LoadingEntity(const OgreMaxScene* scene, OgreMax::Types::EntityPara
 		//print the name of the userdata class
 		printf("%s",root->GetText());
 
+		MessageBox( NULL, root->GetText(), "Test", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+
 		//do lookup in some database of userclasses and set up the data (=> pass the root of the xml file)
 	
 		//link the node to the extra data and other way arround => check volgende members van Movable eens:
@@ -132,7 +134,7 @@ protected:
 
 		CustomNotifier not;
 
-		mScene->Load("uglycube.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,&not);
+		mScene->Load("hover1.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,&not);
 		
 		mSceneMgr = mScene->GetSceneManager();
 		mCamera = mSceneMgr->getCamera("Camera01");
@@ -237,8 +239,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
     try {
         app.go();
     } catch( Exception& e ) {
-        fprintf(stderr, "An exception has occurred: %s\n",
-                e.what());
+         MessageBox( NULL, e.what(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
     }
 
     return 0;
