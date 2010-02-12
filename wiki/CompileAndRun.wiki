@@ -15,28 +15,25 @@ Het project staat in "trunk\HovercraftUniverse", vanaf nu ook wel de project map
 
 DEPENDENCIES: windows packages
 
-Download alle windows packages van onze download pagina:
+  # Download alle windows packages van onze download pagina:
 
-http://code.google.com/p/uhasseltaacgua/downloads/list
+  http://code.google.com/p/uhasseltaacgua/downloads/list
 
-Extract deze allemaal in de project map, merge wanneer gevraagd...
+  # Extract deze allemaal in de project map, merge wanneer gevraagd...
 
 COMPILE
 
-Open trunk\HovercraftUniverse\HovercraftUniverse.sln
-Duw op F7
+  # Open trunk\HovercraftUniverse\HovercraftUniverse.sln
+  # Duw op F7
 
 RUN
 
-Rechts klik op HovercraftUniverse project (eerste subitem in de boom links).
-Kies properties uit de drop down menu, nu opent een nieuw venster.
-Kies Debugging en vul Working directory in afhankelijk van de mode, deze lees
-je naast Configuration in de titelbar en is of Debug of Release.
-Als je de Debug mode hebt vul dit in: $(SolutionDir)bin\debug
-Als je Release mode hebt vul dit in: $(SolutionDir)bin\release
-Kies toepassen
-Duw op F5
-
-
+  # Rechts klik op HovercraftUniverse project (eerste subitem in de boom links).
+  # Kies properties uit de drop down menu, nu opent een nieuw venster.
+  # Kies Debugging en vul Working directory in afhankelijk van de mode, deze lees je naast Configuration in de titelbar en is of Debug of Release.
+    * Voor Debug mode hebt vul dit in: $(SolutionDir)bin\debug
+    * Voor Release mode hebt vul dit in: $(SolutionDir)bin\release
+  # Kies toepassen
+  # Duw op F5
 
 
