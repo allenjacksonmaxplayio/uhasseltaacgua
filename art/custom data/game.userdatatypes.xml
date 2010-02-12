@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Userdata types are extensions atached to ogre scene nodes.
+They contain extra info and that will be filled in the editor (3dsmax).
+The info is returned as xml when the exported data is read. See the example for clearification.
+
+example:
+
+This type here:
+
+<class name="CheckPoint" usage="object">
+  <data name="Name" displayName="Name" groupName="Info" type="string"/>
+  <data name="Number" displayName="Number" groupName="Info" type="int"/>
+</class>
+
+Wil generate xml when loaded:
+
+<CheckPoint>
+<Name>blabla</Name>
+<Number>10</Number>
+</CheckPoint>
+
+Passing this xml node to the constructor of the custom object allows it to fill its members.
+For an example you can look at the Hovercraft.h/Hovercraft.cpp
+-->
+<userDataTypes>
+  
+  <!-- Hovercraft -->
+  <class name="Hovercraft" usage="object">
+    <data name="Name" displayName="Name" groupName="Info" type="string"/>
+    <data name="Description" displayName="Description" groupName="Info" type="string" editWidth="200" editHeight="100"/>
+    <data name="Speed" displayName="Speed" groupName="Physics" type="float"/>
+    <data name="Mass" displayName="Mass" groupName="Physics" type="float"/>
+    <data name="Acceleration" displayName="Acceleration" groupName="Physics" type="float"/>
+  </class>
+
+  <!-- Start -->
+  <class name="Start" usage="object">
+  </class>
+
+  <!-- Finish -->
+  <class name="Finish" usage="object">
+  </class>
+
+  <!-- Checkpoint -->
+  <class name="CheckPoint" usage="object">
+    <data name="Name" displayName="Name" groupName="Info" type="string"/>
+    <data name="Number" displayName="Number" groupName="Info" type="int"/>
+  </class>
+</userDataTypes>
