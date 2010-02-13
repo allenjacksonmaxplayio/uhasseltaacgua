@@ -24,7 +24,7 @@ Passing this xml node to the constructor of the custom object allows it to fill 
 For an example you can look at the Hovercraft.h/Hovercraft.cpp
 -->
 <userDataTypes>
-  <include file="types"/>
+  <include file="types.userdatatypes.xml"/>
   
   <!-- Hovercraft -->
   <class name="Hovercraft" usage="object">
@@ -42,7 +42,7 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   </class>
 
   <!-- Astroid -->
-  <class name="Astroid" usage="scene">
+  <class name="Astroid" usage="object">
     <data name="Name" displayName="Name" groupName="Info" type="string"/>
     <data name="Gravity" displayName="Gravity" groupName="Info" type="float"/>
     <data name="AstroidType" displayName="AstroidType" groupName="Info" type="AstroidType"/>

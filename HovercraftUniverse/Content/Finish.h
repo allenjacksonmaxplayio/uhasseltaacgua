@@ -9,7 +9,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-	class Finish : public UserData
+class Finish : public UserData
 {
 public:
 

@@ -25,6 +25,7 @@ public:
 
 	/**
 	 * Destructor
+	 * Deregisters automaticly from UserDataFactory
 	 */
 	virtual ~UserDataCallback();
 

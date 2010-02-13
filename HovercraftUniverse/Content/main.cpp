@@ -2,6 +2,7 @@
 //
 
 #include "UserDataFactory.h"
+#include "UserDataCallback.h"
 
 #include "OgreMaxScene.hpp"
 #include "Ogre.h"
@@ -9,6 +10,54 @@
 #include "ExampleFrameListener.h"
 using namespace OgreMax;
 using namespace Ogre;
+using namespace HovUni;
+
+class TestUserDataCallback : public HovUni::UserDataCallback {
+
+
+	/**
+	 * Callback when asteroid is loaded
+	 * @param asteroid
+	 */
+	virtual void onAsteroid( Asteroid * asteroid ) {
+		asteroid->getAsteroidType();
+	};
+
+	/**
+	 * Callback when start is loaded
+	 * @param start
+	 */
+	virtual void onStart( Start * start ) {
+	};
+
+	/**
+	 * Callback when startposition is loaded
+	 * @param startposition
+	 */
+	virtual void onStartPosition( StartPosition * startposition ) {
+	};
+
+	/**
+	 * Callback when checkpoint is loaded
+	 * @param checkpoint
+	 */
+	virtual void onCheckPoint( CheckPoint * checkpoint ) {
+	};
+
+	/**
+	 * Callback when finish is loaded
+	 * @param finish
+	 */
+	virtual void onFinish( Finish * finish ) {
+	};
+
+	/**
+	 * Callback when hovercraft is loaded
+	 * @param hovercraft
+	 */
+	virtual void onHoverCraft( Hovercraft * hovercraft ) {
+	};
+};
 
 
 /** Base class which manages the standard startup of an Ogre application.
@@ -78,8 +127,10 @@ protected:
 
 		OgreMaxScene * mScene = new OgreMaxScene();
 
+		TestUserDataCallback cb;
+
 		//CustomNotifier not;
-		mScene->Load("hover1.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,0);
+		mScene->Load("simpletrack.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,0);
 		
 		HovUni::UserDataFactory::getSingleton().parseUserData(mScene);
 
