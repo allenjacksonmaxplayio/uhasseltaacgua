@@ -186,6 +186,10 @@
 				RelativePath=".\Start.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\StartPosition.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -206,6 +210,10 @@
 			</File>
 			<File
 				RelativePath=".\Start.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StartPosition.h"
 				>
 			</File>
 		</Filter>

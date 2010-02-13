@@ -40,9 +40,8 @@ virtual void LoadingEntity(const OgreMaxScene* scene, OgreMax::Types::EntityPara
 		TiXmlElement * root = doc.RootElement();
 
 		//print the name of the userdata class
-		printf("%s",root->GetText());
 
-		MessageBox( NULL, root->GetText(), "Test", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		MessageBox( NULL, root->GetText(), "Test", MB_OK | MB_TASKMODAL);
 
 		//do lookup in some database of userclasses and set up the data (=> pass the root of the xml file)
 	

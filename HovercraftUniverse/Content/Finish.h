@@ -12,8 +12,15 @@ class Finish
 {
 public:
 
+	/**
+	 * Constructor
+	 * @param data, xml element that descripes the finish
+	 */
 	Finish( TiXmlElement * data );
 
+	/**
+	 * Destructor
+	 */
 	~Finish(void);
 };
 

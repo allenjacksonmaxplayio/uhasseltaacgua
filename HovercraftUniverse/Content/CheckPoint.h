@@ -32,6 +32,9 @@ public:
 	 */
 	CheckPoint( TiXmlElement * data );
 
+	/**
+	 * Destructor
+	 */
 	~CheckPoint(void);
 
 	/**
