@@ -1,4 +1,8 @@
 #labels Phase-Requirements,Phase-Design,Phase-Implementation,Featured
+= Introduction =
+Images generated with "[http://www.sparxsystems.com/products/ea/index.html Enterprise Architect]"<br />
+You can post Interface header files without image, we can add image later on.
+
 = Overview =
   # GUI
   # Sound
@@ -6,9 +10,11 @@
   # ...
 
 = GUI =
-http://fenix.cmi.ua.ac.be/~p051331/files/GUI-Manager.png
+http://fenix.cmi.ua.ac.be/~p051331/files/GUI-Manager.png<br />
+[http://pastebin.com/f197b41c2 Header file]
 
 = Sound =
-http://fenix.cmi.ua.ac.be/~p051331/files/Sound-Manager.png
+http://fenix.cmi.ua.ac.be/~p051331/files/Sound-Manager.png<br />
+[http://pastebin.com/f3da1cc1b Header file]
 
 = Network =
