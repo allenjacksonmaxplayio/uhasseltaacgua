@@ -24,8 +24,7 @@ Passing this xml node to the constructor of the custom object allows it to fill 
 For an example you can look at the Hovercraft.h/Hovercraft.cpp
 -->
 <userDataTypes>
-
-
+  <include file="types"/>
   
   <!-- Hovercraft -->
   <class name="Hovercraft" usage="object">
@@ -38,18 +37,21 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   
   <!-- Track -->
   <class name="Track" usage="scene">
-	<data name="Name" displayName="Name" groupName="Info" type="string"/>
+	  <data name="Name" displayName="Name" groupName="Info" type="string"/>
+    <data name="Players" displayName="Players" groupName="Info" type="int"/>
+  </class>
+
+  <!-- Astroid -->
+  <class name="Astroid" usage="scene">
+    <data name="Name" displayName="Name" groupName="Info" type="string"/>
+    <data name="Gravity" displayName="Gravity" groupName="Info" type="float"/>
+    <data name="AstroidType" displayName="AstroidType" groupName="Info" type="AstroidType"/>
   </class>
 
   <!-- Start -->
   <class name="Start" usage="object">
   </class>
   
-  <!-- StartPosition of player X -->  
-  <class name="StartPosition" usage="object">
-    <data name="PlayerNumber" displayName="PlayerNumber" groupName="Info" type="int" defaultValue="0" minValue="0" maxValue="64"/>
-  </class>
-
   <!-- Finish -->
   <class name="Finish" usage="object">
   </class>
