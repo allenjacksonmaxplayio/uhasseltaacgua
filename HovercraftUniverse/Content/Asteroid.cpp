@@ -1,14 +1,14 @@
-#include "Astroid.h"
+#include "Asteroid.h"
 #include <OgreStringConverter.h>
 
 namespace HovUni {
 
-Astroid::Astroid( TiXmlElement * data )
+Asteroid::Asteroid( TiXmlElement * data )
 {
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->GetText(),"Astroid") == 0);	
+	assert(strcmp(data->GetText(),"Asteroid") == 0);	
 
 	//Read name
 	mName = "No name";
@@ -31,17 +31,17 @@ Astroid::Astroid( TiXmlElement * data )
 	}
 
 	//Read type
-	mAstroidType = UNKNOWN;
-	node = data->FirstChild("AstroidType");
+	mAsteroidType = UNKNOWN;
+	node = data->FirstChild("AsteroidType");
 	if ( node ){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if ( element ){
-			mAstroidType = (AstroidType) Ogre::StringConverter::parseInt(Ogre::String(element->GetText()));
+			mAsteroidType = (AsteroidType) Ogre::StringConverter::parseInt(Ogre::String(element->GetText()));
 		}
 	}
 }
 
-Astroid::~Astroid(void)
+Asteroid::~Asteroid(void)
 {
 }
 

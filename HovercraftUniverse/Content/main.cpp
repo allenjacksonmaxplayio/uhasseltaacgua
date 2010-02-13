@@ -1,8 +1,7 @@
 // Test.cpp : Defines the entry point for the console application.
 //
 
-#include "OgreMaxScene.hpp"
-using namespace OgreMax;
+
 
 #include "Ogre.h"
 #include "OgreConfigFile.h"
