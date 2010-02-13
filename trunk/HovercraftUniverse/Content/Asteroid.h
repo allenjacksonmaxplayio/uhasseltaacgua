@@ -1,5 +1,5 @@
-#ifndef ASTROID_H
-#define ASTROID_H
+#ifndef ASTEROID_H
+#define ASTEROID_H
 
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>
@@ -10,11 +10,11 @@ namespace HovUni {
 /**
  * @author PJ
  */
-class Astroid
+class Asteroid
 {
 public:
 
-	enum AstroidType {
+	enum AsteroidType {
 		UNKNOWN = -1,
 		ICE,
 		FIRE,
@@ -38,7 +38,7 @@ private:
 	/**
 	 * Type
 	 */
-	AstroidType mAstroidType;
+	AsteroidType mAsteroidType;
 
 
 public:
@@ -47,12 +47,12 @@ public:
 	 * Constructor
 	 * @param data, xml element that descripes the start position
 	 */
-	Astroid( TiXmlElement * data );
+	Asteroid( TiXmlElement * data );
 
 	/**
 	 * Destructor
 	 */
-	~Astroid(void);
+	~Asteroid(void);
 
 	/**
 	 * Get the name
@@ -87,19 +87,19 @@ public:
 	}
 
 	/**
-	 * Get the astroid type
-	 * @return astroid type
+	 * Get the Asteroid type
+	 * @return Asteroid type
 	 */
-	inline AstroidType getAstroidType() const {
-		return mAstroidType;
+	inline AsteroidType getAsteroidType() const {
+		return mAsteroidType;
 	}
 
 	/**
-	 * Set the astroid type
-	 * @param astroid type
+	 * Set the Asteroid type
+	 * @param Asteroid type
 	 */
-	inline void setAstroidType( AstroidType type ) {
-		mAstroidType = type;
+	inline void setAsteroidType( AsteroidType type ) {
+		mAsteroidType = type;
 	}
 };
 
