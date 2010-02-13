@@ -12,8 +12,15 @@ class Start
 {
 public:
 
+	/**
+	 * Constructor
+	 * @param data, xml element that descripes the start
+	 */
 	Start( TiXmlElement * data );
 
+	/**
+	 * Destructor
+	 */
 	~Start(void);
 };
 
