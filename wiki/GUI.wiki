@@ -1,0 +1,20 @@
+#labels Phase-Design
+= Content =
+  # Libraries
+  # Usage
+
+= Libraries =
+  * Hikari
+  * Awesomium - Navi
+
+== Hikari ==
+A Flash embedding layer for Ogre3D. Just create flash interface components, and load them in the program. Communication between C++ and Actionscript is provided if needed.<br />
+[http://code.google.com/p/hikari-library/ Homepage]
+
+== Awesomium - Navi ==
+Awesomium is a wrapper for google chrome. It can display web pages inside any application.
+NaviLibrary is a library specifically for Ogre3D that allows developers to create and interact with web-content as an overlay or material in a 3D scene. It is powered by and depends upon the Awesomium library.<br />
+[http://www.khrona.com/products/awesomium/ Awesomium] - [http://princeofcode.com/navilibrary.php#download Navi] (old version, update should come end of february)
+
+= Usage =
+Mostly Hikari will be used for visual interface components, when Navi gets updated to the newest Awesomium, HTML pages in combination with Javascript can be used to create more simple, content oriented interface objects.
