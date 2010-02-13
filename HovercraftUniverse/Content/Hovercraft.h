@@ -1,6 +1,7 @@
 #ifndef HOVERCRAFT_H
 #define HOVERCRAFT_H
 
+#include "UserData.h"
 #include <OgreString.h>
 #include <tinyxml/tinyxml.h>
 
@@ -9,7 +10,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class Hovercraft
+class Hovercraft : public UserData
 {
 private:
 

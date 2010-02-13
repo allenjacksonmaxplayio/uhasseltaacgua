@@ -1,6 +1,7 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
+#include "UserData.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>
 #include <OgrePlatform.h>
@@ -10,7 +11,7 @@ namespace HovUni {
 /**
  * @author PJ
  */
-class Asteroid
+class Asteroid : public UserData
 {
 public:
 

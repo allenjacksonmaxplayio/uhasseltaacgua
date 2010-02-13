@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -62,7 +62,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\debug&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\debug_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\debug&quot;"
+				GenerateDebugInformation="true"
+				SubSystem="2"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -167,7 +170,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Astroid.cpp"
+				RelativePath=".\Asteroid.cpp"
 				>
 			</File>
 			<File
@@ -194,6 +197,14 @@
 				RelativePath=".\StartPosition.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\UserData.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDataFactory.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -201,7 +212,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Astroid.h"
+				RelativePath=".\Asteroid.h"
 				>
 			</File>
 			<File
@@ -222,6 +233,18 @@
 			</File>
 			<File
 				RelativePath=".\StartPosition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UserData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDataCallback.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDataFactory.h"
 				>
 			</File>
 		</Filter>

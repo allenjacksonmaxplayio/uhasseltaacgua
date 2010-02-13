@@ -1,6 +1,7 @@
 #ifndef START_H
 #define START_H
 
+#include "UserData.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
@@ -8,7 +9,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class Start
+class Start : public UserData
 {
 public:
 

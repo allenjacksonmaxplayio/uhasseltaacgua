@@ -8,7 +8,7 @@ StartPosition::StartPosition( TiXmlElement * data )
 	TiXmlNode * node;
 
 	//We are loading a Finish!
-	assert(strcmp(data->GetText(),"StartPosition") == 0);	
+	assert(strcmp(data->Value(),"StartPosition") == 0);	
 
 	//Read number
 	mPlayerNumber = 0;

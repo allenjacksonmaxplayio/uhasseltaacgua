@@ -8,7 +8,7 @@ Asteroid::Asteroid( TiXmlElement * data )
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->GetText(),"Asteroid") == 0);	
+	assert(strcmp(data->Value(),"Asteroid") == 0);	
 
 	//Read name
 	mName = "No name";
