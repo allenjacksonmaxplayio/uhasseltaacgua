@@ -3,13 +3,14 @@
 
 #include <tinyxml/tinyxml.h>
 #include <OgrePlatform.h>
+#include "UserData.h"
 
 namespace HovUni {
 
 /**
  * @author PJ
  */ 
-class StartPosition
+class StartPosition : public UserData
 {
 private:
 

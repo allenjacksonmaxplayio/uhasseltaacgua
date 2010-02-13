@@ -8,7 +8,7 @@ Hovercraft::Hovercraft(TiXmlElement * data)
 	TiXmlNode * node;
 	
 	//We are loading a Hovercraft!
-	assert(strcmp(data->GetText(),"Hovercraft") == 0);	
+	assert(strcmp(data->Value(),"Hovercraft") == 0);	
 
 	//Read name
 	mName = "No name";

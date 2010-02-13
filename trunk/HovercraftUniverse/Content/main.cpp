@@ -1,62 +1,15 @@
 // Test.cpp : Defines the entry point for the console application.
 //
 
+#include "UserDataFactory.h"
 
-
+#include "OgreMaxScene.hpp"
 #include "Ogre.h"
 #include "OgreConfigFile.h"
 #include "ExampleFrameListener.h"
-// Static plugins declaration section
-// Note that every entry in here adds an extra header / library dependency
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE || OGRE_PLATFORM == OGRE_PLATFORM_IPHONE
-#   include "macUtils.h"
-#endif
-
+using namespace OgreMax;
 using namespace Ogre;
 
-
-class CustomNotifier : public OgreMax::OgreMaxSceneCallback {
-
-protected:
-	
-	TiXmlDocument doc;
-
-public:
-
-virtual void LoadingEntity(const OgreMaxScene* scene, OgreMax::Types::EntityParameters& parameters) {
-	
-	Ogre::Entity * ent = (Ogre::Entity*)parameters.extraData->object;
-
-	if ( parameters.extraData->HasUserData() ){	
-		printf("%s",parameters.extraData->userData.c_str());		
-		
-		/**
-		 * Here comes the xml data of the object
-		 */
-		doc.Parse(parameters.extraData->userData.c_str());
-
-		TiXmlElement * root = doc.RootElement();
-
-		//print the name of the userdata class
-
-		MessageBox( NULL, root->GetText(), "Test", MB_OK | MB_TASKMODAL);
-
-		//do lookup in some database of userclasses and set up the data (=> pass the root of the xml file)
-	
-		//link the node to the extra data and other way arround => check volgende members van Movable eens:
-		/*
-		virtual void 	setUserAny (const Any &anything)
-		virtual const Any & 	getUserAny (void) const
-		UserObjectBindings & 	getUserObjectBindings ()
- 		Return an instance of user objects binding associated with this class. 
-		const UserObjectBindings & 	getUserObjectBindings () const
- 		Return an instance of user objects binding associated with this class. 
-		*/
-	}
-}
-
-};
 
 /** Base class which manages the standard startup of an Ogre application.
     Designed to be subclassed for specific examples if required.
@@ -67,7 +20,6 @@ public:
     /// Standard constructor
     ExampleApplication()
     {
-		mScene = 0;
         mFrameListener = 0;
         mRoot = 0;
 		mResourcePath = "./";
@@ -76,8 +28,6 @@ public:
     /// Standard destructor
     virtual ~ExampleApplication()
     {
-		if (mScene)
-			delete mScene;
         if (mFrameListener)
             delete mFrameListener;
         if (mRoot)
@@ -94,8 +44,6 @@ public:
     }
 
 protected:
-	OgreMaxScene * mScene;
-
     Root *mRoot;
 
     Camera* mCamera;
@@ -128,14 +76,17 @@ protected:
 		// Load resources
 		loadResources();
 
-		mScene = new OgreMaxScene();
+		OgreMaxScene * mScene = new OgreMaxScene();
 
-		CustomNotifier not;
-
-		mScene->Load("hover1.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,&not);
+		//CustomNotifier not;
+		mScene->Load("hover1.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,0);
 		
+		HovUni::UserDataFactory::getSingleton().parseUserData(mScene);
+
 		mSceneMgr = mScene->GetSceneManager();
 		mCamera = mSceneMgr->getCamera("Camera01");
+
+		delete mScene;
 
 		// Create one viewport, entire window
         Viewport* vp = mWindow->addViewport(mCamera);

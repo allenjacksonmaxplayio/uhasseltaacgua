@@ -2,13 +2,14 @@
 #define FINISH_H
 
 #include <tinyxml/tinyxml.h>
+#include "UserData.h"
 
 namespace HovUni {
 
 /**
  * @author PJ
  */ 
-class Finish
+	class Finish : public UserData
 {
 public:
 

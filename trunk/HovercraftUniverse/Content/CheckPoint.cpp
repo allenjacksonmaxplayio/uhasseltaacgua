@@ -8,7 +8,7 @@ CheckPoint::CheckPoint( TiXmlElement * data )
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->GetText(),"CheckPoint") == 0);	
+	assert(strcmp(data->Value(),"CheckPoint") == 0);	
 
 	//Read name
 	mName = "No name";
