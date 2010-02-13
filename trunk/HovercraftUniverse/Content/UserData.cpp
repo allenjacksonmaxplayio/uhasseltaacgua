@@ -13,9 +13,8 @@ UserData::~UserData(void)
 }
 
 void UserData::setMovableObject( Ogre::MovableObject * movobj ) {
-	//Ogre::UserObjectBindings& bindings = mMovableObject->getUserObjectBindings();		
-	//bindings.setUserAny(Ogre::Any(this));
 	mMovableObject = movobj;
+	Ogre::UserObjectBindings& bindings = mMovableObject->getUserObjectBindings().setUserAny("userdata",this);		
 }
 
 }
