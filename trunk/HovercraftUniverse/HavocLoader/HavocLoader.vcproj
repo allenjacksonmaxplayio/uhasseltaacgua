@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="HovercraftUniverse"
-	ProjectGUID="{CCFF60E1-9306-493F-AD38-410877FB3177}"
-	RootNamespace="HovercraftUniverse"
+	Name="HavocLoader"
+	ProjectGUID="{12D7AE21-CEF6-4F5F-8277-E07BEB960D31}"
+	RootNamespace="HavocLoader"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,11 +61,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib"
+				AdditionalDependencies="hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib $(NOINHERIT)"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\Debug&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\debug_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\debug&quot;"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -95,7 +95,7 @@
 			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -118,7 +118,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -136,11 +136,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax.lib OgreMain.lib OIS.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib"
+				AdditionalDependencies="hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\release&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\release_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\release&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\release_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\release&quot;;&quot;$(ProjectDir)..\lib\Release&quot;"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -177,7 +177,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath=".\SimpleMultithreadedConsoleMain.cpp"
 				>
 			</File>
 		</Filter>
