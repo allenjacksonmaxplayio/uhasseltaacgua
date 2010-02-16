@@ -31,7 +31,7 @@
   * High-level
   * Overzicht van application design: [http://www.zoidcom.com/docs/AppDesign.html client/server]
 
-==[ttp://enet.bespin.org/ Enet]==
+==[http://enet.bespin.org/ Enet]==
   * Open-source library, vrij beschikbaar 
   * Light-weight library
   * Reliable protocol op UDP
