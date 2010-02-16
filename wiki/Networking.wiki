@@ -1,0 +1,39 @@
+#summary Overview of the networking libraries etc.
+
+= Content =
+
+  # Network libraries
+
+= Network libraries =
+
+==[http://www.replicanet.com/ ReplicaNet]==
+  * High level
+  * Freeware: persoonlijke registration code nodig
+
+==[http://www.jenkinssoftware.com/ RakNet]==
+  * Specifiek voor games
+  * Open-source, gratis voor niet-commercieel gebruik
+  * High-level
+  * Verschillende extra features:
+    * Patches
+    * Voice communication
+    * ...
+
+==[http://www.opentnl.org/ Torque Network Library]==
+  * Specifiek voor games
+  * Niet geupdate sinds 2005
+  * Site is “gedeeltelijk” down: doxydocs werkt [http://opentnl.sourceforge.net/doxydocs/gettingstarted.html wel]
+  * Open-source
+
+
+==[http://www.zoidcom.com/index.html ZoidCom Automated Networking System]==
+  * Specifiek voor games
+  * High-level
+  * Overzicht van application design: [http://www.zoidcom.com/docs/AppDesign.html client/server]
+
+==[ttp://enet.bespin.org/ Enet]==
+  * Open-source library, vrij beschikbaar 
+  * Light-weight library
+  * Reliable protocol op UDP
+  * Low-level
+  * Beschikbaar voor Windows, Linux, pocketPC, …
