@@ -177,7 +177,31 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Entity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityRepresentation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HUD.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RepresentationManager.cpp"
 				>
 			</File>
 		</Filter>
@@ -186,6 +210,38 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Controller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityRepresentation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityResource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HUD.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RepresentationManager.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
