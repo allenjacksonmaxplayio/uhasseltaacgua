@@ -6,13 +6,10 @@
     </environment>
     <nodes>
         <node name="hovercraft1">
-            <position x="-3.30788" y="20.0312" z="-8.7559e-007" />
-            <scale x="1" y="1" z="1" />
+            <position x="0" y="-3.64556e-014" z="-8.34007e-007" />
+            <scale x="0.0161397" y="0.0161397" z="0.0161397" />
             <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
             <entity name="hovercraft1" castShadows="true" receiveShadows="true" meshFile="hovercraft1.mesh">
-                <userData>
-                    <![CDATA[<Hovercraft><Name>RoadRacer III</Name><Description>Fast, yet not blazing fast that you cannot control it...</Description><Speed>200</Speed><Mass>350</Mass><Acceleration>5</Acceleration></Hovercraft>]]>
-</userData>
                 <subentities>
                     <subentity index="0" materialName="Material#27_OgreMax" />
                     <subentity index="1" materialName="Material#29_OgreMax" />
@@ -22,7 +19,7 @@
             </entity>
         </node>
         <node name="Light">
-            <position x="-61.6712" y="56.4311" z="50.9027" />
+            <position x="-25.7421" y="21.998" z="24.7836" />
             <scale x="1" y="1" z="1" />
             <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
             <light name="Light" visible="true" type="point" castShadows="false" power="1">
@@ -32,7 +29,7 @@
             </light>
         </node>
         <node name="Camera01">
-            <position x="-21.7509" y="29.5106" z="131.597" />
+            <position x="-1.88548" y="6.96293" z="131.597" />
             <scale x="1" y="1" z="1" />
             <rotation qx="-0" qy="-0" qz="-0" qw="1" />
             <camera name="Camera01" fov="0.602557">
