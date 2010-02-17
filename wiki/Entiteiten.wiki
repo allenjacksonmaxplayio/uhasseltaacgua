@@ -9,12 +9,5 @@ entiteiten worden besproken het gaat hier dus over objecten waarmee iteractie ge
 
 = Details =
 
-  * Wereld
-    * Asteroide
-      * Type
-      * Naam
-      * Gravity
-    * Track
-      * Maximum Spelers
-      * Moeilijkheid
+[http://code.google.com/p/uhasseltaacgua/issues/detail?id=8 Details]
       
