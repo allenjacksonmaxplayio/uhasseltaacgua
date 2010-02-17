@@ -1,0 +1,28 @@
+#include "Boost.h"
+#include <OgreStringConverter.h>
+
+namespace HovUni {
+
+Boost::Boost(TiXmlElement * data)
+{
+	TiXmlNode * node;
+
+	//We are loading a CheckPoint!
+	assert(strcmp(data->Value(),"Boost") == 0);	
+
+	//Read boost
+	mBoost = 0.0f;
+	node = data->FirstChild("Boost");
+	if ( node ){
+		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
+		if ( element ){
+			mBoost = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+		}
+	}
+}
+
+Boost::~Boost(void)
+{
+}
+
+}

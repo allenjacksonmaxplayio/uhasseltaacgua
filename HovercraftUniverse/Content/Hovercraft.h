@@ -37,7 +37,7 @@ private:
 	/**
 	 * The base acceleration without powerups
 	 */
-	Ogre::Real mAcceleration;	
+	Ogre::Real mAcceleration;
 
 public:
 

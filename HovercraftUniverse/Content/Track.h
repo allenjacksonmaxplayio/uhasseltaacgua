@@ -73,22 +73,6 @@ public:
 	}
 
 	/**
-	 * Get minimum players
-	 * @return the minimum players
-	 */
-	inline Ogre::int32 getMinimumPlayers() const {
-		return mMinimumPlayers;
-	}
-
-	/**
-	 * Set minimum players
-	 * @param minplayers
-	 */
-	inline void setMinimumPlayers( Ogre::int32 minplayers ){
-		mMinimumPlayers = minplayers;
-	}
-
-	/**
 	 * Get name
 	 * @return the name
 	 */
@@ -101,7 +85,7 @@ public:
 	 * @param name
 	 */
 	inline void setName( const Ogre::String& name ){
-		nName = name;
+		mName = name;
 	}
 
 };
