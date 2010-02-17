@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Hovercraft::Hovercraft(TiXmlElement * data)
+Hovercraft::Hovercraft(TiXmlElement * data) throw (ParseException)
 {
 	TiXmlNode * node;
 	
 	//We are loading a Hovercraft!
-	assert(strcmp(data->Value(),"Hovercraft") == 0);	
+	if(strcmp(data->Value(),"Hovercraft") != 0){
+		throw ParseException();
+	}
 
 	//Read name
 	mName = "No name";

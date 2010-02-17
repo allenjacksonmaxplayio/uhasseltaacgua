@@ -27,8 +27,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data
+	 * @throws ParseException
 	 */
-	Boost( TiXmlElement * data );
+	Boost( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

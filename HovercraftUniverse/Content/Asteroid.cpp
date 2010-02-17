@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Asteroid::Asteroid( TiXmlElement * data )
+Asteroid::Asteroid( TiXmlElement * data ) throw (ParseException)
 {
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->Value(),"Asteroid") == 0);	
+	if(strcmp(data->Value(),"Asteroid") != 0){
+		throw ParseException();
+	}
 
 	//Read name
 	mName = "No name";

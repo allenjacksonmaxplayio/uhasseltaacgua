@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-StartPosition::StartPosition( TiXmlElement * data )
+StartPosition::StartPosition( TiXmlElement * data ) throw (ParseException)
 {
 	TiXmlNode * node;
 
 	//We are loading a Finish!
-	assert(strcmp(data->Value(),"StartPosition") == 0);	
+	if(strcmp(data->Value(),"StartPosition") != 0){
+		throw ParseException();
+	}	
 
 	//Read number
 	mPlayerNumber = 0;

@@ -2,10 +2,12 @@
 
 namespace HovUni {
 
-Finish::Finish( TiXmlElement * data )
+Finish::Finish( TiXmlElement * data ) throw (ParseException)
 {
 	//We are loading a Finish!
-	assert(strcmp(data->Value(),"Finish") == 0);	
+	if(strcmp(data->Value(),"Finish") != 0){
+		throw ParseException();
+	}	
 }
 
 Finish::~Finish(void)

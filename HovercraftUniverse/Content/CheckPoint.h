@@ -30,8 +30,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data, xml element that descripes the checkpoint
+	 * @throws ParseException
 	 */
-	CheckPoint( TiXmlElement * data );
+	CheckPoint( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

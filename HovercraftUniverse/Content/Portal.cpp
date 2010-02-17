@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Portal::Portal(TiXmlElement * data)
+Portal::Portal(TiXmlElement * data) throw (ParseException)
 {
 	TiXmlNode * node;
 	
 	//We are loading a Portal!
-	assert(strcmp(data->Value(),"Portal") == 0);	
+	if(strcmp(data->Value(),"Portal") != 0){
+		 throw ParseException();
+	}	
 
 	//Read name
 	mName = "No name";
@@ -27,7 +29,10 @@ Portal::Portal(TiXmlElement * data)
 		if ( element ){
 			Ogre::String value = Ogre::String(element->GetText());
 			Ogre::vector<Ogre::String>::type split = Ogre::StringUtil::split(value,",");
-			assert(split.size()==3);
+			
+			if ( split.size() != 3 )
+				 throw ParseException();
+
 			for ( int i = 0; i < 3; i++ ){
 				mStart[i] = Ogre::StringConverter::parseReal(split[i]);
 			}			
@@ -41,7 +46,10 @@ Portal::Portal(TiXmlElement * data)
 		if ( element ){
 			Ogre::String value = Ogre::String(element->GetText());
 			Ogre::vector<Ogre::String>::type split = Ogre::StringUtil::split(value,",");
-			assert(split.size()==3);
+			
+			if ( split.size() != 3 )
+				 throw ParseException();
+
 			for ( int i = 0; i < 3; i++ ){
 				mEnd[i] = Ogre::StringConverter::parseReal(split[i]);
 			}			

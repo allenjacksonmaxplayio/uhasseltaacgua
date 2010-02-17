@@ -18,8 +18,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data, xml element that descripes the start
+	 * @throws ParseException
 	 */
-	Start( TiXmlElement * data );
+	Start( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

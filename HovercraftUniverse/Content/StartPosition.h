@@ -24,8 +24,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data, xml element that descripes the start position
+	 * @throws ParseException
 	 */
-	StartPosition( TiXmlElement * data );
+	StartPosition( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

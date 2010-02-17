@@ -3,6 +3,7 @@
 
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>
+#include <OgreVector3.h>
 #include <OgrePlatform.h>
 #include "UserData.h"
 
@@ -37,8 +38,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data
+	 * @throws ParseException
 	 */
-	Portal(TiXmlElement * data);
+	Portal(TiXmlElement * data) throw (ParseException);
 
 	/**
 	 * Destructor

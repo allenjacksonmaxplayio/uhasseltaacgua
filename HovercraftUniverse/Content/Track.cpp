@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Track::Track(TiXmlElement * data)
+Track::Track(TiXmlElement * data) throw (ParseException)
 {
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->Value(),"Track") == 0);	
+	if(strcmp(data->Value(),"Track") != 0){
+		throw ParseException();
+	}
 
 	//Read name
 	mName = "No name";
