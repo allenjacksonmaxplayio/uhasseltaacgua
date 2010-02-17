@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Track.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UserData.cpp"
 				>
 			</File>
@@ -237,6 +241,10 @@
 			</File>
 			<File
 				RelativePath=".\StartPosition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Track.h"
 				>
 			</File>
 			<File
