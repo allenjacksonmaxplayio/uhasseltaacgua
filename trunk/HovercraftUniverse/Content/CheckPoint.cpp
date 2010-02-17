@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-CheckPoint::CheckPoint( TiXmlElement * data )
+CheckPoint::CheckPoint( TiXmlElement * data ) throw (ParseException)
 {
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->Value(),"CheckPoint") == 0);	
+	if(strcmp(data->Value(),"CheckPoint") != 0){
+		throw ParseException();
+	}	
 
 	//Read name
 	mName = "No name";

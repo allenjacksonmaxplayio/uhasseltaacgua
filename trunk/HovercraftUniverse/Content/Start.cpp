@@ -5,7 +5,9 @@ namespace HovUni {
 Start::Start( TiXmlElement * data )
 {
 	//We are loading a Start!
-	assert(strcmp(data->Value(),"Start") == 0);	
+	if(strcmp(data->Value(),"Start") != 0){
+		throw ParseException();
+	}
 }
 
 Start::~Start(void)

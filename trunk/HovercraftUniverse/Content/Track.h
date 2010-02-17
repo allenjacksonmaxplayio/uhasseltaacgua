@@ -32,8 +32,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data
+	 * @throws ParseException
 	 */
-	Track( TiXmlElement * data );
+	Track( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

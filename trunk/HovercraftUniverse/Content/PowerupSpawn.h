@@ -13,8 +13,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data
+	 * @throws ParseException
 	 */
-	PowerupSpawn(TiXmlElement * data);
+	PowerupSpawn(TiXmlElement * data) throw (ParseException);
 
 	/**
 	 * Destructor

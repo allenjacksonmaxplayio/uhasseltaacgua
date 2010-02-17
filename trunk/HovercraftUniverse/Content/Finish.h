@@ -16,8 +16,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data, xml element that descripes the finish
+	 * @throws ParseException
 	 */
-	Finish( TiXmlElement * data );
+	Finish( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

@@ -44,8 +44,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data, xml element that descripes the hovercraft
+	 * @throws ParseException
 	 */
-	Hovercraft( TiXmlElement * data );
+	Hovercraft( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

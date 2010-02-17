@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ParseException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Portal.cpp"
 				>
 			</File>
@@ -249,6 +253,10 @@
 			</File>
 			<File
 				RelativePath=".\Hovercraft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParseException.h"
 				>
 			</File>
 			<File

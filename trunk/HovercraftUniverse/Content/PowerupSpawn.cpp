@@ -2,10 +2,12 @@
 
 namespace HovUni {
 
-PowerupSpawn::PowerupSpawn( TiXmlElement * data)
+PowerupSpawn::PowerupSpawn( TiXmlElement * data) throw (ParseException)
 {
 	//We are loading a CheckPoint!
-	assert(strcmp(data->Value(),"PowerupSpawn") == 0);	
+	if(strcmp(data->Value(),"PowerupSpawn") != 0){
+		throw ParseException();
+	}
 }
 
 PowerupSpawn::~PowerupSpawn(void)

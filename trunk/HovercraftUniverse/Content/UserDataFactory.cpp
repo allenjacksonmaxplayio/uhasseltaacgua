@@ -47,7 +47,6 @@ void UserDataFactory::parseUserData(OgreMax::OgreMaxScene* scene) {
 			//START
 			if ( strcmp(root->Value(),"Start") == 0 ){
 				Start * start = new Start(root);
-				start->setMovableObject(i->second->object);
 				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 					(*uc)->onStart(start);
 				}
@@ -55,7 +54,6 @@ void UserDataFactory::parseUserData(OgreMax::OgreMaxScene* scene) {
 			//STARTPOSITION
 			if ( strcmp(root->Value(),"StartPosition") == 0 ){
 				StartPosition * startp = new StartPosition(root);
-				startp->setMovableObject(i->second->object);
 				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 					(*uc)->onStartPosition(startp);
 				}
@@ -63,7 +61,6 @@ void UserDataFactory::parseUserData(OgreMax::OgreMaxScene* scene) {
 			//FINISH
 			else if ( strcmp(root->Value(),"Finish") == 0 ){
 				Finish * finish = new Finish(root);
-				finish->setMovableObject(i->second->object);
 				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 					(*uc)->onFinish(finish);
 				}
@@ -71,7 +68,6 @@ void UserDataFactory::parseUserData(OgreMax::OgreMaxScene* scene) {
 			//CHECKPOINT
 			else if ( strcmp(root->Value(),"CheckPoint") == 0 ){
 				CheckPoint * checkpoint = new CheckPoint(root);
-				checkpoint->setMovableObject(i->second->object);
 				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 					(*uc)->onCheckPoint(checkpoint);
 				}
@@ -79,7 +75,6 @@ void UserDataFactory::parseUserData(OgreMax::OgreMaxScene* scene) {
 			//ASTEROID
 			else if ( strcmp(root->Value(),"Asteroid") == 0 ){
 				Asteroid * ast = new Asteroid(root);
-				ast->setMovableObject(i->second->object);
 				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 					(*uc)->onAsteroid(ast);
 				}
@@ -87,9 +82,36 @@ void UserDataFactory::parseUserData(OgreMax::OgreMaxScene* scene) {
 			//HOVERCRAFT
 			else if ( strcmp(root->Value(),"Hovercraft") == 0 ){
 				Hovercraft * hovercr = new Hovercraft(root);
-				hovercr->setMovableObject(i->second->object);
 				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 					(*uc)->onHoverCraft(hovercr);
+				}
+			}
+			//BOOST
+			else if ( strcmp(root->Value(),"Boost") == 0 ){
+				Boost * boost = new Boost(root);
+				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
+					(*uc)->onBoost(boost);
+				}
+			}
+			//PORTAL
+			else if ( strcmp(root->Value(),"Portal") == 0 ){
+				Portal * portal = new Portal(root);
+				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
+					(*uc)->onPortal(portal);
+				}
+			}
+			//POWERUPSPAWN
+			else if ( strcmp(root->Value(),"PowerupSpawn") == 0 ){
+				PowerupSpawn * spawn = new PowerupSpawn(root);
+				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
+					(*uc)->onPowerupSpawn(spawn);
+				}
+			}
+			//TRACK
+			else if ( strcmp(root->Value(),"Track") == 0 ){
+				Track * track = new Track(root);
+				for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
+					(*uc)->onTrack(track);
 				}
 			}
 		}

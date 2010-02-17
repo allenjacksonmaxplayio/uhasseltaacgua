@@ -7,6 +7,10 @@
 #include "Hovercraft.h"
 #include "CheckPoint.h"
 #include "StartPosition.h"
+#include "Boost.h"
+#include "Track.h"
+#include "Portal.h"
+#include "PowerupSpawn.h"
 
 namespace HovUni {
 
@@ -64,6 +68,30 @@ public:
 	 * @param hovercraft
 	 */
 	virtual void onHoverCraft( Hovercraft * hovercraft ) {};
+
+	/**
+	 * Callback when track is loaded
+	 * @param track
+	 */
+	virtual void onTrack( Track * track ) {};
+
+	/**
+	 * Callback when portal is loaded
+	 * @param portal
+	 */
+	virtual void onPortal( Portal * portal ) {};
+
+	/**
+	 * Callback when boost is loaded
+	 * @param boost
+	 */
+	virtual void onBoost( Boost * boost ) {};
+
+	/**
+	 * Callback when powerup spawn is loaded
+	 * @param powerup spawn
+	 */
+	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {};
 };
 
 

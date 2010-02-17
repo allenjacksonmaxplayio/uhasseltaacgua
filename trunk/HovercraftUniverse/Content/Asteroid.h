@@ -47,8 +47,9 @@ public:
 	/**
 	 * Constructor
 	 * @param data, xml element that descripes the start position
+	 * @throws ParseException
 	 */
-	Asteroid( TiXmlElement * data );
+	Asteroid( TiXmlElement * data ) throw (ParseException);
 
 	/**
 	 * Destructor

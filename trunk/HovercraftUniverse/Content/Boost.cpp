@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Boost::Boost(TiXmlElement * data)
+Boost::Boost(TiXmlElement * data) throw (ParseException)
 {
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
-	assert(strcmp(data->Value(),"Boost") == 0);	
+	if (strcmp(data->Value(),"Boost") != 0){
+		throw ParseException();
+	}
 
 	//Read boost
 	mBoost = 0.0f;
