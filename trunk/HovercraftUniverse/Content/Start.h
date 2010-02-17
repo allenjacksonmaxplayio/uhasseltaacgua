@@ -7,6 +7,8 @@
 namespace HovUni {
 
 /**
+ * Start 
+ * A location in the world on where hovercrafts will be placed when the race begins.
  * @author PJ
  */ 
 class Start : public UserData

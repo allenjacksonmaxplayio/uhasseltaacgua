@@ -1,8 +1,9 @@
 #include "Track.h"
+#include <OgreStringConverter.h>
 
 namespace HovUni {
 
-Track::Track(void)
+Track::Track(TiXmlElement * data)
 {
 	TiXmlNode * node;
 
