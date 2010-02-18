@@ -19,7 +19,7 @@ namespace HovUni {
 			Hikari::FlashControl* mFlashControl;
 
 		public:
-			BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, Ogre::Viewport* viewport, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+			BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
 			Hikari::FlashControl* getFlashControl();
 	};

@@ -3,28 +3,28 @@
 #include "BasicOverlay.h"
 
 namespace HovUni {
-	GUIManager* GUIManager::ms_Singleton = 0;
+	GUIManager* GUIManager::msSingleton = 0;
 
 	GUIManager::GUIManager(const Ogre::String& mediaPath, Ogre::Viewport* viewport) : mViewport(viewport) {
 		mHikariMgr = new Hikari::HikariManager(mediaPath.c_str());
 	}
 
 	GUIManager& GUIManager::getSingleton(void) {
-		if (!ms_Singleton) {
+		if (!msSingleton) {
 			throw UninitialisedException();
 		}
-		return (*ms_Singleton);
+		return (*msSingleton);
 	}
 
 	GUIManager* GUIManager::getSingletonPtr(void) {
-		if (!ms_Singleton) {
+		if (!msSingleton) {
 			throw UninitialisedException();
 		}
-		return ms_Singleton;
+		return msSingleton;
 	}
 
 	void GUIManager::init(const Ogre::String& mediaPath, Ogre::Viewport* viewport) {
-		ms_Singleton = new GUIManager(mediaPath);
+		msSingleton = new GUIManager(mediaPath, viewport);
 	}
 	
 	GUIManager::~GUIManager() {
@@ -63,7 +63,7 @@ namespace HovUni {
 		return true;
 	}
 
-	Hikari::FlashControl* GUIManager::createOverlay(const Ogre::String& name, const Ogre::String& fileName, Ogre::Viewport* viewport, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) {
+	Hikari::FlashControl* GUIManager::createOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) {
 		Hikari::FlashControl* flashControl = mHikariMgr->createFlashOverlay(name, mViewport, width, height, position, zOrder);
 		flashControl->load(fileName);
 		
