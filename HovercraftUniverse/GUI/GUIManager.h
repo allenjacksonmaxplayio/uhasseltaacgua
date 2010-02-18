@@ -22,7 +22,7 @@ namespace HovUni {
 	class GUIManager : public OIS::KeyListener, OIS::MouseListener {
 		private:
 			/** The only instance of the GUIManager available */
-			static GUIManager * ms_Singleton;
+			static GUIManager * msSingleton;
 
 			/** The viewport for the GUI */
 			Ogre::Viewport* mViewport;
