@@ -12,9 +12,11 @@
 #include <OIS.h> //OIS input systeem
 #include <Ogre.h>
 
+#include <vector>
+
 #include "UninitialisedException.h"
  
-using std::string;
+using std::vector;
 
 namespace HovUni {
 	class BasicOverlay; //Forward declaration
@@ -29,6 +31,9 @@ namespace HovUni {
 
 			/** The main manager for all the flash objects */
 			Hikari::HikariManager* mHikariMgr;
+
+			/** A list of items who asked for keyboard events */
+			vector<OIS::KeyListener*> mKeyListeners;
 			
 		protected:
 			/**
@@ -132,6 +137,21 @@ namespace HovUni {
 			 * @return ?
 			 */
 			bool keyReleased(const OIS::KeyEvent &evt);
+
+			/**
+			 * Add a keylistener to the GUIManager. This will most likely be a
+			 * @link{BasicOverlay} object.
+			 *
+			 * @param listener The listener you want to add.
+			 */
+			void addKeyListener(OIS::KeyListener* listener);
+
+			/**
+			 * Remove a keylistener from the GUIManager.
+			 *
+			 * @param listener The listener to remove.
+			 */
+			void removeKeyListener(OIS::KeyListener* listener);
 
 			/**
 			 * Call this function to activate a new flash file as overlay.

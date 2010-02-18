@@ -44,23 +44,58 @@ namespace HovUni {
 	}
 
 	bool GUIManager::mouseMoved(const OIS::MouseEvent &evt) {
-		return true;
+		return mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
 	}
 
 	bool GUIManager::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id) {
-		return true;
+		return mHikariMgr->injectMouseDown(id);
 	}
 
 	bool GUIManager::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id) {
-		return true;
+		return mHikariMgr->injectMouseUp(id);
 	}
 
 	bool GUIManager::keyPressed(const OIS::KeyEvent &evt) {
+		vector<OIS::KeyListener*>::iterator it;
+
+		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
+			(*it)->keyPressed(evt);
+		}
+
+		return true;
+		
+		//Quite meaningless code, taken from Hikari demo, will change when needed
+		if(mHikariMgr->isAnyFocused()) {
+			return true;
+		}
+
 		return true;
 	}
 
 	bool GUIManager::keyReleased(const OIS::KeyEvent &evt) {
+		vector<OIS::KeyListener*>::iterator it;
+
+		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
+			(*it)->keyReleased(evt);
+		}
+
 		return true;
+	}
+
+	void GUIManager::addKeyListener(OIS::KeyListener* listener) {
+		mKeyListeners.push_back(listener);
+	}
+
+	void GUIManager::removeKeyListener(OIS::KeyListener* listener) {
+		vector<OIS::KeyListener*>::iterator it;
+
+		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
+			if ( (*it) == listener ) {
+				//Remove it!
+				mKeyListeners.erase(it);
+				break;
+			}
+		}
 	}
 
 	Hikari::FlashControl* GUIManager::createOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) {
