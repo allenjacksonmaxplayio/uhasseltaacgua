@@ -11,24 +11,62 @@
 #include <Hikari.h>
 #include <OIS.h> //OIS input systeem
 #include <Ogre.h>
+
+#include "UninitialisedException.h"
  
-using Hikari::HikariManager;
 using std::string;
 
 namespace HovUni {
+	class BasicOverlay; //Forward declaration
+
 	class GUIManager : public OIS::KeyListener, OIS::MouseListener {
 		private:
+			/** The only instance of the GUIManager available */
+			static GUIManager * ms_Singleton;
+
+			/** The viewport for the GUI */
+			Ogre::Viewport* mViewport;
+
 			/** The main manager for all the flash objects */
-			HikariManager mHikariManager;
+			Hikari::HikariManager* mHikariMgr;
 			
-		public:
+		protected:
 			/**
 			 * Basic constructor for the GUI manager.
 			 *
 			 * @param mediaPath The path to where the flash files for the GUI are
 			 *		located. This can be absolute or relative
+			 * @param viewport The viewport to show the overlays on
 			 */
-			GUIManager(const Ogre::String& mediaPath);
+			GUIManager(const Ogre::String& mediaPath, Ogre::Viewport* viewport);
+
+		public:
+			/**
+			 * Get a reference to the GUIManager
+			 * @return reference to the GUIManager
+			 * @throws UninitialisedException This means you have not initialised this singleton
+			 *		using the init function.
+			 */
+			static GUIManager& getSingleton(void);
+
+			/**
+			 * Get a pointer to the GUIManager
+			 * @return pointer to the GUIManager
+			 * @throws UninitialisedException This means you have not initialised this singleton
+			 *		using the init function.
+			 */
+			static GUIManager* getSingletonPtr(void);
+
+			/**
+			 * Initialisation function, should be the first one to call so that
+			 * the instance get initialised. If you dont do this, you will get
+			 * an UninitializedException when trying to request the singelton.
+			 *
+			 * @param mediaPath The path to where the flash files for the GUI are
+			 *		located. This can be absolute or relative
+			 * @param viewport The viewport to show the overlays on
+			 */
+			static void init(const Ogre::String& mediaPath, Ogre::Viewport* viewport);
 
 			/**
 			 * Destructor
@@ -95,7 +133,6 @@ namespace HovUni {
 			 */
 			bool keyReleased(const OIS::KeyEvent &evt);
 
-		private:
 			/**
 			 * Call this function to activate a new flash file as overlay.
 			 *
@@ -107,7 +144,15 @@ namespace HovUni {
 			 * @param position The position where you want to place the overlay, relative to the viewport
 			 * @param zOrder The z-order of the overlay. Specify '0' to automatically use the next-highest z-order (default).
 			 */
-			void activateOverlay(const Ogre::String& name, const Ogre::String& fileName, Ogre::Viewport* viewport, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+			Hikari::FlashControl* createOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+
+		private:
+			/**
+			 * Activate an earlier created overlay.
+			 *
+			 * @param overlay The overlay to activate
+			 */
+			void activateOverlay(const BasicOverlay& overlay);
 	};
 }
 
