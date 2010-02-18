@@ -194,6 +194,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MapLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ModelLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMaxScene.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ParseException.cpp"
 				>
 			</File>
@@ -253,6 +265,18 @@
 			</File>
 			<File
 				RelativePath=".\Hovercraft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MapLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ModelLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OgreMaxScene.hpp"
 				>
 			</File>
 			<File
