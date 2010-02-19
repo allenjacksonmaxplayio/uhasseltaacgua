@@ -382,7 +382,7 @@ namespace HovUni {
 		 * Called when general shadow properties are loaded
 		 * @param shadowparameters
 		 */
-		virtual void onShadowProperties( const OgreMax::Types::ShadowParameters& shadowparameters ){
+		virtual void onShadowProperties( OgreMax::Types::ShadowParameters& shadowparameters ){
 		}
 
 		/**
@@ -403,7 +403,7 @@ namespace HovUni {
 		 * Called when the general fog is loaded 
 		 * @param fogparameters
 		 */
-		virtual void onFog ( const OgreMax::Types::FogParameters& fogparameters ){
+		virtual void onFog ( OgreMax::Types::FogParameters& fogparameters ){
 		}
 
 		/**
@@ -424,14 +424,14 @@ namespace HovUni {
 		 * Called when the skyplane is loaded
 		 * @param skyPlaneParameters
 		 */
-        virtual void onSkyPlane( const OgreMax::Types::SkyPlaneParameters& skyPlaneParameters) {
+        virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters) {
 		}
 
 		/**
 		 * Called when external item is loaded
 		 * @param externalitem
 		 */
-		virtual void onExternal(const OgreMax::Types::ExternalItem& externalitem) {
+		virtual void onExternal( OgreMax::Types::ExternalItem& externalitem) {
 		}
 
 		/**
@@ -439,7 +439,7 @@ namespace HovUni {
 		 * @param lightparameters
 		 * @param parent, 0 if rootnode
 		 */
-		virtual void onLight(const OgreMax::Types::LightParameters& lightparameters, const OgreMax::Types::NodeParameters * parent ) {
+		virtual void onLight( OgreMax::Types::LightParameters& lightparameters, const OgreMax::Types::NodeParameters * parent ) {
 		}
         
 		/**
@@ -455,7 +455,7 @@ namespace HovUni {
 		 * @param entityparameters
 		 * @param parent
 		 */
-		virtual void onEntity( const OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::NodeParameters& parent ) {
+		virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::NodeParameters& parent ) {
 		}
         
 		/**
@@ -463,7 +463,7 @@ namespace HovUni {
 		 * @param particleSystem
 		 * @param parent
 		 */
-		virtual void onParticleSystem(const OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::NodeParameters& parent) {
+		virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::NodeParameters& parent) {
 		}
         
 		/**
@@ -478,20 +478,20 @@ namespace HovUni {
 		 * @param planeparameters
 		 * @param parent
 		 */
-		virtual void onPlane(const OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::NodeParameters& parent) {
+		virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::NodeParameters& parent) {
 		}
         
         /**
          * Called after a scene is loaded.
          */
-        virtual void FinishedLoad(bool success) {
+        virtual void FinishedLoad( bool success ) {
 		}
 
  	    /** 
 		 * Called when Progress is made
 		 * @param progress
 		 */
-        virtual void UpdatedLoadProgress(Ogre::Real progress) {
+        virtual void UpdatedLoadProgress( Ogre::Real progress ) {
 		}
 
     };
