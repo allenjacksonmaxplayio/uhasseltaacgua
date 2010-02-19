@@ -11,6 +11,10 @@ Tree::~Tree(void) {
 
 }
 
+void Tree::processEntityEvents(const string& event) {
+	// Do something
+}
+
 void Tree::registerClass(ZCom_Control* control) {
 	mClassID = control->ZCom_registerClass("Tree");
 }
