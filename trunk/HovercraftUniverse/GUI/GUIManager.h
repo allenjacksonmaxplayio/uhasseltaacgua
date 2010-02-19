@@ -166,13 +166,19 @@ namespace HovUni {
 			 */
 			Hikari::FlashControl* createOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
-		private:
 			/**
 			 * Activate an earlier created overlay.
 			 *
 			 * @param overlay The overlay to activate
 			 */
-			void activateOverlay(const BasicOverlay& overlay);
+			void activateOverlay(BasicOverlay& overlay);
+			
+			/**
+			 * Disable an earlier created overlay.
+			 *
+			 * @param overlay The overlay to deactivate
+			 */
+			void disableOverlay(BasicOverlay& overlay);
 	};
 }
 

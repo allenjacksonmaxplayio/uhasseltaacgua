@@ -28,19 +28,22 @@ namespace HovUni {
 	}
 	
 	GUIManager::~GUIManager() {
-
+		if(mHikariMgr) {
+			removeAllOverlays();
+			delete mHikariMgr;
+		}
 	}
 
 	void GUIManager::removeOverlay(const Ogre::String& name) {
-
+		mHikariMgr->destroyFlashControl(name);
 	}
 
 	void GUIManager::removeAllOverlays() {
-
+		mHikariMgr->destroyAllControls();
 	}
 
 	void GUIManager::update() {
-
+		mHikariMgr->update();
 	}
 
 	bool GUIManager::mouseMoved(const OIS::MouseEvent &evt) {
@@ -105,7 +108,11 @@ namespace HovUni {
 		return flashControl;
 	}
 
-	void GUIManager::activateOverlay(const BasicOverlay& overlay) {
+	void GUIManager::activateOverlay(BasicOverlay& overlay) {
+		overlay.activate();
+	}
 
+	void GUIManager::disableOverlay(BasicOverlay& overlay) {
+		overlay.disable();
 	}
 }
