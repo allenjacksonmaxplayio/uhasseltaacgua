@@ -182,6 +182,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CustomOgreMaxScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DefaultOgreMaxSceneCallback.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Finish.cpp"
 				>
 			</File>
@@ -199,10 +207,6 @@
 			</File>
 			<File
 				RelativePath=".\ModelLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OgreMaxScene.cpp"
 				>
 			</File>
 			<File
@@ -260,6 +264,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CustomOgreMaxScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DefaultHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DefaultOgreMaxSceneCallback.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Finish.h"
 				>
 			</File>
@@ -273,10 +289,6 @@
 			</File>
 			<File
 				RelativePath=".\ModelLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OgreMaxScene.hpp"
 				>
 			</File>
 			<File

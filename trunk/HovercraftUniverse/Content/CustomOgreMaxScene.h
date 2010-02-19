@@ -1,0 +1,501 @@
+/*
+ * OgreMax Sample Viewer and Scene Loader - Ogre3D-based viewer and code for loading and displaying .scene files
+ * Copyright 2010 AND Entertainment
+ *
+ * This code is available under the OgreMax Free License:
+ *   -You may use this code for any purpose, commercial or non-commercial.
+ *   -If distributing derived works (that use this source code) in binary or source code form, 
+ *    you must give the following credit in your work's end-user documentation: 
+ *        "Portions of this work provided by OgreMax (www.ogremax.com)"
+ *
+ * AND Entertainment assumes no responsibility for any harm caused by using this code.
+ * 
+ * The OgreMax Sample Viewer and Scene Loader were released at www.ogremax.com 
+ */
+
+
+#ifndef CUSTOMOGREMAXSCENE_INCLUDED
+#define CUSTOMOGREMAXSCENE_INCLUDED
+
+
+//Includes---------------------------------------------------------------------
+#include "OgreMaxTypes.hpp"
+#include "OgreMaxPlatform.hpp"
+#include "ProgressCalculator.hpp"
+#include "Version.hpp"
+
+namespace HovUni {
+
+//Classes----------------------------------------------------------------------
+    class CustomOgreMaxSceneCallback;
+
+    /**
+     * Manages the loading of a OgreMax .scene file.
+     * This class is very lightwight in the sense that doesn't maintain a lot of
+     * internal state. Instead, wherever possible, most of the data is put into the
+     * Ogre scene manager. As such, when deleting an OgreMaxScene, keep in mind that
+     * the scene manager and all of resources that were loaded as a result of loading
+     * the scene are NOT destroyed. You will need to destroy those manually.
+     */
+    class CustomOgreMaxScene
+    {
+
+    public:
+        CustomOgreMaxScene();
+
+		virtual ~CustomOgreMaxScene();
+
+        /**
+         * Options that may be passed to Load()
+         */
+        typedef int LoadOptions;
+        enum
+        {
+            NO_OPTIONS = 0,
+
+            /** Skips the environment settings in the file. Skipping the environment also skips shadows */
+            SKIP_ENVIRONMENT = 0x1,
+
+            /** Skips the shadow settings in the file */
+            SKIP_SHADOWS = 0x2,
+
+            /** Skips the sky settings in the file */
+            SKIP_SKY = 0x4,
+
+            /** Skips the nodes in the file */
+            SKIP_NODES = 0x8,
+
+            /** Skips the externals in the file */
+            SKIP_EXTERNALS = 0x10,
+
+            /** Skips the terrain in the file */
+            SKIP_TERRAIN = 0x20,
+
+            /** Skips scene level query flags in the file */
+            SKIP_QUERY_FLAG_ALIASES = 0x200,
+
+            /** Skips scene level visibility flags in the file */
+            SKIP_VISIBILITY_FLAG_ALIASES = 0x400,
+
+            /** Skips scene level resource locations in the file */
+            SKIP_RESOURCE_LOCATIONS = 0x800,
+
+            /** Indicates animation states should not be created for node animation tracks */
+            NO_ANIMATION_STATES = 0x1000,
+
+            /**
+             * Indicates scene 'externals' should not be stored. They will, however, still
+             * be loaded and the CreatedExternal() scene callback will be called
+             */
+            NO_EXTERNALS = 0x2000,
+
+            /**
+             * By default, the OgreMaxScene::Load() checks to see if the file that was passed
+             * in exists in the file system (outside of the configured resource locations).
+             * This flag disables that logic
+             */
+            NO_FILE_SYSTEM_CHECK = 0x4000,
+
+            /**
+             * Indicates that a light should be created if the loaded scene doesn't contain a light
+             * Any lights created as a result of setting the default lighting are not passed to
+             * the scene callback
+             */
+            SET_DEFAULT_LIGHTING = 0x8000,
+
+            /**
+             * Indicates that the 'fileNameOrContent' parameter in Load() should be treated as the
+             * scene XML. In other words, no file is loaded from Ogre's file system.
+             */
+            FILE_NAME_CONTAINS_CONTENT = 0x10000
+        };
+
+
+        /** Flags that define which name prefixes to set */
+        typedef int WhichNamePrefix;
+        enum
+        {
+            OBJECT_NAME_PREFIX = 0x1,
+            NODE_NAME_PREFIX = 0x2,
+            NODE_ANIMATION_NAME_PREFIX = 0x4,
+            ALL_NAME_PREFIXES = OBJECT_NAME_PREFIX | NODE_NAME_PREFIX | NODE_ANIMATION_NAME_PREFIX
+        };
+
+        /**
+         * Loads a scene from the specified file.
+         * @param fileNameOrContent [in] - The name of the file to load. This file name can contain a directory path
+         * or be a base name that exists within Ogre's resource manager. If the file contains a directory path,
+         * the directory will be added to Ogre's resource manager as a resource location and the directory will be
+         * set as a base resource location. If the file doesn't contain a directory path, and assuming
+         * If the FILE_NAME_CONTAINS_CONTENT flag is specified as a load option, this parameter is treated
+         * as though it is the scene file itself. That is, the string contains the scene file XML.
+         * SetBaseResourceLocation() hasn't already been called elsewhere, no resource location configuration
+         * will occur during the load
+         * @param loadOptions [in] - Options used to specify the loading behavior. Optional.
+		 * @param callback [in] - Pointer to a callback object. Optional.
+         * @param defaultResourceGroupName [in] - The resource group name that is used by default when
+         * creating new resources. Optional.
+         */
+        void Load ( const Ogre::String& fileNameOrContent, LoadOptions loadOptions = NO_OPTIONS, CustomOgreMaxSceneCallback * callback = 0,
+            const Ogre::String& defaultResourceGroupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME
+            );
+
+        /**
+         * Sets one or more name prefixes. This should be called before Load() is called
+         * @param name [in] - The prefix. This may be null
+         * @param prefixes [in] - Flags indicating which prefixes to set
+         */
+        void SetNamePrefix(const Ogre::String& name, WhichNamePrefix prefixes = ALL_NAME_PREFIXES);
+
+        /** Gets the base resource location */
+        const Ogre::String& GetBaseResourceLocation() const;
+
+        /**
+         * Sets the base resource location, a directory, which all other resource locations
+         * are considered to be relative to.
+         * @param directory [in] - The base directory. If this is an empty string, resource
+         * locations loaded from the scene file are not added to the Ogre resource group manager
+         */
+        void SetBaseResourceLocation(const Ogre::String& directory);
+
+		/** Gets the up axis vector */
+        const Ogre::Vector3& GetUpVector() const;
+
+    protected:
+        /**
+         * Loads a scene from the specified XML element
+         * @param objectElement [in] - The 'scene' XML element
+         */
+        void Load ( TiXmlElement* objectElement, LoadOptions loadOptions = NO_OPTIONS, CustomOgreMaxSceneCallback * callback = 0, const Ogre::String& defaultResourceGroupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+
+        //Ogre::RenderTargetListener methods
+        //void preRenderTargetUpdate(const Ogre::RenderTargetEvent& e);
+        //void postRenderTargetUpdate(const Ogre::RenderTargetEvent& e);
+
+        /**
+         * Determines the name of an object stored in an XML element. The name is
+         * presumed to be for a new object, so if the name is not unique an exception is thrown
+         * @param objectElement [in] - The XML element that contains the object
+         * @param node [in] - The scene node that will contain the object once it's
+         * parsed from the XML element.
+         * @return If the XML element contains the 'name' attribute, that attribute's value is returned.
+         * Otherwise the parent node's name is returned
+         */
+        Ogre::String GetNewObjectName(const TiXmlElement* objectElement);
+
+		void LoadObjectNames(const TiXmlElement* objectElement, const Ogre::String& elementName, std::vector<Ogre::String>& names);
+
+        /** Updates the progress for the specified progress calculator. */
+		void UpdateLoadProgress(OgreMax::ProgressCalculator* calculator, Ogre::Real amount);
+
+        void LoadScene(const TiXmlElement* objectElement);
+        
+        void LoadResourceLocations(const TiXmlElement* objectElement);
+
+		/*
+        void LoadInstancedGeometries(const TiXmlElement* objectElement);
+        void LoadInstancedGeometry(const TiXmlElement* objectElement);
+        void LoadInstancedGeometryEntity(const TiXmlElement* objectElement );
+        void LoadStaticGeometries(const TiXmlElement* objectElement);
+        void LoadStaticGeometry(const TiXmlElement* objectElement);
+        void LoadStaticGeometryEntity(const TiXmlElement* objectElement);
+		*/
+
+		void LoadQueryFlagAliases(const TiXmlElement* objectElement);
+        void LoadVisibilityFlagAliases(const TiXmlElement* objectElement);
+
+		//Nodes and attachables
+        void LoadNodes(const TiXmlElement* objectElement);
+		void LoadNode(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+
+        void LoadEntity(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+
+		void LoadLight(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		void LoadLightRange(const TiXmlElement* objectElement, OgreMax::Types::LightParameters& light);
+        void LoadLightAttenuation(const TiXmlElement* objectElement, OgreMax::Types::LightParameters& light);
+
+		void LoadCamera(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+
+        void LoadParticleSystem(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+        
+        void LoadPlane(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+
+        //void LoadBoneAttachments(const TiXmlElement* objectElement, Ogre::Entity* entity);
+        //void LoadBoneAttachment(const TiXmlElement* objectElement, Ogre::Entity* entity);
+        
+		//void LoadLookTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
+        //void LoadTrackTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
+
+		void LoadBillboardSet(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+        void LoadBillboard(const TiXmlElement* objectElement, Ogre::BillboardSet* billboardSet);
+
+		//animation
+        void LoadNodeAnimations(const TiXmlElement* objectElement, Ogre::SceneNode* node);
+        void LoadNodeAnimation(const TiXmlElement* objectElement, Ogre::SceneNode* node);
+        void LoadNodeAnimationKeyFrame(const TiXmlElement* objectElement, Ogre::NodeAnimationTrack* animationTrack);
+
+
+		//External
+        void LoadExternals(const TiXmlElement* objectElement);
+        void LoadExternalUserDatas(const TiXmlElement* objectElement);
+		void LoadExternalItem(const TiXmlElement* objectElement );
+		void LoadExternalUserData(const TiXmlElement* objectElement, OgreMax::Types::ExternalUserData& userData);
+
+		//Enviroment
+        void LoadEnvironment(const TiXmlElement* objectElement);        		
+        void LoadFog(const TiXmlElement* objectElement);
+        void LoadSkyBox(const TiXmlElement* objectElement);
+        void LoadSkyDome(const TiXmlElement* objectElement);
+        void LoadSkyPlane(const TiXmlElement* objectElement);
+        void LoadClipping(const TiXmlElement* objectElement, Ogre::Real& nearClip, Ogre::Real& farClip);
+        void LoadShadows(const TiXmlElement* objectElement);
+
+		//Render Textures TODO
+		void LoadRenderTextures(const TiXmlElement* objectElement);
+        void FinishLoadingRenderTextures();
+		void GetRenderTextureObjects(OgreMax::Types::LoadedRenderTexture* loadedRenderTexture);
+		void LoadRenderTextureMaterials ( const TiXmlElement* childElement, std::vector<OgreMax::Types::RenderTextureParameters::Material>& materials );
+
+
+		//Terrain
+		void LoadTerrain(const TiXmlElement* objectElement);
+
+		
+
+  
+    protected:
+        LoadOptions loadOptions;
+
+        CustomOgreMaxSceneCallback* callback;
+
+		OgreMax::Types::UpAxis upAxis;
+
+        Ogre::String defaultResourceGroupName;
+
+        Ogre::String baseResourceLocation;
+
+        bool loadedFromFileSystem;
+
+        /** Tracks scene loading progress. */
+		class LoadSceneProgressCalculator : public OgreMax::ProgressCalculator
+        {
+        public:
+            LoadSceneProgressCalculator()
+            {
+                this->nodes = AddCalculator("nodes");
+            }
+
+        public:
+            //Child calculators
+            ProgressCalculator* nodes;
+        };
+        LoadSceneProgressCalculator loadProgress;
+
+         //Various name prefixes
+        Ogre::String objectNamePrefix;
+        Ogre::String nodeNamePrefix;
+        Ogre::String nodeAnimationNamePrefix;
+    };
+
+    /** A interface that receives notifications during the loading of the scene */
+    class CustomOgreMaxSceneCallback
+    {
+    public:
+        /**
+		 * Destructor
+		 */
+		virtual ~CustomOgreMaxSceneCallback() {
+		}
+
+		/**
+		 * Called when the scene file was found
+		 * @param filename
+		 * @param resourcegroupname
+		 */
+		virtual void onSceneFile( const Ogre::String& fileName, Ogre::String& resourceGroupName) {
+		}
+
+		/** 
+		 * Called before a scene is to be loaded. 
+		 * At this stage the xml has been parsed successfuly and is placed in memory.
+		 */
+        virtual void StartedLoad() {
+		}
+
+		/**
+		 * When resource location loaded
+		 * @param name
+		 * @param type
+		 * @param recursive
+		 */
+		virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive){
+		}
+
+		/**
+		 * Called when al node info is loaded but before any child node is attached
+		 * @param nodeparameters
+		 * @param parent, 0 if rootnode
+		 */
+		virtual void onNode( const OgreMax::Types::NodeParameters& nodeparameters, const OgreMax::Types::NodeParameters* parent){ 	
+		}
+
+		/**
+		 * Called when info is found for the root node
+		 * @param
+		 */
+		virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ){
+		}
+
+		virtual void onExternalUserData( const OgreMax::Types::ExternalUserData& externalud){
+		}
+
+		/**
+		 * Called when the scene tag has been parsed, a check to Ogre version has been done here
+		 * @param formatVersion, version of scene format
+		 * @param minOgreVersion
+		 * @param ogreMaxVersion
+		 * @param author
+		 * @param upaxis
+		 * @param unitsPerMeter
+		 * @param unitType
+		 */
+		virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) {
+		}
+
+        /**
+		 * Called when scene user data is loaded. Will only be called if there is user data
+		 * @param userdataref
+		 * @param userdata
+		 */
+        virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
+		}
+
+		/**
+		 * Called when clipping info is loaded
+		 * @param environmentNear, near clipping distance
+		 * @param environmentFar, far clipping distance
+		 */
+		virtual void onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar){
+		}
+
+		/**
+		 * Called when general shadow properties are loaded
+		 * @param shadowparameters
+		 */
+		virtual void onShadowProperties( const OgreMax::Types::ShadowParameters& shadowparameters ){
+		}
+
+		/**
+		 * Called when the genereal background color of the viewports are loaded
+		 * @param colour
+		 */
+		virtual void onBackgroundColour( const Ogre::ColourValue& colour ){
+		}
+
+		/**
+		 * Called when the world ambient lightning color is loaded
+		 * @param colour
+		 */
+		virtual void onAmbientColour( const Ogre::ColourValue& colour ){				
+		}
+
+		/**
+		 * Called when the general fog is loaded 
+		 * @param fogparameters
+		 */
+		virtual void onFog ( const OgreMax::Types::FogParameters& fogparameters ){
+		}
+
+		/**
+		 * Called when the skybox is loaded
+		 * @param skyBoxParameters
+		 */
+        virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters ) {
+		}
+
+		/**
+		 * Called when the skydome is loaded
+		 * @param skyDomeParameters
+		 */
+        virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters) {
+		}
+
+		/**
+		 * Called when the skyplane is loaded
+		 * @param skyPlaneParameters
+		 */
+        virtual void onSkyPlane( const OgreMax::Types::SkyPlaneParameters& skyPlaneParameters) {
+		}
+
+		/**
+		 * Called when external item is loaded
+		 * @param externalitem
+		 */
+		virtual void onExternal(const OgreMax::Types::ExternalItem& externalitem) {
+		}
+
+		/**
+		 * Called when a light is loaded
+		 * @param lightparameters
+		 * @param parent, 0 if rootnode
+		 */
+		virtual void onLight(const OgreMax::Types::LightParameters& lightparameters, const OgreMax::Types::NodeParameters * parent ) {
+		}
+        
+		/**
+		 * Called when a camera is loaded
+		 * @param cameraparameters
+		 * @param parent, 0 if rootnode
+		 */
+		virtual void onCamera(OgreMax::Types::CameraParameters, const OgreMax::Types::NodeParameters * parent ) {
+		}
+        
+		/**
+		 * Called when an ogre entity is loaded
+		 * @param entityparameters
+		 * @param parent
+		 */
+		virtual void onEntity( const OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::NodeParameters& parent ) {
+		}
+        
+		/**
+		 * Called when a particle system is loaded
+		 * @param particleSystem
+		 * @param parent
+		 */
+		virtual void onParticleSystem(const OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::NodeParameters& parent) {
+		}
+        
+		/**
+		 * Called when a billboardset is loaded
+		 * @param bilboardsetparameters
+		 */
+		//virtual void onBillboardSet(const OgreMax::Types::BillboardSetParameters& bilboardsetparameters) {
+		//}
+        
+		/**
+		 * Called when a plane is loaded
+		 * @param planeparameters
+		 * @param parent
+		 */
+		virtual void onPlane(const OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::NodeParameters& parent) {
+		}
+        
+        /**
+         * Called after a scene is loaded.
+         */
+        virtual void FinishedLoad(bool success) {
+		}
+
+ 	    /** 
+		 * Called when Progress is made
+		 * @param progress
+		 */
+        virtual void UpdatedLoadProgress(Ogre::Real progress) {
+		}
+
+    };
+
+}
+
+#endif
