@@ -21,7 +21,7 @@ using std::vector;
 namespace HovUni {
 	class BasicOverlay; //Forward declaration
 
-	class GUIManager : public OIS::KeyListener, OIS::MouseListener {
+	class GUIManager : public OIS::KeyListener, public OIS::MouseListener {
 		private:
 			/** The only instance of the GUIManager available */
 			static GUIManager * msSingleton;
