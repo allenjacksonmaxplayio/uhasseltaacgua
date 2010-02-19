@@ -1,41 +1,61 @@
-#pragma once
+#ifndef CLIENT_H_
+#define CLIENT_H_
 
 #include <zoidcom/zoidcom.h>
-#include <vector>
-using std::vector;
-#include "Entity.h"
 
-class Player;
+namespace HovUni {
 
+/**
+ * This class represents a basic client without any logic. You should inherit from this
+ * Client and reimplement the public callbacks to insert logic.
+ *
+ * @author Olivier Berghmans
+ */
 class Client : public ZCom_Control {
 public:
-	Client();
-	~Client();
-
 	/**
-	 * Whether the client can exit because the connection was lost
+	 * Constructor for remote connection
 	 *
-	 * @return True if the client can exit, false otherwise.
+	 * @param name the name of the server
+	 * @param port the port of the server
 	 */
-	bool canExit() const;
+	Client(const char* name, const unsigned port);
 
 	/**
-	 * Send a move up event
-	 */
-	void moveUp();
-
-	/**
-	 * Add an entity to the list
+	 * Constructor for local connection
 	 *
-	 * @param entity the entity
+	 * @param port the port of the server
 	 */
-	void addEntity(Entity* entity);
+	Client(const unsigned port);
 
 	/**
-	 * Update
+	 * Destructor
 	 */
-	void update();
+	virtual ~Client();
 
+	/**
+	 * Process incoming and outgoing packets
+	 */
+	virtual void process();
+
+private:
+	/** The name of the server */
+	const char* mServerName;
+	
+	/** The port where the server is listening */
+	const unsigned mConnectPort;
+
+	/**
+	 * Initialize the client
+	 *
+	 * @param remote whether it is a remote or local connection
+	 */
+	void initialize(bool remote);
+
+//
+// ZCom_Control callbacks
+//
+public:
 	/**
 	 * Connection process finished (Client).
 	 *
@@ -61,33 +81,6 @@ public:
 	 * @param data The data received
 	 */
 	void ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data);
-
-	/**
-	 * Incoming connection (Server).
-	 *
-	 * @param id The connection's ID
-	 * @param request The request given by the requester
-	 * @param reply Data you want to transmit to the requester additionally to the yes/no reply
-	 * @param true to accept the connection, false otherwise.
-	 */
-	bool ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply);
-
-	/**
-	 * A granted, incoming connection has been fully set up (Server).
-	 *
-	 * @param id The connection's ID
-	 */
-	void ZCom_cbConnectionSpawned(ZCom_ConnID id);
-
-	/**
-	 * A client requests to enter a specified ZoidLevel (Server).
-	 *
-	 * @param id The connection's ID
-	 * @param requested_level Level the client wants to enter
-	 * @param reason When returning false, this is returned as the reason why.
-	 * @return True to accept the request, false otherwise.
-	 */
-	bool ZCom_cbZoidRequest(ZCom_ConnID id, zU8 requested_level, ZCom_BitStream& reason);
 
 	/**
 	 * ZoidLevel migration process finished (Server, Client).
@@ -140,7 +133,35 @@ public:
 	void ZCom_cbDiscovered(const ZCom_Address& addr, ZCom_BitStream& reply);
 
 private:
-	bool mExit;
-	Player* mPlayer;
-	vector<Entity*> mEntities;
+	/**
+	 * Incoming connection (Server).
+	 *
+	 * @param id The connection's ID
+	 * @param request The request given by the requester
+	 * @param reply Data you want to transmit to the requester additionally to the yes/no reply
+	 * @param true to accept the connection, false otherwise.
+	 */
+	bool ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply);
+
+	/**
+	 * A granted, incoming connection has been fully set up (Server).
+	 *
+	 * @param id The connection's ID
+	 */
+	void ZCom_cbConnectionSpawned(ZCom_ConnID id);
+
+	/**
+	 * A client requests to enter a specified ZoidLevel (Server).
+	 *
+	 * @param id The connection's ID
+	 * @param requested_level Level the client wants to enter
+	 * @param reason When returning false, this is returned as the reason why.
+	 * @return True to accept the request, false otherwise.
+	 */
+	bool ZCom_cbZoidRequest(ZCom_ConnID id, zU8 requested_level, ZCom_BitStream& reason);
+
 };
+
+}
+
+#endif

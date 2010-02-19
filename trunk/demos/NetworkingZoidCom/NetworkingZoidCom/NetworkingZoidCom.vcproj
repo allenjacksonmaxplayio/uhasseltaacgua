@@ -193,6 +193,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SampleClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleServer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Server.cpp"
 				>
 			</File>
@@ -236,6 +244,14 @@
 			</File>
 			<File
 				RelativePath=".\Player.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleClient.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleServer.h"
 				>
 			</File>
 			<File

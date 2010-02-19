@@ -1,37 +1,48 @@
-#pragma once
+#ifndef SERVER_H_
+#define SERVER_H_
 
 #include <zoidcom/zoidcom.h>
-#include <vector>
-using std::vector;
-#include "Entity.h"
 
+namespace HovUni {
+
+/**
+ * This class represents a basic server without any logic. You should inherit from this
+ * Server and reimplement the public callbacks to insert logic.
+ *
+ * @author Olivier Berghmans
+ */
 class Server : public ZCom_Control 
 {
 public:
-	Server(void);
-	~Server(void);
-
 	/**
-	 * Add an entity to the list
+	 * Constructor
 	 *
-	 * @param entity the entity
+	 * @param port the listening port of the server
+	 * @param internalport the port the internal socket will be bound to, or 0 if socket won't be used. 
 	 */
-	void addEntity(Entity* entity);
+	Server(const unsigned port, const unsigned internalport);
 
 	/**
-	 * Update
+	 * Destructor
 	 */
-	void update();
+	virtual ~Server();
 
 	/**
-	 * Connection process finished (Client).
-	 *
-	 * @param id The connection's ID
-	 * @param result The result of the connection process
-	 * @param reply The reply given by the destination
+	 * Process incoming and outgoing packets
 	 */
-	void ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply);
+	virtual void process();
 
+private:
+	/** The listen port */
+	const unsigned mServerPort;
+
+	/** The internal port */
+	const unsigned mInternalPort;
+
+//
+// ZCom_Control callbacks
+//
+public:
 	/**
 	 * Connection has been closed and is about to be deleted (Server, Client).
 	 *
@@ -87,6 +98,34 @@ public:
 	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason);
 
 	/**
+	 * Another ZCom_Control has sent a discover request (Server, Client).
+	 *
+	 * @param addr The address where the request came from
+	 * @param request Additional application provided data to the request
+	 * @param reply Additional data the application wants to transmit to the discoverer
+	 * @return True if you want to reply, false otherwise.
+	 */
+	bool ZCom_cbDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request, ZCom_BitStream& reply);
+
+	/**
+	 * Another ZCom_Control responded to our discover request (Server, Client).
+	 *
+	 * @param addr The address where the discovered ZCom_Control is reachable
+	 * @param reply Additional data sent back
+	 */
+	void ZCom_cbDiscovered(const ZCom_Address& addr, ZCom_BitStream& reply);
+	
+private:
+	/**
+	 * Connection process finished (Client).
+	 *
+	 * @param id The connection's ID
+	 * @param result The result of the connection process
+	 * @param reply The reply given by the destination
+	 */
+	void ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply);
+
+	/**
 	 * Server requests to create a new node for a new dynamic object/node (Client).
 	 *
 	 * @param id The connection's ID
@@ -108,25 +147,8 @@ public:
 	 */
 	void ZCom_cbNodeRequest_Tag(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, zU32 tag);
 
-	/**
-	 * Another ZCom_Control has sent a discover request (Server, Client).
-	 *
-	 * @param addr The address where the request came from
-	 * @param request Additional application provided data to the request
-	 * @param reply Additional data the application wants to transmit to the discoverer
-	 * @return True if you want to reply, false otherwise.
-	 */
-	bool ZCom_cbDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request, ZCom_BitStream& reply);
-
-	/**
-	 * Another ZCom_Control responded to our discover request (Server, Client).
-	 *
-	 * @param addr The address where the discovered ZCom_Control is reachable
-	 * @param reply Additional data sent back
-	 */
-	void ZCom_cbDiscovered(const ZCom_Address& addr, ZCom_BitStream& reply);
-
-private:
-	vector<Entity*> mEntities;
-		
 };
+
+}
+
+#endif
