@@ -15,6 +15,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreMax", "OgreMax\OgreMax.vcproj", "{186671F0-05A1-4CCC-A946-7A762D59C0F7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HavocLoader", "HavocLoader\HavocLoader.vcproj", "{12D7AE21-CEF6-4F5F-8277-E07BEB960D31}"
+	ProjectSection(ProjectDependencies) = postProject
+		{186671F0-05A1-4CCC-A946-7A762D59C0F7} = {186671F0-05A1-4CCC-A946-7A762D59C0F7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUI", "GUI\GUI.vcproj", "{794CA943-9679-4384-B6BE-78506C3D8679}"
 EndProject

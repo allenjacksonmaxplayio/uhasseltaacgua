@@ -38,7 +38,8 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   <!-- Track -->
   <class name="Track" usage="scene">
 	  <data name="Name" displayName="Name" groupName="Info" type="string"/>
-    <data name="Players" displayName="Players" groupName="Info" type="int"/>
+    <data name="MinimumPlayers" displayName="MinimumPlayers" groupName="Info" type="int"/>
+    <data name="PhysicsFileName" displayName="PhysicsFileName" groupName="PhysicsFileName" type="string"/>
   </class>
 
   <!-- Astroid -->

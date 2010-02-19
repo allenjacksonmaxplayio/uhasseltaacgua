@@ -125,19 +125,19 @@ protected:
 		// Load resources
 		loadResources();
 
-		OgreMaxScene * mScene = new OgreMaxScene();
+		//OgreMaxScene * mScene = new OgreMaxScene();
 
 		TestUserDataCallback cb;
 
 		//CustomNotifier not;
-		mScene->Load("simpletrack.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,0);
+		//mScene->Load("simpletrack.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,0);
 		
-		HovUni::UserDataFactory::getSingleton().parseUserData(mScene);
+		//HovUni::UserDataFactory::getSingleton().parseUserData(mScene);
 
-		mSceneMgr = mScene->GetSceneManager();
-		mCamera = mSceneMgr->getCamera("Camera01");
+		//mSceneMgr = mScene->GetSceneManager();
+		//mCamera = mSceneMgr->getCamera("Camera01");
 
-		delete mScene;
+		//delete mScene;
 
 		// Create one viewport, entire window
         Viewport* vp = mWindow->addViewport(mCamera);
