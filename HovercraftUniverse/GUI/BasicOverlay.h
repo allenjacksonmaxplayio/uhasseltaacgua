@@ -3,7 +3,7 @@
 
 /**
  * The BasicOverlay class will be a pure virtual class abstracting the notion of
- * a @link{Hikari::FlashControl} object and providing additional functionality.
+ * a Hikari::FlashControl object and providing additional functionality.
  *
  * @author Nick De Frangh
  */
@@ -15,9 +15,26 @@ using std::string;
 
 namespace HovUni {
 	class BasicOverlay : public OIS::KeyListener {
+		friend class GUIManager;
+
 		private:
 			/** The given name for this overlay */
 			Ogre::String mName;
+
+			/** The name of the Flash file you want to use */
+			Ogre::String mFileName;
+
+			/** The width you want the overlay to use */
+			int mWidth;
+
+			/** The height you want the overlay to use */
+			int mHeight;
+
+			/** The position where you want the overlay to get rendered */
+			Hikari::Position mPosition;
+
+			/** The z-order of the overlay */
+			Ogre::ushort mZOrder;
 
 			/** The flash control used for this overlay */
 			Hikari::FlashControl* mFlashControl;
@@ -27,7 +44,7 @@ namespace HovUni {
 			 * Basic constructor for a Flash overlay.
 			 *
 			 * @param name A name you want to assign to this overlay
-			 * @param fileName The name of the Flash file you want to use (relative to the path of the @link{GUIManager})
+			 * @param fileName The name of the Flash file you want to use (relative to the path of the GUIManager)
 			 * @param width The width of this overlay
 			 * @param height The height of this overlay
 			 * @param position The position where you want to place the overlay
@@ -35,6 +52,11 @@ namespace HovUni {
 			 *					use the next-highest z-order.
 			 */
 			BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+
+			/**
+			 * Destructor
+			 */
+			virtual ~BasicOverlay();
 
 			/**
 			 * Trigger custom events when certain keys are pressed.
@@ -73,13 +95,17 @@ namespace HovUni {
 			void unregisterForKeys();
 
 			/**
-			 * Request the @link{FlashControl} object associated with this overlay.
-			 * This function will be used by the @link{GUIManager} and shouldnt be
+			 * Request the FlashControl object associated with this overlay.
+			 * This function will be used by the GUIManager and shouldnt be
 			 * directly used unless you know what you are doing.
 			 *
-			 * @return The @link{FlashControl} for this overlay.
+			 * @return The FlashControl for this overlay.
 			 */
 			Hikari::FlashControl* getFlashControl();
+		
+		private:
+			void activate();
+			void disable();
 	};
 }
 
