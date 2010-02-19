@@ -3,7 +3,7 @@
 
 /**
  * The BasicOverlay class will be a pure virtual class abstracting the notion of
- * a Hikari::FlashControl object and providing additional functionality.
+ * a @link{Hikari::FlashControl} object and providing additional functionality.
  *
  * @author Nick De Frangh
  */
@@ -16,10 +16,24 @@ using std::string;
 namespace HovUni {
 	class BasicOverlay : public OIS::KeyListener {
 		private:
+			/** The given name for this overlay */
 			Ogre::String mName;
+
+			/** The flash control used for this overlay */
 			Hikari::FlashControl* mFlashControl;
 
 		public:
+			/**
+			 * Basic constructor for a Flash overlay.
+			 *
+			 * @param name A name you want to assign to this overlay
+			 * @param fileName The name of the Flash file you want to use (relative to the path of the @link{GUIManager})
+			 * @param width The width of this overlay
+			 * @param height The height of this overlay
+			 * @param position The position where you want to place the overlay
+			 * @param zOrder The z-order of the overlay. Specify '0' (default) to automatically
+			 *					use the next-highest z-order.
+			 */
 			BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
 			/**
@@ -58,6 +72,13 @@ namespace HovUni {
 			 */
 			void unregisterForKeys();
 
+			/**
+			 * Request the @link{FlashControl} object associated with this overlay.
+			 * This function will be used by the @link{GUIManager} and shouldnt be
+			 * directly used unless you know what you are doing.
+			 *
+			 * @return The @link{FlashControl} for this overlay.
+			 */
 			Hikari::FlashControl* getFlashControl();
 	};
 }
