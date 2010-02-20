@@ -1,10 +1,10 @@
 #ifndef INPUTMANAGER_H_
 #define INPUTMANAGER_H_
 
-#include <OISMouse.h>
-#include <OISKeyboard.h>
-#include <OISJoyStick.h>
-#include <OISInputManager.h>
+//Include IOS but prevent double link errors!
+#define OIS_DYNAMIC_LIB
+#include <OIS.h>
+
 #include <OgreRenderWindow.h>
 #include <string>
 

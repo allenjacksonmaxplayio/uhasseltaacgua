@@ -3,6 +3,7 @@
 
 #include "CustomOgreMaxScene.h"
 #include <OgreSceneManager.h>
+#include "UserDataFactory.h"
 
 namespace HovUni {
 
@@ -26,6 +27,19 @@ private:
 	Ogre::Real mEnvironmentNear; // = 10000.0f;
 	Ogre::Real mEnvironmentFar; // = 1.0f;
 
+protected:
+
+	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object ){
+		if ( extradata->HasUserData() ){
+			//UserDataFactory::getInstance().parseUserData(extradata->userData);
+		}
+	}
+
+	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::SceneNode * node ){
+		if ( extradata->HasUserData() ){
+			//UserDataFactory::getInstance().parseUserData(extradata->userData);
+		}
+	}
 
 public:
 
@@ -62,6 +76,10 @@ public:
 	virtual void onBackgroundColour( const Ogre::ColourValue& colour );
 
 	//Movables
+
+	virtual void onNode( const OgreMax::Types::NodeParameters& nodeparameters, const OgreMax::Types::NodeParameters* parent);
+
+	virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale );
 
 	virtual void onLight(const OgreMax::Types::LightParameters& light, const OgreMax::Types::NodeParameters * parent);
         

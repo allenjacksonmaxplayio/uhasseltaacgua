@@ -22,6 +22,41 @@ DefaultOgreMaxSceneCallback::~DefaultOgreMaxSceneCallback(void)
 {
 }
 
+void DefaultOgreMaxSceneCallback::onNode( const OgreMax::Types::NodeParameters& nodeparameters, const OgreMax::Types::NodeParameters* parent){
+	//Get Ogre parent
+	Ogre::SceneNode* parentnode = 0;
+	if ( parent == 0 ){
+		parentnode = mSceneManager->getRootSceneNode();
+	} else {
+		parentnode = mSceneManager->getSceneNode(parent->name);
+	}
+	assert(parentnode != 0 );
+	
+	//create node
+	Ogre::SceneNode* node = nodeparameters.name.empty() ? parentnode->createChildSceneNode() : parentnode->createChildSceneNode(nodeparameters.name);
+	
+	//set properties
+	node->setPosition(nodeparameters.position);
+	node->setOrientation(nodeparameters.orientation);
+	node->setScale(nodeparameters.scale);
+
+	//set initial state
+    node->setInitialState();
+
+    //Set the node's visibility
+	OgreMax::OgreMaxUtilities::SetNodeVisibility(node, nodeparameters.visibility);
+	
+	//check for extra data
+	parseExtraData(nodeparameters.extraData, node);
+}
+
+void DefaultOgreMaxSceneCallback::onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ){
+	Ogre::SceneNode * scene = mSceneManager->getRootSceneNode();
+	scene->setPosition(position);
+	scene->setOrientation(rotation);
+	scene->setScale(scale);
+}
+
 
 void DefaultOgreMaxSceneCallback::onLight(const OgreMax::Types::LightParameters& parameters, const OgreMax::Types::NodeParameters * parent) {
 	//Create the light
@@ -42,7 +77,16 @@ void DefaultOgreMaxSceneCallback::onLight(const OgreMax::Types::LightParameters&
 	light->setSpotlightOuterAngle(parameters.spotlightOuterAngle);
 	light->setAttenuation(parameters.attenuationRange, parameters.attenuationConstant, parameters.attenuationLinear, parameters.attenuationQuadric);
 
-	//TODO attach light to its parent
+	//Get Ogre parent
+	Ogre::SceneNode* parentnode = 0;
+	if ( parent == 0 ){
+		parentnode = mSceneManager->getRootSceneNode();
+	} else {
+		parentnode = mSceneManager->getSceneNode(parent->name);
+	}
+	assert(parentnode);
+
+	parentnode->attachObject(light);
 }
         
 void DefaultOgreMaxSceneCallback::onCamera( const OgreMax::Types::CameraParameters& params , const OgreMax::Types::NodeParameters * parent) {
@@ -64,7 +108,16 @@ void DefaultOgreMaxSceneCallback::onCamera( const OgreMax::Types::CameraParamete
 	camera->setOrientation(params.orientation);
 	camera->setDirection(params.direction);
 
-	//TODO attach camera to its parent
+	//Get Ogre parent
+	Ogre::SceneNode* parentnode = 0;
+	if ( parent == 0 ){
+		parentnode = mSceneManager->getRootSceneNode();
+	} else {
+		parentnode = mSceneManager->getSceneNode(parent->name);
+	}
+	assert(parentnode);
+
+	parentnode->attachObject(camera);
 }
 
 void DefaultOgreMaxSceneCallback::onSkyBox( OgreMax::Types::SkyBoxParameters& parameters ) {

@@ -217,7 +217,7 @@ void InputManager::removeAllJoystickListeners(void) {
 
 void InputManager::setWindowExtents(int width, int height) {
 	// Set mouse region (if window resizes, we should alter this to reflect as well)
-	OIS::MouseState mouseState = mMouse->getMouseState();
+	const OIS::MouseState& mouseState = mMouse->getMouseState();
 	mouseState.width  = width;
 	mouseState.height = height;
 }
