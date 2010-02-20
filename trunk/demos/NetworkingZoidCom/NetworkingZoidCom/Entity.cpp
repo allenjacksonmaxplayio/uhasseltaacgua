@@ -26,8 +26,8 @@ void Entity::processEvents() {
 			mDeleteMe = true;
 		} else if (type == eZCom_EventUser) {
 			// Delegate to the user events callback
-			string text(data->getStringStatic());
-			processEntityEvents(text);
+			Event e = Event::parse(data);
+			processEntityEvents(e);
 		}
 	}
 }

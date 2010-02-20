@@ -11,7 +11,7 @@ Tree::~Tree(void) {
 
 }
 
-void Tree::processEntityEvents(const string& event) {
+void Tree::processEntityEvents(const Event& event) {
 	// Do something
 }
 

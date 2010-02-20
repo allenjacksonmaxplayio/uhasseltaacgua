@@ -4,6 +4,7 @@
 #define ZCOM_REPFLAG_SETUPAUTODELETE   (1L << 6)
 #include <zoidcom/zoidcom_node.h>
 #include <string>
+#include "Event.h"
 using std::string;
 
 namespace HovUni {
@@ -39,7 +40,7 @@ public:
 	 *
 	 * @param event the event that occurred
 	 */
-	virtual void processEntityEvents(const string& event) = 0;
+	virtual void processEntityEvents(const Event& event) = 0;
 
 	/**
 	 * Get the network node. You should probably not be calling this.

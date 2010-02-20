@@ -58,10 +58,18 @@ void makeClient(ZoidCom* zcom) {
 				case 'Q':
 					exit = true;
 					break;
-				case 'm': 
-					client->moveUp();
+				case 'w': 
+					client->moveForward();
 					break;
-
+				case 's': 
+					client->moveBackward();
+					break;
+				case 'a': 
+					client->moveLeft();
+					break;
+				case 'd': 
+					client->moveRight();
+					break;
 				default:
 					break;
 			}
@@ -98,8 +106,17 @@ void makeBoth(ZoidCom* zcom) {
 						server->addEntity(tree);
 						break;
 					}
-				case 'm': 
-					client->moveUp();
+				case 'w': 
+					client->moveForward();
+					break;
+				case 's': 
+					client->moveBackward();
+					break;
+				case 'a': 
+					client->moveLeft();
+					break;
+				case 'd': 
+					client->moveRight();
 					break;
 				default:
 					break;
@@ -150,8 +167,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	// create ZoidCom with logging disabled
-	ZoidCom *zcom = new ZoidCom(process_zoidcom_log); // Console logging
-	//ZoidCom *zcom = new ZoidCom(); // No extra console logging
+	//ZoidCom *zcom = new ZoidCom(process_zoidcom_log); // Console logging
+	ZoidCom *zcom = new ZoidCom(); // No extra console logging
 	if (!zcom || !zcom->Init()) {
 		return 1;
 	}
