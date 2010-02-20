@@ -7,7 +7,7 @@ ApplicationFrameListener::ApplicationFrameListener(RenderWindow * win, Camera * 
 												   RepresentationManager * reprMgr, InputManager * inputMgr)
 		: ExampleFrameListener(win, cam, true, true), mCamNode(cam->getParentSceneNode()), mSceneMgr(sceneMgr), 
 		mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
-		mRotate(0.13), mMove(250), mContinue(true), mDirection(Vector3::ZERO) {
+		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Vector3::ZERO) {
 	// Register this class with input manager
 	mInputManager->addKeyListener(this, "ApplicationFrameListener");
 	mInputManager->addMouseListener(this, "ApplicationFrameListener");

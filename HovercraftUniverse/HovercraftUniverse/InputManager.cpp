@@ -1,7 +1,9 @@
 #include "InputManager.h"
 
+namespace HovUni {
+
 // Singleton object
-InputManager * InputManager::mInputManager;
+InputManager * InputManager::mInputManager = 0;
 
 InputManager::InputManager(void) : mMouse(0), mKeyboard(0), mInputSystem(0) {
 	// Already initialized
@@ -347,4 +349,6 @@ InputManager * InputManager::getSingletonPtr(void) {
 	}
 
 	return mInputManager;
+}
+
 }
