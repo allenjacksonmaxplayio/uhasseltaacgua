@@ -2,6 +2,7 @@
 #define REPRESENTATIONMANAGER_H_
 
 #include <vector>
+#include "EntityManager.h"
 #include "EntityRepresentation.h"
 #include "GameView.h"
 
@@ -18,18 +19,38 @@ namespace HovUni {
 class RepresentationManager {
 protected:
 
+	/** The entity manager */
+	EntityManager * mEntityManager;
+
+	/** The ogre scene manager */
+	Ogre::SceneManager * mSceneMgr;
+
 	/** The list of entity representations to update */
-	vector<EntityRepresentation *> mEntityRepresentations;
+	std::vector<EntityRepresentation *> mEntityRepresentations;
 
 	/** The list of game views to draw */
-	vector<GameView *> mGameViews;
+	std::vector<GameView *> mGameViews;
+
+	/** The singleton object */
+    static RepresentationManager * mRepresentationManager;
 
 public:
 
 	/**
 	 * Constructor.
+	 *
+	 * @param entityMgr the entity manager to use to check the entities
+	 * @param sceneMgr the Ogre scene manager 
 	 */
-	RepresentationManager();
+	RepresentationManager(EntityManager * entityMgr, Ogre::SceneManager * sceneMgr);
+
+	/**
+	 * Initialises the entity manager.
+	 *
+	 * @param entityMgr the entity manager to use to check the entities
+	 * @param sceneMgr the Ogre scene manager 
+	 */
+	static void initialise(EntityManager * entityMgr, Ogre::SceneManager * sceneMgr);
 
 	/**
 	 * Destructor.
@@ -46,9 +67,9 @@ public:
 	/**
 	 * Removes the given entity representation from the manager.
 	 *
-	 * @param entityRep the entity representation to remove
+	 * @param entityRep the unique name of the entity representation to remove
 	 */
-	void removeEntityRepresentation();
+	void removeEntityRepresentation(Ogre::String entityRep);
 
 	/**
 	 * Adds a game view to draw in each frame.
@@ -56,6 +77,20 @@ public:
 	 * @param gameView the game view to draw in each frame
 	 */
 	void addGameView(GameView * gameView);
+
+	/**
+	 * Returns the entity manager singleton.
+	 *
+	 * @return the singleton pointer
+	 */
+    static RepresentationManager * getSingletonPtr(void);
+
+	/**
+	 * Returns the Ogre scene manager.
+	 *
+	 * @return the scene manager
+	 */
+	Ogre::SceneManager * getSceneManager() { return mSceneMgr; }
 
 protected:
 
