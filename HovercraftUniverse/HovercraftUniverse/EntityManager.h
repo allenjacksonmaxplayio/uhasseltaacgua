@@ -4,8 +4,6 @@
 #include <vector>
 #include "Entity.h"
 
-using namespace std;
-
 namespace HovUni {
 
 /**
@@ -17,7 +15,16 @@ namespace HovUni {
 class EntityManager {
 protected:
 	/** The entities that have been registered at the manager */
-	vector<Entity *> mEntities;
+	std::vector<Entity *> mEntities;
+
+	/** The new entities since last call */
+	std::vector<Entity *> mNewEntities;
+
+	/** The removed entities since last call */
+	std::vector<Entity *> mRemovedEntities;
+
+	/** The singleton object */
+    static EntityManager * mEntityManager;
 
 public:
 	
@@ -39,34 +46,69 @@ public:
 	void registerEntity(Entity * entity);
 
 	/**
-	 * Releases an entity from the entity manager. TODO IDENTIFIER FOR THE ENTITIES?
-	 */
-	void releaseEntity();
-
-	/**
-	 * Returns the entity from the entity manager. TODO IDENTIFIER FOR THE ENTITIES?
+	 * Releases an entity with the given name from the entity manager.
 	 *
+	 * @param entityName the unique name of the entity to remove
 	 */
-	Entity * getEntity();
-
-protected:
+	void releaseEntity(Ogre::String entityName);
 
 	/**
-	 * Notify the representation manager of a new entity.
+	 * Returns the entity with the given name from the entity manager or null. 
 	 *
-	 * @param entity the entity that is added to the manager
+	 * @param entityName the unique name of the entity to return
+	 * @return the entity with the given name
 	 */
-	void notifyRepresentationEntityAdded(Entity * entity);
+	Entity * getEntity(Ogre::String entityName);
 
 	/**
-	 * Notify the representation manager of a released entity.
+	 * Returns the entities with the given category from the entity manager or an empty list.
+	 *
+	 * @param categoryName the name of the category to return the entities from
+	 * @return the entities belonging to the given category
 	 */
-	void notifyRepresentationEntityRemoved();
+	std::vector<Entity *> getEntities(Ogre::String categoryName);
+
+	/**
+	 * Indicates whether the entity manager has new entities.
+	 *
+	 * @return true when the entity manager has new entities and false if not
+	 */
+	bool hasNewEntities() { return (mNewEntities.size() > 0); }
+
+	/**
+	 * Indicates whether the entity manager has removed entities.
+	 *
+	 * @return true when the entity manager has removed entities and false if not
+	 */
+	bool hasRemovedEntities() { return (mRemovedEntities.size() > 0); }
+
+	/**
+	 * Returns the entities since last call and clears the list.
+	 * 
+	 * @return the new entities
+	 */
+	std::vector<Entity *> getNewEntities();
+
+	/**
+	 * Returns the removed entities since last call and clears the list.
+	 *
+	 * @return the removed entities
+	 */
+	std::vector<Entity *> getRemovedEntities();
 
 	/**
 	 * Updates the entities.
+	 *
+	 * @param timeSinceLastFrame the time that elapsed since the last frame
 	 */
-	void updateEntities();
+	void updateEntities(Ogre::Real timeSinceLastFrame);
+
+	/**
+	 * Returns the entity manager singleton.
+	 *
+	 * @return the singleton pointer
+	 */
+    static EntityManager * getSingletonPtr(void);
 };
 
 }

@@ -12,7 +12,10 @@ namespace HovUni {
  */
 class Controller {
 
-	// Empty class, should be interited
+public:
+	// Empty class, should be inherited
+	Controller() {}
+	virtual ~Controller() {}
 
 };
 
