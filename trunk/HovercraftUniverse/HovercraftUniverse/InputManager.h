@@ -8,6 +8,8 @@
 #include <OgreRenderWindow.h>
 #include <string>
 
+namespace HovUni {
+
 /**
  * The input manager to capture and process the input.
  *
@@ -282,4 +284,7 @@ private:
 	 */
     bool buttonReleased(const OIS::JoyStickEvent & e, int button);
 };
+
+}
+
 #endif
