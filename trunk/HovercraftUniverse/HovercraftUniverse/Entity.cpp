@@ -1,38 +1,45 @@
 #include "Entity.h"
+#include <cassert>
 
 namespace HovUni {
 
-Entity::Entity(Ogre::Vector3 position, Ogre::Vector3 orientation, Controller * controller) : mController(controller) {
+Entity::Entity(Ogre::String name, Ogre::String category, Ogre::Vector3 position, Ogre::Vector3 orientation, 
+			   Controller * controller) : mName(name), mCategory(category), mController(controller) {
 	changePosition(position);
 	changeOrientation(orientation);
 }
 
 Entity::~Entity() {
-
+	// Empty
 }
 
 void Entity::changePosition(Ogre::Vector3 newPosition) {
 	// TODO Check whether valid
-	// TODO Set new position
+
+	// Set new position
+	mPosition = newPosition;
 }
 
 void Entity::changeOrientation(Ogre::Vector3 newOrientation) {
 	// TODO Check whether valid
-	// TODO Set new orientation
+
+	// Set new orientation
+	mOrientation = newOrientation;
 }
 
 void Entity::setController(Controller * controller) {
 	// TODO Check whether valid
-	// TODO Set controller
+
+	// Set controller
+	mController = controller;
 }
 
-void Entity::update() {
-	// TODO Process controller
-}
+void Entity::update(Ogre::Real timeSinceLastFrame) {
+	// Process controller
+	processController(timeSinceLastFrame);
 
-void Entity::processController() {
-	// TODO Check status controller
-	// TODO Perform operations on entity according to status controller
+	// TODO Synchronize network
+	// TODO ...
 }
 
 }

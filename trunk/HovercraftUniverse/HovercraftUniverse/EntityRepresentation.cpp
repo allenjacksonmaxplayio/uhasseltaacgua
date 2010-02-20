@@ -2,14 +2,23 @@
 
 namespace HovUni {
 
-EntityRepresentation::EntityRepresentation(Entity * entity) :  mEntity(entity) {
+	EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr) 
+			:  mEntity(entity), mMesh(mesh), mSceneMgr(sceneMgr) {
+	// Create entity and scene node
+	mOgreEntity = mSceneMgr->createEntity(entity->getName(), mMesh);
+	mOgreNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(entity->getName() + "Node");
+	mOgreNode->attachObject(mOgreEntity);
 }
 
 EntityRepresentation::~EntityRepresentation() {
+	// Empty
 }
 
 void EntityRepresentation::draw() {
-	// TODO Draw the entity
+	// Update the settings
+	mOgreNode->setPosition(mEntity->getPosition());
+	// TODO Set it later, it is bullshitting about Quaternions
+	//mOgreNode->setOrientation(mEntity->getOrientation());
 }
 
 }

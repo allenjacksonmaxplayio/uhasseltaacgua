@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <OgreCamera.h>
+#include <OgreSceneManager.h>
 #include "EntityRepresentation.h"
 #include "HUD.h"
 
@@ -21,13 +22,16 @@ class GameView {
 protected:
 
 	/** The list of entity representations to visualize for this player */
-	vector<EntityRepresentation *> mEntityRepresentations;
+	std::vector<EntityRepresentation *> mEntityRepresentations;
 
 	/** The HUD to draw as an overlay */
 	HUD * mHUD;
 
 	/** The camera of the view */
 	Ogre::Camera * mCamera;
+
+	/** The Ogre scene manager */
+	Ogre::SceneManager * mSceneMgr;
 
 public:
 
@@ -36,8 +40,9 @@ public:
 	 *
 	 * @param hud the hud to draw for the player
 	 * @param camera the camera for this player view
+	 * @param sceneMgr the Ogre scene manager
 	 */
-	GameView(HUD * hud, Ogre::Camera * camera);
+	GameView(HUD * hud, Ogre::Camera * camera, Ogre::SceneManager * sceneMgr);
 
 	/**
 	 * Destructor.
@@ -56,7 +61,7 @@ public:
 	 *
 	 * @param entityRep the entity representation to remove
 	 */
-	void removeEntityRepresentation();
+	void removeEntityRepresentation(Ogre::String entityRep);
 
 	/**
 	 * Draw the game view.

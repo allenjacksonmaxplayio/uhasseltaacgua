@@ -14,6 +14,12 @@ namespace HovUni {
  */
 class Entity {
 protected:
+	
+	/** The unique name of the entity */
+	Ogre::String mName;
+
+	/** The category to which this entity belongs */
+	Ogre::String mCategory;
 
 	/** The position of the entity in the world */
 	Ogre::Vector3 mPosition;
@@ -29,11 +35,14 @@ public:
 	/**
 	 * Constructor.
 	 *
+	 * @param name the unique name of the entity
+	 * @param category the category to which this entity belongs
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
 	 * @param controller the controller of the entity
 	 */
-	Entity(Ogre::Vector3 position, Ogre::Vector3 orientation, Controller * controller);
+	Entity(Ogre::String name, Ogre::String category, Ogre::Vector3 position, Ogre::Vector3 orientation, 
+		Controller * controller);
 
 	/**
 	 * Destructor.
@@ -64,15 +73,49 @@ public:
 
 	/**
 	 * Updates the entity.
+	 *
+	 * @param timeSinceLastFrame the time that elapsed since the last frame
 	 */
-	void update();
+	void update(Ogre::Real timeSinceLastFrame);
+
+	/**
+	 * Returns the unique name of this entity.
+	 *
+	 * @return the unique name
+	 */
+	Ogre::String getName() { return mName; }
+
+	/**
+	 * Returns the category to which this entity belongs.
+	 *
+	 * @return the category
+	 */
+	Ogre::String getCategory() { return mCategory; }
+
+	/**
+	 * Returns the position of this entity.
+	 *
+	 * @return the position
+	 */
+	Ogre::Vector3 getPosition() { return mPosition; }
+
+	/**
+	 * Returns the orientation of this entity.
+	 *
+	 * @return the orientation
+	 */
+	Ogre::Vector3 getOrientation() { return mPosition; }
 
 protected:
 
 	/**
-	 * Polls the controller for its current state and processes actions accordingly.
+	 * Polls the controller for its current state and processes actions accordingly. Must
+	 * be overriden since this class in itself has no clue which controller properties 
+	 * there are.
+	 *
+	 * @param timeSinceLastFrame the time that elapsed since the last frame
 	 */
-	void processController();
+	virtual void processController(Ogre::Real timeSinceLastFrame) = 0;
 
 };
 
