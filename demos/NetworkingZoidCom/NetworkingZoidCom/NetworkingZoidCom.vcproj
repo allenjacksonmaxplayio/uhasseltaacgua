@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Event.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NetworkingZoidCom.cpp"
 				>
 			</File>
@@ -194,6 +198,22 @@
 			</File>
 			<File
 				RelativePath=".\SampleClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveBackward.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveForward.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveLeft.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveRight.cpp"
 				>
 			</File>
 			<File
@@ -243,11 +263,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Event.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EventType.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Player.h"
 				>
 			</File>
 			<File
 				RelativePath=".\SampleClient.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveBackward.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveForward.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveLeft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SampleEventMoveRight.h"
 				>
 			</File>
 			<File

@@ -46,9 +46,24 @@ public:
 	bool canExit() const;
 
 	/**
-	 * Send a move up event
+	 * Send a move forward event
 	 */
-	void moveUp();
+	void moveForward();
+
+	/**
+	 * Send a move backward event
+	 */
+	void moveBackward();
+
+	/**
+	 * Send a move left event
+	 */
+	void moveLeft();
+
+	/**
+	 * Send a move right event
+	 */
+	void moveRight();
 
 	/**
 	 * Add an entity to the list

@@ -1,7 +1,16 @@
 #include "StdAfx.h"
 #include "Player.h"
 #include "SampleClient.h"
+#include "SampleEventMoveForward.h"
+#include "SampleEventMoveBackward.h"
+#include "SampleEventMoveLeft.h"
+#include "SampleEventMoveRight.h"
 #include "Tree.h"
+
+using HovUni::SampleEventMoveForward;
+using HovUni::SampleEventMoveBackward;
+using HovUni::SampleEventMoveLeft;
+using HovUni::SampleEventMoveRight;
 
 SampleClient::SampleClient(const char* name) : Client(name, 10000), mExit(false), mPlayer(0) {
 	// Register classes
@@ -33,24 +42,43 @@ bool SampleClient::canExit() const {
 	return mExit;
 }
 
-void SampleClient::moveUp() {
+void SampleClient::moveForward() {
+	SampleEventMoveForward semf(1.5);
 	ZCom_BitStream* event = new ZCom_BitStream();
-	event->addString("move up");
+	semf.serialize(event);
+
 	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
-		cout << "Sent 'move up' as ";
-		switch (mPlayer->getNetworkNode()->getRole()) {
-			case eZCom_RoleAuthority:
-				cout << "Authority" << endl;
-				break;
-			case eZCom_RoleOwner:
-				cout << "Owner" << endl;
-				break;
-			case eZCom_RoleProxy:
-				cout << "Proxy" << endl;
-				break;
-			default:
-				break;
-		}
+		cout << "Sent 'move forward'" << endl;
+	}
+}
+
+void SampleClient::moveBackward() {
+	SampleEventMoveBackward semb(1.5);
+	ZCom_BitStream* event = new ZCom_BitStream();
+	semb.serialize(event);
+
+	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+		cout << "Sent 'move backward'" << endl;
+	}
+}
+
+void SampleClient::moveLeft() {
+	SampleEventMoveLeft seml(1.5);
+	ZCom_BitStream* event = new ZCom_BitStream();
+	seml.serialize(event);
+
+	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+		cout << "Sent 'move left'" << endl;
+	}
+}
+
+void SampleClient::moveRight() {
+	SampleEventMoveRight semr(1.5);
+	ZCom_BitStream* event = new ZCom_BitStream();
+	semr.serialize(event);
+
+	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+		cout << "Sent 'move right'" << endl;
 	}
 }
 
@@ -60,7 +88,7 @@ void SampleClient::addEntity(Entity* entity) {
 
 void SampleClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
 	if (result == eZCom_ConnAccepted) {
-		cout << "Connection established. The reply was: " << reply.getStringStatic() << endl;
+		cout << "Connection established." << endl;
 		ZCom_requestZoidMode(id, 1);
 	} else {
 		cout << "Connection failed. The reply was: " << reply.getStringStatic() << endl;
