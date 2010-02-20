@@ -2,6 +2,8 @@
 
 namespace HovUni {
 
+EntityManager * EntityManager::mEntityManager = 0;
+
 EntityManager::EntityManager() {
 }
 

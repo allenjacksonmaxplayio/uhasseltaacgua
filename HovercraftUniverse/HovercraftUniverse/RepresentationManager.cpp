@@ -3,6 +3,8 @@
 
 namespace HovUni {
 
+RepresentationManager * RepresentationManager::mRepresentationManager = 0;
+
 RepresentationManager::RepresentationManager(EntityManager * entityMgr, Ogre::SceneManager * sceneMgr) 
 		: mEntityManager(entityMgr), mSceneMgr(sceneMgr) {
 }
