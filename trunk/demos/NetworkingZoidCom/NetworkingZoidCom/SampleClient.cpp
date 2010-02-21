@@ -45,40 +45,28 @@ bool SampleClient::canExit() const {
 
 void SampleClient::moveForward() {
 	SampleEventMoveForward semf(1.5);
-	ZCom_BitStream* event = new ZCom_BitStream();
-	semf.serialize(event);
-
-	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+	if (mPlayer->sendEvent(semf)) {
 		cout << "Sent 'move forward'" << endl;
 	}
 }
 
 void SampleClient::moveBackward() {
 	SampleEventMoveBackward semb(1.5);
-	ZCom_BitStream* event = new ZCom_BitStream();
-	semb.serialize(event);
-
-	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+	if (mPlayer->sendEvent(semb)) {
 		cout << "Sent 'move backward'" << endl;
 	}
 }
 
 void SampleClient::moveLeft() {
 	SampleEventMoveLeft seml(1.5);
-	ZCom_BitStream* event = new ZCom_BitStream();
-	seml.serialize(event);
-
-	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+	if (mPlayer->sendEvent(seml)) {
 		cout << "Sent 'move left'" << endl;
 	}
 }
 
 void SampleClient::moveRight() {
 	SampleEventMoveRight semr(1.5);
-	ZCom_BitStream* event = new ZCom_BitStream();
-	semr.serialize(event);
-
-	if (mPlayer->getNetworkNode()->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_OWNER_2_AUTH, event)) {
+	if (mPlayer->sendEvent(semr)) {
 		cout << "Sent 'move right'" << endl;
 	}
 }

@@ -3,11 +3,8 @@
 
 #define ZCOM_REPFLAG_SETUPAUTODELETE   (1L << 6)
 
-#include "Event.h"
-#include <string>
+#include "NetworkEvent.h"
 #include <zoidcom/zoidcom_node.h>
-
-using std::string;
 
 namespace HovUni {
 
@@ -47,6 +44,16 @@ public:
 	virtual void parseEntityEvents(ZCom_BitStream* stream) = 0;
 
 	/**
+	 * Send an event for this entity
+	 *
+	 * @param event the network event
+	 * @param secret false if the data may be send to all proxies
+	 * @return result of the send operation
+	 */
+	template <typename EventType>
+	bool sendEvent(const NetworkEvent<EventType>& event, bool secret = false) const;
+
+	/**
 	 * Get the network node. You should probably not be calling this.
 	 *
 	 * @return the network node
@@ -61,6 +68,25 @@ protected:
 	bool mDeleteMe;
 
 };
+
+template <typename EventType>
+bool NetworkEntity::sendEvent(const NetworkEvent<EventType>& event, bool secret) const {
+	ZCom_BitStream* stream = new ZCom_BitStream();
+	event.serialize(stream);
+
+	eZCom_NodeRole role = mNode->getRole();
+	if (role == eZCom_RoleAuthority) {
+		if (secret) {
+			return mNode->sendEvent(eZCom_ReliableOrdered, ZCOM_REPRULE_AUTH_2_OWNER, stream);
+		} else {
+			return mNode->sendEvent(eZCom_ReliableOrdered, ZCOM_REPRULE_AUTH_2_ALL, stream);
+		}
+	} else if (role == eZCom_RoleOwner) {
+		return mNode->sendEvent(eZCom_ReliableOrdered, ZCOM_REPRULE_OWNER_2_AUTH, stream);
+	}
+	// Proxy should not send events for this entity
+	return false;
+}
 
 }
 
