@@ -1,10 +1,12 @@
-#ifndef ENTITY_H_
-#define ENTITY_H_
+#ifndef NETWORKENTITY_H_
+#define NETWORKENTITY_H_
 
 #define ZCOM_REPFLAG_SETUPAUTODELETE   (1L << 6)
-#include <zoidcom/zoidcom_node.h>
-#include <string>
+
 #include "Event.h"
+#include <string>
+#include <zoidcom/zoidcom_node.h>
+
 using std::string;
 
 namespace HovUni {
@@ -14,18 +16,18 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class Entity
+class NetworkEntity
 {
 public:
 	/**
 	 * Constructor
 	 */
-	Entity();
+	NetworkEntity();
 
 	/**
 	 * Destructor
 	 */
-	virtual ~Entity();
+	virtual ~NetworkEntity();
 
 	/**
 	 * Process the events waiting for this entity. This method
@@ -36,11 +38,13 @@ public:
 
 	/**
 	 * A callback that should be implemented so that events for
-	 * this entity are handled in a good way.
+	 * this entity are handled in a good way. Normally this method
+	 * would first parse the stream to an event and then process
+	 * the event.
 	 *
-	 * @param event the event that occurred
+	 * @param stream the bitstream containing the event
 	 */
-	virtual void processEntityEvents(const Event& event) = 0;
+	virtual void parseEntityEvents(ZCom_BitStream* stream) = 0;
 
 	/**
 	 * Get the network node. You should probably not be calling this.

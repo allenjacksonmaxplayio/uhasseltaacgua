@@ -1,5 +1,5 @@
-#ifndef SERVER_H_
-#define SERVER_H_
+#ifndef NETWORKSERVER_H_
+#define NETWORKSERVER_H_
 
 #include <zoidcom/zoidcom.h>
 
@@ -11,7 +11,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class Server : public ZCom_Control 
+class NetworkServer : public ZCom_Control 
 {
 public:
 	/**
@@ -20,12 +20,12 @@ public:
 	 * @param port the listening port of the server
 	 * @param internalport the port the internal socket will be bound to, or 0 if socket won't be used. 
 	 */
-	Server(const unsigned port, const unsigned internalport);
+	NetworkServer(const unsigned port, const unsigned internalport);
 
 	/**
 	 * Destructor
 	 */
-	virtual ~Server();
+	virtual ~NetworkServer();
 
 	/**
 	 * Process incoming and outgoing packets

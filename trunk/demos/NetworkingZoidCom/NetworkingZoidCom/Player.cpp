@@ -1,6 +1,7 @@
 #include "StdAfx.h"
+#include "NetworkEvent.h"
 #include "Player.h"
-#include "SampleEventMoveLeft.h"
+#include "SampleEventParser.h"
 
 ZCom_ClassID Player::mClassID = ZCom_Invalid_ID;
 
@@ -12,7 +13,13 @@ Player::~Player(void) {
 
 }
 
-void Player::processEntityEvents(const Event& event) {
+void Player::parseEntityEvents(ZCom_BitStream* stream) {
+	// Parse
+	HovUni::SampleEventParser p;
+	HovUni::NetworkEvent<SampleEventType> event = p.parse(stream);
+
+	// Process
+
 	// Server
 	if (mNode->getRole() == eZCom_RoleAuthority) {
 		switch (event.getType()) {
@@ -98,6 +105,7 @@ void Player::processEntityEvents(const Event& event) {
 				break;
 		}
 	}
+
 }
 
 void Player::registerClass(ZCom_Control* control) {

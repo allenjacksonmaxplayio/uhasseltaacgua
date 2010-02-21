@@ -1,5 +1,5 @@
-#ifndef CLIENT_H_
-#define CLIENT_H_
+#ifndef NETWORKCLIENT_H_
+#define NETWORKCLIENT_H_
 
 #include <zoidcom/zoidcom.h>
 
@@ -11,7 +11,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class Client : public ZCom_Control {
+class NetworkClient : public ZCom_Control {
 public:
 	/**
 	 * Constructor for remote connection
@@ -19,19 +19,19 @@ public:
 	 * @param name the name of the server
 	 * @param port the port of the server
 	 */
-	Client(const char* name, const unsigned port);
+	NetworkClient(const char* name, const unsigned port);
 
 	/**
 	 * Constructor for local connection
 	 *
 	 * @param port the port of the server
 	 */
-	Client(const unsigned port);
+	NetworkClient(const unsigned port);
 
 	/**
 	 * Destructor
 	 */
-	virtual ~Client();
+	virtual ~NetworkClient();
 
 	/**
 	 * Process incoming and outgoing packets

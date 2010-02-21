@@ -1,20 +1,19 @@
-#include "StdAfx.h"
-#include "Entity.h"
+#include "NetworkEntity.h"
 
 namespace HovUni {
 
-Entity::Entity(void) : mNode(0) {
+NetworkEntity::NetworkEntity(void) : mNode(0) {
 	mNode = new ZCom_Node();
 }
 
-Entity::~Entity(void) {
+NetworkEntity::~NetworkEntity(void) {
 	if (mNode) {
 		delete mNode;
 		mNode = 0;
 	}
 }
 
-void Entity::processEvents() {
+void NetworkEntity::processEvents() {
 	while (mNode->checkEventWaiting()) {
 		eZCom_Event type;
 		eZCom_NodeRole remote_role;
@@ -26,13 +25,12 @@ void Entity::processEvents() {
 			mDeleteMe = true;
 		} else if (type == eZCom_EventUser) {
 			// Delegate to the user events callback
-			Event e = Event::parse(data);
-			processEntityEvents(e);
+			parseEntityEvents(data);
 		}
 	}
 }
 
-ZCom_Node* Entity::getNetworkNode() {
+ZCom_Node* NetworkEntity::getNetworkNode() {
 	return mNode;
 }
 

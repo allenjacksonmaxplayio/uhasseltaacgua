@@ -1,9 +1,10 @@
 #include "StdAfx.h"
 #include "Player.h"
 #include "SampleServer.h"
+#include "SampleEventParser.h"
 #include "Tree.h"
 
-SampleServer::SampleServer() : Server(10000, 10001) {
+SampleServer::SampleServer() : NetworkServer(10000, 10001) {
 	// Register classes
 	registerClasses();
 }
@@ -12,8 +13,8 @@ SampleServer::~SampleServer() {
 }
 
 void SampleServer::process() {
-	Server::process();
-	for (vector<Entity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it) {
+	NetworkServer::process();
+	for (vector<NetworkEntity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it) {
 		(*it)->processEvents();
 	}
 }
@@ -23,7 +24,7 @@ void SampleServer::registerClasses() {
 	Tree::registerClass(this);
 }
 
-void SampleServer::addEntity(Entity* entity) {
+void SampleServer::addEntity(NetworkEntity* entity) {
 	mEntities.push_back(entity);
 }
 

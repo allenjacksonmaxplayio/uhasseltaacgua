@@ -1,8 +1,7 @@
-#ifndef EVENT_H_
-#define EVENT_H_
+#ifndef NETWORKEVENT_H_
+#define NETWORKEVENT_H_
 
 #include <zoidcom/zoidcom.h>
-#include "EventType.h"
 
 namespace HovUni {
 
@@ -12,20 +11,26 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class Event
+template <typename EventType>
+class NetworkEvent
 {
 public:
+	/**
+	 * The parser that will be used for this entity
+	 */
+	typedef EventType event_type;
+
 	/**
 	 * Constructor
 	 *
 	 * @param type the type of the entity (used for serialization)
 	 */
-	Event(EventType type);
+	NetworkEvent(EventType type);
 
 	/**
 	 * Destructor
 	 */
-	virtual ~Event();
+	virtual ~NetworkEvent();
 
 	/**
 	 * Get the type of the event
@@ -72,19 +77,13 @@ public:
 	 */
 	static EventType readType(ZCom_BitStream* stream);
 
-	/**
-	 * Parse a stream to the correct event
-	 *
-	 * @param stream the bitstream containing the event
-	 * @return the event
-	 */
-	static Event parse(ZCom_BitStream* stream);
-
 private:
 	/** The type of the event */
 	EventType mType;
 };
 
 }
+
+#include "NetworkEventImpl.h"
 
 #endif

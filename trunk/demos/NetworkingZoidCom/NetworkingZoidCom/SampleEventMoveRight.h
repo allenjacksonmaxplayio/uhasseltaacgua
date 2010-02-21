@@ -1,11 +1,12 @@
 #ifndef SAMPLEEVENTMOVERIGHT_H_
 #define SAMPLEEVENTMOVERIGHT_H_
 
-#include "Event.h"
+#include "NetworkEvent.h"
+#include "SampleEventType.h"
 
 namespace HovUni {
 
-class SampleEventMoveRight: public Event
+class SampleEventMoveRight: public NetworkEvent<SampleEventType>
 {
 public:
 	/**

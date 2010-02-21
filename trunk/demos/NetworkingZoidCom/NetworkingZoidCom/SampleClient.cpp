@@ -5,6 +5,7 @@
 #include "SampleEventMoveBackward.h"
 #include "SampleEventMoveLeft.h"
 #include "SampleEventMoveRight.h"
+#include "SampleEventParser.h"
 #include "Tree.h"
 
 using HovUni::SampleEventMoveForward;
@@ -12,12 +13,12 @@ using HovUni::SampleEventMoveBackward;
 using HovUni::SampleEventMoveLeft;
 using HovUni::SampleEventMoveRight;
 
-SampleClient::SampleClient(const char* name) : Client(name, 10000), mExit(false), mPlayer(0) {
+SampleClient::SampleClient(const char* name) : NetworkClient(name, 10000), mExit(false), mPlayer(0) {
 	// Register classes
 	registerClasses();
 }
 
-SampleClient::SampleClient() : Client(10001), mExit(false), mPlayer(0) {
+SampleClient::SampleClient() : NetworkClient(10001), mExit(false), mPlayer(0) {
 	// Register classes
 	registerClasses();
 }
@@ -27,8 +28,8 @@ SampleClient::~SampleClient(void) {
 }
 
 void SampleClient::process() {
-	Client::process();
-	for (vector<Entity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it) {
+	NetworkClient::process();
+	for (vector<NetworkEntity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it) {
 		(*it)->processEvents();
 	}
 }
@@ -82,7 +83,7 @@ void SampleClient::moveRight() {
 	}
 }
 
-void SampleClient::addEntity(Entity* entity) {
+void SampleClient::addEntity(NetworkEntity* entity) {
 	mEntities.push_back(entity);
 }
 

@@ -1,18 +1,21 @@
 #pragma once
 
-#include "Entity.h"
-#include "Event.h"
+#include "NetworkEntity.h"
+#include "NetworkEvent.h"
+#include "SampleEventType.h"
+#include "SampleEventMoveLeft.h"
 #include <zoidcom/zoidcom_control.h>
 
-using HovUni::Event;
+using HovUni::SampleEventType;
 
-class Player: public HovUni::Entity
+class Player: public HovUni::NetworkEntity
 {
 	static ZCom_ClassID mClassID;
 public:
 	Player(ZCom_Control* control);
 	~Player(void);
-	virtual void processEntityEvents(const Event& event);
+
+	virtual void parseEntityEvents(ZCom_BitStream* stream);
 
 	static void registerClass(ZCom_Control* control);
 	static ZCom_ClassID getClassID();

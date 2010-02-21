@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Server.h"
+#include "NetworkEntity.h"
+#include "NetworkServer.h"
 #include <vector>
-using std::vector;
-#include "Entity.h"
-using HovUni::Entity;
 
-class SampleServer: public HovUni::Server
+using HovUni::NetworkEntity;
+using std::vector;
+
+class SampleServer: public HovUni::NetworkServer
 {
 public:
 	/**
@@ -34,10 +35,10 @@ public:
 	 *
 	 * @param entity the entity
 	 */
-	void addEntity(Entity* entity);
+	void addEntity(NetworkEntity* entity);
 
 private:
-	vector<Entity*> mEntities;
+	vector<NetworkEntity*> mEntities;
 
 //
 // ZCom_Control callbacks

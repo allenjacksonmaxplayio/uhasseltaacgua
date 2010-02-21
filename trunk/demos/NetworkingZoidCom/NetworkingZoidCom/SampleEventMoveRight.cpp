@@ -3,11 +3,11 @@
 
 namespace HovUni {
 
-SampleEventMoveRight::SampleEventMoveRight(float distance) : Event(MoveRight), mDistance(distance) {
+SampleEventMoveRight::SampleEventMoveRight(float distance) : NetworkEvent(MoveRight), mDistance(distance) {
 
 }
 
-SampleEventMoveRight::SampleEventMoveRight() : Event(MoveForward), mDistance(0.0) {
+SampleEventMoveRight::SampleEventMoveRight() : NetworkEvent(MoveForward), mDistance(0.0) {
 
 }
 
