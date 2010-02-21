@@ -21,6 +21,9 @@ void Application::createScene(void) {
 	// Set ambient light
 	mSceneMgr->setAmbientLight(ColourValue(0.25, 0.25, 0.25));
 	
+	// Initialise and store the GUIManager
+	GUIManager::init("..\\..\\Media\\GUI", mWindow->getViewport(0));
+	mGUIManager = GUIManager::getSingletonPtr();
 
 	// Create and store entity manager
 	mEntityManager = EntityManager::getSingletonPtr();

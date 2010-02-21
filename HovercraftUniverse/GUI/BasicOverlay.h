@@ -8,8 +8,11 @@
  * @author Nick De Frangh
  */
 
-#include <Hikari.h>
+//Include IOS but prevent double link errors!
+#define OIS_DYNAMIC_LIB
 #include <OIS.h>
+
+#include <Hikari.h>
  
 using std::string;
 
@@ -104,7 +107,14 @@ namespace HovUni {
 			Hikari::FlashControl* getFlashControl();
 		
 		private:
+			/**
+			 * Call this function to automaticly activate this overlay
+			 */
 			void activate();
+
+			/**
+			 * Call this function to automaticly disable this averlay
+			 */
 			void disable();
 	};
 }

@@ -1622,10 +1622,10 @@ void OgreMaxScene::FinishLoadingRenderTextures()
 {
     static const Quaternion CUBE_FACE_CAMERA_ORIENTATIONS[] =
         {
-        Quaternion(0.707107, 0, -0.707107, 0),
-        Quaternion(-0.707107, 0, -0.707107, 0),
-        Quaternion(0.707107, 0.707107, 0, 0),
-        Quaternion(0.707107, -0.707107, 0, 0),
+        Quaternion(0.707107f, 0, -0.707107f, 0),
+        Quaternion(-0.707107f, 0, -0.707107f, 0),
+        Quaternion(0.707107f, 0.707107f, 0, 0),
+        Quaternion(0.707107f, -0.707107f, 0, 0),
         Quaternion(1, 0, 0, 0),
         Quaternion(0, 0, -1, 0)
         };
