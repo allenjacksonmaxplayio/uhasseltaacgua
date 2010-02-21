@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="NetworkingZoidCom"
-	ProjectGUID="{B2F4CA41-E63E-4EFB-97CC-05266062CDD4}"
-	RootNamespace="NetworkingZoidCom"
+	Name="Networking"
+	ProjectGUID="{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}"
+	RootNamespace="Networking"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -20,7 +20,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -41,12 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -60,19 +60,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="zoidcom_vcd.lib"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\lib\debug&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -82,9 +73,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -118,10 +106,10 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include\zoidcom&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -140,7 +128,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\lib\release&quot;"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -177,63 +165,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\NetworkingZoidCom.cpp"
+				RelativePath=".\NetworkClient.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Player.cpp"
+				RelativePath=".\NetworkEntity.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SampleClient.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventMoveBackward.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventMoveForward.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventMoveLeft.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventMoveRight.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventParser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleServer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Tree.cpp"
+				RelativePath=".\NetworkServer.cpp"
 				>
 			</File>
 		</Filter>
@@ -243,51 +183,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Player.h"
+				RelativePath=".\NetworkClient.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SampleClient.h"
+				RelativePath=".\NetworkEntity.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SampleEventMoveBackward.h"
+				RelativePath=".\NetworkEvent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SampleEventMoveForward.h"
+				RelativePath=".\NetworkEventImpl.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SampleEventMoveLeft.h"
+				RelativePath=".\NetworkEventParser.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SampleEventMoveRight.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventParser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleEventType.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleServer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\targetver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tree.h"
+				RelativePath=".\NetworkServer.h"
 				>
 			</File>
 		</Filter>
@@ -297,10 +213,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

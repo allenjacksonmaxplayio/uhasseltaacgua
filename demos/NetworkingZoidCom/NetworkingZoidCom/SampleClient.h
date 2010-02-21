@@ -1,15 +1,17 @@
 #pragma once
 
-#include "Client.h"
-#include "Entity.h"
+#include "NetworkClient.h"
+#include "NetworkEntity.h"
+#include "SampleEventParser.h"
 #include <vector>
 
-using HovUni::Entity;
+using HovUni::NetworkEntity;
+using HovUni::SampleEventParser;
 using std::vector;
 
 class Player;
 
-class SampleClient: public HovUni::Client {
+class SampleClient: public HovUni::NetworkClient {
 public:
 	/**
 	 * Constructor for remote connection
@@ -70,12 +72,12 @@ public:
 	 *
 	 * @param entity the entity
 	 */
-	void addEntity(Entity* entity);
+	void addEntity(NetworkEntity* entity);
 
 private:
 	bool mExit;
 	Player* mPlayer;
-	vector<Entity*> mEntities;
+	vector<NetworkEntity*> mEntities;
 
 //
 // ZCom_Control callbacks
