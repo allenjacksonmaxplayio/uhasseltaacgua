@@ -16,11 +16,17 @@ DefaultOgreMaxSceneCallback::DefaultOgreMaxSceneCallback(Ogre::Viewport * viewpo
 {
 	mEnvironmentNear = 10000.0f;
 	mEnvironmentFar = 1.0f;
+	mUpAxis = OgreMax::Types::UP_AXIS_Y;
 }
 
 DefaultOgreMaxSceneCallback::~DefaultOgreMaxSceneCallback(void)
 {
 }
+
+void DefaultOgreMaxSceneCallback::onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) {
+	mUpAxis = upAxis;
+}
+
 
 void DefaultOgreMaxSceneCallback::onNode( const OgreMax::Types::NodeParameters& nodeparameters, const OgreMax::Types::NodeParameters* parent){
 	//Get Ogre parent
@@ -122,15 +128,13 @@ void DefaultOgreMaxSceneCallback::onCamera( const OgreMax::Types::CameraParamete
 
 void DefaultOgreMaxSceneCallback::onSkyBox( OgreMax::Types::SkyBoxParameters& parameters ) {
 	//Create the sky
-
-	//TODO up vector
-	/*mSceneManager->setSkyBox
+	mSceneManager->setSkyBox
 		(
 		parameters.enabled,
 		parameters.material,
 		parameters.distance,
 		parameters.drawFirst,
-		OgreMax::OgreMaxUtilities::GetOrientation(this->upAxis),
+		OgreMax::OgreMaxUtilities::GetOrientation(mUpAxis),
 		parameters.resourceGroupName
 		);
 
@@ -140,13 +144,10 @@ void DefaultOgreMaxSceneCallback::onSkyBox( OgreMax::Types::SkyBoxParameters& pa
 		skyNode->setOrientation(parameters.rotation);
 		//TODO removed animation
 		skyNode->setInitialState();
-	}	*/
+	}
 }
 
 void DefaultOgreMaxSceneCallback::onSkyDome( OgreMax::Types::SkyDomeParameters& parameters) {
-	 
-	//TODO up vector
-	/*
 	//Create the sky
 	mSceneManager->setSkyDome
 		(
@@ -156,7 +157,7 @@ void DefaultOgreMaxSceneCallback::onSkyDome( OgreMax::Types::SkyDomeParameters& 
 		parameters.tiling,
 		parameters.distance,
 		parameters.drawFirst,
-		OgreMax::OgreMaxUtilities::GetOrientation(this->upAxis),
+		OgreMax::OgreMaxUtilities::GetOrientation(mUpAxis),
 		parameters.xSegments,
 		parameters.ySegments,
 		-1,
@@ -169,7 +170,7 @@ void DefaultOgreMaxSceneCallback::onSkyDome( OgreMax::Types::SkyDomeParameters& 
 		skyNode->setOrientation(parameters.rotation);
 		//TODO removed animation
 		skyNode->setInitialState();
-	}*/
+	}
 }
 
 void DefaultOgreMaxSceneCallback::onSkyPlane( OgreMax::Types::SkyPlaneParameters& parameters) {
@@ -214,6 +215,43 @@ void DefaultOgreMaxSceneCallback::onAmbientColour( const Ogre::ColourValue& colo
 
 void DefaultOgreMaxSceneCallback::onBackgroundColour( const Ogre::ColourValue& backgroundColor ){
     mViewport->setBackgroundColour(backgroundColor);
+}
+
+void DefaultOgreMaxSceneCallback::onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& param, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes) {
+	//Get Ogre node
+	Ogre::SceneNode* node = mSceneManager->getSceneNode(node.name);
+	assert(node);
+
+    //Get existing animation or create new one
+    Animation* animation;
+	if (mSceneManager->hasAnimation(params.name)) { 
+		animation = mSceneManager->getAnimation(params.name);
+	}
+    else {
+        //Create animation
+        animation = mSceneManager->createAnimation(params.name, params.length);
+        animation->setInterpolationMode(params.interpolationMode);
+        animation->setRotationInterpolationMode(params.rotationInterpolationMode);
+    }
+
+    //Create animation track for node
+    NodeAnimationTrack* animationTrack = animation->createNodeTrack(animation->getNumNodeTracks() + 1, node);
+
+	for ( std::vector<OgreMax::Types::KeyFrame>::iterator i = keyframes.begin(); i != keyframes.end(); i++ ){
+		TransformKeyFrame* keyFrame = animationTrack->createNodeKeyFrame(keyTime);
+		keyFrame->setTranslate(i->translation);
+		keyFrame->setRotation(i->rotation);
+		keyFrame->setScale(i->scale);
+	}
+
+    //Create a new animation state to track the animation
+    /*if (GetAnimationState(params.name) == 0) {
+        //No animation state has been created for the animation yet
+        AnimationState* animationState = mSceneManager->createAnimationState(params.name);
+        this->animationStates[params.name] = animationState;
+        animationState->setEnabled(params.enable);
+        animationState->setLoop(params.looping);
+    }*/
 }
 
 void DefaultOgreMaxSceneCallback::onShadowProperties( OgreMax::Types::ShadowParameters& params ){

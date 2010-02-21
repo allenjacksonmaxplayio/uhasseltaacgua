@@ -7,7 +7,7 @@ Boost::Boost(TiXmlElement * data) throw (ParseException)
 {
 	TiXmlNode * node;
 
-	//We are loading a CheckPoint!
+	//We are loading a boost!
 	if (strcmp(data->Value(),"Boost") != 0){
 		throw ParseException();
 	}
