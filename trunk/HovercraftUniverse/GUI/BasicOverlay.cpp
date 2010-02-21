@@ -6,7 +6,9 @@
 namespace HovUni {
 	BasicOverlay::BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position &position, Ogre::ushort zOrder) 
 		: mName(name), mFileName(fileName), mWidth(width), mHeight(height), mPosition(position), mZOrder(zOrder) {
-		
+		//Set default values for parameters
+		mParameters_B[OverlayParams_B::TRANSPARANCY] = true;
+		mParameters_B[OverlayParams_B::ALPHAHACK] = false;
 	}
 
 	BasicOverlay::~BasicOverlay() {
@@ -35,6 +37,12 @@ namespace HovUni {
 
 	void BasicOverlay::activate() {
 		mFlashControl = GUIManager::getSingletonPtr()->createOverlay(mName, mFileName, mWidth, mHeight, mPosition, mZOrder);
+
+		if (mParameters_B[OverlayParams_B::TRANSPARANCY]) {
+			mFlashControl->setTransparent(mParameters_B[OverlayParams_B::TRANSPARANCY], mParameters_B[OverlayParams_B::ALPHAHACK]);
+		} else {
+			mFlashControl->setTransparent(false, false);
+		}
 	}
 
 	void BasicOverlay::disable() {
@@ -50,5 +58,13 @@ namespace HovUni {
 			//Exception
 			throw new OverlayNotActivatedException();
 		}
+	}
+
+	void BasicOverlay::setBParameter(OverlayParams_B paramIndex, bool value) {
+		mParameters_B[paramIndex] = value;
+	}
+
+	bool BasicOverlay::getBParameter(OverlayParams_B paramIndex) {
+		return mParameters_B[paramIndex];
 	}
 }
