@@ -6,4 +6,11 @@ namespace HovUni {
 		: BasicOverlay(name, fileName, width, height, position, zOrder) {
 	}
 
+	void Speedometer::setSpeed(Ogre::Real speed) {
+		this->callFunction("setSpeed", speed);
+	}
+
+	void Speedometer::moveToSpeed(Ogre::Real speed, Ogre::Real step) {
+		this->callFunction"moveToSpeed", speed, step);
+	}
 }

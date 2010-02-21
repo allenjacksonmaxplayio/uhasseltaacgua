@@ -185,6 +185,10 @@
 				Name="Exceptions"
 				>
 				<File
+					RelativePath=".\OverlayNotActivatedException.h"
+					>
+				</File>
+				<File
 					RelativePath=".\UninitialisedException.h"
 					>
 				</File>
