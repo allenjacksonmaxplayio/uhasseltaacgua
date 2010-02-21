@@ -1,6 +1,7 @@
 #include "GUIManager.h"
 
 #include "BasicOverlay.h"
+#include "OverlayContainer.h"
 
 namespace HovUni {
 	GUIManager* GUIManager::msSingleton = 0;
@@ -59,7 +60,7 @@ namespace HovUni {
 	}
 
 	bool GUIManager::keyPressed(const OIS::KeyEvent &evt) {
-		vector<OIS::KeyListener*>::iterator it;
+		std::vector<OIS::KeyListener*>::iterator it;
 
 		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
 			(*it)->keyPressed(evt);
@@ -76,7 +77,7 @@ namespace HovUni {
 	}
 
 	bool GUIManager::keyReleased(const OIS::KeyEvent &evt) {
-		vector<OIS::KeyListener*>::iterator it;
+		std::vector<OIS::KeyListener*>::iterator it;
 
 		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
 			(*it)->keyReleased(evt);
@@ -90,7 +91,7 @@ namespace HovUni {
 	}
 
 	void GUIManager::removeKeyListener(OIS::KeyListener* listener) {
-		vector<OIS::KeyListener*>::iterator it;
+		std::vector<OIS::KeyListener*>::iterator it;
 
 		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
 			if ( (*it) == listener ) {
@@ -114,5 +115,21 @@ namespace HovUni {
 
 	void GUIManager::disableOverlay(BasicOverlay& overlay) {
 		overlay.disable();
+	}
+
+	void GUIManager::activateOverlayContainer(OverlayContainer& overlayContainer) {
+		std::map<std::string, BasicOverlay*> overlays = overlayContainer.getOverlays();
+
+		for(std::map<std::string, BasicOverlay*>::iterator it = overlays.begin(); it != overlays.end(); ++it) {
+			(*it).second->activate();
+		}
+	}
+			
+	void GUIManager::disableOverlayContainer(OverlayContainer& overlayContainer) {
+		std::map<std::string, BasicOverlay*> overlays = overlayContainer.getOverlays();
+
+		for(std::map<std::string, BasicOverlay*>::iterator it = overlays.begin(); it != overlays.end(); ++it) {
+			(*it).second->disable();
+		}
 	}
 }

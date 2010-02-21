@@ -18,9 +18,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)lib\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
@@ -60,19 +60,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib OIS_d.lib Hikari_d.lib "
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\dependencies\Hikari\lib;..\dependencies\OGRE\lib\debug"
-				GenerateDebugInformation="true"
-				SubSystem="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\$(ProjectName)_d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -84,17 +76,14 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)lib\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -135,21 +124,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OIS.lib Hikari.lib "
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\dependencies\Hikari\lib;..\dependencies\OGRE\lib\release"
-				GenerateDebugInformation="true"
-				SubSystem="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -159,9 +137,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -184,22 +159,10 @@
 				RelativePath=".\GUIManager.cpp"
 				>
 			</File>
-			<Filter
-				Name="Demo"
+			<File
+				RelativePath=".\OverlayContainer.cpp"
 				>
-				<File
-					RelativePath=".\HikariDemo.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\InputManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Test.cpp"
-					>
-				</File>
-			</Filter>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -214,23 +177,15 @@
 				RelativePath=".\GUIManager.h"
 				>
 			</File>
+			<File
+				RelativePath=".\OverlayContainer.h"
+				>
+			</File>
 			<Filter
 				Name="Exceptions"
 				>
 				<File
 					RelativePath=".\UninitialisedException.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Demo"
-				>
-				<File
-					RelativePath=".\HikariDemo.h"
-					>
-				</File>
-				<File
-					RelativePath=".\InputManager.h"
 					>
 				</File>
 			</Filter>

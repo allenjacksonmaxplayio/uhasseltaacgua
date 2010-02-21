@@ -1336,7 +1336,7 @@ bool OgreMaxUtilities::EndsWithNoCase(const String& text, const String& endsWith
 const Ogre::Quaternion& OgreMaxUtilities::GetOrientation(UpAxis upAxis)
 {
     static const Ogre::Quaternion Y_ORIENTATION = Ogre::Quaternion::IDENTITY;
-    static const Ogre::Quaternion Z_ORIENTATION(0.707107, 0.707107, 0, 0);
+    static const Ogre::Quaternion Z_ORIENTATION(0.707107f, 0.707107f, 0, 0);
     return upAxis == UP_AXIS_Y ? Y_ORIENTATION : Z_ORIENTATION;
 }
 

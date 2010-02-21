@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HovercraftUniverse", "HovercraftUniverse\HovercraftUniverse.vcproj", "{CCFF60E1-9306-493F-AD38-410877FB3177}"
 	ProjectSection(ProjectDependencies) = postProject
+		{794CA943-9679-4384-B6BE-78506C3D8679} = {794CA943-9679-4384-B6BE-78506C3D8679}
 		{E95EE5D8-561F-4736-B69C-0EC206894F78} = {E95EE5D8-561F-4736-B69C-0EC206894F78}
 		{186671F0-05A1-4CCC-A946-7A762D59C0F7} = {186671F0-05A1-4CCC-A946-7A762D59C0F7}
 	EndProjectSection

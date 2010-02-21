@@ -8,18 +8,19 @@
  * @author Nick De Frangh
  */
 
-#include <Hikari.h>
-#include <OIS.h> //OIS input systeem
-#include <Ogre.h>
+//Include IOS but prevent double link errors!
+#define OIS_DYNAMIC_LIB
+#include <OIS.h>
 
+#include <Hikari.h>
+#include <Ogre.h>
 #include <vector>
 
 #include "UninitialisedException.h"
- 
-using std::vector;
 
 namespace HovUni {
 	class BasicOverlay; //Forward declaration
+	class OverlayContainer;
 
 	class GUIManager : public OIS::KeyListener, public OIS::MouseListener {
 		private:
@@ -33,7 +34,7 @@ namespace HovUni {
 			Hikari::HikariManager* mHikariMgr;
 
 			/** A list of items who asked for keyboard events */
-			vector<OIS::KeyListener*> mKeyListeners;
+			std::vector<OIS::KeyListener*> mKeyListeners;
 			
 		protected:
 			/**
@@ -179,6 +180,20 @@ namespace HovUni {
 			 * @param overlay The overlay to deactivate
 			 */
 			void disableOverlay(BasicOverlay& overlay);
+
+			/**
+			 * Activate an earlier created overlay container.
+			 *
+			 * @param overlayContainer The overlay container to activate
+			 */
+			void activateOverlayContainer(OverlayContainer& overlayContainer);
+			
+			/**
+			 * Disable an earlier created overlay container.
+			 *
+			 * @param overlayContainer The overlay container to deactivate
+			 */
+			void disableOverlayContainer(OverlayContainer& overlayContainer);
 	};
 }
 

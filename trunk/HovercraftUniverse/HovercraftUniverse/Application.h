@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
+#include <GUIManager.h>
 
 namespace HovUni {
 
@@ -24,6 +25,9 @@ private:
 
 	/** The representation manager */
 	RepresentationManager * mRepresentationManager;
+
+	/** The GUI Manager */
+	GUIManager * mGUIManager;
 
 public:
 

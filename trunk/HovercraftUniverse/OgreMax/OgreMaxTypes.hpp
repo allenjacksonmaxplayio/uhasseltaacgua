@@ -223,7 +223,7 @@ namespace OgreMax
             {
                 this->mode = Ogre::FOG_NONE;
 
-                this->expDensity = .001;
+                this->expDensity = 0.001f;
                 this->linearStart = 0;
                 this->linearEnd = 1;
 
