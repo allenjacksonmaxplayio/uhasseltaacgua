@@ -11,7 +11,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 	try {
 		app.go();
-	} catch (Exception & e) {
+	} catch (Ogre::Exception & e) {
 		MessageBox(NULL, e.getFullDescription().c_str(), "An exception has occurred!", 
 			MB_OK | MB_ICONERROR | MB_TASKMODAL);
 	}

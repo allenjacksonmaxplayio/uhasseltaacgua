@@ -1,7 +1,8 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#include "ExampleApplication.h"
+#include <OgreRoot.h>
+#include "ApplicationFrameListener.h"
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
@@ -14,8 +15,14 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-class Application : public ExampleApplication {
+class Application {
 private:
+
+	/** The root Ogre object */
+	Ogre::Root * mOgreRoot;
+
+	/** The application frame listener */
+	ApplicationFrameListener * mFrameListener;
 
 	/** The entity manager */
 	EntityManager * mEntityManager;
@@ -43,19 +50,20 @@ public:
 	virtual ~Application(void);
 
 	/**
-	 * @see ExampleApplication::createCamera().
+	 * The main method that triggers the application to run.
 	 */
-	void createCamera();
+	void go();
 
-	/**
-	 * @see ExampleApplication::createScene().
-	 */
-	void createScene();
-
-	/**
-	 * @see ExampleApplication::createFrameListener().
-	 */
+	void createRoot();
+	void defineResources();
+	void setupRenderSystem();
+	void createRenderWindow();
+	void initializeResourceGroups();
+	void setupScene();
+	void setupInputSystem();
 	void createFrameListener();
+	void startRenderLoop();
+
 };
 
 #endif

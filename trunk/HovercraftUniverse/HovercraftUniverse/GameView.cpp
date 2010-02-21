@@ -4,8 +4,15 @@
 
 namespace HovUni {
 
-GameView::GameView(HUD * hud, Ogre::Camera * camera, Ogre::SceneManager * sceneMgr) : mHUD(hud), mCamera(camera), 
-		mSceneMgr(sceneMgr) {
+// Define initial global ID
+int GameView::mGlobalID = 1;
+
+GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mSceneMgr(sceneMgr), mID(mGlobalID++) {
+	// Create camera for this game view
+	// TODO Camera manager
+	// mCamera = mSceneMgr->createCamera("CamView" + mID);
+	// mCamera->setNearClipDistance(5);
+
 	// TODO PUT IN MORE GENERIC FORMAT
 	// Plane entity
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
@@ -21,15 +28,15 @@ GameView::GameView(HUD * hud, Ogre::Camera * camera, Ogre::SceneManager * sceneM
 	light->setDiffuseColour(Ogre::ColourValue::White);
 	light->setSpecularColour(Ogre::ColourValue::White);
 
-	// First camera
-	Ogre::SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode1", Ogre::Vector3(-400, 200, 400));
-	node->yaw(Ogre::Degree(-45));
-	node = node->createChildSceneNode("PitchNode1");
-	node->attachObject(mCamera);
+	// First camera viewpoint
+	//Ogre::SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode1", Ogre::Vector3(-400, 200, 400));
+	//node->yaw(Ogre::Degree(-45));
+	//node = node->createChildSceneNode("PitchNode1");
+	//node->attachObject(mCamera);
 
-	// Second camera
-	node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Ogre::Vector3(0, 200, 400));
-	node = node->createChildSceneNode("PitchNode2");
+	// Second camera viewpoint
+	//node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Ogre::Vector3(0, 200, 400));
+	//node = node->createChildSceneNode("PitchNode2");
 }
 
 GameView::~GameView() {
