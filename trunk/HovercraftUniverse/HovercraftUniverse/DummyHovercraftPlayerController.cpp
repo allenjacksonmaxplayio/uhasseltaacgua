@@ -17,13 +17,14 @@ DummyHovercraftPlayerController::~DummyHovercraftPlayerController(void) {
 
 Ogre::Vector3 DummyHovercraftPlayerController::getDirection() {
 	// Process moves
-	if (mMovingLeft) { return Ogre::Vector3(-1.0, 0.0, 0.0); }
-	if (mMovingForward) { return Ogre::Vector3(0.0, 0.0, -1.0); }
-	if (mMovingRight) { return Ogre::Vector3(1.0, 0.0, 0.0); }
-	if (mMovingBackward) { return Ogre::Vector3(0.0, 0.0, 1.0); }
+	Ogre::Vector3 accumulatedDirection = Ogre::Vector3::ZERO;
+	if (mMovingLeft) { accumulatedDirection += Ogre::Vector3(-1.0, 0.0, 0.0); }
+	if (mMovingForward) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, -1.0); }
+	if (mMovingRight) { accumulatedDirection += Ogre::Vector3(1.0, 0.0, 0.0); }
+	if (mMovingBackward) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, 1.0); }
 
 	// No movement
-	return Ogre::Vector3(0.0, 0.0, 0.0);
+	return accumulatedDirection.normalisedCopy();
 }
 
 Ogre::Vector3 DummyHovercraftPlayerController::getOrientationChange() {

@@ -6,7 +6,7 @@ DummyHovercraftRepresentation::DummyHovercraftRepresentation(DummyHovercraft * h
 		Ogre::SceneManager * sceneMgr) : EntityRepresentation(hovercraft, "cube.mesh", sceneMgr) {
 	// Scale cube to represent a car a little bit more
 	// TODO Normally the mesh should speak for itself and these things should not be necessary
-	mOgreNode->scale(Ogre::Vector3(1.0, 0.5, 0.5));
+	mOgreNode->scale(Ogre::Vector3(0.5, 0.5, 1.0));
 }
 
 DummyHovercraftRepresentation::~DummyHovercraftRepresentation(void) {
