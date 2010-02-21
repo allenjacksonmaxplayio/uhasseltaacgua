@@ -172,28 +172,28 @@ namespace HovUni {
 			 *
 			 * @param overlay The overlay to activate
 			 */
-			void activateOverlay(BasicOverlay& overlay);
+			void activateOverlay(BasicOverlay* overlay);
 			
 			/**
 			 * Disable an earlier created overlay.
 			 *
 			 * @param overlay The overlay to deactivate
 			 */
-			void disableOverlay(BasicOverlay& overlay);
+			void disableOverlay(BasicOverlay* overlay);
 
 			/**
 			 * Activate an earlier created overlay container.
 			 *
 			 * @param overlayContainer The overlay container to activate
 			 */
-			void activateOverlayContainer(OverlayContainer& overlayContainer);
+			void activateOverlayContainer(OverlayContainer* overlayContainer);
 			
 			/**
 			 * Disable an earlier created overlay container.
 			 *
 			 * @param overlayContainer The overlay container to deactivate
 			 */
-			void disableOverlayContainer(OverlayContainer& overlayContainer);
+			void disableOverlayContainer(OverlayContainer* overlayContainer);
 	};
 }
 

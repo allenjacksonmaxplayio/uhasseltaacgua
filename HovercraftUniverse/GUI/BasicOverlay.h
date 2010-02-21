@@ -116,6 +116,17 @@ namespace HovUni {
 			 * Call this function to automaticly disable this averlay
 			 */
 			void disable();
+
+		protected:
+			/**
+			 * Call a certain function on the overlay object.
+			 *
+			 * @param name The name of the function you want to call
+			 * @param arg The arguments you want to pass to the function (default: no parameters)
+			 * @return The return value of the function call
+			 * @throws OverlayNotActivatedException You need to activate the overlay before you can call functions on it
+			 */
+			Hikari::FlashValue callFunction(const Ogre::DisplayString& name, const Hikari::Arguments& args = Hikari::Args());
 	};
 }
 

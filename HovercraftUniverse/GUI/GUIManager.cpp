@@ -109,24 +109,24 @@ namespace HovUni {
 		return flashControl;
 	}
 
-	void GUIManager::activateOverlay(BasicOverlay& overlay) {
-		overlay.activate();
+	void GUIManager::activateOverlay(BasicOverlay* overlay) {
+		overlay->activate();
 	}
 
-	void GUIManager::disableOverlay(BasicOverlay& overlay) {
-		overlay.disable();
+	void GUIManager::disableOverlay(BasicOverlay* overlay) {
+		overlay->disable();
 	}
 
-	void GUIManager::activateOverlayContainer(OverlayContainer& overlayContainer) {
-		std::map<std::string, BasicOverlay*> overlays = overlayContainer.getOverlays();
+	void GUIManager::activateOverlayContainer(OverlayContainer* overlayContainer) {
+		std::map<std::string, BasicOverlay*> overlays = overlayContainer->getOverlays();
 
 		for(std::map<std::string, BasicOverlay*>::iterator it = overlays.begin(); it != overlays.end(); ++it) {
 			(*it).second->activate();
 		}
 	}
 			
-	void GUIManager::disableOverlayContainer(OverlayContainer& overlayContainer) {
-		std::map<std::string, BasicOverlay*> overlays = overlayContainer.getOverlays();
+	void GUIManager::disableOverlayContainer(OverlayContainer* overlayContainer) {
+		std::map<std::string, BasicOverlay*> overlays = overlayContainer->getOverlays();
 
 		for(std::map<std::string, BasicOverlay*>::iterator it = overlays.begin(); it != overlays.end(); ++it) {
 			(*it).second->disable();
