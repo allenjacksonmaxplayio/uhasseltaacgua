@@ -4,6 +4,7 @@
 #include "NetworkEvent.h"
 #include "SampleEventType.h"
 #include "SampleEventMoveLeft.h"
+#include "Vector.h"
 #include <zoidcom/zoidcom_control.h>
 
 using HovUni::SampleEventType;
@@ -23,7 +24,5 @@ public:
 	static ZCom_ClassID getClassID();
 
 private:
-	float mX;
-	float mY;
-	float mZ;
+	Vector mPosition;
 };

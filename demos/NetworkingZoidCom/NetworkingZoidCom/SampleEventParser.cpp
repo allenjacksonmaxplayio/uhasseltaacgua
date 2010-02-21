@@ -11,7 +11,7 @@ SampleEventParser::~SampleEventParser() {
 
 }
 
-NetworkEvent<SampleEventType> SampleEventParser::parse(ZCom_BitStream* stream) {
+NetworkEvent<SampleEventType>* SampleEventParser::parse(ZCom_BitStream* stream) {
 	SampleEventType type = NetworkEvent<SampleEventType>::readType(stream);
 	
 	switch (type) {
@@ -28,7 +28,7 @@ NetworkEvent<SampleEventType> SampleEventParser::parse(ZCom_BitStream* stream) {
 			return SampleEventMoveRight::parse(stream);
 			break;
 		default:
-			return SampleEventMoveForward(1.5);
+			return new SampleEventMoveForward(1.5);
 			break;
 	}
 }

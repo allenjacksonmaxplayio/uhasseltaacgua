@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="NetworkingZoidCom"
 	ProjectGUID="{B2F4CA41-E63E-4EFB-97CC-05266062CDD4}"
 	RootNamespace="NetworkingZoidCom"
@@ -236,6 +236,10 @@
 				RelativePath=".\Tree.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Vector.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -288,6 +292,10 @@
 			</File>
 			<File
 				RelativePath=".\Tree.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Vector.h"
 				>
 			</File>
 		</Filter>

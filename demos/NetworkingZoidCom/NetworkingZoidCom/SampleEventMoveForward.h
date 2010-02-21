@@ -38,7 +38,7 @@ public:
 	 *
 	 * @param stream the bitstream to append the event
 	 */
-	virtual void write(ZCom_BitStream* stream);
+	virtual void write(ZCom_BitStream* stream) const;
 
 	/**
 	 * Read the event
@@ -53,7 +53,7 @@ public:
 	 * @param stream the bitstream containing the event
 	 * @return the event
 	 */
-	static SampleEventMoveForward parse(ZCom_BitStream* stream);
+	static SampleEventMoveForward* parse(ZCom_BitStream* stream);
 
 private:
 	/** The distance */

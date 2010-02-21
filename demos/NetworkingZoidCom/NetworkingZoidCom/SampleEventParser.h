@@ -21,7 +21,7 @@ public:
 	 * @param stream the bitstream containing the event
 	 * @return the event
 	 */
-	virtual NetworkEvent<SampleEventType> parse(ZCom_BitStream* stream);
+	virtual NetworkEvent<SampleEventType>* parse(ZCom_BitStream* stream);
 };
 
 }
