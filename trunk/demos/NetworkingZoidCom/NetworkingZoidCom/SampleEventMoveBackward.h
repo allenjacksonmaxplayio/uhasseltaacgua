@@ -27,11 +27,18 @@ public:
 	virtual ~SampleEventMoveBackward();
 
 	/**
+	 * Get the distance
+	 *
+	 * @return the distance
+	 */
+	float getDistance() const;
+
+	/**
 	 * Write the event
 	 *
 	 * @param stream the bitstream to append the event
 	 */
-	virtual void write(ZCom_BitStream* stream);
+	virtual void write(ZCom_BitStream* stream) const;
 
 	/**
 	 * Read the event
@@ -46,7 +53,7 @@ public:
 	 * @param stream the bitstream containing the event
 	 * @return the event
 	 */
-	static SampleEventMoveBackward parse(ZCom_BitStream* stream);
+	static SampleEventMoveBackward* parse(ZCom_BitStream* stream);
 
 private:
 	/** The distance */

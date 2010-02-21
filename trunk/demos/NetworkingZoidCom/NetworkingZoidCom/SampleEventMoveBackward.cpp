@@ -15,7 +15,11 @@ SampleEventMoveBackward::~SampleEventMoveBackward() {
 
 }
 
-void SampleEventMoveBackward::write(ZCom_BitStream* stream) {
+float SampleEventMoveBackward::getDistance() const {
+	return mDistance;
+}
+
+void SampleEventMoveBackward::write(ZCom_BitStream* stream) const {
 	stream->addFloat(mDistance, 23);
 }
 
@@ -23,9 +27,9 @@ void SampleEventMoveBackward::read(ZCom_BitStream* stream) {
 	mDistance = stream->getFloat(23);
 }
 
-SampleEventMoveBackward SampleEventMoveBackward::parse(ZCom_BitStream* stream) {
-	SampleEventMoveBackward e;
-	e.deserialize(stream);
+SampleEventMoveBackward* SampleEventMoveBackward::parse(ZCom_BitStream* stream) {
+	SampleEventMoveBackward* e = new SampleEventMoveBackward;
+	e->deserialize(stream);
 	return e;
 }
 

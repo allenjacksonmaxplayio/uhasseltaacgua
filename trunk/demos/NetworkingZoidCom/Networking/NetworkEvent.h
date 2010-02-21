@@ -58,7 +58,7 @@ public:
 	 *
 	 * @param stream the bitstream to append the event
 	 */
-	virtual void write(ZCom_BitStream* stream) const { }
+	virtual void write(ZCom_BitStream* stream) const = 0;
 
 	/**
 	 * Read the event
