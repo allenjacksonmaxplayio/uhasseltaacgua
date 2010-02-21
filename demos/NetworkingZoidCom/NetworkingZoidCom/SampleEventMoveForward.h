@@ -27,6 +27,13 @@ public:
 	virtual ~SampleEventMoveForward();
 
 	/**
+	 * Get the distance
+	 *
+	 * @return the distance
+	 */
+	float getDistance() const;
+
+	/**
 	 * Write the event
 	 *
 	 * @param stream the bitstream to append the event

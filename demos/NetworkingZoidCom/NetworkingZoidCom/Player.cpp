@@ -1,11 +1,13 @@
 #include "StdAfx.h"
 #include "NetworkEvent.h"
 #include "Player.h"
+#include "SampleEventMoveForward.h"
 #include "SampleEventParser.h"
 
 ZCom_ClassID Player::mClassID = ZCom_Invalid_ID;
 
-Player::Player(ZCom_Control* control) {
+Player::Player(ZCom_Control* control): mX(0), mY(0), mZ(0) {
+	setupReplication();
 	mNode->registerNodeDynamic(mClassID, control);
 }
 
@@ -27,37 +29,31 @@ void Player::parseEntityEvents(ZCom_BitStream* stream) {
 				{
 					cout << "Player is trying to move forward" << endl;
 					// Let's allow the movement
-					ZCom_BitStream* stream = new ZCom_BitStream();
-					event.serialize(stream);
-					mNode->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_AUTH_2_ALL, stream);
+					HovUni::SampleEventMoveForward e = (HovUni::SampleEventMoveForward) event;
+					mX += e.getDistance();
+					sendEvent(event);
 				}
 				break;
 			case HovUni::MoveBackward:
 				{
 					cout << "Player is trying to move backward" << endl;
 					// Let's allow the movement
-					ZCom_BitStream* stream = new ZCom_BitStream();
-					event.serialize(stream);
-					mNode->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_AUTH_2_ALL, stream);
+					sendEvent(event);
 				}
 				break;
 			case HovUni::MoveLeft:
 				{
 					cout << "Player is trying to move left" << endl;
 					// Let's allow the movement
-					ZCom_BitStream* stream = new ZCom_BitStream();
-					event.serialize(stream);
-					mNode->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_AUTH_2_ALL, stream);
+					sendEvent(event);
 				}
 				break;
 			case HovUni::MoveRight:
 				{
 					cout << "Player is trying to move right but crashed" << endl;
 					// Cannot allow movement so shock reaction to left
-					ZCom_BitStream* stream = new ZCom_BitStream();
 					HovUni::SampleEventMoveLeft seml(0.5);
-					seml.serialize(stream);
-					mNode->sendEvent(eZCom_Unreliable, ZCOM_REPRULE_AUTH_2_ALL, stream);
+					sendEvent(seml);
 				}
 				break;
 
@@ -106,6 +102,17 @@ void Player::parseEntityEvents(ZCom_BitStream* stream) {
 		}
 	}
 
+	cout << "Position: (" << mX << ", " << mY << ", " << mZ << ")" << endl;
+}
+
+void Player::setupReplication() {
+	mNode->beginReplicationSetup(3);
+
+	mNode->addReplicationFloat(&mX, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+	mNode->addReplicationFloat(&mY, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+	mNode->addReplicationFloat(&mZ, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+
+	mNode->endReplicationSetup();
 }
 
 void Player::registerClass(ZCom_Control* control) {

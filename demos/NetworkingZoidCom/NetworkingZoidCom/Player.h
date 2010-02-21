@@ -17,6 +17,13 @@ public:
 
 	virtual void parseEntityEvents(ZCom_BitStream* stream);
 
+	void setupReplication();
+
 	static void registerClass(ZCom_Control* control);
 	static ZCom_ClassID getClassID();
+
+private:
+	float mX;
+	float mY;
+	float mZ;
 };

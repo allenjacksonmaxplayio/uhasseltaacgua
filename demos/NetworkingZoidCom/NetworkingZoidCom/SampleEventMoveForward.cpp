@@ -15,6 +15,10 @@ SampleEventMoveForward::~SampleEventMoveForward() {
 
 }
 
+float SampleEventMoveForward::getDistance() const {
+	return mDistance;
+}
+
 void SampleEventMoveForward::write(ZCom_BitStream* stream) {
 	stream->addFloat(mDistance, 23);
 }
