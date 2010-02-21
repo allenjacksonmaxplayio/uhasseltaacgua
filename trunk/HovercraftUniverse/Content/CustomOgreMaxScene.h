@@ -24,6 +24,24 @@
 #include "ProgressCalculator.hpp"
 #include "Version.hpp"
 
+namespace OgreMax {
+
+namespace Types {
+
+/**
+ * A Keyframe
+ */
+struct KeyFrame {
+	Ogre::Real keyframe;
+	Ogre::Vector3 translation;
+	Ogre::Quaternion rotation;
+	Ogre::Vector3 scale;
+};
+
+}
+}
+
+
 namespace HovUni {
 
 //Classes----------------------------------------------------------------------
@@ -147,7 +165,9 @@ namespace HovUni {
          */
         void SetNamePrefix(const Ogre::String& name, WhichNamePrefix prefixes = ALL_NAME_PREFIXES);
 
-        /** Gets the base resource location */
+        /** 
+		 * Gets the base resource location 
+		 */
         const Ogre::String& GetBaseResourceLocation() const;
 
         /**
@@ -158,7 +178,9 @@ namespace HovUni {
          */
         void SetBaseResourceLocation(const Ogre::String& directory);
 
-		/** Gets the up axis vector */
+		/** 
+		 * Gets the up axis vector 
+		 */
         const Ogre::Vector3& GetUpVector() const;
 
     protected:
@@ -230,9 +252,9 @@ namespace HovUni {
         void LoadBillboard(const TiXmlElement* objectElement, Ogre::BillboardSet* billboardSet);
 
 		//animation
-        void LoadNodeAnimations(const TiXmlElement* objectElement, Ogre::SceneNode* node);
-        void LoadNodeAnimation(const TiXmlElement* objectElement, Ogre::SceneNode* node);
-        void LoadNodeAnimationKeyFrame(const TiXmlElement* objectElement, Ogre::NodeAnimationTrack* animationTrack);
+        void LoadNodeAnimations(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+        void LoadNodeAnimation(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		void LoadNodeAnimationKeyFrame(const TiXmlElement* objectElement, std::vector<OgreMax::Types::KeyFrame>& animationTrack);
 
 
 		//External
@@ -479,6 +501,15 @@ namespace HovUni {
 		 * @param parent
 		 */
 		virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::NodeParameters& parent) {
+		}
+
+		/**
+		 * Called when node animation is loaded
+		 * @param animation
+		 * @param node
+		 * @param keyframes
+		 */
+		virtual void onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& param, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes) {
 		}
         
         /**

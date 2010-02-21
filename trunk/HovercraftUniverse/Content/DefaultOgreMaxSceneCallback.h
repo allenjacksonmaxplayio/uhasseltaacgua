@@ -22,10 +22,12 @@ private:
 	Ogre::SceneManager * mSceneManager;
 
 	/**
-	 * Temporary values
+	 * Temporary values needed by some methods, set to default values to prevent errors if they would not be read
+	 * The xml is structured in such a way that these will be filled (or not at all) before they are needed.
 	 */
 	Ogre::Real mEnvironmentNear; // = 10000.0f;
 	Ogre::Real mEnvironmentFar; // = 1.0f;
+	OgreMax::Types::UpAxis mUpAxis; // = OgreMax::Types::UP_AXIS_Y
 
 protected:
 
@@ -54,6 +56,9 @@ public:
 	 * Destructor
 	 */
 	virtual ~DefaultOgreMaxSceneCallback(void);
+
+	//General
+	virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType);
 
 	//Sky
 
@@ -85,6 +90,9 @@ public:
         
 	virtual void onCamera(const OgreMax::Types::CameraParameters& camera, const OgreMax::Types::NodeParameters * parent);
 
+	//Animation
+
+	virtual void onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& param, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes);
 };
 
 }

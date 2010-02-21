@@ -1226,9 +1226,9 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
             LoadBillboardSet(childElement, &parameters);
         else if (elementName == "plane", &parameters)
 			LoadPlane(childElement,&parameters);
-        else if (elementName == "animations", &parameters)
+        else if (elementName == "animations")
         {
-            //LoadNodeAnimations(childElement, node);
+            LoadNodeAnimations(childElement, &parameters);
             //OgreMax::OgreMaxUtilities::SetIdentityInitialState(node);
             //isInitialStateSet = true;
         }
@@ -1787,9 +1787,9 @@ void CustomOgreMaxScene::LoadLightAttenuation(const TiXmlElement* objectElement,
 	light.attenuationQuadric = Ogre::StringConverter::parseReal(OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "quadric"));   
 }
 
-void CustomOgreMaxScene::LoadNodeAnimations(const TiXmlElement* objectElement, SceneNode* node)
+void CustomOgreMaxScene::LoadNodeAnimations(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * node)
 {
-    /*//Parse child elements
+    //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
     while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
@@ -1798,12 +1798,12 @@ void CustomOgreMaxScene::LoadNodeAnimations(const TiXmlElement* objectElement, S
 
         if (elementName == "animation")
             LoadNodeAnimation(childElement, node);
-    }*/
+    }
 }
 
-void CustomOgreMaxScene::LoadNodeAnimation(const TiXmlElement* objectElement, SceneNode* node)
+void CustomOgreMaxScene::LoadNodeAnimation(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * node)
 {
-    /*Types::NodeAnimationParameters params;
+	OgreMax::Types::NodeAnimationParameters params;
 
     //Get enabled and looping states
     params.enable = OgreMax::OgreMaxUtilities::GetBoolAttribute(objectElement, "enable", params.enable);
@@ -1813,41 +1813,20 @@ void CustomOgreMaxScene::LoadNodeAnimation(const TiXmlElement* objectElement, Sc
     params.name = this->nodeAnimationNamePrefix;
     params.name += OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "name");
 
-    //Get existing animation or create new one
-    Animation* animation;
-    if (this->sceneManager->hasAnimation(params.name))
-        animation = this->sceneManager->getAnimation(params.name);
-    else
-    {
-        //Length
-        params.length = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "length", 0);
+    //Length
+    params.length = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "length", 0);
 
-        //Interpolation mode
-        String interpolationModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "interpolationMode");
-        if (!interpolationModeText.empty())
-            params.interpolationMode = OgreMax::OgreMaxUtilities::ParseAnimationInterpolationMode(interpolationModeText);
+    //Interpolation mode
+    String interpolationModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "interpolationMode");
+    if (!interpolationModeText.empty())
+        params.interpolationMode = OgreMax::OgreMaxUtilities::ParseAnimationInterpolationMode(interpolationModeText);
 
-        //Rotation interpolation mode
-        String rotationInterpolationModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "rotationInterpolationMode");
-        if (!rotationInterpolationModeText.empty())
-            params.rotationInterpolationMode = OgreMax::OgreMaxUtilities::ParseAnimationRotationInterpolationMode(rotationInterpolationModeText);
+    //Rotation interpolation mode
+    String rotationInterpolationModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "rotationInterpolationMode");
+    if (!rotationInterpolationModeText.empty())
+        params.rotationInterpolationMode = OgreMax::OgreMaxUtilities::ParseAnimationRotationInterpolationMode(rotationInterpolationModeText);
 
-        //Notify the callback
-        if (this->callback != 0)
-            this->callback->LoadingNodeAnimation(this, params);
-
-        //Create animation
-        animation = this->sceneManager->createAnimation(params.name, params.length);
-        animation->setInterpolationMode(params.interpolationMode);
-        animation->setRotationInterpolationMode(params.rotationInterpolationMode);
-
-        //Notify the callback
-        if (this->callback != 0)
-            this->callback->CreatedNodeAnimation(this, node, animation);
-    }
-
-    //Create animation track for node
-    NodeAnimationTrack* animationTrack = animation->createNodeTrack(animation->getNumNodeTracks() + 1, node);
+	std::vector<OgreMax::Types::KeyFrame> keyframes;
 
     //Load animation keyframes
     String elementName;
@@ -1857,38 +1836,20 @@ void CustomOgreMaxScene::LoadNodeAnimation(const TiXmlElement* objectElement, Sc
         elementName = childElement->Value();
 
         if (elementName == "keyframe")
-            LoadNodeAnimationKeyFrame(childElement, animationTrack);
+            LoadNodeAnimationKeyFrame(childElement, keyframes);
     }
 
-    //Notify callback
-    if (this->callback != 0)
-        this->callback->CreatedNodeAnimationTrack(this, node, animationTrack, params.enable, params.looping);
-
-    if ((this->loadOptions & NO_ANIMATION_STATES) == 0)
-    {
-        //Create a new animation state to track the animation
-        if (GetAnimationState(params.name) == 0)
-        {
-            //No animation state has been created for the animation yet
-            AnimationState* animationState = this->sceneManager->createAnimationState(params.name);
-            this->animationStates[params.name] = animationState;
-            animationState->setEnabled(params.enable);
-            animationState->setLoop(params.looping);
-
-            //Notify callback
-            if (this->callback != 0)
-                this->callback->CreatedNodeAnimationState(this, node, animationState);
-        }
-    }*/
+	if ( this->callback )
+		this->callback->onNodeAnimation(params,*node,keyframes);
 }
 
-void CustomOgreMaxScene::LoadNodeAnimationKeyFrame(const TiXmlElement* objectElement, NodeAnimationTrack* animationTrack)
+void CustomOgreMaxScene::LoadNodeAnimationKeyFrame(const TiXmlElement* objectElement, std::vector<OgreMax::Types::KeyFrame>& animationTrack)
 {
-    /*//Key time
+    //Key time
     Real keyTime = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "time", 0);
 
-    //Create the key frame
-    TransformKeyFrame* keyFrame = animationTrack->createNodeKeyFrame(keyTime);
+	//Create the key frame
+    OgreMax::Types::KeyFrame keyframe;
 
     //Parse child elements
     String elementName;
@@ -1896,14 +1857,15 @@ void CustomOgreMaxScene::LoadNodeAnimationKeyFrame(const TiXmlElement* objectEle
     while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
     {
         elementName = childElement->Value();
-
         if (elementName == "translation")
-            keyFrame->setTranslate(OgreMax::OgreMaxUtilities::LoadXYZ(childElement));
+			keyframe.translation = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);            
         else if (elementName == "rotation")
-            keyFrame->setRotation(OgreMax::OgreMaxUtilities::LoadRotation(childElement));
+			keyframe.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);            
         else if (elementName == "scale")
-            keyFrame->setScale(OgreMax::OgreMaxUtilities::LoadXYZ(childElement));
-    }*/
+			keyframe.scale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+    }
+
+	animationTrack.push_back(keyframe);
 }
 
 void CustomOgreMaxScene::LoadObjectNames(const TiXmlElement* objectElement, const String& elementName, std::vector<String>& names)
