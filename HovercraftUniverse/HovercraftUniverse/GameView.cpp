@@ -1,6 +1,7 @@
 #include "GameView.h"
 #include <OgreMeshManager.h>
 #include <OgreResourceGroupManager.h>
+#include <GUIManager.h>
 
 namespace HovUni {
 
@@ -37,6 +38,10 @@ GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mScene
 	// Second camera viewpoint
 	//node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Ogre::Vector3(0, 200, 400));
 	//node = node->createChildSceneNode("PitchNode2");
+
+	//Activate the HUD
+	//TODO: Activa/deactivate the hud when needed!
+	mHUD->activate();
 }
 
 GameView::~GameView() {
@@ -78,7 +83,9 @@ void GameView::drawEntityRepresentations() {
 }
 
 void GameView::drawHUD() {
-	mHUD->draw();
+	//TODO: Make sure this is called once every render frame!
+	//		Dont think it should be here?
+	GUIManager::getSingletonPtr()->update();
 }
 
 }

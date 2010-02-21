@@ -42,6 +42,14 @@ namespace HovUni {
 			/** The flash control used for this overlay */
 			Hikari::FlashControl* mFlashControl;
 
+			/** Enumeration containing all boolean parameters to modify */
+			enum OverlayParams_B {
+				TRANSPARANCY = 0, ALPHAHACK, DIGI_COUNT //DIGI_COUNT is used to count the number of items
+			};
+
+			/** An array containing the values for the boolean parameters in the OverlayParams_B enumeration */
+			bool mParameters_B[OverlayParams_B::DIGI_COUNT];
+
 		public:
 			/**
 			 * Basic constructor for a Flash overlay.
@@ -127,6 +135,21 @@ namespace HovUni {
 			 * @throws OverlayNotActivatedException You need to activate the overlay before you can call functions on it
 			 */
 			Hikari::FlashValue callFunction(const Ogre::DisplayString& name, const Hikari::Arguments& args = Hikari::Args());
+
+			/**
+			 * Set a boolean parameter for this overlay
+			 *
+			 * @param paramIndex The name of the parameter to change
+			 * @param value The value to set it to
+			 */
+			void setBParameter(OverlayParams_B paramIndex, bool value);
+
+			/**
+			 * Get a boolean parameter from this overlay
+			 *
+			 * @param paramIndex The name of the parameter to retrieve
+			 */
+			bool getBParameter(OverlayParams_B paramIndex);
 	};
 }
 
