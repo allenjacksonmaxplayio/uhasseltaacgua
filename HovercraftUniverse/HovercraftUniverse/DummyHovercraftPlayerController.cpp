@@ -1,4 +1,5 @@
 #include "DummyHovercraftPlayerController.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 

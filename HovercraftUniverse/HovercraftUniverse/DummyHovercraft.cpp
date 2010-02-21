@@ -18,7 +18,7 @@ void DummyHovercraft::processController(Ogre::Real timeSinceLastFrame) {
 	DummyHovercraftController * hovercraftController = dynamic_cast<DummyHovercraftController *>(mController);
 
 	// Process controls
-	changePosition(mPosition + hovercraftController->getDirection() * timeSinceLastFrame);
+	changePosition(mPosition + hovercraftController->getDirection() * timeSinceLastFrame * 100);
 	changeOrientation(mOrientation + hovercraftController->getOrientationChange());
 }
 

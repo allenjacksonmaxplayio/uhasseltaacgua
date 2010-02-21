@@ -19,8 +19,8 @@ void Application::go() {
 	setupRenderSystem();
 	createRenderWindow();
 	initializeResourceGroups();
-	setupScene();
 	setupInputSystem();
+	setupScene();
 	createFrameListener();
 	startRenderLoop();
 }
