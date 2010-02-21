@@ -43,9 +43,9 @@ void Application::createScene(void) {
 	mEntityManager->registerEntity(hovercraft);
 	mRepresentationManager->addEntityRepresentation(hovercraftRep);
 
-	/*
+	
 	// Cube entity
-	Entity * ent = mSceneMgr->createEntity("Cube", "cube.mesh");
+	Ogre::Entity * ent = mSceneMgr->createEntity("Cube", "cube.mesh");
 	SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CubeNode");
 	node->translate(Vector3(0.0, 40.0, 0.0), Node::TS_PARENT);
 	node->scale(Vector3(1.0, 0.5, 0.5));
@@ -64,6 +64,7 @@ void Application::createScene(void) {
 	light->setPosition(Vector3(250, 150, 250));
 	light->setDiffuseColour(ColourValue::White);
 	light->setSpecularColour(ColourValue::White);
+	mSceneMgr->getRootSceneNode()->attachObject(light);
 
 	// First camera
 	node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode1", Vector3(-400, 200, 400));
@@ -74,7 +75,6 @@ void Application::createScene(void) {
 	// Second camera
 	node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Vector3(0, 200, 400));
 	node = node->createChildSceneNode("PitchNode2");
-	*/
 }
 
 void Application::createFrameListener(void) {
