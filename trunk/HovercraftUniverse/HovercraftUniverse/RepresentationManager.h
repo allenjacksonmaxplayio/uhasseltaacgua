@@ -92,17 +92,17 @@ public:
 	 */
 	Ogre::SceneManager * getSceneManager() { return mSceneMgr; }
 
+	/**
+	 * Draw all the game views.
+	 */
+	void drawGameViews();
+
 protected:
 
 	/**
 	 * Updates the representations at frame rate.
 	 */
 	void updateRepresentations();
-
-	/**
-	 * Draw all the game views.
-	 */
-	void drawGameViews();
 
 };
 

@@ -25,6 +25,12 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 	// Perform camera movement
 	//mSceneMgr->getCamera("CamView1")->getParentSceneNode()->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
 
+	// Update entity manager
+	mEntityManager->updateEntities(evt.timeSinceLastFrame);
+
+	// Update representation manager
+	mRepresentationManager->drawGameViews();
+
 	return mContinue;
 }
 

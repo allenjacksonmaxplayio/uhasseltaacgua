@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 
