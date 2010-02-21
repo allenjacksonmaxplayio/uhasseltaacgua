@@ -2,12 +2,10 @@
 
 namespace HovUni {
 
-ApplicationFrameListener::ApplicationFrameListener(RenderWindow * win, Camera * cam, 
-												   SceneManager * sceneMgr, EntityManager * entityMgr,
+ApplicationFrameListener::ApplicationFrameListener(Ogre::SceneManager * sceneMgr, EntityManager * entityMgr, 
 												   RepresentationManager * reprMgr, InputManager * inputMgr)
-		: ExampleFrameListener(win, cam, true, true), mCamNode(cam->getParentSceneNode()), mSceneMgr(sceneMgr), 
-		mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
-		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Vector3::ZERO) {
+		: mSceneMgr(sceneMgr), mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
+		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO) {
 	// Register this class with input manager
 	mInputManager->addKeyListener(this, "ApplicationFrameListener");
 	mInputManager->addMouseListener(this, "ApplicationFrameListener");
@@ -17,29 +15,36 @@ ApplicationFrameListener::~ApplicationFrameListener(void) {
 	// Empty
 }
 
-bool ApplicationFrameListener::frameStarted(const FrameEvent& evt) {
+bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 	// Notify manager of new frame
 	mInputManager->capture();
+
+	//Ogre::Log * log = Ogre::LogManager::getSingletonPtr()->getLog("applicationframelistener.log");
+	//log->logMessage("Frame started");
 	
 	// Perform camera movement
-	mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
+	//mSceneMgr->getCamera("CamView1")->getParentSceneNode()->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
 
 	return mContinue;
 }
 
 bool ApplicationFrameListener::mouseMoved(const OIS::MouseEvent & e) { 
 	// Handle mouse movements of camera
+	// TODO 
+	/*
 	if (e.state.buttonDown(OIS::MB_Right)) {
-		mCamNode->yaw(Degree(-mRotate * mMouse->getMouseState().X.rel), Node::TS_WORLD);
-		mCamNode->pitch(Degree(-mRotate * mMouse->getMouseState().Y.rel), Node::TS_LOCAL);
+		Ogre::SceneNode * camNode = mSceneMgr->getCamera("Camera")->getParentSceneNode();
+		camNode->yaw(Ogre::Degree(-mRotate * mMouse->getMouseState().X.rel), Node::TS_WORLD);
+		camNode->pitch(Ogre::Degree(-mRotate * mMouse->getMouseState().Y.rel), Node::TS_LOCAL);
 	}
+	*/
 
 	return true; 
 }
 
 bool ApplicationFrameListener::mousePressed(const OIS::MouseEvent & e, OIS::MouseButtonID id) { 
 	// Switch light on and off
-	Light * light = mSceneMgr->getLight("Light1");
+	Ogre::Light * light = mSceneMgr->getLight("Light1");
 	switch (id) {
 	case OIS::MB_Left:
 		light->setVisible(!light->isVisible());
@@ -56,6 +61,11 @@ bool ApplicationFrameListener::mouseReleased(const OIS::MouseEvent & e, OIS::Mou
 }
 
 bool ApplicationFrameListener::keyPressed(const OIS::KeyEvent & e) { 
+	//Ogre::Log * log = Ogre::LogManager::getSingletonPtr()->getLog("applicationframelistener.log");
+	//log->logMessage("Key pressed: " + e.key);
+
+	// TODO Fix
+//	Ogre::Camera * cam = mSceneMgr->getCamera("CamView1");
 	switch (e.key) {
 	case OIS::KC_ESCAPE:
 		// Stop rendering
@@ -63,15 +73,13 @@ bool ApplicationFrameListener::keyPressed(const OIS::KeyEvent & e) {
 		break;
 	case OIS::KC_1:
 		// Switch to camera 1
-		mCamera->getParentSceneNode()->detachObject(mCamera);
-		mCamNode = mSceneMgr->getSceneNode("CamNode1");
-		mCamNode->attachObject(mCamera);
+//		cam->getParentSceneNode()->detachObject(cam);
+//		mSceneMgr->getSceneNode("CamNode1")->attachObject(cam);
 		break;
 	case OIS::KC_2:
 		// Switch to camera 2
-		mCamera->getParentSceneNode()->detachObject(mCamera);
-		mCamNode = mSceneMgr->getSceneNode("CamNode2");
-		mCamNode->attachObject(mCamera);
+//		cam->getParentSceneNode()->detachObject(cam);
+//		mSceneMgr->getSceneNode("CamNode2")->attachObject(cam);
 		break;
 	case OIS::KC_W:
 		// Go further on z axis

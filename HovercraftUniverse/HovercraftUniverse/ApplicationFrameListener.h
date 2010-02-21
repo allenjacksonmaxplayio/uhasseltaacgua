@@ -1,7 +1,7 @@
 #ifndef APPLICATIONFRAMELISTENER_H_
 #define APPLICATIONFRAMELISTENER_H_
 
-#include "ExampleApplication.h"
+#include <OgreFrameListener.h>
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
@@ -13,26 +13,23 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-class ApplicationFrameListener : public ExampleFrameListener, public OIS::MouseListener, public OIS::KeyListener {
+class ApplicationFrameListener : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener {
 
 protected:
 	/** The rotation constant */
-	Real mRotate;				
+	Ogre::Real mRotate;				
 
 	/** The movement constant */
-	Real mMove;					
+	Ogre::Real mMove;					
 
 	/** The scene manager */
-	SceneManager * mSceneMgr;
-
-	/** The camera node */
-	SceneNode * mCamNode;
+	Ogre::SceneManager * mSceneMgr;
 
 	/** Whether to continue rendering or not */
 	bool mContinue;	
 
 	/** The direction to move in */
-	Vector3 mDirection;	
+	Ogre::Vector3 mDirection;	
 
 	EntityManager * mEntityManager;
 	RepresentationManager * mRepresentationManager;
@@ -43,7 +40,7 @@ public:
 	/**
 	 * Constructor.
 	 */
-	ApplicationFrameListener(RenderWindow * win, Camera * cam, SceneManager * sceneMgr, EntityManager * entityMgr,
+	ApplicationFrameListener(Ogre::SceneManager * sceneMgr, EntityManager * entityMgr,
 							 RepresentationManager * reprMgr, InputManager * inputMgr);
 
 	/**
@@ -54,7 +51,7 @@ public:
 	/**
 	 * @see FrameListener::frameStarted().
 	 */
-	bool frameStarted(const FrameEvent & evt);
+	bool frameStarted(const Ogre::FrameEvent & evt);
 
 	/**
 	 * @see MouseListener::mouseMoved().
@@ -83,6 +80,6 @@ public:
 
 };
 
-#endif
-
 }
+
+#endif

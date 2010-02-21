@@ -33,16 +33,21 @@ protected:
 	/** The Ogre scene manager */
 	Ogre::SceneManager * mSceneMgr;
 
+	/** The global ID of the game view */
+	static int mGlobalID;
+
+	/** Our ID */
+	int mID;
+
 public:
 
 	/**
 	 * Constructor.
 	 *
 	 * @param hud the hud to draw for the player
-	 * @param camera the camera for this player view
 	 * @param sceneMgr the Ogre scene manager
 	 */
-	GameView(HUD * hud, Ogre::Camera * camera, Ogre::SceneManager * sceneMgr);
+	GameView(HUD * hud, Ogre::SceneManager * sceneMgr);
 
 	/**
 	 * Destructor.
@@ -67,6 +72,13 @@ public:
 	 * Draw the game view.
 	 */
 	void draw();
+
+	/**
+	 * Returns the camera associated with this game view.
+	 *
+	 * @return the camera
+	 */
+	Ogre::Camera * getCamera() { return mCamera; }
 
 protected:
 

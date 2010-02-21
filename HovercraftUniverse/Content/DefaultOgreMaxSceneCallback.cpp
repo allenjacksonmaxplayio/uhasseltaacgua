@@ -1,8 +1,8 @@
 #include "DefaultOgreMaxSceneCallback.h"
 
+#include <OgreAnimation.h>
 #include <OgreRoot.h>
 #include <OgreMaxUtilities.hpp>
-
 #include <OgreShadowCameraSetupFocused.h>
 #include <OgreShadowCameraSetup.h>
 #include <OgreShadowCameraSetupLiSPSM.h>
@@ -217,17 +217,17 @@ void DefaultOgreMaxSceneCallback::onBackgroundColour( const Ogre::ColourValue& b
     mViewport->setBackgroundColour(backgroundColor);
 }
 
-void DefaultOgreMaxSceneCallback::onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& param, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes) {
+void DefaultOgreMaxSceneCallback::onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& params, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes) {
+	/*
 	//Get Ogre node
-	Ogre::SceneNode* node = mSceneManager->getSceneNode(node.name);
-	assert(node);
+	Ogre::SceneNode* ogreNode = mSceneManager->getSceneNode(node.name);
+	assert(ogreNode);
 
     //Get existing animation or create new one
-    Animation* animation;
+	Ogre::Animation* animation;
 	if (mSceneManager->hasAnimation(params.name)) { 
 		animation = mSceneManager->getAnimation(params.name);
-	}
-    else {
+	} else {
         //Create animation
         animation = mSceneManager->createAnimation(params.name, params.length);
         animation->setInterpolationMode(params.interpolationMode);
@@ -235,10 +235,10 @@ void DefaultOgreMaxSceneCallback::onNodeAnimation( const OgreMax::Types::NodeAni
     }
 
     //Create animation track for node
-    NodeAnimationTrack* animationTrack = animation->createNodeTrack(animation->getNumNodeTracks() + 1, node);
+	Ogre::NodeAnimationTrack* animationTrack = animation->createNodeTrack(animation->getNumNodeTracks() + 1, ogreNode);
 
-	for ( std::vector<OgreMax::Types::KeyFrame>::iterator i = keyframes.begin(); i != keyframes.end(); i++ ){
-		TransformKeyFrame* keyFrame = animationTrack->createNodeKeyFrame(keyTime);
+	for (std::vector<OgreMax::Types::KeyFrame>::const_iterator i = keyframes.begin(); i != keyframes.end(); i++ ){
+		Ogre::TransformKeyFrame* keyFrame = animationTrack->createNodeKeyFrame(keyTime);
 		keyFrame->setTranslate(i->translation);
 		keyFrame->setRotation(i->rotation);
 		keyFrame->setScale(i->scale);
