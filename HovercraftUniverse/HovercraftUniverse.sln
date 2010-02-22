@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HovercraftUniverse", "HovercraftUniverse\HovercraftUniverse.vcproj", "{CCFF60E1-9306-493F-AD38-410877FB3177}"
 	ProjectSection(ProjectDependencies) = postProject
 		{794CA943-9679-4384-B6BE-78506C3D8679} = {794CA943-9679-4384-B6BE-78506C3D8679}
+		{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB} = {9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}
 		{E95EE5D8-561F-4736-B69C-0EC206894F78} = {E95EE5D8-561F-4736-B69C-0EC206894F78}
 		{186671F0-05A1-4CCC-A946-7A762D59C0F7} = {186671F0-05A1-4CCC-A946-7A762D59C0F7}
 	EndProjectSection
@@ -21,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HavocLoader", "HavocLoader\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUI", "GUI\GUI.vcproj", "{794CA943-9679-4384-B6BE-78506C3D8679}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Networking", "Networking\Networking.vcproj", "{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +51,10 @@ Global
 		{794CA943-9679-4384-B6BE-78506C3D8679}.Debug|Win32.Build.0 = Debug|Win32
 		{794CA943-9679-4384-B6BE-78506C3D8679}.Release|Win32.ActiveCfg = Release|Win32
 		{794CA943-9679-4384-B6BE-78506C3D8679}.Release|Win32.Build.0 = Release|Win32
+		{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}.Debug|Win32.Build.0 = Debug|Win32
+		{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}.Release|Win32.ActiveCfg = Release|Win32
+		{9C3B9A9B-87F7-45D9-B1B6-D26C2F7DB0DB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
