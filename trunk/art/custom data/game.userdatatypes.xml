@@ -122,4 +122,13 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   <class name="PowerupSpawn" usage="object">
   </class>
 
+  <!-- 
+   /**
+    * Reset spawn 
+    * A spawnpoint for resets
+    */
+  -->
+  <class name="ResetSpawn" usage="object">
+  </class>
+
 </userDataTypes>

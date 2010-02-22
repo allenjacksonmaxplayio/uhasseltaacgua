@@ -11,6 +11,7 @@
 #include "Track.h"
 #include "Portal.h"
 #include "PowerupSpawn.h"
+#include "ResetSpawn.h"
 
 namespace HovUni {
 
@@ -92,6 +93,12 @@ public:
 	 * @param powerup spawn
 	 */
 	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {};
+
+	/**
+	 * Callback when reset spawn is loaded
+	 * @param reset spawn
+	 */
+	virtual void onResetSpawn( ResetSpawn * spawn ) {};
 };
 
 
