@@ -156,6 +156,14 @@ void UserDataFactory::parseUserData(const Ogre::String& data, T& attachable ) {
 			}
 			data = spawn;
 		}
+		//RESETSPAWN
+		else if ( strcmp(root->Value(),"ResetSpawn") == 0 ){
+			ResetSpawn * spawn = new ResetSpawn(root);
+			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
+				(*uc)->onResetSpawn(spawn);
+			}
+			data = spawn;
+		}
 		//TRACK
 		else if ( strcmp(root->Value(),"Track") == 0 ){
 			Track * track = new Track(root);
