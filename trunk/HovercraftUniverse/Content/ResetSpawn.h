@@ -1,5 +1,5 @@
-#ifndef STARTPOSITION_H
-#define STARTPOSITION_H
+#ifndef RESETSPAWN_H
+#define RESETSPAWN_H
 
 #include <tinyxml/tinyxml.h>
 #include <OgrePlatform.h>
