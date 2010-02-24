@@ -3,13 +3,14 @@
 
 int main( int argc, char * argv [] )
 {
-		HavocWorldUpdater mHavoc ("test.hkx");
+		HavocWorldUpdater mHavoc (".\\..\\..\\..\\art\\models\\planetgravity.hkx");
 
 		// A stopwatch for waiting until the real time has passed
 		hkStopwatch stopWatch;
 		stopWatch.start();
 		hkReal lastTime = stopWatch.getElapsedSeconds();
 
+		//run physics at 60FPS
 		hkReal timestep = 1.f / 60.f;
 
 		while ( true )
