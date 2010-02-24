@@ -69,6 +69,15 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   <class name="Start" usage="object">
   </class>
   
+  <!-- 
+  /**
+   * StartPosition 
+   */ 
+  -->
+  <class name="StartPosition" usage="object">
+    <data name="PlayerNumber" displayName="PlayerNumber" groupName="Info" type="int" defaultValue="0" minValue="0" maxValue="32"/>
+  </class>
+  
   <!--
   /**
    * Finish 
