@@ -1,5 +1,7 @@
 #include "HavocWorldUpdater.h"
 
+#include "SimpleGravityPhantom.h"
+
 // Keycode
 #include <Common/Base/keycode.cxx>
 
@@ -16,7 +18,129 @@
 #define HK_COMPAT_FILE <Common/Compat/hkCompatVersions.h>
 #include <Common/Compat/hkCompat_None.cxx>
 
-HavocWorldUpdater::HavocWorldUpdater(void)
+void HavocWorldUpdater::loadWorld( const char* path )
+{
+	hkIstream infile( path );
+	HK_ASSERT( 0x215d080c, infile.isOk() );
+
+	mPhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &mLoadedData );
+
+	HK_ASSERT( 0, mPhysicsData != HK_NULL );
+
+	//Make Multi Threaded
+	hkpWorldCinfo worldInfo;
+
+	// Set the simulation type of the world to multi-threaded.
+	worldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
+
+	// Flag objects that fall "out of the world" to be automatically removed - just necessary for this physics scene
+	worldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
+
+	mPhysicsData->setWorldCinfo(&worldInfo);
+
+	// Ensure non-multithreaded simulation for non-multithreaded platforms
+
+	mPhysicsWorld = mPhysicsData->createWorld();
+
+	mPhysicsWorld->markForWrite();
+
+	mPhysicsWorld->setGravity( hkVector4::getZero() );
+
+	// Set up the collision filter
+	{
+		hkpGroupFilter* filter = new hkpGroupFilter();
+		filter->disableCollisionsBetween(1, 1);
+		mPhysicsWorld->setCollisionFilter(filter);
+		filter->removeReference();
+	}
+
+	// Go through all loaded rigid bodies
+	for( int i = 0; i < mPhysicsData->getPhysicsSystems().getSize(); i++ )
+	{
+		const hkArray<hkpRigidBody*>& bodies = mPhysicsData->getPhysicsSystems()[i]->getRigidBodies();
+		for( int j = 0; j < bodies.getSize(); j++ )
+		{
+			hkString rbName( bodies[j]->getName() );
+
+			// If the rb is a planet (name is "planet*")
+			if( rbName.beginsWith( "planet" ) )
+			{
+				// If the body is a representation of a gravitational field (name: "*GravField"),
+				//  remove it from the simulation.
+				if( rbName.endsWith( "GravField" ) )
+				{
+					mPhysicsWorld->removeEntity( bodies[j] );
+				}
+				// Otherwise, it's actually a planet.
+				else
+				{
+					hkAabb currentAabb;
+					const hkpCollidable* hullCollidable = HK_NULL;
+
+					// Find the planet's gravity field
+					hkpRigidBody* planetRigidBody = bodies[j];
+					hkString gravFieldRbName;
+					gravFieldRbName.printf( "%sGravField", rbName.cString() );
+					hkpRigidBody* gravFieldRigidBody = mPhysicsData->findRigidBodyByName( gravFieldRbName.cString() );
+
+					// If there's a GravField rigid body, then grab its collidable to be used for gravity calculation.
+					if( gravFieldRigidBody )
+					{
+						hullCollidable = gravFieldRigidBody->getCollidable();
+						gravFieldRigidBody->getCollidable()->getShape()->getAabb( gravFieldRigidBody->getTransform(), 0.0f, currentAabb );
+					}
+					else
+					{
+						planetRigidBody->getCollidable()->getShape()->getAabb( planetRigidBody->getTransform(), 0.0f, currentAabb );
+					}
+
+					// Scale up the planet's gravity field's AABB so it goes beyond the planet
+					hkVector4 extents;
+					extents.setSub4( currentAabb.m_max, currentAabb.m_min );
+					hkInt32 majorAxis = extents.getMajorAxis();
+					hkReal maxExtent = extents( majorAxis );
+					maxExtent *= 0.4f;
+
+					// Scale the AABB's extents
+					hkVector4 extension;
+					extension.setAll( maxExtent );
+					currentAabb.m_max.add4( extension );
+					currentAabb.m_min.sub4( extension );
+
+					// Attach a gravity phantom to the planet so it can catch objects which come close
+					SimpleGravityPhantom* gravityAabbPhantom = new SimpleGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
+					mPhysicsWorld->addPhantom( gravityAabbPhantom );
+					gravityAabbPhantom->removeReference();
+
+					/*
+					TODO
+					// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
+					if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
+					{
+						PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
+						world->addAction( trackAction );
+						trackAction->removeReference();
+					}*/
+				}
+			}
+
+			// Update collision filter so that needless CollColl3 agents are not created.
+			// For example, turrets  and geometry marked as "static" (such as the swing)
+			//  should never collide with a planet, nor each other.
+			if(  ( rbName.beginsWith( "planet" ) && !rbName.endsWith( "GravField" ) ) )
+			{
+				bodies[j]->setCollisionFilterInfo( hkpGroupFilter::calcFilterInfo( 1 ) );
+
+				// Destroy or create agents (according to new quality type). This also removes Toi events.
+				mPhysicsWorld->updateCollisionFilterOnEntity(bodies[j], HK_UPDATE_FILTER_ON_ENTITY_FULL_CHECK, HK_UPDATE_COLLECTION_FILTER_PROCESS_SHAPE_COLLECTIONS);
+			}
+		}
+	}
+
+	mPhysicsWorld->unmarkForWrite();
+}
+
+HavocWorldUpdater::HavocWorldUpdater( const char * file )
 {
 	//
 	// Initialize the base system including our memory system
@@ -83,37 +207,22 @@ HavocWorldUpdater::HavocWorldUpdater(void)
 	// At this point you would initialize any other Havok modules you are using.
 	//
 	{
-		// The world cinfo contains global simulation parameters, including gravity, solver settings etc.
-		hkpWorldCinfo worldInfo;
+		loadWorld(file);
 
-		// Set the simulation type of the world to multi-threaded.
-		worldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
-
-		// Flag objects that fall "out of the world" to be automatically removed - just necessary for this physics scene
-		worldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
-
-		physicsWorld = new hkpWorld(worldInfo);
+		hkpMultithreadConfig config;
+		mPhysicsWorld->getMultithreadConfig(config);
 
 		// Disable deactivation, so that you can view timers in the VDB. This should not be done in your game.
-		physicsWorld->m_wantDeactivation = false;
-
-
-		// When the simulation type is SIMULATION_TYPE_MULTITHREADED, in the debug build, the sdk performs checks
-		// to make sure only one thread is modifying the world at once to prevent multithreaded bugs. Each thread
-		// must call markForRead / markForWrite before it modifies the world to enable these checks.
-		physicsWorld->markForWrite();
-
-
-		// Register all collision agents, even though only box - box will be used in this particular example.
-		// It's important to register collision agents before adding any entities to the world.
-		hkpAgentRegisterUtil::registerAllAgents( physicsWorld->getCollisionDispatcher() );
-
-		// We need to register all modules we will be running multi-threaded with the job queue
-		physicsWorld->registerWithJobQueue( jobQueue );
-
-		// Create all the physics rigid bodies
-		setupPhysics( physicsWorld );
+		mPhysicsWorld->m_wantDeactivation = false;
 	}
+
+	// When the simulation type is SIMULATION_TYPE_MULTITHREADED, in the debug build, the sdk performs checks
+	// to make sure only one thread is modifying the world at once to prevent multithreaded bugs. Each thread
+	// must call markForRead / markForWrite before it modifies the world to enable these checks.
+	mPhysicsWorld->markForWrite();
+
+	// We need to register all modules we will be running multi-threaded with the job queue
+	mPhysicsWorld->registerWithJobQueue( jobQueue );
 
 	//
 	// Initialize the VDB
@@ -125,18 +234,17 @@ HavocWorldUpdater::HavocWorldUpdater(void)
 	{
 		contexts = new hkArray<hkProcessContext*>();
 
-
 		// The visual debugger so we can connect remotely to the simulation
 		// The context must exist beyond the use of the VDB instance, and you can make
 		// whatever contexts you like for your own viewer types.
 		context = new hkpPhysicsContext();
 		hkpPhysicsContext::registerAllPhysicsProcesses(); // all the physics viewers
-		context->addWorld(physicsWorld); // add the physics world so the viewers can see it
+		context->addWorld(mPhysicsWorld); // add the physics world so the viewers can see it
 		contexts->pushBack(context);
-
-		// Now we have finished modifying the world, release our write marker.
-		physicsWorld->unmarkForWrite();
 	}
+
+	// Now we have finished modifying the world, release our write marker.
+	mPhysicsWorld->unmarkForWrite();
 
 	vdb = new hkVisualDebugger(*contexts);
 	vdb->serve();
@@ -144,15 +252,15 @@ HavocWorldUpdater::HavocWorldUpdater(void)
 
 HavocWorldUpdater::~HavocWorldUpdater(void)
 {
-	//
-	// Clean up physics and graphics
-	//
-
 	// <PHYSICS-ONLY>: cleanup physics
 	{
-		physicsWorld->markForWrite();
-		physicsWorld->removeReference();
+		mPhysicsWorld->markForWrite();
+		mPhysicsWorld->removeReference();
 	}
+
+	mPhysicsData->removeReference();
+	mLoadedData->removeReference();
+
 	vdb->removeReference();
 
 	// Contexts are not reference counted at the base class level by the VDB as
@@ -179,17 +287,15 @@ HavocWorldUpdater::~HavocWorldUpdater(void)
 	hkBaseSystem::quit();
 }
 
-bool HavocWorldUpdater::frameStarted (const Ogre::FrameEvent &evt) {
-	if ( evt.timeSinceLastEvent == 0 )
-		return true;
 
+void HavocWorldUpdater::update ( hkReal timestep ) {
 
 	// <PHYSICS-ONLY>:
 	// Step the physics world. This single call steps using this thread and all threads
 	// in the threadPool. For other products you add jobs, call process all jobs and wait for completion.
 	// See the multithreading chapter in the user guide for details
 	{
-		physicsWorld->stepMultithreaded( jobQueue, threadPool, evt.timeSinceLastEvent );
+		mPhysicsWorld->stepMultithreaded( jobQueue, threadPool, timestep );
 	}
 
 	// Step the visual debugger. We first synchronize the timer data
@@ -199,153 +305,4 @@ bool HavocWorldUpdater::frameStarted (const Ogre::FrameEvent &evt) {
 	// Clear accumulated timer data in this thread and all slave threads
 	hkMonitorStream::getInstance().reset();
 	threadPool->clearTimerData();
-
-	return true;
-}
-
-
-void HavocWorldUpdater::createBrickWall( hkpWorld* world, int height, int length, const hkVector4& position, hkReal gapWidth, hkpConvexShape* box, hkVector4Parameter halfExtents )
-{
-	hkVector4 posx = position;
-	// do a raycast to place the wall
-	{
-		hkpWorldRayCastInput ray;
-		ray.m_from = posx;
-		ray.m_to = posx;
-
-		ray.m_from(1) += 20.0f;
-		ray.m_to(1)   -= 20.0f;
-
-		hkpWorldRayCastOutput result;
-		world->castRay( ray, result );
-		posx.setInterpolate4( ray.m_from, ray.m_to, result.m_hitFraction );
-	}
-	// move the start point
-	posx(0) -= ( gapWidth + 2.0f * halfExtents(0) ) * length * 0.5f;
-	posx(1) -= halfExtents(1) + box->getRadius();
-
-	hkArray<hkpEntity*> entitiesToAdd;
-
-	for ( int x = 0; x < length; x ++ )		// along the ground
-	{
-		hkVector4 pos = posx;
-		for( int ii = 0; ii < height; ii++ )
-		{
-			pos(1) += (halfExtents(1) + box->getRadius())* 2.0f;
-
-			hkpRigidBodyCinfo boxInfo;
-			boxInfo.m_mass = 10.0f;
-			hkpMassProperties massProperties;
-			hkpInertiaTensorComputer::computeBoxVolumeMassProperties(halfExtents, boxInfo.m_mass, massProperties);
-
-			boxInfo.m_mass = massProperties.m_mass;
-			boxInfo.m_centerOfMass = massProperties.m_centerOfMass;
-			boxInfo.m_inertiaTensor = massProperties.m_inertiaTensor;
-			boxInfo.m_solverDeactivation = boxInfo.SOLVER_DEACTIVATION_MEDIUM;
-			boxInfo.m_shape = box;
-			//boxInfo.m_qualityType = HK_COLLIDABLE_QUALITY_DEBRIS;
-			boxInfo.m_restitution = 0.0f;
-
-			boxInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA;
-
-			{
-				boxInfo.m_position = pos;
-				hkpRigidBody* boxRigidBody = new hkpRigidBody(boxInfo);
-				world->addEntity( boxRigidBody );
-				boxRigidBody->removeReference();
-			}
-
-			pos(1) += (halfExtents(1) + box->getRadius())* 2.0f;
-			pos(0) += halfExtents(0) * 0.6f;
-			{
-				boxInfo.m_position = pos;
-				hkpRigidBody* boxRigidBody = new hkpRigidBody(boxInfo);
-				entitiesToAdd.pushBack(boxRigidBody);
-			}
-			pos(0) -= halfExtents(0) * 0.6f;
-		}
-		posx(0) += halfExtents(0)* 2.0f + gapWidth;
-	}
-	world->addEntityBatch( entitiesToAdd.begin(), entitiesToAdd.getSize());
-
-	for (int i=0; i < entitiesToAdd.getSize(); i++){ entitiesToAdd[i]->removeReference(); }
-}
-
-void HavocWorldUpdater::setupPhysics(hkpWorld* physicsWorld)
-{
-	//
-	//  Create the ground box
-	//
-	{
-		hkVector4 groundRadii( 70.0f, 2.0f, 140.0f );
-		hkpConvexShape* shape = new hkpBoxShape( groundRadii , 0 );
-
-		hkpRigidBodyCinfo ci;
-
-		ci.m_shape = shape;
-		ci.m_motionType = hkpMotion::MOTION_FIXED;
-		ci.m_position = hkVector4( 0.0f, -2.0f, 0.0f );
-		ci.m_qualityType = HK_COLLIDABLE_QUALITY_FIXED;
-
-		physicsWorld->addEntity( new hkpRigidBody( ci ) )->removeReference();
-		shape->removeReference();
-	}
-
-	hkVector4 groundPos( 0.0f, 0.0f, 0.0f );
-	hkVector4 posy = groundPos;
-
-	//
-	// Create the walls
-	//
-
-	int wallHeight = 8;
-	int wallWidth  = 8;
-	int numWalls = 6;
-	hkVector4 boxSize( 1.0f, 0.5f, 0.5f);
-	hkpBoxShape* box = new hkpBoxShape( boxSize , 0 );
-	box->setRadius( 0.0f );
-
-	hkReal deltaZ = 25.0f;
-	posy(2) = -deltaZ * numWalls * 0.5f;
-
-	for ( int y = 0; y < numWalls; y ++ )			// first wall
-	{
-		createBrickWall( physicsWorld, wallHeight, wallWidth, posy, 0.2f, box, boxSize );
-		posy(2) += deltaZ;
-	}
-	box->removeReference();
-
-	//
-	// Create a ball moving towards the walls
-	//
-
-	const hkReal radius = 1.5f;
-	const hkReal sphereMass = 150.0f;
-
-	hkVector4 relPos( 0.0f,radius + 0.0f, 50.0f );
-
-	hkpRigidBodyCinfo info;
-	hkpMassProperties massProperties;
-	hkpInertiaTensorComputer::computeSphereVolumeMassProperties(radius, sphereMass, massProperties);
-
-	info.m_mass = massProperties.m_mass;
-	info.m_centerOfMass  = massProperties.m_centerOfMass;
-	info.m_inertiaTensor = massProperties.m_inertiaTensor;
-	info.m_shape = new hkpSphereShape( radius );
-	info.m_position.setAdd4(posy, relPos );
-	info.m_motionType  = hkpMotion::MOTION_BOX_INERTIA;
-
-	info.m_qualityType = HK_COLLIDABLE_QUALITY_BULLET;
-
-
-	hkpRigidBody* sphereRigidBody = new hkpRigidBody( info );
-	g_ball = sphereRigidBody;
-
-
-	physicsWorld->addEntity( sphereRigidBody );
-	sphereRigidBody->removeReference();
-	info.m_shape->removeReference();
-
-	hkVector4 vel(  0.0f,4.9f, -100.0f );
-	sphereRigidBody->setLinearVelocity( vel );
 }
