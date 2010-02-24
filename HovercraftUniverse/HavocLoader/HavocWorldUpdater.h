@@ -1,8 +1,6 @@
 #ifndef HAVOCWORLDUPDATER_H
 #define HAVOCWORLDUPDATER_H
 
-#include <OgreFrameListener.h>
-
 // Math and base include
 #include <Common/Base/hkBase.h>
 #include <Common/Base/hkBase.h>
@@ -11,13 +9,18 @@
 #include <Common/Base/Memory/Memory/Pool/hkPoolMemory.h>
 #include <Common/Base/System/Error/hkDefaultError.h>
 #include <Common/Base/Monitor/hkMonitorStream.h>
+#include <Common/Base/System/Io/IStream/hkIStream.h>
 
 // Dynamics includes
 #include <Physics/Collide/hkpCollide.h>										
 #include <Physics/Collide/Agent/ConvexAgent/SphereBox/hkpSphereBoxAgent.h>	
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>					
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>				
-#include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>					
+#include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>	
+#include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
+
+#include <Physics/Utilities/Serialize/hkpHavokSnapshot.h>
+#include <Physics/Utilities/Serialize/hkpPhysicsData.h>
 
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastInput.h>			
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>			
@@ -29,6 +32,7 @@
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/Job/ThreadPool/Spu/hkSpuJobThreadPool.h>
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>
+#include <Common/Serialize/Packfile/hkPackfileReader.h>
 
 // Visual Debugger includes
 #include <Common/Visualize/hkVisualDebugger.h>
@@ -40,8 +44,25 @@ static void HK_CALL errorReport(const char* msg, void*)
 	printf("%s", msg);
 }
 
-class HavocWorldUpdater : public Ogre::FrameListener
+class hkpPhysicsData;
+
+class HavocWorldUpdater
 {
+public:
+
+	// Current world's up vector. This changes as the simulation progresses.
+ 	static hkVector4 m_worldUp;
+
+protected:
+
+	void loadWorld( const char* path );
+
+	hkpWorld* mPhysicsWorld;
+
+	hkPackfileReader::AllocatedData* mLoadedData;
+
+	hkpPhysicsData* mPhysicsData;
+
 private:
 
 	hkVisualDebugger* vdb;
@@ -49,8 +70,6 @@ private:
 	hkpPhysicsContext* context;
 
 	hkArray<hkProcessContext*> * contexts;
-
-	hkpWorld* physicsWorld;
 
 	hkJobQueue* jobQueue;
 
@@ -64,22 +83,13 @@ private:
 
 	hkThreadMemory* threadMemory;
 
-	hkpRigidBody* g_ball;
-
-	//
-	// Forward declarations
-	//
-	void setupPhysics(hkpWorld* physicsWorld);
-
-	void createBrickWall( hkpWorld* world, int height, int length, const hkVector4& position, hkReal gapWidth, hkpConvexShape* box, hkVector4Parameter halfExtents );
-
 public:
 
-	HavocWorldUpdater(void);
+	HavocWorldUpdater( const char * file );
 
 	virtual ~HavocWorldUpdater(void);
 
-	virtual bool frameStarted (const Ogre::FrameEvent &evt);
+	void update( hkReal timestep );
 };
 
 #endif
