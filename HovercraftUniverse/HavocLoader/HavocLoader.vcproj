@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib $(NOINHERIT)"
+				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib User32.lib $(NOINHERIT)"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\Debug&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\debug_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\debug&quot;"
 				GenerateDebugInformation="true"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
