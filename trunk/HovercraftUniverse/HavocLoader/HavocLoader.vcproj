@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\HovercraftUniverse\InputManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PhantomTrackAction.cpp"
 				>
 			</File>
@@ -204,6 +208,10 @@
 			>
 			<File
 				RelativePath=".\HavocWorldUpdater.h"
+				>
+			</File>
+			<File
+				RelativePath="..\HovercraftUniverse\InputManager.h"
 				>
 			</File>
 			<File
