@@ -29,18 +29,3 @@ class SimpleGravityPhantom : public hkpAabbPhantom
 };
 
 #endif  // HK_SIMPLE_GRAVITY_PHANTOM_H
-
-/*
-* Havok SDK - NO SOURCE PC DOWNLOAD, BUILD(#20090704)
-* 
-* Confidential Information of Havok.  (C) Copyright 1999-2009
-* Telekinesys Research Limited t/a Havok. All Rights Reserved. The Havok
-* Logo, and the Havok buzzsaw logo are trademarks of Havok.  Title, ownership
-* rights, and intellectual property rights in the Havok software remain in
-* Havok and/or its suppliers.
-* 
-* Use of this software for evaluation purposes is subject to and indicates
-* acceptance of the End User licence Agreement for this product. A copy of
-* the license is included with this software and is also available at www.havok.com/tryhavok.
-* 
-*/
