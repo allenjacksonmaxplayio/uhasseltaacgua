@@ -1,6 +1,7 @@
 #include "HavocWorldUpdater.h"
 
 #include "SimpleGravityPhantom.h"
+#include "PhantomTrackAction.h"
 
 // Keycode
 #include <Common/Base/keycode.cxx>
@@ -112,15 +113,13 @@ void HavocWorldUpdater::loadWorld( const char* path )
 					mPhysicsWorld->addPhantom( gravityAabbPhantom );
 					gravityAabbPhantom->removeReference();
 
-					/*
-					TODO
 					// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
 					if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
 					{
 						PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
-						world->addAction( trackAction );
+						mPhysicsWorld->addAction( trackAction );
 						trackAction->removeReference();
-					}*/
+					}
 				}
 			}
 			else if ( rbName.beginsWith( "StartPos" ) ){
