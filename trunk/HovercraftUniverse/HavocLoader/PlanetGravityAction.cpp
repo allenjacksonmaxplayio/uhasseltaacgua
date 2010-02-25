@@ -57,5 +57,7 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 
 	// Apply the gravity force.
 	rb->applyForce( stepInfo.m_deltaTime, force );
+
+	//TODO update new up vector for object
 }
 

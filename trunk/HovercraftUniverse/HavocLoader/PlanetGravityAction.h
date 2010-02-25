@@ -29,6 +29,7 @@ class PlanetGravityAction: public hkpUnaryAction
 
 		// applyAction Called by the simulation every timestep.
 		virtual void applyAction( const hkStepInfo& stepInfo );
+
 		virtual hkpAction* clone( const hkArray<hkpEntity*>& newEntities, const hkArray<hkpPhantom*>& newPhantoms ) const { return HK_NULL; }
 
 		// Planet to which we are being attracted

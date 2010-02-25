@@ -1,6 +1,8 @@
 #include "windows.h"
 
-#include "HavocWorldUpdater.h"
+#include "HoverCraftUniverseWorld.h"
+
+
 #include <OgreWindowEventUtilities.h>
 #include "../HovercraftUniverse/InputManager.h"
 #include <OgreRoot.h>
@@ -8,7 +10,15 @@ using namespace HovUni;
 
 
 class KeyLister : public OIS::KeyListener {
+
+private:
+
+	HoverCraftUniverseWorld * mHavoc;
+
 public:
+
+	KeyLister( HoverCraftUniverseWorld * havoc ): mHavoc(havoc) {		
+	}
 
 	/**
 	 * Notifies all the listeners that the given key was pressed.
@@ -17,7 +27,9 @@ public:
 	 * @return whether succesful
 	 */
 	bool keyPressed(const OIS::KeyEvent &e){
-		int text = e.text;
+		if ( e.text == ' '){
+			//mHavoc->createHoverCraft();	
+		}		
 		return true;
 	}
 
@@ -111,12 +123,14 @@ public:
 	}
 	
 	void startRenderLoop() {
-		KeyLister listener;
+		//do havoc sim in background
+		HoverCraftUniverseWorld mHavoc;
+		
+		mHavoc.load(".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
+
+		KeyLister listener(&mHavoc);
 
 		HovUni::InputManager::getSingletonPtr()->addKeyListener(&listener,"KB");
-
-		//do havoc sim in background
-		HavocWorldUpdater mHavoc (".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
 
 		// A stopwatch for waiting until the real time has passed
 		hkStopwatch stopWatch;

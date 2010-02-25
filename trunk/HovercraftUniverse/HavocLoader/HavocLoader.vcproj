@@ -177,7 +177,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\HavocWorldUpdater.cpp"
+				RelativePath=".\AbstractHavocWorld.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Character.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HoverCraftUniverseWorld.cpp"
 				>
 			</File>
 			<File
@@ -207,7 +215,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\HavocWorldUpdater.h"
+				RelativePath=".\AbstractHavocWorld.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Character.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HoverCraftUniverseWorld.h"
 				>
 			</File>
 			<File
