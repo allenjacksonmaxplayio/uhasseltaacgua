@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhantomTrackAction.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PlanetGravityAction.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			>
 			<File
 				RelativePath=".\HavocWorldUpdater.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PhantomTrackAction.h"
 				>
 			</File>
 			<File

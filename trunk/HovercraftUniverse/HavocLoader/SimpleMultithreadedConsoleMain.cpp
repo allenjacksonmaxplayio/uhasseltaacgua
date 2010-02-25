@@ -3,6 +3,9 @@
 
 int main( int argc, char * argv [] )
 {
+
+
+		//do havoc sim in background
 		HavocWorldUpdater mHavoc (".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
 
 		// A stopwatch for waiting until the real time has passed
