@@ -43,7 +43,8 @@ static void HK_CALL errorReport(const char* msg, void*)
 
 namespace HovUni {
 
-AbstractHavocWorld::AbstractHavocWorld(void)
+AbstractHavocWorld::AbstractHavocWorld(void):
+	mIsLoaded(false)
 {
 	//
 	// Initialize the base system including our memory system
@@ -92,12 +93,6 @@ AbstractHavocWorld::AbstractHavocWorld(void)
 	threadPoolCinfo.m_timerBufferPerThreadAllocation = 200000;
 	threadPool = new hkCpuJobThreadPool( threadPoolCinfo );
 
-	// We also need to create a Job queue. This job queue will be used by all Havok modules to run multithreaded work.
-	// Here we only use it for physics.
-	hkJobQueueCinfo info;
-	info.m_jobQueueHwSetup.m_numCpuThreads = totalNumThreadsUsed;
-	jobQueue = new hkJobQueue(info);
-
 	//
 	// Enable monitors for this thread.
 	//
@@ -105,28 +100,13 @@ AbstractHavocWorld::AbstractHavocWorld(void)
 	// Monitors have been enabled for thread pool threads already (see above comment).
 	hkMonitorStream::getInstance().resize(200000);
 
-	
+	//create context for the visual debugger this is use later
+	contexts = new hkArray<hkProcessContext*>();	
 }
 
 AbstractHavocWorld::~AbstractHavocWorld(void)
 {
-	// <PHYSICS-ONLY>: cleanup physics
-	{
-		mPhysicsWorld->markForWrite();
-		mPhysicsWorld->removeReference();
-	}
-
-	mPhysicsData->removeReference();
-	mLoadedData->removeReference();
-
-	vdb->removeReference();
-
-	// Contexts are not reference counted at the base class level by the VDB as
-	// they are just interfaces really. So only delete the context after you have
-	// finished using the VDB.
-	context->removeReference();
-
-	delete jobQueue;
+	unload();
 
 	//
 	// Clean up the thread pool
@@ -145,7 +125,43 @@ AbstractHavocWorld::~AbstractHavocWorld(void)
 	hkBaseSystem::quit();
 }
 
+void AbstractHavocWorld::unload () {
+	if ( !mIsLoaded )
+		return;
+
+	mPhysicsWorld->markForWrite();
+	mPhysicsWorld->removeReference();
+
+	mPhysicsData->removeReference();
+	
+	//TODO look at this memory leak thing
+	//mLoadedData->removeReference();
+
+	vdb->removeReference();
+
+	//remove context from array
+	contexts->removeAt(contexts->indexOf(context));
+
+	// Contexts are not reference counted at the base class level by the VDB as
+	// they are just interfaces really. So only delete the context after you have
+	// finished using the VDB.
+	context->removeReference();
+	
+	//delete the queue
+	delete jobQueue;
+}
+
 void AbstractHavocWorld::load ( const char * filename ){
+	//unload if a world is present
+	if ( mIsLoaded )
+		unload();
+
+	// We also need to create a Job queue. This job queue will be used by all Havok modules to run multithreaded work.
+	// Here we only use it for physics.
+	hkJobQueueCinfo info;
+	info.m_jobQueueHwSetup.m_numCpuThreads = totalNumThreadsUsed;
+	jobQueue = new hkJobQueue(info);
+
 	hkIstream infile( filename );
 	HK_ASSERT( 0x215d080c, infile.isOk() );
 
@@ -181,8 +197,6 @@ void AbstractHavocWorld::load ( const char * filename ){
 	// By default the VDB will show debug points and lines, however some products such as physics and cloth have additional viewers
 	// that can show geometries etc and can be enabled and disabled by the VDB app.
 	{
-		contexts = new hkArray<hkProcessContext*>();
-
 		// The visual debugger so we can connect remotely to the simulation
 		// The context must exist beyond the use of the VDB instance, and you can make
 		// whatever contexts you like for your own viewer types.
@@ -197,17 +211,20 @@ void AbstractHavocWorld::load ( const char * filename ){
 
 	vdb = new hkVisualDebugger(*contexts);
 	vdb->serve();
+
+	mIsLoaded = true;
 }
 
-void AbstractHavocWorld::update ( hkReal timestep ) {
+bool AbstractHavocWorld::update ( hkReal timestep ) {
+
+	if ( !mIsLoaded )
+		return false;
 
 	// <PHYSICS-ONLY>:
 	// Step the physics world. This single call steps using this thread and all threads
 	// in the threadPool. For other products you add jobs, call process all jobs and wait for completion.
 	// See the multithreading chapter in the user guide for details
-	{
-		mPhysicsWorld->stepMultithreaded( jobQueue, threadPool, timestep );
-	}
+	mPhysicsWorld->stepMultithreaded( jobQueue, threadPool, timestep );
 
 	// Step the visual debugger. We first synchronize the timer data
 	context->syncTimers( threadPool );
@@ -216,6 +233,8 @@ void AbstractHavocWorld::update ( hkReal timestep ) {
 	// Clear accumulated timer data in this thread and all slave threads
 	hkMonitorStream::getInstance().reset();
 	threadPool->clearTimerData();
+
+	return true;
 }
 
 }

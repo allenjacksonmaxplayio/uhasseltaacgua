@@ -48,6 +48,11 @@ private:
 protected:
 
 	/**
+	 * A flag that shows if a world is loaded
+	 */
+	bool mIsLoaded;
+
+	/**
 	 * The world used in simulation
 	 */
 	hkpWorld* mPhysicsWorld;
@@ -73,17 +78,30 @@ public:
 	/**
 	 * Load a hkv file
 	 * This will fill the mPhysicsWorld, mLoadedData and mPhysicsData
+	 * It will also set the loaded flag
 	 * @param filanem
 	 */
 	virtual void load ( const char * filename );
 
-	//virtual void unload ();
+	/**
+	 * Unload the world, removing everything from memory and setting is loaded flag to false
+	 */
+	virtual void unload ();
+
+	/**
+	 * Check the loaded flag
+	 * @return true if world is loaded, false if not
+	 */
+	inline bool isLoaded() const {
+		return mIsLoaded;
+	}
 	
 	/**
 	 * Update the world
 	 * @param timestep since previous update
+	 * @return false if not loaded, true otherwise
 	 */
-	void update( hkReal timestep );
+	bool update( hkReal timestep );
 };
 
 }
