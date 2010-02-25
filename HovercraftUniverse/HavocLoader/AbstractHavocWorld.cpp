@@ -131,24 +131,32 @@ void AbstractHavocWorld::unload () {
 
 	mPhysicsWorld->markForWrite();
 	mPhysicsWorld->removeReference();
+	mPhysicsWorld = HK_NULL;
 
 	mPhysicsData->removeReference();
+	mPhysicsData = HK_NULL;
 	
 	//TODO look at this memory leak thing
-	//mLoadedData->removeReference();
+	mLoadedData->disableDestructors();
+	mLoadedData->callDestructors();
+	mLoadedData->removeReference();
 
+	//remove visual debugger
 	vdb->removeReference();
+	vdb = HK_NULL;
 
 	//remove context from array
 	contexts->removeAt(contexts->indexOf(context));
-
 	// Contexts are not reference counted at the base class level by the VDB as
 	// they are just interfaces really. So only delete the context after you have
 	// finished using the VDB.
 	context->removeReference();
+	context = HK_NULL;
 	
 	//delete the queue
 	delete jobQueue;
+	jobQueue = HK_NULL;
+
 }
 
 void AbstractHavocWorld::load ( const char * filename ){
