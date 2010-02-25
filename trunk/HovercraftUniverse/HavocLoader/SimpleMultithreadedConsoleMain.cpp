@@ -27,9 +27,12 @@ public:
 	 * @return whether succesful
 	 */
 	bool keyPressed(const OIS::KeyEvent &e){
-		if ( e.text == ' '){
-			//mHavoc->createHoverCraft();	
-		}		
+		if ( e.text == 'a'){
+			mHavoc->load(".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
+		}	
+		if ( e.text == 'z'){
+			mHavoc->load(".\\..\\..\\..\\art\\models\\test_Default.hkx");
+		}
 		return true;
 	}
 
@@ -126,8 +129,6 @@ public:
 		//do havoc sim in background
 		HoverCraftUniverseWorld mHavoc;
 		
-		mHavoc.load(".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
-
 		KeyLister listener(&mHavoc);
 
 		HovUni::InputManager::getSingletonPtr()->addKeyListener(&listener,"KB");
