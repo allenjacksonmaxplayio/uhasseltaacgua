@@ -123,6 +123,14 @@ void HavocWorldUpdater::loadWorld( const char* path )
 					}*/
 				}
 			}
+			else if ( rbName.beginsWith( "StartPos" ) ){
+				//keep the position and orientation
+				mStartPos = bodies[j]->getPosition();
+				mStartRotation = bodies[j]->getRotation();
+
+				//remove it from simulation
+				mPhysicsWorld->removeEntity( bodies[j] );
+			}
 
 			// Update collision filter so that needless CollColl3 agents are not created.
 			// For example, turrets  and geometry marked as "static" (such as the swing)

@@ -3,7 +3,7 @@
 
 int main( int argc, char * argv [] )
 {
-		HavocWorldUpdater mHavoc (".\\..\\..\\..\\art\\models\\planetgravity.hkx");
+		HavocWorldUpdater mHavoc (".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
 
 		// A stopwatch for waiting until the real time has passed
 		hkStopwatch stopWatch;

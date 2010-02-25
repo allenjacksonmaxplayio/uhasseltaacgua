@@ -63,6 +63,10 @@ protected:
 
 	hkpPhysicsData* mPhysicsData;
 
+	hkVector4 mStartPos;
+
+	hkQuaternion mStartRotation;
+
 private:
 
 	hkVisualDebugger* vdb;
