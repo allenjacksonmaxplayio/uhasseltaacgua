@@ -1,9 +1,16 @@
 #include "HavocWorldUpdater.h"
 
+#include <OgreRoot.h>
+#include "../HovercraftUniverse/InputManager.h"
+using HovUni::InputManager;
 
 int main( int argc, char * argv [] )
 {
-
+		//we need ogre for IO
+		Ogre::Root * mOgreRoot = new Ogre::Root();
+		mOgreRoot->restoreConfig();
+		Ogre::RenderWindow * window = mOgreRoot->initialise(true, "Hovercraft Universe");
+		InputManager::getSingletonPtr()->initialise(window);
 
 		//do havoc sim in background
 		HavocWorldUpdater mHavoc (".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
