@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EntityType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HoverCraftUniverseWorld.cpp"
 				>
 			</File>
