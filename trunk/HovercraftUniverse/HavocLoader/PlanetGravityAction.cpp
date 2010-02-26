@@ -55,9 +55,36 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	hkVector4 force;
 	force.setMul4( rb->getMass() * m_gravityForce, forceDir );
 
-	// Apply the gravity force.
-	rb->applyForce( stepInfo.m_deltaTime, force );
 
-	//TODO update new up vector for object
+	// Apply the gravity force.
+	bool isCharacter = false;
+
+	if( isCharacter )
+	{
+		/*hkVector4 newUp(forceDir);
+		newUp.setNeg4(forceDir);
+		newUp.normalize3();
+
+		// Only change gravity if the change isn't negligible
+		if( PlanetGravityDemo::m_worldUp.dot3(newUp) < 1e-6f)
+		{
+			// don't reorient character when it has an invalid rotational axis
+			//  (this may happen the first few frames)
+			if( PlanetGravityDemo::m_characterRigidBody->getRigidBody()->getRotation().hasValidAxis())
+			{
+				hkRotation rbRotation; rbRotation.set(PlanetGravityDemo::m_characterRigidBody->getRigidBody()->getRotation());
+				hkVector4& oldForward = rbRotation.getColumn(0);
+				hkVector4 newRot; newRot.setCross(oldForward, newUp);
+ 				PlanetGravityDemo::m_characterForward.setCross(newUp, newRot);
+ 				PlanetGravityDemo::m_characterForward.normalize3();
+			}
+		}
+
+		PlanetGravityDemo::m_worldUp = newUp;*/
+	}
+	else
+	{
+		rb->applyForce( stepInfo.m_deltaTime, force );
+	}
 }
 

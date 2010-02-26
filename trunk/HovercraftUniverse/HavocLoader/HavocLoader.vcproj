@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CharacterContextContainer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HoverCraftUniverseWorld.cpp"
 				>
 			</File>
@@ -220,6 +224,14 @@
 			</File>
 			<File
 				RelativePath=".\Character.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CharacterContextContainer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityType.h"
 				>
 			</File>
 			<File
