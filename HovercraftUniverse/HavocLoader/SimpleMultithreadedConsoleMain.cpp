@@ -11,7 +11,7 @@
 using namespace HovUni;
 
 
-class KeyLister : public OIS::KeyListener {
+class KeyLister : public OIS::KeyListener, public OIS::MouseListener {
 
 private:
 
@@ -68,6 +68,43 @@ public:
 			c = container.getCharacterContext("Default");
 			c->removeReference();
 		}
+
+
+		/*
+		const hkReal MOUSE_SENSITIVITY = 1.0f;
+		int mouseX = env->m_window->getMouse().getPosX();
+		int halfWindowWidth = env->m_window->getCurrentViewport()->getWidth() >> 1;
+		int halfWindowHeight = env->m_window->getCurrentViewport()->getHeight() >> 1;
+
+		{
+			hkReal inc  = hkReal(halfWindowWidth - mouseX) / halfWindowWidth;
+			inc = (inc < -1.0f) ? -1.0f : inc;
+			inc = (inc >  1.0f) ?  1.0f : inc;
+			deltaAngle = 3.4f * inc * MOUSE_SENSITIVITY;
+		}
+
+
+		// Snap mouse back to middle
+		env->m_window->setMousePosition(halfWindowWidth, halfWindowHeight);
+
+		const hkgKeyboard& keyboard = env->m_window->getKeyboard();
+		if (keyboard.getKeyState('A')) posX=1.f;
+		if (keyboard.getKeyState('D')) posX=-1.f;
+		if (keyboard.getKeyState('W')) posY=-1.f;
+		if (keyboard.getKeyState('S')) posY=1.f;
+
+		hkReal lenSqd = posY * posY + posX * posX;
+		if (lenSqd > HK_REAL_MIN)
+		{
+			lenSqd = hkMath::sqrt(lenSqd);
+			posY /= lenSqd;
+			posX /= lenSqd;
+		}
+
+		
+
+		*/
+
 		return true;
 	}
 
@@ -167,6 +204,7 @@ public:
 		KeyLister listener(&mHavoc);
 
 		HovUni::InputManager::getSingletonPtr()->addKeyListener(&listener,"KB");
+		HovUni::InputManager::getSingletonPtr()->addMouseListener(&listener,"MOUSE");
 
 		// A stopwatch for waiting until the real time has passed
 		hkStopwatch stopWatch;

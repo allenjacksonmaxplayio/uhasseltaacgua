@@ -18,6 +18,7 @@ public:
 	
 	enum Type {	
 		NOTSET,
+		PLANET,
 		CHARACTER,
 		STATIC
 	};

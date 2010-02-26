@@ -19,12 +19,23 @@ protected:
 	 */
 	hkpCharacterRigidBody * mCharacterRigidBody;
 
+	/**
+	 * The context of the character
+	 */
+	hkpCharacterContext * mCharacterContext;
+
 public:
 
 	/**
 	 * A vector of what the character sees as up vector	
 	 */
 	hkVector4 mUp;
+
+	hkVector4 mCharacterForward;
+
+	hkVector4 mForward;
+
+	hkReal mTimeStep;
 
 	/**
 	 * Constructor
@@ -42,6 +53,13 @@ public:
 	hkpCharacterRigidBody * getCharacterRigidBody() {
 		return mCharacterRigidBody;
 	}
+	
+	/**
+	 * Update the character movement
+	 */
+	void update(hkReal deltaAngle, hkReal posX, hkReal posY);
+
+	hkBool reorientCharacter( const hkRotation& rotation );
 };
 
 }
