@@ -5,6 +5,8 @@
 
 class hkpAabbPhantom;
 
+namespace HovUni {
+
 // Just in case you want the phantom to be updated with a body
 // It will also then update the center for any overlapping bodies with gravity actions associated 
 // with the body. For now it will just center the Aabb around the body's position but could be extended
@@ -26,5 +28,7 @@ class PhantomTrackAction: public hkpUnaryAction
 		// Phantom to track the body.
 		 hkpAabbPhantom* m_phantom;
 };
+
+}
 
 #endif // HK_PHANTOM_TRACK_ACTION_H

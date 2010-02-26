@@ -2,6 +2,8 @@
 #include "PlanetGravityAction.h"
 #include "SimpleGravityPhantom.h"
 
+namespace HovUni {
+
 PhantomTrackAction::PhantomTrackAction( hkpRigidBody* trackedBody, hkpAabbPhantom* phantomToUpdate ) :
 	hkpUnaryAction( trackedBody ), m_phantom(phantomToUpdate)
 {
@@ -24,5 +26,7 @@ void PhantomTrackAction::applyAction( const hkStepInfo& stepInfo )
 
 	// Update the phantom's AABB so it encloses the rigid body
 	m_phantom->setAabb( newAabb );
+}
+
 }
 

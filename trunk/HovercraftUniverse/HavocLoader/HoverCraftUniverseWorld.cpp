@@ -1,6 +1,6 @@
 #include "HoverCraftUniverseWorld.h"
 
-#include "SimpleGravityPhantom.h"
+#include "GravityPhantom.h"
 #include "PhantomTrackAction.h"
 
 
@@ -87,7 +87,7 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 					currentAabb.m_min.sub4( extension );
 
 					// Attach a gravity phantom to the planet so it can catch objects which come close
-					SimpleGravityPhantom* gravityAabbPhantom = new SimpleGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
+					GravityPhantom* gravityAabbPhantom = new GravityPhantom( planetRigidBody, currentAabb, hullCollidable );
 					mPhysicsWorld->addPhantom( gravityAabbPhantom );
 					gravityAabbPhantom->removeReference();
 
