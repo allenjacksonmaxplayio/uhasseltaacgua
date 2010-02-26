@@ -102,8 +102,11 @@ void Application::setupScene() {
 	// TODO Script or import from 3DS Max which and how many game views to have
 	mRepresentationManager->addGameView(new GameView(new HUD(), msSceneMgr));
 
+	// Server
+	mServer = new ServerCore();
+
 	// Client
-	mClient = new ClientCore("localhost");
+	mClient = new ClientCore();
 }
 
 void Application::setupInputSystem() {
@@ -112,7 +115,8 @@ void Application::setupInputSystem() {
 }
 
 void Application::createFrameListener() {
-	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, mInputManager, mClient);
+	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, 
+		mInputManager, mServer, mClient);
 	mOgreRoot->addFrameListener(mFrameListener);
 }
 

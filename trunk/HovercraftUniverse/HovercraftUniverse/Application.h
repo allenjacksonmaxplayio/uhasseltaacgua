@@ -7,6 +7,7 @@
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
+#include "ServerCore.h"
 #include <GUIManager.h>
 
 namespace HovUni {
@@ -39,6 +40,9 @@ private:
 
 	/** The client */
 	ClientCore* mClient;
+
+	/** The server */
+	ServerCore* mServer;
 
 public:
 
