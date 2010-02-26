@@ -1,5 +1,6 @@
 #include "HoverCraftUniverseWorld.h"
 
+#include "EntityType.h"
 #include "GravityPhantom.h"
 #include "PhantomTrackAction.h"
 
@@ -58,6 +59,10 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 
 					// Find the planet's gravity field
 					hkpRigidBody* planetRigidBody = bodies[j];
+
+					//Set that it is a planet
+					EntityType::setEntityType(planetRigidBody,EntityType::PLANET);
+
 					hkString gravFieldRbName;
 					gravFieldRbName.printf( "%sGravField", rbName.cString() );
 					hkpRigidBody* gravFieldRigidBody = mPhysicsData->findRigidBodyByName( gravFieldRbName.cString() );

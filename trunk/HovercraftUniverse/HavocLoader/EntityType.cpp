@@ -26,6 +26,7 @@ void EntityType::updateEntityType( hkpWorldObject * object, EntityType::Type typ
 }
 
 void EntityType::setEntityType( hkpWorldObject * object, EntityType::Type type ) {
+	object->unlockPropertiesFromLoadedObject ();
 	hkpPropertyValue p;
 	p.setInt((int)type);
 	object->addProperty(ENITYTYPEPROPERTY,p);	
