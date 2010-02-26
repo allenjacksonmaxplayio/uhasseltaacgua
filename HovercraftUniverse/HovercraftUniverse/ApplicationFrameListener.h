@@ -6,6 +6,7 @@
 #include "InputManager.h"
 #include "RepresentationManager.h"
 #include "ClientCore.h"
+#include "ServerCore.h"
 
 namespace HovUni {
 
@@ -35,6 +36,7 @@ protected:
 	EntityManager * mEntityManager;
 	RepresentationManager * mRepresentationManager;
 	InputManager * mInputManager;
+	ServerCore* mServer;
 	ClientCore* mClient;
 	float mElapsed;
 
@@ -44,7 +46,8 @@ public:
 	 * Constructor.
 	 */
 	ApplicationFrameListener(Ogre::SceneManager * sceneMgr, EntityManager * entityMgr,
-							 RepresentationManager * reprMgr, InputManager * inputMgr, ClientCore* client);
+							 RepresentationManager * reprMgr, InputManager * inputMgr, 
+							 ServerCore* server, ClientCore* client);
 
 	/**
 	 * Destructor.
