@@ -10,9 +10,15 @@ int GameView::mGlobalID = 1;
 
 GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mSceneMgr(sceneMgr), mID(mGlobalID++) {
 	// Create camera for this game view
-	// TODO Camera manager
-	// mCamera = mSceneMgr->createCamera("CamView" + mID);
-	// mCamera->setNearClipDistance(5);
+	mCamera = mSceneMgr->createCamera("Camera" + mID);
+	mCamera->setNearClipDistance(5);
+
+	// Create camera rotation possibilities
+	Ogre::SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "Node", 
+		Ogre::Vector3(-400, 200, 400));
+	node->yaw(Ogre::Degree(-45));
+	node = node->createChildSceneNode(mCamera->getName() + "PitchNode");
+	node->attachObject(mCamera);
 
 	// TODO PUT IN MORE GENERIC FORMAT
 	// Plane entity
@@ -38,10 +44,6 @@ GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mScene
 	// Second camera viewpoint
 	//node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Ogre::Vector3(0, 200, 400));
 	//node = node->createChildSceneNode("PitchNode2");
-
-	//Activate the HUD
-	//TODO: Activa/deactivate the hud when needed!
-	mHUD->activate();
 }
 
 GameView::~GameView() {
@@ -65,11 +67,15 @@ void GameView::removeEntityRepresentation(Ogre::String entityRep) {
 }
 
 void GameView::draw() {
+	//Activate the HUD if needed
+	if (!mHUD->isActivated()) {
+		mHUD->activate();
+	}
+
 	// Draw the entity representations
 	drawEntityRepresentations();
 	
 	// TODO Draw the static objects
-
 
 	// Draw the hud
 	drawHUD();

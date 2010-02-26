@@ -15,7 +15,12 @@ namespace HovUni {
  */
 class HUD : public OverlayContainer {
 private:
+
+	/** The meter indicating the speed of the racer */
 	Speedometer* mSpeedometer;
+
+	/** Indicates whether the HUD should be activated */
+	bool mIsActivated;
 
 public:
 
@@ -38,6 +43,13 @@ public:
 	 * Hides the HUD
 	 */
 	void deactivate();
+
+	/** 
+	 * Indicates whether the HUD is visible or hidden.
+	 *
+	 * @return true if the HUD is visible and false if hidden
+	 */
+	bool isActivated() { return mIsActivated; }
 
 };
 
