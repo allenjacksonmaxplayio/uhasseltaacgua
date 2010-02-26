@@ -16,7 +16,7 @@ public:
 	Player(ZCom_Control* control);
 	~Player(void);
 
-	virtual void parseEntityEvents(ZCom_BitStream* stream);
+	virtual void parseEvents(ZCom_BitStream* stream);
 
 	void setupReplication();
 

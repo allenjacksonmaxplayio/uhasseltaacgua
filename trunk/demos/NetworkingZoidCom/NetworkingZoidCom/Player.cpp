@@ -18,7 +18,7 @@ Player::~Player(void) {
 
 }
 
-void Player::parseEntityEvents(ZCom_BitStream* stream) {
+void Player::parseEvents(ZCom_BitStream* stream) {
 	// Parse
 	HovUni::SampleEventParser p;
 	HovUni::NetworkEvent<SampleEventType>* event = p.parse(stream);

@@ -41,7 +41,7 @@ public:
 	 *
 	 * @param stream the bitstream containing the event
 	 */
-	virtual void parseEntityEvents(ZCom_BitStream* stream) = 0;
+	virtual void parseEvents(ZCom_BitStream* stream) = 0;
 
 	/**
 	 * Send an event for this entity

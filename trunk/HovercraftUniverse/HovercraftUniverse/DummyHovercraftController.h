@@ -15,6 +15,16 @@ class DummyHovercraftController : public Controller {
 public:
 
 	/**
+	 * Destructor
+	 */
+	virtual ~DummyHovercraftController();
+
+	/**
+	 * @see Controller::getEvents()
+	 */
+	virtual std::vector<ControllerEvent*> getEvents();
+
+	/**
 	 * Tells in which direction the hovercraft is to move.
 	 *
 	 * @return the direction
@@ -23,7 +33,6 @@ public:
 
 	/**
 	 * Tells the orientation change of the hovercraft.
-	 *
 	 *
 	 * @return the orientation change
 	 */

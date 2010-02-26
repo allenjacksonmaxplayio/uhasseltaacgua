@@ -11,7 +11,7 @@ Tree::~Tree(void) {
 
 }
 
-void Tree::parseEntityEvents(ZCom_BitStream* stream) {
+void Tree::parseEvents(ZCom_BitStream* stream) {
 	// Do something
 }
 

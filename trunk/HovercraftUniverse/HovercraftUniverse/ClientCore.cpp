@@ -1,0 +1,80 @@
+#include "ClientCore.h"
+#include "Application.h"
+#include "DummyHovercraft.h"
+#include "DummyHovercraftPlayerController.h"
+#include "DummyHovercraftRepresentation.h"
+#include "EntityRegister.h"
+
+namespace HovUni {
+
+ClientCore::ClientCore(const char* name) : NetworkClient(name, 3040), mEntityManager(0), mIDManager(0) {
+	initialize();
+}
+
+ClientCore::ClientCore() : NetworkClient(3041), mEntityManager(0), mIDManager(0) {
+	initialize();
+}
+
+ClientCore::~ClientCore() {
+
+}
+
+void ClientCore::initialize() {
+	// Create and store entity manager
+	mEntityManager = EntityManager::getSingletonPtr();
+	mIDManager = new NetworkIDManager(this);
+	EntityRegister::registerAll(*mIDManager);
+	ZCom_setUpstreamLimit(0, 0);
+}
+
+void ClientCore::process() {
+	NetworkClient::process();
+	std::vector<Entity*> entities = mEntityManager->getAllEntities();
+	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it) {
+		Entity* entity = *it;
+		entity->processEvents();
+	}
+}
+
+void ClientCore::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
+	if (result == eZCom_ConnAccepted) {
+		// Connection accepted, so request zoid level
+		ZCom_requestDownstreamLimit(id, 60, 600);
+		ZCom_requestZoidMode(id, 1);
+	} else {
+		// Connection failed
+		return;
+	}
+}
+
+void ClientCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
+	// Connection closed
+}
+
+void ClientCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
+	// Data received
+}  
+
+void ClientCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
+	if (result == eZCom_ZoidEnabled) {
+		// Requested zoid level was confirmed
+	} else {
+		// Requested zoid level denied
+	}
+}
+
+void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+	if (requested_class == mIDManager->getID("DummyHovercraft")) {
+		DummyHovercraft* hovercraft = new DummyHovercraft();
+		hovercraft->networkRegister(requested_class, this);
+		mEntityManager->registerEntity(hovercraft);
+		DummyHovercraftRepresentation * hovercraftRep = new DummyHovercraftRepresentation(hovercraft, Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
+
+		if (role == eZCom_RoleOwner) {
+			hovercraft->setController(new DummyHovercraftPlayerController());
+		}
+	}
+}
+
+}

@@ -3,6 +3,7 @@
 
 #include <OgreRoot.h>
 #include "ApplicationFrameListener.h"
+#include "ClientCore.h"
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
@@ -36,7 +37,13 @@ private:
 	/** The GUI Manager */
 	GUIManager * mGUIManager;
 
+	/** The client */
+	ClientCore* mClient;
+
 public:
+
+	// TODO Better solution
+	static Ogre::SceneManager* msSceneMgr;
 
 	/**
 	 * Constructor.
@@ -66,6 +73,6 @@ public:
 
 };
 
-#endif
-
 }
+
+#endif

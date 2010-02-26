@@ -65,7 +65,7 @@ public:
 	 *
 	 * @param stream the bitstream containing the event
 	 */
-	virtual void read(ZCom_BitStream* stream) { }
+	virtual void read(ZCom_BitStream* stream) = 0;
 
 	/**
 	 * Read the type of the event from the stream. However,
