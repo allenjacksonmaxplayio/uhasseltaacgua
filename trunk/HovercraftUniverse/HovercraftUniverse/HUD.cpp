@@ -4,7 +4,7 @@
 
 namespace HovUni {
 
-HUD::HUD() {
+HUD::HUD() : mIsActivated(false) {
 	//Initialise all the object, this list should be controllable by scripts/Configuration files
 	mSpeedometer = new Speedometer("speedometer", "speedometer.swf", 360, 360, Hikari::BottomRight);
 	mSpeedometer->setBParameter(BasicOverlay::OverlayParams_B::ALPHAHACK, true);
@@ -19,10 +19,12 @@ HUD::~HUD() {
 }
 
 void HUD::activate() {
+	mIsActivated = true;
 	GUIManager::getSingletonPtr()->activateOverlayContainer(this);
 }
 
 void HUD::deactivate() {
+	mIsActivated = false;
 	GUIManager::getSingletonPtr()->disableOverlayContainer(this);
 }
 
