@@ -1,10 +1,13 @@
 #include "Application.h"
 #include "ApplicationFrameListener.h"
 #include "DummyHovercraft.h"
+#include "DummyHovercraftPlayerController.h"
 #include "DummyHovercraftRepresentation.h"
 #include "HUD.h"
 
 namespace HovUni {
+
+Ogre::SceneManager* Application::msSceneMgr = 0;
 
 Application::Application(void) {
 }
@@ -27,6 +30,7 @@ void Application::go() {
 
 void Application::createRoot() {
 	mOgreRoot = new Ogre::Root();
+	Ogre::LogManager::getSingleton().createLog("Client.log", true);
 }
 
 void Application::defineResources() {
@@ -66,22 +70,22 @@ void Application::initializeResourceGroups() {
 }
 
 void Application::setupScene() {
-	Ogre::SceneManager * sceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
+	msSceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
 	// TODO Create a Camera manager that creates cameras for each gameview, then add this on the fly
 	//		to the viewports
-	Ogre::Camera * cam = sceneMgr->createCamera("Camera");
+	Ogre::Camera * cam = msSceneMgr->createCamera("Camera");
 	cam->setNearClipDistance(5);
 	Ogre::Viewport * vp = mOgreRoot->getAutoCreatedWindow()->addViewport(cam);
 
 	// TODO Put somewhere else
-	Ogre::SceneNode * node = sceneMgr->getRootSceneNode()->createChildSceneNode("CamNode", Ogre::Vector3(-400, 200, 400));
+	Ogre::SceneNode * node = msSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode", Ogre::Vector3(-400, 200, 400));
 	node->yaw(Ogre::Degree(-45));
 	node = node->createChildSceneNode("PitchNode");
 	node->attachObject(cam);
 
 	// TODO Do the operations below belong here or as in separated methods
 	// Set ambient light
-	sceneMgr->setAmbientLight(Ogre::ColourValue(0.25, 0.25, 0.25));
+	msSceneMgr->setAmbientLight(Ogre::ColourValue(0.25, 0.25, 0.25));
 	
 	// Initialise and store the GUIManager
 	GUIManager::init("..\\..\\Media\\GUI", vp);
@@ -91,18 +95,15 @@ void Application::setupScene() {
 	mEntityManager = EntityManager::getSingletonPtr();
 
 	// Create and store representation manager
-	RepresentationManager::initialise(mEntityManager, sceneMgr);
+	RepresentationManager::initialise(mEntityManager, msSceneMgr);
 	mRepresentationManager = RepresentationManager::getSingletonPtr();
 
 	// Add single game view to representation manager
 	// TODO Script or import from 3DS Max which and how many game views to have
-	mRepresentationManager->addGameView(new GameView(new HUD(), sceneMgr));
+	mRepresentationManager->addGameView(new GameView(new HUD(), msSceneMgr));
 
-	// TEMP Create entities
-	DummyHovercraft * hovercraft = new DummyHovercraft();
-	DummyHovercraftRepresentation * hovercraftRep = new DummyHovercraftRepresentation(hovercraft, sceneMgr);
-	mEntityManager->registerEntity(hovercraft);
-	mRepresentationManager->addEntityRepresentation(hovercraftRep);
+	// Client
+	mClient = new ClientCore("localhost");
 }
 
 void Application::setupInputSystem() {
@@ -111,7 +112,7 @@ void Application::setupInputSystem() {
 }
 
 void Application::createFrameListener() {
-	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, mInputManager);
+	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, mInputManager, mClient);
 	mOgreRoot->addFrameListener(mFrameListener);
 }
 

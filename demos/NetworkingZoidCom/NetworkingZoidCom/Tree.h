@@ -10,7 +10,7 @@ public:
 	Tree(ZCom_Control* control);
 	~Tree(void);
 
-	virtual void parseEntityEvents(ZCom_BitStream* stream);
+	virtual void parseEvents(ZCom_BitStream* stream);
 
 	static void registerClass(ZCom_Control* control);
 	static ZCom_ClassID getClassID();

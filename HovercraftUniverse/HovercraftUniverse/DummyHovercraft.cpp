@@ -1,11 +1,13 @@
 #include "DummyHovercraft.h"
 #include "DummyHovercraftController.h"
 #include "DummyHovercraftPlayerController.h"
+#include "BasicEntityEvent.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 
 DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", Ogre::Vector3(0.0, 40.0, 0.0), 
-												Ogre::Vector3(0.0, 0.0, 0.0), new DummyHovercraftPlayerController()) {
+												Ogre::Vector3(0.0, 0.0, 0.0)) {
 	// Already initialized
 }
 
@@ -13,13 +15,35 @@ DummyHovercraft::~DummyHovercraft(void) {
 	// Empty
 }
 
-void DummyHovercraft::processController(Ogre::Real timeSinceLastFrame) {
-	// Cast to correct type
-	DummyHovercraftController * hovercraftController = dynamic_cast<DummyHovercraftController *>(mController);
+void DummyHovercraft::processControllerEventsInServer(ControllerEvent* event) {
+	// Just forward for now
+	sendEvent(*event);
+}
 
-	// Process controls
-	changePosition(mPosition + hovercraftController->getDirection() * timeSinceLastFrame * 100);
-	changeOrientation(mOrientation + hovercraftController->getOrientationChange());
+void DummyHovercraft::processControllerEventsInOwner(ControllerEvent* event) {
+	processEventsOwnerAndOther(event);
+}
+
+void DummyHovercraft::processControllerEventsInOther(ControllerEvent* event) {
+	processEventsOwnerAndOther(event);
+}
+
+void DummyHovercraft::processEventsOwnerAndOther(ControllerEvent* event) {
+	switch (event->getType()) {
+		case BasicEntity:
+			{
+				BasicEntityEvent* e = dynamic_cast<BasicEntityEvent*>(event);
+
+				// Process controls
+				changePosition(mPosition + e->getDirection() * e->getTimeSinceLastFrame() * 100);
+				changeOrientation(mOrientation + e->getOrientationChange());
+
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Added " << e->getDirection();
+				break;
+			}
+		default:
+			break;
+	}
 }
 
 }

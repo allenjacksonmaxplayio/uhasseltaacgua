@@ -61,6 +61,10 @@ std::vector<Entity *> EntityManager::getEntities(Ogre::String categoryName) {
 	return results;
 }
 
+std::vector<Entity *> EntityManager::getAllEntities() {
+	return mEntities;
+}
+
 std::vector<Entity *> EntityManager::getNewEntities() { 
 	std::vector<Entity *> entitiesToReturn = mNewEntities;
 	mNewEntities.clear();

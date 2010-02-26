@@ -69,6 +69,13 @@ public:
 	std::vector<Entity *> getEntities(Ogre::String categoryName);
 
 	/**
+	 * Returns all the entities in the manager
+	 *
+	 * @return the entities
+	 */
+	std::vector<Entity *> getAllEntities();
+
+	/**
 	 * Indicates whether the entity manager has new entities.
 	 *
 	 * @return true when the entity manager has new entities and false if not

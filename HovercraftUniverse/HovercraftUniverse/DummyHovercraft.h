@@ -25,9 +25,26 @@ public:
 	virtual ~DummyHovercraft(void);
 
 	/**
-	 * @see Entity::processController().
+	 * @see Entity::processControllerEventsInServer(ControllerEvent* event).
 	 */
-	void processController(Ogre::Real timeSinceLastFrame);
+	virtual void processControllerEventsInServer(ControllerEvent* event);
+
+	/**
+	 * @see Entity::processControllerEventsInOwner(ControllerEvent* event).
+	 */
+	virtual void processControllerEventsInOwner(ControllerEvent* event);
+
+	/**
+	 * @see Entity::processControllerEventsInOther(ControllerEvent* event).
+	 */
+	virtual void processControllerEventsInOther(ControllerEvent* event);
+
+	/**
+	 * Task for processing at owner and other
+	 *
+	 * @param event the event
+	 */
+	void processEventsOwnerAndOther(ControllerEvent* event);
 };
 
 }

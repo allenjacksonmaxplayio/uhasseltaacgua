@@ -25,7 +25,7 @@ void NetworkEntity::processEvents() {
 			mDeleteMe = true;
 		} else if (type == eZCom_EventUser) {
 			// Delegate to the user events callback
-			parseEntityEvents(data);
+			parseEvents(data);
 		}
 	}
 }

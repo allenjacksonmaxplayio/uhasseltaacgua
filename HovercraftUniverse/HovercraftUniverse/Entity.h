@@ -3,6 +3,8 @@
 
 #include "Controller.h"
 #include <OgreVector3.h>
+#include "NetworkEntity.h"
+#include "ControllerEvent.h"
 
 namespace HovUni {
 
@@ -12,7 +14,7 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-class Entity {
+class Entity: public NetworkEntity {
 protected:
 	
 	/** The unique name of the entity */
@@ -30,6 +32,9 @@ protected:
 	/** The controller that the entity polls to change state */
 	Controller * mController;
 
+	/** Whether the entity is registered to the network */
+	bool mRegistered;
+
 public:
 
 	/**
@@ -39,10 +44,8 @@ public:
 	 * @param category the category to which this entity belongs
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
-	 * @param controller the controller of the entity
 	 */
-	Entity(Ogre::String name, Ogre::String category, Ogre::Vector3 position, Ogre::Vector3 orientation, 
-		Controller * controller);
+	Entity(Ogre::String name, Ogre::String category, Ogre::Vector3 position, Ogre::Vector3 orientation);
 
 	/**
 	 * Destructor.
@@ -106,16 +109,62 @@ public:
 	 */
 	Ogre::Vector3 getOrientation() { return mPosition; }
 
+	/**
+	 * Register the node for the network
+	 *
+	 * @param id the zoidcom class ID
+	 * @param control the zoidcom control
+	 */
+	void networkRegister(ZCom_ClassID id, ZCom_Control* control);
+
 protected:
 
 	/**
-	 * Polls the controller for its current state and processes actions accordingly. Must
-	 * be overriden since this class in itself has no clue which controller properties 
-	 * there are.
+	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream)
+	 */
+	void parseEvents(ZCom_BitStream* stream);
+
+	/**
+	 * Polls the controller for its current state and processes actions accordingly.
 	 *
 	 * @param timeSinceLastFrame the time that elapsed since the last frame
 	 */
-	virtual void processController(Ogre::Real timeSinceLastFrame) = 0;
+	void processController(Ogre::Real timeSinceLastFrame);
+
+	/**
+	 * Process a controller event that got processed by the controller and fire the
+	 * correct callback (server, owner or others).
+	 *
+	 * @param event a controller event
+	 */
+	void processControllerEvents(ControllerEvent* event);
+
+	/**
+	 * Process a controller event at the server that got processed by the controller.  Must
+	 * be overriden since this class in itself has no clue which controller properties 
+	 * there are.
+	 *
+	 * @param event a controller event
+	 */
+	virtual void processControllerEventsInServer(ControllerEvent* event) = 0;
+
+	/**
+	 * Process a controller event at the owner that got processed by the controller.  Must
+	 * be overriden since this class in itself has no clue which controller properties 
+	 * there are.
+	 *
+	 * @param event a controller event
+	 */
+	virtual void processControllerEventsInOwner(ControllerEvent* event) = 0;
+
+	/**
+	 * Process a controller event at other clients that got processed by the controller.  Must
+	 * be overriden since this class in itself has no clue which controller properties 
+	 * there are.
+	 *
+	 * @param event a controller event
+	 */
+	virtual void processControllerEventsInOther(ControllerEvent* event) = 0;
 
 };
 

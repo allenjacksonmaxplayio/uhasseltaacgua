@@ -1,11 +1,12 @@
 #include "ApplicationFrameListener.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 
 ApplicationFrameListener::ApplicationFrameListener(Ogre::SceneManager * sceneMgr, EntityManager * entityMgr, 
-												   RepresentationManager * reprMgr, InputManager * inputMgr)
+												   RepresentationManager * reprMgr, InputManager * inputMgr, ClientCore* client)
 		: mSceneMgr(sceneMgr), mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
-		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO) {
+		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO), mClient(client), mElapsed(0.0f) {
 	// Register this class with input manager
 	mInputManager->addKeyListener(this, "ApplicationFrameListener");
 	mInputManager->addMouseListener(this, "ApplicationFrameListener");
@@ -16,6 +17,7 @@ ApplicationFrameListener::~ApplicationFrameListener(void) {
 }
 
 bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
+	mElapsed += evt.timeSinceLastFrame;
 	// Notify manager of new frame
 	mInputManager->capture();
 
@@ -27,6 +29,14 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
 	// Update entity manager
 	mEntityManager->updateEntities(evt.timeSinceLastFrame);
+
+	// Process the client
+	if (mElapsed > 0.016f) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
+		mClient->process();
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
+		mElapsed = 0.0f;
+	}
 
 	// Update representation manager
 	mRepresentationManager->drawGameViews();
