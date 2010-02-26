@@ -2,7 +2,7 @@
 #define CHARACTER_H
 
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
-#include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
+#include "CharacterContextContainer.h"
 
 namespace HovUni {
 
@@ -15,26 +15,21 @@ protected:
 	hkpWorld * mPhysicsWorld;
 	
 	/**
+	 * A charater rigid body
+	 */
+	hkpCharacterRigidBody * mCharacterRigidBody;
+
+public:
+
+	/**
 	 * A vector of what the character sees as up vector	
 	 */
 	hkVector4 mUp;
 
 	/**
-	 * A charater rigid body
-	 */
-	hkpCharacterRigidBody * mCharacterRigidBody;
-
-	/**
-	 * A character context
-	 */
-	static hkpCharacterContext * mCharacterContext; 
-
-public:
-
-	/**
 	 * Constructor
 	 */
-	Character( hkpWorld * mPhysicsWorld, hkVector4 startpos, hkQuaternion rotation );
+	Character( hkpWorld * mPhysicsWorld, hkpCharacterRigidBodyCinfo * info );
 
 	/**
 	 * Destructor
@@ -47,23 +42,6 @@ public:
 	hkpCharacterRigidBody * getCharacterRigidBody() {
 		return mCharacterRigidBody;
 	}
-
-	/**
-	 * Set new up vector for the character
-	 * @param up
-	 */
-	inline hkVector4& getUp(){
-		return mUp;
-	}
-
-	/**
-	 * Set new up vector for the character
-	 * @param up
-	 */
-	inline void setUp( hkVector4 up ){
-		mUp = up;
-	}
-
 };
 
 }

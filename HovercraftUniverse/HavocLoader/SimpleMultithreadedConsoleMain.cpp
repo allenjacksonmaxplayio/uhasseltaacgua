@@ -2,6 +2,8 @@
 
 #include "HoverCraftUniverseWorld.h"
 
+#include "Character.h"
+
 
 #include <OgreWindowEventUtilities.h>
 #include "../HovercraftUniverse/InputManager.h"
@@ -32,6 +34,39 @@ public:
 		}	
 		if ( e.text == 'z'){
 			mHavoc->load(".\\..\\..\\..\\art\\models\\test_Default.hkx");
+		}
+		if ( e.text == 'e' ){
+			//test the contextcontainer
+			CharacterContextContainer container;
+
+			hkpCharacterState* state;
+			hkpCharacterStateManager* manager = new hkpCharacterStateManager();
+
+			state = new hkpCharacterStateOnGround();
+			manager->registerState( state,	HK_CHARACTER_ON_GROUND);
+			state->removeReference();
+
+			state = new hkpCharacterStateInAir();
+			manager->registerState( state,	HK_CHARACTER_IN_AIR);
+			state->removeReference();
+
+			hkpCharacterContext * orccontext = new hkpCharacterContext(manager, HK_CHARACTER_IN_AIR);	
+			manager->removeReference();
+
+			// Set new filter parameters for final output velocity filtering
+			// Smoother interactions with small dynamic boxes
+			orccontext->setCharacterType(hkpCharacterContext::HK_CHARACTER_RIGIDBODY);
+			orccontext->setFilterParameters(0.9f,12.0f,200.0f);
+
+			container.registerContext("ORC",orccontext);
+			orccontext->removeReference();
+
+			hkpCharacterContext * c;
+			c = container.getCharacterContext("ORC");
+			c->removeReference();
+
+			c = container.getCharacterContext("Default");
+			c->removeReference();
 		}
 		return true;
 	}
