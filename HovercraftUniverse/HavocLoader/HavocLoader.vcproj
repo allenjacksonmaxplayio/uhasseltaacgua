@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GravityPhantom.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HoverCraftUniverseWorld.cpp"
 				>
 			</File>
@@ -206,10 +210,6 @@
 			</File>
 			<File
 				RelativePath=".\PlanetGravityAction.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SimpleGravityPhantom.cpp"
 				>
 			</File>
 			<File
@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GravityPhantom.h"
+				>
+			</File>
+			<File
 				RelativePath=".\HoverCraftUniverseWorld.h"
 				>
 			</File>
@@ -252,10 +256,6 @@
 			</File>
 			<File
 				RelativePath=".\PlanetGravityAction.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SimpleGravityPhantom.h"
 				>
 			</File>
 		</Filter>

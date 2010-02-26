@@ -1,17 +1,22 @@
-/* 
- * 
- * Confidential Information of Telekinesys Research Limited (t/a Havok). Not for disclosure or distribution without Havok's
- * prior written consent. This software contains code, techniques and know-how which is confidential and proprietary to Havok.
- * Level 2 and Level 3 source code contains trade secrets of Havok. Havok Software (C) Copyright 1999-2009 Telekinesys Research Limited t/a Havok. All Rights Reserved. Use of this software is subject to the terms of an end user license agreement.
- * 
- */
-
 #include "PlanetGravityAction.h"
+#include "EntityType.h"
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h>
 #include <Physics/Collide/Agent/hkpProcessCollisionInput.h>
 #include <Physics/Collide/Dispatch/hkpCollisionDispatcher.h>
-#include <Common/Visualize/hkDebugDisplay.h>
+
+namespace HovUni {
+
+PlanetGravityAction::PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
+		hkpUnaryAction(satellite), 
+		mPlanetBody(planetBody), 
+		mHullCollidable(hullCollidable), 
+		mPhantomId(phantomId), 
+		mGravityForce(maxAcceleration)
+{
+	setUserData( HK_SPHERE_ACTION_ID );
+}
+
 
 // applyAction Called by the simulation every frame.
 void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
@@ -27,19 +32,19 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	input.m_tolerance = 1.0f;
 
 	do {
-		// Use m_hullCollidable for gravity calculations if available.
+		// Use mHullCollidable for gravity calculations if available.
 		// GetClosestPoints() should provide a gravity vector
-		if( m_hullCollidable == HK_NULL)
+		if( mHullCollidable == HK_NULL)
 		{
-			hkpShapeType b = m_planetBody->getCollidable()->getShape()->getType();
+			hkpShapeType b = mPlanetBody->getCollidable()->getShape()->getType();
 			hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints = getWorld()->getCollisionDispatcher()->getGetClosestPointsFunc( a, b );
-			getClosestPoints( *rb->getCollidable(), *m_planetBody->getCollidable(), input, collector );
+			getClosestPoints( *rb->getCollidable(), *mPlanetBody->getCollidable(), input, collector );
 		}
 		else
 		{
-			hkpShapeType b = m_hullCollidable->getShape()->getType();
+			hkpShapeType b = mHullCollidable->getShape()->getType();
 			hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints = getWorld()->getCollisionDispatcher()->getGetClosestPointsFunc( a, b );
-			getClosestPoints( *rb->getCollidable(), *m_hullCollidable, input, collector );	
+			getClosestPoints( *rb->getCollidable(), *mHullCollidable, input, collector );	
 		}
 
 		// Grow the tolerance until we get a hit.
@@ -53,13 +58,10 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 
 	// Set force to be direction multiplied by magnitude multiplied by mass.
 	hkVector4 force;
-	force.setMul4( rb->getMass() * m_gravityForce, forceDir );
-
+	force.setMul4( rb->getMass() * mGravityForce, forceDir );
 
 	// Apply the gravity force.
-	bool isCharacter = false;
-
-	if( isCharacter )
+	if( EntityType::getEntityType(rb) == EntityType::CHARACTER )
 	{
 		/*hkVector4 newUp(forceDir);
 		newUp.setNeg4(forceDir);
@@ -86,5 +88,7 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	{
 		rb->applyForce( stepInfo.m_deltaTime, force );
 	}
+}
+
 }
 
