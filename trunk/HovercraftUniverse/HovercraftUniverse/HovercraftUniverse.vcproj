@@ -180,6 +180,10 @@
 				RelativePath=".\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\RaceCamera.cpp"
+				>
+			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -282,6 +286,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\RaceCamera.h"
+				>
+			</File>
 			<Filter
 				Name="GUI"
 				>

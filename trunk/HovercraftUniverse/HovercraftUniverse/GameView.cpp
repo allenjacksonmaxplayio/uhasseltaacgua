@@ -10,15 +10,7 @@ int GameView::mGlobalID = 1;
 
 GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mSceneMgr(sceneMgr), mID(mGlobalID++) {
 	// Create camera for this game view
-	mCamera = mSceneMgr->createCamera("Camera" + mID);
-	mCamera->setNearClipDistance(5);
-
-	// Create camera rotation possibilities
-	Ogre::SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "Node", 
-		Ogre::Vector3(-400, 200, 400));
-	node->yaw(Ogre::Degree(-45));
-	node = node->createChildSceneNode(mCamera->getName() + "PitchNode");
-	node->attachObject(mCamera);
+	mRaceCam = new RaceCamera(mSceneMgr, mID);
 
 	// TODO PUT IN MORE GENERIC FORMAT
 	// Plane entity
@@ -34,16 +26,6 @@ GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mScene
 	light->setPosition(Ogre::Vector3(250, 150, 250));
 	light->setDiffuseColour(Ogre::ColourValue::White);
 	light->setSpecularColour(Ogre::ColourValue::White);
-
-	// First camera viewpoint
-	//Ogre::SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode1", Ogre::Vector3(-400, 200, 400));
-	//node->yaw(Ogre::Degree(-45));
-	//node = node->createChildSceneNode("PitchNode1");
-	//node->attachObject(mCamera);
-
-	// Second camera viewpoint
-	//node = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Ogre::Vector3(0, 200, 400));
-	//node = node->createChildSceneNode("PitchNode2");
 }
 
 GameView::~GameView() {
@@ -91,6 +73,9 @@ void GameView::drawEntityRepresentations() {
 void GameView::drawHUD() {
 	//TODO: Make sure this is called once every render frame!
 	//		Dont think it should be here?
+	//TODO Comment from Kristof: probably it should better be placed in the representation manager's draw 
+	//		function. You could use this function to update some HUD functionality before calling the general update()
+	//		after drawing all game views. I'm leaving it like this so you can sort it out.
 	GUIManager::getSingletonPtr()->update();
 }
 

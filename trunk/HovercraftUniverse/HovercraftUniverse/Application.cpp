@@ -89,7 +89,7 @@ void Application::setupScene() {
 
 	// Add single game view to representation manager
 	GameView * gv = new GameView(new HUD(), msSceneMgr);
-	Ogre::Viewport * vp = win->addViewport(gv->getCamera());
+	Ogre::Viewport * vp = win->addViewport(gv->getCamera()->getCamera());
 	mRepresentationManager->addGameView(gv);
 
 	// Initialise and store the GUIManager

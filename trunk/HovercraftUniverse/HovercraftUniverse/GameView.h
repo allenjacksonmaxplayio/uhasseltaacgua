@@ -6,6 +6,7 @@
 #include <OgreSceneManager.h>
 #include "EntityRepresentation.h"
 #include "HUD.h"
+#include "RaceCamera.h"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ protected:
 	HUD * mHUD;
 
 	/** The camera of the view */
-	Ogre::Camera * mCamera;
+	RaceCamera * mRaceCam;
 
 	/** The Ogre scene manager */
 	Ogre::SceneManager * mSceneMgr;
@@ -78,7 +79,7 @@ public:
 	 *
 	 * @return the camera
 	 */
-	Ogre::Camera * getCamera() { return mCamera; }
+	RaceCamera * getCamera() { return mRaceCam; }
 
 protected:
 
