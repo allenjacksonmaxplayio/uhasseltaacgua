@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Media\HovSound&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib GUI_d.lib Hikari_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib fmod_event.lib fmodex_vc.lib zoidcom_vcd.lib"
+				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib GUI_d.lib Hikari_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib fmod_event.lib fmodex_vc.lib Sound_d.lib zoidcom_vcd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\Debug&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\debug_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\debug&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\lib&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\lib&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\lib\debug&quot;"
 				GenerateDebugInformation="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax.lib OgreMain.lib OIS.lib GUI.lib Hikari.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib fmod_event.lib fmodex_vc.lib zoidcom_vc.lib"
+				AdditionalDependencies="OgreMax.lib OgreMain.lib OIS.lib GUI.lib Hikari.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib fmod_event.lib fmodex_vc.lib Sound.lib zoidcom_vc.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\release&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\release_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\release&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\lib&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\lib&quot;"
 				GenerateDebugInformation="true"

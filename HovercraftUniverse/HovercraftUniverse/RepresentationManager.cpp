@@ -1,5 +1,7 @@
 #include "RepresentationManager.h"
 #include <cassert>
+#include <GUIManager.h>
+#include <SoundManager.h>
 
 namespace HovUni {
 
@@ -75,6 +77,10 @@ void RepresentationManager::drawGameViews() {
 	for (std::vector<GameView *>::const_iterator it = mGameViews.begin(); it != mGameViews.end(); it++) {
 		(*it)->draw();
 	}
+
+	//TODO: not fully convinced about placement :) (Nick)
+	GUIManager::getSingletonPtr()->update();
+	SoundManager::getSingletonPtr()->update();
 }
 
 

@@ -4,6 +4,7 @@
 #include "DummyHovercraftPlayerController.h"
 #include "DummyHovercraftRepresentation.h"
 #include "HUD.h"
+#include <HovSound.h>
 
 namespace HovUni {
 
@@ -95,6 +96,13 @@ void Application::setupScene() {
 	// Initialise and store the GUIManager
 	GUIManager::init("..\\..\\Media\\GUI", vp);
 	mGUIManager = GUIManager::getSingletonPtr();
+
+	// Initialise and store the SoundManager (dont remove trailing \)
+	SoundManager::init("..\\..\\Media\\HovSound\\", "HovSound.fev");
+	mSoundManager = SoundManager::getSingletonPtr();
+
+	//Start music
+	mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
 
 	// Server
 	mServer = new ServerCore();

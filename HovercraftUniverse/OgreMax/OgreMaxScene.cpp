@@ -1407,7 +1407,7 @@ void OgreMaxScene::LoadNodes(const TiXmlElement* objectElement)
 
     //Initialize progress counters
     size_t nodeCount = OgreMaxUtilities::GetElementCount(objectElement, "node");
-    this->loadProgress.nodes->SetRange(nodeCount);
+	this->loadProgress.nodes->SetRange((Ogre::Real) nodeCount);
 
     //Iterate over all the node children
     String elementName;

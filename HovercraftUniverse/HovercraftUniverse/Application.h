@@ -9,6 +9,7 @@
 #include "RepresentationManager.h"
 #include "ServerCore.h"
 #include <GUIManager.h>
+#include <SoundManager.h>
 
 namespace HovUni {
 
@@ -37,6 +38,9 @@ private:
 
 	/** The GUI Manager */
 	GUIManager * mGUIManager;
+
+	/** The sound manager */
+	SoundManager * mSoundManager;
 
 	/** The client */
 	ClientCore* mClient;
