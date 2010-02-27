@@ -1,7 +1,6 @@
 #include "GameView.h"
 #include <OgreMeshManager.h>
 #include <OgreResourceGroupManager.h>
-#include <GUIManager.h>
 
 namespace HovUni {
 
@@ -71,12 +70,7 @@ void GameView::drawEntityRepresentations() {
 }
 
 void GameView::drawHUD() {
-	//TODO: Make sure this is called once every render frame!
-	//		Dont think it should be here?
-	//TODO Comment from Kristof: probably it should better be placed in the representation manager's draw 
-	//		function. You could use this function to update some HUD functionality before calling the general update()
-	//		after drawing all game views. I'm leaving it like this so you can sort it out.
-	GUIManager::getSingletonPtr()->update();
+
 }
 
 }
