@@ -4,7 +4,7 @@
 #include "UserDataFactory.h"
 #include "UserDataCallback.h"
 
-#include "OgreMaxScene.hpp"
+#include "CustomOgreMaxScene.h"
 #include "Ogre.h"
 #include "OgreConfigFile.h"
 #include "ExampleFrameListener.h"
@@ -108,7 +108,6 @@ protected:
 	Ogre::String mConfigPath;
 
     // These internal methods package up the stages in the startup process
-    /** Sets up the application - returns false if the user chooses to abandon configuration. */
     virtual bool setup(void)
     {
 
@@ -125,15 +124,12 @@ protected:
 		// Load resources
 		loadResources();
 
-		OgreMaxScene * mScene = new OgreMaxScene();
+		CustomOgreMaxScene * mScene = new CustomOgreMaxScene();
 
 		TestUserDataCallback cb;
 
 		//CustomNotifier not;
-		mScene->Load("test.scene",mWindow,OgreMax::OgreMaxScene::NO_OPTIONS,0,0,0);
-		
-		mSceneMgr = mScene->GetSceneManager();
-		mCamera = mSceneMgr->getCamera("Camera01");
+		mScene->Load("test.scene",OgreMax::OgreMaxScene::NO_OPTIONS);
 
 		delete mScene;
 

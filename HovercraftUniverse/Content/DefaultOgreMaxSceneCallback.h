@@ -31,6 +31,37 @@ private:
 
 protected:
 
+	void attachMovable ( Ogre::MovableObject * movable, const OgreMax::Types::Attachable * attachable )  {
+/*		if (this->node != 0){
+            this->node->attachObject(object);
+		}
+        else if (this->entity != 0 && !this->boneName.empty())
+        {
+            //TODO: Modify Ogre to accept object->getName() when creating TagPoint
+            Ogre::TagPoint* tagPoint = this->entity->attachObjectToBone(this->boneName, object);
+            tagPoint->setPosition(this->attachPosition);
+            tagPoint->setScale(this->attachScale);
+            tagPoint->setOrientation(this->attachRotation);
+        }
+		else if (this->entity != 0){
+			//add empty tagpoint this is allowed
+            Ogre::SkeletonInstance* skeleton = this->entity->getSkeleton();
+            Ogre::Bone* bone = skeleton->getBone(this->boneName);
+            //TODO: Modify Ogre to accept name when creating TagPoint
+            Ogre::TagPoint* tagPoint = skeleton->createTagPointOnBone(bone);
+            tagPoint->setPosition(this->attachPosition);
+            tagPoint->setScale(this->attachScale);
+            tagPoint->setOrientation(this->attachRotation);
+		}*/
+	}
+
+	/**
+	 * Add node animation to given node
+	 * @param node
+	 * @param animation
+	 */
+	void addNodeAnimation( Ogre::SceneNode * node, std::vector<OgreMax::Types::NodeAnimation> * animation );
+
 	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object ){
 		if ( extradata->HasUserData() ){
 			//UserDataFactory::getInstance().parseUserData(extradata->userData);
@@ -57,16 +88,16 @@ public:
 	 */
 	virtual ~DefaultOgreMaxSceneCallback(void);
 
-	//General
+	//Scene info
 	virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType);
 
-	//Sky
+	//Sky systems
 
-	virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters );
+	virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters, std::vector<OgreMax::Types::NodeAnimation> * animation );
 
-    virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters);
+    virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters, std::vector<OgreMax::Types::NodeAnimation> * animation);
 
-    virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters);
+    virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters, std::vector<OgreMax::Types::NodeAnimation> * animation);
 
 	//Enviroment
 
@@ -80,19 +111,25 @@ public:
 
 	virtual void onBackgroundColour( const Ogre::ColourValue& colour );
 
-	//Movables
-
-	virtual void onNode( const OgreMax::Types::NodeParameters& nodeparameters, const OgreMax::Types::NodeParameters* parent);
+	//Nodes
 
 	virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale );
 
-	virtual void onLight(const OgreMax::Types::LightParameters& light, const OgreMax::Types::NodeParameters * parent);
+	virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent);
+
+	//Movables
+
+	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
+
+	virtual void onLight(const OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent);
         
-	virtual void onCamera(const OgreMax::Types::CameraParameters& camera, const OgreMax::Types::NodeParameters * parent);
+	virtual void onCamera(const OgreMax::Types::CameraParameters& camera, const OgreMax::Types::Attachable * parent );
 
-	//Animation
+	virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent );
 
-	virtual void onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& param, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes);
+	virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent);
+
+	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent);
 };
 
 }
