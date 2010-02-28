@@ -1,16 +1,5 @@
 /*
- * OgreMax Sample Viewer and Scene Loader - Ogre3D-based viewer and code for loading and displaying .scene files
- * Copyright 2010 AND Entertainment
- *
- * This code is available under the OgreMax Free License:
- *   -You may use this code for any purpose, commercial or non-commercial.
- *   -If distributing derived works (that use this source code) in binary or source code form, 
- *    you must give the following credit in your work's end-user documentation: 
- *        "Portions of this work provided by OgreMax (www.ogremax.com)"
- *
- * AND Entertainment assumes no responsibility for any harm caused by using this code.
- * 
- * The OgreMax Sample Viewer and Scene Loader were released at www.ogremax.com 
+ * This code is based on code from www.ogremax.com 
  */
 
 
@@ -29,31 +18,71 @@ namespace OgreMax {
 namespace Types {
 
 /**
+ * Container for an attachables
+ */
+struct Attachable {
+	Ogre::String name;
+};
+
+/**
+ * SceneNode: (Ogre::SceneNode)
+ */
+struct SceneNode : Attachable {
+};
+
+/**
+ * Tagpoint (Ogre::TagePoint)
+ * attached to an entity (ex. point at hand for holding gun)
+ */
+struct TagPoint : Attachable {
+	Ogre::String tagName;
+	Ogre::String boneName;
+	Ogre::Vector3 attachPosition;
+	Ogre::Quaternion attachRotation;
+	Ogre::Vector3 attachScale;
+};
+
+
+
+/**
  * A Keyframe
  */
 struct KeyFrame {
+	Ogre::Real keyTime;
 	Ogre::Real keyframe;
 	Ogre::Vector3 translation;
 	Ogre::Quaternion rotation;
 	Ogre::Vector3 scale;
 };
 
-}
-}
+struct NodeAnimation {
+	NodeAnimationParameters parameters;
+	std::vector<KeyFrame> animationTrack;
+};
 
+
+/**
+ * A Billboard
+ */
+struct Billboard {
+    Ogre::Real width;
+    Ogre::Real height;
+    Ogre::Radian rotationAngle;
+
+    Ogre::Vector3 position;
+    Ogre::ColourValue color;
+    Ogre::FloatRect texCoordRectangle;
+};
+
+}
+}
 
 namespace HovUni {
 
-//Classes----------------------------------------------------------------------
     class CustomOgreMaxSceneCallback;
 
     /**
      * Manages the loading of a OgreMax .scene file.
-     * This class is very lightwight in the sense that doesn't maintain a lot of
-     * internal state. Instead, wherever possible, most of the data is put into the
-     * Ogre scene manager. As such, when deleting an OgreMaxScene, keep in mind that
-     * the scene manager and all of resources that were loaded as a result of loading
-     * the scene are NOT destroyed. You will need to destroy those manually.
      */
     class CustomOgreMaxScene
     {
@@ -212,6 +241,7 @@ namespace HovUni {
 
         void LoadScene(const TiXmlElement* objectElement);
         
+		//Load Resource DONE
         void LoadResourceLocations(const TiXmlElement* objectElement);
 
 		/*
@@ -223,47 +253,52 @@ namespace HovUni {
         void LoadStaticGeometryEntity(const TiXmlElement* objectElement);
 		*/
 
+		//Load Flags TODO
 		void LoadQueryFlagAliases(const TiXmlElement* objectElement);
         void LoadVisibilityFlagAliases(const TiXmlElement* objectElement);
 
-		//Nodes and attachables
+		//Node DONE
         void LoadNodes(const TiXmlElement* objectElement);
 		void LoadNode(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
 
-        void LoadEntity(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		//Load Entity TODO some things about bones
+        void LoadEntity(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
+		void LoadBoneAttachments(const TiXmlElement* objectElement, OgreMax::Types::EntityParameters * entity);
+        void LoadBoneAttachment(const TiXmlElement* objectElement, OgreMax::Types::EntityParameters * entity);
 
-		void LoadLight(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		//Load Light DONE
+		void LoadLight(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
 		void LoadLightRange(const TiXmlElement* objectElement, OgreMax::Types::LightParameters& light);
         void LoadLightAttenuation(const TiXmlElement* objectElement, OgreMax::Types::LightParameters& light);
 
-		void LoadCamera(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		//Load Camera DONE
+		void LoadCamera(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
 
-        void LoadParticleSystem(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		//Load ParticleSystem DONE
+        void LoadParticleSystem(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
         
-        void LoadPlane(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
-
-        //void LoadBoneAttachments(const TiXmlElement* objectElement, Ogre::Entity* entity);
-        //void LoadBoneAttachment(const TiXmlElement* objectElement, Ogre::Entity* entity);
+		//Load Plane DONE
+        void LoadPlane(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
         
 		//void LoadLookTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
         //void LoadTrackTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
 
-		void LoadBillboardSet(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
-        void LoadBillboard(const TiXmlElement* objectElement, Ogre::BillboardSet* billboardSet);
+		//Bilboards TODO
+		void LoadBillboardSet(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
+		void LoadBillboard(const TiXmlElement* objectElement, std::vector<OgreMax::Types::Billboard>& billboardset);
 
-		//animation
-        void LoadNodeAnimations(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
-        void LoadNodeAnimation(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
+		//animation DONE
+		std::vector<OgreMax::Types::NodeAnimation> LoadNodeAnimations(const TiXmlElement* objectElement);
+        OgreMax::Types::NodeAnimation LoadNodeAnimation(const TiXmlElement* objectElement);
 		void LoadNodeAnimationKeyFrame(const TiXmlElement* objectElement, std::vector<OgreMax::Types::KeyFrame>& animationTrack);
 
-
-		//External
+		//External DONE
         void LoadExternals(const TiXmlElement* objectElement);
         void LoadExternalUserDatas(const TiXmlElement* objectElement);
 		void LoadExternalItem(const TiXmlElement* objectElement );
 		void LoadExternalUserData(const TiXmlElement* objectElement, OgreMax::Types::ExternalUserData& userData);
 
-		//Enviroment
+		//Enviroment DONE
         void LoadEnvironment(const TiXmlElement* objectElement);        		
         void LoadFog(const TiXmlElement* objectElement);
         void LoadSkyBox(const TiXmlElement* objectElement);
@@ -278,12 +313,8 @@ namespace HovUni {
 		void GetRenderTextureObjects(OgreMax::Types::LoadedRenderTexture* loadedRenderTexture);
 		void LoadRenderTextureMaterials ( const TiXmlElement* childElement, std::vector<OgreMax::Types::RenderTextureParameters::Material>& materials );
 
-
-		//Terrain
+		//Terrain TODO
 		void LoadTerrain(const TiXmlElement* objectElement);
-
-		
-
   
     protected:
         LoadOptions loadOptions;
@@ -356,9 +387,10 @@ namespace HovUni {
 		/**
 		 * Called when al node info is loaded but before any child node is attached
 		 * @param nodeparameters
+		 * @param nodeanimation, 0 if no animation
 		 * @param parent, 0 if rootnode
 		 */
-		virtual void onNode( const OgreMax::Types::NodeParameters& nodeparameters, const OgreMax::Types::NodeParameters* parent){ 	
+		virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * nodeanimation, const OgreMax::Types::NodeParameters* parent){ 	
 		}
 
 		/**
@@ -368,7 +400,7 @@ namespace HovUni {
 		virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ){
 		}
 
-		virtual void onExternalUserData( const OgreMax::Types::ExternalUserData& externalud){
+		virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud){
 		}
 
 		/**
@@ -431,22 +463,25 @@ namespace HovUni {
 		/**
 		 * Called when the skybox is loaded
 		 * @param skyBoxParameters
+		 * @param animation, 0 if not defined
 		 */
-        virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters ) {
+		virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters, std::vector<OgreMax::Types::NodeAnimation> * animation ) {
 		}
 
 		/**
 		 * Called when the skydome is loaded
 		 * @param skyDomeParameters
+		 * @param animation, 0 if not defined
 		 */
-        virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters) {
+        virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters, std::vector<OgreMax::Types::NodeAnimation>* animation) {
 		}
 
 		/**
 		 * Called when the skyplane is loaded
 		 * @param skyPlaneParameters
+		 * @param animation, 0 if not defined
 		 */
-        virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters) {
+        virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {
 		}
 
 		/**
@@ -461,7 +496,7 @@ namespace HovUni {
 		 * @param lightparameters
 		 * @param parent, 0 if rootnode
 		 */
-		virtual void onLight( OgreMax::Types::LightParameters& lightparameters, const OgreMax::Types::NodeParameters * parent ) {
+		virtual void onLight( OgreMax::Types::LightParameters& lightparameters, const OgreMax::Types::Attachable * parent ) {
 		}
         
 		/**
@@ -469,7 +504,7 @@ namespace HovUni {
 		 * @param cameraparameters
 		 * @param parent, 0 if rootnode
 		 */
-		virtual void onCamera(OgreMax::Types::CameraParameters, const OgreMax::Types::NodeParameters * parent ) {
+		virtual void onCamera(OgreMax::Types::CameraParameters, const OgreMax::Types::Attachable * parent ) {
 		}
         
 		/**
@@ -477,7 +512,7 @@ namespace HovUni {
 		 * @param entityparameters
 		 * @param parent
 		 */
-		virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::NodeParameters& parent ) {
+		virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ) {
 		}
         
 		/**
@@ -485,33 +520,27 @@ namespace HovUni {
 		 * @param particleSystem
 		 * @param parent
 		 */
-		virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::NodeParameters& parent) {
+		virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent) {
 		}
         
 		/**
 		 * Called when a billboardset is loaded
 		 * @param bilboardsetparameters
+		 * @param billboardset
+		 * @param custom data for each billboard
+		 * @param parent
 		 */
-		//virtual void onBillboardSet(const OgreMax::Types::BillboardSetParameters& bilboardsetparameters) {
-		//}
+		virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent ) {
+		}
         
 		/**
 		 * Called when a plane is loaded
 		 * @param planeparameters
 		 * @param parent
 		 */
-		virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::NodeParameters& parent) {
+		virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent) {
 		}
 
-		/**
-		 * Called when node animation is loaded
-		 * @param animation
-		 * @param node
-		 * @param keyframes
-		 */
-		virtual void onNodeAnimation( const OgreMax::Types::NodeAnimationParameters& param, const OgreMax::Types::NodeParameters& node, const std::vector<OgreMax::Types::KeyFrame>& keyframes) {
-		}
-        
         /**
          * Called after a scene is loaded.
          */

@@ -1,9 +1,12 @@
 #ifndef BLA
 #define BLA
 
+//Contains some code that might be moved
+
+/*
 //void CustomOgreMaxScene::FinishLoadingLookAndTrackTargets()
 //{
-   /* //Resolve look targets
+    //Resolve look targets
     for (LookTargetList::iterator lookTarget = this->lookTargets.begin();
         lookTarget != this->lookTargets.end();
         ++lookTarget)
@@ -41,12 +44,12 @@
         else if (trackTarget->sourceCamera != 0)
             trackTarget->sourceCamera->setAutoTracking(true, trackTargetNode, trackTarget->offset);
     }
-    this->trackTargets.clear();*/
+    this->trackTargets.clear();
 //}
 
 void CustomOgreMaxScene::LoadInstancedGeometries(const TiXmlElement* objectElement)
 {
- /*   //Ensure instancing is supported
+    //Ensure instancing is supported
     if (!Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_VERTEX_PROGRAM))
 	{
 		OGRE_EXCEPT
@@ -66,7 +69,7 @@ void CustomOgreMaxScene::LoadInstancedGeometries(const TiXmlElement* objectEleme
 
         if (elementName == "instancedGeometry")
             LoadInstancedGeometry(childElement);
-    }*/
+    }
 }
 
 void CustomOgreMaxScene::LoadInstancedGeometry(const TiXmlElement* objectElement)
@@ -121,7 +124,7 @@ void CustomOgreMaxScene::LoadInstancedGeometry(const TiXmlElement* objectElement
 
     //Add additional batch instances
     for (unsigned int batchIndex = 0; batchIndex < batchCount; batchIndex++)
-        instancedGeometry->addBatchInstance();*/
+        instancedGeometry->addBatchInstance();
 }
 
 void CustomOgreMaxScene::LoadInstancedGeometryEntity(const TiXmlElement* objectElement)
@@ -160,7 +163,7 @@ void CustomOgreMaxScene::LoadInstancedGeometryEntity(const TiXmlElement* objectE
 
         //Destroy entity
         this->sceneManager->destroyEntity(entity);
-    }*/
+    }
 }
 
 void CustomOgreMaxScene::LoadStaticGeometries(const TiXmlElement* objectElement)
@@ -174,7 +177,7 @@ void CustomOgreMaxScene::LoadStaticGeometries(const TiXmlElement* objectElement)
 
         if (elementName == "staticGeometry")
             LoadStaticGeometry(childElement);
-    }*/
+    }
 }
 
 void CustomOgreMaxScene::LoadStaticGeometry(const TiXmlElement* objectElement)
@@ -224,7 +227,7 @@ void CustomOgreMaxScene::LoadStaticGeometry(const TiXmlElement* objectElement)
     }
 
     //Build the static geometry
-    staticGeometry->build();*/
+    staticGeometry->build();
 }
 
 void CustomOgreMaxScene::LoadStaticGeometryEntity(const TiXmlElement* objectElement)
@@ -263,7 +266,7 @@ void CustomOgreMaxScene::LoadStaticGeometryEntity(const TiXmlElement* objectElem
 
         //Destroy entity
         this->sceneManager->destroyEntity(entity);
-    }*/
+    }
 }
 
 void CustomOgreMaxScene::LoadResourceLocations(const TiXmlElement* objectElement)
@@ -639,7 +642,7 @@ void CustomOgreMaxScene::postRenderTargetUpdate(const RenderTargetEvent& e)
 
     //Notify callback
     if (this->callback != 0)
-        this->callback->CreatedEntity(this, entity);*/
+        this->callback->CreatedEntity(this, entity);
 		}
         
 		virtual void onParticleSystem(const OgreMaxScene* scene, Ogre::ParticleSystem* particleSystem) {
@@ -654,10 +657,7 @@ void CustomOgreMaxScene::postRenderTargetUpdate(const RenderTargetEvent& e)
 		}
         
 
-        /**
-         * Called after a scene is loaded.
-         * @param success [in] - Indicates whether the scene was successfully loaded. False indicates an error occurred.
-         */
+   
         virtual void FinishedLoad(bool success) {}
 
         //Render texture creation callbacks
@@ -670,14 +670,8 @@ void CustomOgreMaxScene::postRenderTargetUpdate(const RenderTargetEvent& e)
         //Progress callback
         virtual void UpdatedLoadProgress(const OgreMaxScene* scene, Ogre::Real progress) {}
 
-        /**
-         * Notifies the caller that shadow textures are about to be created
-         * @param scene [in] - The scene that was loaded
-         * @param parameters [in/out] - The shadow parameters that are in effect. Any of the texture-related
-         * parameters can be modified. The most typical one to be modified is the texture pixel format.
-         */
         //virtual void CreatingShadowTextures(const OgreMaxScene* scene, Types::ShadowParameters& shadowParameters) {}
     };
-
+*/
 
 #endif
