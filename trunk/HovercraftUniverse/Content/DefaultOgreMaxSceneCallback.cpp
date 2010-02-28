@@ -15,8 +15,8 @@
 
 namespace HovUni {
 
-DefaultOgreMaxSceneCallback::DefaultOgreMaxSceneCallback(Ogre::Viewport * viewport, Ogre::SceneManager * scenemanager):
-	mSceneManager(scenemanager), mViewport(viewport)
+	DefaultOgreMaxSceneCallback::DefaultOgreMaxSceneCallback(Ogre::RenderWindow * window, Ogre::SceneManager * scenemanager):
+	mSceneManager(scenemanager), mWindow(window)
 {
 	mEnvironmentNear = 10000.0f;
 	mEnvironmentFar = 1.0f;
@@ -78,6 +78,8 @@ void DefaultOgreMaxSceneCallback::addNodeAnimation( Ogre::SceneNode * node, std:
 
 
 void DefaultOgreMaxSceneCallback::onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent){
+	Ogre::String name = nodeparameters.name;
+	
 	//Get Ogre parent
 	Ogre::SceneNode* parentnode = 0;
 	if ( parent == 0 ){
@@ -109,7 +111,7 @@ void DefaultOgreMaxSceneCallback::onRootNode ( const Ogre::Vector3& position, co
 }
 
 
-void DefaultOgreMaxSceneCallback::onLight(const OgreMax::Types::LightParameters& parameters, const OgreMax::Types::Attachable * parent) {
+void DefaultOgreMaxSceneCallback::onLight( OgreMax::Types::LightParameters& parameters, const OgreMax::Types::Attachable * parent) {
 	//Create the light
 	Ogre::Light* light = mSceneManager->createLight(parameters.name);
 	if (parameters.queryFlags != 0)
@@ -283,7 +285,7 @@ void DefaultOgreMaxSceneCallback::onPlane( OgreMax::Types::PlaneParameters plane
     //    owner.Attach(movablePlane);
 }
 
-void DefaultOgreMaxSceneCallback::onCamera( const OgreMax::Types::CameraParameters& params , const OgreMax::Types::Attachable * parent) {
+void DefaultOgreMaxSceneCallback::onCamera( OgreMax::Types::CameraParameters& params , const OgreMax::Types::Attachable * parent) {
    //Create the camera
 	Ogre::Camera* camera = mSceneManager->createCamera(params.name);
     if (params.queryFlags != 0)
@@ -373,12 +375,12 @@ void DefaultOgreMaxSceneCallback::onSkyPlane( OgreMax::Types::SkyPlaneParameters
 	}
 }
 
-void DefaultOgreMaxSceneCallback::onLoadClipping( Ogre::Real environmentNear, Ogre::Real environmentFar){
+void DefaultOgreMaxSceneCallback::onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar){
 	mEnvironmentFar = environmentFar;
 	mEnvironmentNear = environmentNear;
 }
 
-void DefaultOgreMaxSceneCallback::onFog ( const OgreMax::Types::FogParameters& fogParameters ){
+void DefaultOgreMaxSceneCallback::onFog ( OgreMax::Types::FogParameters& fogParameters ){
 
 	Ogre::Real linearStart = fogParameters.linearStart * mEnvironmentFar;
 	Ogre::Real linearEnd = fogParameters.linearEnd * mEnvironmentFar;
@@ -390,7 +392,7 @@ void DefaultOgreMaxSceneCallback::onAmbientColour( const Ogre::ColourValue& colo
 }
 
 void DefaultOgreMaxSceneCallback::onBackgroundColour( const Ogre::ColourValue& backgroundColor ){
-    mViewport->setBackgroundColour(backgroundColor);
+//    mViewport->setBackgroundColour(backgroundColor);
 }
 
 void DefaultOgreMaxSceneCallback::onShadowProperties( OgreMax::Types::ShadowParameters& params ){
@@ -423,7 +425,7 @@ void DefaultOgreMaxSceneCallback::onShadowProperties( OgreMax::Types::ShadowPara
                 //size doesn't exceed the window size
 
                 //Take minimum render window dimension as window size
-                int windowSize = (int)std::min(this->mViewport->getWidth(), this->mViewport->getHeight());
+                int windowSize = (int)std::min(this->mWindow->getWidth(), this->mWindow->getHeight());
 
                 //Use the lesser of the texture and window sizes
                 params.textureSize = std::min(params.textureSize, windowSize);
