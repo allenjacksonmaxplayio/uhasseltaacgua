@@ -7,26 +7,41 @@
 #include <fmod.hpp>
 #include <fmod_event.hpp>
 #include <fmod_errors.h>
+#include <vector>
+#include "Moveable3DEmitter.h"
 
 namespace HovUni {
 	class SoundManager {
+		friend class Moveable3DEmitter;
+
 		private:
 			/** The only instance of the SoundManager available */
 			static SoundManager * msSingleton;
 
+			/** Constant prefix for output */
+			static const Ogre::String msPrefix;
+
 			/** 
-			 * A HashMap which contains all the created musicprompts.
+			 * A Map which contains all the created musicprompts.
 			 * Ready to be activated/deactivated.
 			 */
 			std::map<unsigned int, FMOD::MusicPrompt*> mPrompts;
 
+			/** A list of registered emitters to be updated */
+			std::vector<Moveable3DEmitter*> mEmitters;
+
+			/** The FMOD event system */
 			FMOD::EventSystem * mEventSystem;
+
+			/** The FMOD system */
+			FMOD::System * mSystem;
+
+			/** The FMOD music system */
 			FMOD::MusicSystem * mMusicSystem;
 
+			/** Default result variable used for testing */
 			FMOD_RESULT mResult;
 
-			static const Ogre::String msPrefix;
-			
 			/**
 			 * Base constructor for the SoundManager.
 			 *
@@ -35,6 +50,15 @@ namespace HovUni {
 			 * @param mediaFile A ".fev" filename that contains the project data
 			 */
 			SoundManager(const Ogre::String& mediaPath, const Ogre::String& mediaFile);
+
+			/**
+			 * Retrieve a sound event.
+			 *
+			 * @param eventGUID The unique identifier for this type of events.
+			 * @param evt A pointer to where the event should be stored.
+			 * @return Will return the result to be handled at the caller.
+			 */
+			FMOD_RESULT getSoundEvent(const char* eventGUID, FMOD::Event ** evt);
 
 		public:
 			/**
@@ -122,7 +146,40 @@ namespace HovUni {
 			 * @param up The upwards orientation of the listener, must be of unit length and perpendicular to the forward vector.
 			 *		Default is 0 --> dont update hte upwards orientation
 			 */
-			void updateListenerPosition(const Ogre::Vector3& position, const Ogre::Vector3& velocity, const Ogre::Vector3& forward, const Ogre::Vector3& up);
+			void updateListenerPosition(Ogre::Vector3* position, Ogre::Vector3* velocity = 0, Ogre::Vector3* forward = 0, Ogre::Vector3* up = 0);
+
+			/**
+			 * Set a certain parameter inside a certain event to a specified value.
+			 *
+			 * @param eventGUID The unique ID for the event
+			 * @param parameterID The id of the parameter you want to modify
+			 * @param value The value you want to set the perameter to
+			 */
+			void setEventParameter(const char* eventGUID, unsigned int parameterID, float value);
+
+			/**
+			 * Get the range of a certain parameter inside a certain event.
+			 *
+			 * @param eventGUID The unique ID for the event
+			 * @param parameterID The id of the parameter you want to modify
+			 * @param min Will be set to the minimum value of the parameter 
+			 * @param max Will be set to the maximum value of the parameter
+			 */
+			void getEventParameterRange(const char* eventGUID, unsigned int parameterID, float* min, float* max);
+
+			/**
+			 * Register a new emitter to the sound manager
+			 *
+			 * @param emitter The emitter to register
+			 */
+			void registerEmitter(Moveable3DEmitter* emitter);
+
+			/**
+			 * Deregister an emitter from the sound manager
+			 *
+			 * @param emitter The emitter to deregister
+			 */
+			void deregisterEmitter(Moveable3DEmitter* emitter);
 
 			/**
 			 * Call this update function every frame
