@@ -268,6 +268,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\KeyMapper.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\NetworkIDManager.cpp"
 					>
 				</File>
@@ -350,6 +354,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ControllerActionType.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ControllerEvent.h"
 					>
 				</File>
@@ -391,6 +399,10 @@
 				</File>
 				<File
 					RelativePath=".\InputManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\KeyMapper.h"
 					>
 				</File>
 				<File
