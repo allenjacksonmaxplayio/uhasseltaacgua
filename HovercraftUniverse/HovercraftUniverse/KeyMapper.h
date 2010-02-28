@@ -24,13 +24,16 @@ public:
 	//TODO: is OIS::KeyCode voldoende? Werkt dit ook voor bv controllers?
 
 	/** Get the key for a certain action */
-	std::list<OIS::KeyCode> getKey(const ControllerActionType);
+	const std::list<OIS::KeyCode>& getKey(const ControllerActionType);
 
 	/** Change the key for this action */
 	void setKey(const ControllerActionType, const OIS::KeyCode);
 
+	/** Gets the action associated with this key */
+	const ControllerActionType getAction(const OIS::KeyCode);
+
 	/** Get the string representation of the action */
-	const char* getAction(const ControllerActionType);
+	const char* getName(const ControllerActionType);
 
 };
 

@@ -1,5 +1,6 @@
 #include "KeyMapper.h"
 #include <utility>
+#include <algorithm>
 
 namespace HovUni {
 
@@ -34,8 +35,9 @@ KeyMapper::KeyMapper(void) {
 KeyMapper::~KeyMapper(void) {
 }
 
-std::list<OIS::KeyCode> KeyMapper::getKey(const ControllerActionType action) {
-	return mMapping[action];
+const std::list<OIS::KeyCode>& KeyMapper::getKey(const ControllerActionType action) {
+	std::list<OIS::KeyCode> &keys = mMapping[action];
+	return keys;
 }
 
 void KeyMapper::setKey(const ControllerActionType action, const OIS::KeyCode key) {
@@ -52,7 +54,21 @@ void KeyMapper::setKey(const ControllerActionType action, const OIS::KeyCode key
 
 }
 
-const char* KeyMapper::getAction(const ControllerActionType action) {
+const ControllerActionType KeyMapper::getAction(const OIS::KeyCode key) {
+	std::map<ControllerActionType, std::list<OIS::KeyCode> >::const_iterator iter;
+    for (iter = mMapping.begin(); iter != mMapping.end(); ++iter) {
+		std::list<OIS::KeyCode> keys = iter->second;
+		if (std::find(keys.begin(), keys.end(), key) != keys.end()) {
+			// the key is in this list
+			return iter->first;
+		}
+    }
+
+	// no action was found
+	return INVALID;
+}
+
+const char* KeyMapper::getName(const ControllerActionType action) {
 	return actionNames[action];
 }
 
