@@ -35,11 +35,10 @@ protected:
 		if (attachable->type == OgreMax::Types::NODE){
 			const OgreMax::Types::SceneNode * scenenodedata = dynamic_cast<const OgreMax::Types::SceneNode*>(attachable);
 
-
 			//get the node using name
 			Ogre::SceneNode * node = mSceneManager->getSceneNode(scenenodedata->name);
 
-			assert( node != null );			
+			assert(node);			
 
 			//attach
             node->attachObject(movable);

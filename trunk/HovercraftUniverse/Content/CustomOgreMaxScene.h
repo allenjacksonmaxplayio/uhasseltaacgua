@@ -28,6 +28,8 @@ enum AttachableType {
 struct Attachable {
 	AttachableType type;
 	Ogre::String name;
+
+	virtual ~Attachable(){};
 };
 
 /**
