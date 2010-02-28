@@ -94,8 +94,10 @@ public:
 
 	/**
 	 * Draw all the game views.
+	 *
+	 * @param timeSinceLastFrame the time that elapsed since the last frame
 	 */
-	void drawGameViews();
+	void drawGameViews(Ogre::Real timeSinceLastFrame);
 
 protected:
 

@@ -82,7 +82,7 @@ void Application::setupScene() {
 	msSceneMgr->setAmbientLight(Ogre::ColourValue(0.25, 0.25, 0.25));
 
 	// Create and store entity manager
-	mEntityManager = EntityManager::getSingletonPtr();
+	mEntityManager = EntityManager::getClientSingletonPtr();
 
 	// Create and store representation manager
 	RepresentationManager::initialise(mEntityManager, msSceneMgr);

@@ -6,7 +6,7 @@ namespace HovUni {
 
 ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDManager(0) {
 	// Create and store entity manager
-	mEntityManager = EntityManager::getSingletonPtr();
+	mEntityManager = EntityManager::getServerSingletonPtr();
 	mIDManager = new NetworkIDManager(this);
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);

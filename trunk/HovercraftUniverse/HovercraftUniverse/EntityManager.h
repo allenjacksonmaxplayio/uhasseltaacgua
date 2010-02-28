@@ -23,8 +23,14 @@ protected:
 	/** The removed entities since last call */
 	std::vector<Entity *> mRemovedEntities;
 
-	/** The singleton object */
-    static EntityManager * mEntityManager;
+	/** The entity that is being tracked by the camera */
+	Ogre::String mEntityTracked;
+
+	/** The singleton object for the server */
+    static EntityManager * mEntityManagerServer;
+
+	/** The singleton object for the client */
+    static EntityManager * mEntityManagerClient;
 
 public:
 	
@@ -44,6 +50,15 @@ public:
 	 * @param entity the entity that ought to be registered with the manager
 	 */
 	void registerEntity(Entity * entity);
+
+	/**
+	 * Indicates to track the entity with the given name. We do not allow the entity object to 
+	 * be passed directly since this will be called in the constructor before the entity is fully
+	 * created. Only one entity can be track at a time.
+	 *
+	 * @param entityName the name of the entity to track
+	 */
+	void trackEntity(Ogre::String entityName);
 
 	/**
 	 * Releases an entity with the given name from the entity manager.
@@ -74,6 +89,13 @@ public:
 	 * @return the entities
 	 */
 	std::vector<Entity *> getAllEntities();
+
+	/** 
+	 * Returns the entity that is to be tracked.
+	 *
+	 * @return the entity that is tracked
+	 */
+	Entity * getTrackedEntity();
 
 	/**
 	 * Indicates whether the entity manager has new entities.
@@ -111,11 +133,18 @@ public:
 	void updateEntities(Ogre::Real timeSinceLastFrame);
 
 	/**
-	 * Returns the entity manager singleton.
+	 * Returns the entity manager singleton for the server.
 	 *
 	 * @return the singleton pointer
 	 */
-    static EntityManager * getSingletonPtr(void);
+    static EntityManager * getServerSingletonPtr(void);
+
+	/**
+	 * Returns the entity manager singleton for the client.
+	 *
+	 * @return the singleton pointer
+	 */
+    static EntityManager * getClientSingletonPtr(void);
 };
 
 }

@@ -1,12 +1,21 @@
 #include "Entity.h"
+#include "EntityManager.h"
 #include "ControllerEventParser.h"
 #include <cassert>
 #include <OgreLogManager.h>
 
 namespace HovUni {
 
-Entity::Entity(Ogre::String name, Ogre::String category, Ogre::Vector3 position, Ogre::Vector3 orientation) : 
+class EntityManager;
+
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation) : 
 		mName(name), mCategory(category), mController(0), mRegistered(false) {
+	if (track) {
+		// Track this entity
+		EntityManager::getClientSingletonPtr()->trackEntity(mName);
+	}
+
+	// Update data
 	changePosition(position);
 	changeOrientation(orientation);
 }

@@ -72,10 +72,10 @@ void RepresentationManager::updateRepresentations() {
 	}
 }
 
-void RepresentationManager::drawGameViews() {
+void RepresentationManager::drawGameViews(Ogre::Real timeSinceLastFrame) {
 	// Draw all game views
 	for (std::vector<GameView *>::const_iterator it = mGameViews.begin(); it != mGameViews.end(); it++) {
-		(*it)->draw();
+		(*it)->draw(timeSinceLastFrame);
 	}
 
 	//TODO: not fully convinced about placement :) (Nick)

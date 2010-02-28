@@ -180,10 +180,6 @@
 				RelativePath=".\main.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\RaceCamera.cpp"
-				>
-			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -260,6 +256,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\FreeroamCameraController.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\GameView.cpp"
 					>
 				</File>
@@ -269,6 +269,14 @@
 				</File>
 				<File
 					RelativePath=".\NetworkIDManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ObjectTrackCameraController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RaceCamera.cpp"
 					>
 				</File>
 				<File
@@ -286,10 +294,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\RaceCamera.h"
-				>
-			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -378,6 +382,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\FreeroamCameraController.h"
+					>
+				</File>
+				<File
 					RelativePath=".\GameView.h"
 					>
 				</File>
@@ -387,6 +395,14 @@
 				</File>
 				<File
 					RelativePath=".\NetworkIDManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ObjectTrackCameraController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RaceCamera.h"
 					>
 				</File>
 				<File

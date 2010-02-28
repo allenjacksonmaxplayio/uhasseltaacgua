@@ -2,9 +2,10 @@
 
 namespace HovUni {
 
-EntityManager * EntityManager::mEntityManager = 0;
+EntityManager * EntityManager::mEntityManagerServer = 0;
+EntityManager * EntityManager::mEntityManagerClient = 0;
 
-EntityManager::EntityManager() {
+EntityManager::EntityManager() : mEntityTracked("") {
 }
 
 EntityManager::~EntityManager() {
@@ -19,6 +20,10 @@ void EntityManager::registerEntity(Entity * entity) {
 	// Add to entities and new entities
 	mEntities.push_back(entity);
 	mNewEntities.push_back(entity);
+}
+
+void EntityManager::trackEntity(Ogre::String entityName) {
+	mEntityTracked = entityName;
 }
 
 void EntityManager::releaseEntity(Ogre::String entityName) {
@@ -65,6 +70,11 @@ std::vector<Entity *> EntityManager::getAllEntities() {
 	return mEntities;
 }
 
+Entity * EntityManager::getTrackedEntity() {
+	// Search and return entity
+	return getEntity(mEntityTracked);
+}
+
 std::vector<Entity *> EntityManager::getNewEntities() { 
 	std::vector<Entity *> entitiesToReturn = mNewEntities;
 	mNewEntities.clear();
@@ -86,12 +96,20 @@ void EntityManager::updateEntities(Ogre::Real timeSinceLastFrame) {
 	}
 }
 
-EntityManager * EntityManager::getSingletonPtr(void) {
-	if (!mEntityManager) {
-		mEntityManager = new EntityManager();
+EntityManager * EntityManager::getServerSingletonPtr(void) {
+	if (!mEntityManagerServer) {
+		mEntityManagerServer = new EntityManager();
 	}
 
-	return mEntityManager;
+	return mEntityManagerServer;
+}
+
+EntityManager * EntityManager::getClientSingletonPtr(void) {
+	if (!mEntityManagerClient) {
+		mEntityManagerClient = new EntityManager();
+	}
+
+	return mEntityManagerClient;
 }
 
 }

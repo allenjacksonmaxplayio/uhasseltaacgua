@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-	EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr) 
+EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr) 
 			:  mEntity(entity), mMesh(mesh), mSceneMgr(sceneMgr) {
 	// Create entity and scene node
 	mOgreEntity = mSceneMgr->createEntity(entity->getName(), mMesh);
