@@ -50,11 +50,9 @@ void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loa
 
     //Parse the directory and file base name from the input file name, if it's a file name
     String directory, fileBaseName;
-    if (isFileName)
-    {
+    if (isFileName) {
         StringUtil::splitFilename(fileNameOrContent, fileBaseName, directory);
-        if (!directory.empty())
-        {
+        if (!directory.empty()) {
             //A full path was passed in. Assume the caller wants the directory to be added as
             //a resource location and that the directory be the base all other resource
             //locations are relative to
@@ -64,30 +62,26 @@ void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loa
 
     //Notify callback, possibly getting a new resource group name
     String resourceGroupName = defaultResourceGroupName;
-    if (this->callback != 0)
-        this->callback->onSceneFile(fileBaseName, resourceGroupName);
+	if (this->callback != 0){
+		this->callback->onSceneFile(fileBaseName, resourceGroupName);
+	}
 
     //Load the XML document
     TiXmlDocument document;
-    if (isFileName)
-    {
+    if (isFileName) {
         //Load it from a file
 		String absoluteFileName = OgreMax::OgreMaxUtilities::JoinPath(this->baseResourceLocation, fileBaseName);
-        if (loadOptions & NO_FILE_SYSTEM_CHECK)
-        {
+        if (loadOptions & NO_FILE_SYSTEM_CHECK) {
             //Caller wants to load from the Ogre resource system
             OgreMax::OgreMaxUtilities::LoadXmlDocument(fileBaseName, document, resourceGroupName);
         }
-        else if (OgreMax::OgreMaxUtilities::IsFileReadable(absoluteFileName))
-        {
+        else if (OgreMax::OgreMaxUtilities::IsFileReadable(absoluteFileName)) {
             //Load from disk
-            if (document.LoadFile(absoluteFileName.c_str()))
-            {
+            if (document.LoadFile(absoluteFileName.c_str())) {
                 //The file was successfully loaded. Enable the use of the resource locations in the file
                 this->loadedFromFileSystem = true;
             }
-            else
-            {
+            else {
                 StringUtil::StrStreamType errorMessage;
                 errorMessage << "Unable to load OgreMax scene file: " << absoluteFileName;
 
@@ -99,8 +93,7 @@ void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loa
                     );
             }
         }
-        else if (!this->baseResourceLocation.empty())
-        {
+        else if (!this->baseResourceLocation.empty()) {
             //File isn't readable and the caller wanted it to be
             StringUtil::StrStreamType errorMessage;
             errorMessage << "Unable to read OgreMax scene file: " << absoluteFileName;
@@ -112,18 +105,15 @@ void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loa
 	            "CustomOgreMaxScene::Load"
                 );
         }
-        else
-        {
+        else {
             //Everything else failed. Load from the Ogre resource system
             OgreMax::OgreMaxUtilities::LoadXmlDocument(fileBaseName, document, resourceGroupName);
         }
     }
-    else
-    {
+    else {
         //Load it from memory
         document.Parse(fileNameOrContent.c_str());
-        if (document.Error())
-        {
+        if (document.Error()) {
             StringUtil::StrStreamType errorMessage;
             errorMessage << "There was an error parsing the OgreMax scene XML: " << document.ErrorDesc();
 
@@ -144,16 +134,15 @@ void CustomOgreMaxScene::Load ( TiXmlElement* objectElement, LoadOptions loadOpt
     this->defaultResourceGroupName = defaultResourceGroupName;
 
 	//Send "start" notification to callback
-    if (this->callback != 0)
-        this->callback->StartedLoad();
+	if (this->callback != 0){
+		this->callback->StartedLoad();
+	}
 
-    try
-    {
+    try {
         //Perform scene loading
         LoadScene(objectElement);
     }
-    catch (...)
-    {
+    catch (...) {
         //Send "ended with failure" notification to callback
         if (this->callback != 0)
             this->callback->FinishedLoad(false);
@@ -162,8 +151,9 @@ void CustomOgreMaxScene::Load ( TiXmlElement* objectElement, LoadOptions loadOpt
     }
 
     //Send "ended with success" notification to callback
-    if (this->callback != 0)
-        this->callback->FinishedLoad(true);
+	if (this->callback != 0){
+		this->callback->FinishedLoad(true);
+	}
 }
 
 
@@ -182,8 +172,9 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
     String application = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "application");
 	this->upAxis = OgreMax::Types::UP_AXIS_Y;
 	String upAxisText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "upAxis");
-    if (!upAxisText.empty())
-        this->upAxis = OgreMax::OgreMaxUtilities::ParseUpAxis(upAxisText);
+	if (!upAxisText.empty()){
+		this->upAxis = OgreMax::OgreMaxUtilities::ParseUpAxis(upAxisText);
+	}
     Ogre::Real unitsPerMeter = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "unitsPerMeter", 0);
     Ogre::String unitType = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "unitType");
 
@@ -192,8 +183,7 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
     if (minOgreVersion > CURRENT_OGRE_VERSION)
     {
         StringUtil::StrStreamType errorMessage;
-        errorMessage
-            << "The scene file's required Ogre version (" << minOgreVersion.ToString()
+        errorMessage << "The scene file's required Ogre version (" << minOgreVersion.ToString()
             << ") is not supported by the Ogre version this viewer uses ( " << CURRENT_OGRE_VERSION_STRING << ")";
 
         OGRE_EXCEPT
@@ -205,15 +195,14 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
     }
 
 	//callback
-	if ( this->callback != 0 )
+	if ( this->callback != 0 ){
 		this->callback->onSceneData( formatVersion, minOgreVersion, ogreMaxVersion, author, application, upAxis, unitsPerMeter, unitType);
-
+	}
 
     //Load scene user data
     const TiXmlElement* userDataReferenceElement = objectElement->FirstChildElement("userDataReference");
     const TiXmlElement* userDataElement = objectElement->FirstChildElement("userData");
-    if (userDataReferenceElement != 0 || userDataElement != 0)
-    {
+    if (userDataReferenceElement != 0 || userDataElement != 0) {
         if (userDataReferenceElement != 0)
             OgreMax::OgreMaxUtilities::LoadUserDataReference(userDataReferenceElement, sceneExtraData.userDataReference);
         if (userDataElement != 0)
@@ -224,27 +213,26 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
     }    
 
 	//Load resource locations
-    if ((this->loadOptions & SKIP_RESOURCE_LOCATIONS) == 0)
-    {
+    if ((this->loadOptions & SKIP_RESOURCE_LOCATIONS) == 0) {
         const TiXmlElement* resourceLocationsElement = objectElement->FirstChildElement("resourceLocations");
-        if (resourceLocationsElement != 0 || this->loadedFromFileSystem)
-        {
+        if (resourceLocationsElement != 0 || this->loadedFromFileSystem) {
 			LoadResourceLocations(resourceLocationsElement);
         }
     }
 
     //Load environment settings
     const TiXmlElement* environmentElement = objectElement->FirstChildElement("environment");
-    if (environmentElement != 0)
-        LoadEnvironment(environmentElement);
-
-//HEREWEARE
+	if (environmentElement != 0){
+		LoadEnvironment(environmentElement);
+	}
 
 	//TODO THIS
     //Create render textures
-/*    const TiXmlElement* renderTexturesElement = objectElement->FirstChildElement("renderTextures");
+	/*    
+	const TiXmlElement* renderTexturesElement = objectElement->FirstChildElement("renderTextures");
     if (renderTexturesElement != 0)
-        LoadRenderTextures(renderTexturesElement);*/
+        LoadRenderTextures(renderTexturesElement);
+	*/
 
     //Parse child elements
     const TiXmlElement* instancedGeometriesElement = 0;
@@ -252,33 +240,42 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
     const TiXmlElement* portalConnectedZonesElement = 0;
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "nodes")
+		if (elementName == "nodes") {
             LoadNodes(childElement);
-        else if (elementName == "externals")
+		}
+		else if (elementName == "externals") {
             LoadExternals(childElement);
-        else if (elementName == "externalUserData")
+		}
+		else if (elementName == "externalUserData") {
             LoadExternalUserDatas(childElement);
+		}
 		else if (elementName == "terrain"){
             LoadTerrain(childElement);
 		}
-        else if (elementName == "light")
+		else if (elementName == "light") {
             LoadLight(childElement,0);
-        else if (elementName == "camera")
+		}
+        else if (elementName == "camera") {
             LoadCamera(childElement,0);
-        else if (elementName == "queryFlags")
+		}
+        else if (elementName == "queryFlags") {
             LoadQueryFlagAliases(childElement);
-        else if (elementName == "visibilityFlags")
+		}
+        else if (elementName == "visibilityFlags") {
             LoadVisibilityFlagAliases(childElement);
-        else if (elementName == "instancedGeometries")
+		}
+        else if (elementName == "instancedGeometries") {
             instancedGeometriesElement = childElement;
-        else if (elementName == "staticGeometries")
+		}
+        else if (elementName == "staticGeometries") {
             staticGeometriesElement = childElement;
-        else if (elementName == "portalConnectedZones")
+		}
+        else if (elementName == "portalConnectedZones") {
             portalConnectedZonesElement = childElement;
+		}
     }
 
 
@@ -311,22 +308,23 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
 void CustomOgreMaxScene::LoadResourceLocations(const TiXmlElement* objectElement)
 {
     //Exit early if resource locations are not allowed
-    if (!this->loadedFromFileSystem)
+	if (!this->loadedFromFileSystem) {
         return;
+	}
 
     //Iterate over all the resource groups
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
         if (elementName == "resourceLocation")
         {
             //Name
             String name = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "name");
-            if (!this->baseResourceLocation.empty())
-                name = OgreMax::OgreMaxUtilities::JoinPath(this->baseResourceLocation, name);
+			if (!this->baseResourceLocation.empty()){
+				name = OgreMax::OgreMaxUtilities::JoinPath(this->baseResourceLocation, name);
+			}
 
             //Type
             String type = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "type");
@@ -377,11 +375,12 @@ void CustomOgreMaxScene::UpdateLoadProgress(OgreMax::ProgressCalculator* calcula
     calculator->Update(amount);
 
     //Send progress notification to callback
-    if (this->callback != 0)
-        this->callback->UpdatedLoadProgress(this->loadProgress.GetProgress());
+	if (this->callback != 0){
+		this->callback->UpdatedLoadProgress(this->loadProgress.GetProgress());
+	}
 }
 
-
+//TODO
 void CustomOgreMaxScene::LoadQueryFlagAliases(const TiXmlElement* objectElement)
 {
 /*    //Exit early if skip option is set
@@ -433,19 +432,18 @@ void CustomOgreMaxScene::LoadVisibilityFlagAliases(const TiXmlElement* objectEle
 void CustomOgreMaxScene::LoadExternals(const TiXmlElement* objectElement)
 {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_EXTERNALS) != 0)
+	if ((this->loadOptions & SKIP_EXTERNALS) != 0){
         return;
+	}
 
     //Iterate over all the node children
     size_t index = 0;
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "item")
-        {
+        if (elementName == "item") {
             LoadExternalItem(childElement);
         }
     }
@@ -456,14 +454,14 @@ void CustomOgreMaxScene::LoadExternalUserDatas(const TiXmlElement* objectElement
     size_t index = 0;
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
 		OgreMax::Types::ExternalUserData ud;
 
-        if (elementName == "userData")
-            LoadExternalUserData(childElement,ud);
+		if (elementName == "userData") {
+			LoadExternalUserData(childElement,ud);
+		}
     }
 }
 
@@ -476,31 +474,39 @@ void CustomOgreMaxScene::LoadExternalItem(const TiXmlElement* objectElement ) {
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "file")
+		if (elementName == "file") {
             item.file = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "name");
-        else if (elementName == "position")
+		}
+		else if (elementName == "position") {
             item.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "rotation")
+		}
+		else if (elementName == "rotation") {
             item.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
-        else if (elementName == "scale")
+		}
+		else if (elementName == "scale") {
             item.scale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "boundingVolume")
+		}
+		else if (elementName == "boundingVolume") {
             OgreMax::OgreMaxUtilities::LoadBoundingVolume(childElement, item.boundingVolume);
-        else if (elementName == "userDataReference")
+		}
+		else if (elementName == "userDataReference") {
             OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, item.userDataReference);
-        else if (elementName == "userData")
+		}
+		else if (elementName == "userData") {
             OgreMax::OgreMaxUtilities::GetChildText(childElement, item.userData);
-        else if (elementName == "noteTracks")
+		}
+		else if (elementName == "noteTracks") {
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, item.noteTracks);
+		}
     }
 
     //Notify callback
-    if (this->callback != 0)
-        this->callback->onExternal(item);
+	if (this->callback != 0) {
+		this->callback->onExternal(item);
+	}
 }
 
 void CustomOgreMaxScene::LoadExternalUserData(const TiXmlElement* objectElement, OgreMax::Types::ExternalUserData& userData) {
@@ -511,8 +517,9 @@ void CustomOgreMaxScene::LoadExternalUserData(const TiXmlElement* objectElement,
     OgreMax::OgreMaxUtilities::GetChildText(objectElement, userData.userData);
 
 	//Notify callback
-	if (this->callback != 0)
+	if (this->callback != 0) {
 		this->callback->onExternalUserData(userData);
+	}
 }
 
 
@@ -520,42 +527,49 @@ void CustomOgreMaxScene::LoadExternalUserData(const TiXmlElement* objectElement,
 void CustomOgreMaxScene::LoadEnvironment(const TiXmlElement* objectElement)
 {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_ENVIRONMENT) != 0)
-        return;
+	if ((this->loadOptions & SKIP_ENVIRONMENT) != 0) {
+		return;
+	}
 
     //Iterate over all the node children
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "fog")
-            LoadFog(childElement);
-        else if (elementName == "skyBox")
-            LoadSkyBox(childElement);
-        else if (elementName == "skyDome")
+		if (elementName == "fog"){
+			LoadFog(childElement);
+		}
+		else if (elementName == "skyBox") {
+			LoadSkyBox(childElement);
+		}
+		else if (elementName == "skyDome") {
             LoadSkyDome(childElement);
-        else if (elementName == "skyPlane")
+		}
+		else if (elementName == "skyPlane") {
             LoadSkyPlane(childElement);
-		else if (elementName == "clipping"){
+		}
+		else if (elementName == "clipping") {
 			Ogre::Real environmentNear;
 			Ogre::Real environmentFar;
 			OgreMax::OgreMaxUtilities::LoadClipping(childElement, environmentNear, environmentFar);
-			if ( this->callback )
+			if ( this->callback ) {
 				this->callback->onClipping(environmentNear, environmentFar);
+			}
 		}
-		else if (elementName == "colourAmbient"){
-			if ( this->callback )
+		else if (elementName == "colourAmbient") {
+			if ( this->callback ) {
 				this->callback->onAmbientColour(OgreMax::OgreMaxUtilities::LoadColor(childElement));
+			}
 		}
-        else if (elementName == "colourBackground")
-        {
-			if ( this->callback )
+        else if (elementName == "colourBackground") {
+			if ( this->callback ){
 				this->callback->onBackgroundColour(OgreMax::OgreMaxUtilities::LoadColor(childElement));
+			}
         }
-        else if (elementName == "shadows")
-            LoadShadows(childElement);
+		else if (elementName == "shadows") {
+			LoadShadows(childElement);
+		}
     }
 }
 void CustomOgreMaxScene::LoadFog(const TiXmlElement* objectElement) {
@@ -566,12 +580,14 @@ void CustomOgreMaxScene::LoadFog(const TiXmlElement* objectElement) {
     fogParameters.linearEnd = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "linearEnd", fogParameters.linearEnd);
 
     String fogModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "mode", "none");
-    if (!fogModeText.empty())
-        fogParameters.mode = OgreMax::OgreMaxUtilities::ParseFogMode(fogModeText);
+	if (!fogModeText.empty()) {
+		fogParameters.mode = OgreMax::OgreMaxUtilities::ParseFogMode(fogModeText);
+	}
 
     const TiXmlElement* colorElement = objectElement->FirstChildElement("colourDiffuse");
-    if (colorElement != 0)
-        fogParameters.color = OgreMax::OgreMaxUtilities::LoadColor(colorElement);
+	if (colorElement != 0) {
+		fogParameters.color = OgreMax::OgreMaxUtilities::LoadColor(colorElement);
+	}
 
 	if ( this->callback ){
 		this->callback->onFog(fogParameters);
@@ -580,8 +596,9 @@ void CustomOgreMaxScene::LoadFog(const TiXmlElement* objectElement) {
 
 void CustomOgreMaxScene::LoadSkyBox(const TiXmlElement* objectElement) {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_SKY) != 0)
-        return;
+	if ((this->loadOptions & SKIP_SKY) != 0) {
+		return;
+	}
 
     OgreMax::Types::SkyBoxParameters parameters;
     parameters.enabled = OgreMax::OgreMaxUtilities::GetBoolAttribute(objectElement, "enable", true);
@@ -594,18 +611,21 @@ void CustomOgreMaxScene::LoadSkyBox(const TiXmlElement* objectElement) {
     String elementName;
     const TiXmlElement* childElement = 0;
     const TiXmlElement* animationsElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "rotation")
-            parameters.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
-        else if (elementName == "userDataReference")
+		if (elementName == "rotation") {
+			parameters.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
+		}
+		else if (elementName == "userDataReference") {
             OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, parameters.extraData.userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, parameters.extraData.userData);
-        else if (elementName == "animations")
-            animationsElement = childElement;
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, parameters.extraData.userData);
+		}
+		else if (elementName == "animations") {
+			animationsElement = childElement;
+		}
     }
 
 	if ( animationsElement ){
@@ -625,8 +645,9 @@ void CustomOgreMaxScene::LoadSkyBox(const TiXmlElement* objectElement) {
 
 void CustomOgreMaxScene::LoadSkyDome(const TiXmlElement* objectElement) {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_SKY) != 0)
-        return;
+	if ((this->loadOptions & SKIP_SKY) != 0) {
+		return;
+	}
 
     OgreMax::Types::SkyDomeParameters parameters;
     parameters.enabled = OgreMax::OgreMaxUtilities::GetBoolAttribute(objectElement, "enable", true);
@@ -643,29 +664,32 @@ void CustomOgreMaxScene::LoadSkyDome(const TiXmlElement* objectElement) {
     String elementName;
     const TiXmlElement* childElement = 0;
     const TiXmlElement* animationsElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "rotation")
-            parameters.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, parameters.extraData.userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, parameters.extraData.userData);
-        else if (elementName == "animations")
-            animationsElement = childElement;
+		if (elementName == "rotation") {
+			parameters.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
+		}
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, parameters.extraData.userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, parameters.extraData.userData);
+		}
+		else if (elementName == "animations") {
+			animationsElement = childElement;
+		}
     }
 
-	if ( animationsElement ){
+	if ( animationsElement ) {
 		std::vector<OgreMax::Types::NodeAnimation> animation = LoadNodeAnimations(animationsElement);
-		if (this->callback != 0){
+		if (this->callback != 0) {
 			this->callback->onSkyDome(parameters,&animation);
 		}	
 	}
 	else {
 		//Notify callback
-		if (this->callback != 0){
+		if (this->callback != 0) {
 			this->callback->onSkyDome(parameters,0);
 		}
 	}
@@ -673,8 +697,9 @@ void CustomOgreMaxScene::LoadSkyDome(const TiXmlElement* objectElement) {
 
 void CustomOgreMaxScene::LoadSkyPlane(const TiXmlElement* objectElement) {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_SKY) != 0)
-        return;
+	if ((this->loadOptions & SKIP_SKY) != 0) {
+		return;
+	}
 
     OgreMax::Types::SkyPlaneParameters parameters;
     parameters.enabled = OgreMax::OgreMaxUtilities::GetBoolAttribute(objectElement, "enable", true);
@@ -692,29 +717,32 @@ void CustomOgreMaxScene::LoadSkyPlane(const TiXmlElement* objectElement) {
     String elementName;
     const TiXmlElement* childElement = 0;
     const TiXmlElement* animationsElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "rotation")
-            parameters.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, parameters.extraData.userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, parameters.extraData.userData);
-        else if (elementName == "animations")
+		if (elementName == "rotation") {
+			parameters.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
+		}
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, parameters.extraData.userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, parameters.extraData.userData);
+		}
+		else if (elementName == "animations") {
             animationsElement = childElement;
+		}
     }
 
 	if ( animationsElement ){
 		std::vector<OgreMax::Types::NodeAnimation> animation = LoadNodeAnimations(animationsElement);
-		if (this->callback != 0){
+		if (this->callback != 0) {
 			this->callback->onSkyPlane(parameters,&animation);
 		}	
 	}
 	else {
 		//Notify callback
-		if (this->callback != 0){
+		if (this->callback != 0) {
 			this->callback->onSkyPlane(parameters,0);
 		}
 	}
@@ -723,25 +751,25 @@ void CustomOgreMaxScene::LoadSkyPlane(const TiXmlElement* objectElement) {
 void CustomOgreMaxScene::LoadShadows(const TiXmlElement* objectElement)
 {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_SHADOWS) != 0)
+	if ((this->loadOptions & SKIP_SHADOWS) != 0) {
         return;
+	}
 
     OgreMax::Types::ShadowParameters params;
     String techniqueText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "technique", "none");
-    if (!techniqueText.empty())
-        params.shadowTechnique = OgreMax::OgreMaxUtilities::ParseShadowTechnique(techniqueText);
+	if (!techniqueText.empty()) {
+		params.shadowTechnique = OgreMax::OgreMaxUtilities::ParseShadowTechnique(techniqueText);
+	}
     params.selfShadow = OgreMax::OgreMaxUtilities::GetBoolAttribute(objectElement, "selfShadow", params.selfShadow);
     params.farDistance = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "farDistance", params.farDistance);
 
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "shadowTextures")
-        {
+        if (elementName == "shadowTextures") {
             params.textureSize = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "size", params.textureSize);
             params.textureCount = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "count", params.textureCount);
             params.textureOffset = OgreMax::OgreMaxUtilities::GetRealAttribute(childElement, "offset", params.textureOffset);
@@ -750,10 +778,10 @@ void CustomOgreMaxScene::LoadShadows(const TiXmlElement* objectElement)
             params.textureShadowCasterMaterial = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "shadowCasterMaterial");
             params.textureShadowReceiverMaterial = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "shadowReceiverMaterial");
         }
-        else if (elementName == "colourShadow")
-            params.shadowColor = OgreMax::OgreMaxUtilities::LoadColor(childElement);
-        else if (elementName == "shadowCameraSetup")
-        {
+		else if (elementName == "colourShadow") {
+			params.shadowColor = OgreMax::OgreMaxUtilities::LoadColor(childElement);
+		}
+        else if (elementName == "shadowCameraSetup") {
             params.cameraSetup = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "type", "lispsm");
             const Vector3& upVector = GetUpVector();
             params.optimalPlane = OgreMax::OgreMaxUtilities::GetPlaneAttributes(objectElement, upVector.x, upVector.y, upVector.z, 0);
@@ -1097,8 +1125,9 @@ void CustomOgreMaxScene::LoadTerrain(const TiXmlElement* objectElement) {
 //nodes
 void CustomOgreMaxScene::LoadNodes(const TiXmlElement* objectElement) {
     //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_NODES) != 0)
-        return;
+	if ((this->loadOptions & SKIP_NODES) != 0) {
+		return;
+	}
 
 	//root node positions
 	Ogre::Vector3 position(0,0,0);
@@ -1112,23 +1141,31 @@ void CustomOgreMaxScene::LoadNodes(const TiXmlElement* objectElement) {
     //Iterate over all the node children
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "node" || elementName == "modelInstance")
-            LoadNode(childElement,0);
-        else if (elementName == "position")
+		if (elementName == "position") {
 			position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "rotation")
+		}
+		else if (elementName == "rotation") {
 			rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
-        else if (elementName == "scale")
+		}
+		else if (elementName == "scale") {
 			scale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
     }
 
 	if ( this->callback ){
 		this->callback->onRootNode(position,rotation,scale);
-	}    
+	}
+
+	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
+        elementName = childElement->Value();
+
+		if (elementName == "node" || elementName == "modelInstance") {
+            LoadNode(childElement,0);
+		}
+	}
 }
 
 void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent)
@@ -1194,22 +1231,25 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
 	const TiXmlElement* animationElement = 0;
 
 	//fully load the node parameters
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, extraData.userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, extraData.userData);
-        else if (elementName == "position")
+		if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, extraData.userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, extraData.userData);
+		}
+		else if (elementName == "position") {
 			parameters.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "rotation")
-			parameters.orientation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);           
-        else if (elementName == "scale")
+		}
+		else if (elementName == "rotation") {
+			parameters.orientation = OgreMax::OgreMaxUtilities::LoadRotation(childElement); 
+		}          
+		else if (elementName == "scale") {
 			parameters.scale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "animations")
-        {
+		}
+        else if (elementName == "animations") {
 			animationElement = childElement;
         }
 	}
@@ -1218,16 +1258,16 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
     String visibilityText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "visibility");
 	parameters.visibility = OgreMax::OgreMaxUtilities::ParseNodeVisibility(visibilityText);
 
-	if ( animationElement == 0 ){
+	if ( animationElement == 0 ) {
 		//Notify callback
-		if (this->callback != 0){
+		if (this->callback != 0) {
 			this->callback->onNode(parameters, 0, parent);
 		}
 	}
 	else {
 		std::vector<OgreMax::Types::NodeAnimation> animations = LoadNodeAnimations(animationElement);
 		//Notify callback
-		if (this->callback != 0){
+		if (this->callback != 0) {
 			this->callback->onNode(parameters, &animations, parent);
 		}
 	}	
@@ -1242,20 +1282,27 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
             //LoadLookTarget(childElement, node, 0);
         //else if (elementName == "trackTarget")
             //LoadTrackTarget(childElement, node, 0);
-        if (elementName == "node" || elementName == "modelInstance")
+		if (elementName == "node" || elementName == "modelInstance") {
 			LoadNode(childElement, &parameters);
-        else if (elementName == "entity")
-            LoadEntity(childElement, &attachable);
-        else if (elementName == "light")
-            LoadLight(childElement, &attachable);
-        else if (elementName == "camera")
-            LoadCamera(childElement, &attachable);
-        else if (elementName == "particleSystem")
-            LoadParticleSystem(childElement, &attachable);
-        else if (elementName == "billboardSet")
-            LoadBillboardSet(childElement, &attachable);
-        else if (elementName == "plane")
+		}
+		else if (elementName == "entity") {
+			LoadEntity(childElement, &attachable);
+		}
+		else if (elementName == "light") {
+			LoadLight(childElement, &attachable);
+		}
+		else if (elementName == "camera") {
+			LoadCamera(childElement, &attachable);
+		}
+		else if (elementName == "particleSystem") {
+			LoadParticleSystem(childElement, &attachable);
+		}
+		else if (elementName == "billboardSet") {
+			LoadBillboardSet(childElement, &attachable);
+		}
+		else if (elementName == "plane") {
 			LoadPlane(childElement,&attachable);
+		}
     }
 
     //Update progress counter
@@ -1289,40 +1336,47 @@ void CustomOgreMaxScene::LoadEntity(const TiXmlElement* objectElement, OgreMax::
     const TiXmlElement* boneAttachmentsElement = 0;
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "vertexBuffer")
-            OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.vertexBufferUsage, parameters.vertexBufferShadowed);
-        else if (elementName == "indexBuffer")
-            OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.indexBufferUsage, parameters.indexBufferShadowed);
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
-        else if (elementName == "noteTracks")
-        {
+		if (elementName == "vertexBuffer") {
+			OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.vertexBufferUsage, parameters.vertexBufferShadowed);
+		}
+		else if (elementName == "indexBuffer") {
+			OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.indexBufferUsage, parameters.indexBufferShadowed);
+		}
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
+		}
+        else if (elementName == "noteTracks") {
             objectExtraData->noteTracks = SharedPtr<OgreMax::Types::NoteTracks>(new OgreMax::Types::NoteTracks);
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, *objectExtraData->noteTracks.get());
         }
-        else if (elementName == "customParameters")
-            OgreMax::OgreMaxUtilities::LoadCustomParameters(childElement, parameters.customParameters);
-        else if (elementName == "subentities")
-            OgreMax::OgreMaxUtilities::LoadSubentities(childElement, parameters.subentities);
-        else if (elementName == "boneAttachments")
-            boneAttachmentsElement = childElement;
+		else if (elementName == "customParameters") {
+			OgreMax::OgreMaxUtilities::LoadCustomParameters(childElement, parameters.customParameters);
+		}
+		else if (elementName == "subentities") {
+			OgreMax::OgreMaxUtilities::LoadSubentities(childElement, parameters.subentities);
+		}
+		else if (elementName == "boneAttachments") {
+			boneAttachmentsElement = childElement;
+		}
     }
 
     parameters.extraData = objectExtraData;
 
 	//Load bone attachments
-    if (boneAttachmentsElement != 0)
-        LoadBoneAttachments(boneAttachmentsElement, &parameters);
+	if (boneAttachmentsElement != 0) {
+		LoadBoneAttachments(boneAttachmentsElement, &parameters);
+	}
 
     //Notify callback
-    if (this->callback != 0)
+	if (this->callback != 0) {
 		this->callback->onEntity(parameters, parent);
+	}
 }
 
 void CustomOgreMaxScene::LoadLight(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent)
@@ -1341,10 +1395,10 @@ void CustomOgreMaxScene::LoadLight(const TiXmlElement* objectElement, OgreMax::T
 
 	Ogre::String lighttypetext = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "type");
 	//TODO check types output
-	if ( lighttypetext == "point" ){
+	if ( lighttypetext == "point" ) {
 		parameters.lightType = Ogre::Light::LT_POINT;
 	}
-	else if ( lighttypetext == "spot" ){
+	else if ( lighttypetext == "spot" ) {
 		parameters.lightType = Ogre::Light::LT_SPOTLIGHT;		
 	}
 	else {
@@ -1358,28 +1412,34 @@ void CustomOgreMaxScene::LoadLight(const TiXmlElement* objectElement, OgreMax::T
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "colourDiffuse")
+		if (elementName == "colourDiffuse") {
 			parameters.diffuseColor = OgreMax::OgreMaxUtilities::LoadColor(childElement);
-        else if (elementName == "colourSpecular")
+		}
+		else if (elementName == "colourSpecular") {
 			parameters.specularColor = OgreMax::OgreMaxUtilities::LoadColor(childElement);
-        else if (elementName == "lightRange")
-            LoadLightRange(childElement, parameters);
-        else if (elementName == "lightAttenuation")
-            LoadLightAttenuation(childElement, parameters);
-        else if (elementName == "position")
+		}
+		else if (elementName == "lightRange") {
+			LoadLightRange(childElement, parameters);
+		}
+		else if (elementName == "lightAttenuation") {
+			LoadLightAttenuation(childElement, parameters);
+		}
+		else if (elementName == "position") {
 			parameters.direction = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "normal")
+		}
+		else if (elementName == "normal") {
 			parameters.direction = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
-        else if (elementName == "noteTracks")
-        {
+		}
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
+		}
+        else if (elementName == "noteTracks") {
             objectExtraData->noteTracks = SharedPtr<OgreMax::Types::NoteTracks>(new OgreMax::Types::NoteTracks);
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, *objectExtraData->noteTracks.get());
         }
@@ -1388,8 +1448,9 @@ void CustomOgreMaxScene::LoadLight(const TiXmlElement* objectElement, OgreMax::T
 	parameters.extraData = objectExtraData;
 
     //Notify callback
-    if (this->callback != 0)
-        this->callback->onLight(parameters, parent);
+	if (this->callback != 0) {
+		this->callback->onLight(parameters, parent);
+	}
 }
 
 void CustomOgreMaxScene::LoadCamera(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent)
@@ -1409,7 +1470,7 @@ void CustomOgreMaxScene::LoadCamera(const TiXmlElement* objectElement, OgreMax::
     paramaters.aspectRatio = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "aspectRatio", (Real)1.33);
 
 	String projectiontypetext = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "type");
-	if ( projectiontypetext == "perspective" ){
+	if ( projectiontypetext == "perspective" ) {
 		paramaters.projectionType = Ogre::PT_PERSPECTIVE;
 	}
 	else {
@@ -1419,30 +1480,32 @@ void CustomOgreMaxScene::LoadCamera(const TiXmlElement* objectElement, OgreMax::
    //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "clipping")
-        {
+        if (elementName == "clipping") {
 			OgreMax::OgreMaxUtilities::LoadClipping(childElement, paramaters.nearClip, paramaters.farClip);
         }
-        else if (elementName == "position")
-			paramaters.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);            
-        else if (elementName == "rotation")
-			paramaters.orientation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);            
-        else if (elementName == "normal")
-			paramaters.direction = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);   
+		else if (elementName == "position") {
+			paramaters.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);       
+		}     
+		else if (elementName == "rotation") {
+			paramaters.orientation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);  
+		}          
+		else if (elementName == "normal") {
+			paramaters.direction = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}   
         /*else if (elementName == "lookTarget")
             LoadLookTarget(childElement, 0, camera);
         else if (elementName == "trackTarget")
             LoadTrackTarget(childElement, 0, camera);*/
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
-        else if (elementName == "noteTracks")
-        {
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
+		}
+        else if (elementName == "noteTracks") {
             objectExtraData->noteTracks = SharedPtr<OgreMax::Types::NoteTracks>(new OgreMax::Types::NoteTracks);
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, *objectExtraData->noteTracks.get());
         }
@@ -1450,8 +1513,9 @@ void CustomOgreMaxScene::LoadCamera(const TiXmlElement* objectElement, OgreMax::
 	paramaters.extraData = objectExtraData;
 
     //Notify callback
-    if (this->callback != 0)
-        this->callback->onCamera(paramaters,parent);
+	if (this->callback != 0) {
+		this->callback->onCamera(paramaters,parent);
+	}
 }
 
 void CustomOgreMaxScene::LoadParticleSystem(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent)
@@ -1473,16 +1537,16 @@ void CustomOgreMaxScene::LoadParticleSystem(const TiXmlElement* objectElement, O
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
-        else if (elementName == "noteTracks")
-        {
+		if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
+		}
+        else if (elementName == "noteTracks") {
             objectExtraData->noteTracks = SharedPtr<OgreMax::Types::NoteTracks>(new OgreMax::Types::NoteTracks);
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, *objectExtraData->noteTracks.get());
         }
@@ -1491,8 +1555,9 @@ void CustomOgreMaxScene::LoadParticleSystem(const TiXmlElement* objectElement, O
 	params.extraData = objectExtraData;
 
     //Notify callback
-    if (this->callback != 0)
+	if (this->callback != 0) {
 		this->callback->onParticleSystem(params,parent);
+	}
 }
 
 void CustomOgreMaxScene::LoadBillboardSet(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent )
@@ -1526,38 +1591,37 @@ void CustomOgreMaxScene::LoadBillboardSet(const TiXmlElement* objectElement, Ogr
      //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "billboard")
-            LoadBillboard(childElement,billboardset);
-        else if (elementName == "commonDirection")
-        {
+		if (elementName == "billboard") {
+			LoadBillboard(childElement,billboardset);
+		}
+        else if (elementName == "commonDirection") {
 			params.commonDirection = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);            
         }
-        else if (elementName == "commonUpVector")
-        {
+        else if (elementName == "commonUpVector") {
 			params.commonUpVector = OgreMax::OgreMaxUtilities::LoadXYZ(childElement); 
         }
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
-        else if (elementName == "noteTracks")
-        {
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
+		}
+        else if (elementName == "noteTracks") {
 			objectExtraData->noteTracks = Ogre::SharedPtr<OgreMax::Types::NoteTracks>(new OgreMax::Types::NoteTracks);
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, *objectExtraData->noteTracks.get());
         }
-        else if (elementName == "customParameters")
-            OgreMax::OgreMaxUtilities::LoadCustomParameters(childElement, customParameters);
+		else if (elementName == "customParameters") {
+			OgreMax::OgreMaxUtilities::LoadCustomParameters(childElement, customParameters);
+		}
     }
 
-    //OgreMax::OgreMaxUtilities::SetCustomParameters(billboardSet, customParameters);
-
     //Notify callback
-    if (this->callback != 0)
+	if (this->callback != 0) {
 		this->callback->onBillboardSet(params,billboardset,customParameters,parent);
+	}
 }
 
 void CustomOgreMaxScene::LoadPlane(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent )
@@ -1595,43 +1659,50 @@ void CustomOgreMaxScene::LoadPlane(const TiXmlElement* objectElement, OgreMax::T
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "normal")
-            parameters.normal = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "upVector")
-            parameters.upVector = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "vertexBuffer")
-            OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.vertexBufferUsage, parameters.vertexBufferShadowed);
-        else if (elementName == "indexBuffer")
-            OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.indexBufferUsage, parameters.indexBufferShadowed);
-        else if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
-        else if (elementName == "noteTracks")
-        {
+		if (elementName == "normal") {
+			parameters.normal = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
+		else if (elementName == "upVector") {
+			parameters.upVector = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
+		else if (elementName == "vertexBuffer") {
+			OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.vertexBufferUsage, parameters.vertexBufferShadowed);
+		}
+		else if (elementName == "indexBuffer") {
+			OgreMax::OgreMaxUtilities::LoadBufferUsage(childElement, parameters.indexBufferUsage, parameters.indexBufferShadowed);
+		}
+		else if (elementName == "userDataReference") {
+			OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, objectExtraData->userDataReference);
+		}
+		else if (elementName == "userData") {
+			OgreMax::OgreMaxUtilities::GetChildText(childElement, objectExtraData->userData);
+		}
+        else if (elementName == "noteTracks") {
             objectExtraData->noteTracks = SharedPtr<OgreMax::Types::NoteTracks>(new OgreMax::Types::NoteTracks);
             OgreMax::OgreMaxUtilities::LoadNoteTracks(childElement, *objectExtraData->noteTracks.get());
         }
-        else if (elementName == "customParameters")
-            OgreMax::OgreMaxUtilities::LoadCustomParameters(childElement, parameters.customParameters);
+		else if (elementName == "customParameters") {
+			OgreMax::OgreMaxUtilities::LoadCustomParameters(childElement, parameters.customParameters);
+		}
     }
 
     parameters.extraData = objectExtraData;
 
     //Notify callback
-    if (this->callback != 0)
+	if (this->callback != 0) {
 		this->callback->onPlane(parameters,parent);
+	}
 }
 
 void CustomOgreMaxScene::LoadBoneAttachments(const TiXmlElement* objectElement, OgreMax::Types::EntityParameters * entity)
 {
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         LoadBoneAttachment(childElement, entity);
+	}
 }
 
 void CustomOgreMaxScene::LoadBoneAttachment(const TiXmlElement* objectElement, OgreMax::Types::EntityParameters * entity)
@@ -1645,46 +1716,42 @@ void CustomOgreMaxScene::LoadBoneAttachment(const TiXmlElement* objectElement, O
 
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
-        if (elementName == "position")
-            tagpoint.attachPosition = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "rotation")
-            tagpoint.attachRotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
-        else if (elementName == "scale")
-            tagpoint.attachScale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		if (elementName == "position") {
+			tagpoint.attachPosition = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
+		else if (elementName == "rotation") {
+			tagpoint.attachRotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
+		}
+		else if (elementName == "scale") {
+			tagpoint.attachScale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
 	}
 
 	childElement = 0;
 	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
-        if (elementName == "entity")
-        {
+        if (elementName == "entity") {
             LoadEntity(childElement,&tagpoint);
             attachedSomething = true;
         }
-        else if (elementName == "light")
-        {
+        else if (elementName == "light") {
             LoadLight(childElement,&tagpoint);
             attachedSomething = true;
         }
-        else if (elementName == "camera")
-        {
+        else if (elementName == "camera") {
             LoadCamera(childElement,&tagpoint);
             attachedSomething = true;
         }
-        else if (elementName == "particleSystem")
-        {
+        else if (elementName == "particleSystem") {
             LoadParticleSystem(childElement,&tagpoint);
             attachedSomething = true;
         }
-        else if (elementName == "billboardSet")
-        {
+		else if (elementName == "billboardSet") {
             LoadBillboardSet(childElement,&tagpoint);
             attachedSomething = true;
         }
-        else if (elementName == "plane")
-        {
+        else if (elementName == "plane") {
             LoadPlane(childElement,&tagpoint);
             attachedSomething = true;
         }
@@ -1763,22 +1830,23 @@ void CustomOgreMaxScene::LoadBillboard(const TiXmlElement* objectElement, std::v
     //Parse child elements
     Ogre::String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "position")
-            bb.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "rotation")
-        {
+		if (elementName == "position") {
+			bb.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
+        else if (elementName == "rotation") {
             Quaternion rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);
             Vector3 rotationAxis;
             rotation.ToAngleAxis(bb.rotationAngle, rotationAxis);
         }
-        else if (elementName == "colourDiffuse")
-            bb.color = OgreMax::OgreMaxUtilities::LoadColor(childElement);
-        else if (elementName == "texCoordRectangle")
-            bb.texCoordRectangle = OgreMax::OgreMaxUtilities::LoadFloatRectangle(childElement);
+		else if (elementName == "colourDiffuse") {
+			bb.color = OgreMax::OgreMaxUtilities::LoadColor(childElement);
+		}
+		else if (elementName == "texCoordRectangle") {
+			bb.texCoordRectangle = OgreMax::OgreMaxUtilities::LoadFloatRectangle(childElement);
+		}
     }
 
 	billboardset.push_back(bb);
@@ -1786,21 +1854,23 @@ void CustomOgreMaxScene::LoadBillboard(const TiXmlElement* objectElement, std::v
 
 void CustomOgreMaxScene::LoadLightRange(const TiXmlElement* objectElement, OgreMax::Types::LightParameters& light)
 {
-	if (light.lightType == Light::LT_SPOTLIGHT)
-    {
+	if (light.lightType == Light::LT_SPOTLIGHT) {
         String value;
 
         value = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "inner");
-        if (!value.empty())
+		if (!value.empty()) {
 			light.spotlightInnerAngle = Radian(StringConverter::parseReal(value));
+		}
 
         value = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "outer");
-        if (!value.empty())
+		if (!value.empty()) {
 			light.spotlightOuterAngle = Radian(StringConverter::parseReal(value));
+		}
 
         value = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "falloff");
-        if (!value.empty())
+		if (!value.empty()) {
 			light.spotlightFalloff = StringConverter::parseReal(value);
+		}
     }
 }
 
@@ -1819,12 +1889,12 @@ std::vector<OgreMax::Types::NodeAnimation> CustomOgreMaxScene::LoadNodeAnimation
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "animation")
+		if (elementName == "animation") {
 			result.push_back(LoadNodeAnimation(childElement));
+		}
     }
 
 	return result;
@@ -1847,23 +1917,25 @@ OgreMax::Types::NodeAnimation CustomOgreMaxScene::LoadNodeAnimation(const TiXmlE
 
     //Interpolation mode
     String interpolationModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "interpolationMode");
-    if (!interpolationModeText.empty())
+	if (!interpolationModeText.empty()) {
         animation.parameters.interpolationMode = OgreMax::OgreMaxUtilities::ParseAnimationInterpolationMode(interpolationModeText);
+	}
 
     //Rotation interpolation mode
     String rotationInterpolationModeText = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "rotationInterpolationMode");
-    if (!rotationInterpolationModeText.empty())
+	if (!rotationInterpolationModeText.empty()) {
         animation.parameters.rotationInterpolationMode = OgreMax::OgreMaxUtilities::ParseAnimationRotationInterpolationMode(rotationInterpolationModeText);
+	}
 
     //Load animation keyframes
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
 
-        if (elementName == "keyframe")
+		if (elementName == "keyframe") {
 			LoadNodeAnimationKeyFrame(childElement, animation.animationTrack);
+		}
     }
 
 	return animation;
@@ -1880,29 +1952,31 @@ void CustomOgreMaxScene::LoadNodeAnimationKeyFrame(const TiXmlElement* objectEle
     //Parse child elements
     String elementName;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
         elementName = childElement->Value();
-        if (elementName == "translation")
-			keyframe.translation = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);            
-        else if (elementName == "rotation")
-			keyframe.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);            
-        else if (elementName == "scale")
+		if (elementName == "translation") {
+			keyframe.translation = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);  
+		}          
+		else if (elementName == "rotation") {
+			keyframe.rotation = OgreMax::OgreMaxUtilities::LoadRotation(childElement);  
+		}          
+		else if (elementName == "scale") {
 			keyframe.scale = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+		}
     }
 
 	animationTrack.push_back(keyframe);
 }
 
-void CustomOgreMaxScene::LoadObjectNames(const TiXmlElement* objectElement, const String& elementName, std::vector<String>& names)
-{
+void CustomOgreMaxScene::LoadObjectNames(const TiXmlElement* objectElement, const String& elementName, std::vector<String>& names) {
     size_t objectCount = OgreMax::OgreMaxUtilities::GetElementCount(objectElement, elementName);
     names.resize(objectCount);
 
     size_t index = 0;
     const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-        names[index++] = childElement->Attribute("name");
+	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
+		names[index++] = childElement->Attribute("name");
+	}
 }
 
 
