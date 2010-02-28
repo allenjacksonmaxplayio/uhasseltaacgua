@@ -395,7 +395,7 @@ void DefaultOgreMaxSceneCallback::onBackgroundColour( const Ogre::ColourValue& b
 
 void DefaultOgreMaxSceneCallback::onShadowProperties( OgreMax::Types::ShadowParameters& params ){
 
-  //Set the shadow parameters
+	//Set the shadow parameters
 	if (params.shadowTechnique == Ogre::SHADOWTYPE_NONE) {
         //Turn off shadows
         this->mSceneManager->setShadowTechnique(Ogre::SHADOWTYPE_NONE);

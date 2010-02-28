@@ -17,10 +17,16 @@ namespace OgreMax {
 
 namespace Types {
 
+enum AttachableType {
+	NODE,
+	ENTITY
+};
+
 /**
  * Container for an attachables
  */
 struct Attachable {
+	AttachableType type;
 	Ogre::String name;
 };
 
@@ -28,6 +34,9 @@ struct Attachable {
  * SceneNode: (Ogre::SceneNode)
  */
 struct SceneNode : Attachable {
+	SceneNode(){
+		type = NODE;
+	}
 };
 
 /**
@@ -35,6 +44,10 @@ struct SceneNode : Attachable {
  * attached to an entity (ex. point at hand for holding gun)
  */
 struct TagPoint : Attachable {
+	TagPoint(){
+		type = ENTITY;
+	}
+
 	Ogre::String tagName;
 	Ogre::String boneName;
 	Ogre::Vector3 attachPosition;
@@ -219,18 +232,9 @@ namespace HovUni {
          */
         void Load ( TiXmlElement* objectElement, LoadOptions loadOptions = NO_OPTIONS, CustomOgreMaxSceneCallback * callback = 0, const Ogre::String& defaultResourceGroupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
 
-        //Ogre::RenderTargetListener methods
-        //void preRenderTargetUpdate(const Ogre::RenderTargetEvent& e);
-        //void postRenderTargetUpdate(const Ogre::RenderTargetEvent& e);
-
         /**
-         * Determines the name of an object stored in an XML element. The name is
-         * presumed to be for a new object, so if the name is not unique an exception is thrown
-         * @param objectElement [in] - The XML element that contains the object
-         * @param node [in] - The scene node that will contain the object once it's
-         * parsed from the XML element.
+         * Determines the name of an object stored in an XML element
          * @return If the XML element contains the 'name' attribute, that attribute's value is returned.
-         * Otherwise the parent node's name is returned
          */
         Ogre::String GetNewObjectName(const TiXmlElement* objectElement);
 
@@ -244,24 +248,11 @@ namespace HovUni {
 		//Load Resource DONE
         void LoadResourceLocations(const TiXmlElement* objectElement);
 
-		/*
-        void LoadInstancedGeometries(const TiXmlElement* objectElement);
-        void LoadInstancedGeometry(const TiXmlElement* objectElement);
-        void LoadInstancedGeometryEntity(const TiXmlElement* objectElement );
-        void LoadStaticGeometries(const TiXmlElement* objectElement);
-        void LoadStaticGeometry(const TiXmlElement* objectElement);
-        void LoadStaticGeometryEntity(const TiXmlElement* objectElement);
-		*/
-
-		//Load Flags TODO
-		void LoadQueryFlagAliases(const TiXmlElement* objectElement);
-        void LoadVisibilityFlagAliases(const TiXmlElement* objectElement);
-
 		//Node DONE
         void LoadNodes(const TiXmlElement* objectElement);
 		void LoadNode(const TiXmlElement* objectElement, OgreMax::Types::NodeParameters * parent);
 
-		//Load Entity TODO some things about bones
+		//Load Entity DONE
         void LoadEntity(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
 		void LoadBoneAttachments(const TiXmlElement* objectElement, OgreMax::Types::EntityParameters * entity);
         void LoadBoneAttachment(const TiXmlElement* objectElement, OgreMax::Types::EntityParameters * entity);
@@ -280,10 +271,7 @@ namespace HovUni {
 		//Load Plane DONE
         void LoadPlane(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
         
-		//void LoadLookTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
-        //void LoadTrackTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
-
-		//Bilboards TODO
+		//Bilboards DONE
 		void LoadBillboardSet(const TiXmlElement* objectElement, OgreMax::Types::Attachable * parent);
 		void LoadBillboard(const TiXmlElement* objectElement, std::vector<OgreMax::Types::Billboard>& billboardset);
 
@@ -315,6 +303,22 @@ namespace HovUni {
 
 		//Terrain TODO
 		void LoadTerrain(const TiXmlElement* objectElement);
+
+		//void LoadLookTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
+        //void LoadTrackTarget(const TiXmlElement* objectElement, Ogre::SceneNode* node, Ogre::Camera* camera);
+
+		/*
+        void LoadInstancedGeometries(const TiXmlElement* objectElement);
+        void LoadInstancedGeometry(const TiXmlElement* objectElement);
+        void LoadInstancedGeometryEntity(const TiXmlElement* objectElement );
+        void LoadStaticGeometries(const TiXmlElement* objectElement);
+        void LoadStaticGeometry(const TiXmlElement* objectElement);
+        void LoadStaticGeometryEntity(const TiXmlElement* objectElement);
+		*/
+
+		//Load Flags TODO
+		void LoadQueryFlagAliases(const TiXmlElement* objectElement);
+        void LoadVisibilityFlagAliases(const TiXmlElement* objectElement);
   
     protected:
         LoadOptions loadOptions;

@@ -32,18 +32,32 @@ private:
 protected:
 
 	void attachMovable ( Ogre::MovableObject * movable, const OgreMax::Types::Attachable * attachable )  {
-/*		if (this->node != 0){
-            this->node->attachObject(object);
+		if (attachable->type == OgreMax::Types::NODE){
+			const OgreMax::Types::SceneNode * scenenodedata = dynamic_cast<const OgreMax::Types::SceneNode*>(attachable);
+
+
+			//get the node using name
+			Ogre::SceneNode * node = mSceneManager->getSceneNode(scenenodedata->name);
+
+			assert( node != null );			
+
+			//attach
+            node->attachObject(movable);
 		}
-        else if (this->entity != 0 && !this->boneName.empty())
+		else if ( attachable->type == OgreMax::Types::ENTITY )
         {
-            //TODO: Modify Ogre to accept object->getName() when creating TagPoint
-            Ogre::TagPoint* tagPoint = this->entity->attachObjectToBone(this->boneName, object);
-            tagPoint->setPosition(this->attachPosition);
-            tagPoint->setScale(this->attachScale);
-            tagPoint->setOrientation(this->attachRotation);
+			const OgreMax::Types::TagPoint * tagpointdata = dynamic_cast<const OgreMax::Types::TagPoint*>(attachable);
+			//get entity using name
+			Ogre::Entity * entity = mSceneManager->getEntity( tagpointdata->name );
+
+			assert(entity);
+
+            Ogre::TagPoint* tagPoint = entity->attachObjectToBone(tagpointdata->boneName, movable);
+            tagPoint->setPosition(tagpointdata->attachPosition);
+            tagPoint->setScale(tagpointdata->attachScale);
+            tagPoint->setOrientation(tagpointdata->attachRotation);
         }
-		else if (this->entity != 0){
+		/*else if (this->entity != 0){
 			//add empty tagpoint this is allowed
             Ogre::SkeletonInstance* skeleton = this->entity->getSkeleton();
             Ogre::Bone* bone = skeleton->getBone(this->boneName);
@@ -64,13 +78,13 @@ protected:
 
 	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object ){
 		if ( extradata->HasUserData() ){
-			//UserDataFactory::getInstance().parseUserData(extradata->userData);
+			UserDataFactory::getSingleton().parseUserData(extradata->userData);
 		}
 	}
 
 	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::SceneNode * node ){
 		if ( extradata->HasUserData() ){
-			//UserDataFactory::getInstance().parseUserData(extradata->userData);
+			UserDataFactory::getSingleton().parseUserData(extradata->userData);
 		}
 	}
 
