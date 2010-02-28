@@ -21,7 +21,7 @@ ClientCore::~ClientCore() {
 
 void ClientCore::initialize() {
 	// Create and store entity manager
-	mEntityManager = EntityManager::getSingletonPtr();
+	mEntityManager = EntityManager::getClientSingletonPtr();
 	mIDManager = new NetworkIDManager(this);
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);

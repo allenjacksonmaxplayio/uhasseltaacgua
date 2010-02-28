@@ -71,8 +71,10 @@ public:
 
 	/**
 	 * Draw the game view.
+	 *
+	 * @param timeSinceLastFrame the time since the last frame
 	 */
-	void draw();
+	void draw(Ogre::Real timeSinceLastFrame);
 
 	/**
 	 * Returns the camera associated with this game view.

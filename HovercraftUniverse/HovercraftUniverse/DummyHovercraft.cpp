@@ -6,8 +6,8 @@
 
 namespace HovUni {
 
-DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", Ogre::Vector3(0.0, 40.0, 0.0), 
-												Ogre::Vector3(0.0, 0.0, 0.0)) {
+DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", true, Ogre::Vector3(0.0, 40.0, 0.0), 
+												Ogre::Vector3(0.0, 0.0, -1.0)) {
 	// Already initialized
 }
 
@@ -39,6 +39,7 @@ void DummyHovercraft::processEventsOwnerAndOther(ControllerEvent* event) {
 				changeOrientation(mOrientation + e->getOrientationChange());
 
 				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Added " << e->getDirection();
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Updated position: " << getPosition() << " " << getOrientation() << "\n";
 				break;
 			}
 		default:

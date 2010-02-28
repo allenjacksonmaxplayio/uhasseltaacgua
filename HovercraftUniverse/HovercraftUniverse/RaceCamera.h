@@ -3,6 +3,8 @@
 
 #include <OgreSceneManager.h>
 #include "InputManager.h"
+#include "FreeroamCameraController.h"
+#include "ObjectTrackCameraController.h"
 
 namespace HovUni {
 
@@ -12,7 +14,7 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-class RaceCamera : public OIS::KeyListener, public OIS::MouseListener {
+class RaceCamera : public OIS::KeyListener {
 private:
 
 	/** The Ogre scene manager */
@@ -55,6 +57,11 @@ private:
 	/** The input manager */
 	InputManager * mInputManager;
 
+	/** The free roaming camera controller */
+	FreeroamCameraController * mFreeroamCameraController;
+
+	/** The tracking camera controller */
+	ObjectTrackCameraController * mObjectTrackCameraController;
 
 public:
 
@@ -72,21 +79,6 @@ public:
 	~RaceCamera(void);
 
 	/**
-	 * @see MouseListener::mouseMoved().
-	 */
-	bool mouseMoved(const OIS::MouseEvent & e);
-
-	/**
-	 * @see MouseListener::mousePressed().
-	 */
-	bool mousePressed(const OIS::MouseEvent & e, OIS::MouseButtonID id);
-
-	/**
-	 * @see MouseListener::mouseReleased().
-	 */
-	bool mouseReleased(const OIS::MouseEvent & e, OIS::MouseButtonID id);
-
-	/**
 	 * @see KeyListener::keyPressed().
 	 */
 	bool keyPressed(const OIS::KeyEvent & e);
@@ -95,6 +87,13 @@ public:
 	 * @see KeyListener::keyReleased().
 	 */
 	bool keyReleased(const OIS::KeyEvent & e);
+
+	/**
+	 * Updates the camera.
+	 *
+	 * @param timeSinceLastFrame the time since last frame was drawn
+	 */
+	void update(Ogre::Real timeSinceLastFrame);
 
 	/**
 	 * Returns the camera associated with this game view.

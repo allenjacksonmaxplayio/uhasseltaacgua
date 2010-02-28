@@ -42,10 +42,11 @@ public:
 	 *
 	 * @param name the unique name of the entity
 	 * @param category the category to which this entity belongs
+	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
 	 */
-	Entity(Ogre::String name, Ogre::String category, Ogre::Vector3 position, Ogre::Vector3 orientation);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation);
 
 	/**
 	 * Destructor.
@@ -107,7 +108,7 @@ public:
 	 *
 	 * @return the orientation
 	 */
-	Ogre::Vector3 getOrientation() { return mPosition; }
+	Ogre::Vector3 getOrientation() { return mOrientation; }
 
 	/**
 	 * Register the node for the network

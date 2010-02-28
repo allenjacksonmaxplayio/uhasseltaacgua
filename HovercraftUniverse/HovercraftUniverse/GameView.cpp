@@ -47,7 +47,10 @@ void GameView::removeEntityRepresentation(Ogre::String entityRep) {
 	}
 }
 
-void GameView::draw() {
+void GameView::draw(Ogre::Real timeSinceLastFrame) {
+	// Update the camera
+	mRaceCam->update(timeSinceLastFrame);
+
 	//Activate the HUD if needed
 	if (!mHUD->isActivated()) {
 		mHUD->activate();

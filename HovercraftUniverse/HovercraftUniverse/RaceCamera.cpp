@@ -1,4 +1,5 @@
 #include "RaceCamera.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 
@@ -8,11 +9,8 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 	mCamera->setNearClipDistance(5);
 
 	// Create 3rd person view camera
-	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode", 
-		Ogre::Vector3(0, 200, 400));
+	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode", Ogre::Vector3(0, 200, 400));
 	m3rdPersonViewpointNode = m3rdPersonViewpointNode->createChildSceneNode(m3rdPersonViewpointNode->getName() + "Pitch");
-	mActiveViewpointNode = m3rdPersonViewpointNode;
-	mActiveViewpointNode->attachObject(mCamera);
 
 	// Create 1st person view camera
 	m1stPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "1stPersonNode", 
@@ -34,33 +32,29 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 	// Fetch input manager object and register controls
 	mInputManager = InputManager::getSingletonPtr();
 	mInputManager->addKeyListener(this, "RaceCamera");
-	mInputManager->addMouseListener(this, "RaceCamera");
+
+	// Create camera controllers
+	mFreeroamCameraController = new FreeroamCameraController();
+	mObjectTrackCameraController = new ObjectTrackCameraController();
+
+	// Set default camera and controller
+	mActiveViewpointNode = m3rdPersonViewpointNode;
+	mActiveViewpointNode->attachObject(mCamera);
+	mCurrCamViewpoint = ThirdPerson;
 }
 
 RaceCamera::~RaceCamera() {
-	// Empty
-}
+	// Delete camera controller
+	delete mFreeroamCameraController;
+	mFreeroamCameraController = 0;
 
-bool RaceCamera::mouseMoved(const OIS::MouseEvent & e) { 
-	// Handle mouse movements of camera
-	if ((e.state.buttonDown(OIS::MB_Right)) && (mCurrCamViewpoint == FreeRoam)) {
-		// TODO 
-		//mActiveViewpointNode->yaw(Ogre::Degree(-mRotate * mMouse->getMouseState().X.rel), Node::TS_WORLD);
-		//mActiveViewpointNode->pitch(Ogre::Degree(-mRotate * mMouse->getMouseState().Y.rel), Node::TS_LOCAL);
-	}
-
-	return true; 
-}
-
-bool RaceCamera::mousePressed(const OIS::MouseEvent & e, OIS::MouseButtonID id) { 
-	return true;
-}
-bool RaceCamera::mouseReleased(const OIS::MouseEvent & e, OIS::MouseButtonID id) { 
-	return true; 
+	// Unregister controls
+	mInputManager->removeKeyListener("RaceCamera");
 }
 
 bool RaceCamera::keyPressed(const OIS::KeyEvent & e) { 
 	// TODO Allow key manager to set keys for the cameras
+	// TODO Set the camera controller
 	switch (e.key) {
 	case OIS::KC_1:
 		// Switch to 3rd person
@@ -90,39 +84,6 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 		mActiveViewpointNode->attachObject(mCamera);
 		mCurrCamViewpoint = FreeRoam;
 		break;
-// TODO Camera movements
-/*
-	case OIS::KC_UP:
-	case OIS::KC_W:
-		// Go further on z axis
-		mDirection.z -= mMove;
-		break;
-	case OIS::KC_DOWN:
-	case OIS::KC_S:
-		// Go back on z axis
-		mDirection.z += mMove;
-		break;
-	case OIS::KC_LEFT:
-	case OIS::KC_A:
-		// Go left
-		mDirection.x -= mMove;
-		break;
-	case OIS::KC_RIGHT:
-	case OIS::KC_D:
-		// Go right
-		mDirection.x += mMove;
-		break;
-	case OIS::KC_PGUP:
-	case OIS::KC_Q:
-		// Go up
-		mDirection.y += mMove;
-		break;
-	case OIS::KC_PGDOWN:
-	case OIS::KC_E:
-		// Go down
-		mDirection.y -= mMove;
-		break;
-*/
 	default:
 		// Do nothing
 		break;
@@ -133,39 +94,46 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 }
 
 bool RaceCamera::keyReleased(const OIS::KeyEvent & e) { 
-	// Clear movement
-	// TODO Clear
-	/*
-	switch (e.key) {
-	case OIS::KC_UP:
-	case OIS::KC_W:
-	case OIS::KC_DOWN:
-	case OIS::KC_S:
-		// Clear z-axis movement
-		mDirection.z = 0;
+	return true; 
+}
+
+void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
+	Ogre::Vector3 positionCam;
+	switch (mCurrCamViewpoint) {
+	case ThirdPerson:
+		// Determine position camera
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 30);
+		positionCam.y = 50;
+
+		// Set position and direction to look at
+		mActiveViewpointNode->setPosition(positionCam);
+		mActiveViewpointNode->lookAt(mObjectTrackCameraController->getPosition() + Ogre::Vector3(0.0, 0.0, -100.0), Ogre::Node::TS_WORLD);
+
 		break;
-	case OIS::KC_LEFT:
-	case OIS::KC_A:
-	case OIS::KC_RIGHT:
-	case OIS::KC_D:
-		// Clear x-axis movement
-		mDirection.x = 0;
+	case FirstPerson:
+		// Determine position camera
+		positionCam = mObjectTrackCameraController->getPosition() - Ogre::Vector3(0.0, 0.0, 100.0);
+		positionCam.y = 20;
+
+		// Set position and direction to look at
+		mActiveViewpointNode->setPosition(positionCam);
+		// TODO This looks at a random point for now
+		//mActiveViewpointNode->lookAt(positionCam + mObjectTrackCameraController->getDirection(), Ogre::Node::TS_WORLD);
+
 		break;
-	case OIS::KC_PGUP:
-	case OIS::KC_Q:
-	case OIS::KC_PGDOWN:
-	case OIS::KC_E:
-		// Clear y-axis movement
-		mDirection.y = 0;
+	case RearView:
+		// TODO Set rear view
+		break;
+	case FreeRoam:
+		// Get input from free roaming controller and apply
+		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 100), Ogre::Node::TS_LOCAL);
+		mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw(), Ogre::Node::TS_WORLD);
+		mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch(), Ogre::Node::TS_LOCAL);
 		break;
 	default:
-		// Do nothing
+		// Impossible
 		break;
 	}
-	*/
-
-	// Succes
-	return true; 
 }
 
 }
