@@ -11,7 +11,7 @@ class UserDataCallback;
 
 /**
  * Factory class for user data types.
- * Will parse a scene and extract user data types.
+ * Will parse a string and extract user data types.
  * A user can register UserDataCallback instances to receive notifications about user data creation.
  * This class is singleton, use getSingleton() to get the reference.
  * @author PJ
