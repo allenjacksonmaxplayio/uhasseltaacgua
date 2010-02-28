@@ -9,16 +9,21 @@ namespace HovUni {
 	SoundManager::SoundManager(const Ogre::String& mediaPath, const Ogre::String& mediaFile) {
 		//Initialize some stuff
 		ERRCHECK(mResult = FMOD::EventSystem_Create(&mEventSystem));
-		ERRCHECK(mResult = mEventSystem->init(64, FMOD_INIT_NORMAL, 0, FMOD_EVENT_INIT_NORMAL));
+		ERRCHECK(mResult = mEventSystem->init(64, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_SOFTWARE_OCCLUSION | FMOD_INIT_SOFTWARE_HRTF, 0, FMOD_EVENT_INIT_USE_GUIDS));
 		ERRCHECK(mResult = mEventSystem->setMediaPath(mediaPath.c_str()));
+		ERRCHECK(mResult = mEventSystem->getSystemObject(&mSystem));
+		ERRCHECK(mResult = mSystem->setGeometrySettings(200.0f));
 
 		//Load a sound object
-
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "Loading mediafile : " << mediaPath.c_str() << mediaFile.c_str();
 		ERRCHECK(mResult = mEventSystem->load(mediaFile.c_str(), 0, 0));
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "Mediafile loaded.";
 
 		ERRCHECK(mResult = mEventSystem->getMusicSystem(&mMusicSystem));
+	}
+	
+	FMOD_RESULT SoundManager::getSoundEvent(const char* eventGUID, FMOD::Event ** evt) {
+		return mEventSystem->getEventByGUIDString(eventGUID, FMOD_EVENT_DEFAULT, evt);
 	}
 
 	SoundManager& SoundManager::getSingleton(void) {
@@ -84,11 +89,82 @@ namespace HovUni {
 		}
 	}
 
-	void SoundManager::updateListenerPosition(const Ogre::Vector3& position, const Ogre::Vector3& velocity, const Ogre::Vector3& forward, const Ogre::Vector3& up) {
+	void SoundManager::updateListenerPosition(Ogre::Vector3* position, Ogre::Vector3* velocity, Ogre::Vector3* forward, Ogre::Vector3* up) {
+		FMOD_VECTOR pos;
+		FMOD_VECTOR vel;
+		FMOD_VECTOR forw;
+		FMOD_VECTOR upF;
 
+		if (position) {
+			pos.x = position->x;
+			pos.y = position->y;
+			pos.z = position->z;
+		}
+		if (velocity) {
+			vel.x = velocity->x;
+			vel.y = velocity->y;
+			vel.z = velocity->z;
+		}
+		if (forward) {
+			forw.x = forward->x;
+			forw.y = forward->y;
+			forw.z = forward->z;
+		}
+		if (up) {
+			upF.x = up->x;
+			upF.y = up->y;
+			upF.z = up->z;
+		}
+		
+		ERRCHECK(mResult = mEventSystem->set3DListenerAttributes(0, position ? &pos : 0, velocity ? &vel : 0, forward ? &forw : 0, up ? &upF : 0));
+	}
+
+	void SoundManager::setEventParameter(const char* eventGUID, unsigned int parameterID, float value) {
+		FMOD::Event* currEvent;
+		ERRCHECK(mResult = mEventSystem->getEventByGUIDString(eventGUID, FMOD_EVENT_DEFAULT, &currEvent));
+
+		
+		
+		FMOD::EventParameter* param;
+		ERRCHECK(mResult = currEvent->getParameterByIndex(parameterID, &param));
+		ERRCHECK(mResult = param->setValue(value));
+	}
+
+	void SoundManager::getEventParameterRange(const char* eventGUID, unsigned int parameterID, float* min, float* max) {
+		FMOD::Event* currEvent;
+		ERRCHECK(mResult = mEventSystem->getEventByGUIDString(eventGUID, FMOD_EVENT_DEFAULT, &currEvent));
+
+		FMOD::EventParameter* param;
+		ERRCHECK(mResult = currEvent->getParameterByIndex(parameterID, &param));
+		ERRCHECK(mResult = param->getRange(min, max));
+	}
+
+	void SoundManager::registerEmitter(Moveable3DEmitter* emitter) {
+		for (std::vector<Moveable3DEmitter*>::iterator it = mEmitters.begin(); it != mEmitters.end(); ++it) {
+			if ( (*it) == emitter ) {
+				//Already exists
+				return;
+			}
+		}
+
+		mEmitters.push_back(emitter);
+	}
+
+	void SoundManager::deregisterEmitter(Moveable3DEmitter* emitter) {
+		for (std::vector<Moveable3DEmitter*>::iterator it = mEmitters.begin(); it != mEmitters.end(); ++it) {
+			if ( (*it) == emitter ) {
+				mEmitters.erase(it);
+				return;
+			}
+		}
 	}
 
 	void SoundManager::update() {
+		//Update all the emitters
+		for (std::vector<Moveable3DEmitter*>::iterator it = mEmitters.begin(); it != mEmitters.end(); ++it) {
+			(*it)->update();
+		}
+
 		ERRCHECK(mResult = mEventSystem->update());
 	}
 

@@ -2,6 +2,7 @@
 #define DUMMYHOVERCRAFT_H_
 
 #include "Entity.h"
+#include <Moveable3DEmitter.h>
 
 namespace HovUni {
 
@@ -10,7 +11,7 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-class DummyHovercraft : public Entity
+class DummyHovercraft : public Entity, public Moveable3DEmitter
 {
 public:
 
@@ -45,6 +46,11 @@ public:
 	 * @param event the event
 	 */
 	void processEventsOwnerAndOther(ControllerEvent* event);
+
+	/**
+	 * See Moveable3DEmitter for details
+	 */
+	void getUpdates(Ogre::Vector3 ** position, Ogre::Vector3 ** velocity, Ogre::Vector3 ** orientation);
 };
 
 }

@@ -102,7 +102,8 @@ void Application::setupScene() {
 	mSoundManager = SoundManager::getSingletonPtr();
 
 	//Start music
-	mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
+	//mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
+	//mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
 
 	// Server
 	mServer = new ServerCore();
