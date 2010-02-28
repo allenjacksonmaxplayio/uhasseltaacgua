@@ -3,6 +3,7 @@
 
 #include "CustomOgreMaxScene.h"
 #include <OgreSceneManager.h>
+#include <OgreRenderWindow.h>
 #include "UserDataFactory.h"
 
 namespace HovUni {
@@ -14,7 +15,7 @@ private:
 	/**
 	 * The viewport
 	 */
-	Ogre::Viewport * mViewport;
+	Ogre::RenderWindow * mWindow;
 
 	/**
 	 * The Scenemanager
@@ -94,12 +95,37 @@ public:
 	 * @param viewport
 	 * @param scenemanager
 	 */
-	DefaultOgreMaxSceneCallback(Ogre::Viewport * viewport, Ogre::SceneManager * scenemanager);
+	DefaultOgreMaxSceneCallback(Ogre::RenderWindow * mWindow, Ogre::SceneManager * scenemanager);
 
 	/**
 	 * Destructor
 	 */
 	virtual ~DefaultOgreMaxSceneCallback(void);
+
+
+	virtual void onSceneFile( const Ogre::String& fileName, Ogre::String& resourceGroupName){
+	}
+	
+	virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive) {
+	}
+
+	virtual void StartedLoad(){
+	}
+
+	virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud) {
+	}
+
+	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
+	}
+
+	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem){
+	}
+
+	virtual void FinishedLoad( bool success ){
+	}
+
+	virtual void UpdatedLoadProgress( Ogre::Real progress ){
+	}
 
 	//Scene info
 	virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType);
@@ -114,9 +140,9 @@ public:
 
 	//Enviroment
 
-	virtual void onLoadClipping( Ogre::Real environmentNear, Ogre::Real environmentFar);
+	virtual void onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar);
 
-	virtual void onFog ( const OgreMax::Types::FogParameters& fog );
+	virtual void onFog ( OgreMax::Types::FogParameters& fog );
 
 	virtual void onAmbientColour( const Ogre::ColourValue& colour );
 
@@ -134,9 +160,9 @@ public:
 
 	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
 
-	virtual void onLight(const OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent);
+	virtual void onLight( OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent);
         
-	virtual void onCamera(const OgreMax::Types::CameraParameters& camera, const OgreMax::Types::Attachable * parent );
+	virtual void onCamera(OgreMax::Types::CameraParameters& params, const OgreMax::Types::Attachable * parent );
 
 	virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent );
 

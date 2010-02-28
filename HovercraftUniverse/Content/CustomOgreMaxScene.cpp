@@ -9,7 +9,9 @@ namespace HovUni {
 
 CustomOgreMaxScene::CustomOgreMaxScene()
 {
-    this->loadedFromFileSystem = false;
+	this->callback = 0;
+	this->loadedFromFileSystem = false;
+	this->loadOptions = NO_OPTIONS;
 }
 
 CustomOgreMaxScene::~CustomOgreMaxScene()
@@ -47,6 +49,8 @@ const Vector3& CustomOgreMaxScene::GetUpVector() const
 //load
 void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loadOptions, CustomOgreMaxSceneCallback* callback, const String& defaultResourceGroupName ) {
     bool isFileName = (loadOptions & FILE_NAME_CONTAINS_CONTENT) == 0;
+
+	this->callback = callback;
 
     //Parse the directory and file base name from the input file name, if it's a file name
     String directory, fileBaseName;
@@ -1276,8 +1280,10 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
 	attachable.name = parameters.name;
 
 	//get on with it
+	childElement = 0;
 	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
     {
+		elementName = childElement->Value();
         //else if (elementName == "lookTarget")
             //LoadLookTarget(childElement, node, 0);
         //else if (elementName == "trackTarget")
@@ -1731,7 +1737,9 @@ void CustomOgreMaxScene::LoadBoneAttachment(const TiXmlElement* objectElement, O
 
 	childElement = 0;
 	while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
-        if (elementName == "entity") {
+        elementName = childElement->Value();
+
+		if (elementName == "entity") {
             LoadEntity(childElement,&tagpoint);
             attachedSomething = true;
         }

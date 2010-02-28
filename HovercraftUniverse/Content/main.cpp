@@ -3,6 +3,7 @@
 
 #include "UserDataFactory.h"
 #include "UserDataCallback.h"
+#include "DefaultOgreMaxSceneCallback.h"
 
 #include "CustomOgreMaxScene.h"
 #include "Ogre.h"
@@ -124,23 +125,23 @@ protected:
 		// Load resources
 		loadResources();
 
+		mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "Default");	
+
 		CustomOgreMaxScene * mScene = new CustomOgreMaxScene();
 
-		TestUserDataCallback cb;
+		HovUni::DefaultOgreMaxSceneCallback callback(mWindow,mSceneMgr);
 
 		//CustomNotifier not;
-		mScene->Load("test.scene",OgreMax::OgreMaxScene::NO_OPTIONS);
+		mScene->Load("simpletrack.scene",OgreMax::OgreMaxScene::NO_OPTIONS,&callback);
 
 		delete mScene;
 
-		// Create one viewport, entire window
-        Viewport* vp = mWindow->addViewport(mCamera);
-        vp->setBackgroundColour(ColourValue(0,0,0));
+		mCamera = mSceneMgr->getCamera("Camera01");
+		Ogre::Viewport * vp = mWindow->addViewport(mCamera);
 
         // Alter the camera aspect ratio to match the viewport
         mCamera->setAspectRatio(
-            Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
-
+        Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 
         // Set default mipmap level (NB some APIs ignore this)
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
