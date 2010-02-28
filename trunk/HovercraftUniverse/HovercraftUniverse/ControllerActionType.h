@@ -9,11 +9,11 @@ namespace HovUni {
  * @author Tobias Van Bladel
  */
 enum ControllerActionType {
-	ACCELERATE, BRAKE, TURNLEFT, TURNRIGHT, CHANGECAMERA
+	INVALID, ACCELERATE, BRAKE, TURNLEFT, TURNRIGHT, CHANGECAMERA
 };
 
 /** String representations of the actions */
-static const char * actionNames[]={ "Accelerate", "Brake", "Turn Left", "Turn Right", "Change Camera" };
+static const char * actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right", "Change Camera" };
 
 }
 
