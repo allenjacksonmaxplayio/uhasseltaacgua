@@ -9,6 +9,8 @@ class HoverCraftUniverseWorld : public AbstractHavocWorld
 {
 public:
 
+	static HoverCraftUniverseWorld * world;
+
 	/**
 	 * Constructor
 	 */

@@ -40,7 +40,7 @@ public:
 	/**
 	 * Constructor
 	 */
-	Character( hkpWorld * mPhysicsWorld, hkpCharacterRigidBodyCinfo * info );
+	Character( hkpWorld * mPhysicsWorld, hkpCharacterRigidBodyCinfo * info, const char * charactertype );
 
 	/**
 	 * Destructor

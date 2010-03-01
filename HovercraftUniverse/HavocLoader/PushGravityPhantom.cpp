@@ -1,33 +1,38 @@
 #include <Common/Base/hkBase.h>
 #include <Common/Base/System/hkBaseSystem.h>
 
+#include <stdio.h>
+
 #include "EntityType.h"
-#include "GravityPhantom.h"
-#include "PlanetGravityAction.h"
+#include "PushGravityPhantom.h"
+#include "PushPlanetGravityAction.h"
+
 
 namespace HovUni {
 
-GravityPhantom::GravityPhantom( hkpRigidBody* body, const hkAabb& aabb, const hkpCollidable* hullCollidable, hkUint32 collisionFilterInfo )
-		: hkpAabbPhantom( aabb, collisionFilterInfo), mPlanetBody(body), mHullCollidable(hullCollidable) {
-}
-
-GravityPhantom::~GravityPhantom(void)
+PushGravityPhantom::PushGravityPhantom(hkpRigidBody* body, const hkAabb& aabb, const hkpCollidable* hullCollidable, hkUint32 collisionFilterInfo)
+	: hkpAabbPhantom( aabb, collisionFilterInfo), mPlanetBody(body), mHullCollidable(hullCollidable)
 {
 }
 
-void GravityPhantom::addOverlappingCollidable( hkpCollidable* handle )
+PushGravityPhantom::~PushGravityPhantom(void)
+{
+}
+
+void PushGravityPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpRigidBody* theBody = hkGetRigidBody( handle );
 
-	if( theBody && (theBody->getMotionType() != hkpMotion::MOTION_FIXED) && (EntityType::getEntityType(theBody) != EntityType::PLANET )  )
+	if( theBody && (EntityType::getEntityType(theBody) == EntityType::CHARACTER )  )
 	{
 		hkBool actionFound = false;
-
+		printf("NAME: %s", theBody->getName());
+	
 		for( int i = 0; i < theBody->getNumActions(); i++ )
 		{
-			if( theBody->getAction(i)->getUserData() == PlanetGravityAction::HK_SPHERE_ACTION_ID )
+			if( theBody->getAction(i)->getUserData() == PushPlanetGravityAction::HK_SPHERE_ACTION_ID )
 			{
-				if( static_cast<PlanetGravityAction*>( theBody->getAction(i) )->accessPhantomId()
+				if( static_cast<PushPlanetGravityAction*>( theBody->getAction(i) )->accessPhantomId()
 					== reinterpret_cast<hkUlong>( this ) )
 				{
 					// Do not add action if one already exists for this rigid body
@@ -40,17 +45,18 @@ void GravityPhantom::addOverlappingCollidable( hkpCollidable* handle )
 		if( !actionFound )
 		{
 			// Add an action
-			PlanetGravityAction* newGravity = new PlanetGravityAction( mPlanetBody, theBody, mHullCollidable, reinterpret_cast<hkUlong>( this ) );
+			PushPlanetGravityAction* newGravity = new PushPlanetGravityAction( mPlanetBody, theBody, mHullCollidable, reinterpret_cast<hkUlong>( this ) );
 			theBody->getWorld()->addAction( newGravity );
 			newGravity->removeReference();
 		}
-
-	}
+	}	
 
 	hkpAabbPhantom::addOverlappingCollidable( handle );
 }
 
-void GravityPhantom::removeOverlappingCollidable( hkpCollidable* handle )
+
+
+void PushGravityPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpRigidBody* theBody = hkGetRigidBody( handle );
 	hkBool actionFound = false;
@@ -60,9 +66,9 @@ void GravityPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 		for( int i = 0; i < theBody->getNumActions(); i++ )
 		{
 			// Is there already a PlanetGravityAction on the planet?
-			if( theBody->getAction(i)->getUserData() == PlanetGravityAction::HK_SPHERE_ACTION_ID )
+			if( theBody->getAction(i)->getUserData() == PushPlanetGravityAction::HK_SPHERE_ACTION_ID )
 			{
-				if( static_cast<PlanetGravityAction*>( theBody->getAction(i) )->accessPhantomId()
+				if( static_cast<PushPlanetGravityAction*>( theBody->getAction(i) )->accessPhantomId()
 					== reinterpret_cast<hkUlong>( this ) )
 				{
 					if( !actionFound )

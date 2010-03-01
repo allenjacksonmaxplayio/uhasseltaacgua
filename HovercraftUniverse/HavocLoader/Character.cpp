@@ -9,13 +9,16 @@
 
 namespace HovUni {
 
-Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info ): 
-	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL)
+Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info, const char * charactertype ): 
+	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(HK_NULL)
 {
 	hkReal mTimeStep = 1.0f/60.0f;
 
 	mForward.set( 1.0f, 0.0f, 0.0f );
 	mCharacterForward.set( 1.0f, 0.0f, 0.0f );
+
+	//mCharacterContext = getCharacterContext( charactertype );
+	//assert(mCharacterContext != HK_NULL);
 
 	//add reference here
 	mPhysicsWorld->addReference();
@@ -34,6 +37,8 @@ Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info ):
 }
 
 Character::~Character() {	
+	mCharacterContext->removeReference();
+
 	//remove the reference
 	mPhysicsWorld->removeEntity(mCharacterRigidBody->getRigidBody());
 	mCharacterRigidBody->removeReference();

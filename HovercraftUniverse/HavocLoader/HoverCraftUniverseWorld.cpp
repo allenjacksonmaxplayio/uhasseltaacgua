@@ -3,14 +3,18 @@
 #include "EntityType.h"
 #include "GravityPhantom.h"
 #include "PhantomTrackAction.h"
+#include "PushGravityPhantom.h"
 
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
 
 namespace HovUni {
 
+HoverCraftUniverseWorld * HoverCraftUniverseWorld::world = 0;
+
 HoverCraftUniverseWorld::HoverCraftUniverseWorld(void)
 {
+	world = this;
 }
 
 HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
@@ -78,40 +82,74 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 						planetRigidBody->getCollidable()->getShape()->getAabb( planetRigidBody->getTransform(), 0.0f, currentAabb );
 					}
 
-					// Scale up the planet's gravity field's AABB so it goes beyond the planet
-					hkVector4 extents;
-					extents.setSub4( currentAabb.m_max, currentAabb.m_min );
-					hkInt32 majorAxis = extents.getMajorAxis();
-					hkReal maxExtent = extents( majorAxis );
-					maxExtent *= 0.4f;
-
-					// Scale the AABB's extents
-					hkVector4 extension;
-					extension.setAll( maxExtent );
-					currentAabb.m_max.add4( extension );
-					currentAabb.m_min.sub4( extension );
-
-					// Attach a gravity phantom to the planet so it can catch objects which come close
-					GravityPhantom* gravityAabbPhantom = new GravityPhantom( planetRigidBody, currentAabb, hullCollidable );
-					mPhysicsWorld->addPhantom( gravityAabbPhantom );
-					gravityAabbPhantom->removeReference();
-
-					// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
-					if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
+					//add gravity field PULL
 					{
-						PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
-						mPhysicsWorld->addAction( trackAction );
-						trackAction->removeReference();
+						// Scale up the planet's gravity field's AABB so it goes beyond the planet
+						hkVector4 extents;
+						extents.setSub4( currentAabb.m_max, currentAabb.m_min );
+						hkInt32 majorAxis = extents.getMajorAxis();
+						hkReal maxExtent = extents( majorAxis );
+						maxExtent *= 0.4f;
+
+						// Scale the AABB's extents
+						hkVector4 extension;
+						extension.setAll( maxExtent );
+						currentAabb.m_max.add4( extension );
+						currentAabb.m_min.sub4( extension );
+
+						// Attach a gravity phantom to the planet so it can catch objects which come close
+						GravityPhantom* gravityAabbPhantom = new GravityPhantom( planetRigidBody, currentAabb, hullCollidable );
+						mPhysicsWorld->addPhantom( gravityAabbPhantom );
+						gravityAabbPhantom->removeReference();
+
+						// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
+						if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
+						{
+							PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
+							mPhysicsWorld->addAction( trackAction );
+							trackAction->removeReference();
+						}
+					}
+					//add gravity field PUSH
+					{
+						// Scale up the planet's gravity field's AABB so it goes beyond the planet
+						hkVector4 extents;
+						extents.setSub4( currentAabb.m_max, currentAabb.m_min );
+						hkInt32 majorAxis = extents.getMajorAxis();
+						hkReal maxExtent = extents( majorAxis );
+						maxExtent *= 0.1f;
+
+						// Scale the AABB's extents
+						hkVector4 extension;
+						extension.setAll( maxExtent );
+						currentAabb.m_max.add4( extension );
+						currentAabb.m_min.sub4( extension );
+
+						// Attach a gravity phantom to the planet so it can catch objects which come close
+						PushGravityPhantom* gravityAabbPhantom = new PushGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
+						mPhysicsWorld->addPhantom( gravityAabbPhantom );
+						gravityAabbPhantom->removeReference();
+
+						// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
+						if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
+						{
+							PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
+							mPhysicsWorld->addAction( trackAction );
+							trackAction->removeReference();
+						}
 					}
 				}
 			}
 			else if ( rbName.beginsWith( "StartPos" ) ){
 				//keep the position and orientation
-				//mStartPos = bodies[j]->getPosition();
-				//mStartRotation = bodies[j]->getRotation();
+				hkVector4 pos = bodies[j]->getPosition();
+				hkQuaternion rot = bodies[j]->getRotation();
 
 				//remove it from simulation
 				mPhysicsWorld->removeEntity( bodies[j] );
+			}
+			if( rbName.endsWith( "HOVER" ) ) {
+				EntityType::setEntityType(bodies[j],EntityType::CHARACTER);
 			}
 
 			// Update collision filter so that needless CollColl3 agents are not created.
