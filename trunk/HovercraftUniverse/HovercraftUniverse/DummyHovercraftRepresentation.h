@@ -4,6 +4,8 @@
 #include "EntityRepresentation.h"
 #include "DummyHovercraft.h"
 
+#include <Moveable3DEmitter.h>
+
 namespace HovUni {
 
 /**
@@ -11,7 +13,7 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-	class DummyHovercraftRepresentation : public EntityRepresentation {
+	class DummyHovercraftRepresentation : public EntityRepresentation, public Moveable3DEmitter {
 public:
 
 	/**
@@ -26,6 +28,11 @@ public:
 	 * Destructor.
 	 */
 	~DummyHovercraftRepresentation(void);
+
+	/**
+	 * See Moveable3DEmitter for details
+	 */
+	void getUpdates(Ogre::Vector3 ** position, Ogre::Vector3 ** velocity, Ogre::Vector3 ** orientation);
 };
 
 }
