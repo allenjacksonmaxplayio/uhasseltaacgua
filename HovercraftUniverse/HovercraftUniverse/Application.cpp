@@ -103,7 +103,7 @@ void Application::setupScene() {
 
 	//Start music
 	//mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
-	//mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
+	mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
 
 	// Server
 	mServer = new ServerCore();
