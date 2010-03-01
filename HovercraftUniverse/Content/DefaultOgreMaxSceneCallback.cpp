@@ -294,7 +294,7 @@ void DefaultOgreMaxSceneCallback::onCamera( OgreMax::Types::CameraParameters& pa
         camera->setVisibilityFlags(params.visibilityFlags);
 
 	OgreMax::OgreMaxUtilities::SetObjectVisibility(camera, params.visibility);
-	camera->setFOVy(Ogre::Radian(params.fov));
+	camera->setFOVy(params.fov);
     camera->setAspectRatio(params.aspectRatio);
     camera->setProjectionType(params.projectionType);
 
