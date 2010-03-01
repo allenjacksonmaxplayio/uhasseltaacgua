@@ -1,10 +1,8 @@
 #include "HoverCraftUniverseWorld.h"
 
 #include "EntityType.h"
-#include "GravityPhantom.h"
 #include "PhantomTrackAction.h"
-#include "PushGravityPhantom.h"
-
+#include "PullGravityPhantom.h"
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
 
@@ -98,35 +96,7 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 						currentAabb.m_min.sub4( extension );
 
 						// Attach a gravity phantom to the planet so it can catch objects which come close
-						GravityPhantom* gravityAabbPhantom = new GravityPhantom( planetRigidBody, currentAabb, hullCollidable );
-						mPhysicsWorld->addPhantom( gravityAabbPhantom );
-						gravityAabbPhantom->removeReference();
-
-						// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
-						if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
-						{
-							PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
-							mPhysicsWorld->addAction( trackAction );
-							trackAction->removeReference();
-						}
-					}
-					//add gravity field PUSH
-					{
-						// Scale up the planet's gravity field's AABB so it goes beyond the planet
-						hkVector4 extents;
-						extents.setSub4( currentAabb.m_max, currentAabb.m_min );
-						hkInt32 majorAxis = extents.getMajorAxis();
-						hkReal maxExtent = extents( majorAxis );
-						maxExtent *= 0.1f;
-
-						// Scale the AABB's extents
-						hkVector4 extension;
-						extension.setAll( maxExtent );
-						currentAabb.m_max.add4( extension );
-						currentAabb.m_min.sub4( extension );
-
-						// Attach a gravity phantom to the planet so it can catch objects which come close
-						PushGravityPhantom* gravityAabbPhantom = new PushGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
+						PullGravityPhantom* gravityAabbPhantom = new PullGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
 						mPhysicsWorld->addPhantom( gravityAabbPhantom );
 						gravityAabbPhantom->removeReference();
 

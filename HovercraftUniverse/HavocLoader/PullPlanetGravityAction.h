@@ -1,5 +1,5 @@
-#ifndef HK_PLANET_GRAVITY_ACTION_H
-#define HK_PLANET_GRAVITY_ACTION_H
+#ifndef PULLPLANETGRAVITYACTION_H
+#define PULLPLANETGRAVITYACTION_H
 
 #include <Physics/Dynamics/Action/hkpUnaryAction.h>
 
@@ -8,7 +8,7 @@ namespace HovUni {
 /**
  * Bodies with this action will have a force applied to them toward the surface of the planet
  */
-class PlanetGravityAction: public hkpUnaryAction
+class PullPlanetGravityAction: public hkpUnaryAction
 {
 	private:
 
@@ -45,7 +45,7 @@ class PlanetGravityAction: public hkpUnaryAction
 		 * @param phantomId, 0 for no phantomID
 		 * @param maxAcceleration
 		 */
-		PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration = 200.0f );
+		PullPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration = 200.0f );
 
 		/**
 		 * Get the phantom ID

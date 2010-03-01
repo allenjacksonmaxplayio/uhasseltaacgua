@@ -227,7 +227,7 @@ public:
 		hkReal lastTime = stopWatch.getElapsedSeconds();
 
 		//run physics at 60FPS
-		hkReal timestep = 1.f / 60.f;
+		hkReal timestep = 1.f / 120.f;
 
 		while ( true )
 		{
