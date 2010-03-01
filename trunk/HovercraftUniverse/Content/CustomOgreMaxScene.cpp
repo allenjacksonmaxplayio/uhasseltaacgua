@@ -1476,11 +1476,11 @@ void CustomOgreMaxScene::LoadCamera(const TiXmlElement* objectElement, OgreMax::
     paramaters.aspectRatio = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "aspectRatio", (Real)1.33);
 
 	String projectiontypetext = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "type");
-	if ( projectiontypetext == "perspective" ) {
-		paramaters.projectionType = Ogre::PT_PERSPECTIVE;
+	if ( projectiontypetext == "orthograpic" ) {
+		paramaters.projectionType = Ogre::PT_ORTHOGRAPHIC;
 	}
 	else {
-		paramaters.projectionType = Ogre::PT_ORTHOGRAPHIC;	
+		paramaters.projectionType = Ogre::PT_PERSPECTIVE;			
 	}
 
    //Parse child elements

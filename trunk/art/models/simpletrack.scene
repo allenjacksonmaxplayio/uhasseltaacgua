@@ -20,11 +20,6 @@
                     <subentity index="0" materialName="01-Default" />
                 </subentities>
             </entity>
-            <node name="Spot01.Target">
-                <position x="48.931" y="5" z="15.9854" />
-                <scale x="1" y="1" z="1" />
-                <rotation qx="0" qy="0" qz="0" qw="1" />
-            </node>
             <node name="Start">
                 <position x="-74.2147" y="7.45957" z="0.0465094" />
                 <scale x="1" y="1" z="1" />
@@ -53,20 +48,6 @@
                     <scale x="1" y="1" z="1" />
                     <rotation qx="0" qy="0" qz="0" qw="1" />
                 </node>
-            </node>
-            <node name="Spot01">
-                <position x="75.828" y="56.2706" z="52.5086" />
-                <scale x="1" y="1" z="1" />
-                <rotation qx="-0.86622" qy="-0.12818" qz="0.284542" qw="-0.390215" />
-                <light name="Spot01" visible="true" type="spot" castShadows="false" power="1">
-                    <colourDiffuse r="1" g="0.352941" b="0.352941" />
-                    <colourSpecular r="1" g="1" b="1" />
-                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
-                    <lightRange inner="0.750492" outer="0.785398" />
-                </light>
-                <trackTarget nodeName="Spot01.Target">
-                    <localDirection x="-0" y="-0" z="1" />
-                </trackTarget>
             </node>
             <node name="Omni01">
                 <position x="16.459" y="37.6126" z="-3.96269" />
@@ -119,9 +100,9 @@
             </node>
         </node>
         <node name="Camera01">
-            <position x="-97.0216" y="6.67726" z="-1.34771" />
+            <position x="-91.5446" y="18.4867" z="-1.34771" />
             <scale x="1" y="1" z="1" />
-            <rotation qx="-0" qy="-0.707107" qz="2.98023e-008" qw="0.707107" />
+            <rotation qx="0.0308435" qy="-0.706434" qz="0.0308436" qw="0.706434" />
             <camera name="Camera01" fov="0.602557">
                 <clipping near="1" far="1000" />
             </camera>
