@@ -6,14 +6,37 @@
 #include "PushGravityPhantom.h"
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
+#include <assert.h>
 
 namespace HovUni {
 
-HoverCraftUniverseWorld * HoverCraftUniverseWorld::world = 0;
+HoverCraftUniverseWorld * HoverCraftUniverseWorld::singe_ms = 0;
 
-HoverCraftUniverseWorld::HoverCraftUniverseWorld(void)
+
+void HoverCraftUniverseWorld::create( hkReal timestep ) {
+	if ( singe_ms == 0 ){
+		singe_ms = new HoverCraftUniverseWorld(timestep);
+	}
+}
+
+void HoverCraftUniverseWorld::destroy (){
+	if ( singe_ms != 0 ){
+		delete singe_ms;
+	}
+}
+
+HoverCraftUniverseWorld * HoverCraftUniverseWorld::getSingletonPtr(){
+	return singe_ms;
+}
+
+HoverCraftUniverseWorld& HoverCraftUniverseWorld::getSingleton() {
+	assert(singe_ms);
+	return *singe_ms;
+}
+
+HoverCraftUniverseWorld::HoverCraftUniverseWorld(hkReal timestep):
+	AbstractHavocWorld(timestep)
 {
-	world = this;
 }
 
 HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)

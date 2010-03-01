@@ -50,8 +50,6 @@ void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 		input.m_tolerance = input.m_tolerance * 2.0f;
 	} while( !collector.hasHit() );
 
-	hkVector4 forceDirTest = forceDir;
-
 	// Flip the normal of the getClosestPoints() result
 	forceDir.setMul4( -1.0f, collector.getHitContact().getNormal() );
 	forceDir.normalize3();
@@ -59,7 +57,7 @@ void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 
 	// Set force to be direction multiplied by magnitude multiplied by mass.
 	hkVector4 force;
-	force.setMul4( rb->getMass() * mGravityForce, forceDir );
+	
 
 	// Apply the gravity force.
 	//if( EntityType::getEntityType(rb) == EntityType::CHARACTER )
@@ -87,21 +85,23 @@ void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	}
 	else
 	{*/
-		rb->applyForce( stepInfo.m_deltaTime, force );
+		float turn = collector.getHitContact().getDistance();
 
-		if (  EntityType::getEntityType(rb) == EntityType::CHARACTER ){
-			hkVector4 upnormal = collector.getHitContact().getNormal();
-			hkReal distance = collector.getHitContact().getDistance();
-
-			hkReal forcepower = 1.0f/distance;
-			if ( forcepower > 250.0f || forcepower < 0 ){
-				forcepower = 250.0f;
-			}
-			upnormal.mul4(forcepower);
-			
-			rb->applyLinearImpulse(upnormal);
+		if ( turn < 0.2f ){
+			turn = 0.2f;
 		}
 
+
+		if (  EntityType::getEntityType(rb) == EntityType::CHARACTER ){
+		
+			force.setMul4( turn * rb->getMass() * mGravityForce, forceDir );
+
+			rb->applyForce( stepInfo.m_deltaTime, force);
+		}
+		else {
+			force.setMul4( rb->getMass() * mGravityForce, forceDir );
+			rb->applyForce( stepInfo.m_deltaTime, force );
+		}
 
 	//}
 }

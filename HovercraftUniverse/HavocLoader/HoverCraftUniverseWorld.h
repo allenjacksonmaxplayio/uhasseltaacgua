@@ -7,15 +7,25 @@ namespace HovUni {
 
 class HoverCraftUniverseWorld : public AbstractHavocWorld
 {
-public:
+private:
 
-	static HoverCraftUniverseWorld * world;
+	static HoverCraftUniverseWorld * singe_ms;
+
+public:
 
 	/**
 	 * Constructor
 	 */
-	HoverCraftUniverseWorld(void);
+	HoverCraftUniverseWorld( hkReal timestep );
 
+	static void create( hkReal timestep );
+
+	static void destroy ();
+
+	static HoverCraftUniverseWorld * getSingletonPtr();
+
+	static HoverCraftUniverseWorld& getSingleton();
+	
 	/**
 	 * Destructor
 	 */

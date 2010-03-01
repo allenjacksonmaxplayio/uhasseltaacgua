@@ -48,6 +48,16 @@ private:
 protected:
 
 	/**
+	 * Time
+	 */
+	hkReal mTime;
+
+	/**
+	 * Timestep
+	 */
+	hkReal mTimestep;
+
+	/**
 	 * A flag that shows if a world is loaded
 	 */
 	bool mIsLoaded;
@@ -68,7 +78,7 @@ public:
 	/**
 	 * Constructor
 	 */
-	AbstractHavocWorld(void);
+	AbstractHavocWorld(hkReal mTimestep);
 
 	/**
 	 * Destructor
@@ -76,10 +86,19 @@ public:
 	~AbstractHavocWorld(void);
 
 	/**
-	 * Get the world
+	 * Get the world time
+	 * @return world time
 	 */
-	hkpWorld* getWorld() {
-		return mPhysicsWorld;
+	inline const hkReal getTime() const {
+		return mTime;
+	}
+
+	/**
+	 * Get the world timestep
+	 * @return timestep
+	 */
+	inline const hkReal getTimeStep() const {
+		return mTimestep;
 	}
 
 	/**
@@ -105,10 +124,9 @@ public:
 	
 	/**
 	 * Update the world
-	 * @param timestep since previous update
 	 * @return false if not loaded, true otherwise
 	 */
-	bool update( hkReal timestep );
+	bool update();
 };
 
 }
