@@ -3,6 +3,7 @@
 #include "EntityType.h"
 #include "PhantomTrackAction.h"
 #include "PullGravityPhantom.h"
+#include "PushGravityPhantom.h"
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
 
@@ -97,6 +98,35 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 
 						// Attach a gravity phantom to the planet so it can catch objects which come close
 						PullGravityPhantom* gravityAabbPhantom = new PullGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
+						mPhysicsWorld->addPhantom( gravityAabbPhantom );
+						gravityAabbPhantom->removeReference();
+
+						// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
+						if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
+						{
+							PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
+							mPhysicsWorld->addAction( trackAction );
+							trackAction->removeReference();
+						}
+					}
+
+					//add gravity field PUSH
+					{
+						// Scale up the planet's gravity field's AABB so it goes beyond the planet
+						hkVector4 extents;
+						extents.setSub4( currentAabb.m_max, currentAabb.m_min );
+						hkInt32 majorAxis = extents.getMajorAxis();
+						hkReal maxExtent = extents( majorAxis );
+						maxExtent *= 0.4f;
+
+						// Scale the AABB's extents
+						hkVector4 extension;
+						extension.setAll( maxExtent );
+						currentAabb.m_max.add4( extension );
+						currentAabb.m_min.sub4( extension );
+
+						// Attach a gravity phantom to the planet so it can catch objects which come close
+						PushGravityPhantom* gravityAabbPhantom = new PushGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
 						mPhysicsWorld->addPhantom( gravityAabbPhantom );
 						gravityAabbPhantom->removeReference();
 
