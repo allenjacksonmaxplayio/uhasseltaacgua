@@ -45,7 +45,7 @@ class PullPlanetGravityAction: public hkpUnaryAction
 		 * @param phantomId, 0 for no phantomID
 		 * @param maxAcceleration
 		 */
-		PullPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration = 200.0f );
+		PullPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration = 10.0f );
 
 		/**
 		 * Get the phantom ID

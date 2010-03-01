@@ -213,10 +213,14 @@ public:
 	}
 	
 	void startRenderLoop() {
+		float timestep = 1.0f/120.0f;
+
 		//do havoc sim in background
-		HoverCraftUniverseWorld mHavoc;
+		HoverCraftUniverseWorld::create(timestep);
+
+		HoverCraftUniverseWorld * havoc = HoverCraftUniverseWorld::getSingletonPtr();
 		
-		KeyLister listener(&mHavoc);
+		KeyLister listener(havoc);
 
 		HovUni::InputManager::getSingletonPtr()->addKeyListener(&listener,"KB");
 		HovUni::InputManager::getSingletonPtr()->addMouseListener(&listener,"MOUSE");
@@ -226,9 +230,6 @@ public:
 		stopWatch.start();
 		hkReal lastTime = stopWatch.getElapsedSeconds();
 
-		//run physics at 60FPS
-		hkReal timestep = 1.f / 120.f;
-
 		while ( true )
 		{
 			Ogre::WindowEventUtilities::messagePump();
@@ -237,12 +238,14 @@ public:
 
 			mOgreRoot->renderOneFrame(timestep);
 
-			mHavoc.update(timestep);
+			havoc->update();
 
 			// Pause until the actual time has passed
 			while (stopWatch.getElapsedSeconds() < lastTime + timestep);
 				lastTime += timestep;			
 		}
+
+		HoverCraftUniverseWorld::destroy();
 	}
 
 };
