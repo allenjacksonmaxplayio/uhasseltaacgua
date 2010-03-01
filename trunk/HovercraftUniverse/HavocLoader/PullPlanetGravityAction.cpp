@@ -1,4 +1,4 @@
-#include "PlanetGravityAction.h"
+#include "PullPlanetGravityAction.h"
 #include "EntityType.h"
 #include "HoverCraftUniverseWorld.h"
 
@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-PlanetGravityAction::PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
+PullPlanetGravityAction::PullPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
 		hkpUnaryAction(satellite), 
 		mPlanetBody(planetBody), 
 		mHullCollidable(hullCollidable), 
@@ -18,7 +18,7 @@ PlanetGravityAction::PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody
 	setUserData( HK_SPHERE_ACTION_ID );
 }
 
-void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
+void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 {
 	hkpRigidBody* rb = getRigidBody();
 
@@ -49,6 +49,8 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 		// Grow the tolerance until we get a hit.
 		input.m_tolerance = input.m_tolerance * 2.0f;
 	} while( !collector.hasHit() );
+
+	hkVector4 forceDirTest = forceDir;
 
 	// Flip the normal of the getClosestPoints() result
 	forceDir.setMul4( -1.0f, collector.getHitContact().getNormal() );
@@ -86,6 +88,16 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	else
 	{*/
 		rb->applyForce( stepInfo.m_deltaTime, force );
+
+		if (  EntityType::getEntityType(rb) == EntityType::CHARACTER ){
+	
+			forceDirTest.zeroElement(3);
+			forceDirTest.fastNormalize3();
+			//forceDirTest.mul4( 0.5f );
+			rb->applyLinearImpulse(forceDirTest);
+		}
+
+
 	//}
 }
 
