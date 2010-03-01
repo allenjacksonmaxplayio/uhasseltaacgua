@@ -35,6 +35,9 @@ public:
 		if ( e.text == 'z'){
 			mHavoc->load(".\\..\\..\\..\\art\\models\\test_Default.hkx");
 		}
+		if ( e.text == 'r'){
+			mHavoc->load(".\\..\\..\\..\\art\\models\\simplephys_L4101.hkx");
+		}
 		if ( e.text == 'e' ){
 			//test the contextcontainer
 			CharacterContextContainer container;
@@ -105,6 +108,18 @@ public:
 
 		*/
 
+		return true;
+	}
+
+	virtual bool mouseMoved( const OIS::MouseEvent &arg ) {
+		return true;
+	}
+
+	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {
+		return true;
+	}
+
+	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {
 		return true;
 	}
 
@@ -226,7 +241,7 @@ public:
 
 			// Pause until the actual time has passed
 			while (stopWatch.getElapsedSeconds() < lastTime + timestep);
-			lastTime += timestep;			
+				lastTime += timestep;			
 		}
 	}
 

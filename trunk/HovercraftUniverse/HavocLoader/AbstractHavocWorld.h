@@ -76,6 +76,13 @@ public:
 	~AbstractHavocWorld(void);
 
 	/**
+	 * Get the world
+	 */
+	hkpWorld* getWorld() {
+		return mPhysicsWorld;
+	}
+
+	/**
 	 * Load a hkv file
 	 * This will fill the mPhysicsWorld, mLoadedData and mPhysicsData
 	 * It will also set the loaded flag

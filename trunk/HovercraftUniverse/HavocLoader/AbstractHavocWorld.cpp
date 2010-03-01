@@ -182,6 +182,7 @@ void AbstractHavocWorld::load ( const char * filename ){
 
 	// Set the simulation type of the world to multi-threaded.
 	worldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
+	worldInfo.m_processActionsInSingleThread = true;
 
 	// Flag objects that fall "out of the world" to be automatically removed - just necessary for this physics scene
 	worldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
