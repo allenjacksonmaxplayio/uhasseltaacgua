@@ -90,11 +90,16 @@ void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 		rb->applyForce( stepInfo.m_deltaTime, force );
 
 		if (  EntityType::getEntityType(rb) == EntityType::CHARACTER ){
-	
-			forceDirTest.zeroElement(3);
-			forceDirTest.fastNormalize3();
-			//forceDirTest.mul4( 0.5f );
-			rb->applyLinearImpulse(forceDirTest);
+			hkVector4 upnormal = collector.getHitContact().getNormal();
+			hkReal distance = collector.getHitContact().getDistance();
+
+			hkReal forcepower = 1.0f/distance;
+			if ( forcepower > 250.0f || forcepower < 0 ){
+				forcepower = 250.0f;
+			}
+			upnormal.mul4(forcepower);
+			
+			rb->applyLinearImpulse(upnormal);
 		}
 
 

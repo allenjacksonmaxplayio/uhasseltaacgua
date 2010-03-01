@@ -213,6 +213,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PushGravityPhantom.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PushPlanetGravityAction.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SimpleMultithreadedConsoleMain.cpp"
 				>
 			</File>
@@ -256,6 +264,14 @@
 			</File>
 			<File
 				RelativePath=".\PullPlanetGravityAction.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PushGravityPhantom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PushPlanetGravityAction.h"
 				>
 			</File>
 		</Filter>
