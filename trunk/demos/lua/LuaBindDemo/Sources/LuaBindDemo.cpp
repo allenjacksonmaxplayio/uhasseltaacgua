@@ -123,6 +123,21 @@ int main() {
 		catch(const std::exception &theProblemIs) {
 		cerr << theProblemIs.what() << endl;
 	}
+
+
+
+	//Call Lua Function from C++.
+	// Define a lua function that we can call
+	luaL_dostring(
+		myLuaState,
+		"function add(first, second)\n"
+		"  return first + second\n"
+		"end\n"
+	);
 	 
+	cout << "Result: "
+		<< luabind::call_function<int>(myLuaState, "add", 2, 3)
+		<< endl;
+
 	lua_close(myLuaState);
 }
