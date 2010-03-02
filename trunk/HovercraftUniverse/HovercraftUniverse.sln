@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Networking", "Networking\Ne
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sound", "Sound\Sound.vcproj", "{14203143-6339-4C43-95C7-A1B35B015346}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scripting", "Scripting\Scripting.vcproj", "{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,10 @@ Global
 		{14203143-6339-4C43-95C7-A1B35B015346}.Debug|Win32.Build.0 = Debug|Win32
 		{14203143-6339-4C43-95C7-A1B35B015346}.Release|Win32.ActiveCfg = Release|Win32
 		{14203143-6339-4C43-95C7-A1B35B015346}.Release|Win32.Build.0 = Release|Win32
+		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Debug|Win32.Build.0 = Debug|Win32
+		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Release|Win32.ActiveCfg = Release|Win32
+		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

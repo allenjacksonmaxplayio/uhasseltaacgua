@@ -1,0 +1,51 @@
+#ifndef SCRIPTWRAPPER_H
+#define SCRIPTWRAPPER_H
+
+extern "C" {
+  #include "lua.h"
+  #include "lualib.h"
+  #include "lauxlib.h"
+}
+#include "luabind/luabind.hpp"
+
+namespace HovUni {
+
+	/**
+	*	The Script Manager. This class functions as a wrapper 
+	*	around basic Lua-C++ functionality.
+	*	@author Dirk Delahaye
+	*/
+	class ScriptWrapper {
+	private:
+		lua_State *mLuaState;
+	public:
+		ScriptWrapper();
+		~ScriptWrapper();
+
+		/**
+		*	Register a C++ function for use in Lua. In the Lua script, this
+		*	function can then be called using the given name.
+		*	@param	name		The function name in the script.
+		*	@param	function	The C++ function to be bound. (Function pointer)
+		*/
+		void registerFunction( std::string name, void (*function)(void));
+
+		/**
+		*	Execute a function defined in the Lua script.
+		*	TODO: This method will just execute a function with integer
+		*			return value and no arguments. Maybe add more options or
+		*			include template?
+		*	@param	function	The function call in Lua.
+		*/
+		int execute( std::string function);
+
+		/**
+		*	Load a Lua Script file.
+		*	@param	filename	The location of the Lua script.
+		*/
+		void load( std::string filename);
+		
+	};
+}
+
+#endif //SCRIPTWRAPPER_H
