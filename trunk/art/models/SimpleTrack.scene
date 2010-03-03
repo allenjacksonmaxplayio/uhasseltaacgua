@@ -1,0 +1,152 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+    <userData>
+        <![CDATA[<Track><Name>SimpleScene</Name><MinimumPlayers>2</MinimumPlayers><PhysicsFileName>SimpleScene.hkx</PhysicsFileName></Track>]]>
+</userData>
+    <environment>
+        <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
+        <colourBackground r="0" g="0" b="0" />
+        <clipping near="0" far="100000" />
+    </environment>
+    <nodes>
+        <node name="Planet">
+            <position x="0" y="-5" z="2.18557e-007" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Planet" castShadows="true" receiveShadows="true" meshFile="Planet.mesh">
+                <userData>
+                    <![CDATA[<Astroid><Name>Footbalfield</Name><Gravity>9</Gravity><AstroidType>2</AstroidType><AsteroidType>2</AsteroidType></Astroid>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="01-Default" />
+                </subentities>
+            </entity>
+            <node name="BoostGeom">
+                <position x="67.5822" y="5" z="3.64217" />
+                <scale x="0.534545" y="0.534545" z="0.534545" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="BoostGeom" castShadows="true" receiveShadows="true" meshFile="BoostGeom.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="NoMaterial" />
+                    </subentities>
+                </entity>
+                <node name="Boost">
+                    <userData>
+                        <![CDATA[<Boost><Boost>5</Boost></Boost>]]>
+</userData>
+                    <position x="-0.142982" y="12.4516" z="0.346898" />
+                    <scale x="3.20638" y="2.52233" z="4.04608" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+            </node>
+            <node name="StartGeom">
+                <position x="-74.2147" y="7.45957" z="0.0465094" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="StartGeom" castShadows="true" receiveShadows="true" meshFile="StartGeom.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="03-Default" />
+                    </subentities>
+                </entity>
+                <node name="Start">
+                    <userData>
+                        <![CDATA[<Start />]]>
+</userData>
+                    <position x="-0.133896" y="2.31828" z="-0.334816" />
+                    <scale x="0.314403" y="1" z="2.274" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+                <node name="StartPosition2">
+                    <userData>
+                        <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
+</userData>
+                    <position x="-7.18408" y="-2.45957" z="5.45447" />
+                    <scale x="1" y="1" z="1" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+                <node name="StartPosition1">
+                    <userData>
+                        <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
+</userData>
+                    <position x="-6.74405" y="-2.45957" z="-6.32372" />
+                    <scale x="1" y="1" z="1" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+            </node>
+            <node name="Omni01">
+                <position x="16.459" y="37.6126" z="-3.96269" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+                <light name="Omni01" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="1" b="1" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
+            <node name="CheckPoint0Geom">
+                <position x="-28.1027" y="7.45957" z="-12.2019" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="CheckPoint0Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint0Geom.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="03-Default" />
+                    </subentities>
+                </entity>
+                <node name="CheckPoint0">
+                    <userData>
+                        <![CDATA[<CheckPoint><Name>GOO</Name><Number>0</Number></CheckPoint>]]>
+</userData>
+                    <position x="-0.156628" y="2.31828" z="-0.470099" />
+                    <scale x="0.314403" y="1" z="2.274" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+            </node>
+            <node name="CheckPoint1Geom">
+                <position x="34.3479" y="7.45957" z="9.90714" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="CheckPoint1Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint1Geom.mesh">
+                    <userData>
+                        <![CDATA[<CheckPoint><Name>Almost there</Name><Number>1</Number></CheckPoint>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="03-Default" />
+                    </subentities>
+                </entity>
+                <node name="CheckPoint01">
+                    <userData>
+                        <![CDATA[<CheckPoint><Name>RACE</Name><Number>1</Number></CheckPoint>]]>
+</userData>
+                    <position x="0.198418" y="2.31828" z="-0.222399" />
+                    <scale x="0.314403" y="1" z="2.274" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+            </node>
+            <node name="FinishGeom">
+                <position x="92.9024" y="7.45957" z="0.0465094" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="FinishGeom" castShadows="true" receiveShadows="true" meshFile="FinishGeom.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="03-Default" />
+                    </subentities>
+                </entity>
+                <node name="Finish">
+                    <userData>
+                        <![CDATA[<Finish />]]>
+</userData>
+                    <position x="0.328491" y="2.31828" z="-0.144307" />
+                    <scale x="0.314403" y="1" z="2.274" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                </node>
+            </node>
+        </node>
+        <node name="Camera01">
+            <position x="-91.5446" y="18.4867" z="-1.34771" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0.0308435" qy="-0.706434" qz="0.0308436" qw="0.706434" />
+            <camera name="Camera01" fov="0.602557">
+                <clipping near="1" far="1000" />
+            </camera>
+        </node>
+    </nodes>
+</scene>
