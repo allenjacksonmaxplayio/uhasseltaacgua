@@ -179,14 +179,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MapLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelLoader.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ParseException.cpp"
 				>
 			</File>
@@ -261,7 +253,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DefaultHandler.h"
+				RelativePath=".\CustomOgreMaxSceneCallback.h"
 				>
 			</File>
 			<File
@@ -269,11 +261,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MapLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ModelLoader.h"
+				RelativePath=".\OgreMaxTypesExtension.h"
 				>
 			</File>
 			<File

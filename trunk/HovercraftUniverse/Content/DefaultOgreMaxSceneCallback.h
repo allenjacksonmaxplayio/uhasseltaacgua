@@ -8,6 +8,11 @@
 
 namespace HovUni {
 
+/**
+ * This is a default implementation that will load a scene file.
+ * It will also attach user data to ogre scene nodes and movables like this:
+ * mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
+ */
 class DefaultOgreMaxSceneCallback : public CustomOgreMaxSceneCallback, public UserDataCallback
 {
 private:
@@ -79,7 +84,7 @@ public:
 	}
 
 	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
-		
+		//TODO parse Track usedata
 	}
 
 	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem){
@@ -134,6 +139,8 @@ public:
 
 	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent);
 
+	//Custom objects
+
 	virtual void onAsteroid( Asteroid * asteroid ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
@@ -142,7 +149,10 @@ public:
 	};
 
 	virtual void onStart( Start * start ) {
-	
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
 	};
 
 	virtual void onStartPosition( StartPosition * startposition ) {
@@ -159,19 +169,54 @@ public:
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
 	};
 
-	virtual void onFinish( Finish * finish ) {};
+	virtual void onFinish( Finish * finish ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 
-	virtual void onHoverCraft( Hovercraft * hovercraft ) {};
+	virtual void onHoverCraft( Hovercraft * hovercraft ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 
-	virtual void onTrack( Track * track ) {};
+	virtual void onTrack( Track * track ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 
-	virtual void onPortal( Portal * portal ) {};
+	virtual void onPortal( Portal * portal ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 
-	virtual void onBoost( Boost * boost ) {};
+	virtual void onBoost( Boost * boost ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 
-	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {};
+	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 
-	virtual void onResetSpawn( ResetSpawn * spawn ) {};
+	virtual void onResetSpawn( ResetSpawn * spawn ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
 };
 
 }
