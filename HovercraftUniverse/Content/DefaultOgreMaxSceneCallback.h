@@ -150,9 +150,9 @@ public:
 
 	virtual void onStart( Start * start ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(start));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(start));	
 	};
 
 	virtual void onStartPosition( StartPosition * startposition ) {
@@ -171,51 +171,51 @@ public:
 
 	virtual void onFinish( Finish * finish ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(finish));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(finish));	
 	};
 
 	virtual void onHoverCraft( Hovercraft * hovercraft ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(hovercraft));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(hovercraft));	
 	};
 
 	virtual void onTrack( Track * track ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(track));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(track));	
 	};
 
 	virtual void onPortal( Portal * portal ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(portal));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(portal));	
 	};
 
 	virtual void onBoost( Boost * boost ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(boost));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(boost));	
 	};
 
 	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(powerupspawn));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(powerupspawn));	
 	};
 
 	virtual void onResetSpawn( ResetSpawn * spawn ) {
 		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(spawn));
 		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(spawn));	
 	};
 };
 
