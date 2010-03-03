@@ -30,6 +30,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sound", "Sound\Sound.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scripting", "Scripting\Scripting.vcproj", "{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ContentDemo", "ContentDemo\ContentDemo.vcproj", "{C18658C9-D5FF-4EBB-A970-D7E180DA2B28}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E95EE5D8-561F-4736-B69C-0EC206894F78} = {E95EE5D8-561F-4736-B69C-0EC206894F78}
+		{186671F0-05A1-4CCC-A946-7A762D59C0F7} = {186671F0-05A1-4CCC-A946-7A762D59C0F7}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -68,6 +74,10 @@ Global
 		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Debug|Win32.Build.0 = Debug|Win32
 		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Release|Win32.ActiveCfg = Release|Win32
 		{9CE0D6D5-4A45-4848-9B9C-E3F996E98B8F}.Release|Win32.Build.0 = Release|Win32
+		{C18658C9-D5FF-4EBB-A970-D7E180DA2B28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C18658C9-D5FF-4EBB-A970-D7E180DA2B28}.Debug|Win32.Build.0 = Debug|Win32
+		{C18658C9-D5FF-4EBB-A970-D7E180DA2B28}.Release|Win32.ActiveCfg = Release|Win32
+		{C18658C9-D5FF-4EBB-A970-D7E180DA2B28}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

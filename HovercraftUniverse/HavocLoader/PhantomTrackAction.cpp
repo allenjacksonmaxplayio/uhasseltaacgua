@@ -1,6 +1,6 @@
 #include "PhantomTrackAction.h"
-#include "PlanetGravityAction.h"
-#include "GravityPhantom.h"
+#include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
+
 
 namespace HovUni {
 
