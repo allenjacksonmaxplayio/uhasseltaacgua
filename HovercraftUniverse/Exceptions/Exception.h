@@ -21,6 +21,12 @@ private:
 	/** A nested exception */
 	Exception* mNested;
 
+	/** An optional filename */
+	const char* mFilename;
+
+	/** An optional line number */
+	unsigned mLineNumber;
+
 public:
 	/**
 	 * Constructor
@@ -28,6 +34,15 @@ public:
 	 * @param msg the exception message
 	 */
 	Exception(const std::string& msg);
+
+	/**
+	 * Constructor with line annotations
+	 *
+	 * @param msg the exception message
+	 * @param filename the name of the file the exception was thrown
+	 * @param line the line inside the file where the exception was thrown
+	 */
+	Exception(const std::string& msg, const char* filename, unsigned line);
 	
 	/**
 	 * Constructor
@@ -36,6 +51,16 @@ public:
 	 * @param nested a nested exception
 	 */
 	Exception(const std::string& msg, const Exception& nested);
+
+	/**
+	 * Constructor
+	 *
+	 * @param msg the exception message
+	 * @param nested a nested exception
+	 * @param filename the name of the file the exception was thrown
+	 * @param line the line inside the file where the exception was thrown
+	 */
+	Exception(const std::string& msg, const Exception& nested, const char* filename, unsigned line);
 	
 	/*
 	 * Copy constructor
@@ -142,6 +167,10 @@ private:
 	const char* NEW::className() const throw() {													\
 		return typeid(*this).name();																\
 	}
+
+/** Macro to throw an exception with file and line annotations */
+#define THROW(CLASS, msg) throw CLASS( (msg), __FILE__, __LINE__)
+#define THROW_NESTED(CLASS, msg, nest) throw CLASS( (msg), nest, __FILE__, __LINE__)
 
 /*
  * Exception classes
