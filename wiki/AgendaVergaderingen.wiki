@@ -1,0 +1,17 @@
+#summary Agenda punten voor vergaderingen
+
+= Agenda voor vergaderingen =
+
+Zet hier je agenda punten voor volgende vergadering, met je naam vermeld. Op deze manier kan je je agendapunten meteen op de agenda zetten en kan iedereen voor de vergadering de agendapunten eens overlopen.
+
+== Vergadering 03/03 ==
+
+ * Structuur exception (Nick)
+ * Network timing issue (Olivier)
+ * Entity manager (Olivier)
+ * Verantwoordelijkheden (Kristof)
+ * Wereld inlezen + format (PJ)
+ * Entity controllers (Kristof)
+ * Scripting (Dirk)
+
+== Vergadering 10/03 ==
