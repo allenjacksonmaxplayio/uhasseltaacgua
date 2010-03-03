@@ -6,33 +6,150 @@
 #include "PushGravityPhantom.h"
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
-#include <assert.h>
+
+#include "CustomOgreMaxSceneCallback.h"
+#include "UserDataCallback.h"
 
 namespace HovUni {
 
-HoverCraftUniverseWorld * HoverCraftUniverseWorld::singe_ms = 0;
-
-
-void HoverCraftUniverseWorld::create( hkReal timestep ) {
-	if ( singe_ms == 0 ){
-		singe_ms = new HoverCraftUniverseWorld(timestep);
+class CustomLoader : public UserDataCallback, public CustomOgreMaxSceneCallback {
+public:
+	CustomLoader() {
 	}
-}
 
-void HoverCraftUniverseWorld::destroy (){
-	if ( singe_ms != 0 ){
-		delete singe_ms;
+	
+	virtual void onSceneFile( const Ogre::String& fileName, Ogre::String& resourceGroupName){
 	}
-}
+	
+	virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive) {
+	}
 
-HoverCraftUniverseWorld * HoverCraftUniverseWorld::getSingletonPtr(){
-	return singe_ms;
-}
+	virtual void StartedLoad(){
+		//TODO notify clients??
+	}
 
-HoverCraftUniverseWorld& HoverCraftUniverseWorld::getSingleton() {
-	assert(singe_ms);
-	return *singe_ms;
-}
+	virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud) {
+	}
+
+	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
+		//TODO parse Track usedata
+	}
+
+	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem){
+		//HERE WE NEED TO WORK
+		//UserDataFactory::getInstance().parse(externalitem)
+	}
+
+	virtual void FinishedLoad( bool success ){
+		//TODO notify clients??
+	}
+
+	virtual void UpdatedLoadProgress( Ogre::Real progress ){
+		//TODO notify clients??
+	}
+
+	//Scene info: nobody cares about this
+	virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) {}
+
+	//Sky systems: nobody cares about this
+
+	virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters, std::vector<OgreMax::Types::NodeAnimation> * animation ) {
+	}
+
+	virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {
+	}
+
+	virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {
+	}
+
+	//Enviroment: nobody cares about this
+
+	virtual void onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar){
+	}
+
+	virtual void onFog ( OgreMax::Types::FogParameters& fog ){
+	}
+
+	virtual void onAmbientColour( const Ogre::ColourValue& colour ){
+	}
+
+	virtual void onShadowProperties( OgreMax::Types::ShadowParameters& parameter ){
+	}
+
+	virtual void onBackgroundColour( const Ogre::ColourValue& colour ){
+	}
+
+	//Nodes
+
+	virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ) {
+	}
+
+	virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent) {
+	}
+
+	//Movables
+
+	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ) {
+		//TODO ??
+	}
+
+	virtual void onLight( OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent) {}
+        
+	virtual void onCamera(OgreMax::Types::CameraParameters& params, const OgreMax::Types::Attachable * parent ) {}
+
+	virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent ) {}
+
+	virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent) {}
+
+	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent) {}
+
+	//Custom objects
+
+	virtual void onAsteroid( Asteroid * asteroid ) {
+		//TODO add asteroid
+	};
+
+	virtual void onStart( Start * start ) {
+		//TODO add start
+	};
+
+	virtual void onStartPosition( StartPosition * startposition ) {
+		//TODO add startpos	
+	}
+
+	virtual void onCheckPoint( CheckPoint * checkpoint ) {
+		//TODO add checkpoint	
+	};
+
+	virtual void onFinish( Finish * finish ) {
+		//TODO add finish	
+	};
+
+	virtual void onHoverCraft( Hovercraft * hovercraft ) {
+		//TODO add hovercraft	
+	};
+
+	virtual void onTrack( Track * track ) {
+		//TODO load havoc file of track	
+	};
+
+	virtual void onPortal( Portal * portal ) {
+		//TODO create havoc portal	
+	};
+
+	virtual void onBoost( Boost * boost ) {
+		//TODO create havoc boost
+	};
+
+	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {
+		//TODO create havoc powerup spawn	
+	};
+
+	virtual void onResetSpawn( ResetSpawn * spawn ) {
+		//TODO create havoc reset spawn
+	};
+};
+
 
 HoverCraftUniverseWorld::HoverCraftUniverseWorld(hkReal timestep):
 	AbstractHavocWorld(timestep)

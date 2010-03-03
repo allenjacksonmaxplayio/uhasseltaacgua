@@ -1,6 +1,8 @@
 #ifndef OGREMAXTYPESEXTENSION_H
 #define OGREMAXTYPESEXTENSION_H
 
+#include <OgreMaxTypes.hpp>
+
 namespace OgreMax {
 
 namespace Types {

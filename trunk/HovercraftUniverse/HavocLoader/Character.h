@@ -2,9 +2,14 @@
 #define CHARACTER_H
 
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
-#include "CharacterContextContainer.h"
+#include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
 
 namespace HovUni {
+
+class UserInput {
+public:
+	virtual ~UserInput(){};
+};
 
 /**
  * A character
@@ -12,6 +17,9 @@ namespace HovUni {
 class Character {
 protected:
 
+	/**
+	 * Refernce to world
+	 */
 	hkpWorld * mPhysicsWorld;
 	
 	/**
@@ -35,12 +43,12 @@ public:
 
 	hkVector4 mForward;
 
-	hkReal mTimeStep;
-
 	/**
 	 * Constructor
+	 * @param info
+	 * @param characterContext
 	 */
-	Character( hkpWorld * mPhysicsWorld, hkpCharacterRigidBodyCinfo * info, const char * charactertype );
+	Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
 
 	/**
 	 * Destructor
@@ -56,10 +64,9 @@ public:
 	
 	/**
 	 * Update the character movement
+	 * @param userinput
 	 */
-	void update(hkReal deltaAngle, hkReal posX, hkReal posY);
-
-	hkBool reorientCharacter( const hkRotation& rotation );
+	virtual void update( UserInput& input ) = 0;
 };
 
 }

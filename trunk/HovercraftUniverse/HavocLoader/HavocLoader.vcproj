@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Content&quot;;&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -181,22 +181,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Character.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CharacterContextContainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\EntityType.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\HoverCraftUniverseWorld.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\HovercraftUniverse\InputManager.cpp"
 				>
 			</File>
@@ -224,6 +208,30 @@
 				RelativePath=".\SimpleMultithreadedConsoleMain.cpp"
 				>
 			</File>
+			<Filter
+				Name="entities"
+				>
+				<File
+					RelativePath=".\Character.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CharacterContextContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityType.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftCharacter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftUniverseWorld.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -232,22 +240,6 @@
 			>
 			<File
 				RelativePath=".\AbstractHavocWorld.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Character.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CharacterContextContainer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\EntityType.h"
-				>
-			</File>
-			<File
-				RelativePath=".\HoverCraftUniverseWorld.h"
 				>
 			</File>
 			<File
@@ -274,6 +266,30 @@
 				RelativePath=".\PushPlanetGravityAction.h"
 				>
 			</File>
+			<Filter
+				Name="entities"
+				>
+				<File
+					RelativePath=".\Character.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CharacterContextContainer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftCharacter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftUniverseWorld.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
