@@ -1,12 +1,22 @@
 #include "Exception.h"
 
+#include <sstream>
+
 namespace HovUni {
 
-Exception::	Exception(const std::string& msg) : mMsg(msg), mNested(0) {
+Exception::	Exception(const std::string& msg) : mMsg(msg), mNested(0), mFilename(0) {
 
 }
 
-Exception::Exception(const std::string& msg, const Exception& nested) : mMsg(msg), mNested(nested.clone()) {
+Exception::Exception(const std::string& msg, const char* filename, unsigned line) : mMsg(msg), mNested(0), mFilename(filename), mLineNumber(line) {
+
+}
+
+Exception::Exception(const std::string& msg, const Exception& nested) : mMsg(msg), mNested(nested.clone()), mFilename(0) {
+
+}
+
+Exception::Exception(const std::string& msg, const Exception& nested, const char* filename, unsigned line) : mMsg(msg), mNested(nested.clone()), mFilename(filename), mLineNumber(line) {
 
 }
 	
@@ -23,6 +33,8 @@ Exception& Exception::operator=(const Exception& ex) {
 		delete mNested;
 		mMsg = ex.mMsg;
 		mNested = (ex.mNested ? ex.mNested->clone() : 0);
+		mFilename = ex.mFilename;
+		mLineNumber = ex.mLineNumber;
 	}
 	return *this;
 }
@@ -32,6 +44,18 @@ Exception* Exception::clone() const {
 }
 
 std::string Exception::getMessage() const {
+	std::stringstream msg (std::stringstream::in | std::stringstream::out);
+	
+	msg << className() << " : " << mMsg;
+	
+	if (mFilename) {
+		msg << "[FILE: " << mFilename << " (" << mLineNumber << ")]";
+	}
+
+	if (mNested) {
+		msg << std::endl << "\t> " << *mNested;
+	}
+
 	return mMsg;
 }
 
@@ -44,7 +68,7 @@ const char* Exception::className() const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Exception& ex) {
-	os << ex.mMsg;
+	os << ex.getMessage();
 	return os;
 }
 
@@ -53,7 +77,7 @@ void Exception::message(const std::string& msg) {
 }
 
 const char* Exception::what() const throw() {
-	return mMsg.c_str();
+	return getMessage().c_str();
 }
 
 /*
