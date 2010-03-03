@@ -1,4 +1,5 @@
 #include "NetworkServer.h"
+#include "Exception.h"
 
 namespace HovUni {
 
@@ -9,7 +10,7 @@ NetworkServer::NetworkServer(const unsigned port, const unsigned internalport) :
 	bool result = ZCom_initSockets(true, mServerPort, mInternalPort);
 
 	if (!result) {
-		// TODO Throw exception, cannot init sockets
+		throw NetworkException("Cannot initialize sockets");
 	}
 
 }

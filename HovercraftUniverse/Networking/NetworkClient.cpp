@@ -1,3 +1,4 @@
+#include "Exception.h"
 #include "NetworkClient.h"
 #include <sstream>
 
@@ -23,7 +24,7 @@ void NetworkClient::initialize(bool remote) {
 	bool result = ZCom_initSockets(true, 0, (remote ? 0 : 1));
 
 	if (!result) {
-		// TODO Throw exception, cannot init sockets
+		throw NetworkException("Cannot initialize sockets");
 	}
 
 	// New scope to assure server_addr gets out of scope before zcom could be deleted
