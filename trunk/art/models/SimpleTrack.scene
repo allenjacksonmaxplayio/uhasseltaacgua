@@ -29,14 +29,6 @@
                         <subentity index="0" materialName="NoMaterial" />
                     </subentities>
                 </entity>
-                <node name="Boost">
-                    <userData>
-                        <![CDATA[<Boost><Boost>5</Boost></Boost>]]>
-</userData>
-                    <position x="-0.142982" y="12.4516" z="0.346898" />
-                    <scale x="3.20638" y="2.52233" z="4.04608" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
             </node>
             <node name="StartGeom">
                 <position x="-74.2147" y="7.45957" z="0.0465094" />
@@ -47,14 +39,6 @@
                         <subentity index="0" materialName="03-Default" />
                     </subentities>
                 </entity>
-                <node name="Start">
-                    <userData>
-                        <![CDATA[<Start />]]>
-</userData>
-                    <position x="-0.133896" y="2.31828" z="-0.334816" />
-                    <scale x="0.314403" y="1" z="2.274" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
                 <node name="StartPosition2">
                     <userData>
                         <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
@@ -91,14 +75,6 @@
                         <subentity index="0" materialName="03-Default" />
                     </subentities>
                 </entity>
-                <node name="CheckPoint0">
-                    <userData>
-                        <![CDATA[<CheckPoint><Name>GOO</Name><Number>0</Number></CheckPoint>]]>
-</userData>
-                    <position x="-0.156628" y="2.31828" z="-0.470099" />
-                    <scale x="0.314403" y="1" z="2.274" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
             </node>
             <node name="CheckPoint1Geom">
                 <position x="34.3479" y="7.45957" z="9.90714" />
@@ -112,14 +88,6 @@
                         <subentity index="0" materialName="03-Default" />
                     </subentities>
                 </entity>
-                <node name="CheckPoint01">
-                    <userData>
-                        <![CDATA[<CheckPoint><Name>RACE</Name><Number>1</Number></CheckPoint>]]>
-</userData>
-                    <position x="0.198418" y="2.31828" z="-0.222399" />
-                    <scale x="0.314403" y="1" z="2.274" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
             </node>
             <node name="FinishGeom">
                 <position x="92.9024" y="7.45957" z="0.0465094" />
@@ -130,14 +98,6 @@
                         <subentity index="0" materialName="03-Default" />
                     </subentities>
                 </entity>
-                <node name="Finish">
-                    <userData>
-                        <![CDATA[<Finish />]]>
-</userData>
-                    <position x="0.328491" y="2.31828" z="-0.144307" />
-                    <scale x="0.314403" y="1" z="2.274" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
             </node>
         </node>
         <node name="Camera01">
@@ -149,4 +109,46 @@
             </camera>
         </node>
     </nodes>
+    <externals>
+        <item name="Boost">
+            <userData>
+                <![CDATA[<Boost><Boost>5</Boost></Boost>]]>
+</userData>
+            <position x="67.5058" y="6.65592" z="3.8276" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1.71395" y="1.3483" z="2.16281" />
+        </item>
+        <item name="Start">
+            <userData>
+                <![CDATA[<Start />]]>
+</userData>
+            <position x="-74.3486" y="4.77785" z="-0.288306" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.314403" y="1" z="2.274" />
+        </item>
+        <item name="CheckPoint0">
+            <userData>
+                <![CDATA[<CheckPoint><Name>GOO</Name><Number>0</Number></CheckPoint>]]>
+</userData>
+            <position x="-28.2593" y="4.77785" z="-12.672" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.314403" y="1" z="2.274" />
+        </item>
+        <item name="CheckPoint01">
+            <userData>
+                <![CDATA[<CheckPoint><Name>RACE</Name><Number>1</Number></CheckPoint>]]>
+</userData>
+            <position x="34.5463" y="4.77785" z="9.68474" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.314403" y="1" z="2.274" />
+        </item>
+        <item name="Finish">
+            <userData>
+                <![CDATA[<Finish />]]>
+</userData>
+            <position x="93.2309" y="4.77785" z="-0.0977976" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.314403" y="1" z="2.274" />
+        </item>
+    </externals>
 </scene>
