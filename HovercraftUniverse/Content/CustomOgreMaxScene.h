@@ -1,103 +1,21 @@
-/*
- * This code is based on code from www.ogremax.com 
- */
-
-
 #ifndef CUSTOMOGREMAXSCENE_INCLUDED
 #define CUSTOMOGREMAXSCENE_INCLUDED
 
-
-//Includes---------------------------------------------------------------------
 #include "OgreMaxTypes.hpp"
 #include "OgreMaxPlatform.hpp"
 #include "ProgressCalculator.hpp"
 #include "Version.hpp"
-
-namespace OgreMax {
-
-namespace Types {
-
-enum AttachableType {
-	NODE,
-	ENTITY
-};
-
-/**
- * Container for an attachables
- */
-struct Attachable {
-	AttachableType type;
-	Ogre::String name;
-
-	virtual ~Attachable(){};
-};
-
-/**
- * SceneNode: (Ogre::SceneNode)
- */
-struct SceneNode : Attachable {
-	SceneNode(){
-		type = NODE;
-	}
-};
-
-/**
- * Tagpoint (Ogre::TagePoint)
- * attached to an entity (ex. point at hand for holding gun)
- */
-struct TagPoint : Attachable {
-	TagPoint(){
-		type = ENTITY;
-	}
-
-	Ogre::String tagName;
-	Ogre::String boneName;
-	Ogre::Vector3 attachPosition;
-	Ogre::Quaternion attachRotation;
-	Ogre::Vector3 attachScale;
-};
-
-
-
-/**
- * A Keyframe
- */
-struct KeyFrame {
-	Ogre::Real keyTime;
-	Ogre::Real keyframe;
-	Ogre::Vector3 translation;
-	Ogre::Quaternion rotation;
-	Ogre::Vector3 scale;
-};
-
-struct NodeAnimation {
-	NodeAnimationParameters parameters;
-	std::vector<KeyFrame> animationTrack;
-};
-
-
-/**
- * A Billboard
- */
-struct Billboard {
-    Ogre::Real width;
-    Ogre::Real height;
-    Ogre::Radian rotationAngle;
-
-    Ogre::Vector3 position;
-    Ogre::ColourValue color;
-    Ogre::FloatRect texCoordRectangle;
-};
-
-}
-}
+#include "CustomOgreMaxSceneCallback.h"
 
 namespace HovUni {
 
-    class CustomOgreMaxSceneCallback;
-
     /**
      * Manages the loading of a OgreMax .scene file.
+	 * Use a CustomOgreMaxSceneCallback to set up your scene:
+	 * CustomOgreMaxScene scene;
+	 * CustomOgreMaxSceneCallback * callback = new MyCallback(someogrepointers);
+	 * scene.load(file, OPTIONS, callback);
+	 * @author PJ
      */
     class CustomOgreMaxScene
     {
@@ -185,14 +103,7 @@ namespace HovUni {
 
         /**
          * Loads a scene from the specified file.
-         * @param fileNameOrContent [in] - The name of the file to load. This file name can contain a directory path
-         * or be a base name that exists within Ogre's resource manager. If the file contains a directory path,
-         * the directory will be added to Ogre's resource manager as a resource location and the directory will be
-         * set as a base resource location. If the file doesn't contain a directory path, and assuming
-         * If the FILE_NAME_CONTAINS_CONTENT flag is specified as a load option, this parameter is treated
-         * as though it is the scene file itself. That is, the string contains the scene file XML.
-         * SetBaseResourceLocation() hasn't already been called elsewhere, no resource location configuration
-         * will occur during the load
+         * @param fileNameOrContent [in] - The name of the file to load.
          * @param loadOptions [in] - Options used to specify the loading behavior. Optional.
 		 * @param callback [in] - Pointer to a callback object. Optional.
          * @param defaultResourceGroupName [in] - The resource group name that is used by default when
@@ -316,6 +227,7 @@ namespace HovUni {
         void LoadStaticGeometries(const TiXmlElement* objectElement);
         void LoadStaticGeometry(const TiXmlElement* objectElement);
         void LoadStaticGeometryEntity(const TiXmlElement* objectElement);
+
 		*/
 
 		//Load Flags TODO
@@ -359,188 +271,6 @@ namespace HovUni {
 
 		int mUniqueID;
     };
-
-    /** A interface that receives notifications during the loading of the scene */
-    class CustomOgreMaxSceneCallback
-    {
-    public:
-        /**
-		 * Destructor
-		 */
-		virtual ~CustomOgreMaxSceneCallback() {
-		}
-
-		/**
-		 * Called when the scene file was found
-		 * @param filename
-		 * @param resourcegroupname
-		 */
-		virtual void onSceneFile( const Ogre::String& fileName, Ogre::String& resourceGroupName) = 0;
-
-		/** 
-		 * Called before a scene is to be loaded. 
-		 * At this stage the xml has been parsed successfuly and is placed in memory.
-		 */
-        virtual void StartedLoad() = 0;
-
-		/**
-		 * When resource location loaded
-		 * @param name
-		 * @param type
-		 * @param recursive
-		 */
-		virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive) = 0;
-
-		/**
-		 * Called when al node info is loaded but before any child node is attached
-		 * @param nodeparameters
-		 * @param nodeanimation, 0 if no animation
-		 * @param parent, 0 if rootnode
-		 */
-		virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * nodeanimation, const OgreMax::Types::NodeParameters* parent) = 0;
-
-		/**
-		 * Called when info is found for the root node
-		 * @param
-		 */
-		virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ) = 0;
-
-		virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud)= 0;
-
-		/**
-		 * Called when the scene tag has been parsed, a check to Ogre version has been done here
-		 * @param formatVersion, version of scene format
-		 * @param minOgreVersion
-		 * @param ogreMaxVersion
-		 * @param author
-		 * @param upaxis
-		 * @param unitsPerMeter
-		 * @param unitType
-		 */
-		virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) = 0;
-
-        /**
-		 * Called when scene user data is loaded. Will only be called if there is user data
-		 * @param userdataref
-		 * @param userdata
-		 */
-        virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) = 0;
-
-		/**
-		 * Called when clipping info is loaded
-		 * @param environmentNear, near clipping distance
-		 * @param environmentFar, far clipping distance
-		 */
-		virtual void onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar) = 0;
-
-		/**
-		 * Called when general shadow properties are loaded
-		 * @param shadowparameters
-		 */
-		virtual void onShadowProperties( OgreMax::Types::ShadowParameters& shadowparameters ) = 0;
-
-		/**
-		 * Called when the genereal background color of the viewports are loaded
-		 * @param colour
-		 */
-		virtual void onBackgroundColour( const Ogre::ColourValue& colour ) = 0;
-
-		/**
-		 * Called when the world ambient lightning color is loaded
-		 * @param colour
-		 */
-		virtual void onAmbientColour( const Ogre::ColourValue& colour ) = 0;
-
-		/**
-		 * Called when the general fog is loaded 
-		 * @param fogparameters
-		 */
-		virtual void onFog ( OgreMax::Types::FogParameters& fogparameters ) = 0;
-
-		/**
-		 * Called when the skybox is loaded
-		 * @param skyBoxParameters
-		 * @param animation, 0 if not defined
-		 */
-		virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters, std::vector<OgreMax::Types::NodeAnimation> * animation ) = 0;
-
-		/**
-		 * Called when the skydome is loaded
-		 * @param skyDomeParameters
-		 * @param animation, 0 if not defined
-		 */
-        virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters, std::vector<OgreMax::Types::NodeAnimation>* animation) = 0;
-
-		/**
-		 * Called when the skyplane is loaded
-		 * @param skyPlaneParameters
-		 * @param animation, 0 if not defined
-		 */
-        virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) = 0;
-
-		/**
-		 * Called when external item is loaded
-		 * @param externalitem
-		 */
-		virtual void onExternal( OgreMax::Types::ExternalItem& externalitem) = 0;
-
-		/**
-		 * Called when a light is loaded
-		 * @param lightparameters
-		 * @param parent, 0 if rootnode
-		 */
-		virtual void onLight( OgreMax::Types::LightParameters& lightparameters, const OgreMax::Types::Attachable * parent ) = 0;
-        
-		/**
-		 * Called when a camera is loaded
-		 * @param cameraparameters
-		 * @param parent, 0 if rootnode
-		 */
-		virtual void onCamera(OgreMax::Types::CameraParameters& params, const OgreMax::Types::Attachable * parent ) = 0;
-        
-		/**
-		 * Called when an ogre entity is loaded
-		 * @param entityparameters
-		 * @param parent
-		 */
-		virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ) = 0;
-        
-		/**
-		 * Called when a particle system is loaded
-		 * @param particleSystem
-		 * @param parent
-		 */
-		virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent) = 0;
-        
-		/**
-		 * Called when a billboardset is loaded
-		 * @param bilboardsetparameters
-		 * @param billboardset
-		 * @param custom data for each billboard
-		 * @param parent
-		 */
-		virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent ) = 0;
-        
-		/**
-		 * Called when a plane is loaded
-		 * @param planeparameters
-		 * @param parent
-		 */
-		virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent) = 0;
-
-        /**
-         * Called after a scene is loaded.
-         */
-        virtual void FinishedLoad( bool success ) = 0;
-
- 	    /** 
-		 * Called when Progress is made
-		 * @param progress
-		 */
-        virtual void UpdatedLoadProgress( Ogre::Real progress ) = 0;
-
-    };
-
 }
 
 #endif

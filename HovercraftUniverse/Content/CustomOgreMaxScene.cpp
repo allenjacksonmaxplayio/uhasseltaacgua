@@ -1978,6 +1978,229 @@ void CustomOgreMaxScene::LoadObjectNames(const TiXmlElement* objectElement, cons
 	}
 }
 
+/*
+		void CustomOgreMaxScene::LoadInstancedGeometries(const TiXmlElement* objectElement)
+		{
+			//Ensure instancing is supported
+			if (!Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_VERTEX_PROGRAM))
+			{
+				OGRE_EXCEPT
+					(
+					Exception::ERR_INVALIDPARAMS,
+					"Instanced geometry is not supported by the current render system and/or video card",
+					"CustomOgreMaxScene::LoadInstancedGeometry"
+					);
+			}
+
+			//Read all the instanced geometries
+			String elementName;
+			const TiXmlElement* childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "instancedGeometry")
+					LoadInstancedGeometry(childElement);
+			}
+		}
+
+		void CustomOgreMaxScene::LoadInstancedGeometry(const TiXmlElement* objectElement)
+		{
+			String name = OgreMaxUtilities::GetStringAttribute(objectElement, "name");
+			bool castShadows = OgreMaxUtilities::GetBoolAttribute(objectElement, "castShadows", true);
+			ObjectVisibility visibility = OgreMaxUtilities::GetObjectVisibilityAttribute(objectElement, "visible");
+			unsigned int batchCount = OgreMaxUtilities::GetUIntAttribute(objectElement, "batchCount", 0);
+			String renderQueue = OgreMaxUtilities::GetStringAttribute(objectElement, "renderQueue");
+			Real renderingDistance = OgreMaxUtilities::GetRealAttribute(objectElement, "renderingDistance", 0);
+			Vector3 origin = Vector3::ZERO;
+			Vector3 dimensions(1000000, 1000000, 1000000);
+			const TiXmlElement* entitiesElement = 0;
+
+			//Iterate over all the child elements
+			String elementName;
+			const TiXmlElement* childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "origin")
+					origin = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "dimensions")
+					dimensions = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "entities")
+					entitiesElement = childElement;
+			}
+
+			//Create the instanced geometry
+			InstancedGeometry* instancedGeometry = this->sceneManager->createInstancedGeometry(name);
+			instancedGeometry->setCastShadows(castShadows);
+			OgreMaxUtilities::SetObjectVisibility(instancedGeometry, visibility);
+			instancedGeometry->setOrigin(origin);
+			instancedGeometry->setBatchInstanceDimensions(dimensions);
+			if (!renderQueue.empty())
+				instancedGeometry->setRenderQueueGroup(OgreMaxUtilities::ParseRenderQueue(renderQueue));
+			instancedGeometry->setRenderingDistance(renderingDistance);
+
+			//Add the entities
+			childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(entitiesElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "entity")
+					LoadInstancedGeometryEntity(childElement, instancedGeometry);
+			}
+
+			//Build the instanced geometry
+			instancedGeometry->build();
+
+			//Add additional batch instances
+			for (unsigned int batchIndex = 0; batchIndex < batchCount; batchIndex++)
+				instancedGeometry->addBatchInstance();
+		}
+
+		void CustomOgreMaxScene::LoadInstancedGeometryEntity(const TiXmlElement* objectElement)
+		{
+			static const String TEMP_ENTITY_NAME("__instancedGeometryEntity");
+
+			String meshFile = OgreMaxUtilities::GetStringAttribute(objectElement, "meshFile");
+			Vector3 position = Vector3::ZERO;
+			Quaternion rotation = Quaternion::IDENTITY;
+			Vector3 scale = Vector3::UNIT_SCALE;
+			std::vector<EntityParameters::Subentity> subentities;
+
+			String elementName;
+			const TiXmlElement* childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "position")
+					position = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "rotation")
+					rotation = OgreMaxUtilities::LoadRotation(childElement);
+				else if (elementName == "scale")
+					scale = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "subentities")
+					OgreMaxUtilities::LoadSubentities(childElement, subentities);
+			}
+
+			if (!meshFile.empty())
+			{
+				//Create temporary entity
+				Entity* entity = OgreMaxUtilities::CreateEntity(this->sceneManager, TEMP_ENTITY_NAME, meshFile, subentities);
+
+				//Add entity to the static geometry
+				instancedGeometry->addEntity(entity, position, rotation, scale);
+
+				//Destroy entity
+				this->sceneManager->destroyEntity(entity);
+			}
+		}
+
+		void CustomOgreMaxScene::LoadStaticGeometries(const TiXmlElement* objectElement)
+		{
+			//Read all the static geometries
+			String elementName;
+			const TiXmlElement* childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "staticGeometry")
+					LoadStaticGeometry(childElement);
+			}
+		}
+
+		void CustomOgreMaxScene::LoadStaticGeometry(const TiXmlElement* objectElement)
+		{
+			String name = OgreMaxUtilities::GetStringAttribute(objectElement, "name");
+			bool castShadows = OgreMaxUtilities::GetBoolAttribute(objectElement, "castShadows", true);
+			ObjectVisibility visibility = OgreMaxUtilities::GetObjectVisibilityAttribute(objectElement, "visible");
+			String renderQueue = OgreMaxUtilities::GetStringAttribute(objectElement, "renderQueue");
+			Real renderingDistance = OgreMaxUtilities::GetRealAttribute(objectElement, "renderingDistance", 0);
+			Vector3 origin = Vector3::ZERO;
+			Vector3 dimensions(1000000, 1000000, 1000000);
+			const TiXmlElement* entitiesElement = 0;
+
+			//Iterate over all the child elements
+			String elementName;
+			const TiXmlElement* childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "origin")
+					origin = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "dimensions")
+					dimensions = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "entities")
+					entitiesElement = childElement;
+			}
+
+			//Create the instanced geometry
+			StaticGeometry* staticGeometry = this->sceneManager->createStaticGeometry(name);
+			staticGeometry->setCastShadows(castShadows);
+			OgreMaxUtilities::SetObjectVisibility(staticGeometry, visibility);
+			staticGeometry->setOrigin(origin);
+			staticGeometry->setRegionDimensions(dimensions);
+			if (!renderQueue.empty())
+				staticGeometry->setRenderQueueGroup(OgreMaxUtilities::ParseRenderQueue(renderQueue));
+			staticGeometry->setRenderingDistance(renderingDistance);
+
+			//Add the entities
+			childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(entitiesElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "entity")
+					LoadStaticGeometryEntity(childElement, staticGeometry);
+			}
+
+			//Build the static geometry
+			staticGeometry->build();
+		}
+
+		void CustomOgreMaxScene::LoadStaticGeometryEntity(const TiXmlElement* objectElement)
+		{
+			static const String TEMP_ENTITY_NAME("__staticGeometryEntity");
+
+			String meshFile = OgreMaxUtilities::GetStringAttribute(objectElement, "meshFile");
+			Vector3 position = Vector3::ZERO;
+			Quaternion rotation = Quaternion::IDENTITY;
+			Vector3 scale = Vector3::UNIT_SCALE;
+			std::vector<EntityParameters::Subentity> subentities;
+
+			String elementName;
+			const TiXmlElement* childElement = 0;
+			while (childElement = OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+			{
+				elementName = childElement->Value();
+
+				if (elementName == "position")
+					position = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "rotation")
+					rotation = OgreMaxUtilities::LoadRotation(childElement);
+				else if (elementName == "scale")
+					scale = OgreMaxUtilities::LoadXYZ(childElement);
+				else if (elementName == "subentities")
+					OgreMaxUtilities::LoadSubentities(childElement, subentities);
+			}
+
+			if (!meshFile.empty())
+			{
+				//Create temporary entity
+				Entity* entity = OgreMaxUtilities::CreateEntity(this->sceneManager, TEMP_ENTITY_NAME, meshFile, subentities);
+		        
+				//Add entity to the static geometry
+				staticGeometry->addEntity(entity, position, rotation, scale);
+
+				//Destroy entity
+				this->sceneManager->destroyEntity(entity);
+			}
+		}
+		*/
 
 
 }
