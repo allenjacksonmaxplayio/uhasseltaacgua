@@ -17,7 +17,7 @@ Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info, const
 	mForward.set( 1.0f, 0.0f, 0.0f );
 	mCharacterForward.set( 1.0f, 0.0f, 0.0f );
 
-	//mCharacterContext = getCharacterContext( charactertype );
+	//mCharacterContext = CharacterContextContainer::getCharacterContext( charactertype );
 	//assert(mCharacterContext != HK_NULL);
 
 	//add reference here

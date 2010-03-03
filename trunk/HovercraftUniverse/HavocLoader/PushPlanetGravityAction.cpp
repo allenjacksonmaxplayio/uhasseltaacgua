@@ -1,4 +1,4 @@
-#include "PullPlanetGravityAction.h"
+#include "PushPlanetGravityAction.h"
 #include "EntityType.h"
 #include "HoverCraftUniverseWorld.h"
 
@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-PullPlanetGravityAction::PullPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
+PushPlanetGravityAction::PushPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
 		hkpUnaryAction(satellite), 
 		mPlanetBody(planetBody), 
 		mHullCollidable(hullCollidable), 
@@ -18,7 +18,8 @@ PullPlanetGravityAction::PullPlanetGravityAction( hkpRigidBody* planetBody, hkpR
 	setUserData( HK_SPHERE_ACTION_ID );
 }
 
-void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
+// applyAction Called by the simulation every frame.
+void PushPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 {
 	hkpRigidBody* rb = getRigidBody();
 
@@ -51,55 +52,15 @@ void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	} while( !collector.hasHit() );
 
 	// Flip the normal of the getClosestPoints() result
-	forceDir.setMul4( -1.0f, collector.getHitContact().getNormal() );
-	forceDir.normalize3();
-	forceDir.zeroElement( 3 );
+	//forceDir.setMul4( -1.0f, collector.getHitContact().getNormal() );
+	//forceDir.normalize3();
+	//forceDir.zeroElement( 3 );
 
 	// Set force to be direction multiplied by magnitude multiplied by mass.
-	hkVector4 force;
-	
+	//hkVector4 force;
+	//force.setMul4( rb->getMass() * 50, forceDir );
 
-	// Apply the gravity force.
-	//if( EntityType::getEntityType(rb) == EntityType::CHARACTER )
-	//{
-		/*hkVector4 newUp(forceDir);
-		newUp.setNeg4(forceDir);
-		newUp.normalize3();
-
-		// Only change gravity if the change isn't negligible
-		if( PlanetGravityDemo::m_worldUp.dot3(newUp) < 1e-6f)
-		{
-			// don't reorient character when it has an invalid rotational axis
-			//  (this may happen the first few frames)
-			if( PlanetGravityDemo::m_characterRigidBody->getRigidBody()->getRotation().hasValidAxis())
-			{
-				hkRotation rbRotation; rbRotation.set(PlanetGravityDemo::m_characterRigidBody->getRigidBody()->getRotation());
-				hkVector4& oldForward = rbRotation.getColumn(0);
-				hkVector4 newRot; newRot.setCross(oldForward, newUp);
- 				PlanetGravityDemo::m_characterForward.setCross(newUp, newRot);
- 				PlanetGravityDemo::m_characterForward.normalize3();
-			}
-		}
-
-		PlanetGravityDemo::m_worldUp = newUp;
-	}
-	else
-	{*/
-
-
-		if (  EntityType::getEntityType(rb) == EntityType::CHARACTER ){
-			if ( collector.getHitContact().getDistance() > 0.5f ){
-				force.setMul4( rb->getMass() * mGravityForce, forceDir );
-				rb->applyForce( stepInfo.m_deltaTime, force);
-			}
-		}
-		else {
-			force.setMul4( rb->getMass() * mGravityForce, forceDir );
-			rb->applyForce( stepInfo.m_deltaTime, force );
-		}
-
-	//}
+	//rb->applyForce( stepInfo.m_deltaTime, force );
 }
 
 }
-

@@ -61,9 +61,6 @@ class TestUserDataCallback : public HovUni::UserDataCallback {
 };
 
 
-/** Base class which manages the standard startup of an Ogre application.
-    Designed to be subclassed for specific examples if required.
-*/
 class ExampleApplication
 {
 public:
@@ -132,7 +129,7 @@ protected:
 		HovUni::DefaultOgreMaxSceneCallback callback(mWindow,mSceneMgr);
 
 		//CustomNotifier not;
-		mScene->Load("simpletrack.scene",OgreMax::OgreMaxScene::NO_OPTIONS,&callback);
+		mScene->Load("SimpleTrack.scene",OgreMax::OgreMaxScene::NO_OPTIONS,&callback);
 
 		delete mScene;
 
@@ -156,7 +153,6 @@ protected:
 
     }
 
-    /** Configures the application - returns false if the user chooses to abandon configuration. */
     virtual bool configure(void)
     {
         // Show the configuration dialog and initialise the system

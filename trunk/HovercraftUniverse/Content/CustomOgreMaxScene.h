@@ -321,6 +321,8 @@ namespace HovUni {
 		//Load Flags TODO
 		void LoadQueryFlagAliases(const TiXmlElement* objectElement);
         void LoadVisibilityFlagAliases(const TiXmlElement* objectElement);
+
+		Ogre::String CustomOgreMaxScene::getUniqueName();
   
     protected:
         LoadOptions loadOptions;
@@ -354,6 +356,8 @@ namespace HovUni {
         Ogre::String objectNamePrefix;
         Ogre::String nodeNamePrefix;
         Ogre::String nodeAnimationNamePrefix;
+
+		int mUniqueID;
     };
 
     /** A interface that receives notifications during the loading of the scene */

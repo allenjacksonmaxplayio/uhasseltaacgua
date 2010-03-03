@@ -21,10 +21,69 @@ namespace HovUni {
 	mEnvironmentNear = 10000.0f;
 	mEnvironmentFar = 1.0f;
 	mUpAxis = OgreMax::Types::UP_AXIS_Y;
+
+	mNode = 0;
+	mMovable = 0;
+
+	UserDataFactory::getSingleton().addUserDataCallback(this);
 }
 
 DefaultOgreMaxSceneCallback::~DefaultOgreMaxSceneCallback(void)
 {
+	UserDataFactory::getSingleton().removeUserDataCallback(this);
+}
+
+void DefaultOgreMaxSceneCallback::attachMovable ( Ogre::MovableObject * movable, const OgreMax::Types::Attachable * attachable )  {
+	if (attachable->type == OgreMax::Types::NODE){
+		const OgreMax::Types::SceneNode * scenenodedata = dynamic_cast<const OgreMax::Types::SceneNode*>(attachable);
+
+		//get the node using name
+		Ogre::SceneNode * node = mSceneManager->getSceneNode(scenenodedata->name);
+
+		assert(node);			
+
+		//attach
+        node->attachObject(movable);
+	}
+	else if ( attachable->type == OgreMax::Types::ENTITY )
+    {
+		const OgreMax::Types::TagPoint * tagpointdata = dynamic_cast<const OgreMax::Types::TagPoint*>(attachable);
+		//get entity using name
+		Ogre::Entity * entity = mSceneManager->getEntity( tagpointdata->name );
+
+		assert(entity);
+
+        Ogre::TagPoint* tagPoint = entity->attachObjectToBone(tagpointdata->boneName, movable);
+        tagPoint->setPosition(tagpointdata->attachPosition);
+        tagPoint->setScale(tagpointdata->attachScale);
+        tagPoint->setOrientation(tagpointdata->attachRotation);
+    }
+	/*else if (this->entity != 0){
+		//add empty tagpoint this is allowed
+        Ogre::SkeletonInstance* skeleton = this->entity->getSkeleton();
+        Ogre::Bone* bone = skeleton->getBone(this->boneName);
+        //TODO: Modify Ogre to accept name when creating TagPoint
+        Ogre::TagPoint* tagPoint = skeleton->createTagPointOnBone(bone);
+        tagPoint->setPosition(this->attachPosition);
+        tagPoint->setScale(this->attachScale);
+        tagPoint->setOrientation(this->attachRotation);
+	}*/
+}
+
+void DefaultOgreMaxSceneCallback::parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object ){
+	if ( !extradata.isNull() && extradata->HasUserData() ){
+		mMovable = object;
+		UserDataFactory::getSingleton().parseUserData(extradata->userData);
+		mMovable = 0;
+	}
+}
+
+void DefaultOgreMaxSceneCallback::parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::SceneNode * node ){
+	if ( !extradata.isNull() && extradata->HasUserData() ){
+		mNode = node;
+		UserDataFactory::getSingleton().parseUserData(extradata->userData);
+		mNode = 0;
+	}
 }
 
 void DefaultOgreMaxSceneCallback::onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) {
@@ -101,6 +160,9 @@ void DefaultOgreMaxSceneCallback::onNode( OgreMax::Types::NodeParameters& nodepa
 
     //Set the node's visibility
 	OgreMax::OgreMaxUtilities::SetNodeVisibility(node, nodeparameters.visibility);
+
+	//parse extra data
+	parseExtraData( nodeparameters.extraData, node );
 }
 
 void DefaultOgreMaxSceneCallback::onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ){
@@ -131,6 +193,9 @@ void DefaultOgreMaxSceneCallback::onLight( OgreMax::Types::LightParameters& para
 	light->setAttenuation(parameters.attenuationRange, parameters.attenuationConstant, parameters.attenuationLinear, parameters.attenuationQuadric);
 
 	attachMovable(light,parent);
+
+	//parse extra data
+	parseExtraData( parameters.extraData, light );
 }
 
 void DefaultOgreMaxSceneCallback::onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ){
@@ -168,6 +233,9 @@ void DefaultOgreMaxSceneCallback::onEntity( OgreMax::Types::EntityParameters& en
     }
 
 	attachMovable(entity,parent);
+
+	//parse extra data
+	parseExtraData( entityparameters.extraData, entity );
 }
 void DefaultOgreMaxSceneCallback::onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent ){
 
@@ -213,6 +281,9 @@ void DefaultOgreMaxSceneCallback::onBillboardSet( OgreMax::Types::BillboardSetPa
 	OgreMax::OgreMaxUtilities::SetCustomParameters(billboardSet, customParameters);
 
 	attachMovable(billboardSet,parent);
+
+	//parse extra data
+	parseExtraData( bilboardsetparameters.extraData, billboardSet );
 }
 
 void DefaultOgreMaxSceneCallback::onParticleSystem( OgreMax::Types::ParticleSystemParameters& parameters, const OgreMax::Types::Attachable * parent) {
@@ -227,6 +298,8 @@ void DefaultOgreMaxSceneCallback::onParticleSystem( OgreMax::Types::ParticleSyst
     particleSystem->setRenderingDistance(parameters.renderingDistance);
 
 	attachMovable(particleSystem,parent);
+
+	parseExtraData( parameters.extraData, particleSystem );
 }
 
 void DefaultOgreMaxSceneCallback::onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent) {
@@ -280,6 +353,8 @@ void DefaultOgreMaxSceneCallback::onPlane( OgreMax::Types::PlaneParameters plane
     //Attach plane entity and movable object to the node
 	attachMovable(entity,parent);
 
+	parseExtraData( planeparameters.extraData, entity );
+
 	//TODO
     //if (movablePlane != 0)
     //    owner.Attach(movablePlane);
@@ -305,6 +380,8 @@ void DefaultOgreMaxSceneCallback::onCamera( OgreMax::Types::CameraParameters& pa
 	camera->setDirection(params.direction);
 
 	attachMovable(camera,parent);
+
+	parseExtraData( params.extraData, camera );
 }
 
 void DefaultOgreMaxSceneCallback::onSkyBox( OgreMax::Types::SkyBoxParameters& parameters, std::vector<OgreMax::Types::NodeAnimation> * animation ) {

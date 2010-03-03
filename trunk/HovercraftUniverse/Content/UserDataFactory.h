@@ -7,8 +7,6 @@
 
 namespace HovUni {
 
-class UserDataCallback;
-
 /**
  * Factory class for user data types.
  * Will parse a string and extract user data types.
