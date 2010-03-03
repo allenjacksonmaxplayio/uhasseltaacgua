@@ -4,7 +4,7 @@
 
 De basis exception is "Exception". Deze bevat een boodschap en kan eventueel een geneste exception bevatten.
 
-<UML van Exception die Nick voor mij gaat maken =) >
+http://fenix.cmi.ua.ac.be/~p051331/files/ExceptionInterface.png
 
 == Nieuwe exceptions aanmaken ==
 
