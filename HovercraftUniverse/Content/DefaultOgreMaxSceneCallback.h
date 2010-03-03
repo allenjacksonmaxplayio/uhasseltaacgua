@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-class DefaultOgreMaxSceneCallback : public CustomOgreMaxSceneCallback
+class DefaultOgreMaxSceneCallback : public CustomOgreMaxSceneCallback, public UserDataCallback
 {
 private:
 
@@ -30,44 +30,15 @@ private:
 	Ogre::Real mEnvironmentFar; // = 1.0f;
 	OgreMax::Types::UpAxis mUpAxis; // = OgreMax::Types::UP_AXIS_Y
 
+	/**
+	 * Used while parsing custom data
+	 */
+	Ogre::SceneNode * mNode;
+	Ogre::MovableObject * mMovable;
+
 protected:
 
-	void attachMovable ( Ogre::MovableObject * movable, const OgreMax::Types::Attachable * attachable )  {
-		if (attachable->type == OgreMax::Types::NODE){
-			const OgreMax::Types::SceneNode * scenenodedata = dynamic_cast<const OgreMax::Types::SceneNode*>(attachable);
-
-			//get the node using name
-			Ogre::SceneNode * node = mSceneManager->getSceneNode(scenenodedata->name);
-
-			assert(node);			
-
-			//attach
-            node->attachObject(movable);
-		}
-		else if ( attachable->type == OgreMax::Types::ENTITY )
-        {
-			const OgreMax::Types::TagPoint * tagpointdata = dynamic_cast<const OgreMax::Types::TagPoint*>(attachable);
-			//get entity using name
-			Ogre::Entity * entity = mSceneManager->getEntity( tagpointdata->name );
-
-			assert(entity);
-
-            Ogre::TagPoint* tagPoint = entity->attachObjectToBone(tagpointdata->boneName, movable);
-            tagPoint->setPosition(tagpointdata->attachPosition);
-            tagPoint->setScale(tagpointdata->attachScale);
-            tagPoint->setOrientation(tagpointdata->attachRotation);
-        }
-		/*else if (this->entity != 0){
-			//add empty tagpoint this is allowed
-            Ogre::SkeletonInstance* skeleton = this->entity->getSkeleton();
-            Ogre::Bone* bone = skeleton->getBone(this->boneName);
-            //TODO: Modify Ogre to accept name when creating TagPoint
-            Ogre::TagPoint* tagPoint = skeleton->createTagPointOnBone(bone);
-            tagPoint->setPosition(this->attachPosition);
-            tagPoint->setScale(this->attachScale);
-            tagPoint->setOrientation(this->attachRotation);
-		}*/
-	}
+	void attachMovable ( Ogre::MovableObject * movable, const OgreMax::Types::Attachable * attachable );
 
 	/**
 	 * Add node animation to given node
@@ -76,17 +47,9 @@ protected:
 	 */
 	void addNodeAnimation( Ogre::SceneNode * node, std::vector<OgreMax::Types::NodeAnimation> * animation );
 
-	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object ){
-		if ( extradata->HasUserData() ){
-			UserDataFactory::getSingleton().parseUserData(extradata->userData);
-		}
-	}
+	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object );
 
-	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::SceneNode * node ){
-		if ( extradata->HasUserData() ){
-			UserDataFactory::getSingleton().parseUserData(extradata->userData);
-		}
-	}
+	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::SceneNode * node );
 
 public:
 
@@ -116,6 +79,7 @@ public:
 	}
 
 	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
+		
 	}
 
 	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem){
@@ -169,6 +133,45 @@ public:
 	virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent);
 
 	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent);
+
+	virtual void onAsteroid( Asteroid * asteroid ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
+	};
+
+	virtual void onStart( Start * start ) {
+	
+	};
+
+	virtual void onStartPosition( StartPosition * startposition ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(startposition));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(startposition));	
+	}
+
+	virtual void onCheckPoint( CheckPoint * checkpoint ) {
+		if ( mNode )
+			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
+		else if ( mMovable )
+			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
+	};
+
+	virtual void onFinish( Finish * finish ) {};
+
+	virtual void onHoverCraft( Hovercraft * hovercraft ) {};
+
+	virtual void onTrack( Track * track ) {};
+
+	virtual void onPortal( Portal * portal ) {};
+
+	virtual void onBoost( Boost * boost ) {};
+
+	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {};
+
+	virtual void onResetSpawn( ResetSpawn * spawn ) {};
 };
 
 }

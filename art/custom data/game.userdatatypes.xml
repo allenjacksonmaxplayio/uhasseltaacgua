@@ -50,14 +50,14 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   </class>
 
   <!-- 
-    Astroid 
+    Asteroid 
     A asteroid representing some part of the track on which players can hover.
     Each asteroid has its own gravity, type and name.
   -->
-  <class name="Astroid" usage="object">
+  <class name="Asteroid" usage="object">
     <data name="Name" displayName="Name" groupName="Info" type="string"/>
     <data name="Gravity" displayName="Gravity" groupName="Info" type="float"/>
-    <data name="AstroidType" displayName="AstroidType" groupName="Info" type="AstroidType"/>
+    <data name="AsteroidType" displayName="AsteroidType" groupName="Info" type="AsteroidType"/>
   </class>
 
   <!-- 

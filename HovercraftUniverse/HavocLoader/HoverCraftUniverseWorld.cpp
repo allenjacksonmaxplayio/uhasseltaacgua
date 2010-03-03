@@ -132,7 +132,7 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 							trackAction->removeReference();
 						}
 					}
-
+/*
 					//add gravity field PUSH
 					{
 						// Scale up the planet's gravity field's AABB so it goes beyond the planet
@@ -160,7 +160,7 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 							mPhysicsWorld->addAction( trackAction );
 							trackAction->removeReference();
 						}
-					}
+					}*/
 				}
 			}
 			else if ( rbName.beginsWith( "StartPos" ) ){

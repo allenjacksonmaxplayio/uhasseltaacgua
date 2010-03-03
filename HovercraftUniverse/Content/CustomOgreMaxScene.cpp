@@ -50,6 +50,7 @@ const Vector3& CustomOgreMaxScene::GetUpVector() const
 void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loadOptions, CustomOgreMaxSceneCallback* callback, const String& defaultResourceGroupName ) {
     bool isFileName = (loadOptions & FILE_NAME_CONTAINS_CONTENT) == 0;
 
+	this->mUniqueID = 0;
 	this->callback = callback;
 
     //Parse the directory and file base name from the input file name, if it's a file name
@@ -342,31 +343,21 @@ void CustomOgreMaxScene::LoadResourceLocations(const TiXmlElement* objectElement
         }
     }
 }
-String CustomOgreMaxScene::GetNewObjectName(const TiXmlElement* objectElement)
+
+Ogre::String CustomOgreMaxScene::getUniqueName() {
+	mUniqueID++;
+	return "no_name_" + Ogre::StringConverter::toString(mUniqueID);
+}
+
+Ogre::String CustomOgreMaxScene::GetNewObjectName(const TiXmlElement* objectElement)
 {
     //Get the name from either the "name" attribute or the node
     String name = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "name");
-    //if (name.empty() && node != 0)
-    //    name = node->getName();
+    if (name.empty() )
+        name = getUniqueName();
 
     String prefixedName = this->objectNamePrefix;
     prefixedName += name;
-
-	//TODO
-/*
-    //Make sure the name is unique
-    if (this->loadedObjects.find(prefixedName) != this->loadedObjects.end())
-    {
-        StringUtil::StrStreamType errorMessage;
-        errorMessage << "Duplicate object name: " << prefixedName;
-
-        OGRE_EXCEPT
-            (
-            Exception::ERR_DUPLICATE_ITEM,
-		    errorMessage.str(),
-		    "CustomOgreMaxScene::GetNewObjectName"
-            );
-    }*/
 
     return prefixedName;
 }

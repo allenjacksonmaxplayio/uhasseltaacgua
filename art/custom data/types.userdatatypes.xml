@@ -1,6 +1,6 @@
  <userDataTypes>
-  <!-- Type of an astroid -->
-  <enum name="AstroidType" type="int">
+  <!-- Type of an asteroid -->
+  <enum name="AsteroidType" type="int">
     <enumItem name="Ice" value="0" />
     <enumItem name="Fire" value="1" />
     <enumItem name="Jungle" value="2" />

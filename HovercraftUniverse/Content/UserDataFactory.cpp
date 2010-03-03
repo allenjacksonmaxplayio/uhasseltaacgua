@@ -35,7 +35,7 @@ void UserDataFactory::removeUserDataCallback( UserDataCallback* callback ){
 	mUserDataCallback.remove(callback);
 }
 
-void UserDataFactory::parseUserData(const Ogre::String& data ) {
+void UserDataFactory::parseUserData(const Ogre::String& data) {
 	//parse XML that describes the user data
 	mDocument.Parse(data.c_str());
 	TiXmlElement * root = mDocument.RootElement();
