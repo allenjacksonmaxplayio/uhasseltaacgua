@@ -2,6 +2,8 @@
 #define HoverCraftUniverseWorld_H
 
 #include "AbstractHavocWorld.h"
+#include "Character.h"
+#include "CharacterContextContainer.h"
 
 namespace HovUni {
 
@@ -9,7 +11,15 @@ class HoverCraftUniverseWorld : public AbstractHavocWorld
 {
 private:
 
-	static HoverCraftUniverseWorld * singe_ms;
+	/**
+	 * Map with characters mapped on their name
+	 */
+	hkStorageStringMap<Character*> CharactersMap;
+
+	/**
+	 * Container for all types of characters we want
+	 */
+	CharacterContextContainer mCharacterContainer;
 
 public:
 
@@ -17,22 +27,16 @@ public:
 	 * Constructor
 	 */
 	HoverCraftUniverseWorld( hkReal timestep );
-
-	static void create( hkReal timestep );
-
-	static void destroy ();
-
-	static HoverCraftUniverseWorld * getSingletonPtr();
-
-	static HoverCraftUniverseWorld& getSingleton();
 	
 	/**
 	 * Destructor
 	 */
 	virtual ~HoverCraftUniverseWorld(void);
 
+
 	/**
-	 * Load a world
+	 * Load a scene file.
+	 * Parse this and load a physics version of in in our havoc world
 	 * @param filename
 	 */
 	virtual void load ( const char * filename );

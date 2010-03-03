@@ -3,6 +3,7 @@
 #include "HoverCraftUniverseWorld.h"
 
 #include "Character.h"
+#include "CharacterContextContainer.h"
 
 
 #include <OgreWindowEventUtilities.h>
@@ -216,11 +217,9 @@ public:
 		float timestep = 1.0f/120.0f;
 
 		//do havoc sim in background
-		HoverCraftUniverseWorld::create(timestep);
-
-		HoverCraftUniverseWorld * havoc = HoverCraftUniverseWorld::getSingletonPtr();
+		HoverCraftUniverseWorld havoc (timestep);
 		
-		KeyLister listener(havoc);
+		KeyLister listener(&havoc);
 
 		HovUni::InputManager::getSingletonPtr()->addKeyListener(&listener,"KB");
 		HovUni::InputManager::getSingletonPtr()->addMouseListener(&listener,"MOUSE");
@@ -238,14 +237,12 @@ public:
 
 			mOgreRoot->renderOneFrame(timestep);
 
-			havoc->update();
+			havoc.update();
 
 			// Pause until the actual time has passed
 			while (stopWatch.getElapsedSeconds() < lastTime + timestep);
 				lastTime += timestep;			
 		}
-
-		HoverCraftUniverseWorld::destroy();
 	}
 
 };

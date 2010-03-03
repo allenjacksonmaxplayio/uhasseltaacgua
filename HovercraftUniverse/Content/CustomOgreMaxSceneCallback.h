@@ -2,6 +2,7 @@
 #define CUSTOMOGREMAXSCENECALLBACK_H
 
 #include "OgreMaxTypesExtension.h"
+#include "Version.hpp"
 
 namespace HovUni {
 
