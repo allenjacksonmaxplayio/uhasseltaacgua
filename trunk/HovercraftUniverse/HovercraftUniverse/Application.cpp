@@ -3,8 +3,11 @@
 #include "DummyHovercraft.h"
 #include "DummyHovercraftPlayerController.h"
 #include "DummyHovercraftRepresentation.h"
+#include "Exception.h"
 #include "HUD.h"
 #include <HovSound.h>
+#include <tinyxml/tinyxml.h>
+
 
 namespace HovUni {
 
@@ -32,6 +35,15 @@ void Application::go() {
 void Application::createRoot() {
 	mOgreRoot = new Ogre::Root();
 	Ogre::LogManager::getSingleton().createLog("Client.log", true);
+
+	//Test exception
+	/*
+	try {
+		THROW(NetworkException, "Test exception");
+	} catch (NetworkException e) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << e;
+	}
+	*/
 }
 
 void Application::defineResources() {
@@ -88,14 +100,24 @@ void Application::setupScene() {
 	RepresentationManager::initialise(mEntityManager, msSceneMgr);
 	mRepresentationManager = RepresentationManager::getSingletonPtr();
 
+	//Get the GUI config file
+	//Load and parse the config
+	TiXmlDocument doc("..\\GUIConfig.xml");
+	doc.LoadFile();
+
+	TiXmlElement* root = doc.RootElement();
+
 	// Add single game view to representation manager
-	GameView * gv = new GameView(new HUD(), msSceneMgr);
+	GameView * gv = new GameView(msSceneMgr);
 	Ogre::Viewport * vp = win->addViewport(gv->getCamera()->getCamera());
 	mRepresentationManager->addGameView(gv);
 
 	// Initialise and store the GUIManager
-	GUIManager::init("..\\..\\Media\\GUI", vp);
+	GUIManager::init(root->Attribute("mediaPath"), vp);
 	mGUIManager = GUIManager::getSingletonPtr();
+
+	//Set a HUD onto the GameView
+	gv->setHud(new HUD(root->FirstChildElement("HUD")));
 
 	// Initialise and store the SoundManager (dont remove trailing \)
 	SoundManager::init("..\\..\\Media\\HovSound\\", "HovSound.fev");

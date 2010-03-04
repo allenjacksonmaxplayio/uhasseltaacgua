@@ -48,7 +48,7 @@ public:
 	 * @param hud the hud to draw for the player
 	 * @param sceneMgr the Ogre scene manager
 	 */
-	GameView(HUD * hud, Ogre::SceneManager * sceneMgr);
+	GameView(Ogre::SceneManager * sceneMgr);
 
 	/**
 	 * Destructor.
@@ -75,6 +75,13 @@ public:
 	 * @param timeSinceLastFrame the time since the last frame
 	 */
 	void draw(Ogre::Real timeSinceLastFrame);
+
+	/**
+	 * Set a HUD on this GameView
+	 *
+	 * @param hud The hud you want to set.
+	 */
+	void setHud(HUD* hud);
 
 	/**
 	 * Returns the camera associated with this game view.

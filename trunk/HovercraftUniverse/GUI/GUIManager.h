@@ -194,6 +194,20 @@ namespace HovUni {
 			 * @param overlayContainer The overlay container to deactivate
 			 */
 			void disableOverlayContainer(OverlayContainer* overlayContainer);
+
+			/**
+			 * Get the width of the viewport
+			 *
+			 * @return The width of the viewport
+			 */
+			int getResolutionWidth();
+
+			/**
+			 * Get the height of the viewport
+			 *
+			 * @return The width of the viewport
+			 */
+			int getResolutionHeight();
 	};
 }
 
