@@ -39,22 +39,6 @@
                         <subentity index="0" materialName="03-Default" />
                     </subentities>
                 </entity>
-                <node name="StartPosition2">
-                    <userData>
-                        <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
-</userData>
-                    <position x="-7.18408" y="-2.45957" z="5.45447" />
-                    <scale x="1" y="1" z="1" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
-                <node name="StartPosition1">
-                    <userData>
-                        <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
-</userData>
-                    <position x="-6.74405" y="-2.45957" z="-6.32372" />
-                    <scale x="1" y="1" z="1" />
-                    <rotation qx="0" qy="0" qz="0" qw="1" />
-                </node>
             </node>
             <node name="Omni01">
                 <position x="16.459" y="37.6126" z="-3.96269" />
@@ -81,9 +65,6 @@
                 <scale x="1" y="1" z="1" />
                 <rotation qx="0" qy="0" qz="0" qw="1" />
                 <entity name="CheckPoint1Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint1Geom.mesh">
-                    <userData>
-                        <![CDATA[<CheckPoint><Name>Almost there</Name><Number>1</Number></CheckPoint>]]>
-</userData>
                     <subentities>
                         <subentity index="0" materialName="03-Default" />
                     </subentities>
@@ -110,45 +91,85 @@
         </node>
     </nodes>
     <externals>
-        <item name="Boost">
+        <item name="StartPosition2">
             <userData>
-                <![CDATA[<Boost><Boost>5</Boost></Boost>]]>
+                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
 </userData>
-            <position x="67.5058" y="6.65592" z="3.8276" />
+            <position x="-81.3987" y="2.40455e-007" z="5.50098" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="1.71395" y="1.3483" z="2.16281" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition1">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-80.9587" y="-2.74386e-007" z="-6.27721" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="Start">
             <userData>
                 <![CDATA[<Start />]]>
 </userData>
-            <position x="-74.3486" y="4.77785" z="-0.288306" />
+            <boundingVolume type="box">
+                <size x="13.0728" y="13.0728" z="13.0728" />
+            </boundingVolume>
+            <position x="-74.051" y="-0.363352" z="-0.0073676" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="0.314403" y="1" z="2.274" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="CheckPoint0">
             <userData>
-                <![CDATA[<CheckPoint><Name>GOO</Name><Number>0</Number></CheckPoint>]]>
+                <![CDATA[<CheckPoint><Name>STARTING</Name><Number>0</Number></CheckPoint>]]>
 </userData>
-            <position x="-28.2593" y="4.77785" z="-12.672" />
+            <boundingVolume type="box">
+                <size x="13.0728" y="13.0728" z="13.0728" />
+            </boundingVolume>
+            <position x="-28.2277" y="-0.363353" z="-12.5987" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="0.314403" y="1" z="2.274" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="CheckPoint01">
             <userData>
-                <![CDATA[<CheckPoint><Name>RACE</Name><Number>1</Number></CheckPoint>]]>
+                <![CDATA[<CheckPoint><Name>GOOO</Name><Number>1</Number></CheckPoint>]]>
 </userData>
-            <position x="34.5463" y="4.77785" z="9.68474" />
+            <boundingVolume type="box">
+                <size x="13.0728" y="13.0728" z="13.0728" />
+            </boundingVolume>
+            <position x="34.9892" y="-0.363352" z="9.53032" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="0.314403" y="1" z="2.274" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="Finish">
             <userData>
                 <![CDATA[<Finish />]]>
 </userData>
-            <position x="93.2309" y="4.77785" z="-0.0977976" />
+            <boundingVolume type="box">
+                <size x="13.0728" y="13.0728" z="13.0728" />
+            </boundingVolume>
+            <position x="92.7939" y="-0.363352" z="-0.426554" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="0.314403" y="1" z="2.274" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Boost">
+            <userData>
+                <![CDATA[<Boost><Boost>5</Boost></Boost>]]>
+</userData>
+            <boundingVolume type="box">
+                <size x="18.1851" y="18.1851" z="18.1851" />
+            </boundingVolume>
+            <position x="67.2403" y="-0.363352" z="3.3648" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset">
+            <userData>
+                <![CDATA[<ResetSpawn />]]>
+</userData>
+            <boundingVolume type="sphere" radius="6.34426" />
+            <position x="5.10316" y="6.87126" z="5.38152" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
         </item>
     </externals>
 </scene>
