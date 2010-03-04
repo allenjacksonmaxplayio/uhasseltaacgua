@@ -159,7 +159,7 @@ void AbstractHavocWorld::unload () {
 
 }
 
-void AbstractHavocWorld::load ( const char * filename ){
+bool AbstractHavocWorld::load ( const char * filename ){
 	//unload if a world is present
 	if ( mIsLoaded )
 		unload();
@@ -171,9 +171,15 @@ void AbstractHavocWorld::load ( const char * filename ){
 	jobQueue = new hkJobQueue(info);
 
 	hkIstream infile( filename );
+	if ( !infile.isOk() )
+		return false;
+	
 	HK_ASSERT( 0x215d080c, infile.isOk() );
 
 	mPhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &mLoadedData );
+	if ( mPhysicsData == HK_NULL ){
+		return false;
+	}
 
 	HK_ASSERT( 0, mPhysicsData != HK_NULL );
 
@@ -222,6 +228,8 @@ void AbstractHavocWorld::load ( const char * filename ){
 	vdb->serve();
 
 	mIsLoaded = true;
+
+	return true;
 }
 
 bool AbstractHavocWorld::update () {

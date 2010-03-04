@@ -1,11 +1,11 @@
-#ifndef PUSHGRAVITYPHANTOM_H
-#define PUSHGRAVITYPHANTOM_H
+#ifndef PLANETGRAVITYPHANTOM_H
+#define PLANETGRAVITYPHANTOM_H
 
 #include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
 
 namespace HovUni {
 
-class PushGravityPhantom : public hkpAabbPhantom
+class PlanetGravityPhantom : public hkpAabbPhantom
 {
 private:
 	
@@ -20,9 +20,17 @@ private:
 	const hkpCollidable * mHullCollidable;
 
 public:
-	PushGravityPhantom(hkpRigidBody* planet, const hkAabb& aabb, const hkpCollidable* hullCollidable, hkUint32 collisionFilterInfo = 0);
-	
-	virtual ~PushGravityPhantom(void);
+
+	/**
+	 * Constructor
+	 * @param the planet
+	 * @param aabb
+	 * @param hullCollidable
+	 * @param collisionFilterInfo
+	 */
+	PlanetGravityPhantom(hkpRigidBody* planet, const hkAabb& aabb, const hkpCollidable* hullCollidable, hkUint32 collisionFilterInfo = 0);
+
+	virtual ~PlanetGravityPhantom(void);
 
 	virtual void addOverlappingCollidable( hkpCollidable* handle );
 

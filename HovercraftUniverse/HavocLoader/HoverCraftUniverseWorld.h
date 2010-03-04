@@ -2,6 +2,7 @@
 #define HoverCraftUniverseWorld_H
 
 #include "AbstractHavocWorld.h"
+#include "PhysicsLoader.h"
 #include "Character.h"
 #include "CharacterContextContainer.h"
 
@@ -11,10 +12,37 @@ class HoverCraftUniverseWorld : public AbstractHavocWorld
 {
 private:
 
+	friend class PhysicsLoader;
+
+	/**
+	 * Start phantom
+	 */
+	hkpPhantom * mStart;
+
+	/**
+	 * Finish phantom
+	 */
+	hkpPhantom * mFinish;
+
+	/**
+	 * Map with checkpoints mapped on their name
+	 */
+	hkStorageStringMap<hkpPhantom*> mCheckpoint;	
+
+	/**
+	 * Map with powerupspawns mapped on their name
+	 */
+	hkStorageStringMap<hkpPhantom*> mPowerupSpawn;
+
+	/**
+	 * Map with asteroids mapped on their name
+	 */
+	hkStorageStringMap<hkpRigidBody*> mAsteroidsMap;
+
 	/**
 	 * Map with characters mapped on their name
 	 */
-	hkStorageStringMap<Character*> CharactersMap;
+	hkStorageStringMap<Character*> mCharactersMap;
 
 	/**
 	 * Container for all types of characters we want
@@ -33,13 +61,12 @@ public:
 	 */
 	virtual ~HoverCraftUniverseWorld(void);
 
-
 	/**
 	 * Load a scene file.
 	 * Parse this and load a physics version of in in our havoc world
 	 * @param filename
 	 */
-	virtual void load ( const char * filename );
+	virtual bool loadSceneFile ( const char * filename );
 };
 
 }
