@@ -4,7 +4,7 @@
 
 namespace HovUni {
 
-Exception::	Exception(const std::string& msg) : mMsg(msg), mNested(0), mFilename(0) {
+Exception::Exception(const std::string& msg) : mMsg(msg), mNested(0), mFilename(0) {
 
 }
 
@@ -25,7 +25,8 @@ Exception::Exception(const Exception& ex) : mMsg(ex.mMsg), mNested(0) {
 }
 	
 Exception::~Exception() throw() {
-
+	delete mNested;
+	mNested = 0;
 }
 
 Exception& Exception::operator=(const Exception& ex) {

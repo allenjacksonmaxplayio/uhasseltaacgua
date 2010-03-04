@@ -138,34 +138,40 @@ private:
 /*
  * Macros for quickly declaring and implementing exception classes.
  */
-#define HOVUNI_EXCEPTION_DECLARE(NEW, BASE) \
-	class NEW: public BASE														\
-	{																				\
-	public:																			\
-		NEW(const std::string& msg);												\
-		NEW(const std::string& msg, const HovUni::Exception& nested);				\
-		NEW(const NEW& ex);															\
-		~NEW() throw();																\
-		NEW& operator = (const NEW& ex);											\
-		HovUni::Exception* clone() const;											\
-		const char* className() const throw();										\
+#define HOVUNI_EXCEPTION_DECLARE(NEW, BASE)																	\
+	class NEW: public BASE																					\
+	{																										\
+	public:																									\
+		NEW(const std::string& msg);																		\
+		NEW(const std::string& msg, const char* filename, unsigned line);									\
+		NEW(const std::string& msg, const HovUni::Exception& nested);										\
+		NEW(const std::string& msg, const HovUni::Exception& nested, const char* filename, unsigned line);	\
+		NEW(const NEW& ex);																					\
+		~NEW() throw();																						\
+		NEW& operator = (const NEW& ex);																	\
+		HovUni::Exception* clone() const;																	\
+		const char* className() const throw();																\
 	};
 
 
-#define HOVUNI_EXCEPTION_DEFINITION(NEW, BASE)														\
-	NEW::NEW(const std::string& msg) : BASE(msg) { }												\
-	NEW::NEW(const std::string& msg, const HovUni::Exception& nested) : BASE(msg, nested) { }		\
-	NEW::NEW(const NEW& ex) : BASE(ex) { }															\
-	NEW::~NEW() throw() { }																			\
-	NEW& NEW::operator=(const NEW& ex) {															\
-		BASE::operator=(ex);																		\
-		return *this;																				\
-	}																								\
-	HovUni::Exception* NEW::clone() const {															\
-		return new NEW(*this);																		\
-	}																								\
-	const char* NEW::className() const throw() {													\
-		return typeid(*this).name();																\
+#define HOVUNI_EXCEPTION_DEFINITION(NEW, BASE)																	\
+	NEW::NEW(const std::string& msg) : BASE(msg) { }															\
+	NEW::NEW(const std::string& msg, const char* filename, unsigned line) :										\
+		BASE(msg, filename, line) { }																			\
+	NEW::NEW(const std::string& msg, const HovUni::Exception& nested) : BASE(msg, nested) { }					\
+	NEW::NEW(const std::string& msg, const HovUni::Exception& nested, const char* filename, unsigned line) :	\
+		BASE(msg, nested, filename, line) { }																	\
+	NEW::NEW(const NEW& ex) : BASE(ex) { }																		\
+	NEW::~NEW() throw() { }																						\
+	NEW& NEW::operator=(const NEW& ex) {																		\
+		BASE::operator=(ex);																					\
+		return *this;																							\
+	}																											\
+	HovUni::Exception* NEW::clone() const {																		\
+		return new NEW(*this);																					\
+	}																											\
+	const char* NEW::className() const throw() {																\
+		return typeid(*this).name();																			\
 	}
 
 /** Macro to throw an exception with file and line annotations */
