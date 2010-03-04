@@ -31,13 +31,14 @@ public:
 	 */
 	bool keyPressed(const OIS::KeyEvent &e){
 		if ( e.text == 'a'){
-			mHavoc->load(".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
+			mHavoc->loadSceneFile(".\\..\\..\\..\\art\\models\\SimpleTrack.scene");
+			//mHavoc->load(".\\..\\..\\..\\art\\models\\planetgravity_L4101.hkx");
 		}	
 		if ( e.text == 'z'){
-			mHavoc->load(".\\..\\..\\..\\art\\models\\test_Default.hkx");
+			//mHavoc->load(".\\..\\..\\..\\art\\models\\test_Default.hkx");
 		}
 		if ( e.text == 'r'){
-			mHavoc->load(".\\..\\..\\..\\art\\models\\simplephys_L4101.hkx");
+			//mHavoc->load(".\\..\\..\\..\\art\\models\\simplephys_L4101.hkx");
 		}
 		if ( e.text == 'e' ){
 			//test the contextcontainer

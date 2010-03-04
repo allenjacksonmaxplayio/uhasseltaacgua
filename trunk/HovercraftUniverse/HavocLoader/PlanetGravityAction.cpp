@@ -1,4 +1,4 @@
-#include "PullPlanetGravityAction.h"
+#include "PlanetGravityAction.h"
 #include "EntityType.h"
 #include "HoverCraftUniverseWorld.h"
 
@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-PullPlanetGravityAction::PullPlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
+PlanetGravityAction::PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration ):
 		hkpUnaryAction(satellite), 
 		mPlanetBody(planetBody), 
 		mHullCollidable(hullCollidable), 
@@ -18,7 +18,7 @@ PullPlanetGravityAction::PullPlanetGravityAction( hkpRigidBody* planetBody, hkpR
 	setUserData( HK_SPHERE_ACTION_ID );
 }
 
-void PullPlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
+void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 {
 	hkpRigidBody* rb = getRigidBody();
 

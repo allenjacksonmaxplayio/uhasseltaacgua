@@ -161,6 +161,14 @@
 				RelativePath=".\ParseException.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\UserDataCallback.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDataFactory.cpp"
+				>
+			</File>
 			<Filter
 				Name="UserData"
 				>
@@ -212,14 +220,6 @@
 					RelativePath=".\UserData.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\UserDataCallback.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\UserDataFactory.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -241,6 +241,14 @@
 			</File>
 			<File
 				RelativePath=".\ParseException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDataCallback.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDataFactory.h"
 				>
 			</File>
 			<Filter
@@ -292,14 +300,6 @@
 				</File>
 				<File
 					RelativePath=".\UserData.h"
-					>
-				</File>
-				<File
-					RelativePath=".\UserDataCallback.h"
-					>
-				</File>
-				<File
-					RelativePath=".\UserDataFactory.h"
 					>
 				</File>
 			</Filter>

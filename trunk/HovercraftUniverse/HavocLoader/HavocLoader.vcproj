@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib User32.lib $(NOINHERIT)"
+				AdditionalDependencies="Content_d.lib OgreMax_d.lib OgreMain_d.lib OIS_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib User32.lib $(NOINHERIT)"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\Debug&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\debug_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\debug&quot;"
 				GenerateDebugInformation="true"
@@ -189,22 +189,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PullGravityPhantom.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PullPlanetGravityAction.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PushGravityPhantom.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PushPlanetGravityAction.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SimpleMultithreadedConsoleMain.cpp"
 				>
 			</File>
@@ -231,6 +215,50 @@
 					RelativePath=".\HoverCraftUniverseWorld.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\PhysicsLoader.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="phantoms"
+				>
+				<File
+					RelativePath=".\BoostPhantom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CheckpointPhantom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FinishPhantom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PortalPhantom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PowerupPhantom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\StartPhantom.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="planets"
+				>
+				<File
+					RelativePath=".\PlanetGravityAction.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PlanetGravityPhantom.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -248,22 +276,6 @@
 			</File>
 			<File
 				RelativePath=".\PhantomTrackAction.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PullGravityPhantom.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PullPlanetGravityAction.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PushGravityPhantom.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PushPlanetGravityAction.h"
 				>
 			</File>
 			<Filter
@@ -287,6 +299,50 @@
 				</File>
 				<File
 					RelativePath=".\HoverCraftUniverseWorld.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PhysicsLoader.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="phantoms"
+				>
+				<File
+					RelativePath=".\BoostPhantom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CheckpointPhantom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FinishPhantom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PortalPhantom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PowerupPhantom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\StartPhantom.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="planets"
+				>
+				<File
+					RelativePath=".\PlanetGravityAction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PlanetGravityPhantom.h"
 					>
 				</File>
 			</Filter>

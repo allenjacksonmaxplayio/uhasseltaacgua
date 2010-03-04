@@ -20,6 +20,7 @@ namespace HovUni {
 
 /**
  * Abstract class which handles a lot of basic functionality for a multithreaded havoc program
+ * The world will be initialised when load successfuly returns.
  */
 class AbstractHavocWorld
 {
@@ -107,7 +108,7 @@ public:
 	 * It will also set the loaded flag
 	 * @param filanem
 	 */
-	virtual void load ( const char * filename );
+	virtual bool load ( const char * filename );
 
 	/**
 	 * Unload the world, removing everything from memory and setting is loaded flag to false

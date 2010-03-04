@@ -1,155 +1,15 @@
 #include "HoverCraftUniverseWorld.h"
 
+#include "PhysicsLoader.h"
+#include "CustomOgreMaxScene.h"
+
+
 #include "EntityType.h"
 #include "PhantomTrackAction.h"
-#include "PullGravityPhantom.h"
-#include "PushGravityPhantom.h"
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
 
-#include "CustomOgreMaxSceneCallback.h"
-#include "UserDataCallback.h"
-
 namespace HovUni {
-
-class CustomLoader : public UserDataCallback, public CustomOgreMaxSceneCallback {
-public:
-	CustomLoader() {
-	}
-
-	
-	virtual void onSceneFile( const Ogre::String& fileName, Ogre::String& resourceGroupName){
-	}
-	
-	virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive) {
-	}
-
-	virtual void StartedLoad(){
-		//TODO notify clients??
-	}
-
-	virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud) {
-	}
-
-	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
-		//TODO parse Track usedata
-	}
-
-	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem){
-		//HERE WE NEED TO WORK
-		//UserDataFactory::getInstance().parse(externalitem)
-	}
-
-	virtual void FinishedLoad( bool success ){
-		//TODO notify clients??
-	}
-
-	virtual void UpdatedLoadProgress( Ogre::Real progress ){
-		//TODO notify clients??
-	}
-
-	//Scene info: nobody cares about this
-	virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) {}
-
-	//Sky systems: nobody cares about this
-
-	virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters, std::vector<OgreMax::Types::NodeAnimation> * animation ) {
-	}
-
-	virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {
-	}
-
-	virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {
-	}
-
-	//Enviroment: nobody cares about this
-
-	virtual void onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar){
-	}
-
-	virtual void onFog ( OgreMax::Types::FogParameters& fog ){
-	}
-
-	virtual void onAmbientColour( const Ogre::ColourValue& colour ){
-	}
-
-	virtual void onShadowProperties( OgreMax::Types::ShadowParameters& parameter ){
-	}
-
-	virtual void onBackgroundColour( const Ogre::ColourValue& colour ){
-	}
-
-	//Nodes
-
-	virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ) {
-	}
-
-	virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent) {
-	}
-
-	//Movables
-
-	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ) {
-		//TODO ??
-	}
-
-	virtual void onLight( OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent) {}
-        
-	virtual void onCamera(OgreMax::Types::CameraParameters& params, const OgreMax::Types::Attachable * parent ) {}
-
-	virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent ) {}
-
-	virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent) {}
-
-	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent) {}
-
-	//Custom objects
-
-	virtual void onAsteroid( Asteroid * asteroid ) {
-		//TODO add asteroid
-	};
-
-	virtual void onStart( Start * start ) {
-		//TODO add start
-	};
-
-	virtual void onStartPosition( StartPosition * startposition ) {
-		//TODO add startpos	
-	}
-
-	virtual void onCheckPoint( CheckPoint * checkpoint ) {
-		//TODO add checkpoint	
-	};
-
-	virtual void onFinish( Finish * finish ) {
-		//TODO add finish	
-	};
-
-	virtual void onHoverCraft( Hovercraft * hovercraft ) {
-		//TODO add hovercraft	
-	};
-
-	virtual void onTrack( Track * track ) {
-		//TODO load havoc file of track	
-	};
-
-	virtual void onPortal( Portal * portal ) {
-		//TODO create havoc portal	
-	};
-
-	virtual void onBoost( Boost * boost ) {
-		//TODO create havoc boost
-	};
-
-	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {
-		//TODO create havoc powerup spawn	
-	};
-
-	virtual void onResetSpawn( ResetSpawn * spawn ) {
-		//TODO create havoc reset spawn
-	};
-};
-
 
 HoverCraftUniverseWorld::HoverCraftUniverseWorld(hkReal timestep):
 	AbstractHavocWorld(timestep)
@@ -160,7 +20,15 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 {
 }
 
-void HoverCraftUniverseWorld::load ( const char * filename ){
+bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
+	
+	PhysicsLoader loader(this, ".\\..\\..\\..\\art\\models\\");
+
+	CustomOgreMaxScene scene;
+
+	scene.Load(Ogre::String(filename),CustomOgreMaxScene::SKIP_ENVIRONMENT | CustomOgreMaxScene::SKIP_SHADOWS | CustomOgreMaxScene::SKIP_SKY | CustomOgreMaxScene::SKIP_TERRAIN | CustomOgreMaxScene::SKIP_VISIBILITY_FLAG_ALIASES,&loader);
+
+	/*
 	//load the world	
 	AbstractHavocWorld::load(filename);
 
@@ -249,35 +117,6 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 							trackAction->removeReference();
 						}
 					}
-/*
-					//add gravity field PUSH
-					{
-						// Scale up the planet's gravity field's AABB so it goes beyond the planet
-						hkVector4 extents;
-						extents.setSub4( currentAabb.m_max, currentAabb.m_min );
-						hkInt32 majorAxis = extents.getMajorAxis();
-						hkReal maxExtent = extents( majorAxis );
-						maxExtent *= 0.4f;
-
-						// Scale the AABB's extents
-						hkVector4 extension;
-						extension.setAll( maxExtent );
-						currentAabb.m_max.add4( extension );
-						currentAabb.m_min.sub4( extension );
-
-						// Attach a gravity phantom to the planet so it can catch objects which come close
-						PushGravityPhantom* gravityAabbPhantom = new PushGravityPhantom( planetRigidBody, currentAabb, hullCollidable );
-						mPhysicsWorld->addPhantom( gravityAabbPhantom );
-						gravityAabbPhantom->removeReference();
-
-						// Add a tracking action to the phantom so it follows the planet. This allows support for non-fixed motion type planets
-						if (planetRigidBody->getMotion()->getType() != hkpMotion::MOTION_FIXED)
-						{
-							PhantomTrackAction* trackAction = new PhantomTrackAction( planetRigidBody, gravityAabbPhantom );
-							mPhysicsWorld->addAction( trackAction );
-							trackAction->removeReference();
-						}
-					}*/
 				}
 			}
 			else if ( rbName.beginsWith( "StartPos" ) ){
@@ -305,7 +144,9 @@ void HoverCraftUniverseWorld::load ( const char * filename ){
 		}
 	}
 
-	mPhysicsWorld->unmarkForWrite();
+	mPhysicsWorld->unmarkForWrite();*/
+
+	return true;
 }
 
 }
