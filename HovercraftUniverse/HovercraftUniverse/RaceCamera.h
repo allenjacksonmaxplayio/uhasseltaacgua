@@ -45,10 +45,10 @@ private:
 	 * The camera viewpoints
 	 */
 	enum CameraViewpoint {
-		ThirdPerson,
-		FirstPerson,
-		RearView,
-		FreeRoam
+		ThirdPerson = 0,
+		FirstPerson = 1,
+		RearView = 2,
+		FreeRoam = 3
 	};
 
 	/** The camera currently active */

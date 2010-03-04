@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\HovercraftUniverse\KeyManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PhantomTrackAction.cpp"
 				>
 			</File>
@@ -272,6 +276,10 @@
 			</File>
 			<File
 				RelativePath="..\HovercraftUniverse\InputManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\HovercraftUniverse\KeyManager.h"
 				>
 			</File>
 			<File

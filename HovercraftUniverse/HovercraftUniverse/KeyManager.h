@@ -1,5 +1,5 @@
-#ifndef KEYMAPPER_H_
-#define KEYMAPPER_H_
+#ifndef KEYMANAGER_H_
+#define KEYMANAGER_H_
 
 #include <OIS.h>
 #include <list>
@@ -13,18 +13,19 @@ namespace HovUni {
  * @author Tobias Van Bladel
  */
 
-class KeyMapper {
+class KeyManager {
 private:
-	std::map<ControllerActionType, std::list<OIS::KeyCode> > mMapping;
+	//std::map<ControllerActionType, std::list<OIS::KeyCode> > mMapping;
+	std::map<OIS::KeyCode, ControllerActionType> mMapping;
 
 public:
-	KeyMapper(void);
-	virtual ~KeyMapper(void);
+	KeyManager(void);
+	virtual ~KeyManager(void);
 
 	//TODO: is OIS::KeyCode voldoende? Werkt dit ook voor bv controllers?
 
 	/** Get the key for a certain action */
-	const std::list<OIS::KeyCode>& getKey(const ControllerActionType);
+	const std::list<OIS::KeyCode> getKeys(const ControllerActionType);
 
 	/** Change the key for this action */
 	void setKey(const ControllerActionType, const OIS::KeyCode);

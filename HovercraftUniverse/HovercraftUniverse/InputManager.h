@@ -7,6 +7,7 @@
 
 #include <OgreRenderWindow.h>
 #include <string>
+#include "KeyManager.h"
 
 namespace HovUni {
 
@@ -38,6 +39,9 @@ protected:
 
 	/** The joystick listeners registered */
     std::map<std::string, OIS::JoyStickListener *> mJoystickListeners;
+
+	/** The key manager */
+	KeyManager * mKeyManager;
 
 	/** The singleton object */
     static InputManager * mInputManager;
@@ -188,6 +192,13 @@ public:
 	 * @return the singleton pointer
 	 */
     static InputManager * getSingletonPtr(void);
+
+	/**
+	 * Returns the key manager.
+	 *
+	 * @return the key manager.
+	 */
+	KeyManager * getKeyManager(void);
 
 private:
 

@@ -6,7 +6,7 @@ namespace HovUni {
 // Singleton object
 InputManager * InputManager::mInputManager = 0;
 
-InputManager::InputManager(void) : mMouse(0), mKeyboard(0), mInputSystem(0) {
+InputManager::InputManager(void) : mMouse(0), mKeyboard(0), mInputSystem(0), mKeyManager(new KeyManager()) {
 	// Already initialized
 }
 
@@ -350,6 +350,10 @@ InputManager * InputManager::getSingletonPtr(void) {
 	}
 
 	return mInputManager;
+}
+
+KeyManager * InputManager::getKeyManager(void) {
+	return mKeyManager;
 }
 
 }

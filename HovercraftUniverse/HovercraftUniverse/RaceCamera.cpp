@@ -53,42 +53,50 @@ RaceCamera::~RaceCamera() {
 }
 
 bool RaceCamera::keyPressed(const OIS::KeyEvent & e) { 
-	// TODO Allow key manager to set keys for the cameras
+	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
 	// TODO Set the camera controller
-	switch (e.key) {
-	case OIS::KC_1:
+	switch (action) {
+	case CHANGECAMERA:
+		// Switch to next camera
+		if (mCurrCamViewpoint == FreeRoam) {
+			mCurrCamViewpoint = ThirdPerson;
+		} else {
+			mCurrCamViewpoint = CameraViewpoint(mCurrCamViewpoint + 1);
+		}
+		break;
+	case THIRD_PERSON_CAMERA:
 		// Switch to 3rd person
-		mActiveViewpointNode->detachObject(mCamera);
-		mActiveViewpointNode = m3rdPersonViewpointNode;
-		mActiveViewpointNode->attachObject(mCamera);
 		mCurrCamViewpoint = ThirdPerson;
 		break;
-	case OIS::KC_2:
+	case FIRST_PERSON_CAMERA:
 		// Switch to 1st person
-		mActiveViewpointNode->detachObject(mCamera);
-		mActiveViewpointNode = m1stPersonViewpointNode;
-		mActiveViewpointNode->attachObject(mCamera);
 		mCurrCamViewpoint = FirstPerson;
 		break;
-	case OIS::KC_3:
+	case REAR_VIEW_CAMERA:
 		// Switch to rear view
-		mActiveViewpointNode->detachObject(mCamera);
-		mActiveViewpointNode = mRearViewpointNode;
-		mActiveViewpointNode->attachObject(mCamera);
 		mCurrCamViewpoint = RearView;
 		break;
-	case OIS::KC_4:
+	case FREE_CAMERA:
 		// Switch to free roaming
-		mActiveViewpointNode->detachObject(mCamera);
-		mActiveViewpointNode = mFreeRoamViewpointNode;
-		mActiveViewpointNode->attachObject(mCamera);
 		mCurrCamViewpoint = FreeRoam;
 		break;
 	default:
 		// Do nothing
 		break;
 	}
-	
+
+	mActiveViewpointNode->detachObject(mCamera);
+	if (mCurrCamViewpoint == ThirdPerson) {
+		mActiveViewpointNode = m3rdPersonViewpointNode;
+	} else if (mCurrCamViewpoint == FirstPerson) {
+		mActiveViewpointNode = m1stPersonViewpointNode;
+	} else if (mCurrCamViewpoint == RearView) {
+		mActiveViewpointNode = mRearViewpointNode;
+	} else if (mCurrCamViewpoint == FreeRoam) {
+		mActiveViewpointNode = mFreeRoamViewpointNode;
+	}
+	mActiveViewpointNode->attachObject(mCamera);
+
 	// Succes
 	return true; 
 }
