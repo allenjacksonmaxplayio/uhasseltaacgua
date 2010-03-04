@@ -132,4 +132,12 @@ namespace HovUni {
 			(*it).second->disable();
 		}
 	}
+
+	int GUIManager::getResolutionWidth() {
+		return mViewport->getActualWidth();
+	}
+
+	int GUIManager::getResolutionHeight() {
+		return mViewport->getActualHeight();
+	}
 }

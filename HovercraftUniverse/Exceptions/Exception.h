@@ -22,7 +22,7 @@ private:
 	Exception* mNested;
 
 	/** An optional filename */
-	const char* mFilename;
+	std::string mFilename;
 
 	/** An optional line number */
 	unsigned mLineNumber;

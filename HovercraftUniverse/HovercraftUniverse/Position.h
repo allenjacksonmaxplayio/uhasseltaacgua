@@ -1,0 +1,22 @@
+#ifndef POSITION_H
+#define POSITION_H
+
+#include <BasicOverlay.h>
+
+namespace HovUni {
+	/**
+	 * An overlay containing a position representation.
+	 *
+	 * @author Nick De Frangh
+	 */
+	class Position : public BasicOverlay {
+		public:
+			/**
+			 * Position constructor, see BasicOverlay for parameter description
+			 */
+			Position(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+
+	};
+}
+
+#endif //POSITION_H

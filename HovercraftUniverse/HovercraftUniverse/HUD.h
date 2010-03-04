@@ -3,7 +3,10 @@
 
 #include <OverlayContainer.h>
 
+#include "Direction.h"
+#include "Position.h"
 #include "Speedometer.h"
+#include <tinyxml/tinyxml.h>
 
 namespace HovUni {
 
@@ -15,19 +18,35 @@ namespace HovUni {
  */
 class HUD : public OverlayContainer {
 private:
-
 	/** The meter indicating the speed of the racer */
 	Speedometer* mSpeedometer;
 
+	/** Direction arrow */
+	Direction* mDirection;
+
+	/** Position indicator */
+	Position* mPosition;
+
 	/** Indicates whether the HUD should be activated */
 	bool mIsActivated;
+
+	/** Helper data structure */
+	struct ComponentData {
+		Ogre::String mName;
+		Ogre::String mFilename;
+		Hikari::Position mPosition;
+		int mWidth;
+		bool mWidthP;
+		int mHeight;
+		bool mHeightP;
+	};
 
 public:
 
 	/**
 	 * Constructor.
 	 */
-	HUD();
+	HUD(TiXmlElement* HUDConfig);
 
 	/**
 	 * Destructor.
@@ -51,6 +70,10 @@ public:
 	 */
 	bool isActivated() { return mIsActivated; }
 
+private:
+	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData>& components, std::vector<ComponentData*>& percentageComponents );
+
+	int fixPercentageSize(bool width, std::vector<ComponentData>& components, int percentage, Hikari::Position pos);
 };
 
 }

@@ -4,7 +4,7 @@
 
 namespace HovUni {
 
-Exception::Exception(const std::string& msg) : mMsg(msg), mNested(0), mFilename(0) {
+Exception::Exception(const std::string& msg) : mMsg(msg), mNested(0), mFilename("") {
 
 }
 
@@ -12,7 +12,7 @@ Exception::Exception(const std::string& msg, const char* filename, unsigned line
 
 }
 
-Exception::Exception(const std::string& msg, const Exception& nested) : mMsg(msg), mNested(nested.clone()), mFilename(0) {
+Exception::Exception(const std::string& msg, const Exception& nested) : mMsg(msg), mNested(nested.clone()), mFilename("") {
 
 }
 
@@ -45,11 +45,11 @@ Exception* Exception::clone() const {
 }
 
 std::string Exception::getMessage() const {
-	std::stringstream msg (std::stringstream::in | std::stringstream::out);
+	std::ostringstream  msg;
 	
 	msg << className() << " : " << mMsg;
 	
-	if (mFilename) {
+	if (mFilename != "") {
 		msg << "[FILE: " << mFilename << " (" << mLineNumber << ")]";
 	}
 
@@ -57,7 +57,7 @@ std::string Exception::getMessage() const {
 		msg << std::endl << "\t> " << *mNested;
 	}
 
-	return mMsg;
+	return msg.str();
 }
 
 const Exception* Exception::getNested() const {

@@ -7,7 +7,7 @@ namespace HovUni {
 // Define initial global ID
 int GameView::mGlobalID = 1;
 
-GameView::GameView(HUD * hud, Ogre::SceneManager * sceneMgr) : mHUD(hud), mSceneMgr(sceneMgr), mID(mGlobalID++) {
+GameView::GameView(Ogre::SceneManager * sceneMgr) : mHUD(0), mSceneMgr(sceneMgr), mID(mGlobalID++) {
 	// Create camera for this game view
 	mRaceCam = new RaceCamera(mSceneMgr, mID);
 
@@ -52,8 +52,10 @@ void GameView::draw(Ogre::Real timeSinceLastFrame) {
 	mRaceCam->update(timeSinceLastFrame);
 
 	//Activate the HUD if needed
-	if (!mHUD->isActivated()) {
-		mHUD->activate();
+	if (mHUD) {
+		if (!mHUD->isActivated()) {
+			mHUD->activate();
+		}
 	}
 
 	// Draw the entity representations
@@ -63,6 +65,10 @@ void GameView::draw(Ogre::Real timeSinceLastFrame) {
 
 	// Draw the hud
 	drawHUD();
+}
+
+void GameView::setHud(HUD* hud) {
+	mHUD = hud;
 }
 
 void GameView::drawEntityRepresentations() {
