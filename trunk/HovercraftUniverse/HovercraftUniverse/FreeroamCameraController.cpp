@@ -63,24 +63,25 @@ Ogre::Degree FreeroamCameraController::getPitch() {
 }
 
 bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) { 
+	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
 	// Process possibly resulting move
-	switch (e.key) {
-		case OIS::KC_A:
-			mMovingLeft = true;
-			break;
-		case OIS::KC_W:
+	switch (action) {
+		case FREE_CAMERA_FWD:
 			mMovingForward = true;
 			break;
-		case OIS::KC_D:
-			mMovingRight = true;
-			break;
-		case OIS::KC_S:
+		case FREE_CAMERA_BACK:
 			mMovingBackward = true;
 			break;
-		case OIS::KC_E:
+		case FREE_CAMERA_LEFT:
+			mMovingLeft = true;
+			break;
+		case FREE_CAMERA_RIGHT:
+			mMovingRight = true;
+			break;
+		case FREE_CAMERA_UP:
 			mMovingUp = true;
 			break;
-		case OIS::KC_Q:
+		case FREE_CAMERA_DOWN:
 			mMovingDown = true;
 			break;
 		default:
@@ -92,24 +93,25 @@ bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) {
 }
 
 bool FreeroamCameraController::keyReleased(const OIS::KeyEvent & e) { 
+	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
 	// Clear movement for that key
-	switch (e.key) {
-		case OIS::KC_A:
-			mMovingLeft = false;
-			break;
-		case OIS::KC_W:
+	switch (action) {
+		case FREE_CAMERA_FWD:
 			mMovingForward = false;
 			break;
-		case OIS::KC_D:
-			mMovingRight = false;
-			break;
-		case OIS::KC_S:
+		case FREE_CAMERA_BACK:
 			mMovingBackward = false;
 			break;
-		case OIS::KC_E:
+		case FREE_CAMERA_LEFT:
+			mMovingLeft = false;
+			break;
+		case FREE_CAMERA_RIGHT:
+			mMovingRight = false;
+			break;
+		case FREE_CAMERA_UP:
 			mMovingUp = false;
 			break;
-		case OIS::KC_Q:
+		case FREE_CAMERA_DOWN:
 			mMovingDown = false;
 			break;
 		default:

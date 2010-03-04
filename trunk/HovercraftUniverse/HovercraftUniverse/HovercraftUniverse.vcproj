@@ -288,7 +288,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\KeyMapper.cpp"
+					RelativePath=".\KeyManager.cpp"
 					>
 				</File>
 				<File
@@ -442,7 +442,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\KeyMapper.h"
+					RelativePath=".\KeyManager.h"
 					>
 				</File>
 				<File

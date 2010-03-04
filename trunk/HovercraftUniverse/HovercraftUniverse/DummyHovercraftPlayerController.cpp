@@ -1,4 +1,5 @@
 #include "DummyHovercraftPlayerController.h"
+#include "KeyManager.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -35,18 +36,19 @@ Ogre::Vector3 DummyHovercraftPlayerController::getOrientationChange() {
 
 bool DummyHovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) { 
 	// Process possibly resulting move
-	switch (e.key) {
-		case OIS::KC_LEFT:
-			mMovingLeft = true;
-			break;
-		case OIS::KC_UP:
+	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
+	switch (action) {
+		case ACCELERATE:
 			mMovingForward = true;
 			break;
-		case OIS::KC_RIGHT:
-			mMovingRight = true;
-			break;
-		case OIS::KC_DOWN:
+		case BRAKE:
 			mMovingBackward = true;
+			break;
+		case TURNLEFT:
+			mMovingLeft = true;
+			break;
+		case TURNRIGHT:
+			mMovingRight = true;
 			break;
 		default:
 			break;
@@ -57,22 +59,23 @@ bool DummyHovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) {
 }
 
 bool DummyHovercraftPlayerController::keyReleased(const OIS::KeyEvent & e) { 
+	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
 	// Clear movement for that key
-	switch (e.key) {
-	case OIS::KC_LEFT:
-		mMovingLeft = false;
-		break;
-	case OIS::KC_UP:
-		mMovingForward = false;
-		break;
-	case OIS::KC_RIGHT:
-		mMovingRight = false;
-		break;
-	case OIS::KC_DOWN:
-		mMovingBackward = false;
-		break;
-	default:
-		break;
+	switch (action) {
+		case ACCELERATE:
+			mMovingForward = false;
+			break;
+		case BRAKE:
+			mMovingBackward = false;
+			break;
+		case TURNLEFT:
+			mMovingLeft = false;
+			break;
+		case TURNRIGHT:
+			mMovingRight = false;
+			break;
+		default:
+			break;
 	}
 
 	// Succes
