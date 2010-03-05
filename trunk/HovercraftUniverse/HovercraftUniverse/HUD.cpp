@@ -39,7 +39,7 @@ bool equals(Hikari::Position pos1, Hikari::Position pos2) {
 namespace HovUni {
 
 	HUD::HUD(TiXmlElement* HUDConfig) : mIsActivated(false) {
-		std::vector<ComponentData> components;
+		std::vector<ComponentData*> components;
 		std::vector<ComponentData*> percentageComponents;
 
 		//Parse the config for all components
@@ -53,6 +53,7 @@ namespace HovUni {
 			if ( (*currComponent).mWidthP ) {
 				//Check for other components that could intervine with this component
 				(*currComponent).mWidth = fixPercentageSize(true, components, (*currComponent).mWidth, (*currComponent).mPosition);
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "window width: " << GUIManager::getSingletonPtr()->getResolutionWidth() << " 100% width: " << (*currComponent).mWidth;
 				(*currComponent).mWidthP = false;
 			}
 
@@ -65,33 +66,40 @@ namespace HovUni {
 		}
 
 		for (unsigned int i = 0; i < components.size(); ++i) {
-			ComponentData data = components[i];
+			ComponentData* data = components[i];
 
 			//Initialise all the objects
-			if (!strcmp(data.mName.c_str(), "speedometer")) {
-				mSpeedometer = new Speedometer(data.mName, data.mFilename, data.mWidth, data.mHeight, data.mPosition);
+			if (!strcmp(data->mName.c_str(), "speedometer")) {
+				mSpeedometer = new Speedometer(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mSpeedometer->setBParameter(BasicOverlay::ALPHAHACK, true);
-				this->addOverlay(data.mName, mSpeedometer);
-			} else if (!strcmp(data.mName.c_str(), "position")) {
-				mPosition = new Position(data.mName, data.mFilename, data.mWidth, data.mHeight, data.mPosition);
+				this->addOverlay(data->mName, mSpeedometer);
+			} else if (!strcmp(data->mName.c_str(), "position")) {
+				mPosition = new Position(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mPosition->setBParameter(BasicOverlay::ALPHAHACK, true);
-				this->addOverlay(data.mName, mPosition);
-			} else if (!strcmp(data.mName.c_str(), "positionBar")) {
+				this->addOverlay(data->mName, mPosition);
+			} else if (!strcmp(data->mName.c_str(), "positionBar")) {
 
-			} else if (!strcmp(data.mName.c_str(), "timer")) {
+			} else if (!strcmp(data->mName.c_str(), "timer")) {
 
-			} else if (!strcmp(data.mName.c_str(), "direction")) {
-				mDirection = new Direction(data.mName, data.mFilename, data.mWidth, data.mHeight, data.mPosition);
+			} else if (!strcmp(data->mName.c_str(), "direction")) {
+				mDirection = new Direction(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mDirection->setBParameter(BasicOverlay::ALPHAHACK, true);
-				this->addOverlay(data.mName, mDirection);
-			} else if (!strcmp(data.mName.c_str(), "chat")) {
-
-			} else if (!strcmp(data.mName.c_str(), "timeBehind")) {
+				this->addOverlay(data->mName, mDirection);
+			} else if (!strcmp(data->mName.c_str(), "chat")) {
+				mChat = new Chat(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
+				mChat->setBParameter(BasicOverlay::ALPHAHACK, true);
+				this->addOverlay(data->mName, mChat);
+			} else if (!strcmp(data->mName.c_str(), "timeBehind")) {
 
 			} else {
 				//Unknown
-				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Warning: Unknown HUD element type \"" << data.mName << "\"";
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Warning: Unknown HUD element type \"" << data->mName << "\"";
 			}
+		}
+
+		//cleanup
+		for (std::vector<ComponentData*>::iterator it = components.begin(); it != components.end(); ++it) {
+			delete (*it);
 		}
 	}
 
@@ -115,7 +123,7 @@ namespace HovUni {
 		GUIManager::getSingletonPtr()->disableOverlayContainer(this);
 	}
 
-	void HUD::buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData>& components, std::vector<ComponentData*>& percentageComponents ) {
+	void HUD::buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents ) {
 		//Build up mapping for relative positioning
 		std::map<Ogre::String, Hikari::Position> relativePositions;
 		relativePositions["Left"] = Hikari::Position(Hikari::Left);
@@ -176,7 +184,7 @@ namespace HovUni {
 					width = minWidth;
 				}
 
-				if ( endsWith(minSize->Attribute("width"), "%") ) {
+				if ( endsWith(minSize->Attribute("height"), "%") ) {
 					heightPercentage = true;
 					height = minHeight;
 				}
@@ -189,12 +197,12 @@ namespace HovUni {
 				maxHeight = str2int(maxSize->Attribute("height"));
 
 				if ( endsWith(maxSize->Attribute("width"), "%") ) {
-					heightPercentage = true;
+					widthPercentage = true;
 					width = maxWidth;
 				}
 				
-				if ( endsWith(maxSize->Attribute("width"), "%") ) {
-					widthPercentage = true;
+				if ( endsWith(maxSize->Attribute("height"), "%") ) {
+					heightPercentage = true;
 					height = maxHeight;
 				}
 			} else {
@@ -220,19 +228,27 @@ namespace HovUni {
 			}
 
 			//Save the object
-			ComponentData object = {type, filename, position, width, widthPercentage, height, heightPercentage};
+			ComponentData* object = new ComponentData();
+			object->mName = type;
+			object->mFilename = filename;
+			object->mPosition = position;
+			object->mWidth = width;
+			object->mWidthP = widthPercentage;
+			object->mHeight = height;
+			object->mHeightP = heightPercentage;
 			components.push_back(object);
 			if (widthPercentage || heightPercentage) {
-				percentageComponents.push_back(&components.back());
+				percentageComponents.push_back(object);
 			}
 		}
 	}
 
-	int HUD::fixPercentageSize(bool width, std::vector<ComponentData>& components, int percentage, Hikari::Position pos) {
+	int HUD::fixPercentageSize(bool width, std::vector<ComponentData*>& components, int percentage, Hikari::Position pos) {
 		if (percentage > 100) {
 			percentage = 100;
 		}
 
+		int padding = 15;
 		float perc = percentage / 100.0f;
 		
 		if (width) {
@@ -242,11 +258,11 @@ namespace HovUni {
 			if ( equals(pos, Hikari::BottomCenter) || equals(pos, Hikari::BottomLeft) || equals(pos, Hikari::BottomRight) ) {
 				//Find objects in the same row
 				for (unsigned int i = 0; i < components.size(); ++i) {
-					ComponentData currComp = components[i];
+					ComponentData* currComp = components[i];
 
-					if (!currComp.mWidthP) {
-						if ( equals(currComp.mPosition, Hikari::BottomCenter) || equals(currComp.mPosition, Hikari::BottomLeft) || equals(currComp.mPosition, Hikari::BottomRight) ) {
-							objectwidth += currComp.mWidth;
+					if (!currComp->mWidthP) {
+						if ( equals(currComp->mPosition, Hikari::BottomCenter) || equals(currComp->mPosition, Hikari::BottomLeft) || equals(currComp->mPosition, Hikari::BottomRight) ) {
+							objectwidth += currComp->mWidth + padding;
 						}
 					}
 				}
@@ -256,11 +272,11 @@ namespace HovUni {
 			} else if ( equals(pos, Hikari::Center) || equals(pos, Hikari::Left) || equals(pos, Hikari::Right) ) {
 				//Find objects in the same row
 				for (unsigned int i = 0; i < components.size(); ++i) {
-					ComponentData currComp = components[i];
+					ComponentData* currComp = components[i];
 
-					if (!currComp.mWidthP) {
-						if ( equals(currComp.mPosition, Hikari::Center) || equals(currComp.mPosition, Hikari::Left) || equals(currComp.mPosition, Hikari::Right) ) {
-							objectwidth += currComp.mWidth;
+					if (!currComp->mWidthP) {
+						if ( equals(currComp->mPosition, Hikari::Center) || equals(currComp->mPosition, Hikari::Left) || equals(currComp->mPosition, Hikari::Right) ) {
+							objectwidth += currComp->mWidth + padding;
 						}
 					}
 				}
@@ -270,11 +286,11 @@ namespace HovUni {
 			} else if ( equals(pos, Hikari::TopCenter) || equals(pos, Hikari::TopLeft) || equals(pos, Hikari::TopRight) ) {
 				//Find objects in the same row
 				for (unsigned int i = 0; i < components.size(); ++i) {
-					ComponentData currComp = components[i];
+					ComponentData* currComp = components[i];
 
-					if (!currComp.mWidthP) {
-						if ( equals(currComp.mPosition, Hikari::TopCenter) || equals(currComp.mPosition, Hikari::TopLeft) || equals(currComp.mPosition, Hikari::TopRight) ) {
-							objectwidth += currComp.mWidth;
+					if (!currComp->mWidthP) {
+						if ( equals(currComp->mPosition, Hikari::TopCenter) || equals(currComp->mPosition, Hikari::TopLeft) || equals(currComp->mPosition, Hikari::TopRight) ) {
+							objectwidth += currComp->mWidth + padding;
 						}
 					}
 				}
@@ -289,11 +305,11 @@ namespace HovUni {
 			if ( equals(pos, Hikari::Left) || equals(pos, Hikari::TopLeft) || equals(pos, Hikari::BottomLeft) ) {
 				//Find objects in the same row
 				for (unsigned int i = 0; i < components.size(); ++i) {
-					ComponentData currComp = components[i];
+					ComponentData* currComp = components[i];
 
-					if (!currComp.mHeightP) {
-						if ( equals(currComp.mPosition, Hikari::Left) || equals(currComp.mPosition, Hikari::TopLeft) || equals(currComp.mPosition, Hikari::BottomLeft) ) {
-							objectheight += currComp.mHeight;
+					if (!currComp->mHeightP) {
+						if ( equals(currComp->mPosition, Hikari::Left) || equals(currComp->mPosition, Hikari::TopLeft) || equals(currComp->mPosition, Hikari::BottomLeft) ) {
+							objectheight += currComp->mHeight + padding;
 						}
 					}
 				}
@@ -303,11 +319,11 @@ namespace HovUni {
 			} else if ( equals(pos, Hikari::TopCenter) || equals(pos, Hikari::Center) || equals(pos, Hikari::BottomCenter) ) {
 				//Find objects in the same row
 				for (unsigned int i = 0; i < components.size(); ++i) {
-					ComponentData currComp = components[i];
+					ComponentData* currComp = components[i];
 
-					if (!currComp.mHeightP) {
-						if ( equals(currComp.mPosition, Hikari::TopCenter) || equals(currComp.mPosition, Hikari::Center) || equals(currComp.mPosition, Hikari::BottomCenter) ) {
-							objectheight += currComp.mHeight;
+					if (!currComp->mHeightP) {
+						if ( equals(currComp->mPosition, Hikari::TopCenter) || equals(currComp->mPosition, Hikari::Center) || equals(currComp->mPosition, Hikari::BottomCenter) ) {
+							objectheight += currComp->mHeight + padding;
 						}
 					}
 				}
@@ -317,11 +333,11 @@ namespace HovUni {
 			} else if ( equals(pos, Hikari::TopRight) || equals(pos, Hikari::Right) || equals(pos, Hikari::BottomRight) ) {
 				//Find objects in the same row
 				for (unsigned int i = 0; i < components.size(); ++i) {
-					ComponentData currComp = components[i];
+					ComponentData* currComp = components[i];
 
-					if (!currComp.mHeightP) {
-						if ( equals(currComp.mPosition, Hikari::TopRight) || equals(currComp.mPosition, Hikari::Right) || equals(currComp.mPosition, Hikari::BottomRight) ) {
-							objectheight += currComp.mHeight;
+					if (!currComp->mHeightP) {
+						if ( equals(currComp->mPosition, Hikari::TopRight) || equals(currComp->mPosition, Hikari::Right) || equals(currComp->mPosition, Hikari::BottomRight) ) {
+							objectheight += currComp->mHeight + padding;
 						}
 					}
 				}

@@ -34,7 +34,6 @@
 				<relative val="BottomRight" />
 			</position>
 		</element>
-		
 		<element type="position" file="position.swf">
 			<size>
 				<min width="228" height="80" />
@@ -72,8 +71,8 @@
 		
 		<element type="direction" file="direction.swf">
 			<size>
-				<min width="225" height="150" />
-				<max width="675" height="450" />
+				<min width="150" height="100" />
+				<max width="450" height="300" />
 			</size>
 			<position>
 				<relative val="TopCenter" />
@@ -82,8 +81,8 @@
 		
 		<element type="chat" file="chat.swf">
 			<size>
-				<min width="100%" height="80" />
-				<max width="100%" height="80" />
+				<min width="100%" height="180" />
+				<max width="100%" height="180" />
 			</size>
 			<position>
 				<relative val="BottomLeft" />
