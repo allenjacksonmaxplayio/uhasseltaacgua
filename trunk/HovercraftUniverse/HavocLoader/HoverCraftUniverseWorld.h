@@ -25,6 +25,21 @@ private:
 	hkpPhantom * mFinish;
 
 	/**
+	 * An array with start positions
+	 */
+	hkArray<hkVector4> mStartPositions;
+
+	/**
+	 * An array with reset positions
+	 */
+	hkArray<hkVector4> mResetPositions;
+
+	/**
+	 * An array with start powerup positions
+	 */
+	hkArray<hkVector4> mPowerupPositions;
+
+	/**
 	 * Map with checkpoints mapped on their name
 	 */
 	hkStorageStringMap<hkpPhantom*> mCheckpoint;	

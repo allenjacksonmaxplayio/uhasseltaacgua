@@ -27,6 +27,11 @@ private:
 	 */
 	Ogre::int32 mMinimumPlayers;
 
+	/**
+	 * Minimum players
+	 */
+	Ogre::int32 mMaximumPlayers;
+
 public:
 	
 	/**
@@ -71,6 +76,23 @@ public:
 	 */
 	inline void setMinimumPlayers( Ogre::int32 minplayers ){
 		mMinimumPlayers = minplayers;
+	}
+
+
+	/**
+	 * Get maximum players
+	 * @return the maximum players
+	 */
+	inline Ogre::int32 getMaximumPlayers() const {
+		return mMaximumPlayers;
+	}
+
+	/**
+	 * Set maximum players
+	 * @param maximum
+	 */
+	inline void setMaximumPlayers( Ogre::int32 maximum ){
+		mMaximumPlayers = maximum;
 	}
 
 	/**

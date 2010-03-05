@@ -141,82 +141,82 @@ public:
 
 	//Custom objects
 
-	virtual void onAsteroid( Asteroid * asteroid ) {
+	/*virtual void onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
 	};
 
-	virtual void onStart( Start * start ) {
+	virtual void onStart( Ogre::SharedPtr<Start> start ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(start));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(start));	
 	};
 
-	virtual void onStartPosition( StartPosition * startposition ) {
+	virtual void onStartPosition( Ogre::SharedPtr<StartPosition> startposition ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(startposition));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(startposition));	
 	}
 
-	virtual void onCheckPoint( CheckPoint * checkpoint ) {
+	virtual void onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
 	};
 
-	virtual void onFinish( Finish * finish ) {
+	virtual void onFinish( Ogre::SharedPtr<Finish> finish ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(finish));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(finish));	
 	};
 
-	virtual void onHoverCraft( Hovercraft * hovercraft ) {
+	virtual void onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(hovercraft));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(hovercraft));	
 	};
 
-	virtual void onTrack( Track * track ) {
+	virtual void onTrack( Ogre::SharedPtr<Track> track ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(track));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(track));	
 	};
 
-	virtual void onPortal( Portal * portal ) {
+	virtual void onPortal( Ogre::SharedPtr<Portal> portal ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(portal));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(portal));	
 	};
 
-	virtual void onBoost( Boost * boost ) {
+	virtual void onBoost( Ogre::SharedPtr<Boost> boost ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(boost));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(boost));	
 	};
 
-	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn ) {
+	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(powerupspawn));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(powerupspawn));	
 	};
 
-	virtual void onResetSpawn( ResetSpawn * spawn ) {
+	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn ) {
 		if ( mNode )
 			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(spawn));
 		else if ( mMovable )
 			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(spawn));	
-	};
+	};*/
 };
 
 }
