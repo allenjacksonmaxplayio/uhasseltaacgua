@@ -49,27 +49,27 @@ public:
 
 	//Custom objects
 
-	virtual void onAsteroid( Asteroid * asteroid );
+	virtual void onAsteroid( Ogre::SharedPtr<Asteroid> asteroid );
 
-	virtual void onStart( Start * start );
+	virtual void onStart( Ogre::SharedPtr<Start> start );
 
-	virtual void onStartPosition( StartPosition * startposition );
+	virtual void onStartPosition( Ogre::SharedPtr<StartPosition> startposition );
 
-	virtual void onCheckPoint( CheckPoint * checkpoint );
+	virtual void onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint );
 
-	virtual void onFinish( Finish * finish );
+	virtual void onFinish( Ogre::SharedPtr<Finish> finish );
 
-	virtual void onHoverCraft( Hovercraft * hovercraft );
+	virtual void onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft );
 
-	virtual void onTrack( Track * track );
+	virtual void onTrack( Ogre::SharedPtr<Track> track );
 
-	virtual void onPortal( Portal * portal );
+	virtual void onPortal( Ogre::SharedPtr<Portal> portal );
 
-	virtual void onBoost( Boost * boost );
+	virtual void onBoost( Ogre::SharedPtr<Boost> boost );
 
-	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn );
+	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn );
 
-	virtual void onResetSpawn( ResetSpawn * spawn );
+	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn );
 
 	//don't care about next
 

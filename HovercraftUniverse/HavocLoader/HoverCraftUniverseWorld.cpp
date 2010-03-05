@@ -12,7 +12,7 @@
 namespace HovUni {
 
 HoverCraftUniverseWorld::HoverCraftUniverseWorld(hkReal timestep):
-	AbstractHavocWorld(timestep)
+	AbstractHavocWorld(timestep), mStartPosition(0), mPowerupPositions(128), mResetPositions(32)
 {
 }
 
@@ -26,7 +26,31 @@ bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
 
 	CustomOgreMaxScene scene;
 
+	/**
+	 * Load world
+	 */
 	scene.Load(Ogre::String(filename),CustomOgreMaxScene::SKIP_ENVIRONMENT | CustomOgreMaxScene::SKIP_SHADOWS | CustomOgreMaxScene::SKIP_SKY | CustomOgreMaxScene::SKIP_TERRAIN | CustomOgreMaxScene::SKIP_VISIBILITY_FLAG_ALIASES,&loader);
+
+	/**
+	 * Add players
+	 */
+	mPhysicsWorld->markForWrite();
+
+	//load real hovercrafts
+
+	/*hkpCharacterRigidBodyCinfo info;
+
+	hkpCharacterContext context;
+
+
+
+	for ( int i = 0; i < mStartPosition.getSize(); i++ ){
+		//TODO ADD REAL PLAYERS
+		Character c(
+	}*/
+
+	mPhysicsWorld->unmarkForWrite();
+
 
 	/*
 	//load the world	

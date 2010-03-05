@@ -32,6 +32,16 @@ Track::Track(TiXmlElement * data) throw (ParseException)
 		}
 	}
 
+	//Read MinimumPlayers
+	mMaximumPlayers = 0;
+	node = data->FirstChild("MaximumPlayers");
+	if ( node ){
+		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
+		if ( element ){
+			mMaximumPlayers = Ogre::StringConverter::parseInt(Ogre::String(element->GetText()));
+		}
+	}
+
 	//Read Physics File Name
 	mPhysicsFileName = "";
 	node = data->FirstChild("PhysicsFileName");

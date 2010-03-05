@@ -24,13 +24,10 @@ namespace HovUni {
 
 	mNode = 0;
 	mMovable = 0;
-
-	UserDataFactory::getSingleton().addUserDataCallback(this);
 }
 
 DefaultOgreMaxSceneCallback::~DefaultOgreMaxSceneCallback(void)
 {
-	UserDataFactory::getSingleton().removeUserDataCallback(this);
 }
 
 void DefaultOgreMaxSceneCallback::attachMovable ( Ogre::MovableObject * movable, const OgreMax::Types::Attachable * attachable )  {
