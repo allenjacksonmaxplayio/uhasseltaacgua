@@ -42,7 +42,7 @@ public:
 	 * @param filename the name of the file the exception was thrown
 	 * @param line the line inside the file where the exception was thrown
 	 */
-	Exception(const std::string& msg, const char* filename, unsigned line);
+	Exception(const std::string& msg, const std::string& filename, unsigned line);
 	
 	/**
 	 * Constructor
@@ -60,7 +60,7 @@ public:
 	 * @param filename the name of the file the exception was thrown
 	 * @param line the line inside the file where the exception was thrown
 	 */
-	Exception(const std::string& msg, const Exception& nested, const char* filename, unsigned line);
+	Exception(const std::string& msg, const Exception& nested, const std::string&  filename, unsigned line);
 	
 	/*
 	 * Copy constructor
@@ -143,9 +143,9 @@ private:
 	{																										\
 	public:																									\
 		NEW(const std::string& msg);																		\
-		NEW(const std::string& msg, const char* filename, unsigned line);									\
+		NEW(const std::string& msg, const std::string&  filename, unsigned line);									\
 		NEW(const std::string& msg, const HovUni::Exception& nested);										\
-		NEW(const std::string& msg, const HovUni::Exception& nested, const char* filename, unsigned line);	\
+		NEW(const std::string& msg, const HovUni::Exception& nested, const std::string&  filename, unsigned line);	\
 		NEW(const NEW& ex);																					\
 		~NEW() throw();																						\
 		NEW& operator = (const NEW& ex);																	\
@@ -156,10 +156,10 @@ private:
 
 #define HOVUNI_EXCEPTION_DEFINITION(NEW, BASE)																	\
 	NEW::NEW(const std::string& msg) : BASE(msg) { }															\
-	NEW::NEW(const std::string& msg, const char* filename, unsigned line) :										\
+	NEW::NEW(const std::string& msg, const std::string&  filename, unsigned line) :										\
 		BASE(msg, filename, line) { }																			\
 	NEW::NEW(const std::string& msg, const HovUni::Exception& nested) : BASE(msg, nested) { }					\
-	NEW::NEW(const std::string& msg, const HovUni::Exception& nested, const char* filename, unsigned line) :	\
+	NEW::NEW(const std::string& msg, const HovUni::Exception& nested, const std::string&  filename, unsigned line) :	\
 		BASE(msg, nested, filename, line) { }																	\
 	NEW::NEW(const NEW& ex) : BASE(ex) { }																		\
 	NEW::~NEW() throw() { }																						\
@@ -175,7 +175,7 @@ private:
 	}
 
 /** Macro to throw an exception with file and line annotations */
-#define THROW(CLASS, msg) throw CLASS( (msg), __FILE__, __LINE__)
+#define THROW(CLASS, msg) throw CLASS( (msg), std::string(__FILE__), __LINE__)
 #define THROW_NESTED(CLASS, msg, nest) throw CLASS( (msg), nest, __FILE__, __LINE__)
 
 /*
