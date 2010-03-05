@@ -8,19 +8,20 @@ Exception::Exception(const std::string& msg) : mMsg(msg), mNested(0), mFilename(
 
 }
 
-Exception::Exception(const std::string& msg, const char* filename, unsigned line) : mMsg(msg), mNested(0), mFilename(filename), mLineNumber(line) {
-
+Exception::Exception(const std::string& msg, const std::string& filename, unsigned line) : 
+	mMsg(msg), mNested(0), mFilename(filename), mLineNumber(line) {
+		
 }
 
 Exception::Exception(const std::string& msg, const Exception& nested) : mMsg(msg), mNested(nested.clone()), mFilename("") {
 
 }
 
-Exception::Exception(const std::string& msg, const Exception& nested, const char* filename, unsigned line) : mMsg(msg), mNested(nested.clone()), mFilename(filename), mLineNumber(line) {
+Exception::Exception(const std::string& msg, const Exception& nested, const std::string& filename, unsigned line) : mMsg(msg), mNested(nested.clone()), mFilename(filename), mLineNumber(line) {
 
 }
 	
-Exception::Exception(const Exception& ex) : mMsg(ex.mMsg), mNested(0) {
+Exception::Exception(const Exception& ex) : mMsg(ex.mMsg), mNested(0), mFilename(ex.mFilename), mLineNumber(ex.mLineNumber) {
 	mNested = (ex.mNested ? ex.mNested->clone() : 0);
 }
 	
@@ -50,7 +51,7 @@ std::string Exception::getMessage() const {
 	msg << className() << " : " << mMsg;
 	
 	if (mFilename != "") {
-		msg << "[FILE: " << mFilename << " (" << mLineNumber << ")]";
+		msg << " [FILE: " << mFilename << " (" << mLineNumber << ")]";
 	}
 
 	if (mNested) {
