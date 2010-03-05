@@ -73,7 +73,9 @@ public:
 			c = container.getCharacterContext("Default");
 			c->removeReference();
 		}
-
+		if ( e.text == 'r' ){
+			mHavoc->addHoverCraft(0);
+		}
 
 		/*
 		const hkReal MOUSE_SENSITIVITY = 1.0f;

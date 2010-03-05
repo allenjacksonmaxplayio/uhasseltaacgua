@@ -4,7 +4,7 @@
 #include "CustomOgreMaxScene.h"
 
 #include "HoverCraftCharacter.h"
-#include "EntityType.h"
+#include "HavocEntityType.h"
 #include "PhantomTrackAction.h"
 
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
