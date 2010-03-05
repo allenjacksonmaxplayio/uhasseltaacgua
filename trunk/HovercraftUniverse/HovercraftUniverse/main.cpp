@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ServerCore.h"
+#include "HavocThread.h"
 #include <windows.h>
 
 void process_zoidcom_log(const char *_log) {
@@ -9,7 +10,7 @@ void process_zoidcom_log(const char *_log) {
 /**
  * Hovercraft Universe Application entry point.
  *
- * @author Kristof Overdulve & Olivier Berghmans
+ * @author Kristof Overdulve & Olivier Berghmans & Pieter-Jan Pintens
  */
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 	// Create ZoidCom
@@ -23,6 +24,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
 		HovUni::ServerCore* server = new HovUni::ServerCore();
 
+		HovUni::HavocThread::StartHavocThread();
+
 		while (true) {
 			// let the server do processing
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process";
@@ -31,6 +34,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			// let the program sleep for 0 msecs
 			zcom->Sleep(1);
 		}
+
+		HovUni::HavocThread::StopHavocThread();
 
 		delete server;
 

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Media\HovSound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Content&quot;;&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Media\HovSound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Content&quot;;&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -176,10 +176,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\main.cpp"
-				>
-			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -311,6 +307,86 @@
 					RelativePath=".\ServerCore.cpp"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="Havoc"
+				>
+				<File
+					RelativePath=".\AbstractHavocWorld.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Character.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CharacterContextContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HavocEntityType.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HavocThread.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftCharacter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftUniverseWorld.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PhantomTrackAction.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PhysicsLoader.cpp"
+					>
+				</File>
+				<Filter
+					Name="phantom"
+					>
+					<File
+						RelativePath=".\BoostPhantom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\CheckpointPhantom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\FinishPhantom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PortalPhantom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PowerupPhantom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\StartPhantom.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="planet"
+					>
+					<File
+						RelativePath=".\PlanetGravityAction.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlanetGravityPhantom.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -466,6 +542,86 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Havoc"
+				>
+				<File
+					RelativePath=".\AbstractHavocWorld.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Character.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CharacterContextContainer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HavocEntityType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HavocThread.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftCharacter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HoverCraftUniverseWorld.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PhantomTrackAction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PhysicsLoader.h"
+					>
+				</File>
+				<Filter
+					Name="phantom"
+					>
+					<File
+						RelativePath=".\BoostPhantom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\CheckpointPhantom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\FinishPhantom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PortalPhantom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PowerupPhantom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\StartPhantom.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="planet"
+					>
+					<File
+						RelativePath=".\PlanetGravityAction.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlanetGravityPhantom.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -473,6 +629,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<File
+			RelativePath=".\main.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
