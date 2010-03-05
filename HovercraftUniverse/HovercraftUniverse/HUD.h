@@ -3,6 +3,7 @@
 
 #include <OverlayContainer.h>
 
+#include "Chat.h"
 #include "Direction.h"
 #include "Position.h"
 #include "Speedometer.h"
@@ -26,6 +27,9 @@ private:
 
 	/** Position indicator */
 	Position* mPosition;
+
+	/** Chat widget */
+	Chat* mChat;
 
 	/** Indicates whether the HUD should be activated */
 	bool mIsActivated;
@@ -71,9 +75,9 @@ public:
 	bool isActivated() { return mIsActivated; }
 
 private:
-	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData>& components, std::vector<ComponentData*>& percentageComponents );
+	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents );
 
-	int fixPercentageSize(bool width, std::vector<ComponentData>& components, int percentage, Hikari::Position pos);
+	int fixPercentageSize(bool width, std::vector<ComponentData*>& components, int percentage, Hikari::Position pos);
 };
 
 }
