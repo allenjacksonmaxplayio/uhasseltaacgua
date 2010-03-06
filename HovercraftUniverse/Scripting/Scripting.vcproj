@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\lua\include&quot;;&quot;$(ProjectDir)..\dependencies\luabind\include&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\lua\include&quot;;&quot;$(ProjectDir)..\dependencies\luabind\include&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

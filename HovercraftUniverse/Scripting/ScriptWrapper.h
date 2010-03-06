@@ -23,12 +23,19 @@ namespace HovUni {
 		~ScriptWrapper();
 
 		/**
+		*	Retrieve the Lua State. 
+		*	Needed for defining functions in Lua.
+		*	@return	Pointer to the lua_State object.
+		*/
+		lua_State* getLuaState();
+
+		/**
 		*	Register a C++ function for use in Lua. In the Lua script, this
 		*	function can then be called using the given name.
 		*	@param	name		The function name in the script.
 		*	@param	function	The C++ function to be bound. (Function pointer)
 		*/
-		void registerFunction( std::string name, void (*function)(void));
+		void registerFunction( std::string name, void (*function)(int));
 
 		/**
 		*	Execute a function defined in the Lua script.
