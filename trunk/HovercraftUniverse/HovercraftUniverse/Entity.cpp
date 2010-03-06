@@ -10,7 +10,7 @@ class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval) : 
 		NetworkEntity(1), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
-		mProcessElapsed(processInterval), mMoveRep(0) {
+		mProcessElapsed(processInterval) {
 
 	if (track) {
 		// Track this entity
