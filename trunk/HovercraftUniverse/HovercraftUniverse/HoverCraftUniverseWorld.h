@@ -82,11 +82,21 @@ public:
 	/**
 	 * Load a scene file.
 	 * Parse this and load a physics version of in in our havoc world
+	 * TODO this should not be done HERE!!
 	 * @param filename
 	 */
 	virtual bool loadSceneFile ( const char * filename );
 
-	void addHoverCraft( int pos );
+	/**
+	 * Add a hovercraft of a given type on a given start position
+	 * @param name
+	 * @param type
+	 * @param pos
+	 */
+	void addCharacter( const char * name, const char * filename, int pos );
+
+
+
 };
 
 }

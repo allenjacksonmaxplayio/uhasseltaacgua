@@ -5,9 +5,15 @@
 
 namespace HovUni {
 
+/**
+ * A phantom to check if a player entered a teleport portal
+ * @author Pieter-Jan Pintens
+ */
 class PortalPhantom : public hkpAabbPhantom
 {
 private:
+
+	//TODO
 
 public:
 	PortalPhantom(const hkAabb& aabb);

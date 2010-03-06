@@ -38,6 +38,14 @@ public:
 	static void updateEntityType( hkpWorldObject * object, Type type );
 
 	/**
+	 * Check if object is given type
+	 * @param object
+	 * @param type
+	 * @return true if object is of given type, false otherwise
+	 */
+	static bool isEntityType( hkpWorldObject * object, Type type );	
+	
+	/**
 	 * Set the entity type, this should be done only once
 	 * @param object
 	 * @param type

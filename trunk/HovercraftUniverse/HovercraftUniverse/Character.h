@@ -3,13 +3,9 @@
 
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
+#include "Controller.h"
 
 namespace HovUni {
-
-class UserInput {
-public:
-	virtual ~UserInput(){};
-};
 
 /**
  * A character
@@ -32,6 +28,11 @@ protected:
 	 */
 	hkpCharacterContext * mCharacterContext;
 
+	/**
+	 * The controller for the character
+	 */
+	Controller * mController;
+
 public:
 
 	/**
@@ -47,8 +48,9 @@ public:
 	 * Constructor
 	 * @param info
 	 * @param characterContext
+	 * @param controllor
 	 */
-	Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+	Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext, Controller * controller);
 
 	/**
 	 * Destructor
@@ -66,7 +68,7 @@ public:
 	 * Update the character movement
 	 * @param userinput
 	 */
-	virtual void update( UserInput& input ) = 0;
+	virtual void update();
 };
 
 }
