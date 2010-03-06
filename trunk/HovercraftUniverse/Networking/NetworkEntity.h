@@ -9,7 +9,7 @@
 namespace HovUni {
 
 /**
- * This class represents an entity.
+ * This class represents a network entity.
  *
  * @author Olivier Berghmans
  */
@@ -19,14 +19,19 @@ protected:
 	/** The network node */
 	ZCom_Node* mNode;
 
+	/** The estimated number of replicators */
+	unsigned short mReplicatorNr;
+
 	/** Whether the entity is registered to the network */
 	bool mRegistered;
 
 public:
 	/**
 	 * Constructor
+	 *
+	 * @param replicators the estimated number of replicators for this entity
 	 */
-	NetworkEntity();
+	NetworkEntity(unsigned short replicators = 0);
 
 	/**
 	 * Destructor
@@ -58,17 +63,6 @@ public:
 	void processEvents(float timeSince);
 
 	/**
-	 * A callback that should be implemented so that events for
-	 * this entity are handled in a good way. Normally this method
-	 * would first parse the stream to an event and then process
-	 * the event.
-	 *
-	 * @param stream the bitstream containing the event
-	 * @param timeSince the time since the last processing of the events
-	 */
-	virtual void parseEvents(ZCom_BitStream* stream, float timeSince) = 0;
-
-	/**
 	 * Send an event for this entity
 	 *
 	 * @param event the network event
@@ -90,6 +84,24 @@ private:
 	 * Hide the copy constructor
 	 */
 	NetworkEntity(const NetworkEntity&) : mNode(0), mRegistered(false) { }
+
+	/**
+	 * A callback that should be implemented so that events for
+	 * this entity are handled in a good way. Normally this method
+	 * would first parse the stream to an event and then process
+	 * the event.
+	 *
+	 * @param stream the bitstream containing the event
+	 * @param timeSince the time since the last processing of the events
+	 */
+	virtual void parseEvents(ZCom_BitStream* stream, float timeSince) = 0;
+
+	/**
+	 * A callback that should be implemented so the replicators for this
+	 * entity can be set up. In case the number of replicators given to the
+	 * constructor is zero, this callback can be implemented as empty.
+	 */
+	virtual void setupReplication() = 0;
 
 };
 
