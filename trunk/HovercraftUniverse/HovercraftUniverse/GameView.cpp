@@ -64,7 +64,7 @@ void GameView::draw(Ogre::Real timeSinceLastFrame) {
 	// TODO Draw the static objects
 
 	// Draw the hud
-	drawHUD();
+	updateHUD();
 }
 
 void GameView::setHud(HUD* hud) {
@@ -78,8 +78,9 @@ void GameView::drawEntityRepresentations() {
 	}
 }
 
-void GameView::drawHUD() {
-
+void GameView::updateHUD() {
+	//Update hud objects to new values
+	
 }
 
 }

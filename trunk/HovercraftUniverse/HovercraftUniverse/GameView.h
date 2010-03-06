@@ -17,7 +17,7 @@ namespace HovUni {
  * camera, drawing all entity representations in view and the static world around it, and
  * finally drawing the HUD as a 2D overlay.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve & Nick De Frangh
  */
 class GameView {
 protected:
@@ -98,9 +98,9 @@ protected:
 	void drawEntityRepresentations();
 
 	/**
-	 * Draw the HUD as a 2D overlay.
+	 * Update the 2D HUD overlay.
 	 */
-	void drawHUD();
+	void updateHUD();
 
 };
 

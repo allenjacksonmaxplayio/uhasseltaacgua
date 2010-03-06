@@ -123,6 +123,22 @@ namespace HovUni {
 		GUIManager::getSingletonPtr()->disableOverlayContainer(this);
 	}
 
+	void HUD::updateDirection(const Ogre::Vector3& position, const Ogre::Vector3& forward, const Ogre::Vector3& goal) {
+
+	}
+
+	void HUD::updateSpeed(float speed) {
+		if (mSpeedometer) {
+			mSpeedometer->setSpeed(speed);
+		}
+	}
+
+	void HUD::updateBoost(float boost) {
+		if (mSpeedometer) {
+			mSpeedometer->setBoost(boost);
+		}
+	}
+
 	void HUD::buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents ) {
 		//Build up mapping for relative positioning
 		std::map<Ogre::String, Hikari::Position> relativePositions;

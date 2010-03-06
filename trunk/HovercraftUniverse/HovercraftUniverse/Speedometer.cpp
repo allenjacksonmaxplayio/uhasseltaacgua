@@ -9,6 +9,10 @@ namespace HovUni {
 		this->callFunction("setSpeed", Hikari::Args(speed));
 	}
 
+	void Speedometer::setBoost(Ogre::Real boost) {
+		this->callFunction("setBoost", Hikari::Args(boost));
+	}
+
 	void Speedometer::moveToSpeed(Ogre::Real speed, Ogre::Real step) {
 		this->callFunction("moveToSpeed", Hikari::Args(speed)(step));
 	}

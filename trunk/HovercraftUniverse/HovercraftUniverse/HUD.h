@@ -74,6 +74,29 @@ public:
 	 */
 	bool isActivated() { return mIsActivated; }
 
+	/**
+	 * Update the direction arrow in the HUD (if present)
+	 *
+	 * @param position The current position of the player
+	 * @param forward The forward vector of the player
+	 * @param goal The goal where the player has to go to
+	 */
+	void updateDirection(const Ogre::Vector3& position, const Ogre::Vector3& forward, const Ogre::Vector3& goal);
+
+	/**
+	 * Update the speed visualisation [0 - 100]
+	 *
+	 * @param speed The speed value to visualise [0 - 100]
+	 */
+	void updateSpeed(float speed);
+
+	/**
+	 * Update the boost visualisation [0 - 100]
+	 *
+	 * @param boost The boost value to visualise [0 - 100]
+	 */
+	void updateBoost(float boost);
+
 private:
 	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents );
 
