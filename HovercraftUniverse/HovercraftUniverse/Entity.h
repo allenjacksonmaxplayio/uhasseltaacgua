@@ -38,9 +38,6 @@ protected:
 	/** The time since last process of the object */
 	float mProcessElapsed;
 
-	/** The position replicator */
-	ZCom_Replicate_Movement<zS32, 2>* mMoveRep;
-
 public:
 
 	/**
@@ -51,7 +48,7 @@ public:
 	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
-	 * @param processInterval the mean interval between two consecutive processings
+	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 */
 	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval);
 
@@ -181,6 +178,12 @@ private:
 	 * @param event a controller event
 	 */
 	void processControllerEvents(ControllerEvent* event);
+
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
+
 };
 
 }
