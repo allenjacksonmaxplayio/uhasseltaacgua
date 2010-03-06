@@ -2,6 +2,7 @@
 
 namespace HovUni {
 	ScriptWrapper::ScriptWrapper() {
+		//Open2X?
 		mLuaState = lua_open();
 	}
 
@@ -9,7 +10,11 @@ namespace HovUni {
 		lua_close(mLuaState);
 	}
 
-	void ScriptWrapper::registerFunction( std::string name, void (*function)(void)) {
+	lua_State* ScriptWrapper::getLuaState() {
+		return mLuaState;
+	}
+
+	void ScriptWrapper::registerFunction( std::string name, void (*function)(int)) {
 		luabind::module(mLuaState) [
 			luabind::def(name.c_str(), function)
 		];
