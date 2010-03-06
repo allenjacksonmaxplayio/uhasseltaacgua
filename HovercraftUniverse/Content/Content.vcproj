@@ -173,47 +173,47 @@
 				Name="UserData"
 				>
 				<File
-					RelativePath=".\Asteroid.cpp"
+					RelativePath=".\AsteroidData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Boost.cpp"
+					RelativePath=".\BoostData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\CheckPoint.cpp"
+					RelativePath=".\CheckPointData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Finish.cpp"
+					RelativePath=".\FinishData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Hovercraft.cpp"
+					RelativePath=".\HovercraftData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Portal.cpp"
+					RelativePath=".\PortalData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PowerupSpawn.cpp"
+					RelativePath=".\PowerupSpawnData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\ResetSpawn.cpp"
+					RelativePath=".\ResetSpawnData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Start.cpp"
+					RelativePath=".\StartData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\StartPosition.cpp"
+					RelativePath=".\StartPositionData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Track.cpp"
+					RelativePath=".\TrackData.cpp"
 					>
 				</File>
 				<File
@@ -255,47 +255,47 @@
 				Name="UserData"
 				>
 				<File
-					RelativePath=".\Asteroid.h"
+					RelativePath=".\AsteroidData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Boost.h"
+					RelativePath=".\BoostData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\CheckPoint.h"
+					RelativePath=".\CheckPointData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Finish.h"
+					RelativePath=".\FinishData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Hovercraft.h"
+					RelativePath=".\HovercraftData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Portal.h"
+					RelativePath=".\PortalData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PowerupSpawn.h"
+					RelativePath=".\PowerupSpawnData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\ResetSpawn.h"
+					RelativePath=".\ResetSpawnData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Start.h"
+					RelativePath=".\StartData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\StartPosition.h"
+					RelativePath=".\StartPositionData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Track.h"
+					RelativePath=".\TrackData.h"
 					>
 				</File>
 				<File

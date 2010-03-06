@@ -49,27 +49,27 @@ public:
 
 	//Custom objects
 
-	virtual void onAsteroid( Ogre::SharedPtr<Asteroid> asteroid );
+	virtual void onAsteroid( Ogre::SharedPtr<AsteroidData> asteroid );
 
-	virtual void onStart( Ogre::SharedPtr<Start> start );
+	virtual void onStart( Ogre::SharedPtr<StartData> start );
 
-	virtual void onStartPosition( Ogre::SharedPtr<StartPosition> startposition );
+	virtual void onStartPosition( Ogre::SharedPtr<StartPositionData> startposition );
 
-	virtual void onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint );
+	virtual void onCheckPoint( Ogre::SharedPtr<CheckPointData> checkpoint );
 
-	virtual void onFinish( Ogre::SharedPtr<Finish> finish );
+	virtual void onFinish( Ogre::SharedPtr<FinishData> finish );
 
-	virtual void onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft );
+	virtual void onHoverCraft( Ogre::SharedPtr<HovercraftData> hovercraft );
 
-	virtual void onTrack( Ogre::SharedPtr<Track> track );
+	virtual void onTrack( Ogre::SharedPtr<TrackData> track );
 
-	virtual void onPortal( Ogre::SharedPtr<Portal> portal );
+	virtual void onPortal( Ogre::SharedPtr<PortalData> portal );
 
-	virtual void onBoost( Ogre::SharedPtr<Boost> boost );
+	virtual void onBoost( Ogre::SharedPtr<BoostData> boost );
 
-	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn );
+	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawnData> powerupspawn );
 
-	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn );
+	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawnData> spawn );
 
 	//don't care about next
 
