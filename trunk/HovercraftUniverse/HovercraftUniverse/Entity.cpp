@@ -9,7 +9,7 @@ namespace HovUni {
 class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval) : 
-		NetworkEntity(), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+		NetworkEntity(1), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval), mMoveRep(0) {
 
 	if (track) {
@@ -52,7 +52,6 @@ void Entity::setController(Controller * controller) {
 }
 
 void Entity::update(float timeSince) {
-	mProcessElapsed -= timeSince;
 
 	// Process the network entity
 	NetworkEntity::processEvents(timeSince);
@@ -60,26 +59,19 @@ void Entity::update(float timeSince) {
 	// Process controller
 	processController(timeSince);
 
-	// Fire callback to process entity specific
-	float since = mProcessInterval - mProcessElapsed;
-	while (mProcessElapsed <= 0.0f) {
-		process(since);
-		mProcessElapsed += mProcessInterval;
-		since = 0.0f;
+	if (mProcessInterval != -1) {
+		mProcessElapsed -= timeSince;
+		// Fire callback to process entity specific
+		float since = mProcessInterval - mProcessElapsed;
+		while (mProcessElapsed <= 0.0f) {
+			process(since);
+			mProcessElapsed += mProcessInterval;
+			since = 0.0f;
+		}
 	}
 }
 
 void Entity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
-	// Set up network replication
-	mNode->beginReplicationSetup(1);
-
-	// Create the position replicator
-	ZCom_Replicate_Numeric<zFloat*, 3> *repnum = new ZCom_Replicate_Numeric<zFloat*, 3>(mPosition, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
-	mNode->addReplicator(repnum, true);
-
-	// Done
-	mNode->endReplicationSetup();
-
 	// Register to network
 	NetworkEntity::networkRegister(id, control);
 }
@@ -125,6 +117,12 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 		default:
 			break;
 	}
+}
+
+void Entity::setupReplication() {
+	// Create the position replicator
+	ZCom_Replicate_Numeric<zFloat*, 3> *repnum = new ZCom_Replicate_Numeric<zFloat*, 3>(mPosition, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+	mNode->addReplicator(repnum, true);
 }
 
 }
