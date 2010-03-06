@@ -45,6 +45,7 @@ void NetworkClient::initialize(bool remote) {
 }
 
 void NetworkClient::process() {
+	ZCom_processReplicators(1);
 	ZCom_processInput();
 	ZCom_processOutput();
 }

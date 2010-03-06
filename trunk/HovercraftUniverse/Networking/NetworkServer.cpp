@@ -20,6 +20,7 @@ NetworkServer::~NetworkServer() {
 }
 
 void NetworkServer::process() {
+	ZCom_processReplicators(1);
 	ZCom_processInput();
 	ZCom_processOutput();
 }

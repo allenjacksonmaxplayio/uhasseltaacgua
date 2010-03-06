@@ -7,7 +7,7 @@
 namespace HovUni {
 
 DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", true, Ogre::Vector3(0.0, 40.0, 0.0), 
-												Ogre::Vector3(0.0, 0.0, -1.0), 1.0f / 30.0f), mMovingStatus(0) {
+												Ogre::Vector3(0.0, 0.0, -1.0), 1.0f / 60.0f), mMovingStatus(0) {
 	// Already initialized
 }
 
@@ -22,6 +22,7 @@ void DummyHovercraft::process(float timeSince) {
 		if (mMovingStatus->moveForward()) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, -1.0); }
 		if (mMovingStatus->moveRight()) { accumulatedDirection += Ogre::Vector3(1.0, 0.0, 0.0); }
 		if (mMovingStatus->moveBackward()) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, 1.0); }
+		accumulatedDirection.normalise();
 	
 		changePosition(getPosition() + accumulatedDirection * timeSince * 100);
 	}
