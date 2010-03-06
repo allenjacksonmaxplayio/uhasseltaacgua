@@ -9,7 +9,7 @@ namespace HovUni {
 class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval) : 
-		NetworkEntity(1), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+		NetworkMovementEntity(0), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 
 	if (track) {
@@ -30,9 +30,7 @@ void Entity::changePosition(Ogre::Vector3 newPosition) {
 	// TODO Check whether valid
 
 	// Set new position
-	mPosition[0] = newPosition.x;
-	mPosition[1] = newPosition.y;
-	mPosition[2] = newPosition.z;
+	setPosition(newPosition.ptr());
 }
 
 void Entity::changeOrientation(Ogre::Vector3 newOrientation) {
@@ -69,6 +67,24 @@ void Entity::update(float timeSince) {
 			since = 0.0f;
 		}
 	}
+}
+
+Ogre::String Entity::getName() const { 
+	return mName;
+}
+
+Ogre::String Entity::getCategory() const { 
+	return mCategory;
+}
+
+Ogre::Vector3 Entity::getPosition() const { 
+	Ogre::Vector3 pos;
+	NetworkMovementEntity::getPosition(pos.ptr());
+	return pos; 
+}
+
+Ogre::Vector3 Entity::getOrientation() const { 
+	return Ogre::Vector3(mOrientation);
 }
 
 void Entity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
@@ -119,10 +135,8 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 	}
 }
 
-void Entity::setupReplication() {
-	// Create the position replicator
-	ZCom_Replicate_Numeric<zFloat*, 3> *repnum = new ZCom_Replicate_Numeric<zFloat*, 3>(mPosition, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
-	mNode->addReplicator(repnum, true);
+void Entity::addReplicators() {
+
 }
 
 }

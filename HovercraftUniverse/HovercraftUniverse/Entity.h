@@ -3,8 +3,9 @@
 
 #include "Controller.h"
 #include <OgreVector3.h>
-#include "NetworkEntity.h"
+#include "NetworkMovementEntity.h"
 #include "ControllerEvent.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 
@@ -14,7 +15,7 @@ namespace HovUni {
  *
  * @author Kristof Overdulve & Olivier Berghmans
  */
-class Entity: public NetworkEntity {
+class Entity: public NetworkMovementEntity {
 protected:
 	
 	/** The unique name of the entity */
@@ -22,9 +23,6 @@ protected:
 
 	/** The category to which this entity belongs */
 	Ogre::String mCategory;
-
-	/** The position of the entity in the world */
-	float mPosition[3];
 
 	/** The orientation of the entity in the world */
 	float mOrientation[3];
@@ -91,28 +89,28 @@ public:
 	 *
 	 * @return the unique name
 	 */
-	Ogre::String getName() const { return mName; }
+	Ogre::String getName() const;
 
 	/**
 	 * Returns the category to which this entity belongs.
 	 *
 	 * @return the category
 	 */
-	Ogre::String getCategory() const { return mCategory; }
+	Ogre::String getCategory() const;
 
 	/**
 	 * Returns the position of this entity.
 	 *
 	 * @return the position
 	 */
-	Ogre::Vector3 getPosition() const { return Ogre::Vector3(mPosition); }
+	Ogre::Vector3 getPosition() const;
 
 	/**
 	 * Returns the orientation of this entity.
 	 *
 	 * @return the orientation
 	 */
-	Ogre::Vector3 getOrientation() const { return Ogre::Vector3(mOrientation); }
+	Ogre::Vector3 getOrientation() const;
 
 	/**
 	 * Register the node for the network
@@ -158,6 +156,11 @@ protected:
 	 */
 	virtual void processEventsOther(ControllerEvent* event) = 0;
 
+	/**
+	 * @see NetworkMovementEntity::setReplication()
+	 */
+	void addReplicators();
+
 private:
 	/**
 	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream, float timeSince)
@@ -178,11 +181,6 @@ private:
 	 * @param event a controller event
 	 */
 	void processControllerEvents(ControllerEvent* event);
-
-	/**
-	 * @see NetworkEntity::setReplication()
-	 */
-	void setupReplication();
 
 };
 
