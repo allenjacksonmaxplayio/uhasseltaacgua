@@ -339,10 +339,6 @@
 					RelativePath=".\PhysicsLoader.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\PowerupSpawnMonitor.cpp"
-					>
-				</File>
 				<Filter
 					Name="phantom"
 					>
@@ -575,10 +571,6 @@
 				</File>
 				<File
 					RelativePath=".\PhysicsLoader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PowerupSpawnMonitor.h"
 					>
 				</File>
 				<Filter
