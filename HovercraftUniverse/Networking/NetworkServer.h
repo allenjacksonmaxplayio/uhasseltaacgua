@@ -13,6 +13,13 @@ namespace HovUni {
  */
 class NetworkServer : public ZCom_Control 
 {
+private:
+	/** The listen port */
+	const unsigned mServerPort;
+
+	/** The internal port */
+	const unsigned mInternalPort;
+
 public:
 	/**
 	 * Constructor
@@ -33,11 +40,10 @@ public:
 	virtual void process();
 
 private:
-	/** The listen port */
-	const unsigned mServerPort;
-
-	/** The internal port */
-	const unsigned mInternalPort;
+	/**
+	 * Hide the copy constructor
+	 */
+	NetworkServer(const NetworkServer&) : mServerPort(0), mInternalPort(0) { }
 
 //
 // ZCom_Control callbacks

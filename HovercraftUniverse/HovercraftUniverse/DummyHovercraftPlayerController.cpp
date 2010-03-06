@@ -16,22 +16,20 @@ DummyHovercraftPlayerController::~DummyHovercraftPlayerController(void) {
 	mInputManager->removeKeyListener("DummyHovercraftPlayerController");
 }
 
-Ogre::Vector3 DummyHovercraftPlayerController::getDirection() {
-	// Process moves
-	Ogre::Vector3 accumulatedDirection = Ogre::Vector3::ZERO;
-	if (mMovingLeft) { accumulatedDirection += Ogre::Vector3(-1.0, 0.0, 0.0); }
-	if (mMovingForward) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, -1.0); }
-	if (mMovingRight) { accumulatedDirection += Ogre::Vector3(1.0, 0.0, 0.0); }
-	if (mMovingBackward) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, 1.0); }
-
-	// No movement
-	return accumulatedDirection.normalisedCopy();
+bool DummyHovercraftPlayerController::moveForward() const {
+	return mMovingForward;
 }
 
-Ogre::Vector3 DummyHovercraftPlayerController::getOrientationChange() {
-	// TODO Process keyboard
-	// TODO Return results
-	return Ogre::Vector3(0.0, 0.0, 0.0);
+bool DummyHovercraftPlayerController::moveBackward() const {
+	return mMovingBackward;
+}
+
+bool DummyHovercraftPlayerController::moveLeft() const {
+	return mMovingLeft;
+}
+
+bool DummyHovercraftPlayerController::moveRight() const {
+	return mMovingRight;
 }
 
 bool DummyHovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) { 

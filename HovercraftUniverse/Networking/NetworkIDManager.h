@@ -57,6 +57,12 @@ public:
 	 */
 	ZCom_ClassID getID(const string& className) const;
 
+private:
+	/**
+	 * Hide the copy constructor
+	 */
+	NetworkIDManager(const NetworkIDManager&) { }
+
 };
 
 }

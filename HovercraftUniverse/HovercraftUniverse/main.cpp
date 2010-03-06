@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ServerCore.h"
 #include "HavocThread.h"
+#include "EntityManager.h"
 #include <windows.h>
 
 void process_zoidcom_log(const char *_log) {
@@ -30,6 +31,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			// let the server do processing
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process";
 			server->process();
+			// TODO EntityManager update
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server ends input output process";
 			// let the program sleep for 0 msecs
 			zcom->Sleep(1);

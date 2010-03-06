@@ -14,6 +14,10 @@ namespace HovUni {
 template <typename EventType>
 class NetworkEvent
 {
+private:
+	/** The type of the event */
+	EventType mType;
+
 public:
 	/**
 	 * The parser that will be used for this entity
@@ -77,9 +81,6 @@ public:
 	 */
 	static EventType readType(ZCom_BitStream* stream);
 
-private:
-	/** The type of the event */
-	EventType mType;
 };
 
 }

@@ -16,7 +16,7 @@ ControllerEvent* ControllerEventParser::parse(ZCom_BitStream* stream) {
 			break;
 		default:
 			// TODO exception
-			return new BasicEntityEvent(Ogre::Vector3(0.0, 0.0, 0.0), Ogre::Vector3(0.0, 0.0, 0.0));
+			return 0;
 			break;
 	}
 

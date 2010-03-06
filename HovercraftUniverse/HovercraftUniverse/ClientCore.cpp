@@ -29,11 +29,6 @@ void ClientCore::initialize() {
 
 void ClientCore::process() {
 	NetworkClient::process();
-	std::vector<Entity*> entities = mEntityManager->getAllEntities();
-	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it) {
-		Entity* entity = *it;
-		entity->processEvents();
-	}
 }
 
 void ClientCore::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {

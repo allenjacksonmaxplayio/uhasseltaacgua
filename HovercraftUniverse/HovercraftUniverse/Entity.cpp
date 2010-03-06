@@ -8,8 +8,10 @@ namespace HovUni {
 
 class EntityManager;
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation) : 
-		mName(name), mCategory(category), mController(0), mRegistered(false) {
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval) : 
+		NetworkEntity(), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+		mProcessElapsed(processInterval), mMoveRep(0) {
+
 	if (track) {
 		// Track this entity
 		EntityManager::getClientSingletonPtr()->trackEntity(mName);
@@ -28,14 +30,18 @@ void Entity::changePosition(Ogre::Vector3 newPosition) {
 	// TODO Check whether valid
 
 	// Set new position
-	mPosition = newPosition;
+	mPosition[0] = newPosition.x;
+	mPosition[1] = newPosition.y;
+	mPosition[2] = newPosition.z;
 }
 
 void Entity::changeOrientation(Ogre::Vector3 newOrientation) {
 	// TODO Check whether valid
 
 	// Set new orientation
-	mOrientation = newOrientation;
+	mOrientation[0] = newOrientation.x;
+	mOrientation[1] = newOrientation.y;
+	mOrientation[2] = newOrientation.z;
 }
 
 void Entity::setController(Controller * controller) {
@@ -45,23 +51,46 @@ void Entity::setController(Controller * controller) {
 	mController = controller;
 }
 
-void Entity::update(Ogre::Real timeSinceLastFrame) {
+void Entity::update(float timeSince) {
+	mProcessElapsed -= timeSince;
+
+	// Process the network entity
+	NetworkEntity::processEvents(timeSince);
+
 	// Process controller
-	processController(timeSinceLastFrame);
+	processController(timeSince);
+
+	// Fire callback to process entity specific
+	float since = mProcessInterval - mProcessElapsed;
+	while (mProcessElapsed <= 0.0f) {
+		process(since);
+		mProcessElapsed += mProcessInterval;
+		since = 0.0f;
+	}
 }
 
 void Entity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
-	mNode->registerNodeDynamic(id, control);
-	mRegistered = true;
+	// Set up network replication
+	mNode->beginReplicationSetup(1);
+
+	// Create the position replicator
+	ZCom_Replicate_Numeric<zFloat*, 3> *repnum = new ZCom_Replicate_Numeric<zFloat*, 3>(mPosition, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+	mNode->addReplicator(repnum, true);
+
+	// Done
+	mNode->endReplicationSetup();
+
+	// Register to network
+	NetworkEntity::networkRegister(id, control);
 }
 
-void Entity::parseEvents(ZCom_BitStream* stream) {
+void Entity::parseEvents(ZCom_BitStream* stream, float timeSince) {
 	ControllerEventParser p;
 	ControllerEvent* event = p.parse(stream);
 	processControllerEvents(event);
 }
 
-void Entity::processController(Ogre::Real timeSinceLastFrame) {
+void Entity::processController(float timeSince) {
 	if (mController) {
 		// Get events from controller
 		std::vector<ControllerEvent*> events = mController->getEvents();
@@ -69,8 +98,7 @@ void Entity::processController(Ogre::Real timeSinceLastFrame) {
 		// Send the events
 		for (std::vector<ControllerEvent*>::iterator it = events.begin(); it != events.end(); ++it) {
 			ControllerEvent* event = *it;
-			event->setTimeSinceLastFrame(timeSinceLastFrame);
-			if (mRegistered) {
+			if (isRegistered()) {
 				sendEvent(*event);
 			} else {
 				processControllerEvents(event);
@@ -84,15 +112,15 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 	switch (role) {
 		case eZCom_RoleAuthority:
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Event for server";
-			processControllerEventsInServer(event);
+			processEventsServer(event);
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Processed for server";
 			break;
 		case eZCom_RoleOwner:
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Event for owner";
-			processControllerEventsInOwner(event);
+			processEventsOwner(event);
 			break;
 		case eZCom_RoleProxy:
-			processControllerEventsInOther(event);
+			processEventsOther(event);
 			break;
 		default:
 			break;

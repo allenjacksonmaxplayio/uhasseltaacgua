@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include <OgreVector3.h>
+#include "BasicEntityEvent.h"
 
 namespace HovUni {
 
@@ -12,7 +13,15 @@ namespace HovUni {
  * @author Kristof Overdulve
  */
 class DummyHovercraftController : public Controller {
+private:
+	/** The last sent moving state */
+	BasicEntityEvent mLast;
+
 public:
+	/**
+	 * Default constructor
+	 */
+	DummyHovercraftController();
 
 	/**
 	 * Destructor
@@ -25,18 +34,33 @@ public:
 	virtual std::vector<ControllerEvent*> getEvents();
 
 	/**
-	 * Tells in which direction the hovercraft is to move.
+	 * Check whether the entity should move forward
 	 *
-	 * @return the direction
+	 * @return true if the entity should move forward
 	 */
-	virtual Ogre::Vector3 getDirection() = 0;
+	virtual bool moveForward() const = 0;
 
 	/**
-	 * Tells the orientation change of the hovercraft.
+	 * Check whether the entity should move backward
 	 *
-	 * @return the orientation change
+	 * @return true if the entity should move backward
 	 */
-	virtual Ogre::Vector3 getOrientationChange() = 0;
+	virtual bool moveBackward() const = 0;
+
+	/**
+	 * Check whether the entity should move left
+	 *
+	 * @return true if the entity should move left
+	 */
+	virtual bool moveLeft() const = 0;
+
+	/**
+	 * Check whether the entity should move right
+	 *
+	 * @return true if the entity should move right
+	 */
+	virtual bool moveRight() const = 0;
+
 };
 
 }

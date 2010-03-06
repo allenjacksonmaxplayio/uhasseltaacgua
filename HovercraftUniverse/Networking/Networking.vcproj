@@ -160,6 +160,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NetworkIDManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NetworkServer.cpp"
 				>
 			</File>
@@ -187,6 +191,10 @@
 			</File>
 			<File
 				RelativePath=".\NetworkEventParser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkIDManager.h"
 				>
 			</File>
 			<File

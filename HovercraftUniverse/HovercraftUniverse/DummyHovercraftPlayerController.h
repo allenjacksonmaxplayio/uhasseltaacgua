@@ -37,14 +37,24 @@ public:
 	virtual ~DummyHovercraftPlayerController(void);
 
 	/**
-	 * @see DummyHovercraftController::getDirection().
+	 * @see DummyHovercraftController::moveForward()
 	 */
-	Ogre::Vector3 getDirection();
+	bool moveForward() const;
 
 	/**
-	 * @see DummyHovercraftController::getOrientationChange().
+	 * @see DummyHovercraftController::moveBackward()
 	 */
-	Ogre::Vector3 getOrientationChange();
+	bool moveBackward() const;
+
+	/**
+	 * @see DummyHovercraftController::moveLeft()
+	 */
+	bool moveLeft() const;
+
+	/**
+	 * @see DummyHovercraftController::moveRight()
+	 */
+	bool moveRight() const;
 
 	/**
 	 * @see KeyListener::keyPressed().

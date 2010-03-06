@@ -15,6 +15,13 @@ namespace HovUni {
  */
 class NetworkEntity
 {
+protected:
+	/** The network node */
+	ZCom_Node* mNode;
+
+	/** Whether the entity is registered to the network */
+	bool mRegistered;
+
 public:
 	/**
 	 * Constructor
@@ -27,11 +34,28 @@ public:
 	virtual ~NetworkEntity();
 
 	/**
+	 * Register the node for the network
+	 *
+	 * @param id the zoidcom class ID
+	 * @param control the zoidcom control
+	 */
+	void networkRegister(ZCom_ClassID id, ZCom_Control* control);
+
+	/**
+	 * Check whether the entity is registered for the network
+	 *
+	 * @return true if the entity is registered
+	 */
+	bool isRegistered() const;
+
+	/**
 	 * Process the events waiting for this entity. This method
 	 * should be called regularly because otherwise events for
 	 * this entity will stay in the queue.
+	 *
+	 * @param timeSince the time since the last process of the events
 	 */
-	void processEvents();
+	void processEvents(float timeSince);
 
 	/**
 	 * A callback that should be implemented so that events for
@@ -40,8 +64,9 @@ public:
 	 * the event.
 	 *
 	 * @param stream the bitstream containing the event
+	 * @param timeSince the time since the last processing of the events
 	 */
-	virtual void parseEvents(ZCom_BitStream* stream) = 0;
+	virtual void parseEvents(ZCom_BitStream* stream, float timeSince) = 0;
 
 	/**
 	 * Send an event for this entity
@@ -60,12 +85,11 @@ public:
 	 */
 	ZCom_Node* getNetworkNode();
 
-protected:
-	/** The network node */
-	ZCom_Node* mNode;
-
-	/** Indicator whether server deleted this object */
-	bool mDeleteMe;
+private:
+	/**
+	 * Hide the copy constructor
+	 */
+	NetworkEntity(const NetworkEntity&) : mNode(0), mRegistered(false) { }
 
 };
 

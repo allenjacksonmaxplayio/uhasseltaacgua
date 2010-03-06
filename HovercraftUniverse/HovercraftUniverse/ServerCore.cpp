@@ -18,11 +18,6 @@ ServerCore::~ServerCore() {
 
 void ServerCore::process() {
 	NetworkServer::process();
-	std::vector<Entity*> entities = mEntityManager->getAllEntities();
-	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it) {
-		Entity* entity = *it;
-		entity->processEvents();
-	}
 }
 
 bool ServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {

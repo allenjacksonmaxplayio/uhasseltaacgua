@@ -10,7 +10,7 @@ NetworkServer::NetworkServer(const unsigned port, const unsigned internalport) :
 	bool result = ZCom_initSockets(true, mServerPort, mInternalPort);
 
 	if (!result) {
-		throw NetworkException("Cannot initialize sockets");
+		THROW(NetworkException, "Cannot initialize sockets");
 	}
 
 }

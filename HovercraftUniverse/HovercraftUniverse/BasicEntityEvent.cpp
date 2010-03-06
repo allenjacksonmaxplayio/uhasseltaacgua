@@ -3,8 +3,12 @@
 
 namespace HovUni {
 
-BasicEntityEvent::BasicEntityEvent(Ogre::Vector3 direction, Ogre::Vector3 orientationchange) : 
-	ControllerEvent(BasicEntity), mDirection(direction), mOrientation(orientationchange) {
+BasicEntityEvent::BasicEntityEvent(bool forward, bool backward, bool left, bool right) : 
+	ControllerEvent(BasicEntity), mForward(forward), mBackward(backward), mLeft(left), mRight(right) {
+
+}
+
+BasicEntityEvent::BasicEntityEvent() : ControllerEvent(BasicEntity), mForward(false), mBackward(false), mLeft(false), mRight(false) {
 
 }
 
@@ -12,12 +16,31 @@ BasicEntityEvent::~BasicEntityEvent() {
 
 }
 
-Ogre::Vector3 BasicEntityEvent::getDirection() const {
-	return mDirection;
+bool BasicEntityEvent::operator==(const BasicEntityEvent& event) {
+	if ((mForward == event.mForward) && 
+		(mBackward == event.mBackward) && 
+		(mLeft == event.mLeft) && 
+		(mRight == event.mRight)) {
+			return true;
+	} else {
+		return false;
+	}
 }
 
-Ogre::Vector3 BasicEntityEvent::getOrientationChange() const {
-	return mOrientation;
+bool BasicEntityEvent::moveForward() const {
+	return mForward;
+}
+
+bool BasicEntityEvent::moveBackward() const {
+	return mBackward;
+}
+
+bool BasicEntityEvent::moveLeft() const {
+	return mLeft;
+}
+
+bool BasicEntityEvent::moveRight() const {
+	return mRight;
 }
 
 void BasicEntityEvent::write(ZCom_BitStream* stream) const {
@@ -25,13 +48,10 @@ void BasicEntityEvent::write(ZCom_BitStream* stream) const {
 	ControllerEvent::write(stream);
 
 	// Write own information
-	stream->addFloat(mDirection.x, 23);
-	stream->addFloat(mDirection.y, 23);
-	stream->addFloat(mDirection.z, 23);
-	stream->addFloat(mOrientation.x, 23);
-	stream->addFloat(mOrientation.y, 23);
-	stream->addFloat(mOrientation.z, 23);
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Write " << mDirection.x << " " << mDirection.y << " " << mDirection.z;
+	stream->addBool(mForward);
+	stream->addBool(mBackward);
+	stream->addBool(mLeft);
+	stream->addBool(mRight);
 }
 
 void BasicEntityEvent::read(ZCom_BitStream* stream) {
@@ -39,17 +59,14 @@ void BasicEntityEvent::read(ZCom_BitStream* stream) {
 	ControllerEvent::read(stream);
 
 	// Read own information
-	mDirection.x = stream->getFloat(23);
-	mDirection.y = stream->getFloat(23);
-	mDirection.z = stream->getFloat(23);
-	mOrientation.x = stream->getFloat(23);
-	mOrientation.y = stream->getFloat(23);
-	mOrientation.z = stream->getFloat(23);
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Read " << mDirection.x << " " << mDirection.y << " " << mDirection.z;
+	mForward = stream->getBool();
+	mBackward = stream->getBool();
+	mLeft = stream->getBool();
+	mRight = stream->getBool();
 }
 
 BasicEntityEvent* BasicEntityEvent::parse(ZCom_BitStream* stream) {
-	BasicEntityEvent* e = new BasicEntityEvent(Ogre::Vector3(0.0, 0.0, 0.0), Ogre::Vector3(0.0, 0.0, 0.0));
+	BasicEntityEvent* e = new BasicEntityEvent();
 	e->deserialize(stream);
 	return e;
 }

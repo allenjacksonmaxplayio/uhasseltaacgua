@@ -12,6 +12,13 @@ namespace HovUni {
  * @author Olivier Berghmans
  */
 class NetworkClient : public ZCom_Control {
+private:
+	/** The name of the server */
+	const char* mServerName;
+	
+	/** The port where the server is listening */
+	const unsigned mConnectPort;
+
 public:
 	/**
 	 * Constructor for remote connection
@@ -35,15 +42,16 @@ public:
 
 	/**
 	 * Process incoming and outgoing packets
+	 *
+	 * @param timeSinceLastProcess the time that elapsed since the last process
 	 */
 	virtual void process();
 
 private:
-	/** The name of the server */
-	const char* mServerName;
-	
-	/** The port where the server is listening */
-	const unsigned mConnectPort;
+	/**
+	 * Hide the copy constructor
+	 */
+	NetworkClient(const NetworkClient&) : mServerName(""), mConnectPort(0) { }
 
 	/**
 	 * Initialize the client

@@ -30,6 +30,7 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 		// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
 		mServer->process();
 		mClient->process();
+		EntityManager::getServerSingletonPtr()->updateEntities(mElapsed);
 		// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 		mElapsed = 0.0f;
 	}

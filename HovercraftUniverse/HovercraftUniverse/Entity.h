@@ -12,7 +12,7 @@ namespace HovUni {
  * An entity is an object in the game world that has a game state. This state can be modified by the 
  * interaction of players with the game.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve & Olivier Berghmans
  */
 class Entity: public NetworkEntity {
 protected:
@@ -24,16 +24,22 @@ protected:
 	Ogre::String mCategory;
 
 	/** The position of the entity in the world */
-	Ogre::Vector3 mPosition;
+	float mPosition[3];
 
 	/** The orientation of the entity in the world */
-	Ogre::Vector3 mOrientation;
+	float mOrientation[3];
 
 	/** The controller that the entity polls to change state */
 	Controller * mController;
 
-	/** Whether the entity is registered to the network */
-	bool mRegistered;
+	/** The interval between two processings of the object */
+	const float mProcessInterval;
+
+	/** The time since last process of the object */
+	float mProcessElapsed;
+
+	/** The position replicator */
+	ZCom_Replicate_Movement<zS32, 2>* mMoveRep;
 
 public:
 
@@ -45,8 +51,9 @@ public:
 	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
+	 * @param processInterval the mean interval between two consecutive processings
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval);
 
 	/**
 	 * Destructor.
@@ -78,37 +85,37 @@ public:
 	/**
 	 * Updates the entity.
 	 *
-	 * @param timeSinceLastFrame the time that elapsed since the last frame
+	 * @param timeSince the time that elapsed since the last update
 	 */
-	void update(Ogre::Real timeSinceLastFrame);
+	void update(float timeSince);
 
 	/**
 	 * Returns the unique name of this entity.
 	 *
 	 * @return the unique name
 	 */
-	Ogre::String getName() { return mName; }
+	Ogre::String getName() const { return mName; }
 
 	/**
 	 * Returns the category to which this entity belongs.
 	 *
 	 * @return the category
 	 */
-	Ogre::String getCategory() { return mCategory; }
+	Ogre::String getCategory() const { return mCategory; }
 
 	/**
 	 * Returns the position of this entity.
 	 *
 	 * @return the position
 	 */
-	Ogre::Vector3 getPosition() { return mPosition; }
+	Ogre::Vector3 getPosition() const { return Ogre::Vector3(mPosition); }
 
 	/**
 	 * Returns the orientation of this entity.
 	 *
 	 * @return the orientation
 	 */
-	Ogre::Vector3 getOrientation() { return mOrientation; }
+	Ogre::Vector3 getOrientation() const { return Ogre::Vector3(mOrientation); }
 
 	/**
 	 * Register the node for the network
@@ -119,18 +126,53 @@ public:
 	void networkRegister(ZCom_ClassID id, ZCom_Control* control);
 
 protected:
+	/**
+	 * Callback to process this entity. This allows to do entity specific processing
+	 * (e.g. intermediate actions).
+	 *
+	 * @param timeSince the time since the last processing of the entity
+	 */
+	virtual void process(float timeSince) = 0;
 
 	/**
-	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream)
+	 * Callback to process a controller event at the server that got processed by the 
+	 * controller.  Must be overriden since this class in itself has no clue which 
+	 * controller properties there are.
+	 *
+	 * @param event a controller event
 	 */
-	void parseEvents(ZCom_BitStream* stream);
+	virtual void processEventsServer(ControllerEvent* event) = 0;
+
+	/**
+	 * Callback to process a controller event at the owner that got processed by the 
+	 * controller.  Must be overriden since this class in itself has no clue which 
+	 * controller properties there are.
+	 *
+	 * @param event a controller event
+	 */
+	virtual void processEventsOwner(ControllerEvent* event) = 0;
+
+	/**
+	 * Callback to process a controller event at other clients that got processed by the controller.  Must
+	 * be overriden since this class in itself has no clue which controller properties 
+	 * there are.
+	 *
+	 * @param event a controller event
+	 */
+	virtual void processEventsOther(ControllerEvent* event) = 0;
+
+private:
+	/**
+	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream, float timeSince)
+	 */
+	void parseEvents(ZCom_BitStream* stream, float timeSince);
 
 	/**
 	 * Polls the controller for its current state and processes actions accordingly.
 	 *
-	 * @param timeSinceLastFrame the time that elapsed since the last frame
+	 * @param timeSince the time that elapsed since the last process
 	 */
-	void processController(Ogre::Real timeSinceLastFrame);
+	void processController(float timeSince);
 
 	/**
 	 * Process a controller event that got processed by the controller and fire the
@@ -139,34 +181,6 @@ protected:
 	 * @param event a controller event
 	 */
 	void processControllerEvents(ControllerEvent* event);
-
-	/**
-	 * Process a controller event at the server that got processed by the controller.  Must
-	 * be overriden since this class in itself has no clue which controller properties 
-	 * there are.
-	 *
-	 * @param event a controller event
-	 */
-	virtual void processControllerEventsInServer(ControllerEvent* event) = 0;
-
-	/**
-	 * Process a controller event at the owner that got processed by the controller.  Must
-	 * be overriden since this class in itself has no clue which controller properties 
-	 * there are.
-	 *
-	 * @param event a controller event
-	 */
-	virtual void processControllerEventsInOwner(ControllerEvent* event) = 0;
-
-	/**
-	 * Process a controller event at other clients that got processed by the controller.  Must
-	 * be overriden since this class in itself has no clue which controller properties 
-	 * there are.
-	 *
-	 * @param event a controller event
-	 */
-	virtual void processControllerEventsInOther(ControllerEvent* event) = 0;
-
 };
 
 }

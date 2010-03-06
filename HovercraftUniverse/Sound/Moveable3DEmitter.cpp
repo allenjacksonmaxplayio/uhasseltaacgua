@@ -57,7 +57,7 @@ namespace HovUni {
 			
 
 			if (position != 0) {
-				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "Updating position to: " << pos.x << ", " << pos.y << ", " << pos.z;
+				//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "Updating position to: " << pos.x << ", " << pos.y << ", " << pos.z;
 			} else {
 				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "got null for new position vector";
 			}
@@ -65,7 +65,7 @@ namespace HovUni {
 			mEvent->set3DAttributes(position ? &pos : 0, velocity ? &vel : 0, orientation ? &ori : 0);
 			mEvent->get3DAttributes(&pos, &vel, &ori);
 
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "New position is: " << pos.x << ", " << pos.y << ", " << pos.z;
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "New position is: " << pos.x << ", " << pos.y << ", " << pos.z;
 
 			//Make sure we are playing
 			startSound();

@@ -15,10 +15,6 @@ namespace HovUni {
  */
 class ControllerEvent: public NetworkEvent<ControllerEventType>
 {
-private:
-	/** The time since last frame */
-	Ogre::Real mTime;
-
 public:
 	/**
 	 * Constructor
@@ -31,20 +27,6 @@ public:
 	 * Destructor
 	 */
 	~ControllerEvent();
-
-	/**
-	 * Set the time that elapsed since the last frame
-	 *
-	 * @param time the time that elapsed since the last frame
-	 */
-	void setTimeSinceLastFrame(Ogre::Real time);
-
-	/**
-	 * Get the time that elapsed since the last frame
-	 *
-	 * @return the time since last frame
-	 */
-	Ogre::Real getTimeSinceLastFrame() const;
 
 	/**
 	 * Write the event

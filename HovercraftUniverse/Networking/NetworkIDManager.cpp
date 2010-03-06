@@ -1,3 +1,4 @@
+#include "Exception.h"
 #include "NetworkIDManager.h"
 
 namespace HovUni {
@@ -21,9 +22,8 @@ ZCom_ClassID NetworkIDManager::getID(const string& className) const {
 	map_type::const_iterator it = mMap.find(className);
 	if (it != mMap.end()) {
 		return it->second;
-	} else {
-		// TODO Throw exception
 	}
+	THROW(NetworkException, "No such class name registered");
 }
 
 }
