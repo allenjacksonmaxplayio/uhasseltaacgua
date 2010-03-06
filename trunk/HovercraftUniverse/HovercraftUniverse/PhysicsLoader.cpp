@@ -82,7 +82,7 @@ void PhysicsLoader::FinishedLoad( bool success ){
 		mHovercraftWorld->mPhysicsWorld->unmarkForWrite();
 }
 
-void PhysicsLoader::onTrack( Ogre::SharedPtr<Track> track ) {
+void PhysicsLoader::onTrack( Ogre::SharedPtr<TrackData> track ) {
 
 	Ogre::String filename = Ogre::String(mPath) + track->getPhysicsFileName();
 
@@ -100,7 +100,7 @@ void PhysicsLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 	mHovercraftWorld->mStartPositions.setSize(track->getMaximumPlayers(),zero);
 }
 
-void PhysicsLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
+void PhysicsLoader::onAsteroid( Ogre::SharedPtr<AsteroidData> asteroid ) {
 
 	if ( mEntityparameters == 0 ){
 		//THROW EXCEPTION (this should be an enitity)
@@ -147,7 +147,7 @@ void PhysicsLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 	}
 }
 
-void PhysicsLoader::onStart( Ogre::SharedPtr<Start> start ) {
+void PhysicsLoader::onStart( Ogre::SharedPtr<StartData> start ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -163,7 +163,7 @@ void PhysicsLoader::onStart( Ogre::SharedPtr<Start> start ) {
 	phantom->removeReference();
 }
 
-void PhysicsLoader::onStartPosition( Ogre::SharedPtr<StartPosition> startposition ) {
+void PhysicsLoader::onStartPosition( Ogre::SharedPtr<StartPositionData> startposition ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -174,7 +174,7 @@ void PhysicsLoader::onStartPosition( Ogre::SharedPtr<StartPosition> startpositio
 	mHovercraftWorld->mStartPositions[pos] = position;	
 }
 
-void PhysicsLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
+void PhysicsLoader::onCheckPoint( Ogre::SharedPtr<CheckPointData> checkpoint ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -194,7 +194,7 @@ void PhysicsLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
 
 }
 
-void PhysicsLoader::onFinish( Ogre::SharedPtr<Finish> finish ) {
+void PhysicsLoader::onFinish( Ogre::SharedPtr<FinishData> finish ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -210,11 +210,11 @@ void PhysicsLoader::onFinish( Ogre::SharedPtr<Finish> finish ) {
 	phantom->removeReference();
 }
 
-void PhysicsLoader::onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft ) {
+void PhysicsLoader::onHoverCraft( Ogre::SharedPtr<HovercraftData> hovercraft ) {
 	//TODO add hovercraft	
 }
 
-void PhysicsLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
+void PhysicsLoader::onPortal( Ogre::SharedPtr<PortalData> portal ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -230,7 +230,7 @@ void PhysicsLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
 	phantom->removeReference();
 }
 
-void PhysicsLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
+void PhysicsLoader::onBoost( Ogre::SharedPtr<BoostData> boost ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -248,7 +248,7 @@ void PhysicsLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
 	phantom->removeReference();
 }
 
-void PhysicsLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) {
+void PhysicsLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawnData> powerupspawn ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
@@ -263,7 +263,7 @@ void PhysicsLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn )
 	mHovercraftWorld->mPowerupPositions.pushBack(position);
 }
 
-void PhysicsLoader::onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn ) {
+void PhysicsLoader::onResetSpawn( Ogre::SharedPtr<ResetSpawnData> spawn ) {
 	if ( !mExternalitem ){
 		//THROW EXCEPTION (this should be an external item)
 		throw ParseException();
