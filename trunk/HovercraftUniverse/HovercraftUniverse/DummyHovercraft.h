@@ -2,16 +2,20 @@
 #define DUMMYHOVERCRAFT_H_
 
 #include "Entity.h"
+#include "BasicEntityEvent.h"
 
 namespace HovUni {
 
 /**
  * Dummy hovercraft for iterative development only.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve & Olivier Berghmans
  */
-class DummyHovercraft : public Entity
-{
+class DummyHovercraft : public Entity {
+private:
+	/** The moving status */
+	BasicEntityEvent* mMovingStatus;
+
 public:
 
 	/**
@@ -25,26 +29,25 @@ public:
 	virtual ~DummyHovercraft(void);
 
 	/**
-	 * @see Entity::processControllerEventsInServer(ControllerEvent* event).
+	 * @see Entity::process(float timeSince).
 	 */
-	virtual void processControllerEventsInServer(ControllerEvent* event);
+	virtual void process(float timeSince);
 
 	/**
-	 * @see Entity::processControllerEventsInOwner(ControllerEvent* event).
+	 * @see Entity::processEventsServer(ControllerEvent* event).
 	 */
-	virtual void processControllerEventsInOwner(ControllerEvent* event);
+	virtual void processEventsServer(ControllerEvent* event);
 
 	/**
-	 * @see Entity::processControllerEventsInOther(ControllerEvent* event).
+	 * @see Entity::processEventsOwner(ControllerEvent* event).
 	 */
-	virtual void processControllerEventsInOther(ControllerEvent* event);
+	virtual void processEventsOwner(ControllerEvent* event);
 
 	/**
-	 * Task for processing at owner and other
-	 *
-	 * @param event the event
+	 * @see Entity::processEventsOther(ControllerEvent* event).
 	 */
-	void processEventsOwnerAndOther(ControllerEvent* event);
+	virtual void processEventsOther(ControllerEvent* event);
+
 };
 
 }

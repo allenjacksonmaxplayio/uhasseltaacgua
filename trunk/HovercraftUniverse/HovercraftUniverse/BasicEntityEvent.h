@@ -15,23 +15,28 @@ namespace HovUni {
 class BasicEntityEvent: public ControllerEvent
 {
 private:
-	/** The direction */
-	Ogre::Vector3 mDirection;
+	/** Whether the entity should move forward */
+	bool mForward;
 
-	/** The orientation change */
-	Ogre::Vector3 mOrientation;
+	/** Whether the entity should move backward */
+	bool mBackward;
 
-	/** The time since last frame */
-	Ogre::Real mTime;
+	/** Whether the entity should move left */
+	bool mLeft;
+
+	/** Whether the entity should move right */
+	bool mRight;
 
 public:
 	/**
 	 * Constructor
 	 *
-	 * @param direction the direction in which the entity is to move
-	 * @param orientationchange the orientation change of the entity
+	 * @param forward whether the entity should move forward
+	 * @param backward whether the entity should move backward
+	 * @param left whether the entity should move left
+	 * @param right whether the entity should move right
 	 */
-	BasicEntityEvent(Ogre::Vector3 direction, Ogre::Vector3 orientationchange);
+	BasicEntityEvent(bool forward, bool backward, bool left, bool right);
 
 	/**
 	 * Destructor
@@ -39,18 +44,53 @@ public:
 	~BasicEntityEvent();
 
 	/**
-	 * Get the direction in which the entity is to move
+	 * The comparison operator
 	 *
-	 * @return the direction
+	 * @return whether the two events are equal
 	 */
-	Ogre::Vector3 getDirection() const;
+	bool operator==(const BasicEntityEvent& event);
 
 	/**
-	 * Get the orientation change of the entity
+	 * Check whether the entity should move forward
 	 *
-	 * @return the orientation change
+	 * @return true if the entity should move forward
 	 */
-	Ogre::Vector3 getOrientationChange() const;
+	bool moveForward() const;
+
+	/**
+	 * Check whether the entity should move backward
+	 *
+	 * @return true if the entity should move backward
+	 */
+	bool moveBackward() const;
+
+	/**
+	 * Check whether the entity should move left
+	 *
+	 * @return true if the entity should move left
+	 */
+	bool moveLeft() const;
+
+	/**
+	 * Check whether the entity should move right
+	 *
+	 * @return true if the entity should move right
+	 */
+	bool moveRight() const;
+
+	/**
+	 * Parse the stream to create this event
+	 *
+	 * @param stream the bitstream containing the event
+	 * @return the event
+	 */
+	static BasicEntityEvent* parse(ZCom_BitStream* stream);
+
+protected:
+	/**
+	 * Default onstructor for parsing
+	 */
+	BasicEntityEvent();
 
 	/**
 	 * @see ControllerEvent::write(ZCom_BitStream* stream)
@@ -61,14 +101,6 @@ public:
 	 * @see ControllerEvent::read(ZCom_BitStream* stream)
 	 */
 	virtual void read(ZCom_BitStream* stream);
-
-	/**
-	 * Parse the stream to create this event
-	 *
-	 * @param stream the bitstream containing the event
-	 * @return the event
-	 */
-	static BasicEntityEvent* parse(ZCom_BitStream* stream);
 
 };
 

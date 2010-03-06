@@ -175,7 +175,7 @@ private:
 	}
 
 /** Macro to throw an exception with file and line annotations */
-#define THROW(CLASS, msg) throw CLASS( (msg), std::string(__FILE__), __LINE__)
+#define THROW(CLASS, msg) throw CLASS( (msg), __FILE__, __LINE__)
 #define THROW_NESTED(CLASS, msg, nest) throw CLASS( (msg), nest, __FILE__, __LINE__)
 
 /*
