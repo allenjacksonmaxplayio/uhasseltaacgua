@@ -19,6 +19,16 @@ HavocEntityType::Type HavocEntityType::getEntityType( hkpWorldObject * object ){
 	}
 }
 
+bool HavocEntityType::isEntityType( hkpWorldObject * object, Type type ) {
+	if ( object->hasProperty(ENITYTYPEPROPERTY)){
+		hkpPropertyValue p = object->getProperty(ENITYTYPEPROPERTY);		
+		return (HavocEntityType::Type) p.getInt() == type;
+	}
+	else {
+		return false;
+	}
+}
+
 void HavocEntityType::updateEntityType( hkpWorldObject * object, HavocEntityType::Type type ) {
 	hkpPropertyValue p;
 	p.setInt((int)type);

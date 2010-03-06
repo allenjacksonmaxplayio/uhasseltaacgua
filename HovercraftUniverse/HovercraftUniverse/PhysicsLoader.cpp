@@ -185,7 +185,10 @@ void PhysicsLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
 
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
 
-	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(	aabb );	
+	hkString name(checkpoint->getName().c_str());
+	hkInt32 number = checkpoint->getNumber();
+
+	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(	aabb, name, number);	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( checkpointphantom );
 	checkpointphantom->removeReference();
 
@@ -238,7 +241,9 @@ void PhysicsLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
 
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
 
-	BoostPhantom * phantom = new BoostPhantom( aabb );	
+	hkReal boostvalue = boost->getBoost();
+
+	BoostPhantom * phantom = new BoostPhantom( aabb, boostvalue );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 }

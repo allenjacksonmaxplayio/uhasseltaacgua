@@ -3,7 +3,6 @@
 #include "PhysicsLoader.h"
 #include "CustomOgreMaxScene.h"
 
-#include "HoverCraftCharacter.h"
 #include "HavocEntityType.h"
 #include "PhantomTrackAction.h"
 
@@ -30,6 +29,7 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 		mFinish->removeReference();
 	}
 
+	//TODO
 	//delete checkpoints
 	//delete characters
 	//...
@@ -49,7 +49,7 @@ bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
 	return true;
 }
 
-void HoverCraftUniverseWorld::addHoverCraft( int pos ){
+void HoverCraftUniverseWorld::addCharacter( const char * name, const char * type, int pos ){
 
 	//	Create a character rigid body object
 	// Construct a shape
@@ -90,7 +90,7 @@ void HoverCraftUniverseWorld::addHoverCraft( int pos ){
 	// Set character type
 	m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	Character * c = new HoverCraftCharacter(mPhysicsWorld,&info,m_characterContext);
+	Character * c = new Character(mPhysicsWorld,&info,m_characterContext,0);
 	mCharactersMap.insert("Hover",c);
 
 	m_characterContext->removeReference();

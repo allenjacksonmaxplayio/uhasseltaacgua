@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Content&quot;;&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Media\HovSound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Media\HovSound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Content&quot;;&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -316,10 +316,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Character.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\CharacterContextContainer.cpp"
 					>
 				</File>
@@ -332,10 +328,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\HoverCraftCharacter.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\HoverCraftUniverseWorld.cpp"
 					>
 				</File>
@@ -345,6 +337,10 @@
 				</File>
 				<File
 					RelativePath=".\PhysicsLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PowerupSpawnMonitor.cpp"
 					>
 				</File>
 				<Filter
@@ -384,6 +380,14 @@
 					</File>
 					<File
 						RelativePath=".\PlanetGravityPhantom.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="character"
+					>
+					<File
+						RelativePath=".\Character.cpp"
 						>
 					</File>
 				</Filter>
@@ -550,10 +554,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Character.h"
-					>
-				</File>
-				<File
 					RelativePath=".\CharacterContextContainer.h"
 					>
 				</File>
@@ -566,10 +566,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\HoverCraftCharacter.h"
-					>
-				</File>
-				<File
 					RelativePath=".\HoverCraftUniverseWorld.h"
 					>
 				</File>
@@ -579,6 +575,10 @@
 				</File>
 				<File
 					RelativePath=".\PhysicsLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PowerupSpawnMonitor.h"
 					>
 				</File>
 				<Filter
@@ -621,6 +621,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="powerup"
+					>
+				</Filter>
+				<Filter
+					Name="character"
+					>
+					<File
+						RelativePath=".\Character.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -630,7 +642,15 @@
 			>
 		</Filter>
 		<File
+			RelativePath="..\..\art\custom data\game.userdatatypes.xml"
+			>
+		</File>
+		<File
 			RelativePath=".\main.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\art\custom data\types.userdatatypes.xml"
 			>
 		</File>
 	</Files>

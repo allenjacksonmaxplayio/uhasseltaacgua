@@ -9,8 +9,8 @@
 
 namespace HovUni {
 
-Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
-	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext)
+Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext, Controller * controller ): 
+	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext), mController(controller)
 {
 	mForward.set( 1.0f, 0.0f, 0.0f );
 	mCharacterForward.set( 1.0f, 0.0f, 0.0f );
@@ -43,6 +43,10 @@ Character::~Character() {
 
 	mPhysicsWorld->removeReference();
 	mPhysicsWorld = HK_NULL;
+}
+
+void Character::update(){
+	mController->getEvents();
 }
 	
 }

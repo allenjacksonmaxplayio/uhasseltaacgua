@@ -1,8 +1,9 @@
 #include <Common/Base/hkBase.h>
 #include <Common/Base/System/hkBaseSystem.h>
+#include <Physics/Dynamics/Entity/hkpRigidBody.h>
 
-#include "HavocEntityType.h"
 #include "FinishPhantom.h"
+#include "HavocEntityType.h"
 
 namespace HovUni {
 
@@ -17,6 +18,12 @@ FinishPhantom::~FinishPhantom(void)
 
 void FinishPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {
+	hkpRigidBody* rb = hkGetRigidBody(handle);
+
+	if ( (rb != HK_NULL) && HavocEntityType::isEntityType(rb,HavocEntityType::CHARACTER ) ) {
+		//TODO make it pass finish
+	}
+
 	hkpAabbPhantom::addOverlappingCollidable( handle );
 }
 
