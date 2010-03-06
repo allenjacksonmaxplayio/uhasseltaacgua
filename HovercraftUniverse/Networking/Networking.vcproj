@@ -164,6 +164,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NetworkMovementEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkMovementInput.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NetworkServer.cpp"
 				>
 			</File>
@@ -195,6 +203,14 @@
 			</File>
 			<File
 				RelativePath=".\NetworkIDManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkMovementEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NetworkMovementInput.h"
 				>
 			</File>
 			<File

@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-NetworkEntity::NetworkEntity() : mNode(0), mRegistered(false) {
+NetworkEntity::NetworkEntity(unsigned short replicators) : mNode(0), mReplicatorNr(replicators), mRegistered(false) {
 	mNode = new ZCom_Node();
 }
 
@@ -14,6 +14,12 @@ NetworkEntity::~NetworkEntity() {
 }
 
 void NetworkEntity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
+	// Set up replication
+	mNode->beginReplicationSetup(mReplicatorNr);
+	setupReplication();
+	mNode->endReplicationSetup();
+
+	// Register to node
 	mNode->registerNodeDynamic(id, control);
 	mRegistered = true;
 }
