@@ -1,8 +1,8 @@
-#summary Agenda punten voor vergaderingen
+#summary Agendapunten voor vergaderingen
 
 = Agenda voor vergaderingen =
 
-Zet hier je agenda punten voor volgende vergadering, met je naam vermeld. Op deze manier kan je je agendapunten meteen op de agenda zetten en kan iedereen voor de vergadering de agendapunten eens overlopen.
+Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze manier kan je je agendapunten meteen op de agenda zetten en kan iedereen voor de vergadering de agendapunten eens overlopen.
 
 == Vergadering 03/03 ==
 
@@ -15,3 +15,6 @@ Zet hier je agenda punten voor volgende vergadering, met je naam vermeld. Op dez
  * Scripting (Dirk)
 
 == Vergadering 10/03 ==
+
+ * Scripting
+  * Bespreken: de manier waarop de AI aan interne gamestate variabelen kan: "Waar ben ik?", "Waar is de volgende checkpoint?", "Waar is mijn dichtstbijzijnde opponent?", enz. Alsook de vraag of het nodig is dat de AI zichzelf/anderen herkent adhv. een identifier: zo ja, waar komt deze vandaan, etc. (Dirk)
