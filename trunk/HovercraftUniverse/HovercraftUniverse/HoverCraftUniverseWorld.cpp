@@ -90,7 +90,7 @@ void HoverCraftUniverseWorld::addCharacter( const char * name, const char * type
 	// Set character type
 	m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	Character * c = new Character(mPhysicsWorld,&info,m_characterContext,0);
+	Character * c = new Character(mPhysicsWorld,&info,m_characterContext);
 	mCharactersMap.insert("Hover",c);
 
 	m_characterContext->removeReference();

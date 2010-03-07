@@ -28,11 +28,6 @@ protected:
 	 */
 	hkpCharacterContext * mCharacterContext;
 
-	/**
-	 * The controller for the character
-	 */
-	Controller * mController;
-
 public:
 
 	/**
@@ -50,7 +45,7 @@ public:
 	 * @param characterContext
 	 * @param controllor
 	 */
-	Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext, Controller * controller);
+	Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
 
 	/**
 	 * Destructor
@@ -66,7 +61,6 @@ public:
 	
 	/**
 	 * Update the character movement
-	 * @param userinput
 	 */
 	virtual void update();
 };
