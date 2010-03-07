@@ -2,14 +2,14 @@
 
 = Finished =
 
-W1: Determination of subject + project title.
-W2: Design architecture game + dividing tasks and responsibilities
-W3: Initial set-up of core engine + core components (GUI, Sound, Networking, Scripting, ...)
-W4: Integration components in core engine
+  * W1: Determination of subject + project title.
+  * W2: Design architecture game + dividing tasks and responsibilities
+  * W3: Initial set-up of core engine + core components (GUI, Sound, Networking, Scripting, ...)
+  * W4: Integration components in core engine
 
 = Upcoming planning =
 
-W5: Integration and development of physics + integration and implementation of entities using engine.
-W6: Integration and application of scripting + development initial content.
+  * W5: Integration and development of physics + integration and implementation of entities using engine.
+  * W6: Integration and application of scripting + development initial content.
 
 TODO Kan iedereen hier zijn persoonlijke planning voor de komende weken opzetten voor zover je er al een idee van hebt? Het is nogal moeilijk om ver vooruit te kijken met dit project, ik weet het.
