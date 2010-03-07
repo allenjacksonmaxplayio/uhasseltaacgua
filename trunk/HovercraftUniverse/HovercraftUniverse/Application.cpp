@@ -1,8 +1,5 @@
 #include "Application.h"
 #include "ApplicationFrameListener.h"
-#include "DummyHovercraft.h"
-#include "DummyHovercraftPlayerController.h"
-#include "DummyHovercraftRepresentation.h"
 #include "Exception.h"
 #include "HUD.h"
 #include <HovSound.h>

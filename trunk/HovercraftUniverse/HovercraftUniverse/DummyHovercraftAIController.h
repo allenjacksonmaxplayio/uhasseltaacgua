@@ -2,8 +2,11 @@
 #define DUMMYHOVERCRAFTAICONTROLLER_H_
 
 #include <string>
+#include <vector>
+#include <map>
 #include "DummyHovercraftController.h"
 #include "ScriptWrapper.h"
+#include "ControllerActionType.h"
 
 namespace HovUni {
 
@@ -15,6 +18,7 @@ class DummyHovercraftAIController : public DummyHovercraftController {
 	//Provide public accesspoints for AI script.
 private:
 	ScriptWrapper* mScript;
+	std::map<ControllerActionType, bool> mActionMap;
 public:
 
 	/**
@@ -34,7 +38,30 @@ public:
 	*/
 	void stopAction(int action);
 
+	/**
+	* @see DummyHovercraftController::moveForward()
+	*/
+	bool moveForward();
 
+	/**
+	* @see DummyHovercraftController::moveBackward()
+	*/
+	bool moveBackward();
+
+	/**
+	* @see DummyHovercraftController::turnLeft()
+	*/
+	bool turnLeft();
+
+	/**
+	* @see DummyHovercraftController::turnRight()
+	*/
+	bool turnRight();
+
+	/**
+	 * @see Controller::getEvents()
+	 */
+	std::vector<ControllerEvent*> getEvents();
 };
 
 }

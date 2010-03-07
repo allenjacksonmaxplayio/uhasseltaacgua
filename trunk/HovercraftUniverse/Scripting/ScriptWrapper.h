@@ -44,13 +44,13 @@ namespace HovUni {
 		*			include template?
 		*	@param	function	The function call in Lua.
 		*/
-		int execute( std::string function);
+		int execute(const std::string function);
 
 		/**
 		*	Load a Lua Script file.
 		*	@param	filename	The location of the Lua script.
 		*/
-		void load( std::string filename);
+		void load(const std::string filename);
 		
 	};
 }

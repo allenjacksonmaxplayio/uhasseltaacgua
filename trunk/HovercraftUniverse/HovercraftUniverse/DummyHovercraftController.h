@@ -10,10 +10,10 @@ namespace HovUni {
 /**
  * Dummy hovercraft controller interface that specifies which actions must be under control.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve, Olivier Berghmans, Dirk Delahaye
  */
 class DummyHovercraftController : public Controller {
-private:
+protected:
 	/** The last sent moving state */
 	BasicEntityEvent mLast;
 
@@ -38,28 +38,28 @@ public:
 	 *
 	 * @return true if the entity should move forward
 	 */
-	virtual bool moveForward() const = 0;
+	virtual bool moveForward() = 0;
 
 	/**
 	 * Check whether the entity should move backward
 	 *
 	 * @return true if the entity should move backward
 	 */
-	virtual bool moveBackward() const = 0;
+	virtual bool moveBackward() = 0;
 
 	/**
-	 * Check whether the entity should move left
+	 * Check whether the entity should turn left
 	 *
-	 * @return true if the entity should move left
+	 * @return true if the entity should turn left
 	 */
-	virtual bool moveLeft() const = 0;
+	virtual bool turnLeft() = 0;
 
 	/**
-	 * Check whether the entity should move right
+	 * Check whether the entity should turn right
 	 *
-	 * @return true if the entity should move right
+	 * @return true if the entity should turn right
 	 */
-	virtual bool moveRight() const = 0;
+	virtual bool turnRight() = 0;
 
 };
 

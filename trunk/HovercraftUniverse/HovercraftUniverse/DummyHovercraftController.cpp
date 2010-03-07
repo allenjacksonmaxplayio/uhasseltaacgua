@@ -12,7 +12,7 @@ DummyHovercraftController::~DummyHovercraftController() {
 
 std::vector<ControllerEvent*> DummyHovercraftController::getEvents() {
 	std::vector<ControllerEvent*> events;
-	BasicEntityEvent current(moveForward(), moveBackward(), moveLeft(), moveRight());
+	BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight());
 
 	// Only send an event when there is a change
 	if (!(current == mLast)) {
