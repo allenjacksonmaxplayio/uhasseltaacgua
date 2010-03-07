@@ -18,3 +18,4 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
 
  * Scripting
   * Bespreken: de manier waarop de AI aan interne gamestate variabelen kan: "Waar ben ik?", "Waar is de volgende checkpoint?", "Waar is mijn dichtstbijzijnde opponent?", enz. Alsook de vraag of het nodig is dat de AI zichzelf/anderen herkent adhv. een identifier: zo ja, waar komt deze vandaan, etc. (Dirk)
+  * Komende planning en regeling scripting regelen.
