@@ -1,4 +1,5 @@
 #include "ApplicationFrameListener.h"
+#include "InputManager.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -64,10 +65,20 @@ bool ApplicationFrameListener::mouseReleased(const OIS::MouseEvent & e, OIS::Mou
 }
 
 bool ApplicationFrameListener::keyPressed(const OIS::KeyEvent & e) { 
+	OIS::Keyboard * keyboard = InputManager::getSingletonPtr()->getKeyboard();
+
 	switch (e.key) {
 	case OIS::KC_ESCAPE:
-		// Stop rendering
-		mContinue = false;
+	case OIS::KC_LMENU:
+	case OIS::KC_RMENU:
+	case OIS::KC_F4:
+		// Check whether right combinations are pressed concurrently
+		if (keyboard->isKeyDown(OIS::KC_ESCAPE) || 
+			(keyboard->isKeyDown(OIS::KC_LMENU) && keyboard->isKeyDown(OIS::KC_RMENU) && keyboard->isKeyDown(OIS::KC_F4))) {
+			// Stop rendering
+			mContinue = false;			
+		}
+
 		break;
 	default:
 		// Do nothing
