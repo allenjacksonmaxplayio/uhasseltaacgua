@@ -16,19 +16,19 @@ DummyHovercraftPlayerController::~DummyHovercraftPlayerController(void) {
 	mInputManager->removeKeyListener("DummyHovercraftPlayerController");
 }
 
-bool DummyHovercraftPlayerController::moveForward() const {
+bool DummyHovercraftPlayerController::moveForward() {
 	return mMovingForward;
 }
 
-bool DummyHovercraftPlayerController::moveBackward() const {
+bool DummyHovercraftPlayerController::moveBackward() {
 	return mMovingBackward;
 }
 
-bool DummyHovercraftPlayerController::moveLeft() const {
+bool DummyHovercraftPlayerController::turnLeft() {
 	return mMovingLeft;
 }
 
-bool DummyHovercraftPlayerController::moveRight() const {
+bool DummyHovercraftPlayerController::turnRight() {
 	return mMovingRight;
 }
 

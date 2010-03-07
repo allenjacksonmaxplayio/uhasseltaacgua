@@ -1,1 +1,35 @@
-startAction(3)
+--[[
+--	Dumb AI test
+--	@author Dirk Delahaye
+--]]
+
+-----------------------------
+-- STATE Constants
+-----------------------------
+ST_IDLE = 0
+ST_MOVING = 1
+-----------------------------
+
+
+-----------------------------
+-- Action Constants
+-----------------------------
+ACCELERATE=1
+BRAKE=2
+TURNLEFT=3
+TURNRIGHT=4
+-----------------------------
+
+mCurrentState = 0
+
+function registerController(controllerObj)
+	mControllerObj = controllerObj
+end
+
+function decide()
+	if (mCurrentState == ST_IDLE) then
+		mControllerObj.startAction(mControllerObj, ACCELERATE)
+		mCurrentState = ST_MOVING
+	end
+	return 1
+end

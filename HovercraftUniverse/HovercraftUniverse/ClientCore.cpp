@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "DummyHovercraft.h"
 #include "DummyHovercraftPlayerController.h"
+#include "DummyHovercraftAIController.h"
 #include "DummyHovercraftRepresentation.h"
 #include "EntityRegister.h"
 
@@ -67,6 +68,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
 
 		if (role == eZCom_RoleOwner) {
+			//hovercraft->setController(new DummyHovercraftAIController("../../data/scripts/test.lua"));
 			hovercraft->setController(new DummyHovercraftPlayerController());
 		}
 	}

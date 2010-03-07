@@ -39,22 +39,22 @@ public:
 	/**
 	 * @see DummyHovercraftController::moveForward()
 	 */
-	bool moveForward() const;
+	bool moveForward();
 
 	/**
 	 * @see DummyHovercraftController::moveBackward()
 	 */
-	bool moveBackward() const;
+	bool moveBackward();
 
 	/**
-	 * @see DummyHovercraftController::moveLeft()
+	 * @see DummyHovercraftController::turnLeft()
 	 */
-	bool moveLeft() const;
+	bool turnLeft();
 
 	/**
-	 * @see DummyHovercraftController::moveRight()
+	 * @see DummyHovercraftController::turnRight()
 	 */
-	bool moveRight() const;
+	bool turnRight();
 
 	/**
 	 * @see KeyListener::keyPressed().
