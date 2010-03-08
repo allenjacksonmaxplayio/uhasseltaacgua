@@ -56,7 +56,7 @@ void HoverCraftUniverseWorld::update() {
 
 Character * HoverCraftUniverseWorld::getCharacter(const char * name) {
 	Character * result = HK_NULL;
-	mCharactersMap.get(name,result);
+	mCharactersMap.get(name,&result);
 	return result;
 }
 

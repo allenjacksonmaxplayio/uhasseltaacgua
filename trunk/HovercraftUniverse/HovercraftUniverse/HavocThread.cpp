@@ -1,5 +1,5 @@
 #include "HavocThread.h"
-#include "HoverCraftUniverseWorld.h"
+#include "Havoc.h"
 
 namespace HovUni {
 
@@ -65,28 +65,23 @@ void HavocThread::StartHavocThread(){
 }
 
 DWORD WINAPI runHavoc( LPVOID lpParam ) {
-	//Server means Havoc
-	float timestep = 1.0f/120.0f;
-
-	//do havoc sim in background
-	HoverCraftUniverseWorld havoc (timestep);
-	
 	// A stopwatch for waiting until the real time has passed
 	hkStopwatch stopWatch;
 	stopWatch.start();
 	hkReal lastTime = stopWatch.getElapsedSeconds();
 
-	havoc.loadSceneFile(".\\..\\..\\..\\art\\models\\SimpleTrack.scene");
-
-	havoc.addCharacter("NAME1","BLA",0);
-	havoc.addCharacter("NAME2","BLA",1);
+	Havoc::getSingleton().loadSceneFile(".\\..\\..\\..\\art\\models\\SimpleTrack.scene");
+	Havoc::getSingleton().addCharacter("NAME1","BLA",0);
+	Havoc::getSingleton().addCharacter("NAME2","BLA",1);
 
 	while ( HavocThread::run ) {
-		havoc.step();
+		Havoc::getSingleton().step();
+
+		
 
 		// Pause until the actual time has passed
-		while (stopWatch.getElapsedSeconds() < lastTime + timestep);
-			lastTime += timestep;			
+		while (stopWatch.getElapsedSeconds() < lastTime + Havoc::getSingleton().getTimeStep());
+			lastTime += Havoc::getSingleton().getTimeStep();			
 	}
 
 	return 0;
