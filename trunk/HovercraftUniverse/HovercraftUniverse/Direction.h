@@ -16,6 +16,10 @@ namespace HovUni {
 			 */
 			Direction(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
+			/**
+			 * Set the angle of the direction arrow
+			 */
+			void setAngle(Ogre::Real angle);
 	};
 }
 

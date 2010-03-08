@@ -72,6 +72,11 @@ std::vector<Entity *> EntityManager::getAllEntities() {
 
 Entity * EntityManager::getTrackedEntity() {
 	// Search and return entity
+	if (mEntityTracked == "") {
+		//TODO: Might need an exception?
+		return 0;
+	}
+
 	return getEntity(mEntityTracked);
 }
 
