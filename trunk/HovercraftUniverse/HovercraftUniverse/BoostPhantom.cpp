@@ -24,7 +24,7 @@ void BoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ){
 		Character * character = Havok::getSingleton().getCharacter(rb->getName());	
 		if ( character != HK_NULL ){
-     			hkVector4 boost = character->mForward;
+     		hkVector4 boost = character->getForward();
 			boost.mul4(mBoost);
 			rb->applyLinearImpulseAsCriticalOperation(boost);
 		}

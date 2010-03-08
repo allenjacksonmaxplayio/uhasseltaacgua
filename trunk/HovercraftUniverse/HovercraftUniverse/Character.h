@@ -28,16 +28,18 @@ protected:
 	 */
 	hkpCharacterContext * mCharacterContext;
 
-public:
-
 	/**
 	 * A vector of what the character sees as up vector	
 	 */
 	hkVector4 mUp;
 
-	hkVector4 mCharacterForward;
-
 	hkVector4 mForward;
+
+	
+
+public:
+
+
 
 	/**
 	 * Constructor
@@ -53,16 +55,38 @@ public:
 	virtual ~Character();
 
 	/**
+	 * Get forward vector
+	 * @return forward
+	 */
+	const hkVector4& getForward() const {
+		return mForward;
+	}
+
+	/**
+	 * Get forward vector
+	 * @return forward
+	 */
+	hkVector4& getForward(){
+		return mForward;
+	}
+
+	/**
 	 * Get the rigid body for the character
 	 */
 	hkpCharacterRigidBody * getCharacterRigidBody() {
 		return mCharacterRigidBody;
 	}
+
+	void reorientCharacter();
+
+	void updateUp( hkVector4& newUp );
 	
 	/**
 	 * Update the character movement
 	 */
-	virtual void update();
+	void update();
+
+	
 };
 
 }

@@ -111,9 +111,14 @@ public:
 	}
 
 	/**
-	 * Is called every step of the simulation
+	 * Is called every step of the simulation before step method is called
 	 */
-	virtual void update(){};
+	virtual void preStep(){};
+
+	/**
+	 * Is called every step of the simulation after step method is called
+	 */
+	virtual void postStep(){};
 	
 	/**
 	 * Update the world
