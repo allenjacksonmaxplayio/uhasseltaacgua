@@ -324,6 +324,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Havoc.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\HavocEntityType.cpp"
 					>
 				</File>
@@ -571,6 +575,10 @@
 				</File>
 				<File
 					RelativePath=".\CharacterContextContainer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Havoc.h"
 					>
 				</File>
 				<File
