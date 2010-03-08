@@ -1,6 +1,6 @@
 #include "PhysicsLoader.h"
 #include "HoverCraftUniverseWorld.h"
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Common/Base/Math/Matrix/hkTransform.h>
@@ -119,7 +119,7 @@ void PhysicsLoader::onAsteroid( Ogre::SharedPtr<AsteroidData> asteroid ) {
 	}
 
 	//Set that it is a planet
-	HavocEntityType::setEntityType(planetRigidBody,HavocEntityType::PLANET);
+	HavokEntityType::setEntityType(planetRigidBody,HavokEntityType::PLANET);
 	
 	//add gravity field PULL
 	{

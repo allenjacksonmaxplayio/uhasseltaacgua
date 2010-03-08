@@ -1,23 +1,23 @@
-#ifndef HAVOC_H
-#define HAVOC_H
+#ifndef HAVOK_H
+#define HAVOK_H
 
 #include "HoverCraftUniverseWorld.h"
 
 namespace HovUni {
 
-class Havoc
+class Havok
 {
 private:
 
 	static HoverCraftUniverseWorld * ms_world;
 
-	Havoc(void);
-	~Havoc(void);
+	Havok(void);
+	~Havok(void);
 
 public:
 
 	/**
-	 * Start havoc framework
+	 * Start havok framework
 	 */
 	static void start();
 
@@ -34,7 +34,7 @@ public:
 	static HoverCraftUniverseWorld& getSingleton();
 
 	/**
-	 * Stop havoc framework
+	 * Stop havok framework
 	 */
 	static void stop();
 

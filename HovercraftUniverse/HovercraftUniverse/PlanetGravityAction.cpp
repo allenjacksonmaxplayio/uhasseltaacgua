@@ -1,5 +1,5 @@
 #include "PlanetGravityAction.h"
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 #include "HoverCraftUniverseWorld.h"
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h>
@@ -87,7 +87,7 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	{*/
 
 
-		if (  HavocEntityType::getEntityType(rb) == HavocEntityType::CHARACTER ){
+		if (  HavokEntityType::getEntityType(rb) == HavokEntityType::CHARACTER ){
 			if ( collector.getHitContact().getDistance() > 0.5f ){
 				force.setMul4( rb->getMass() * mGravityForce, forceDir );
 				rb->applyForce( stepInfo.m_deltaTime, force);

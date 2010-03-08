@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 
 #include <Common/Base/Types/Color/hkColor.h>
 #include <Common/Visualize/hkDebugDisplay.h>
@@ -30,7 +30,7 @@ Character::Character( hkpWorld * world, const char * name, hkpCharacterRigidBody
 
 	//set name and type
 	charbody->setName(name);
-	HavocEntityType::setEntityType(charbody,HavocEntityType::CHARACTER);
+	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
 
 	mPhysicsWorld->addEntity( charbody );
 	mPhysicsWorld->unmarkForWrite();

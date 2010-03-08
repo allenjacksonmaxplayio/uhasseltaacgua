@@ -3,7 +3,7 @@
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 
 #include "CheckpointPhantom.h"
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 
 namespace HovUni {
 
@@ -20,7 +20,7 @@ void CheckpointPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
-	if ( (rb != HK_NULL) && HavocEntityType::isEntityType(rb,HavocEntityType::CHARACTER ) ){
+	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ){
 		//TODO make it pass the checkpoint
 	}
 
@@ -32,7 +32,7 @@ void CheckpointPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
-	if ( (rb != HK_NULL) && HavocEntityType::isEntityType(rb,HavocEntityType::CHARACTER ) ){
+	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ){
 
 	}
 

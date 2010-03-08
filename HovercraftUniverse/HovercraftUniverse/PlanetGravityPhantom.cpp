@@ -1,7 +1,7 @@
 #include <Common/Base/hkBase.h>
 #include <Common/Base/System/hkBaseSystem.h>
 
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 #include "PlanetGravityPhantom.h"
 #include "PlanetGravityAction.h"
 
@@ -19,7 +19,7 @@ void PlanetGravityPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpRigidBody* theBody = hkGetRigidBody( handle );
 
-	if( theBody && (theBody->getMotionType() != hkpMotion::MOTION_FIXED) && (HavocEntityType::getEntityType(theBody) != HavocEntityType::PLANET )  )
+	if( theBody && (theBody->getMotionType() != hkpMotion::MOTION_FIXED) && (HavokEntityType::getEntityType(theBody) != HavokEntityType::PLANET )  )
 	{
 		hkBool actionFound = false;
 

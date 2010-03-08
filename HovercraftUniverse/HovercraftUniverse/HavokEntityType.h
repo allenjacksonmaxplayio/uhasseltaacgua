@@ -1,5 +1,5 @@
-#ifndef HAVOCENTITYTYPE_H
-#define HAVOCENTITYTYPE_H
+#ifndef HAVOKENTITYTYPE_H
+#define HAVOKENTITYTYPE_H
 
 class hkpWorldObject;
 
@@ -8,7 +8,7 @@ namespace HovUni {
 /**
  * Class used to annotate havoc world objects with an object type.
  */
-class HavocEntityType {
+class HavokEntityType {
 
 private:
 

@@ -3,7 +3,7 @@
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 
 #include "StartPhantom.h"
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 
 namespace HovUni {
 
@@ -20,7 +20,7 @@ void StartPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
-	if ( (rb != HK_NULL) && HavocEntityType::isEntityType(rb,HavocEntityType::CHARACTER ) ){
+	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ){
 		//TODO make it pass start
 	}
 

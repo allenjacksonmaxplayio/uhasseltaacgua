@@ -1,7 +1,7 @@
 #ifndef HoverCraftUniverseWorld_H
 #define HoverCraftUniverseWorld_H
 
-#include "AbstractHavocWorld.h"
+#include "AbstractHavokWorld.h"
 #include "PhysicsLoader.h"
 #include "Character.h"
 #include "CharacterContextContainer.h"
@@ -11,7 +11,7 @@ namespace HovUni {
 /**
  * This world describes our game state from the phyiscal point of view
  */
-class HoverCraftUniverseWorld : public AbstractHavocWorld
+class HoverCraftUniverseWorld : public AbstractHavokWorld
 {
 private:
 
