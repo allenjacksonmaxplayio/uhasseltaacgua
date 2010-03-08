@@ -1,0 +1,172 @@
+#include "Application.h"
+#include "ApplicationFrameListener.h"
+#include "Exception.h"
+#include "HUD.h"
+#include "INIReader/INIReader.h"
+#include <HovSound.h>
+#include <tinyxml/tinyxml.h>
+
+
+namespace HovUni {
+
+Ogre::SceneManager* Application::msSceneMgr = 0;
+
+Application::Application(void) {
+}
+
+Application::~Application(void) {
+
+}
+
+void Application::go() {
+	parseIni();
+	createRoot();
+	defineResources();
+	setupRenderSystem();
+	createRenderWindow();
+	initializeResourceGroups();
+	setupInputSystem();
+	setupScene();
+	createFrameListener();
+	startRenderLoop();
+}
+
+void Application::parseIni() {
+	TCHAR szDirectory[MAX_PATH] = "";
+	GetCurrentDirectory(sizeof(szDirectory) - 1, szDirectory);
+	std::string curDir (szDirectory);
+	INIReader reader("HovercraftUniverse.ini");
+	if (reader.ParseError() < 0) {
+        //TODO error!
+    }
+	//Get(section, name, defaultValue)
+	mLogPath = curDir  + reader.Get("General", "LogPath", "Client.log");
+
+	mDataPath = reader.Get("Paths", "DataPath", "./data");
+	mSoundPath = reader.Get("Paths", "SoundPath", "./data/media");
+	mGUIPath = reader.Get("Paths", "GUIPath", "./data/GUI");
+
+	mOgreResources = reader.Get("Files", "OgreConfigFile", "resources.cfg");
+
+	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
+	SetCurrentDirectory(mDataPath.c_str());
+}
+
+void Application::createRoot() {
+	mOgreRoot = new Ogre::Root();
+	Ogre::LogManager::getSingleton().createLog(mLogPath, true);
+
+	//Test exception
+	/*
+	try {
+		THROW(NetworkException, "Test exception");
+	} catch (NetworkException e) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << e;
+	}
+	*/
+}
+
+void Application::defineResources() {
+	// Load config
+	Ogre::ConfigFile cf;
+	cf.load(mOgreResources);
+
+	// Iterate over config
+	Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+	while (seci.hasMoreElements()) {
+		// Read property
+		Ogre::String secName = seci.peekNextKey();
+		Ogre::ConfigFile::SettingsMultiMap * settings = seci.getNext();
+		
+		// For all settings of that property, add them
+		for (Ogre::ConfigFile::SettingsMultiMap::iterator it = settings->begin(); it != settings->end(); it++) {
+			Ogre::String typeName = it->first;
+			Ogre::String archName = it->second;
+			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+		}
+	}
+}
+
+void Application::setupRenderSystem() {
+	if (!mOgreRoot->restoreConfig() && !mOgreRoot->showConfigDialog()) {
+		// TODO Throw exception
+	}
+}
+
+void Application::createRenderWindow() {
+	mOgreRoot->initialise(true, "Hovercraft Universe"); //Make this configurable? Maybe that doesn't make much sense... (Dirk)
+}
+
+void Application::initializeResourceGroups() {
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+void Application::setupScene() {
+	// Create scene manager
+	msSceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
+
+	// Get created window
+	Ogre::RenderWindow * win = mOgreRoot->getAutoCreatedWindow();
+
+	// TODO Do the operations below belong here or as in separated methods
+	// Set ambient light
+	msSceneMgr->setAmbientLight(Ogre::ColourValue(0.25, 0.25, 0.25));
+
+	// Create and store entity manager
+	mEntityManager = EntityManager::getClientSingletonPtr();
+
+	// Create and store representation manager
+	RepresentationManager::initialise(mEntityManager, msSceneMgr);
+	mRepresentationManager = RepresentationManager::getSingletonPtr();
+
+	//Get the GUI config file
+	//Load and parse the config
+	TiXmlDocument doc(mGUIPath + "GUIConfig.xml");
+	doc.LoadFile();
+
+	TiXmlElement* root = doc.RootElement();
+
+	// Add single game view to representation manager
+	GameView * gv = new GameView(msSceneMgr);
+	Ogre::Viewport * vp = win->addViewport(gv->getCamera()->getCamera());
+	mRepresentationManager->addGameView(gv);
+
+	// Initialise and store the GUIManager
+	GUIManager::init(root->Attribute("mediaPath"), vp);
+	mGUIManager = GUIManager::getSingletonPtr();
+
+	//Set a HUD onto the GameView
+	gv->setHud(new HUD(root->FirstChildElement("HUD")));
+
+	// Initialise and store the SoundManager (dont remove trailing \)
+	SoundManager::init(mSoundPath, "HovSound.fev");
+	mSoundManager = SoundManager::getSingletonPtr();
+
+	//Start music
+	mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
+	mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
+
+	// Server
+	mServer = new ServerCore();
+
+	// Client
+	mClient = new ClientCore();
+}
+
+void Application::setupInputSystem() {
+	mInputManager = InputManager::getSingletonPtr();
+	mInputManager->initialise(mOgreRoot->getAutoCreatedWindow());
+}
+
+void Application::createFrameListener() {
+	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, 
+		mInputManager, mServer, mClient);
+	mOgreRoot->addFrameListener(mFrameListener);
+}
+
+void Application::startRenderLoop() {
+	mOgreRoot->startRendering();
+}
+
+}
