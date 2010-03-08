@@ -4,6 +4,7 @@
 
 #include "CheckpointPhantom.h"
 #include "HavokEntityType.h"
+#include "Havok.h"
 
 namespace HovUni {
 
@@ -21,11 +22,11 @@ void CheckpointPhantom::addOverlappingCollidable( hkpCollidable* handle )
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
 	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ){
-		//TODO make it pass the checkpoint
+		//TODO make it pass the checkpoin
+		Character * character = Havok::getSingleton().getCharacter(rb->getName());
 	}
 
-
-      	hkpAabbPhantom::addOverlappingCollidable( handle );
+	hkpAabbPhantom::addOverlappingCollidable( handle );
 }
 
 void CheckpointPhantom::removeOverlappingCollidable( hkpCollidable* handle )

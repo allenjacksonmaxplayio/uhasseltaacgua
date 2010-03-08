@@ -4,6 +4,7 @@
 
 #include "HavokEntityType.h"
 #include "BoostPhantom.h"
+#include "Havok.h"
 
 namespace HovUni {
 
@@ -21,7 +22,12 @@ void BoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
 	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ){
-		//TODO make it boost
+		Character * character = Havok::getSingleton().getCharacter(rb->getName());	
+		if ( character != HK_NULL ){
+     			hkVector4 boost = character->mForward;
+			boost.mul4(mBoost);
+			rb->applyLinearImpulseAsCriticalOperation(boost);
+		}
 	}
 
 	hkpAabbPhantom::addOverlappingCollidable( handle );
