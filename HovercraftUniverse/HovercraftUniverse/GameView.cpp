@@ -1,6 +1,7 @@
 #include "GameView.h"
 #include <OgreMeshManager.h>
 #include <OgreResourceGroupManager.h>
+#include "EntityManager.h"
 
 namespace HovUni {
 
@@ -80,7 +81,13 @@ void GameView::drawEntityRepresentations() {
 
 void GameView::updateHUD() {
 	//Update hud objects to new values
-	
+
+	//Current entity
+	Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
+
+	if (currEnt != 0) {
+		mHUD->updateDirection(currEnt->getPosition(), currEnt->getOrientation(), Ogre::Vector3(2, 0, 0));
+	}
 }
 
 }

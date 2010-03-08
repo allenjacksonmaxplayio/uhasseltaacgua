@@ -123,8 +123,11 @@ namespace HovUni {
 		GUIManager::getSingletonPtr()->disableOverlayContainer(this);
 	}
 
-	void HUD::updateDirection(const Ogre::Vector3& position, const Ogre::Vector3& forward, const Ogre::Vector3& goal) {
+	void HUD::updateDirection(Ogre::Vector3& position, Ogre::Vector3& forward, Ogre::Vector3& goal) {
+		//Calculate angle
+		float angle = position.angleBetween(goal - position).valueDegrees();
 
+		mDirection->setAngle(angle);
 	}
 
 	void HUD::updateSpeed(float speed) {
