@@ -4,8 +4,9 @@
 namespace HovUni {
 
 	DummyHovercraftAIController::DummyHovercraftAIController(std::string scriptname) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "DummyHovercraftAIController Starting.";
+		mClassName = "[DummyHovercraftAIController] ";
 		this->mScript = new ScriptWrapper();
+		this->mScript->doString("BASE_PATH = \"../../data/scripts/AI/\"\n");
 		try {
 			//Register our controller and its functions.
 			lua_State *luaState = mScript->getLuaState();
@@ -15,16 +16,17 @@ namespace HovUni {
 					//.def(luabind::constructor<>())
 					.def("startAction", &DummyHovercraftAIController::startAction)
 			];
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Loading file " << scriptname;
 			this->mScript->load(scriptname);
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "DummyHovercraftAIController Registering Controller.";
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Registering Controller.";
 			luabind::call_function<void>(luaState,"registerController", this);
 		} catch (const luabind::error &er) {
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << er.what();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << er.what() << " :: " << lua_tostring(mScript->getLuaState(), -1);
 		}
 	}
 
 	void DummyHovercraftAIController::startAction(int action) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "DummyHovercraftAIController Starting Action " << action;
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting Action " << action;
 		ControllerActionType a = (ControllerActionType) action;
 		mActionMap[a] = true;
 	}
@@ -52,7 +54,7 @@ namespace HovUni {
 	}
 
 	std::vector<ControllerEvent*> DummyHovercraftAIController::getEvents() {
-		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "DummyHovercraftAIController deciding";
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "DummyHovercraftAIController deciding";
 		//AI CONTROL OCCURS HERE?
 		try {
 			this->mScript->execute("decide");
