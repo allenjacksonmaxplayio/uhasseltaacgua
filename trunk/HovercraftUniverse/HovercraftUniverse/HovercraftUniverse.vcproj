@@ -392,6 +392,18 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="INI"
+				>
+				<File
+					RelativePath=".\INIReader\ini.c"
+					>
+				</File>
+				<File
+					RelativePath=".\INIReader\INIReader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -633,6 +645,18 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="INI"
+				>
+				<File
+					RelativePath=".\INIReader\ini.h"
+					>
+				</File>
+				<File
+					RelativePath=".\INIReader\INIReader.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

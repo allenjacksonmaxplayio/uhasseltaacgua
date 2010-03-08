@@ -29,4 +29,8 @@ namespace HovUni {
 	void ScriptWrapper::load(const std::string filename) {
 		luaL_dofile(mLuaState, filename.c_str());
 	}
+
+	void ScriptWrapper::doString(const std::string theString) {
+		luaL_dostring(mLuaState, theString.c_str());
+	}
 }

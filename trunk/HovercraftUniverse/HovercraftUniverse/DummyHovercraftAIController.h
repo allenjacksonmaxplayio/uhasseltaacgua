@@ -19,6 +19,7 @@ class DummyHovercraftAIController : public DummyHovercraftController {
 private:
 	ScriptWrapper* mScript;
 	std::map<ControllerActionType, bool> mActionMap;
+	std::string mClassName;
 public:
 
 	/**

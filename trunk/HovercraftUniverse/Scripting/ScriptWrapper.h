@@ -51,6 +51,12 @@ namespace HovUni {
 		*	@param	filename	The location of the Lua script.
 		*/
 		void load(const std::string filename);
+
+		/**
+		*	"Do" a string in the Lua State.
+		*	@param	theString	Do this string.
+		*/
+		void doString(const std::string theString);
 		
 	};
 }
