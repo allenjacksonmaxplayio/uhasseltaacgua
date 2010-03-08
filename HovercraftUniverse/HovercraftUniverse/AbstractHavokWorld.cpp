@@ -237,13 +237,15 @@ bool AbstractHavokWorld::step () {
 	if ( !mIsLoaded )
 		return false;
 
-	update();
+	preStep();
 
 	// <PHYSICS-ONLY>:
 	// Step the physics world. This single call steps using this thread and all threads
 	// in the threadPool. For other products you add jobs, call process all jobs and wait for completion.
 	// See the multithreading chapter in the user guide for details
 	mPhysicsWorld->stepMultithreaded( jobQueue, threadPool, mTimestep );
+
+	postStep();
 
 	// Step the visual debugger. We first synchronize the timer data
 	context->syncTimers( threadPool );

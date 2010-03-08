@@ -49,9 +49,25 @@ bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
 	return true;
 }
 
-void HoverCraftUniverseWorld::update() {
+void HoverCraftUniverseWorld::postStep() {
+	// Rotate the character
+	hkStorageStringMap<Character*>::Iterator i = mCharactersMap.getIterator ();
+	while ( mCharactersMap.isValid(i) ){
+		Character * ch = mCharactersMap.getValue(i); 
+		ch->reorientCharacter();	
+		i = mCharactersMap.getNext(i);
+	}
+}
+
+void HoverCraftUniverseWorld::preStep() {
 	//SETUP CHARACTERS
 
+	hkStorageStringMap<Character*>::Iterator i = mCharactersMap.getIterator ();
+	while ( mCharactersMap.isValid(i) ){
+		Character * ch = mCharactersMap.getValue(i); 
+		ch->update();	
+		i = mCharactersMap.getNext(i);
+	}
 }
 
 Character * HoverCraftUniverseWorld::getCharacter(const char * name) {

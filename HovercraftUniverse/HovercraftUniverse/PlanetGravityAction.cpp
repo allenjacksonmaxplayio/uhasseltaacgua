@@ -1,6 +1,7 @@
 #include "PlanetGravityAction.h"
 #include "HavokEntityType.h"
 #include "HoverCraftUniverseWorld.h"
+#include "Havok.h"
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h>
 #include <Physics/Collide/Agent/hkpProcessCollisionInput.h>
@@ -57,48 +58,21 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 
 	// Set force to be direction multiplied by magnitude multiplied by mass.
 	hkVector4 force;
-	
 
-	// Apply the gravity force.
-	//if( EntityType::getEntityType(rb) == EntityType::CHARACTER )
-	//{
-		/*hkVector4 newUp(forceDir);
-		newUp.setNeg4(forceDir);
-		newUp.normalize3();
+	if (  HavokEntityType::getEntityType(rb) == HavokEntityType::CHARACTER ){
+		Character * character = Havok::getSingleton().getCharacter(rb->getName());
+		if ( character != HK_NULL ){
+		
+			hkVector4 newUp(forceDir);
+			newUp.setNeg4(forceDir);
+			newUp.normalize3();
 
-		// Only change gravity if the change isn't negligible
-		if( PlanetGravityDemo::m_worldUp.dot3(newUp) < 1e-6f)
-		{
-			// don't reorient character when it has an invalid rotational axis
-			//  (this may happen the first few frames)
-			if( PlanetGravityDemo::m_characterRigidBody->getRigidBody()->getRotation().hasValidAxis())
-			{
-				hkRotation rbRotation; rbRotation.set(PlanetGravityDemo::m_characterRigidBody->getRigidBody()->getRotation());
-				hkVector4& oldForward = rbRotation.getColumn(0);
-				hkVector4 newRot; newRot.setCross(oldForward, newUp);
- 				PlanetGravityDemo::m_characterForward.setCross(newUp, newRot);
- 				PlanetGravityDemo::m_characterForward.normalize3();
-			}
+			character->updateUp(newUp);		
 		}
-
-		PlanetGravityDemo::m_worldUp = newUp;
 	}
-	else
-	{*/
 
-
-		if (  HavokEntityType::getEntityType(rb) == HavokEntityType::CHARACTER ){
-			if ( collector.getHitContact().getDistance() > 0.5f ){
-				force.setMul4( rb->getMass() * mGravityForce, forceDir );
-				rb->applyForce( stepInfo.m_deltaTime, force);
-			}
-		}
-		else {
-			force.setMul4( rb->getMass() * mGravityForce, forceDir );
-			rb->applyForce( stepInfo.m_deltaTime, force );
-		}
-
-	//}
+	force.setMul4( rb->getMass() * mGravityForce, forceDir );
+	rb->applyForce( stepInfo.m_deltaTime, force );
 }
 
 }

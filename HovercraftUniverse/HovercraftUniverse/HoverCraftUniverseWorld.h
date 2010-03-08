@@ -102,10 +102,9 @@ public:
 	 */
 	void addCharacter( const char * name, const char * filename, int pos );
 
-	/**
-	 * Custom step code
-	 */
-	virtual void update();
+	virtual void preStep();
+
+	virtual void postStep();
 
 };
 
