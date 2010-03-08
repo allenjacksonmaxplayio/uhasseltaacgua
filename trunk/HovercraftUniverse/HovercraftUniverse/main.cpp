@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "ServerCore.h"
-#include "HavocThread.h"
+#include "Havoc.h"
 #include "EntityManager.h"
 #include <windows.h>
 
@@ -25,7 +25,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
 		HovUni::ServerCore* server = new HovUni::ServerCore();
 
-		HovUni::HavocThread::StartHavocThread();
+		HovUni::Havoc::start();
 
 		while (true) {
 			// let the server do processing
@@ -37,7 +37,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			zcom->Sleep(1);
 		}
 
-		HovUni::HavocThread::StopHavocThread();
+		HovUni::Havoc::stop();
 
 		delete server;
 
