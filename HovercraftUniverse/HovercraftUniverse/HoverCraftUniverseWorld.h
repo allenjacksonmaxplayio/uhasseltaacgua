@@ -88,14 +88,24 @@ public:
 	virtual bool loadSceneFile ( const char * filename );
 
 	/**
-	 * Add a hovercraft of a given type on a given start position
+	 * Get a character with given name
+	 * @param name
+	 * @return character, HK_NULL if not found
+	 */
+	Character * getCharacter(const char * name);
+
+	/**
+	 * Add a character of a given type on a given start position
 	 * @param name
 	 * @param type
 	 * @param pos
 	 */
 	void addCharacter( const char * name, const char * filename, int pos );
 
-
+	/**
+	 * Custom step code
+	 */
+	virtual void update();
 
 };
 

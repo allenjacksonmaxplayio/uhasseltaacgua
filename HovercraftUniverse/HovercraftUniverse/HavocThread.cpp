@@ -78,8 +78,11 @@ DWORD WINAPI runHavoc( LPVOID lpParam ) {
 
 	havoc.loadSceneFile(".\\..\\..\\..\\art\\models\\SimpleTrack.scene");
 
+	havoc.addCharacter("NAME1","BLA",0);
+	havoc.addCharacter("NAME2","BLA",1);
+
 	while ( HavocThread::run ) {
-		havoc.update();
+		havoc.step();
 
 		// Pause until the actual time has passed
 		while (stopWatch.getElapsedSeconds() < lastTime + timestep);

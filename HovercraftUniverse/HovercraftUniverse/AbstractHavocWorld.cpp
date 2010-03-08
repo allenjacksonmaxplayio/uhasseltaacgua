@@ -232,12 +232,14 @@ bool AbstractHavocWorld::load ( const char * filename ){
 	return true;
 }
 
-bool AbstractHavocWorld::update () {
+bool AbstractHavocWorld::step () {
 
 	mTime += mTimestep;
 
 	if ( !mIsLoaded )
 		return false;
+
+	update();
 
 	// <PHYSICS-ONLY>:
 	// Step the physics world. This single call steps using this thread and all threads

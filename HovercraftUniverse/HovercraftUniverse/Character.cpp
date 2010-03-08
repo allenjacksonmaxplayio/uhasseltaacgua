@@ -9,7 +9,7 @@
 
 namespace HovUni {
 
-Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
+Character::Character( hkpWorld * world, const char * name, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
 	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext)
 {
 	mForward.set( 1.0f, 0.0f, 0.0f );
@@ -27,7 +27,11 @@ Character::Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info, hkpCh
 	mCharacterRigidBody->setListener( listener );
 	listener->removeReference();		
 	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
+
+	//set name and type
+	charbody->setName(name);
 	HavocEntityType::setEntityType(charbody,HavocEntityType::CHARACTER);
+
 	mPhysicsWorld->addEntity( charbody );
 	mPhysicsWorld->unmarkForWrite();
 }
