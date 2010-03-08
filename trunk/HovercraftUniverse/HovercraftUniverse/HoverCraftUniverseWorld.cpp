@@ -49,6 +49,17 @@ bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
 	return true;
 }
 
+void HoverCraftUniverseWorld::update() {
+	//SETUP CHARACTERS
+
+}
+
+Character * HoverCraftUniverseWorld::getCharacter(const char * name) {
+	Character * result = HK_NULL;
+	mCharactersMap.get(name,result);
+	return result;
+}
+
 void HoverCraftUniverseWorld::addCharacter( const char * name, const char * type, int pos ){
 
 	//	Create a character rigid body object
@@ -90,8 +101,8 @@ void HoverCraftUniverseWorld::addCharacter( const char * name, const char * type
 	// Set character type
 	m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	Character * c = new Character(mPhysicsWorld,&info,m_characterContext);
-	mCharactersMap.insert("Hover",c);
+	Character * c = new Character(mPhysicsWorld,name,&info,m_characterContext);
+	mCharactersMap.insert(name,c);
 
 	m_characterContext->removeReference();
 

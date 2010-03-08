@@ -45,7 +45,7 @@ public:
 	 * @param characterContext
 	 * @param controllor
 	 */
-	Character( hkpWorld * world, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+	Character( hkpWorld * world, const char * name, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
 
 	/**
 	 * Destructor

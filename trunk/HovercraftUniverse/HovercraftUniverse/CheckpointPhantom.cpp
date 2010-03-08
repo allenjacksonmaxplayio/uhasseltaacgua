@@ -25,11 +25,17 @@ void CheckpointPhantom::addOverlappingCollidable( hkpCollidable* handle )
 	}
 
 
-	hkpAabbPhantom::addOverlappingCollidable( handle );
+      	hkpAabbPhantom::addOverlappingCollidable( handle );
 }
 
 void CheckpointPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 {
+	hkpRigidBody* rb = hkGetRigidBody(handle);
+
+	if ( (rb != HK_NULL) && HavocEntityType::isEntityType(rb,HavocEntityType::CHARACTER ) ){
+
+	}
+
 	hkpAabbPhantom::removeOverlappingCollidable( handle );
 }
 

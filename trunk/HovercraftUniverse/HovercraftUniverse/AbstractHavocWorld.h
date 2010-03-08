@@ -122,12 +122,17 @@ public:
 	inline bool isLoaded() const {
 		return mIsLoaded;
 	}
+
+	/**
+	 * Is called every step of the simulation
+	 */
+	virtual void update(){};
 	
 	/**
 	 * Update the world
 	 * @return false if not loaded, true otherwise
 	 */
-	bool update();
+	bool step();
 };
 
 }
