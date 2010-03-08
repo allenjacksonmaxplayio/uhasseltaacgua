@@ -2,12 +2,15 @@
 #define HAVOK_H
 
 #include "HoverCraftUniverseWorld.h"
+#include "HavokThread.h"
 
 namespace HovUni {
 
 class Havok
 {
 private:
+
+	friend DWORD WINAPI runHavok( LPVOID lpParam );
 
 	static HoverCraftUniverseWorld * ms_world;
 

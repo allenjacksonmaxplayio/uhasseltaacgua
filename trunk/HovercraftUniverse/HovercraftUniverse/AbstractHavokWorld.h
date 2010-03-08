@@ -74,7 +74,7 @@ public:
 	/**
 	 * Constructor
 	 */
-	AbstractHavokWorld(hkReal mTimestep);
+	AbstractHavokWorld(hkReal mTimestep = 1.0/60.0f);
 
 	/**
 	 * Destructor
