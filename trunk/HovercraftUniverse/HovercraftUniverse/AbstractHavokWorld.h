@@ -1,5 +1,5 @@
-#ifndef ABSTRACTHAVOCWORLD_H
-#define ABSTRACTHAVOCWORLD_H
+#ifndef ABSTRACTHAVOKWORLD_H
+#define ABSTRACTHAVOKWORLD_H
 
 // Math and base include
 #include <Common/Base/hkBase.h>
@@ -19,10 +19,10 @@
 namespace HovUni {
 
 /**
- * Abstract class which handles a lot of basic functionality for a multithreaded havoc program
+ * Abstract class which handles a lot of basic functionality for a multithreaded havok program
  * The world will be initialised when load successfuly returns.
  */
-class AbstractHavocWorld
+class AbstractHavokWorld
 {
 private:
 
@@ -47,11 +47,6 @@ private:
 	hkThreadMemory* threadMemory;
 
 protected:
-
-	/**
-	 * Time
-	 */
-	hkReal mTime;
 
 	/**
 	 * Timestep
@@ -79,20 +74,12 @@ public:
 	/**
 	 * Constructor
 	 */
-	AbstractHavocWorld(hkReal mTimestep);
+	AbstractHavokWorld(hkReal mTimestep);
 
 	/**
 	 * Destructor
 	 */
-	~AbstractHavocWorld(void);
-
-	/**
-	 * Get the world time
-	 * @return world time
-	 */
-	inline const hkReal getTime() const {
-		return mTime;
-	}
+	~AbstractHavokWorld(void);
 
 	/**
 	 * Get the world timestep

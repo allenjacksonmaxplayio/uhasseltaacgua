@@ -313,10 +313,10 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Havoc"
+				Name="Havok"
 				>
 				<File
-					RelativePath=".\AbstractHavocWorld.cpp"
+					RelativePath=".\AbstractHavokWorld.cpp"
 					>
 				</File>
 				<File
@@ -324,15 +324,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Havoc.cpp"
+					RelativePath=".\Havok.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\HavocEntityType.cpp"
+					RelativePath=".\HavokEntityType.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\HavocThread.cpp"
+					RelativePath=".\HavokThread.cpp"
 					>
 				</File>
 				<File
@@ -570,7 +570,7 @@
 				Name="Havok"
 				>
 				<File
-					RelativePath=".\AbstractHavocWorld.h"
+					RelativePath=".\AbstractHavokWorld.h"
 					>
 				</File>
 				<File
@@ -578,15 +578,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Havoc.h"
+					RelativePath=".\Havok.h"
 					>
 				</File>
 				<File
-					RelativePath=".\HavocEntityType.h"
+					RelativePath=".\HavokEntityType.h"
 					>
 				</File>
 				<File
-					RelativePath=".\HavocThread.h"
+					RelativePath=".\HavokThread.h"
 					>
 				</File>
 				<File

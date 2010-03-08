@@ -1,4 +1,4 @@
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 
 #include <Common/Base/hkBase.h>
 #include <Common/Base/System/hkBaseSystem.h>
@@ -7,35 +7,35 @@
 namespace HovUni {
 
 //the ID for our property randomly chosen
-int HavocEntityType::ENITYTYPEPROPERTY = 15454;
+int HavokEntityType::ENITYTYPEPROPERTY = 15454;
 
-HavocEntityType::Type HavocEntityType::getEntityType( hkpWorldObject * object ){
+HavokEntityType::Type HavokEntityType::getEntityType( hkpWorldObject * object ){
 	//mostly read only field, ignore the MT check
 	if ( object->hasProperty(ENITYTYPEPROPERTY) ){
 		hkpPropertyValue p = object->getProperty(ENITYTYPEPROPERTY);		
-		return (HavocEntityType::Type) p.getInt();
+		return (HavokEntityType::Type) p.getInt();
 	} else {
 		return NOTSET;
 	}
 }
 
-bool HavocEntityType::isEntityType( hkpWorldObject * object, Type type ) {
+bool HavokEntityType::isEntityType( hkpWorldObject * object, Type type ) {
 	if ( object->hasProperty(ENITYTYPEPROPERTY)){
 		hkpPropertyValue p = object->getProperty(ENITYTYPEPROPERTY);		
-		return (HavocEntityType::Type) p.getInt() == type;
+		return (HavokEntityType::Type) p.getInt() == type;
 	}
 	else {
 		return false;
 	}
 }
 
-void HavocEntityType::updateEntityType( hkpWorldObject * object, HavocEntityType::Type type ) {
+void HavokEntityType::updateEntityType( hkpWorldObject * object, HavokEntityType::Type type ) {
 	hkpPropertyValue p;
 	p.setInt((int)type);
 	object->editProperty(ENITYTYPEPROPERTY,p);
 }
 
-void HavocEntityType::setEntityType( hkpWorldObject * object, HavocEntityType::Type type ) {
+void HavokEntityType::setEntityType( hkpWorldObject * object, HavokEntityType::Type type ) {
 	object->unlockPropertiesFromLoadedObject ();
 	hkpPropertyValue p;
 	p.setInt((int)type);

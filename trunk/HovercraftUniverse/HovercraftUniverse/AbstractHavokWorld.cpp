@@ -1,4 +1,4 @@
-#include "AbstractHavocWorld.h"
+#include "AbstractHavokWorld.h"
 
 /////////////////////////// Havoc License & Optimization Things ///////////////////////////////////
 
@@ -43,8 +43,8 @@ static void HK_CALL errorReport(const char* msg, void*)
 
 namespace HovUni {
 
-AbstractHavocWorld::AbstractHavocWorld(hkReal timestep):
-	mIsLoaded(false), mTime(0.0f), mTimestep(timestep)
+AbstractHavokWorld::AbstractHavokWorld(hkReal timestep):
+	mIsLoaded(false), mTimestep(timestep)
 {
 	//
 	// Initialize the base system including our memory system
@@ -104,7 +104,7 @@ AbstractHavocWorld::AbstractHavocWorld(hkReal timestep):
 	contexts = new hkArray<hkProcessContext*>();	
 }
 
-AbstractHavocWorld::~AbstractHavocWorld(void)
+AbstractHavokWorld::~AbstractHavokWorld(void)
 {
 	unload();
 
@@ -125,7 +125,7 @@ AbstractHavocWorld::~AbstractHavocWorld(void)
 	hkBaseSystem::quit();
 }
 
-void AbstractHavocWorld::unload () {
+void AbstractHavokWorld::unload () {
 	if ( !mIsLoaded )
 		return;
 
@@ -159,7 +159,7 @@ void AbstractHavocWorld::unload () {
 
 }
 
-bool AbstractHavocWorld::load ( const char * filename ){
+bool AbstractHavokWorld::load ( const char * filename ){
 	//unload if a world is present
 	if ( mIsLoaded )
 		unload();
@@ -232,9 +232,7 @@ bool AbstractHavocWorld::load ( const char * filename ){
 	return true;
 }
 
-bool AbstractHavocWorld::step () {
-
-	mTime += mTimestep;
+bool AbstractHavokWorld::step () {
 
 	if ( !mIsLoaded )
 		return false;

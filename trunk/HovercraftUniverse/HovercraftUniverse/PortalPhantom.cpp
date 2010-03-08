@@ -1,7 +1,7 @@
 #include <Common/Base/hkBase.h>
 #include <Common/Base/System/hkBaseSystem.h>
 
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 #include "PortalPhantom.h"
 
 namespace HovUni {

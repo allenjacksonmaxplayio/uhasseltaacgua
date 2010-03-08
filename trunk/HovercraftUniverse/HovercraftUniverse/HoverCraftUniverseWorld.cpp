@@ -3,7 +3,7 @@
 #include "PhysicsLoader.h"
 #include "CustomOgreMaxScene.h"
 
-#include "HavocEntityType.h"
+#include "HavokEntityType.h"
 #include "PhantomTrackAction.h"
 
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
@@ -12,7 +12,7 @@
 namespace HovUni {
 
 HoverCraftUniverseWorld::HoverCraftUniverseWorld(hkReal timestep):
-	AbstractHavocWorld(timestep), mStartPositions(0), mPowerupPositions(128), mResetPositions(32)
+	AbstractHavokWorld(timestep), mStartPositions(0), mPowerupPositions(128), mResetPositions(32)
 {
 	mStart = HK_NULL;
 	mFinish = HK_NULL;
