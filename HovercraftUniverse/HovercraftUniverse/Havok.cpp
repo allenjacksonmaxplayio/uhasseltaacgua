@@ -18,8 +18,7 @@ void Havok::start() {
 	float timestep = 1.0f/120.0f;
 
 	//do Havok sim in background
-	ms_world = new HoverCraftUniverseWorld (timestep);
-
+	ms_world = 0;
 	HavokThread::StartHavokThread();
 }
 
@@ -36,8 +35,7 @@ HoverCraftUniverseWorld& Havok::getSingleton() {
 
 void Havok::stop() {
 	HavokThread::StopHavokThread();
-
-	delete ms_world;
+	ms_world = 0;
 }
 
 }

@@ -65,12 +65,15 @@ void HavokThread::StartHavokThread(){
 }
 
 DWORD WINAPI runHavok( LPVOID lpParam ) {
+
+	HoverCraftUniverseWorld world(1.0f/120.0f);
+
+	Havok::ms_world = &world;
+
 	// A stopwatch for waiting until the real time has passed
 	hkStopwatch stopWatch;
 	stopWatch.start();
 	hkReal lastTime = stopWatch.getElapsedSeconds();
-
-	HoverCraftUniverseWorld& world = Havok::getSingleton();
 
 	world.loadSceneFile(".\\..\\..\\..\\art\\models\\SimpleTrack.scene");
 	world.addCharacter("NAME1","BLA",0);
