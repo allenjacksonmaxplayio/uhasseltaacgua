@@ -21,3 +21,6 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
   * Komende planning en regeling scripting regelen.
  * Algemeen:
   * Welke spel modus(en) gaan we maken? Time trial zoals trackmania, gewone race met x aantal laps, sprint (snelste naar finish), ...? (Nick)
+ * Server:
+  * Functionaliteit: map laden, ... (Olivier)
+  * Lower level: welk soort commands (Olivier)
