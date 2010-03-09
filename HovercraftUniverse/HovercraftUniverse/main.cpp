@@ -24,7 +24,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 	if (!strcmp(strCmdLine, "--server")) {
 
-		HovUni::Console::createConsole();
+		HovUni::Console::createConsole("SERVER");
 
 		new Ogre::Root();
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
@@ -36,10 +36,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 		while (true) {
 			// let the server do processing
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process";
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process\n";
 			server->process();
 			// TODO EntityManager update
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server ends input output process";
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server ends input output process\n";
 			// let the program sleep for 0 msecs
 			zcom->Sleep(1);
 		}
