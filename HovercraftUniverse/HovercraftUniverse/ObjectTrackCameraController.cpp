@@ -28,7 +28,7 @@ Ogre::Vector3 ObjectTrackCameraController::getPosition() {
 		return mEntity->getPosition();
 	} else {
 		// Return default value
-		return Ogre::Vector3(0, 0, 0);
+		return Ogre::Vector3::ZERO;
 	}
 }
 
@@ -38,7 +38,7 @@ Ogre::Vector3 ObjectTrackCameraController::getDirection() {
 		return mEntity->getOrientation();
 	} else {
 		// Return default value
-		return Ogre::Vector3(0.0, 0.0, -1.0);
+		return Ogre::Vector3::UNIT_Z;
 	}
 }
 
@@ -46,10 +46,10 @@ Ogre::Vector3 ObjectTrackCameraController::getUpVector() {
 	initialize();
 	// TODO Make sure the up vector can change
 	if (mEntity) {
-		return Ogre::Vector3(0.0, 1.0, 0.0);
+		return Ogre::Vector3::UNIT_Y;
 	} else {
 		// Return default value
-		return Ogre::Vector3(0.0, 1.0, 0.0);
+		return Ogre::Vector3::UNIT_Y;
 	}
 }
 

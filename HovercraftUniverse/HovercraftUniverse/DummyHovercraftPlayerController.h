@@ -10,7 +10,7 @@ namespace HovUni {
 /**
  * Dummy hovercraft player controller that listens to controls and feeds it to the dummy hovercraft.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve, edited by Tobias Van Bladel
  */
 class DummyHovercraftPlayerController : public DummyHovercraftController, public OIS::KeyListener {
 protected:

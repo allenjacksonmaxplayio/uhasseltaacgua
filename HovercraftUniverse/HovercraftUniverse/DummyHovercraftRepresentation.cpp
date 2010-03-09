@@ -30,7 +30,7 @@ DummyHovercraftRepresentation::~DummyHovercraftRepresentation(void) {
 void DummyHovercraftRepresentation::getUpdates(Ogre::Vector3 ** position, Ogre::Vector3 ** velocity, Ogre::Vector3 ** orientation) {
 	(*position) = new Ogre::Vector3(getEntity()->getPosition());
 	(*velocity) = 0;
-	(*orientation) = 0;
+	(*orientation) = new Ogre::Vector3(getEntity()->getOrientation());
 }
 
 }
