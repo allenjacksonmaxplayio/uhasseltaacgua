@@ -53,7 +53,6 @@ namespace HovUni {
 			if ( (*currComponent).mWidthP ) {
 				//Check for other components that could intervine with this component
 				(*currComponent).mWidth = fixPercentageSize(true, components, (*currComponent).mWidth, (*currComponent).mPosition);
-				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "window width: " << GUIManager::getSingletonPtr()->getResolutionWidth() << " 100% width: " << (*currComponent).mWidth;
 				(*currComponent).mWidthP = false;
 			}
 
@@ -123,11 +122,14 @@ namespace HovUni {
 		GUIManager::getSingletonPtr()->disableOverlayContainer(this);
 	}
 
-	void HUD::updateDirection(Ogre::Vector3& position, Ogre::Vector3& forward, Ogre::Vector3& goal) {
+	void HUD::updateDirection(Ogre::Vector3& forward, Ogre::Vector3& destination, Ogre::Vector3& up) {
 		//Calculate angle
-		float angle = position.angleBetween(goal - position).valueDegrees();
+		float angle = forward.angleBetween(destination).valueDegrees();
 
-		mDirection->setAngle(angle);
+		float side = (forward.crossProduct(up)).dotProduct(destination - Ogre::Vector3::ZERO);
+		side /= Ogre::Math::Abs(side);
+
+		mDirection->setAngle(angle * side);
 	}
 
 	void HUD::updateSpeed(float speed) {
