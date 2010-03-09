@@ -408,6 +408,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Misc"
+				>
+				<File
+					RelativePath=".\Console.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -663,6 +671,14 @@
 				</File>
 				<File
 					RelativePath=".\INIReader\INIReader.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Misc"
+				>
+				<File
+					RelativePath=".\Console.h"
 					>
 				</File>
 			</Filter>

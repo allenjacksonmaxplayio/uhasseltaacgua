@@ -2,7 +2,9 @@
 #include "ServerCore.h"
 #include "Havok.h"
 #include "EntityManager.h"
+#include "Console.h"
 #include <windows.h>
+
 
 void process_zoidcom_log(const char *_log) {
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << _log;
@@ -21,11 +23,16 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 	}
 
 	if (!strcmp(strCmdLine, "--server")) {
+
+		HovUni::Console::createConsole();
+
 		new Ogre::Root();
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
 		HovUni::ServerCore* server = new HovUni::ServerCore();
 
+		std::cout << "Starting Havoc" << std::endl;
 		HovUni::Havok::start();
+
 
 		while (true) {
 			// let the server do processing
@@ -40,6 +47,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		HovUni::Havok::stop();
 
 		delete server;
+
+		HovUni::Console::destroyConsole();
 
 	} else {
 		HovUni::Application app;
