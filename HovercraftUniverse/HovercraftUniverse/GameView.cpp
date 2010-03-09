@@ -86,7 +86,7 @@ void GameView::updateHUD() {
 	Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
 
 	if (currEnt != 0) {
-		mHUD->updateDirection(currEnt->getPosition(), currEnt->getOrientation(), Ogre::Vector3(2, 0, 0));
+		mHUD->updateDirection(currEnt->getOrientation(), (Ogre::Vector3(2, 0, 0) - currEnt->getPosition()), Ogre::Vector3(0.0f, 1.0f, 0.0f));
 	}
 }
 

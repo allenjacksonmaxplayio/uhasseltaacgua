@@ -81,7 +81,7 @@ public:
 	 * @param forward The forward vector of the player
 	 * @param goal The goal where the player has to go to
 	 */
-	void updateDirection(Ogre::Vector3& position, Ogre::Vector3& forward, Ogre::Vector3& goal);
+	void updateDirection(Ogre::Vector3& forward, Ogre::Vector3& destination, Ogre::Vector3& up);
 
 	/**
 	 * Update the speed visualisation [0 - 100]
