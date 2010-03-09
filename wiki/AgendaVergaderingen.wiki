@@ -1,4 +1,5 @@
 #summary Agendapunten voor vergaderingen
+#labels Phase-Design
 
 = Agenda voor vergaderingen =
 
@@ -18,11 +19,11 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
  * Algemeen
   * Wereld-object (Dirk)
   * "data" map (Dirk)
+  * Welke spel modus(en) gaan we maken? Time trial zoals trackmania, gewone race met x aantal laps, sprint (snelste naar finish), ...? (Nick)
  * Scripting
   * Bespreken: de manier waarop de AI aan interne gamestate variabelen kan: "Waar ben ik?", "Waar is de volgende checkpoint?", "Waar is mijn dichtstbijzijnde opponent?", enz. Alsook de vraag of het nodig is dat de AI zichzelf/anderen herkent adhv. een identifier: zo ja, waar komt deze vandaan, etc. (Dirk)
   * Komende planning en regeling scripting regelen. (Kristof)
- * Algemeen:
-  * Welke spel modus(en) gaan we maken? Time trial zoals trackmania, gewone race met x aantal laps, sprint (snelste naar finish), ...? (Nick)
  * Server:
   * Functionaliteit: map laden, ... (Olivier)
   * Lower level: welk soort commands (Olivier)
+  * NetworkMovementEntity --> meer dynamisch object van maken zonder vaste functionaliteit. Mogelijk functies voorzien om het toevoegen van te-synchroniseren variabelen en het uitvoeren hiervan te vereenvoudigen voor de gebruiken. (Nick)
