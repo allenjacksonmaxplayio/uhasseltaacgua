@@ -15,10 +15,12 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
  * Scripting (Dirk)
 
 == Vergadering 10/03 ==
-
+ * Algemeen
+  * Wereld-object (Dirk)
+  * "data" map (Dirk)
  * Scripting
   * Bespreken: de manier waarop de AI aan interne gamestate variabelen kan: "Waar ben ik?", "Waar is de volgende checkpoint?", "Waar is mijn dichtstbijzijnde opponent?", enz. Alsook de vraag of het nodig is dat de AI zichzelf/anderen herkent adhv. een identifier: zo ja, waar komt deze vandaan, etc. (Dirk)
-  * Komende planning en regeling scripting regelen.
+  * Komende planning en regeling scripting regelen. (Kristof)
  * Algemeen:
   * Welke spel modus(en) gaan we maken? Time trial zoals trackmania, gewone race met x aantal laps, sprint (snelste naar finish), ...? (Nick)
  * Server:
