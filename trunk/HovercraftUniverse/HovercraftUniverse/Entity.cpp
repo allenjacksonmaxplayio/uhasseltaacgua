@@ -18,7 +18,7 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 
 	// Update data
 	changePosition(position);
-	changeOrientation(orientation);
+	changeOrientation(orientation.getRotationTo(Ogre::Vector3::UNIT_Z));
 }
 
 Entity::~Entity() {
@@ -32,13 +32,11 @@ void Entity::changePosition(Ogre::Vector3 newPosition) {
 	setPosition(newPosition.ptr());
 }
 
-void Entity::changeOrientation(Ogre::Vector3 newOrientation) {
+void Entity::changeOrientation(Ogre::Quaternion newOrientation) {
 	// TODO Check whether valid
 
 	// Set new orientation
-	mOrientation[0] = newOrientation.x;
-	mOrientation[1] = newOrientation.y;
-	mOrientation[2] = newOrientation.z;
+	mOrientation = newOrientation * mOrientation;
 }
 
 void Entity::setController(Controller * controller) {
@@ -82,8 +80,12 @@ Ogre::Vector3 Entity::getPosition() const {
 	return pos; 
 }
 
-Ogre::Vector3 Entity::getOrientation() const { 
-	return Ogre::Vector3(mOrientation);
+Ogre::Vector3 Entity::getOrientation() const {
+	return mOrientation * Ogre::Vector3::UNIT_Z;
+}
+
+Ogre::Quaternion Entity::getQuaternion() const {
+	return mOrientation;
 }
 
 void Entity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {

@@ -25,7 +25,8 @@ protected:
 	Ogre::String mCategory;
 
 	/** The orientation of the entity in the world */
-	float mOrientation[3];
+	Ogre::Quaternion mOrientation;
+	//float mOrientation[3];
 
 	/** The controller that the entity polls to change state */
 	Controller * mController;
@@ -67,7 +68,7 @@ public:
 	 *
 	 * @param newOrientation is the new orientation
 	 */
-	void changeOrientation(Ogre::Vector3 newOrientation);
+	void changeOrientation(Ogre::Quaternion newOrientation);
 
 	/**
 	 * Sets the controller of the character. This allows for example for live migration between
@@ -111,6 +112,13 @@ public:
 	 * @return the orientation
 	 */
 	Ogre::Vector3 getOrientation() const;
+
+	/**
+	 * Returns the orientation of this entity.
+	 *
+	 * @return the orientation
+	 */
+	Ogre::Quaternion getQuaternion() const;
 
 	/**
 	 * Register the node for the network

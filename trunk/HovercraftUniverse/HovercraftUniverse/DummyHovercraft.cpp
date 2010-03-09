@@ -7,7 +7,7 @@
 namespace HovUni {
 
 DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", true, Ogre::Vector3(0.0, 40.0, 0.0), 
-												Ogre::Vector3(0.0, 0.0, -1.0), 1.0f / 60.0f), mMovingStatus(0) {
+												Ogre::Vector3(1.0, 0.0,-1.0), 1.0f / 60.0f), mMovingStatus(0) {
 	// Already initialized
 }
 
@@ -18,10 +18,18 @@ DummyHovercraft::~DummyHovercraft(void) {
 void DummyHovercraft::process(float timeSince) {
 	if (mMovingStatus && (timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
 		Ogre::Vector3 accumulatedDirection = Ogre::Vector3::ZERO;
-		if (mMovingStatus->moveLeft()) { accumulatedDirection += Ogre::Vector3(-1.0, 0.0, 0.0); }
-		if (mMovingStatus->moveForward()) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, -1.0); }
-		if (mMovingStatus->moveRight()) { accumulatedDirection += Ogre::Vector3(1.0, 0.0, 0.0); }
-		if (mMovingStatus->moveBackward()) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, 1.0); }
+		float accumulatedRotation = 0.0f;
+		
+		// calculate new direction
+		if (mMovingStatus->moveLeft()) { accumulatedRotation += 0.01f; }
+		if (mMovingStatus->moveRight()) { accumulatedRotation -= 0.01f; }
+
+		Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Radian(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
+		changeOrientation(quat);
+
+		// move forward and/or backward
+		if (mMovingStatus->moveForward()) { accumulatedDirection += getOrientation(); }
+		if (mMovingStatus->moveBackward()) { accumulatedDirection -= getOrientation(); }
 		accumulatedDirection.normalise();
 	
 		changePosition(getPosition() + accumulatedDirection * timeSince * 100);

@@ -29,12 +29,12 @@ std::vector<ControllerEvent*> FreeroamCameraController::getEvents() {
 Ogre::Vector3 FreeroamCameraController::getDirection() {
 	// Process moves
 	Ogre::Vector3 accumulatedDirection = Ogre::Vector3::ZERO;
-	if (mMovingLeft) { accumulatedDirection += Ogre::Vector3(-1.0, 0.0, 0.0); }
-	if (mMovingForward) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, -1.0); }
-	if (mMovingRight) { accumulatedDirection += Ogre::Vector3(1.0, 0.0, 0.0); }
-	if (mMovingBackward) { accumulatedDirection += Ogre::Vector3(0.0, 0.0, 1.0); }
-	if (mMovingUp) { accumulatedDirection += Ogre::Vector3(0.0, 1.0, 0.0); }
-	if (mMovingDown) { accumulatedDirection += Ogre::Vector3(0.0, -1.0, 0.0); }
+	if (mMovingLeft) { accumulatedDirection -= Ogre::Vector3::UNIT_X; }
+	if (mMovingForward) { accumulatedDirection -= Ogre::Vector3::UNIT_Z; }
+	if (mMovingRight) { accumulatedDirection += Ogre::Vector3::UNIT_X; }
+	if (mMovingBackward) { accumulatedDirection += Ogre::Vector3::UNIT_Z; }
+	if (mMovingUp) { accumulatedDirection += Ogre::Vector3::UNIT_Y; }
+	if (mMovingDown) { accumulatedDirection -= Ogre::Vector3::UNIT_Y; }
 
 	// No movement
 	return accumulatedDirection.normalisedCopy();

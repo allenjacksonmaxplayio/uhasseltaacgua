@@ -17,8 +17,7 @@ EntityRepresentation::~EntityRepresentation() {
 void EntityRepresentation::draw() {
 	// Update the settings
 	mOgreNode->setPosition(mEntity->getPosition());
-	// TODO Set it later, it is bullshitting about Quaternions
-	//mOgreNode->setOrientation(mEntity->getOrientation());
+	mOgreNode->setOrientation(mEntity->getQuaternion());
 }
 
 }
