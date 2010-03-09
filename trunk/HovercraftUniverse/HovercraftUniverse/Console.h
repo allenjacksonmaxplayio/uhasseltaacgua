@@ -21,7 +21,7 @@ public:
 	 * Create the console
 	 * @param buffered lines
 	 */
-	static void createConsole( int lines = 500 ) throw(std::exception);
+	static void createConsole( const char * title, int lines = 500 ) throw(std::exception);
 
 	/**
 	 * Destroy the console
