@@ -2,9 +2,10 @@
 #define HAVOK_H
 
 #include "HoverCraftUniverseWorld.h"
-#include "HavokThread.h"
 
 namespace HovUni {
+
+DWORD WINAPI runHavok( LPVOID lpParam );
 
 class Havok
 {
