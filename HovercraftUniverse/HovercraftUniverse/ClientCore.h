@@ -4,6 +4,7 @@
 #include "NetworkClient.h"
 #include "EntityManager.h"
 #include "NetworkIDManager.h"
+#include "Lobby.h"
 
 namespace HovUni {
 
@@ -21,6 +22,9 @@ private:
 
 	/** The entity manager */
 	NetworkIDManager* mIDManager;
+
+	/** The lobby */
+	Lobby* mLobby;
 
 public:
 	/**

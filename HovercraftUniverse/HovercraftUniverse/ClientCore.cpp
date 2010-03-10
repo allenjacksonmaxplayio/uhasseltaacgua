@@ -8,11 +8,11 @@
 
 namespace HovUni {
 
-ClientCore::ClientCore(const char* name) : NetworkClient(name, 3040), mEntityManager(0), mIDManager(0) {
+ClientCore::ClientCore(const char* name) : NetworkClient(name, 3040), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 
-ClientCore::ClientCore() : NetworkClient(3041), mEntityManager(0), mIDManager(0) {
+ClientCore::ClientCore() : NetworkClient(3041), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 
@@ -60,6 +60,12 @@ void ClientCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 
 }
 
 void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
+		// Lobby received (upon connect)
+		mLobby = new Lobby();
+		mLobby->networkRegister(requested_class, this);
+	}
+
 	if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();
 		hovercraft->networkRegister(requested_class, this);
