@@ -21,7 +21,7 @@ namespace HovUni {
 			OgreVector3_Replicator(Ogre::Vector3 *data, ZCom_ReplicatorSetup *_setup, zU8 mantissa = 10);
 
 			/// constructor, builds the replicatorsetup automatically
-			OgreVector3_Replicator(Ogre::Vector3 *data, zU8 _flags, zU8 _rules, zU8 mantissa = 10, zU8 _intercept_id = 0, zS16 _mindelay = -1, zS16 _maxdelay = -1);
+			OgreVector3_Replicator(Ogre::Vector3 *data, zU8 mantissa, zU8 _flags, zU8 _rules, zU8 _intercept_id = 0, zS16 _mindelay = -1, zS16 _maxdelay = -1);
 
 			virtual ~OgreVector3_Replicator();
 
