@@ -19,7 +19,7 @@ public:
 	/**
 	 * Constructor
 	 *
-	 * @param type the type of the entity (used for serialization)
+	 * @param type the type of the event (used for serialization)
 	 */
 	ControllerEvent(ControllerEventType type);
 
