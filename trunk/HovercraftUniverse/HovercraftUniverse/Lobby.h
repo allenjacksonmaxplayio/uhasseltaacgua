@@ -4,11 +4,15 @@
 #include "NetworkEntity.h"
 #include "Player.h"
 #include <map>
+#include <string>
 
 namespace HovUni {
 
 /**
- * The Lobby, object
+ * The Lobby which holds the connected players, assigns an 
+ * administrator and holds the map info.
+ *
+ * @author Pieter-Jan Pintens & Olivier Berghmans
  */
 class Lobby : public NetworkEntity
 {
@@ -16,61 +20,60 @@ private:
 
 	//TODO MUTEX PROTECT PLAYERS
 
-	/**
-	 * The ID of the administrator
-	 */
+	/** Indicator of whether there is an administrator */
 	bool mHasAdmin;
 
+	/** The ID of the administrator */
 	ZCom_ConnID mAdmin;
 
-	/**
-	 * maximum players
-	 */
+	/** The maximum number of players allowed */
 	int mMaximumPlayers;
 
+	/** The current number of players */
 	int mCurrentPlayers;
 
-	/**
-	 * Track filename
-	 */
+	/** The filename of the track */
 	Ogre::String mTrackFilename;
 
-	/**
-	 * Map with all players
-	 */
+	/** Map with all players */
 	std::map<ZCom_ConnID,Player*> mPlayers;
 
 public:
 
 	/**
 	 * Constructor
-	 * @param control
 	 */
 	Lobby();
 
-	~Lobby(void);
+	/**
+	 * Destructor
+	 */
+	~Lobby();
 
-	//CONNECT CALLBACKS
+	// Connect callback on authority
 
 	/**
 	 * Called when player is about to connect
-	 * return true when there is room for a player, false if Lobby is full
+	 *
+	 * @return true when there is room for a player, false if Lobby is full
 	 */
-	bool onConnectAttempt ( );
+	bool onConnectAttempt();
 
 	/**
 	 * Called when player connects
-	 * @param id
+	 *
+	 * @param id the ID of the new connected player
 	 */
-	virtual void onConnect( ZCom_ConnID id );
+	virtual void onConnect(ZCom_ConnID id);
 
 	/**
 	 * Called when player disconnects
-	 * @param id
+	 * 
+	 * @param id the ID of the disconnected player
 	 */
-	virtual void onDisconnect ( ZCom_ConnID id );
+	virtual void onDisconnect(ZCom_ConnID id);
 
-	//EVENT CALLBACKS
+	// Event callbacks on authority, issued by owner
 
 	/**
 	 * Called when admin sends start
@@ -79,29 +82,41 @@ public:
 
 	/**
 	 * Called when admin changes the map
-	 * @param map filename
+
+	 * @param filename the new filename of the map
 	 */
-	virtual void onMapChange( const Ogre::String& mapfilename );
+	virtual void onTrackChange(const Ogre::String& filename);
 
 	/**
 	 * Called when player changes character
-	 * @param id
-	 * @param character
+	 * 
+	 * @param id the ID of the player
+	 * @param character the character of the player
 	 */
-	virtual void onPlayerCharacterChange( ZCom_ConnID id, const Ogre::String& character  );
+	virtual void onPlayerCharacterChange(ZCom_ConnID id, const Ogre::String& character);
 
 	/**
 	 * Called when player changes hovercraft
-	 * @param id
-	 * @param hovercraft
+	 *
+	 * @param id the ID of the player
+	 * @param hovercraft the hovercraft of the player
 	 */
-	virtual void onPlayerHovercraftChange( ZCom_ConnID id, const Ogre::String& hovercraft );
+	virtual void onPlayerHovercraftChange(ZCom_ConnID id, const Ogre::String& hovercraft);
 
 	//OVERWRITEN FROM NetworkEntity
 
 	virtual void parseEvents(ZCom_BitStream* stream, float timeSince);
 
 	virtual void setupReplication();
+
+	/**
+	 * Get the class name for this class. This is used for registering
+	 * the class with the network
+	 *
+	 * @return the class name
+	 */
+	static std::string getClassName();
+
 };
 
 }

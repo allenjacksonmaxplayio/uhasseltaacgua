@@ -11,8 +11,8 @@ ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDMana
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
 
-	//register loby
-	//mLobby.networkRegister(mIDManager->getID("Lobby"), this);
+	// Register loby
+	mLobby.networkRegister(mIDManager->getID("Lobby"), this);
 }
 
 ServerCore::~ServerCore() {
@@ -23,13 +23,14 @@ void ServerCore::process() {
 }
 
 bool ServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
-	// Accept a connection if loby isn't full
+	// Accept a connection if lobby isn't full
 	return mLobby.onConnectAttempt();
 }
 
 void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 	ZCom_requestDownstreamLimit(id, 60, 600);
 
+	// Notice the lobby of new connection
 	mLobby.onConnect(id);
 
 	// TODO Move somewhere else

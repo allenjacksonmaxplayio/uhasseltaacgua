@@ -2,60 +2,64 @@
 
 namespace HovUni {
 
-Lobby::Lobby():
-	NetworkEntity(),mTrackFilename(""), mMaximumPlayers(8)
-{
+std::string Lobby::getClassName() { 
+	return "Lobby";
 }
 
-Lobby::~Lobby(void)
-{
+Lobby::Lobby(): NetworkEntity(),mTrackFilename(""), mMaximumPlayers(8) {
+
 }
 
-bool Lobby::onConnectAttempt ( ){
+Lobby::~Lobby(void) {
+
+}
+
+bool Lobby::onConnectAttempt() {
 	//TODO lock mutex
 	return mMaximumPlayers >= mCurrentPlayers;
 }
 
-void Lobby::onConnect( ZCom_ConnID id ) {
+void Lobby::onConnect(ZCom_ConnID id) {
 	//TODO lock mutex
 
-	//request extra info
-	if ( !mHasAdmin ){
+	// Request extra info
+	if (!mHasAdmin){
 		mAdmin = id;
 		getNetworkNode()->setOwner(mAdmin, true);
+		mHasAdmin = true;
 	}
 	
-	//add player to map
+	// Add player to map
 	mPlayers.insert(std::pair<ZCom_ConnID,Player*>(id,new Player(id)));
 	mCurrentPlayers++;
 }
 
-void Lobby::onDisconnect ( ZCom_ConnID id ) {
+void Lobby::onDisconnect(ZCom_ConnID id) {
 	//TODO lock mutex
 
-	//remove from map
-	std::map<ZCom_ConnID,Player*>::iterator i =  mPlayers.find ( id );
+	// Remove from map
+	std::map<ZCom_ConnID,Player*>::iterator i =  mPlayers.find(id);
 	delete i->second;
 	mPlayers.erase(i);
 	mCurrentPlayers--;
 
-	//if admin set new admin
-	if ( mAdmin == id ){
+	// Check if new admin is needed
+	if (mAdmin == id) {
 		
-		//check if players remain
-		if ( mPlayers.empty() ){
-			//set admin to false if no player remain
+		// Check if players remain
+		if (mPlayers.empty()) {
+			// Set admin to false if no player remain
 			mHasAdmin = false;
 		}
 		else {
-			//set new admin
+			// Set new admin
 			mAdmin = mPlayers.begin()->first;
 			getNetworkNode()->setOwner(mAdmin, true);
 		}
 	}
 }
 
-void Lobby::onMapChange( const Ogre::String& filename ){
+void Lobby::onTrackChange(const Ogre::String& filename) {
 	mTrackFilename = filename;
 }
 
