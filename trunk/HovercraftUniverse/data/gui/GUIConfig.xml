@@ -13,7 +13,7 @@
 		Speedometer -> BottomRight - width 120
 		==> Chat windo width = screenWidth - 120 - Padding
 -->
-<GUI mediaPath=".">
+<GUI mediaPath="gui">
 	<HUD min_res_width="800" min_res_height="600" max_res_width="1680" max_res_height="1050">
 		<!--
 			Possible types:
