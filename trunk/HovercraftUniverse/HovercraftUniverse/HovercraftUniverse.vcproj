@@ -448,6 +448,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="GameEvents"
+				>
+				<File
+					RelativePath=".\GameEvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GameEventParser.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -747,6 +759,22 @@
 				</File>
 				<File
 					RelativePath=".\World.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="GameEvents"
+				>
+				<File
+					RelativePath=".\GameEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GameEventParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GameEventType.h"
 					>
 				</File>
 			</Filter>

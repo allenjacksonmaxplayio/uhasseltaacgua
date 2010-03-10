@@ -1,4 +1,8 @@
 #include "Lobby.h"
+#include "EntityManager.h"
+#include "NetworkIDManager.h"
+#include "GameEventParser.h"
+#include "DummyHovercraft.h"
 
 namespace HovUni {
 
@@ -6,7 +10,7 @@ std::string Lobby::getClassName() {
 	return "Lobby";
 }
 
-Lobby::Lobby(): NetworkEntity(),mTrackFilename(""), mMaximumPlayers(8) {
+Lobby::Lobby(): NetworkEntity(), mHasAdmin(false), mTrackFilename(""), mMaximumPlayers(8), mStarted(false) {
 
 }
 
@@ -14,9 +18,23 @@ Lobby::~Lobby(void) {
 
 }
 
-bool Lobby::onConnectAttempt() {
+void Lobby::start() {
+	// TODO
+	//if (mNode->getRole() == eZCom_RoleOwner) {
+		StartTrackEvent event;
+		sendEvent(event);
+	//} else {
+	//	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "send denied";
+	//}
+}
+
+bool Lobby::onConnectAttempt(ZCom_ConnID id) {
 	//TODO lock mutex
-	return mMaximumPlayers >= mCurrentPlayers;
+
+	if (mCurrentPlayers < mMaximumPlayers) {
+		return true;
+	}
+	return false;
 }
 
 void Lobby::onConnect(ZCom_ConnID id) {
@@ -28,7 +46,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 		getNetworkNode()->setOwner(mAdmin, true);
 		mHasAdmin = true;
 	}
-	
+
 	// Add player to map
 	mPlayers.insert(std::pair<ZCom_ConnID,Player*>(id,new Player(id)));
 	mCurrentPlayers++;
@@ -65,7 +83,21 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 
 void Lobby::onStart() {
 	//called when map should be loaded
-	//World::creat();	
+	//World::creat();
+	
+	// For now just create a dummy hovercraft for each player
+	// TODO Move somewhere else
+	if (!mStarted) {
+		NetworkIDManager* idmanager = NetworkIDManager::getServerSingletonPtr();
+		for (std::map<ZCom_ConnID,Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
+			DummyHovercraft * hovercraft = new DummyHovercraft();
+			hovercraft->networkRegister(idmanager, "DummyHovercraft");
+			hovercraft->getNetworkNode()->setOwner(it->first, true);
+			EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
+		}
+		mStarted = true;
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Start event received and processed";
+	}
 }
 
 void Lobby::onPlayerCharacterChange( ZCom_ConnID id, const Ogre::String& character  ){
@@ -77,6 +109,38 @@ void Lobby::onPlayerHovercraftChange( ZCom_ConnID id, const Ogre::String& hoverc
 }
 
 void Lobby::parseEvents(ZCom_BitStream* stream, float timeSince) {
+	GameEventParser p;
+	GameEvent* event = p.parse(stream);
+	eZCom_NodeRole role = mNode->getRole();
+	switch (role) {
+		case eZCom_RoleAuthority:
+			processEventsServer(event);
+			break;
+		case eZCom_RoleOwner:
+			processEventsOwner(event);
+			break;
+		case eZCom_RoleProxy:
+			processEventsOther(event);
+			break;
+		default:
+			break;
+	}
+	delete event;
+}
+
+void Lobby::processEventsServer(GameEvent* event) {
+	// Save the new event in the moving status
+	StartTrackEvent* start = dynamic_cast<StartTrackEvent*>(event);
+	if (start) {
+		onStart();
+	}
+}
+
+void Lobby::processEventsOwner(GameEvent* event) {
+
+}
+
+void Lobby::processEventsOther(GameEvent* event) {
 
 }
 

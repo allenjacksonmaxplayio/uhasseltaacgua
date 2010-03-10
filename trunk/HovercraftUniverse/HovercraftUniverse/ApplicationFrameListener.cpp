@@ -32,6 +32,8 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 		mClient->process();
 		// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 		mElapsed = 0.0f;
+		// TODO Remove
+		mClient->start();
 	}
 
 	// Update representation manager

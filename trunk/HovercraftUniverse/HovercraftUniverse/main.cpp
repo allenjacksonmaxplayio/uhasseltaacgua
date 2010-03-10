@@ -23,22 +23,18 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 	}
 
 	if (!strcmp(strCmdLine, "--server")) {
-
-		HovUni::Console::createConsole("SERVER");
-
+		HovUni::Console::createConsole("Hovercraft Universe Server");
 		new Ogre::Root();
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
-
 		HovUni::Server* server = new HovUni::Server();
 		server->start();
 		server->join();
 		delete server;
-
+		server = 0;
 		HovUni::Console::destroyConsole();
-
 	} else {
 		HovUni::Application app;
-	
+		
 		try {
 			app.go();
 		} catch (Ogre::Exception & e) {

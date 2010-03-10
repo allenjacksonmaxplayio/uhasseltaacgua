@@ -80,4 +80,10 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	}
 }
 
+void ClientCore::start() {
+	if (mLobby) {
+		mLobby->start();
+	}
+}
+
 }

@@ -1,5 +1,4 @@
 #include "ServerCore.h"
-#include "DummyHovercraft.h"
 #include "EntityRegister.h"
 
 namespace HovUni {
@@ -7,7 +6,8 @@ namespace HovUni {
 ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDManager(0) {
 	// Create and store entity manager
 	mEntityManager = EntityManager::getServerSingletonPtr();
-	mIDManager = new NetworkIDManager(this);
+	mIDManager = NetworkIDManager::getServerSingletonPtr();
+	mIDManager->setControl(this);
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
 
@@ -20,11 +20,12 @@ ServerCore::~ServerCore() {
 
 void ServerCore::process() {
 	NetworkServer::process();
+	mLobby.processEvents(0.0f);
 }
 
 bool ServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
 	// Accept a connection if lobby isn't full
-	return mLobby.onConnectAttempt();
+	return mLobby.onConnectAttempt(id);
 }
 
 void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
@@ -32,12 +33,6 @@ void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 
 	// Notice the lobby of new connection
 	mLobby.onConnect(id);
-
-	// TODO Move somewhere else
-	DummyHovercraft * hovercraft = new DummyHovercraft();
-	hovercraft->networkRegister(mIDManager->getID("DummyHovercraft"), this);
-	hovercraft->getNetworkNode()->setOwner(id, true);
-	mEntityManager->registerEntity(hovercraft);
 }
 
 void ServerCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {

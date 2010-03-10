@@ -26,6 +26,10 @@ void NetworkEntity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
 	mRegistered = true;
 }
 
+void NetworkEntity::networkRegister(NetworkIDManager* idmanager, std::string name) {
+	networkRegister(idmanager->getID(name), idmanager->getControl());
+}
+
 bool NetworkEntity::isRegistered() const {
 	return mRegistered;
 }

@@ -51,6 +51,9 @@ public:
 	 */
 	virtual void process();
 
+	//TODO remove
+	void start();
+
 private:
 	/**
 	 * Initialize the class
