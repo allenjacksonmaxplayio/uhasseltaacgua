@@ -10,10 +10,12 @@ ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDMana
 	mIDManager = new NetworkIDManager(this);
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
+
+	//register loby
+	mLobby.networkRegister(mIDManager->getID("Lobby"), this);
 }
 
 ServerCore::~ServerCore() {
-
 }
 
 void ServerCore::process() {
