@@ -120,14 +120,6 @@ public:
 	 */
 	Ogre::Quaternion getQuaternion() const;
 
-	/**
-	 * Register the node for the network
-	 *
-	 * @param id the zoidcom class ID
-	 * @param control the zoidcom control
-	 */
-	void networkRegister(ZCom_ClassID id, ZCom_Control* control);
-
 protected:
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

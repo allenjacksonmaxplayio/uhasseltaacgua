@@ -7,7 +7,6 @@
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
-#include "Server.h"
 #include <GUIManager.h>
 #include <SoundManager.h>
 #include <string>
@@ -45,9 +44,6 @@ private:
 
 	/** The client */
 	ClientCore* mClient;
-
-	/** The server */
-	Server* mServer;
 
 	//INI file values
 	std::string mDataPath;

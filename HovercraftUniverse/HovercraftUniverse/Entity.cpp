@@ -86,11 +86,6 @@ Ogre::Quaternion Entity::getQuaternion() const {
 	return mOrientation;
 }
 
-void Entity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
-	// Register to network
-	NetworkEntity::networkRegister(id, control);
-}
-
 void Entity::parseEvents(ZCom_BitStream* stream, float timeSince) {
 	ControllerEventParser p;
 	ControllerEvent* event = p.parse(stream);

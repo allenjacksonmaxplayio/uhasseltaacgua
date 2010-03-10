@@ -3,6 +3,7 @@
 
 #include "NetworkEntity.h"
 #include "Player.h"
+#include "GameEvent.h"
 #include <map>
 #include <string>
 
@@ -38,6 +39,9 @@ private:
 	/** Map with all players */
 	std::map<ZCom_ConnID,Player*> mPlayers;
 
+	// TODO Remove
+	bool mStarted;
+
 public:
 
 	/**
@@ -50,14 +54,20 @@ public:
 	 */
 	~Lobby();
 
+	/**
+	 * Start the track. Called by owner
+	 */
+	void start();
+
 	// Connect callback on authority
 
 	/**
 	 * Called when player is about to connect
 	 *
+	 * @param id the ID of the new connected player
 	 * @return true when there is room for a player, false if Lobby is full
 	 */
-	bool onConnectAttempt();
+	bool onConnectAttempt(ZCom_ConnID id);
 
 	/**
 	 * Called when player connects
@@ -108,6 +118,27 @@ public:
 	virtual void parseEvents(ZCom_BitStream* stream, float timeSince);
 
 	virtual void setupReplication();
+
+	/**
+	 * Process a game event at the server
+	 *
+	 * @param event an event
+	 */
+	void processEventsServer(GameEvent* event);
+
+	/**
+	 * Process a game event at the owner
+	 *
+	 * @param event an event
+	 */
+	void processEventsOwner(GameEvent* event);
+
+	/**
+	 * Process a game event at other clients
+	 *
+	 * @param event an event
+	 */
+	void processEventsOther(GameEvent* event);
 
 	/**
 	 * Get the class name for this class. This is used for registering

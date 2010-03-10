@@ -4,8 +4,10 @@
 #define ZCOM_REPFLAG_SETUPAUTODELETE   (1L << 6)
 
 #include "NetworkEvent.h"
+#include "NetworkIDManager.h"
 #include <OgreVector3.h>
 #include <zoidcom/zoidcom_node.h>
+#include <string>
 
 namespace HovUni {
 
@@ -46,6 +48,14 @@ public:
 	 * @param control the zoidcom control
 	 */
 	void networkRegister(ZCom_ClassID id, ZCom_Control* control);
+
+	/**
+	 * Register the node for the network
+	 *
+	 * @param idmanager the network ID manager
+	 * @param name the registered class name
+	 */
+	void networkRegister(NetworkIDManager* idmanager, std::string name);
 
 	/**
 	 * Check whether the entity is registered for the network

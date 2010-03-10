@@ -16,9 +16,30 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class NetworkIDManager
-{
+class NetworkIDManager {
+public:
+	/**
+	 * Returns the id manager singleton for the server.
+	 *
+	 * @return the singleton pointer
+	 */
+    static NetworkIDManager* getServerSingletonPtr();
+
+	/**
+	 * Returns the id manager singleton for a client.
+	 *
+	 * @param id the clients connection ID
+	 * @return the singleton pointer
+	 */
+    static NetworkIDManager* getClientSingletonPtr(ZCom_ConnID id);
+
 private:
+	/** The server singleton */
+	static NetworkIDManager* msNetworkIDManager;
+
+	/** The static map of singletons */
+	static map<ZCom_ConnID, NetworkIDManager*> msSingletons;
+
 	/** The map type */
 	typedef map<string, ZCom_ClassID> map_type;
 
@@ -42,7 +63,23 @@ public:
 	~NetworkIDManager();
 
 	/**
-	 * Register a class
+	 * Set the network control in order to register
+	 * classes
+	 * 
+	 * @param control the network control
+	 */
+	void setControl(ZCom_Control* control);
+
+	/**
+	 * Get the network control
+	 * 
+	 * @return the network control
+	 */
+	ZCom_Control* getControl();
+
+	/**
+	 * Register a class. A control must be set in order for registration
+	 * to succeed.
 	 *
 	 * @param className the name of the class
 	 * @return the ID
@@ -58,6 +95,12 @@ public:
 	ZCom_ClassID getID(const string& className) const;
 
 private:
+	/**
+	 * Constructor
+	 */
+	NetworkIDManager();
+
+
 	/**
 	 * Hide the copy constructor
 	 */
