@@ -420,6 +420,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Game"
+				>
+				<File
+					RelativePath=".\Loby.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\World.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -691,6 +707,22 @@
 				>
 				<File
 					RelativePath=".\Console.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Game"
+				>
+				<File
+					RelativePath=".\Loby.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Player.h"
+					>
+				</File>
+				<File
+					RelativePath=".\World.h"
 					>
 				</File>
 			</Filter>

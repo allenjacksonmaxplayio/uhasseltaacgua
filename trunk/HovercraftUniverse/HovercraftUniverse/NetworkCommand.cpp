@@ -1,5 +1,4 @@
 #include "NetworkCommand.h"
-#include <boost/thread.hpp>
 
 namespace HovUni {
 
