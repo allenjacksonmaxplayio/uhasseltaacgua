@@ -2,8 +2,10 @@
 #include "ApplicationFrameListener.h"
 #include "Exception.h"
 #include "HUD.h"
+#include "INIReader/INIReader.h"
 #include <HovSound.h>
 #include <tinyxml/tinyxml.h>
+#include <iostream>
 
 
 namespace HovUni {
@@ -18,6 +20,7 @@ Application::~Application(void) {
 }
 
 void Application::go() {
+	parseIni();
 	createRoot();
 	defineResources();
 	setupRenderSystem();
@@ -29,18 +32,36 @@ void Application::go() {
 	startRenderLoop();
 }
 
-void Application::createRoot() {
-	mOgreRoot = new Ogre::Root();
-	Ogre::LogManager::getSingleton().createLog("Client.log", true);
+void Application::parseIni() {
+	//TCHAR szDirectory[MAX_PATH] = "";
+	//GetCurrentDirectory(sizeof(szDirectory) - 1, szDirectory);
+	//std::string curDir (szDirectory);
+	INIReader reader("HovercraftUniverse.ini");
+	if (reader.ParseError() < 0) {
+        cerr << "Error reading INI!";
+    }
+	//Get(section, name, defaultValue)
+	mDataPath = reader.Get("Paths", "DataPath", "./data");
+	mLogPath = reader.Get("Ogre", "LogFile", "Client.log");
+	mOgreConfig = reader.Get("Ogre", "Resources", "resources.cfg");
+	mOgrePlugins = reader.Get("Ogre", "Plugins", "plugins.cfg");
 
-	//Test exception
-	/*
-	try {
-		THROW(NetworkException, "Test exception");
-	} catch (NetworkException e) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << e;
-	}
-	*/
+	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
+	DWORD  retval=0;
+	TCHAR  buffer[MAX_PATH]=TEXT(""); 
+    TCHAR** lppPart={NULL};
+	GetFullPathName(mDataPath.c_str(),MAX_PATH,buffer,lppPart);
+	std::cout << "Changing Working Dir to " << buffer << std::endl;
+	BOOL success = SetCurrentDirectory(buffer);
+
+//	char absolutePath[MAX_PATH];
+//	std::realpath("../../", absolutePath);
+//	SetCurrentDirectory(absolutePath);
+}
+
+void Application::createRoot() {
+	mOgreRoot = new Ogre::Root("plugins_debug.cfg", "ogre.cfg", mLogPath);
+	std::cout << "Creating log at " << mLogPath << std::endl;
 }
 
 void Application::defineResources() {
@@ -71,7 +92,7 @@ void Application::setupRenderSystem() {
 }
 
 void Application::createRenderWindow() {
-	mOgreRoot->initialise(true, "Hovercraft Universe");
+	mOgreRoot->initialise(true, "Hovercraft Universe"); //Make this configurable? Maybe that doesn't make much sense... (Dirk)
 }
 
 void Application::initializeResourceGroups() {
@@ -99,7 +120,7 @@ void Application::setupScene() {
 
 	//Get the GUI config file
 	//Load and parse the config
-	TiXmlDocument doc("..\\GUIConfig.xml");
+	TiXmlDocument doc("gui/GUIConfig.xml");
 	doc.LoadFile();
 
 	TiXmlElement* root = doc.RootElement();
@@ -117,7 +138,7 @@ void Application::setupScene() {
 	gv->setHud(new HUD(root->FirstChildElement("HUD")));
 
 	// Initialise and store the SoundManager (dont remove trailing \)
-	SoundManager::init("..\\..\\Media\\HovSound\\", "HovSound.fev");
+	SoundManager::init("sound\\", "HovSound.fev");
 	mSoundManager = SoundManager::getSingletonPtr();
 
 	//Start music

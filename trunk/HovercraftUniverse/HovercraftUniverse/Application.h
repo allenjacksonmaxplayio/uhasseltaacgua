@@ -10,13 +10,14 @@
 #include "ServerCore.h"
 #include <GUIManager.h>
 #include <SoundManager.h>
+#include <string>
 
 namespace HovUni {
 
 /**
  * Main application for the Hovercraft Universe game.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve, Dirk Delahaye
  */
 class Application {
 private:
@@ -48,6 +49,12 @@ private:
 	/** The server */
 	ServerCore* mServer;
 
+	//INI file values
+	std::string mDataPath;
+	std::string mLogPath;
+	std::string mOgreConfig;
+	std::string mOgrePlugins;
+	
 public:
 
 	// TODO Better solution
@@ -69,6 +76,7 @@ public:
 	 */
 	void go();
 
+	void parseIni();
 	void createRoot();
 	void defineResources();
 	void setupRenderSystem();
