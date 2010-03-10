@@ -22,8 +22,7 @@ void NetworkMovementEntity::setPosition(float* pos) {
 
 void NetworkMovementEntity::setupReplication() {
 	//TODO: min and max delay should be defined, not magic number...
-	OgreVector3_Replicator* repli = new OgreVector3_Replicator(&mPosition, 23, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, 0, 10);
-	mNode->addReplicator(repli, true);
+	replicateOgreVector3(&mPosition);
 
 	// Callback for other replicators
 	addReplicators();

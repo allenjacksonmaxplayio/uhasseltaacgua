@@ -4,6 +4,7 @@
 #define ZCOM_REPFLAG_SETUPAUTODELETE   (1L << 6)
 
 #include "NetworkEvent.h"
+#include <OgreVector3.h>
 #include <zoidcom/zoidcom_node.h>
 
 namespace HovUni {
@@ -102,6 +103,21 @@ private:
 	 * constructor is zero, this callback can be implemented as empty.
 	 */
 	virtual void setupReplication() = 0;
+
+protected:
+	/**
+	 * Add a float to the replicated variabels
+	 *
+	 * @param value The float to replicate
+	 */
+	void replicateFloat(float* value, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zS16 minDelay = 0, zS16 maxDelay = 10);
+	
+	/**
+	 * Add a vector to the replicated variabels
+	 *
+	 * @param vector The vector to replicate
+	 */
+	void replicateOgreVector3(Ogre::Vector3* vector, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
 
 };
 
