@@ -7,7 +7,7 @@ namespace HovUni {
 		m_flags |= ZCOM_REPLICATOR_INITIALIZED;
 	}
 
-	OgreVector3_Replicator::OgreVector3_Replicator(Ogre::Vector3 *data, zU8 _flags, zU8 _rules, zU8 mantissa, zU8 _intercept_id, zS16 _mindelay, zS16 _maxdelay) 
+	OgreVector3_Replicator::OgreVector3_Replicator(Ogre::Vector3 *data, zU8 mantissa, zU8 _flags, zU8 _rules, zU8 _intercept_id, zS16 _mindelay, zS16 _maxdelay) 
 			: ZCom_ReplicatorBasic(NULL), mData(data), mCompare(*data), mMantissaBits(mantissa) {
 		// make sure m_setup will be deleted when the replicator is deleted
 		_flags |= ZCOM_REPFLAG_SETUPAUTODELETE;

@@ -75,9 +75,7 @@ Ogre::String Entity::getCategory() const {
 }
 
 Ogre::Vector3 Entity::getPosition() const { 
-	Ogre::Vector3 pos;
-	NetworkMovementEntity::getPosition(pos.ptr());
-	return pos; 
+	return NetworkMovementEntity::getPosition(); 
 }
 
 Ogre::Vector3 Entity::getOrientation() const {

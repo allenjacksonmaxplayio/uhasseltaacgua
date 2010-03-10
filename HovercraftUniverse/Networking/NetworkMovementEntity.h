@@ -2,6 +2,7 @@
 #define NETWORKMOVEMENTENTITY_H_
 
 #include "NetworkEntity.h"
+#include <OgreVector3.h>
 
 namespace HovUni {
 
@@ -14,7 +15,7 @@ namespace HovUni {
 class NetworkMovementEntity: public NetworkEntity {
 private:
 	/** The position */
-	float mPosition[3];
+	Ogre::Vector3 mPosition;
 
 public:
 	/**
@@ -34,7 +35,7 @@ public:
 	 *
 	 * @param pos the array of size 3 containing the position
 	 */
-	void getPosition(float* pos) const;
+	Ogre::Vector3 getPosition() const;
 
 	/**
 	 * Set the position (at Authority)
