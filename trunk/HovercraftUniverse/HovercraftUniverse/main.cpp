@@ -38,7 +38,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			// let the server do processing
 			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process\n";
 			server->process();
-			// TODO EntityManager update
+			HovUni::EntityManager::getServerSingletonPtr()->updateEntities(0.05f);
 			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server ends input output process\n";
 			// let the program sleep for 0 msecs
 			zcom->Sleep(1);

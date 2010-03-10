@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -171,6 +171,14 @@
 				RelativePath=".\NetworkServer.cpp"
 				>
 			</File>
+			<Filter
+				Name="CustomReplicators"
+				>
+				<File
+					RelativePath=".\OgreVector3_Replicator.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -209,6 +217,14 @@
 				RelativePath=".\NetworkServer.h"
 				>
 			</File>
+			<Filter
+				Name="CustomReplicators"
+				>
+				<File
+					RelativePath=".\OgreVector3_Replicator.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
