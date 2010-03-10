@@ -312,7 +312,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Server.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ServerCore.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerThread.cpp"
 					>
 				</File>
 			</Filter>
@@ -602,7 +610,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Server.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ServerCore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerThread.h"
 					>
 				</File>
 			</Filter>

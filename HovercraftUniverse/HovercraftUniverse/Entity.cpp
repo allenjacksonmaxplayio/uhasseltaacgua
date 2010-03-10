@@ -95,6 +95,7 @@ void Entity::parseEvents(ZCom_BitStream* stream, float timeSince) {
 	ControllerEventParser p;
 	ControllerEvent* event = p.parse(stream);
 	processControllerEvents(event);
+	delete event;
 }
 
 void Entity::processController(float timeSince) {
