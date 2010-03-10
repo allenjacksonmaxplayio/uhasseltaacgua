@@ -5,6 +5,12 @@
 #include <zoidcom/zoidcom.h>
 
 namespace HovUni {
+	/**
+	 * A class that implements a zoidcom replicator object to be able to
+	 * replicate Ogre::Vector3 objects with ease.
+	 *
+	 * @autor Nick De Frangh
+	 */
 	class OgreVector3_Replicator : public ZCom_ReplicatorBasic {
 		private:
 			/** The real data to be synchronised */
