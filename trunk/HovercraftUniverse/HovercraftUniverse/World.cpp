@@ -4,6 +4,14 @@ namespace HovUni {
 
 World * World::ms_world = 0;
 
+WorldLoader::WorldLoader( World * world ):
+	mWorld(world)
+{
+}
+
+WorldLoader::~WorldLoader(){
+}
+
 World * World::getSingletonPtr(){
 	return ms_world;
 }
@@ -22,9 +30,9 @@ World::~World(void)
 {
 }
 
-void World::create(const Ogre::String& map){
+void World::create(const Ogre::String& map, WorldLoader * loader){
 	ms_world = new World();
-	ms_world->load(map);
+	ms_world->load(map,loader);
 }
 	
 void World::destroy() {
@@ -33,13 +41,22 @@ void World::destroy() {
 	ms_world = 0;
 }
 
-
-void World::load( const Ogre::String& map ) {
+void World::load( const Ogre::String& map, WorldLoader * loader ) {
 	mIsLoaded = true;
+
+	//SET UP LOADER
+
+	//HAVOC
 }
 
 void World::unload() {
 	mIsLoaded = false;
+
+	//UNLOAD WORLD
+
+
+	//STOP HAVOC
+
 }
 
 }

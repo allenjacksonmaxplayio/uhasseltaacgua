@@ -30,10 +30,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
 		HovUni::ServerCore* server = new HovUni::ServerCore();
 
-		std::cout << "Starting Havoc" << std::endl;
-		HovUni::Havok::start();
-
-
 		while (true) {
 			// let the server do processing
 			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process\n";
@@ -43,8 +39,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			// let the program sleep for 0 msecs
 			zcom->Sleep(1);
 		}
-
-		HovUni::Havok::stop();
 
 		delete server;
 

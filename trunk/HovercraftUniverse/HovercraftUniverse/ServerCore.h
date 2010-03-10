@@ -4,6 +4,7 @@
 #include "NetworkServer.h"
 #include "EntityManager.h"
 #include "NetworkIDManager.h"
+#include "Lobby.h"
 
 namespace HovUni {
 
@@ -16,6 +17,10 @@ namespace HovUni {
 class ServerCore: public NetworkServer
 {
 private:
+
+	/** The Loby **/
+	Lobby mLobby;
+
 	/** The entity manager */
 	EntityManager * mEntityManager;
 

@@ -2,8 +2,27 @@
 #define WORLD_H
 
 #include <OgreString.h>
+#include "CustomOgreMaxSceneCallback.h"
 
 namespace HovUni {
+
+class World;
+
+class WorldLoader {
+protected:
+
+	World * mWorld;
+
+private:
+
+	WorldLoader( World * world );
+
+	virtual ~WorldLoader();
+
+	void load( const Ogre::String& world );
+
+	void unload ( const Ogre::String& world );
+};
 
 class World
 {
@@ -27,7 +46,7 @@ private:
 private:
 
 	//SHOULD BE REPLICATED
-
+	
 
 
 public:
@@ -47,9 +66,13 @@ public:
 	static World& getSingleton();
 
 	/**
-	 * Create a world
+	 * Create a world using a specific world reader.
+	 * The world reader depends on the context your in.
+	 * For instance a client will have a different loader than the server.
+	 * @param the mapname
+	 * @param the loader
 	 */
-	static void create(const Ogre::String& map);
+	static void create(const Ogre::String& map, WorldLoader * loader );
 	
 	/**
 	 * Destroy the world
@@ -61,13 +84,14 @@ protected:
 	/**
 	 * Load
 	 * @param map
+	 * @param loader
 	 */
-	void load( const Ogre::String& map );
+	virtual void load( const Ogre::String& map, WorldLoader * loader );
 
 	/**
 	 * Clear all loaded data
 	 */ 
-	void unload();
+	virtual void unload();
 };
 
 }

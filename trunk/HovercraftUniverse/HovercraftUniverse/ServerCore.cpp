@@ -21,12 +21,14 @@ void ServerCore::process() {
 }
 
 bool ServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
-	// Accept each connection
-	return true;
+	// Accept a connection if loby isn't full
+	return mLobby.onConnectAttempt();
 }
 
 void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 	ZCom_requestDownstreamLimit(id, 60, 600);
+
+	mLobby.onConnect(id);
 
 	// TODO Move somewhere else
 	DummyHovercraft * hovercraft = new DummyHovercraft();
@@ -37,6 +39,7 @@ void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 
 void ServerCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
 	// Connection closed
+	mLobby.onDisconnect(id);
 }
 
 void ServerCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
