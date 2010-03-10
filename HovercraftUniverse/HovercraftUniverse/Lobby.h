@@ -10,7 +10,7 @@ namespace HovUni {
 /**
  * The Lobby, object
  */
-class Lobby : NetworkEntity
+class Lobby : public NetworkEntity
 {
 private:
 
@@ -44,8 +44,9 @@ public:
 
 	/**
 	 * Constructor
+	 * @param control
 	 */
-	Lobby(void);
+	Lobby();
 
 	~Lobby(void);
 

@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-Lobby::Lobby(void):
+Lobby::Lobby():
 	NetworkEntity(),mTrackFilename(""), mMaximumPlayers(8)
 {
 }
@@ -22,8 +22,7 @@ void Lobby::onConnect( ZCom_ConnID id ) {
 	//request extra info
 	if ( !mHasAdmin ){
 		mAdmin = id;
-
-		//TODO ZOIDCOM MAKE IT OWNER OF THE Lobby
+		getNetworkNode()->setOwner(mAdmin, true);
 	}
 	
 	//add player to map
@@ -51,8 +50,7 @@ void Lobby::onDisconnect ( ZCom_ConnID id ) {
 		else {
 			//set new admin
 			mAdmin = mPlayers.begin()->first;
-
-			//TODO ZOIDCOM MAKE IT OWNER OF THE Lobby
+			getNetworkNode()->setOwner(mAdmin, true);
 		}
 	}
 }
