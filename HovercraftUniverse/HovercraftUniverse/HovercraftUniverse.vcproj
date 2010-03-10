@@ -308,6 +308,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\NetworkCommand.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ServerCore.cpp"
 					>
 				</File>
@@ -567,6 +571,14 @@
 				>
 				<File
 					RelativePath=".\ClientCore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NetworkCommand.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NetworkCommandType.h"
 					>
 				</File>
 				<File

@@ -4,7 +4,7 @@
 namespace HovUni {
 
 /**
- * This is an event type for sample events.
+ * This is an event type for controller events.
  *
  * @author Olivier Berghmans
  */
