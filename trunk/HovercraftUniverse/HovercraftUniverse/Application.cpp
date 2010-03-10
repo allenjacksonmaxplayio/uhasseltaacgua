@@ -146,7 +146,8 @@ void Application::setupScene() {
 	mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
 
 	// Server
-	mServer = new ServerCore();
+	mServer = new Server();
+	mServer->start();
 
 	// Client
 	mClient = new ClientCore();
@@ -159,7 +160,7 @@ void Application::setupInputSystem() {
 
 void Application::createFrameListener() {
 	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, 
-		mInputManager, mServer, mClient);
+		mInputManager, mClient);
 	mOgreRoot->addFrameListener(mFrameListener);
 }
 

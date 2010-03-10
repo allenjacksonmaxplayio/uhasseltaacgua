@@ -47,7 +47,7 @@ public:
 	 */
 	ApplicationFrameListener(Ogre::SceneManager * sceneMgr, EntityManager * entityMgr,
 							 RepresentationManager * reprMgr, InputManager * inputMgr, 
-							 ServerCore* server, ClientCore* client);
+							 ClientCore* client);
 
 	/**
 	 * Destructor.

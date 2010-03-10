@@ -6,9 +6,9 @@ namespace HovUni {
 
 ApplicationFrameListener::ApplicationFrameListener(Ogre::SceneManager * sceneMgr, EntityManager * entityMgr, 
 												   RepresentationManager * reprMgr, InputManager * inputMgr, 
-												   ServerCore* server, ClientCore* client)
+												   ClientCore* client)
 		: mSceneMgr(sceneMgr), mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
-		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO), mServer(server), mClient(client), mElapsed(0.0f) {
+		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO), mClient(client), mElapsed(0.0f) {
 	// Register this class with input manager
 	mInputManager->addKeyListener(this, "ApplicationFrameListener");
 	mInputManager->addMouseListener(this, "ApplicationFrameListener");
@@ -29,9 +29,7 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 	// Process the client
 	if (mElapsed > 0.016f) {
 		// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
-		mServer->process();
 		mClient->process();
-		EntityManager::getServerSingletonPtr()->updateEntities(mElapsed);
 		// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 		mElapsed = 0.0f;
 	}

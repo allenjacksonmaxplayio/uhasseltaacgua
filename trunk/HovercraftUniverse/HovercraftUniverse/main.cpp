@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "ServerCore.h"
+#include "Server.h"
 #include "Havok.h"
 #include "EntityManager.h"
 #include "Console.h"
@@ -28,18 +28,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 		new Ogre::Root();
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
-		HovUni::ServerCore* server = new HovUni::ServerCore();
 
-		while (true) {
-			// let the server do processing
-			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server start input output process\n";
-			server->process();
-			HovUni::EntityManager::getServerSingletonPtr()->updateEntities(0.05f);
-			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Server ends input output process\n";
-			// let the program sleep for 0 msecs
-			zcom->Sleep(1);
-		}
-
+		HovUni::Server* server = new HovUni::Server();
+		server->start();
+		server->join();
 		delete server;
 
 		HovUni::Console::destroyConsole();
