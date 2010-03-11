@@ -19,7 +19,7 @@ Application::~Application(void) {
 
 }
 
-void Application::go() {
+void Application::go(const Ogre::String& host, unsigned int port) {
 	parseIni();
 	createRoot();
 	defineResources();
@@ -28,6 +28,7 @@ void Application::go() {
 	initializeResourceGroups();
 	setupInputSystem();
 	setupScene();
+	createClient(host,port);
 	createFrameListener();
 	startRenderLoop();
 }
@@ -100,6 +101,12 @@ void Application::initializeResourceGroups() {
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
+
+void Application::createClient(const Ogre::String& host, unsigned int port){
+	// Client
+	mClient = new ClientCore(host.c_str(), port);
+}
+
 void Application::setupScene() {
 	// Create scene manager
 	msSceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
@@ -144,9 +151,6 @@ void Application::setupScene() {
 	//Start music
 	mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
 	mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
-
-	// Client
-	mClient = new ClientCore("localhost");
 }
 
 void Application::setupInputSystem() {

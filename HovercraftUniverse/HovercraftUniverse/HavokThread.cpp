@@ -75,10 +75,6 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 	stopWatch.start();
 	hkReal lastTime = stopWatch.getElapsedSeconds();
 
-	world.loadSceneFile(".\\..\\..\\..\\art\\models\\SimpleTrack.scene");
-	world.addCharacter("NAME1","BLA",0);
-	world.addCharacter("NAME2","BLA",1);
-
 	while ( HavokThread::run ) {
 		world.step();
 
