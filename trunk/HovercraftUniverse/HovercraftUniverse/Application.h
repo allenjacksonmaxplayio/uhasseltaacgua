@@ -58,9 +58,8 @@ public:
 
 	/**
 	 * Constructor.
-	 *
 	 */
-	Application(void);
+	Application();
 
 	/**
 	 * Destructor.
@@ -70,7 +69,9 @@ public:
 	/**
 	 * The main method that triggers the application to run.
 	 */
-	void go();
+	void go(const Ogre::String& host, unsigned int port);
+
+	void createClient(const Ogre::String& host, unsigned int port);
 
 	void parseIni();
 	void createRoot();

@@ -31,8 +31,9 @@ public:
 	 * Constructor for a client using a remote connection
 	 *
 	 * @param name the name of the server
+	 * @param port
 	 */
-	ClientCore(const char* name);
+	ClientCore(const char* name, unsigned int port = 3040);
 
 	/**
 	 * Constructor for a client using a local connection. This client

@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-ClientCore::ClientCore(const char* name) : NetworkClient(name, 3040), mEntityManager(0), mIDManager(0), mLobby(0) {
+ClientCore::ClientCore(const char* name,unsigned int port) : NetworkClient(name,port), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 
