@@ -2,7 +2,7 @@
 #define HoverCraftUniverseWorld_H
 
 #include "AbstractHavokWorld.h"
-#include "PhysicsLoader.h"
+#include "ServerLoader.h"
 #include "Character.h"
 #include "CharacterContextContainer.h"
 
@@ -15,7 +15,7 @@ class HoverCraftUniverseWorld : public AbstractHavokWorld
 {
 private:
 
-	friend class PhysicsLoader;
+	friend class ServerLoader;
 
 	/**
 	 * Start phantom

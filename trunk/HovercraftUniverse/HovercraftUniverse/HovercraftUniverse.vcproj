@@ -176,6 +176,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\ServerLoader.cpp"
+				>
+			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -355,10 +359,6 @@
 					RelativePath=".\PhantomTrackAction.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\PhysicsLoader.cpp"
-					>
-				</File>
 				<Filter
 					Name="phantom"
 					>
@@ -432,6 +432,30 @@
 				Name="Game"
 				>
 				<File
+					RelativePath=".\Asteroid.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Boost.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CheckPoint.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityDescription.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Finish.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Hovercraft.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Lobby.cpp"
 					>
 				</File>
@@ -440,7 +464,35 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ServerWorldLoader.cpp"
+					RelativePath=".\Portal.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PowerupSpawn.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResetSpawn.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Start.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\StartPosition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Track.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UserDataCallback.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UserDataFactory.cpp"
 					>
 				</File>
 				<File
@@ -466,6 +518,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ServerLoader.h"
+				>
+			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -746,6 +802,30 @@
 				Name="Game"
 				>
 				<File
+					RelativePath=".\Asteroid.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Boost.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CheckPoint.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityDescription.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Finish.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Hovercraft.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Lobby.h"
 					>
 				</File>
@@ -754,7 +834,35 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ServerWorldLoader.h"
+					RelativePath=".\Portal.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PowerupSpawn.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ResetSpawn.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Start.h"
+					>
+				</File>
+				<File
+					RelativePath=".\StartPosition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Track.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UserDataCallback.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UserDataFactory.h"
 					>
 				</File>
 				<File

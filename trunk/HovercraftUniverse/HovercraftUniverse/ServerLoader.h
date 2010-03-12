@@ -1,5 +1,5 @@
-#ifndef PHYSICSLOADER_H
-#define PHYSICSLOADER_H
+#ifndef SERVERLOADER_H
+#define SERVERLOADER_H
 
 #include "CustomOgreMaxSceneCallback.h"
 #include "UserDataCallback.h"
@@ -9,10 +9,12 @@ namespace HovUni {
 
 class HoverCraftUniverseWorld;
 
-class PhysicsLoader : public UserDataCallback, public CustomOgreMaxSceneCallback {
+class ServerLoader : public UserDataCallback, public CustomOgreMaxSceneCallback {
 private:
 
 	char const * mPath;
+
+	ServerCore * mServer;
 
 	HoverCraftUniverseWorld * mHovercraftWorld;
 
@@ -23,9 +25,9 @@ private:
 	OgreMax::Types::EntityParameters * mEntityparameters;
 
 public:
-	PhysicsLoader( HoverCraftUniverseWorld * world, char const * path );
+	ServerLoader( HoverCraftUniverseWorld * world, ServerCore * server, char const * path );
 
-	~PhysicsLoader();
+	~ServerLoader();
 	
 	virtual void StartedLoad(){
 		//TODO notify clients??
@@ -49,27 +51,27 @@ public:
 
 	//Custom objects
 
-	virtual void onAsteroid( Ogre::SharedPtr<AsteroidData> asteroid );
+	virtual void onAsteroid( Ogre::SharedPtr<Asteroid> asteroid );
 
-	virtual void onStart( Ogre::SharedPtr<StartData> start );
+	virtual void onStart( Ogre::SharedPtr<Start> start );
 
-	virtual void onStartPosition( Ogre::SharedPtr<StartPositionData> startposition );
+	virtual void onStartPosition( Ogre::SharedPtr<StartPosition> startposition );
 
-	virtual void onCheckPoint( Ogre::SharedPtr<CheckPointData> checkpoint );
+	virtual void onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint );
 
-	virtual void onFinish( Ogre::SharedPtr<FinishData> finish );
+	virtual void onFinish( Ogre::SharedPtr<Finish> finish );
 
-	virtual void onHoverCraft( Ogre::SharedPtr<HovercraftData> hovercraft );
+	virtual void onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft );
 
-	virtual void onTrack( Ogre::SharedPtr<TrackData> track );
+	virtual void onTrack( Ogre::SharedPtr<Track> track );
 
-	virtual void onPortal( Ogre::SharedPtr<PortalData> portal );
+	virtual void onPortal( Ogre::SharedPtr<Portal> portal );
 
-	virtual void onBoost( Ogre::SharedPtr<BoostData> boost );
+	virtual void onBoost( Ogre::SharedPtr<Boost> boost );
 
-	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawnData> powerupspawn );
+	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn );
 
-	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawnData> spawn );
+	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn );
 
 	//don't care about next
 

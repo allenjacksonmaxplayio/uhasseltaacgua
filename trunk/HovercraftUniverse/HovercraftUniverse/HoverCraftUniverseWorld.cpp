@@ -1,6 +1,6 @@
 #include "HoverCraftUniverseWorld.h"
 
-#include "PhysicsLoader.h"
+#include "ServerLoader.h"
 #include "CustomOgreMaxScene.h"
 
 #include "HavokEntityType.h"
@@ -37,14 +37,7 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 
 bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
 	
-	PhysicsLoader loader(this, ".\\..\\..\\..\\art\\models\\");
-
-	CustomOgreMaxScene scene;
-
-	/**
-	 * Load world
-	 */
-	scene.Load(Ogre::String(filename),CustomOgreMaxScene::SKIP_ENVIRONMENT | CustomOgreMaxScene::SKIP_SHADOWS | CustomOgreMaxScene::SKIP_SKY | CustomOgreMaxScene::SKIP_TERRAIN | CustomOgreMaxScene::SKIP_VISIBILITY_FLAG_ALIASES,&loader);
+	ServerLoader loader(this, ".\\..\\..\\..\\art\\models\\");
 
 	return true;
 }
