@@ -35,7 +35,7 @@ void UserDataFactory::removeUserDataCallback( UserDataCallback* callback ){
 	mUserDataCallback.remove(callback);
 }
 
-void UserDataFactory::parseUserData(const Ogre::String& data, EntityDescription& description) {
+void UserDataFactory::parseUserData(const Ogre::String& data) {
 	//parse XML that describes the user data
 	mDocument.Parse(data.c_str());
 	TiXmlElement * root = mDocument.RootElement();
@@ -45,88 +45,77 @@ void UserDataFactory::parseUserData(const Ogre::String& data, EntityDescription&
 
 		//START
 		if ( strcmp(root->Value(),"Start") == 0 ){
-			Ogre::SharedPtr<Start> start(new Start(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			start->load(root);
+			Ogre::SharedPtr<StartData> start(new StartData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onStart(start);
 			}
 		}
 		//STARTPOSITION
 		if ( strcmp(root->Value(),"StartPosition") == 0 ){
-			Ogre::SharedPtr<StartPosition> startp(new StartPosition(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			startp->load(root);
+			Ogre::SharedPtr<StartPositionData> startp(new StartPositionData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onStartPosition(startp);
 			}
 		}
 		//FINISH
 		else if ( strcmp(root->Value(),"Finish") == 0 ){
-			Ogre::SharedPtr<Finish> finish(new Finish(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			finish->load(root);
+			Ogre::SharedPtr<FinishData> finish(new FinishData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onFinish(finish);
 			}
 		}
 		//CHECKPOINT
 		else if ( strcmp(root->Value(),"CheckPoint") == 0 ){
-			Ogre::SharedPtr<CheckPoint> checkpoint(new CheckPoint(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			checkpoint->load(root);
+			Ogre::SharedPtr<CheckPointData> checkpoint(new CheckPointData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onCheckPoint(checkpoint);
 			}
 		}
 		//ASTEROID
 		else if ( strcmp(root->Value(),"Asteroid") == 0 ){
-			Ogre::SharedPtr<Asteroid> ast(new Asteroid(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			ast->load(root);
+			Ogre::SharedPtr<AsteroidData> ast(new AsteroidData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onAsteroid(ast);
 			}
 		}
 		//HOVERCRAFT
 		else if ( strcmp(root->Value(),"Hovercraft") == 0 ){
-			Ogre::SharedPtr<Hovercraft> hovercr(new Hovercraft(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			hovercr->load(root);
+			Ogre::SharedPtr<HovercraftData> hovercr(new HovercraftData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onHoverCraft(hovercr);
 			}
 		}
 		//BOOST
 		else if ( strcmp(root->Value(),"Boost") == 0 ){
-			Ogre::SharedPtr<Boost> boost(new Boost(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			boost->load(root);
+			Ogre::SharedPtr<BoostData> boost(new BoostData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onBoost(boost);
 			}
 		}
 		//PORTAL
 		else if ( strcmp(root->Value(),"Portal") == 0 ){
-			Ogre::SharedPtr<Portal> portal(new Portal(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			portal->load(root);
+			Ogre::SharedPtr<PortalData> portal(new PortalData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onPortal(portal);
 			}
 		}
 		//POWERUPSPAWN
 		else if ( strcmp(root->Value(),"PowerupSpawn") == 0 ){
-			Ogre::SharedPtr<PowerupSpawn> spawn(new PowerupSpawn(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			spawn->load(root);
+			Ogre::SharedPtr<PowerupSpawnData> spawn(new PowerupSpawnData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onPowerupSpawn(spawn);
 			}
 		}
 		//RESETSPAWN
 		else if ( strcmp(root->Value(),"ResetSpawn") == 0 ){
-			Ogre::SharedPtr<ResetSpawn> spawn(new ResetSpawn(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			spawn->load(root);
+			Ogre::SharedPtr<ResetSpawnData> spawn(new ResetSpawnData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onResetSpawn(spawn);
 			}
 		}
 		//TRACK
 		else if ( strcmp(root->Value(),"Track") == 0 ){
-			Ogre::SharedPtr<Track> track(new Track(description.mName,description.mCategory,description.mPosition,description.mOrientation,-1));
-			track->load(root);
+			Ogre::SharedPtr<TrackData> track(new TrackData(root));
 			for ( std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++ ){
 				(*uc)->onTrack(track);
 			}
