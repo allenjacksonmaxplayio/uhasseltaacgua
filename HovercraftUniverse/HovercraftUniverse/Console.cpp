@@ -25,7 +25,9 @@ void Console::createConsole(const char * title, int lines) throw(std::exception)
 
 	// allocate a console for this app
 
-	AllocConsole();
+	if (AllocConsole() == FALSE ){
+		throw std::exception();
+	}
 
 	SetConsoleTitle(title);
 

@@ -8,8 +8,8 @@ namespace HovUni {
 
 class EntityManager;
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval) : 
-		NetworkMovementEntity(0), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval, unsigned short replicators) : 
+		NetworkMovementEntity(replicators), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -21,8 +21,8 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 	changeOrientation(orientation.getRotationTo(Ogre::Vector3::UNIT_Z));
 }
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval) : 
-		NetworkMovementEntity(0), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval, unsigned short replicators) : 
+		NetworkMovementEntity(replicators), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
