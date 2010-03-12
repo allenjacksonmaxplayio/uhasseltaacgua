@@ -20,7 +20,7 @@ Lobby::~Lobby(void) {
 
 void Lobby::start() {
 	// TODO
-	//if (mNode->getRole() == eZCom_RoleOwner) {
+	//if(mNode->getRole() == eZCom_RoleOwner) {
 		StartTrackEvent event;
 		sendEvent(event);
 	//} else {
@@ -31,7 +31,7 @@ void Lobby::start() {
 bool Lobby::onConnectAttempt(ZCom_ConnID id) {
 	//TODO lock mutex
 
-	if (mCurrentPlayers < mMaximumPlayers) {
+	if(mCurrentPlayers < mMaximumPlayers) {
 		return true;
 	}
 	return false;
@@ -41,7 +41,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	//TODO lock mutex
 
 	// Request extra info
-	if (!mHasAdmin){
+	if(!mHasAdmin){
 		mAdmin = id;
 		getNetworkNode()->setOwner(mAdmin, true);
 		mHasAdmin = true;
@@ -62,10 +62,10 @@ void Lobby::onDisconnect(ZCom_ConnID id) {
 	mCurrentPlayers--;
 
 	// Check if new admin is needed
-	if (mAdmin == id) {
+	if(mAdmin == id) {
 		
 		// Check if players remain
-		if (mPlayers.empty()) {
+		if(mPlayers.empty()) {
 			// Set admin to false if no player remain
 			mHasAdmin = false;
 		}
@@ -87,9 +87,9 @@ void Lobby::onStart() {
 	
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else
-	if (!mStarted) {
+	if(!mStarted) {
 		NetworkIDManager* idmanager = NetworkIDManager::getServerSingletonPtr();
-		for (std::map<ZCom_ConnID,Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
+		for(std::map<ZCom_ConnID,Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
 			DummyHovercraft * hovercraft = new DummyHovercraft();
 			hovercraft->networkRegister(idmanager, "DummyHovercraft");
 			hovercraft->getNetworkNode()->setOwner(it->first, true);
@@ -100,11 +100,11 @@ void Lobby::onStart() {
 	}
 }
 
-void Lobby::onPlayerCharacterChange( ZCom_ConnID id, const Ogre::String& character  ){
+void Lobby::onPlayerCharacterChange(ZCom_ConnID id, const Ogre::String& character ){
 	mPlayers[id]->setCharacter(character);
 }
 
-void Lobby::onPlayerHovercraftChange( ZCom_ConnID id, const Ogre::String& hovercraft  ){
+void Lobby::onPlayerHovercraftChange(ZCom_ConnID id, const Ogre::String& hovercraft ){
 	mPlayers[id]->setHovercraft(hovercraft);
 }
 
@@ -112,7 +112,7 @@ void Lobby::parseEvents(ZCom_BitStream* stream, float timeSince) {
 	GameEventParser p;
 	GameEvent* event = p.parse(stream);
 	eZCom_NodeRole role = mNode->getRole();
-	switch (role) {
+	switch(role) {
 		case eZCom_RoleAuthority:
 			processEventsServer(event);
 			break;
@@ -131,7 +131,7 @@ void Lobby::parseEvents(ZCom_BitStream* stream, float timeSince) {
 void Lobby::processEventsServer(GameEvent* event) {
 	// Save the new event in the moving status
 	StartTrackEvent* start = dynamic_cast<StartTrackEvent*>(event);
-	if (start) {
+	if(start) {
 		onStart();
 	}
 }
@@ -148,7 +148,7 @@ void Lobby::setupReplication() {
 
 	//mAdmin
 	/*mNode->addReplicationInt(&mAdmin,			// pointer to the variable
-    sizeof(mAdmin) * 8,							// amount of bits (full)
+    sizeof(mAdmin) * 8,							// amount of bits(full)
     true,										// unsigned
     ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
@@ -156,7 +156,7 @@ void Lobby::setupReplication() {
 
 	//mCurrentPlayers
 	mNode->addReplicationInt(&mCurrentPlayers,	// pointer to the variable
-    8,											// amount of bits (up to 255 players)
+    8,											// amount of bits(up to 255 players)
     true,										// unsigned
     ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
@@ -164,7 +164,7 @@ void Lobby::setupReplication() {
 
 	//mMaximumPlayers
 	mNode->addReplicationInt(&mMaximumPlayers,	// pointer to the variable
-    8,											// amount of bits (up to 255 players)
+    8,											// amount of bits(up to 255 players)
     true,										// unsigned
     ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients

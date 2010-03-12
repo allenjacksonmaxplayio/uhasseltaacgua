@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-StartPosition::StartPosition(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,category,false,position,orientation,processInterval)
+const Ogre::String StartPosition::CATEGORY("StartPosition");
+
+StartPosition::StartPosition(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,processInterval)
 {
 }
 
-void StartPosition::load( TiXmlElement * data ) throw (ParseException)
+void StartPosition::load(TiXmlElement * data) throw(ParseException)
 {
 	TiXmlNode * node;
 
@@ -20,9 +22,9 @@ void StartPosition::load( TiXmlElement * data ) throw (ParseException)
 	//Read number
 	mPlayerNumber = 0;
 	node = data->FirstChild("PlayerNumber");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mPlayerNumber = Ogre::StringConverter::parseInt(Ogre::String(element->GetText()));
 		}
 	}

@@ -36,18 +36,19 @@ private:
 
 public:
 
+	static const Ogre::String CATEGORY;
+
 	/**
 	 * Constructor
 	 */
-	Portal(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
-
+	Portal(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * load
 	 * @param data
 	 * @throws ParseException
 	 */
-	void load(TiXmlElement * data) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -66,7 +67,7 @@ public:
 	 * Set the name
 	 * @param name
 	 */
-	inline void setName( const Ogre::String& name ) {
+	inline void setName(const Ogre::String& name) {
 		mName = name;
 	}
 
@@ -90,7 +91,7 @@ public:
 	 * Set the start point of the portal
 	 * @param start
 	 */
-	void setStart( const Ogre::Vector3& start ){
+	void setStart(const Ogre::Vector3& start){
 		mStart = start;
 	}
 
@@ -114,13 +115,13 @@ public:
 	 * Set the end point of the portal
 	 * @param end
 	 */
-	void setEnd( const Ogre::Vector3& end ){
+	void setEnd(const Ogre::Vector3& end){
 		mEnd = end;
 	}
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */

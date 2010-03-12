@@ -29,16 +29,21 @@ private:
 public:
 
 	/**
+	 * The category used for checkpoints
+	 */
+	static const Ogre::String CATEGORY;
+
+	/**
 	 * Constructor
 	 */
-	CheckPoint(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * Load
 	 * @param data, xml element that descripes the checkpoint
 	 * @throws ParseException
 	 */
-	void load( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -57,7 +62,7 @@ public:
 	 * Set the name
 	 * @param name
 	 */
-	inline void setName( const Ogre::String& name ) {
+	inline void setName(const Ogre::String& name) {
 		mName = name;
 	}
 
@@ -73,13 +78,13 @@ public:
 	 * Set the number
 	 * @param number
 	 */
-	inline void setNumber( Ogre::int32 number ) {
+	inline void setNumber(Ogre::int32 number) {
 		mNumber = number;
 	}
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */

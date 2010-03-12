@@ -14,17 +14,19 @@ class Finish : public Entity
 {
 public:
 
+	static const Ogre::String CATEGORY;
+
 	/**
 	 * Constructor
 	 */
-	Finish(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Finish(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * load
 	 * @param data, xml element that descripes the finish
 	 * @throws ParseException
 	 */
-	void load ( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -33,7 +35,7 @@ public:
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */

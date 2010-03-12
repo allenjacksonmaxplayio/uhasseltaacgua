@@ -26,16 +26,21 @@ private:
 public:
 
 	/**
+	 * The category used for checkpoints
+	 */
+	static const Ogre::String CATEGORY;
+
+	/**
 	 * Constructor
 	 */
-	Boost(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Boost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * Load
 	 * @param data
 	 * @throws ParseException
 	 */
-	void load( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -54,13 +59,13 @@ public:
 	 * Set the BoostData
 	 * @param BoostData
 	 */
-	void setBoost( Ogre::Real boost) {
+	void setBoost(Ogre::Real boost) {
 		mBoost = boost;
 	}
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */
