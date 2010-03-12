@@ -42,7 +42,7 @@ namespace HovUni {
 	void String_Replicator::packData(ZCom_BitStream *_stream) {
 		// add data to stream
 		_stream->addInt(mData->length(),sizeof(zU16)*8);
-		if ( !mData->isEmpty() ){
+		if ( !mData->empty() ){
 			_stream->addBuffer(mData->c_str(),mData->length());
 		}
 	}
