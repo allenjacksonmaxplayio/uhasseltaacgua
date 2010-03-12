@@ -10,7 +10,7 @@ std::string Lobby::getClassName() {
 	return "Lobby";
 }
 
-Lobby::Lobby(): NetworkEntity(), mHasAdmin(false), mTrackFilename(""), mMaximumPlayers(8), mStarted(false) {
+Lobby::Lobby(): NetworkEntity(), mHasAdmin(false), mTrackFilename(""), mMaximumPlayers(2), mStarted(false) {
 
 }
 

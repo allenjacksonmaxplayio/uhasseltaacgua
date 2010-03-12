@@ -6,24 +6,6 @@
 
 namespace HovUni {
 
-class World;
-
-class WorldLoader {
-protected:
-
-	World * mWorld;
-
-private:
-
-	WorldLoader( World * world );
-
-	virtual ~WorldLoader();
-
-	void load( const Ogre::String& world );
-
-	void unload ( const Ogre::String& world );
-};
-
 class World
 {
 private:
@@ -41,7 +23,6 @@ private:
 
 	//flag is loaded
 	bool mIsLoaded;
-
 
 private:
 
@@ -72,26 +53,12 @@ public:
 	 * @param the mapname
 	 * @param the loader
 	 */
-	static void create(const Ogre::String& map, WorldLoader * loader );
+	static void create(const Ogre::String& map );
 	
 	/**
 	 * Destroy the world
 	 */
 	static void destroy();
-
-protected:
-
-	/**
-	 * Load
-	 * @param map
-	 * @param loader
-	 */
-	virtual void load( const Ogre::String& map, WorldLoader * loader );
-
-	/**
-	 * Clear all loaded data
-	 */ 
-	virtual void unload();
 };
 
 }

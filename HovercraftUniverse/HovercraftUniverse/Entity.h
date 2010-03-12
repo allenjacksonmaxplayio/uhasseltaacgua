@@ -52,6 +52,18 @@ public:
 	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval);
 
 	/**
+	 * Constructor.
+	 *
+	 * @param name the unique name of the entity
+	 * @param category the category to which this entity belongs
+	 * @param track indicates that this object should be tracked by the camera
+	 * @param position the initial position of the entity
+	 * @param orientation the initial orientation of the entity
+	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
+	 */
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval);
+
+	/**
 	 * Destructor.
 	 */
 	virtual ~Entity();
