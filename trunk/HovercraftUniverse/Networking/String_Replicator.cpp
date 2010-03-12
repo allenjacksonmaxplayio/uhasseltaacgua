@@ -50,7 +50,7 @@ namespace HovUni {
 	void String_Replicator::unpackData(ZCom_BitStream *_stream, bool _store, zU32 _estimated_time_sent) {
 		// shall we store
 		if (_store) {
-			zU32 bytes = _stream->getInt(sizeof(int)*8);
+			zU32 bytes = _stream->getInt(sizeof(zU16)*8);
 
 			if ( bytes == 0 ){
 				//if empty
