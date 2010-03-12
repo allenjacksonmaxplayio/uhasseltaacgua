@@ -178,6 +178,10 @@
 					RelativePath=".\OgreVector3_Replicator.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\String_Replicator.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -222,6 +226,10 @@
 				>
 				<File
 					RelativePath=".\OgreVector3_Replicator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\String_Replicator.h"
 					>
 				</File>
 			</Filter>
