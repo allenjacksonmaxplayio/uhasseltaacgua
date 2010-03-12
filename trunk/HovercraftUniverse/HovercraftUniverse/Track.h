@@ -15,7 +15,7 @@ private:
 	/**
 	 * Name of the track
 	 */
-	Ogre::String mName;
+	Ogre::String mDisplayName;
 
 	/**
 	 * Physics filename
@@ -34,8 +34,19 @@ private:
 
 public:
 
+	/**
+	 * The category used for tracks
+	 */
 	static const Ogre::String CATEGORY;
 	
+	/**
+	 * Constructor.
+	 *
+	 * @param name The name of the track
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
+	 */
 	Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
@@ -103,16 +114,16 @@ public:
 	 * Get name
 	 * @return the name
 	 */
-	inline Ogre::String getName() const {
-		return mName;
+	inline Ogre::String getDisplayName() const {
+		return mDisplayName;
 	}
 
 	/**
 	 * Set name
 	 * @param name
 	 */
-	inline void setName(const Ogre::String& name){
-		mName = name;
+	inline void setDisplayName(const Ogre::String& name){
+		mDisplayName = name;
 	}
 
 	/**
@@ -153,6 +164,11 @@ public:
 	 */
 	virtual void processEventsOther(ControllerEvent* event){
 	}
+
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
 
 };
 

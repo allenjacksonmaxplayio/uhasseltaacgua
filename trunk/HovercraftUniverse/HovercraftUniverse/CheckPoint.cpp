@@ -1,5 +1,6 @@
 #include "CheckPoint.h"
 #include <OgreStringConverter.h>
+#include "String_Replicator.h"
 
 namespace HovUni {
 
@@ -18,12 +19,12 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 	}	
 
 	//Read name
-	mName = "No name";
+	mDisplayName = "No name";
 	node = data->FirstChild("Name");
 	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if(element){
-			mName = Ogre::String(element->GetText());
+			mDisplayName = Ogre::String(element->GetText());
 		}
 	}
 
@@ -39,6 +40,24 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 }
 
 CheckPoint::~CheckPoint(void){
+}
+
+void CheckPoint::setupReplication(){
+	//mName
+	mNode->addReplicator(
+		new String_Replicator(&mDisplayName,
+		ZCOM_REPFLAG_MOSTRECENT,
+		ZCOM_REPRULE_AUTH_2_ALL
+	), 
+	true);
+
+	//mNumber
+	mNode->addReplicationInt(&mNumber,				// pointer to the variable
+	sizeof(Ogre::int32),									// amount of bits(up to 16 types)
+    false,											// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
+	);
 }
 
 }

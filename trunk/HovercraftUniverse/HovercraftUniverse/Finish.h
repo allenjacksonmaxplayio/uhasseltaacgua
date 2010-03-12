@@ -13,10 +13,18 @@ namespace HovUni {
 class Finish : public Entity{
 public:
 
+	/**
+	 * The category used for finish
+	 */
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the finish
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	Finish(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 

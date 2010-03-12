@@ -25,12 +25,17 @@ private:
 public:
 
 	/**
-	 * The category used for checkpoints
+	 * The category used for boosts
 	 */
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the boost
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	Boost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
@@ -100,6 +105,11 @@ public:
 	 */
 	virtual void processEventsOther(ControllerEvent* event){
 	}
+
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
 };
 
 }

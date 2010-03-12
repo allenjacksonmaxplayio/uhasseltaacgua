@@ -31,4 +31,15 @@ void StartPosition::load(TiXmlElement * data) throw(ParseException){
 StartPosition::~StartPosition(void){
 }
 
+void StartPosition::setupReplication(){
+
+	//mPlayerNumber
+	mNode->addReplicationInt(&mPlayerNumber,		// pointer to the variable
+    8,												// amount of bits(up to 255 players)
+    false,											// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
+	);
+}
+
 }

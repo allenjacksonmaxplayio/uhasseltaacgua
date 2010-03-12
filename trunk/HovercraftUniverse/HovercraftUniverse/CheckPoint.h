@@ -18,7 +18,7 @@ private:
 	/**
 	 * The name
 	 */
-	Ogre::String mName;
+	Ogre::String mDisplayName;
 
 	/**
 	 * The number
@@ -33,7 +33,12 @@ public:
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the checkpoint
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
@@ -53,16 +58,16 @@ public:
 	 * Get the name
 	 * @return name
 	 */
-	inline Ogre::String getName() const {
-		return mName;
+	inline Ogre::String getDisplayName() const {
+		return mDisplayName;
 	}
 
 	/**
 	 * Set the name
 	 * @param name
 	 */
-	inline void setName(const Ogre::String& name) {
-		mName = name;
+	inline void setisplayName(const Ogre::String& name) {
+		mDisplayName = name;
 	}
 
 	/**
@@ -120,7 +125,10 @@ public:
 	virtual void processEventsOther(ControllerEvent* event){
 	}
 
-
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
 };
 
 }

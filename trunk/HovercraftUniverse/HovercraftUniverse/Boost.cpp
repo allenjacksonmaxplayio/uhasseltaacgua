@@ -31,4 +31,13 @@ void Boost::load(TiXmlElement * data) throw(ParseException){
 Boost::~Boost(void){
 }
 
+void Boost::setupReplication(){
+	//mBoost
+	mNode->addReplicationFloat(&mBoost,
+		4,
+		ZCOM_REPFLAG_MOSTRECENT,
+		ZCOM_REPRULE_AUTH_2_ALL
+	);
+}
+
 }

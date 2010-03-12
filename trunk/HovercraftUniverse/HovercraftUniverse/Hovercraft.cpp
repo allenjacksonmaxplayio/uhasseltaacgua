@@ -1,5 +1,6 @@
 #include "Hovercraft.h"
 #include <OgreStringConverter.h>
+#include "String_Replicator.h"
 
 namespace HovUni {
 
@@ -18,12 +19,12 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 	}
 
 	//Read name
-	mName = "No name";
+	mDisplayName = "No name";
 	node = data->FirstChild("Name");
 	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if(element){
-			mName = Ogre::String(element->GetText());
+			mDisplayName = Ogre::String(element->GetText());
 		}
 	}
 
@@ -47,7 +48,7 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 		}
 	}
 
-	//Read Speed
+	//Read mass
 	mMass = 0.0f;
 	node = data->FirstChild("Mass");
 	if(node){
@@ -69,6 +70,45 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 }
 
 Hovercraft::~Hovercraft(void){
+}
+
+void Hovercraft::setupReplication(){
+	//mDisplayName
+	mNode->addReplicator(
+		new String_Replicator(&mDisplayName,
+		ZCOM_REPFLAG_MOSTRECENT,
+		ZCOM_REPRULE_AUTH_2_ALL
+	), 
+	true);
+
+	//mDescription
+	mNode->addReplicator(
+		new String_Replicator(&mDescription,
+		ZCOM_REPFLAG_MOSTRECENT,
+		ZCOM_REPRULE_AUTH_2_ALL
+	), 
+	true);
+
+	//mAcceleration
+	mNode->addReplicationFloat(&mAcceleration,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
+
+	//mMass
+	mNode->addReplicationFloat(&mMass,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
+
+	//mSpeed
+	mNode->addReplicationFloat(&mSpeed,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
 }
 
 }

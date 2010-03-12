@@ -1,6 +1,7 @@
 #include "Lobby.h"
 #include "EntityManager.h"
 #include "NetworkIDManager.h"
+#include "String_Replicator.h"
 #include "GameEventParser.h"
 #include "DummyHovercraft.h"
 
@@ -146,18 +147,21 @@ void Lobby::processEventsOther(GameEvent* event) {
 
 void Lobby::setupReplication() {
 
+	//track filename
+	mNode->addReplicator(new String_Replicator(&mTrackFilename,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL),true);
+
 	//mAdmin
-	/*mNode->addReplicationInt(&mAdmin,			// pointer to the variable
-    sizeof(mAdmin) * 8,							// amount of bits(full)
-    true,										// unsigned
+	mNode->addReplicationInt((zS32*)&mAdmin,	// pointer to the variable
+	sizeof(ZCom_ConnID) * 8,					// amount of bits(full)
+    false,										// unsigned
     ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
-	);*/
+	);
 
 	//mCurrentPlayers
 	mNode->addReplicationInt(&mCurrentPlayers,	// pointer to the variable
     8,											// amount of bits(up to 255 players)
-    true,										// unsigned
+    false,										// unsigned
     ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
 	);
@@ -165,7 +169,7 @@ void Lobby::setupReplication() {
 	//mMaximumPlayers
 	mNode->addReplicationInt(&mMaximumPlayers,	// pointer to the variable
     8,											// amount of bits(up to 255 players)
-    true,										// unsigned
+    false,										// unsigned
     ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
 	);
