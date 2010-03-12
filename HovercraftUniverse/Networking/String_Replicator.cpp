@@ -42,7 +42,7 @@ namespace HovUni {
 	void String_Replicator::packData(ZCom_BitStream *_stream) {
 		// add data to stream
 		_stream->addInt(mData->length(),sizeof(zU16)*8);
-		if ( !mData.isEmpty() ){
+		if ( !mData->isEmpty() ){
 			_stream->addBuffer(mData->c_str(),mData->length());
 		}
 	}
@@ -54,25 +54,25 @@ namespace HovUni {
 
 			if ( bytes == 0 ){
 				//if empty
-				mData = "";
+				*mData = "";
 			}
 			else if ( bytes <= BUFFERSIZE ){
 				//if internal buffer big enough
 				_stream->getBuffer(mBuffer,bytes);
-				mData = Ogre::String(buffer,bytes);
+				*mData = Ogre::String(mBuffer,bytes);
 			}
 			else {
 				//if real big text, fetch all
-				mData = "";
+				*mData = "";
 				zU32 bytesleft = bytes;
 				while ( bytesleft > 0 ){
 					if ( bytesleft > BUFFERSIZE ){
 						_stream->getBuffer(mBuffer,BUFFERSIZE);	
-						mData += Ogre::String(mBuffer,BUFFERSIZE);
+						*mData += Ogre::String(mBuffer,BUFFERSIZE);
 					}
 					else {
 						_stream->getBuffer(mBuffer,bytesleft);	
-						mData += Ogre::String(mBuffer,bytesleft);
+						*mData += Ogre::String(mBuffer,bytesleft);
 					}
 
 					bytesleft -= BUFFERSIZE;

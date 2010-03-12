@@ -27,10 +27,10 @@ namespace HovUni {
 
 		public:
 			/// constructor, taking a ZCom_ReplicatorSetup pointer
-			String_Replicator(Ogre::Vector3 *data, ZCom_ReplicatorSetup *_setup);
+			String_Replicator(Ogre::String *data, ZCom_ReplicatorSetup *_setup);
 
 			/// constructor, builds the replicatorsetup automatically
-			String_Replicator(Ogre::Vector3 *data, zU8 _flags, zU8 _rules, zU8 _intercept_id = 0, zS16 _mindelay = -1, zS16 _maxdelay = -1);
+			String_Replicator(Ogre::String *data, zU8 _flags, zU8 _rules, zU8 _intercept_id = 0, zS16 _mindelay = -1, zS16 _maxdelay = -1);
 
 			virtual ~String_Replicator();
 

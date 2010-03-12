@@ -10,7 +10,7 @@ std::string Lobby::getClassName() {
 	return "Lobby";
 }
 
-Lobby::Lobby(): NetworkEntity(), mHasAdmin(false), mTrackFilename(""), mMaximumPlayers(2), mStarted(false) {
+Lobby::Lobby(): NetworkEntity(), mHasAdmin(false), mTrackFilename(""), mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0) {
 
 }
 
@@ -146,6 +146,29 @@ void Lobby::processEventsOther(GameEvent* event) {
 
 void Lobby::setupReplication() {
 
+	//mAdmin
+	mNode->addReplicationInt(&mAdmin,			// pointer to the variable
+    sizeof(mAdmin) * 8,							// amount of bits (full)
+    true,										// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
+	);
+
+	//mCurrentPlayers
+	mNode->addReplicationInt(&mCurrentPlayers,	// pointer to the variable
+    8,											// amount of bits (up to 255 players)
+    true,										// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
+	);
+
+	//mMaximumPlayers
+	mNode->addReplicationInt(&mMaximumPlayers,	// pointer to the variable
+    8,											// amount of bits (up to 255 players)
+    true,										// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,					// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL						// server sends to all clients
+	);
 }
 
 }
