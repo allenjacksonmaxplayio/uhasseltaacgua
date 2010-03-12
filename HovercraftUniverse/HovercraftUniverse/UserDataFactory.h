@@ -4,7 +4,6 @@
 #include <OgreMaxScene.hpp>
 #include <list>
 #include "UserDataCallback.h"
-#include "EntityDescription.h"
 
 namespace HovUni {
 
@@ -67,7 +66,7 @@ public:
 	 * Will parse the scene and load all userdata
 	 * @param data
 	 */
-	void parseUserData(const Ogre::String& data, EntityDescription& description );
+	void parseUserData(const Ogre::String& data );
 };
 
 }

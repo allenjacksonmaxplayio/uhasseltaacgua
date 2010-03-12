@@ -6,6 +6,7 @@
 #include <Common/Base/Math/Matrix/hkTransform.h>
 
 #include "ParseException.h"
+#include "EntityDescription.h"
 
 // Phantom for planets
 #include "PlanetGravityPhantom.h"
@@ -50,7 +51,7 @@ ServerLoader::~ServerLoader(void)
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	if ( !userData.empty() ){
 		EntityDescription desc("Track","TODO",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
-		UserDataFactory::getSingleton().parseUserData(userData, desc);
+		UserDataFactory::getSingleton().parseUserData(userData /*, desc TODO PJ, This function only requires 1 argument */);
 	}
 }
 
@@ -58,7 +59,7 @@ void ServerLoader::onNode( OgreMax::Types::NodeParameters& nodeparameters, std::
 	mNodeparameters = &nodeparameters;
 	if ( !nodeparameters.extraData.isNull() && !nodeparameters.extraData->userData.empty() ){
 		EntityDescription desc(nodeparameters.name,"TODO",nodeparameters.position,nodeparameters.orientation);
-		UserDataFactory::getSingleton().parseUserData(nodeparameters.extraData->userData,desc);
+		UserDataFactory::getSingleton().parseUserData(nodeparameters.extraData->userData /*, desc TODO PJ, This function only requires 1 argument */);
 	}
 	mNodeparameters = 0;
 }
@@ -67,7 +68,7 @@ void ServerLoader::onEntity( OgreMax::Types::EntityParameters& entityparameters,
 	mEntityparameters = &entityparameters;
 	if ( !entityparameters.extraData.isNull() && !entityparameters.extraData->userData.empty() ){
 		EntityDescription desc(entityparameters.name,"TODO",mNodeparameters->position,mNodeparameters->orientation);
-		UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData,desc);
+		UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData /*, desc TODO PJ, This function only requires 1 argument */);
 	}
 	mEntityparameters = 0;
 }
@@ -76,7 +77,7 @@ void ServerLoader::onExternal( OgreMax::Types::ExternalItem& externalitem){
 	mExternalitem = &externalitem;
 	if ( !externalitem.userData.empty() ){
 		EntityDescription desc(externalitem.name,"TODO",externalitem.position,externalitem.rotation);
-		UserDataFactory::getSingleton().parseUserData(externalitem.userData, desc);
+		UserDataFactory::getSingleton().parseUserData(externalitem.userData /*, desc TODO PJ does not compile */);
 	}
 	mExternalitem = 0;
 }

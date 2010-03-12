@@ -1,7 +1,19 @@
 #ifndef SERVERLOADER_H
 #define SERVERLOADER_H
 
+#include "Asteroid.h"
+#include "Start.h"
+#include "StartPosition.h"
+#include "CheckPoint.h"
+#include "Finish.h"
+#include "Hovercraft.h"
+#include "Track.h"
+#include "Portal.h"
+#include "Boost.h"
+#include "PowerupSpawn.h"
+#include "ResetSpawn.h"
 #include "CustomOgreMaxSceneCallback.h"
+#include "ServerCore.h"
 #include "UserDataCallback.h"
 #include "UserDataFactory.h"
 
