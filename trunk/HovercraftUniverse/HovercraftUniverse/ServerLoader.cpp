@@ -5,7 +5,7 @@
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Common/Base/Math/Matrix/hkTransform.h>
 
-#include "ParseException.h"
+#include "Exception.h"
 #include "EntityDescription.h"
 
 // Phantom for planets
@@ -98,7 +98,7 @@ void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 	}
 	else {
 		//loading failed
-		throw ParseException();
+		THROW(ParseException, "Could not load our physics file.");
 	}
 
 	hkVector4 zero;
@@ -108,8 +108,7 @@ void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 
 	if ( mEntityparameters == 0 ){
-		//THROW EXCEPTION (this should be an enitity)
-		throw ParseException();
+		THROW(ParseException, "This should be an entity.");
 	}
 	
 	//Get the name of the asteroid
@@ -119,8 +118,7 @@ void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 	hkpRigidBody* planetRigidBody = mHovercraftWorld->mPhysicsData->findRigidBodyByName( asteroidname );
 
 	if ( planetRigidBody == HK_NULL ) {
-		//THROW EXCEPTION (no sush name found)
-		throw ParseException();
+		THROW(ParseException, "No such name found.");
 	}
 
 	//Set that it is a planet
@@ -154,8 +152,7 @@ void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 
 void ServerLoader::onStart( Ogre::SharedPtr<Start> start ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}
 
 	//Create a phantom that handles this
@@ -170,8 +167,7 @@ void ServerLoader::onStart( Ogre::SharedPtr<Start> start ) {
 
 void ServerLoader::onStartPosition( Ogre::SharedPtr<StartPosition> startposition ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}
 	
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
@@ -181,8 +177,7 @@ void ServerLoader::onStartPosition( Ogre::SharedPtr<StartPosition> startposition
 
 void ServerLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}
 
 	//Create a phantom that handles this
@@ -201,8 +196,7 @@ void ServerLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
 
 void ServerLoader::onFinish( Ogre::SharedPtr<Finish> finish ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}	
 
 	//Create a phantom that handles this
@@ -221,8 +215,7 @@ void ServerLoader::onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft ) {
 
 void ServerLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}	
 
 	//Create a phantom that handles this
@@ -237,8 +230,7 @@ void ServerLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
 
 void ServerLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}
 
 	//Create a phantom that handles this
@@ -255,8 +247,7 @@ void ServerLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
 
 void ServerLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}
 
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
@@ -270,8 +261,7 @@ void ServerLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) 
 
 void ServerLoader::onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn ) {
 	if ( !mExternalitem ){
-		//THROW EXCEPTION (this should be an external item)
-		throw ParseException();
+		THROW(ParseException, "This should be an external item.");
 	}
 
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);

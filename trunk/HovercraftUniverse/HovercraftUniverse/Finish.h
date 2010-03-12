@@ -1,7 +1,7 @@
 #ifndef FINISH_H
 #define FINISH_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include <tinyxml/tinyxml.h>
 #include "Entity.h"
 

@@ -12,7 +12,7 @@ ResetSpawn::ResetSpawn(const Ogre::String& name, const Ogre::Vector3& position, 
 void ResetSpawn::load(TiXmlElement * data) throw(ParseException){
 	//We are loading a Finish!
 	if(strcmp(data->Value(),"ResetSpawn") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type reset spawn.");
 	}	
 }
 

@@ -1,7 +1,7 @@
 #ifndef PORTAL_H
 #define PORTAL_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>
 #include <OgreVector3.h>
@@ -15,7 +15,7 @@ namespace HovUni {
  * A portal is a teleportation mechanism that ports objects from begin to end
  * @author PJ	
  */
-class Portal : Entity{
+class Portal : public Entity {
 private:
 
 	/**

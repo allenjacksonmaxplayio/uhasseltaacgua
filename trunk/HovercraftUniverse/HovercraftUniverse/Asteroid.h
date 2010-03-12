@@ -1,7 +1,6 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
-#include "ParseException.h"
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>
@@ -10,12 +9,17 @@
 namespace HovUni {
 
 /**
+ * The asteroid is an entity on which the characters will race and on which the track will be placed. Every asteroid has a gravitational field
+ * that exercises forces on the entities that are placed onto it.
+ *
  * @author PJ
  */
-class Asteroid : public Entity
-{
+class Asteroid : public Entity {
 public:
 
+	/**
+	 * The type of asteroid on which the race will take place.
+	 */
 	enum AsteroidType {
 		UNKNOWN = -1,
 		ICE,
@@ -27,26 +31,25 @@ public:
 
 private:
 
-	/**
-	 * Name
-	 */
+	/** The name of the asteroid */ 
 	Ogre::String mName;
 
-	/**
-	 * Gravity
-	 */
+	/** The force of the gravitational field of the asteroid */
 	Ogre::Real mGravity;
 
-	/**
-	 * Type
-	 */
+	/** The type of asteroid */
 	AsteroidType mAsteroidType;
 
 
 public:
 	
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the asteroid
+	 * @param position TODO In load?
+	 * @param quaternion TODO In load?
+	 * @param processInterval The process interval
 	 */
 	Asteroid(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
@@ -55,7 +58,7 @@ public:
 	 * @param data, xml element that descripes the asteroid
 	 * @throws ParseException
 	 */
-	void load ( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data);
 
 	/**
 	 * Destructor
@@ -63,7 +66,8 @@ public:
 	~Asteroid(void);
 
 	/**
-	 * Get the name
+	 * Get the name.
+	 *
 	 * @return name
 	 */
 	inline Ogre::String getName() const {
@@ -71,40 +75,45 @@ public:
 	}
 
 	/**
-	 * Set the name
-	 * @param name
+	 * Set the name.
+	 *
+	 * @param name the name
 	 */
 	inline void setName( const Ogre::String& name ) {
 		mName = name;
 	}
 
 	/**
-	 * Get the gravity
-	 * @return gravity
+	 * Get the gravity.
+	 *
+	 * @return the gravity
 	 */
 	inline Ogre::Real getGravity() const {
 		return mGravity;
 	}
 
 	/**
-	 * Set the gravity
-	 * @param gravity
+	 * Set the gravity.
+	 *
+	 * @param gravity the gravity
 	 */
 	inline void setGravity( const Ogre::Real& gravity ) {
 		mGravity = gravity;
 	}
 
 	/**
-	 * Get the AsteroidData type
-	 * @return AsteroidData type
+	 * Get the AsteroidData type.
+	 *
+	 * @return type the type
 	 */
 	inline AsteroidType getAsteroidType() const {
 		return mAsteroidType;
 	}
 
 	/**
-	 * Set the AsteroidData type
-	 * @param AsteroidData type
+	 * Set the AsteroidData type.
+	 *
+	 * @param type the type
 	 */
 	inline void setAsteroidType( AsteroidType type ) {
 		mAsteroidType = type;

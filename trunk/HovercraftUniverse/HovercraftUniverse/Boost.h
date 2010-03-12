@@ -1,7 +1,7 @@
 #ifndef SPEED_BOOST_H
 #define SPEED_BOOST_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>

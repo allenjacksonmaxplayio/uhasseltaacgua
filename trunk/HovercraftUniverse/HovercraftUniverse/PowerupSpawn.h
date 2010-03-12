@@ -1,7 +1,7 @@
 #ifndef POWERUPSPAWN_H
 #define POWERUPSPAWN_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
 

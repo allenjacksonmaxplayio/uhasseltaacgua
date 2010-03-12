@@ -2,8 +2,8 @@
 
 namespace HovUni {
 
-Player::Player(ZCom_ConnID connectionID):
-	mConnectionID(connectionID){
+Player::Player(ZCom_ConnID connectionID) : mConnectionID(connectionID) {
+	// Empty
 }
 
 Player::~Player(void){

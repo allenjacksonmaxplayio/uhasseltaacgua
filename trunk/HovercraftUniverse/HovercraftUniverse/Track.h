@@ -1,7 +1,7 @@
 #ifndef TRACK_H
 #define TRACK_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreString.h>
 #include <OgrePlatform.h>

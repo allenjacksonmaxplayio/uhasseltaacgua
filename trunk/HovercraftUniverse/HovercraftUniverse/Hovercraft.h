@@ -1,7 +1,7 @@
 #ifndef HOVERCRAFT_H
 #define HOVERCRAFT_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include "Entity.h"
 #include <OgreString.h>
 #include <tinyxml/tinyxml.h>

@@ -14,7 +14,7 @@ void StartPosition::load(TiXmlElement * data) throw(ParseException){
 
 	//We are loading a Finish!
 	if(strcmp(data->Value(),"StartPosition") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type start position.");
 	}	
 
 	//Read number

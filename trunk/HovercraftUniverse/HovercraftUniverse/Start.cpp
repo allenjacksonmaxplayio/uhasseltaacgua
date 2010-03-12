@@ -11,7 +11,7 @@ Start::Start(const Ogre::String& name, const Ogre::Vector3& position, const Ogre
 void Start::load(TiXmlElement * data){
 	//We are loading a Start!
 	if(strcmp(data->Value(),"Start") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type start.");
 	}
 }
 
