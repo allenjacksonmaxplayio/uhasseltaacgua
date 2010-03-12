@@ -37,7 +37,7 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 
 bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
 	
-	ServerLoader loader(this, ".\\..\\..\\..\\art\\models\\");
+	//ServerLoader loader(this, ".\\..\\..\\..\\art\\models\\");
 
 	return true;
 }
