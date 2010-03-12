@@ -6,7 +6,7 @@ namespace HovUni {
 const Ogre::String Boost::CATEGORY("Boost");
 
 Boost::Boost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval){
+	Entity(name,CATEGORY,false,position,orientation,processInterval,1){
 }
 
 void Boost::load(TiXmlElement * data) throw(ParseException){

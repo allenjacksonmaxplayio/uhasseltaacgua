@@ -1,5 +1,4 @@
 #include "UserDataFactory.h"
-#include "UserData.h"
 
 namespace HovUni {
 

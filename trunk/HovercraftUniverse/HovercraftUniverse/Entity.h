@@ -48,8 +48,9 @@ public:
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
+	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval, unsigned short replicators = 0 );
 
 	/**
 	 * Constructor.
@@ -60,8 +61,9 @@ public:
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
+	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval, unsigned short replicators = 0);
 
 	/**
 	 * Destructor.
