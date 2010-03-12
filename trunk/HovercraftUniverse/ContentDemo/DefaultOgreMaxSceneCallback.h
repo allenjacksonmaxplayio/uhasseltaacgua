@@ -4,7 +4,6 @@
 #include "CustomOgreMaxScene.h"
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
-#include "UserDataFactory.h"
 
 namespace HovUni {
 
@@ -13,7 +12,7 @@ namespace HovUni {
  * It will also attach user data to ogre scene nodes and movables like this:
  * mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
  */
-class DefaultOgreMaxSceneCallback : public CustomOgreMaxSceneCallback, public UserDataCallback
+class DefaultOgreMaxSceneCallback : public CustomOgreMaxSceneCallback
 {
 private:
 
@@ -51,10 +50,6 @@ protected:
 	 * @param animation
 	 */
 	void addNodeAnimation( Ogre::SceneNode * node, std::vector<OgreMax::Types::NodeAnimation> * animation );
-
-	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::MovableObject * object );
-
-	void parseExtraData( const OgreMax::Types::ObjectExtraDataPtr& extradata, Ogre::SceneNode * node );
 
 public:
 
@@ -138,85 +133,6 @@ public:
 	virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent);
 
 	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent);
-
-	//Custom objects
-
-	/*virtual void onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(asteroid));
-	};
-
-	virtual void onStart( Ogre::SharedPtr<Start> start ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(start));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(start));	
-	};
-
-	virtual void onStartPosition( Ogre::SharedPtr<StartPosition> startposition ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(startposition));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(startposition));	
-	}
-
-	virtual void onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(checkpoint));	
-	};
-
-	virtual void onFinish( Ogre::SharedPtr<Finish> finish ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(finish));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(finish));	
-	};
-
-	virtual void onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(hovercraft));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(hovercraft));	
-	};
-
-	virtual void onTrack( Ogre::SharedPtr<Track> track ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(track));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(track));	
-	};
-
-	virtual void onPortal( Ogre::SharedPtr<Portal> portal ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(portal));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(portal));	
-	};
-
-	virtual void onBoost( Ogre::SharedPtr<Boost> boost ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(boost));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(boost));	
-	};
-
-	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(powerupspawn));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(powerupspawn));	
-	};
-
-	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn ) {
-		if ( mNode )
-			mNode->getUserObjectBindings().setUserAny("userdata",Ogre::Any(spawn));
-		else if ( mMovable )
-			mMovable->getUserObjectBindings().setUserAny("userdata",Ogre::Any(spawn));	
-	};*/
 };
 
 }

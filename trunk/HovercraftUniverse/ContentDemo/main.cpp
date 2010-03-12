@@ -80,7 +80,7 @@ protected:
 		HovUni::DefaultOgreMaxSceneCallback callback(mWindow,mSceneMgr);
 
 		//CustomNotifier not;
-		mScene->Load("SimpleTrack.scene",OgreMax::OgreMaxScene::NO_OPTIONS,&callback);
+		mScene->Load("SimpleTrack.scene",CustomOgreMaxScene::NO_OPTIONS,&callback);
 
 		delete mScene;
 
