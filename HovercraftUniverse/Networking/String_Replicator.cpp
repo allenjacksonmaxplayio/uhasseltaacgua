@@ -41,9 +41,31 @@ namespace HovUni {
 
 	void String_Replicator::packData(ZCom_BitStream *_stream) {
 		// add data to stream
+
+		//send length
 		_stream->addInt(mData->length(),sizeof(zU16)*8);
-		if ( !mData->empty() ){
-			_stream->addBuffer(mData->c_str(),mData->length());
+		
+		if (!mData->empty()){
+			if (mData->length() <= BUFFERSIZE){
+				//if internal buffer big enough
+				memcpy(mBuffer,mData->c_str(),mData->length());	//copy 
+				_stream->addBuffer(mBuffer,mData->length());	//send
+			}
+			else {
+				//if real big text, send all
+				zU32 bytesleft = mData->length();
+				while (bytesleft > 0){
+					if (bytesleft > BUFFERSIZE){
+						memcpy(mBuffer,mData->c_str(),BUFFERSIZE);
+						_stream->addBuffer(mBuffer,BUFFERSIZE);
+					}
+					else {
+						memcpy(mBuffer,mData->c_str(),bytesleft);
+						_stream->addBuffer(mBuffer,bytesleft);
+					}
+					bytesleft -= BUFFERSIZE;
+				}			
+			}
 		}
 	}
 
