@@ -16,8 +16,7 @@ namespace HovUni {
  * This class is singleton, use getSingleton() to get the reference.
  * @author PJ
  */
-class UserDataFactory
-{
+class UserDataFactory{
 private:
 
 	static UserDataFactory * ms_Singleton;

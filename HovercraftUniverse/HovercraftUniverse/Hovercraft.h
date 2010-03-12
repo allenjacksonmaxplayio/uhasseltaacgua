@@ -11,8 +11,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class Hovercraft : public Entity
-{
+class Hovercraft : public Entity{
 private:
 
 	/**

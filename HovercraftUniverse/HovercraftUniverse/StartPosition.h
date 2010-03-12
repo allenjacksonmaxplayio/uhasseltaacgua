@@ -11,8 +11,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class StartPosition : public Entity
-{
+class StartPosition : public Entity{
 private:
 
 	/**

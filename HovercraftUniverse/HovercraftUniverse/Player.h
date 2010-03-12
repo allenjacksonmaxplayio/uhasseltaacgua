@@ -6,8 +6,7 @@
 
 namespace HovUni {
 
-class Player
-{
+class Player{
 private:
 
 	//connection id

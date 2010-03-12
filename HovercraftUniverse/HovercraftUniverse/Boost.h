@@ -14,8 +14,7 @@ namespace HovUni {
  * A Boost should speed up an entity that passes over it in the direction it is currently heading. 
  * @author PJ
  */
-class Boost : public Entity
-{
+class Boost : public Entity{
 private:
 
 	/**

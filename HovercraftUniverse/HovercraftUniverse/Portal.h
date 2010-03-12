@@ -15,8 +15,7 @@ namespace HovUni {
  * A portal is a teleportation mechanism that ports objects from begin to end
  * @author PJ	
  */
-class Portal : Entity
-{
+class Portal : Entity{
 private:
 
 	/**

@@ -15,8 +15,7 @@ namespace HovUni {
  *
  * @author Pieter-Jan Pintens & Olivier Berghmans
  */
-class Lobby : public NetworkEntity
-{
+class Lobby : public NetworkEntity{
 private:
 
 	//TODO MUTEX PROTECT PLAYERS

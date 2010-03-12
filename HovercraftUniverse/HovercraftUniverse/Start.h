@@ -12,8 +12,7 @@ namespace HovUni {
  * A location in the world on where hovercrafts will be placed when the race begins.
  * @author PJ
  */ 
-class Start : public Entity
-{
+class Start : public Entity{
 public:
 
 	static const Ogre::String CATEGORY;

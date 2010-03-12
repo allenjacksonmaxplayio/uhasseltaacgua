@@ -10,8 +10,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class Finish : public Entity
-{
+class Finish : public Entity{
 public:
 
 	static const Ogre::String CATEGORY;

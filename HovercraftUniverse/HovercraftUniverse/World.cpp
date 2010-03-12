@@ -14,12 +14,10 @@ World& World::getSingleton() {
 }
 
 World::World(void):
-	mIsLoaded(false)
-{
+	mIsLoaded(false){
 }
 
-World::~World(void)
-{
+World::~World(void){
 }
 
 void World::create(const Ogre::String& map){

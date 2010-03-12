@@ -9,8 +9,7 @@
 
 namespace HovUni {
 
-class Track : public Entity
-{
+class Track : public Entity{
 private:
 
 	/**

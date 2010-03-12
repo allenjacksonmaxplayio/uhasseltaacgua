@@ -6,12 +6,10 @@ namespace HovUni {
 const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
 Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval)
-{
+	Entity(name,CATEGORY,false,position,orientation,processInterval){
 }
 
-void Hovercraft::load(TiXmlElement * data) throw(ParseException)
-{
+void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
 	
 	//We are loading a Hovercraft!
@@ -70,8 +68,7 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException)
 	}
 }
 
-Hovercraft::~Hovercraft(void)
-{
+Hovercraft::~Hovercraft(void){
 }
 
 }

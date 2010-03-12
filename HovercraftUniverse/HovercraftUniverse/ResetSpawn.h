@@ -11,8 +11,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class ResetSpawn : public Entity
-{
+class ResetSpawn : public Entity{
 private:
 
 public:	
