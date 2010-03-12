@@ -6,12 +6,10 @@ namespace HovUni {
 const Ogre::String Portal::CATEGORY("Portal");
 
 Portal::Portal(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval)
-{
+	Entity(name,CATEGORY,false,position,orientation,processInterval){
 }
 
-void Portal::load(TiXmlElement * data) throw(ParseException)
-{
+void Portal::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
 	
 	//We are loading a Portal!
@@ -64,8 +62,7 @@ void Portal::load(TiXmlElement * data) throw(ParseException)
 	}
 }
 
-Portal::~Portal(void)
-{
+Portal::~Portal(void){
 }
 
 }

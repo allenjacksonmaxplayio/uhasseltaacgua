@@ -6,12 +6,10 @@ namespace HovUni {
 const Ogre::String CheckPoint::CATEGORY("Checkpoint");
 
 CheckPoint::CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval)
-{
+	Entity(name,CATEGORY,false,position,orientation,processInterval){
 }
 
-void CheckPoint::load(TiXmlElement * data) throw(ParseException)
-{
+void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
@@ -40,8 +38,7 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException)
 	}
 }
 
-CheckPoint::~CheckPoint(void)
-{
+CheckPoint::~CheckPoint(void){
 }
 
 }

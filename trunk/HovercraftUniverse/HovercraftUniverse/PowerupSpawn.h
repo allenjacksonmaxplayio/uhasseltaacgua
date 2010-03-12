@@ -7,8 +7,7 @@
 
 namespace HovUni {
 
-class PowerupSpawn : Entity
-{
+class PowerupSpawn : Entity{
 public:
 
 	static const Ogre::String CATEGORY;

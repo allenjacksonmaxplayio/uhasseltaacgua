@@ -6,12 +6,10 @@ namespace HovUni {
 const Ogre::String Track::CATEGORY("Track");
 
 Track::Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval)
-{
+	Entity(name,CATEGORY,false,position,orientation,processInterval){
 }
 
-void Track::load(TiXmlElement * data) throw(ParseException)
-{
+void Track::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
 
 	//We are loading a CheckPoint!
@@ -60,8 +58,7 @@ void Track::load(TiXmlElement * data) throw(ParseException)
 	}
 }
 
-Track::~Track(void)
-{
+Track::~Track(void){
 }
 
 }

@@ -6,8 +6,7 @@
 
 namespace HovUni {
 
-class World
-{
+class World{
 private:
 
 	// singleton pointer

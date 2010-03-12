@@ -3,12 +3,10 @@
 namespace HovUni {
 
 Player::Player(ZCom_ConnID connectionID):
-	mConnectionID(connectionID)
-{
+	mConnectionID(connectionID){
 }
 
-Player::~Player(void)
-{
+Player::~Player(void){
 }
 
 }

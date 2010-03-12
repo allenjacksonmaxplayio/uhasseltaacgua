@@ -11,8 +11,7 @@ namespace HovUni {
  * A struct that describes an Entity
  * Contains its name, position and orientation.
  */
-class EntityDescription
-{
+class EntityDescription{
 private:
 
 	Ogre::String mName;

@@ -12,8 +12,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class CheckPoint : public Entity 
-{
+class CheckPoint : public Entity {
 private:
 
 	/**

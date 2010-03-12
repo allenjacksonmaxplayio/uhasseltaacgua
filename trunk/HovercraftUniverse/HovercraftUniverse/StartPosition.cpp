@@ -6,12 +6,10 @@ namespace HovUni {
 const Ogre::String StartPosition::CATEGORY("StartPosition");
 
 StartPosition::StartPosition(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval)
-{
+	Entity(name,CATEGORY,false,position,orientation,processInterval){
 }
 
-void StartPosition::load(TiXmlElement * data) throw(ParseException)
-{
+void StartPosition::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
 
 	//We are loading a Finish!
@@ -30,8 +28,7 @@ void StartPosition::load(TiXmlElement * data) throw(ParseException)
 	}
 }
 
-StartPosition::~StartPosition(void)
-{
+StartPosition::~StartPosition(void){
 }
 
 }
