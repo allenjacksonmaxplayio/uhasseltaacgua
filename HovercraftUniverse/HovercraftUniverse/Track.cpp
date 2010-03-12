@@ -1,5 +1,6 @@
 #include "Track.h"
 #include <OgreStringConverter.h>
+#include "String_Replicator.h"
 
 namespace HovUni {
 
@@ -18,12 +19,12 @@ void Track::load(TiXmlElement * data) throw(ParseException){
 	}
 
 	//Read name
-	mName = "No name";
+	mDisplayName = "No name";
 	node = data->FirstChild("Name");
 	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if(element){
-			mName = Ogre::String(element->GetText());
+			mDisplayName = Ogre::String(element->GetText());
 		}
 	}
 
@@ -59,6 +60,32 @@ void Track::load(TiXmlElement * data) throw(ParseException){
 }
 
 Track::~Track(void){
+}
+
+void Track::setupReplication(){
+	//mName
+	mNode->addReplicator(
+		new String_Replicator(&mDisplayName,
+		ZCOM_REPFLAG_MOSTRECENT,
+		ZCOM_REPRULE_AUTH_2_ALL
+	), 
+	true);
+
+	//mMinimumPlayers
+	mNode->addReplicationInt(&mMinimumPlayers,		// pointer to the variable
+    8,												// amount of bits(up to 255 players)
+    false,											// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
+	);
+
+	//mMaximumPlayers
+	mNode->addReplicationInt(&mMaximumPlayers,		// pointer to the variable
+    8,												// amount of bits(up to 255 players)
+    false,											// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
+	);
 }
 
 }

@@ -32,7 +32,7 @@ public:
 private:
 
 	/** The name of the asteroid */ 
-	Ogre::String mName;
+	Ogre::String mDisplayName;
 
 	/** The force of the gravitational field of the asteroid */
 	Ogre::Real mGravity;
@@ -40,18 +40,22 @@ private:
 	/** The type of asteroid */
 	AsteroidType mAsteroidType;
 
-
 public:
+
+	/**
+	 * The category used for asteroids
+	 */
+	static const Ogre::String CATEGORY;
 	
 	/**
 	 * Constructor.
 	 *
 	 * @param name The name of the asteroid
-	 * @param position TODO In load?
-	 * @param quaternion TODO In load?
+	 * @param position
+	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Asteroid(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Asteroid(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * Load
@@ -70,8 +74,8 @@ public:
 	 *
 	 * @return name
 	 */
-	inline Ogre::String getName() const {
-		return mName;
+	inline Ogre::String getDisplayName() const {
+		return mDisplayName;
 	}
 
 	/**
@@ -79,8 +83,8 @@ public:
 	 *
 	 * @param name the name
 	 */
-	inline void setName( const Ogre::String& name ) {
-		mName = name;
+	inline void setDisplayName( const Ogre::String& name ) {
+		mDisplayName = name;
 	}
 
 	/**
@@ -157,6 +161,11 @@ public:
 	 */
 	virtual void processEventsOther(ControllerEvent* event){
 	}
+
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
 };
 
 }

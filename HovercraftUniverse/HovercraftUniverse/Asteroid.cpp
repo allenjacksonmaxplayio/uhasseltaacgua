@@ -1,11 +1,14 @@
 #include "Asteroid.h"
 #include "Exception.h"
 #include <OgreStringConverter.h>
+#include "String_Replicator.h"
 
 namespace HovUni {
 
-Asteroid::Asteroid(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-		Entity(name,category,false,position,orientation,processInterval) {
+const Ogre::String Asteroid::CATEGORY("Asteroid");
+
+Asteroid::Asteroid(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
+		Entity(name,CATEGORY,false,position,orientation,processInterval) {
 	// Empty
 }
 
@@ -18,12 +21,12 @@ void Asteroid::load(TiXmlElement * data) {
 	}
 
 	// Read name
-	mName = "No name";
+	mDisplayName = "No name";
 	node = data->FirstChild("Name");
 	if (node) {
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if (element) {
-			mName = Ogre::String(element->GetText());
+			mDisplayName = Ogre::String(element->GetText());
 		}
 	}
 
@@ -50,6 +53,31 @@ void Asteroid::load(TiXmlElement * data) {
 
 Asteroid::~Asteroid(void) {
 	// Empty
+}
+
+void Asteroid::setupReplication(){
+	//mName
+	mNode->addReplicator(
+		new String_Replicator(&mDisplayName,
+		ZCOM_REPFLAG_MOSTRECENT,
+		ZCOM_REPRULE_AUTH_2_ALL
+	), 
+	true);
+
+	//mGravity
+	mNode->addReplicationFloat(&mGravity,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
+
+	//mAsteroidtype
+	mNode->addReplicationInt((int*)&mAsteroidType,	// pointer to the variable
+    4,												// amount of bits(up to 16 types)
+    false,											// unsigned
+    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
+    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
+	);
 }
 
 }

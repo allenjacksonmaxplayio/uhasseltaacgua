@@ -15,10 +15,18 @@ namespace HovUni {
 class Start : public Entity{
 public:
 
+	/**
+	 * The category used for starts
+	 */
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the start
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	Start(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 

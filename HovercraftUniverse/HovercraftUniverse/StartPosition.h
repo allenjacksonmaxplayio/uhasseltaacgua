@@ -21,10 +21,18 @@ private:
 
 public:
 
+	/**
+	 * The category used for startpositions
+	 */
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the startposition
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	StartPosition(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
@@ -95,6 +103,11 @@ public:
 	 */
 	virtual void processEventsOther(ControllerEvent* event){
 	}
+
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
 };
 
 }

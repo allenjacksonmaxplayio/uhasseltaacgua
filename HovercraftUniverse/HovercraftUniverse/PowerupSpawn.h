@@ -10,10 +10,18 @@ namespace HovUni {
 class PowerupSpawn : Entity{
 public:
 
+	/**
+	 * The category used for powerupspawns
+	 */
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the powerupspawn
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	PowerupSpawn(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 

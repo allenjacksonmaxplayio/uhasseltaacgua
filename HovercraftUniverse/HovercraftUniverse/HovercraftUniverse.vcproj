@@ -769,10 +769,6 @@
 					RelativePath=".\PhantomTrackAction.h"
 					>
 				</File>
-				<File
-					RelativePath=".\PhysicsLoader.h"
-					>
-				</File>
 				<Filter
 					Name="phantom"
 					>

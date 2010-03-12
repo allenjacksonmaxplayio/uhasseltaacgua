@@ -18,12 +18,12 @@ void Portal::load(TiXmlElement * data) throw(ParseException){
 	}	
 
 	//Read name
-	mName = "No name";
+	mDisplayName = "No name";
 	node = data->FirstChild("Name");
 	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if(element){
-			mName = Ogre::String(element->GetText());
+			mDisplayName = Ogre::String(element->GetText());
 		}
 	}
 

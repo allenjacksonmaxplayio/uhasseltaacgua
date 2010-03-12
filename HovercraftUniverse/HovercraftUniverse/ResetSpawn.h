@@ -16,10 +16,18 @@ private:
 
 public:	
 
+	/**
+	 * The category used for reset spawns
+	 */
 	static const Ogre::String CATEGORY;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param name The name of the hovercraft
+	 * @param position
+	 * @param quaternion
+	 * @param processInterval The process interval
 	 */
 	ResetSpawn(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
