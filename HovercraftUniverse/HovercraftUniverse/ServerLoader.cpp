@@ -50,16 +50,16 @@ ServerLoader::~ServerLoader(void)
 
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	if ( !userData.empty() ){
-		EntityDescription desc("Track","TODO",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
-		UserDataFactory::getSingleton().parseUserData(userData /*, desc TODO PJ, This function only requires 1 argument */);
+		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
+		UserDataFactory::getSingleton().parseUserData(userData , desc);
 	}
 }
 
 void ServerLoader::onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent) {
 	mNodeparameters = &nodeparameters;
 	if ( !nodeparameters.extraData.isNull() && !nodeparameters.extraData->userData.empty() ){
-		EntityDescription desc(nodeparameters.name,"TODO",nodeparameters.position,nodeparameters.orientation);
-		UserDataFactory::getSingleton().parseUserData(nodeparameters.extraData->userData /*, desc TODO PJ, This function only requires 1 argument */);
+		EntityDescription desc(nodeparameters.name,nodeparameters.position,nodeparameters.orientation);
+		UserDataFactory::getSingleton().parseUserData(nodeparameters.extraData->userData , desc);
 	}
 	mNodeparameters = 0;
 }
@@ -67,8 +67,8 @@ void ServerLoader::onNode( OgreMax::Types::NodeParameters& nodeparameters, std::
 void ServerLoader::onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ) {
 	mEntityparameters = &entityparameters;
 	if ( !entityparameters.extraData.isNull() && !entityparameters.extraData->userData.empty() ){
-		EntityDescription desc(entityparameters.name,"TODO",mNodeparameters->position,mNodeparameters->orientation);
-		UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData /*, desc TODO PJ, This function only requires 1 argument */);
+		EntityDescription desc(entityparameters.name,mNodeparameters->position,mNodeparameters->orientation);
+		UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData , desc);
 	}
 	mEntityparameters = 0;
 }
@@ -76,8 +76,8 @@ void ServerLoader::onEntity( OgreMax::Types::EntityParameters& entityparameters,
 void ServerLoader::onExternal( OgreMax::Types::ExternalItem& externalitem){
 	mExternalitem = &externalitem;
 	if ( !externalitem.userData.empty() ){
-		EntityDescription desc(externalitem.name,"TODO",externalitem.position,externalitem.rotation);
-		UserDataFactory::getSingleton().parseUserData(externalitem.userData /*, desc TODO PJ does not compile */);
+		EntityDescription desc(externalitem.name,externalitem.position,externalitem.rotation);
+		UserDataFactory::getSingleton().parseUserData(externalitem.userData , desc );
 	}
 	mExternalitem = 0;
 }

@@ -34,15 +34,17 @@ private:
 	Ogre::int32 mMaximumPlayers;
 
 public:
+
+	static const Ogre::String CATEGORY;
 	
-	Track(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * Constructor
 	 * @param data
 	 * @throws ParseException
 	 */
-	void load( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -61,7 +63,7 @@ public:
 	 * Set physics filename
 	 * @param physics filename
 	 */
-	inline void setPhysicsFileName( const Ogre::String& physicsFileName ){
+	inline void setPhysicsFileName(const Ogre::String& physicsFileName){
 		mPhysicsFileName = physicsFileName;
 	}
 
@@ -77,7 +79,7 @@ public:
 	 * Set minimum players
 	 * @param minplayers
 	 */
-	inline void setMinimumPlayers( Ogre::int32 minplayers ){
+	inline void setMinimumPlayers(Ogre::int32 minplayers){
 		mMinimumPlayers = minplayers;
 	}
 
@@ -94,7 +96,7 @@ public:
 	 * Set maximum players
 	 * @param maximum
 	 */
-	inline void setMaximumPlayers( Ogre::int32 maximum ){
+	inline void setMaximumPlayers(Ogre::int32 maximum){
 		mMaximumPlayers = maximum;
 	}
 
@@ -110,13 +112,13 @@ public:
 	 * Set name
 	 * @param name
 	 */
-	inline void setName( const Ogre::String& name ){
+	inline void setName(const Ogre::String& name){
 		mName = name;
 	}
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */

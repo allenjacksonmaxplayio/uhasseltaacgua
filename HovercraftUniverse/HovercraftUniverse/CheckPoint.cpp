@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-CheckPoint::CheckPoint(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,category,false,position,orientation,processInterval)
+const Ogre::String CheckPoint::CATEGORY("Checkpoint");
+
+CheckPoint::CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,processInterval)
 {
 }
 
-void CheckPoint::load( TiXmlElement * data ) throw (ParseException)
+void CheckPoint::load(TiXmlElement * data) throw(ParseException)
 {
 	TiXmlNode * node;
 
@@ -20,9 +22,9 @@ void CheckPoint::load( TiXmlElement * data ) throw (ParseException)
 	//Read name
 	mName = "No name";
 	node = data->FirstChild("Name");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mName = Ogre::String(element->GetText());
 		}
 	}
@@ -30,9 +32,9 @@ void CheckPoint::load( TiXmlElement * data ) throw (ParseException)
 	//Read number
 	mNumber = 0;
 	node = data->FirstChild("Number");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mNumber = Ogre::StringConverter::parseInt(Ogre::String(element->GetText()));
 		}
 	}

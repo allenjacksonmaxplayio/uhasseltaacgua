@@ -3,8 +3,8 @@
 
 namespace HovUni {
 
-	UserDataCallback::UserDataCallback( bool reg ){
-		if ( reg ){
+	UserDataCallback::UserDataCallback(bool reg){
+		if(reg){
 			UserDataFactory::getSingleton().addUserDataCallback(this);
 		}
 	}

@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Portal::Portal(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,category,false,position,orientation,processInterval)
+const Ogre::String Portal::CATEGORY("Portal");
+
+Portal::Portal(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,processInterval)
 {
 }
 
-void Portal::load(TiXmlElement * data) throw (ParseException)
+void Portal::load(TiXmlElement * data) throw(ParseException)
 {
 	TiXmlNode * node;
 	
@@ -20,25 +22,25 @@ void Portal::load(TiXmlElement * data) throw (ParseException)
 	//Read name
 	mName = "No name";
 	node = data->FirstChild("Name");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mName = Ogre::String(element->GetText());
 		}
 	}
 
 	//Read Start
 	node = data->FirstChild("Start");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			Ogre::String value = Ogre::String(element->GetText());
 			Ogre::vector<Ogre::String>::type split = Ogre::StringUtil::split(value,",");
 			
-			if ( split.size() != 3 )
+			if(split.size() != 3)
 				 throw ParseException();
 
-			for ( int i = 0; i < 3; i++ ){
+			for(int i = 0; i < 3; i++){
 				mStart[i] = Ogre::StringConverter::parseReal(split[i]);
 			}			
 		}
@@ -46,16 +48,16 @@ void Portal::load(TiXmlElement * data) throw (ParseException)
 
 	//Read End
 	node = data->FirstChild("End");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			Ogre::String value = Ogre::String(element->GetText());
 			Ogre::vector<Ogre::String>::type split = Ogre::StringUtil::split(value,",");
 			
-			if ( split.size() != 3 )
+			if(split.size() != 3)
 				 throw ParseException();
 
-			for ( int i = 0; i < 3; i++ ){
+			for(int i = 0; i < 3; i++){
 				mEnd[i] = Ogre::StringConverter::parseReal(split[i]);
 			}			
 		}

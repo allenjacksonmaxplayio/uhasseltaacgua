@@ -3,12 +3,14 @@
 
 namespace HovUni {
 
-Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,category,false,position,orientation,processInterval)
+const Ogre::String Hovercraft::CATEGORY("Hovercraft");
+
+Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,processInterval)
 {
 }
 
-void Hovercraft::load(TiXmlElement * data) throw (ParseException)
+void Hovercraft::load(TiXmlElement * data) throw(ParseException)
 {
 	TiXmlNode * node;
 	
@@ -20,9 +22,9 @@ void Hovercraft::load(TiXmlElement * data) throw (ParseException)
 	//Read name
 	mName = "No name";
 	node = data->FirstChild("Name");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mName = Ogre::String(element->GetText());
 		}
 	}
@@ -30,9 +32,9 @@ void Hovercraft::load(TiXmlElement * data) throw (ParseException)
 	//Read Description
 	mDescription = "";
 	node = data->FirstChild("Description");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mDescription = Ogre::String(element->GetText());
 		}
 	}
@@ -40,9 +42,9 @@ void Hovercraft::load(TiXmlElement * data) throw (ParseException)
 	//Read Speed
 	mSpeed = 0.0f;
 	node = data->FirstChild("Speed");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mSpeed = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}
@@ -50,9 +52,9 @@ void Hovercraft::load(TiXmlElement * data) throw (ParseException)
 	//Read Speed
 	mMass = 0.0f;
 	node = data->FirstChild("Mass");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mMass = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}
@@ -60,9 +62,9 @@ void Hovercraft::load(TiXmlElement * data) throw (ParseException)
 	//Read Acceleration
 	mAcceleration = 0.0f;
 	node = data->FirstChild("Acceleration");
-	if ( node ){
+	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
-		if ( element ){
+		if(element){
 			mAcceleration = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}

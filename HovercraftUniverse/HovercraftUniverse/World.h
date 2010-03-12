@@ -53,7 +53,7 @@ public:
 	 * @param the mapname
 	 * @param the loader
 	 */
-	static void create(const Ogre::String& map );
+	static void create(const Ogre::String& map);
 	
 	/**
 	 * Destroy the world

@@ -3,7 +3,9 @@
 
 #include <OgreMaxScene.hpp>
 #include <list>
+
 #include "UserDataCallback.h"
+#include "EntityDescription.h"
 
 namespace HovUni {
 
@@ -54,19 +56,20 @@ public:
 	 * Add a listener for load events
 	 * @param callback
 	 */
-	void addUserDataCallback( UserDataCallback* callback );
+	void addUserDataCallback(UserDataCallback* callback);
 
 	/**
 	 * Remove a listener for load events
 	 * @param callback
 	 */
-	void removeUserDataCallback( UserDataCallback* callback );
+	void removeUserDataCallback(UserDataCallback* callback);
 
 	/**
 	 * Will parse the scene and load all userdata
 	 * @param data
+	 * @param entity description
 	 */
-	void parseUserData(const Ogre::String& data );
+	void parseUserData(const Ogre::String& data, const EntityDescription& description);
 };
 
 }

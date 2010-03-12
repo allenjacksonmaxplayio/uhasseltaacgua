@@ -42,17 +42,19 @@ private:
 
 public:
 
+	static const Ogre::String CATEGORY;
+
 	/**
 	 * Constructor
 	 */
-	Hovercraft(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
 	 * load
 	 * @param data, xml element that descripes the hovercraft
 	 * @throws ParseException
 	 */
-	void load( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -71,7 +73,7 @@ public:
 	 * Set the name
 	 * @param name
 	 */
-	inline void setName( const Ogre::String& name ) {
+	inline void setName(const Ogre::String& name) {
 		mName = name;
 	}
 
@@ -87,7 +89,7 @@ public:
 	 * Set the description
 	 * @param description
 	 */
-	inline void setDescription( const Ogre::String& description ) {
+	inline void setDescription(const Ogre::String& description) {
 		mDescription = description;
 	}
 
@@ -103,7 +105,7 @@ public:
 	 * Set the speed
 	 * @param speed
 	 */
-	inline void setSpeed( Ogre::Real speed ) {
+	inline void setSpeed(Ogre::Real speed) {
 		mSpeed = speed;
 	}
 
@@ -119,7 +121,7 @@ public:
 	 * Set the mass
 	 * @param mass
 	 */
-	inline void setMass( Ogre::Real mass ) {
+	inline void setMass(Ogre::Real mass) {
 		mMass = mass;
 	}
 
@@ -135,13 +137,13 @@ public:
 	 * Set the acceleration
 	 * @param acceleration
 	 */
-	inline void setAcceleration( Ogre::Real acceleration ) {
+	inline void setAcceleration(Ogre::Real acceleration) {
 		mAcceleration = acceleration;
 	}
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */

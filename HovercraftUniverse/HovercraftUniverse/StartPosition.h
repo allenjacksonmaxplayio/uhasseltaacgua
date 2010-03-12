@@ -22,10 +22,12 @@ private:
 
 public:
 
+	static const Ogre::String CATEGORY;
+
 	/**
 	 * Constructor
 	 */
-	StartPosition(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	StartPosition(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 
 	/**
@@ -33,7 +35,7 @@ public:
 	 * @param data, xml element that descripes the start position
 	 * @throws ParseException
 	 */
-	void load ( TiXmlElement * data ) throw (ParseException);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor
@@ -52,13 +54,13 @@ public:
 	 * Set the player number
 	 * @param player number
 	 */
-	inline void setPlayerNumber( Ogre::int32 playernumber ) {
+	inline void setPlayerNumber(Ogre::int32 playernumber) {
 		mPlayerNumber = playernumber;
 	}
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
-	 * (e.g. intermediate actions).
+	 *(e.g. intermediate actions).
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */
