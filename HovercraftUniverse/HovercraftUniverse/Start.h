@@ -1,7 +1,7 @@
 #ifndef START_H
 #define START_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
 

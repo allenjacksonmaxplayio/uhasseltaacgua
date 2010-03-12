@@ -14,7 +14,7 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 	
 	//We are loading a Hovercraft!
 	if(strcmp(data->Value(),"Hovercraft") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type hovercraft.");
 	}
 
 	//Read name

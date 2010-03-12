@@ -1,7 +1,7 @@
 #ifndef STARTPOSITION_H
 #define STARTPOSITION_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include <tinyxml/tinyxml.h>
 #include <OgrePlatform.h>
 #include "Entity.h"

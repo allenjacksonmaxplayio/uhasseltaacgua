@@ -14,7 +14,7 @@ void Boost::load(TiXmlElement * data) throw(ParseException){
 
 	//We are loading a Boost!
 	if(strcmp(data->Value(),"Boost") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type boost.");
 	}
 
 	//Read BoostData

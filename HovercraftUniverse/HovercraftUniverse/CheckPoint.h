@@ -1,7 +1,7 @@
 #ifndef CHECKPOINT_H
 #define CHECKPOINT_H
 
-#include "ParseException.h"
+#include "Exception.h"
 #include "Entity.h"
 #include <OgreString.h>
 #include <OgrePlatform.h>

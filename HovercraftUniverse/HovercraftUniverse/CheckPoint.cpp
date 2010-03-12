@@ -14,7 +14,7 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 
 	//We are loading a CheckPoint!
 	if(strcmp(data->Value(),"CheckPoint") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type checkpoint.");
 	}	
 
 	//Read name

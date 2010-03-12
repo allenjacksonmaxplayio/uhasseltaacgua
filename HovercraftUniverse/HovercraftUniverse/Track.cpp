@@ -14,7 +14,7 @@ void Track::load(TiXmlElement * data) throw(ParseException){
 
 	//We are loading a CheckPoint!
 	if(strcmp(data->Value(),"Track") != 0){
-		throw ParseException();
+		THROW(ParseException, "Given XML element is not of type track.");
 	}
 
 	//Read name
