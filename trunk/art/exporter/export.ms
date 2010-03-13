@@ -1,0 +1,89 @@
+for o in objects do (
+	
+	ogrekeyword = "<OgreEntity>"
+	ogreendkeyword = "</OgreEntity>"	
+	
+	
+	objectSettings = ogremax.GetObjectSettingsByNode(o) 
+	
+	if hasProperty objectSettings "userdata" do ( 
+			
+		position = undefined
+		end = undefined
+				
+		if  objectSettings.userdata != undefined  then (			
+			position = findString objectSettings.userdata ogrekeyword
+			end = findString objectSettings.userdata ogreendkeyword
+		)
+		
+		/** SET OGRE-ENTITY ON GAME-ENTITIES **/
+			
+		/** if OGRE-ENTITY tag found but not a Ogre-Entity itself **/
+		if position != undefined AND position != 0 then (			
+			/** Replace the name with the parent name or with "" **/
+			position += ogrekeyword.count
+			count = end - position		
+			if o.parent != undefined then (			
+				objectSettings.userdata = replace objectSettings.userdata position count o.parent.name
+			)
+			else (
+				objectSettings.userdata = replace objectSettings.userdata position count ""
+			)				
+		)
+				
+		/** SET GAME-ENTITIES ON OGRE-ENTITY **/		
+		done = false
+		
+		bla =  "--" + o.name
+		print bla
+		
+		for child in o.children while  done == false do (
+					
+			childObjectSettings = ogremax.GetObjectSettingsByNode(child) 	
+		
+			
+			
+			/** The child should have userdata **/
+			if hasProperty childObjectSettings "userdata" AND childObjectSettings.userdata != undefined do (
+				
+				print child.name
+				
+				/** The child should have the OGRE-ENTITY tag but it should not be an OGRE-ENTITY itself **/
+				test = findString childObjectSettings.userdata ogrekeyword
+				if test != undefined AND test != 0 do (			
+						
+					/** Update the tag **/					
+					if objectSettings.userdata == undefined OR  objectSettings.userdata == "" then (
+						/** Add tag if no tags on object **/
+						objectSettings.UserDataClass = "OgreEntity"
+						objectSettings.userdata = ogrekeyword + "<GameEntity>"
+						objectSettings.userdata += child.name
+						objectSettings.userdata += "</GameEntity>" + ogreendkeyword
+					)
+					else if position != undefined  then (
+						/** Replace content if tag existed **/
+						position += ogrekeyword.count
+						count = end - position	
+						objectSettings.userdata = replace objectSettings.userdata position count child.name				
+					)
+					else (
+						/** Add tag as extra tag on object **/
+						
+						/** look for last "</" **/
+						p1 = 0
+						p2 = undefined						
+						while p1 != undefined do (
+							p2 = p1
+							p1 = findString objectSettings.userdata "</"							
+						)
+												
+						newtag = ogrekeyword + "<GameEntity>" + child.name + "</GameEntity>" + ogreendkeyword	
+						objectSettings.userdata = replace objectSettings.userdata p2 0 newtag												
+					)
+					
+					done = true
+				)
+			)					
+		)		
+	)
+)
