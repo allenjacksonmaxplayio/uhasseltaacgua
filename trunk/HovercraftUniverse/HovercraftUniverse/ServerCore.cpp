@@ -1,4 +1,5 @@
 #include "ServerCore.h"
+#include "ServerLoader.h"
 #include "EntityRegister.h"
 
 namespace HovUni {
@@ -11,33 +12,39 @@ ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDMana
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
 
+	//create lobby
+	mLobby = new Lobby(new ServerLoader());
+
+
 	// Register loby
-	mLobby.networkRegister(mIDManager->getID("Lobby"), this);
+	mLobby->networkRegister(mIDManager->getID("Lobby"), this);
 }
 
 ServerCore::~ServerCore() {
+	if ( mLobby )
+		delete mLobby;
 }
 
 void ServerCore::process() {
 	NetworkServer::process();
-	mLobby.processEvents(0.0f);
+	mLobby->processEvents(0.0f);
 }
 
 bool ServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
 	// Accept a connection if lobby isn't full
-	return mLobby.onConnectAttempt(id);
+	return mLobby->onConnectAttempt(id);
 }
 
 void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 	ZCom_requestDownstreamLimit(id, 60, 600);
 
 	// Notice the lobby of new connection
-	mLobby.onConnect(id);
+	mLobby->onConnect(id);
 }
 
 void ServerCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
 	// Connection closed
-	mLobby.onDisconnect(id);
+	mLobby->onDisconnect(id);
 }
 
 void ServerCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {

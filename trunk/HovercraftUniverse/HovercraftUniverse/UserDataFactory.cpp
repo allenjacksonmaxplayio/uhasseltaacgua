@@ -36,13 +36,34 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 	mDocument.Parse(data.c_str());
 	TiXmlElement * root = mDocument.RootElement();
 
+	//Read some generic things of entities here
+	Ogre::String ogreentity = "";
+	Ogre::Real processtime = -1.0f;
+
+	TiXmlNode * parent = root->FirstChild();
+	if ( parent ){
+		TiXmlNode * current = parent->FirstChild();
+		while ( current ){
+			TiXmlElement * element = dynamic_cast<TiXmlElement *>(current);			
+			if ( element ) {
+				if ( strcmp(element->Value(),"ProcessInterval") ){
+					processtime = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+				}
+				else if ( strcmp(element->Value(),"OgreEntity") ){
+					ogreentity = Ogre::String(element->GetText());
+				}
+			}
+			current->NextSibling();
+		}
+	}
+
 	//if correct xml, see if user data is known
 	if(root){
 
 		//START
 		if(strcmp(root->Value(),"Start") == 0){
 			//create
-			Ogre::SharedPtr<Start> start(new Start(description.getName(),description.getPosition(), description.getOrientation(),description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<Start> start(new Start(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			start->load(root);
 			//forward
@@ -53,7 +74,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//STARTPOSITION
 		if(strcmp(root->Value(),"StartPosition") == 0){
 			//create
-			Ogre::SharedPtr<StartPosition> startp(new StartPosition(description.getName(),description.getPosition(), description.getOrientation(),description.getProcessInterval()));
+			Ogre::SharedPtr<StartPosition> startp(new StartPosition(description.getName(),description.getPosition(), description.getOrientation(), processtime));
 			//load
 			startp->load(root);
 			//forward
@@ -64,7 +85,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//FINISH
 		else if(strcmp(root->Value(),"Finish") == 0){
 			//create
-			Ogre::SharedPtr<Finish> finish(new Finish(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<Finish> finish(new Finish(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			finish->load(root);
 			//forward
@@ -75,7 +96,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//CHECKPOINT
 		else if(strcmp(root->Value(),"CheckPoint") == 0){
 			//create
-			Ogre::SharedPtr<CheckPoint> checkpoint(new CheckPoint(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<CheckPoint> checkpoint(new CheckPoint(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			checkpoint->load(root);
 			//forward
@@ -86,7 +107,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//ASTEROID
 		else if(strcmp(root->Value(),"Asteroid") == 0){
 			//create
-			Ogre::SharedPtr<Asteroid> asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<Asteroid> asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			asteroid->load(root);
 			//forward
@@ -97,7 +118,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//HOVERCRAFT
 		else if(strcmp(root->Value(),"Hovercraft") == 0){
 			//create
-			Ogre::SharedPtr<Hovercraft> hovercraft(new Hovercraft(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<Hovercraft> hovercraft(new Hovercraft(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			hovercraft->load(root);
 			//forward
@@ -108,7 +129,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//BOOST
 		else if(strcmp(root->Value(),"Boost") == 0){
 			//create
-			Ogre::SharedPtr<SpeedBoost> boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<SpeedBoost> boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			boost->load(root);
 			//forward
@@ -119,7 +140,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//PORTAL
 		else if(strcmp(root->Value(),"Portal") == 0){
 			//create
-			Ogre::SharedPtr<Portal> portal(new Portal(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<Portal> portal(new Portal(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			portal->load(root);
 			//forward
@@ -130,7 +151,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//POWERUPSPAWN
 		else if(strcmp(root->Value(),"PowerupSpawn") == 0){
 			//create
-			Ogre::SharedPtr<PowerupSpawn> spawn(new PowerupSpawn(description.getName(),description.getPosition(), description.getOrientation(), description.getOgreEntity(),description.getProcessInterval()));
+			Ogre::SharedPtr<PowerupSpawn> spawn(new PowerupSpawn(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			spawn->load(root);
 			//forward
@@ -141,7 +162,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//RESETSPAWN
 		else if(strcmp(root->Value(),"ResetSpawn") == 0){
 			//create
-			Ogre::SharedPtr<ResetSpawn> spawn(new ResetSpawn(description.getName(),description.getPosition(), description.getOrientation(), description.getProcessInterval()));
+			Ogre::SharedPtr<ResetSpawn> spawn(new ResetSpawn(description.getName(),description.getPosition(), description.getOrientation(), processtime));
 			//load
 			spawn->load(root);
 			//forward
@@ -152,7 +173,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//TRACK
 		else if(strcmp(root->Value(),"Track") == 0){
 			//create
-			Ogre::SharedPtr<Track> track(new Track(description.getName(),description.getPosition(), description.getOrientation(), description.getProcessInterval()));
+			Ogre::SharedPtr<Track> track(new Track(description.getName(),description.getPosition(), description.getOrientation(), processtime));
 			//load
 			track->load(root);
 			//forward

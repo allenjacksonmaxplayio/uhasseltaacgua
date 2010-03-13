@@ -9,9 +9,11 @@
 
 namespace HovUni {
 
+class Loader;
+
 /**
  * The Lobby which holds the connected players, assigns an 
- * administrator and holds the map info.
+ * administrator and holds the map info. It also contains a custom loader that is used to load the initial world.
  *
  * @author Pieter-Jan Pintens & Olivier Berghmans
  */
@@ -19,6 +21,9 @@ class Lobby : public NetworkEntity{
 private:
 
 	//TODO MUTEX PROTECT PLAYERS
+
+	/** Specific loader, will be different on client and server **/
+	Loader * mLoader;
 
 	/** Indicator of whether there is an administrator */
 	bool mHasAdmin;
@@ -45,8 +50,9 @@ public:
 
 	/**
 	 * Constructor
+	 * @param the loader for the loby, will be deleted by the lobby on destruction
 	 */
-	Lobby();
+	Lobby( Loader * loader );
 
 	/**
 	 * Destructor

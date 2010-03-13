@@ -1,5 +1,6 @@
 #include "ClientCore.h"
 #include "Application.h"
+#include "ClientLoader.h"
 #include "DummyHovercraft.h"
 #include "DummyHovercraftPlayerController.h"
 #include "DummyHovercraftAIController.h"
@@ -62,7 +63,7 @@ void ClientCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 
 void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
 		// Lobby received (upon connect)
-		mLobby = new Lobby();
+		mLobby = new Lobby(new ClientLoader());
 		mLobby->networkRegister(requested_class, this);
 	}
 

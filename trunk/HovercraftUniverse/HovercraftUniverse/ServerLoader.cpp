@@ -1,17 +1,19 @@
 #include "ServerLoader.h"
-#include "HoverCraftUniverseWorld.h"
-#include "HavokEntityType.h"
 
-#include <Physics/Dynamics/Entity/hkpRigidBody.h>
-#include <Common/Base/Math/Matrix/hkTransform.h>
-
+#include "CustomOgreMaxScene.h"
 #include "Exception.h"
 #include "EntityDescription.h"
 
-// Phantom for planets
-#include "PlanetGravityPhantom.h"
+//Lobby
+#include "Lobby.h"
 
-// Phantoms entities
+// Physics
+#include "Havok.h"
+#include <Physics/Dynamics/Entity/hkpRigidBody.h>
+#include <Common/Base/Math/Matrix/hkTransform.h>
+#include "HoverCraftUniverseWorld.h"
+#include "PlanetGravityPhantom.h"
+#include "HavokEntityType.h"
 #include "CheckpointPhantom.h"
 #include "StartPhantom.h"
 #include "SpeedBoostPhantom.h"
@@ -39,8 +41,7 @@ namespace {
 
 namespace HovUni {
 
-ServerLoader::ServerLoader(HoverCraftUniverseWorld * world, ServerCore * server, char const * path):
-	mHovercraftWorld(world), mPath(path), mExternalitem(0), mNodeparameters(0), mServer(server)
+ServerLoader::ServerLoader(): mHovercraftWorld(0)
 {
 }
 
@@ -48,20 +49,17 @@ ServerLoader::~ServerLoader(void)
 {
 }
 
-void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
-	if ( !userData.empty() ){
-		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,"");
-		UserDataFactory::getSingleton().parseUserData(userData , desc);
-	}
+void ServerLoader::load ( const Ogre::String& filename ){
+	CustomOgreMaxScene scene;
+	//TODO optimize options
+	scene.Load(filename,this);
 }
 
-void ServerLoader::onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent) {
-	mNodeparameters = &nodeparameters;
-	if ( !nodeparameters.extraData.isNull() && !nodeparameters.extraData->userData.empty() ){
-		EntityDescription desc(nodeparameters.name,nodeparameters.position,nodeparameters.orientation);
-		UserDataFactory::getSingleton().parseUserData(nodeparameters.extraData->userData , desc);
+void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
+	if ( !userData.empty() ){
+		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
+		UserDataFactory::getSingleton().parseUserData(userData , desc);
 	}
-	mNodeparameters = 0;
 }
 
 void ServerLoader::onExternal( OgreMax::Types::ExternalItem& externalitem){
@@ -80,7 +78,11 @@ void ServerLoader::FinishedLoad( bool success ){
 
 void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 
-	Ogre::String filename = Ogre::String(mPath) + track->getPhysicsFileName();
+	Ogre::String filename = track->getPhysicsFileName();
+
+	Havok::start();
+
+	mHovercraftWorld = Havok::getSingletonPtr();
 
 	const char * physicsfile = filename.c_str();
 	if ( mHovercraftWorld->load(physicsfile) ){
@@ -102,8 +104,8 @@ void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 		THROW(ParseException, "This should be an entity.");
 	}
 	
-	//Get the name of the asteroid
-	const char * asteroidname = mExternalitem->name.c_str();
+	//Get the entity name of the asteroid
+	const char * asteroidname = asteroid->getOgreEntity().c_str();
 
 	// Find the planet
 	hkpRigidBody* planetRigidBody = mHovercraftWorld->mPhysicsData->findRigidBodyByName( asteroidname );
@@ -139,6 +141,8 @@ void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 		mHovercraftWorld->mPhysicsWorld->addPhantom( gravityphantom );
 		gravityphantom->removeReference();
 	}
+
+	
 }
 
 void ServerLoader::onStart( Ogre::SharedPtr<Start> start ) {

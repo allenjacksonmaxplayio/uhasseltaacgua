@@ -506,10 +506,6 @@
 						RelativePath=".\UserDataFactory.cpp"
 						>
 					</File>
-					<File
-						RelativePath=".\World.cpp"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="EntityRepresentations"
@@ -558,6 +554,14 @@
 				<Filter
 					Name="Loading"
 					>
+					<File
+						RelativePath=".\ClientLoader.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Loader.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\ServerLoader.cpp"
 						>
@@ -936,10 +940,6 @@
 						RelativePath=".\UserDataFactory.h"
 						>
 					</File>
-					<File
-						RelativePath=".\World.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="EntityRepresentations"
@@ -996,6 +996,14 @@
 				<Filter
 					Name="Loading"
 					>
+					<File
+						RelativePath=".\ClientLoader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Loader.h"
+						>
+					</File>
 					<File
 						RelativePath=".\ServerLoader.h"
 						>
