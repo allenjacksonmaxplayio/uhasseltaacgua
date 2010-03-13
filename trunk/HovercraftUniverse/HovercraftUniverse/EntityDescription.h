@@ -20,6 +20,10 @@ private:
 
 	Ogre::Quaternion mOrientation;
 
+	Ogre::String mOgreEntity;
+
+	float mProcessInterval;
+
 public:
 
 	/**
@@ -28,9 +32,26 @@ public:
 	 * @param position
 	 * @param orientation
 	 */
-	EntityDescription(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation);
+	EntityDescription(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity = "", float mProcessInterval = -1);
+
 
 	/**
+	 * Get name
+	 * @return name
+	 */
+	inline Ogre::String& getOgreEntity(){
+		return mOgreEntity;
+	}
+
+	/**
+	 * Get name
+	 * @return name
+	 */
+	inline const Ogre::String& getOgreEntity() const {
+		return mOgreEntity;
+	}
+
+		/**
 	 * Get name
 	 * @return name
 	 */
@@ -76,6 +97,14 @@ public:
 	 */
 	inline const Ogre::Quaternion& getOrientation() const {
 		return mOrientation;
+	}
+
+	/**
+	 * Get process interval
+	 * @return process interval
+	 */
+	inline Ogre::Real getProcessInterval() const {
+		return mProcessInterval;
 	}
 };
 

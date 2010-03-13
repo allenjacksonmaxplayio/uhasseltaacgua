@@ -50,7 +50,7 @@ ServerLoader::~ServerLoader(void)
 
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	if ( !userData.empty() ){
-		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
+		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,"");
 		UserDataFactory::getSingleton().parseUserData(userData , desc);
 	}
 }
