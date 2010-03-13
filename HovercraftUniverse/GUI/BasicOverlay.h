@@ -115,6 +115,13 @@ namespace HovUni {
 			 * @return The FlashControl for this overlay.
 			 */
 			Hikari::FlashControl* getFlashControl();
+
+		protected:
+			/** Function to execute custom actions before activation */
+			virtual void customActionBeforeActivate() {}
+
+			/** Function to execute custom actions after before activation */
+			virtual void customActionAfterActivate() {}
 		
 		private:
 			/**

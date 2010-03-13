@@ -36,6 +36,8 @@ namespace HovUni {
 	}
 
 	void BasicOverlay::activate() {
+		customActionBeforeActivate();
+
 		mFlashControl = GUIManager::getSingletonPtr()->createOverlay(mName, mFileName, mWidth, mHeight, mPosition, mZOrder);
 		mFlashControl->setScaleMode(Hikari::SM_SHOWALL);
 
@@ -44,6 +46,8 @@ namespace HovUni {
 		} else {
 			mFlashControl->setTransparent(false, false);
 		}
+
+		customActionAfterActivate();
 	}
 
 	void BasicOverlay::disable() {

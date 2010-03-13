@@ -1,4 +1,5 @@
 #include "ApplicationFrameListener.h"
+#include <GUIManager.h>
 #include "InputManager.h"
 #include <OgreLogManager.h>
 
@@ -8,10 +9,17 @@ ApplicationFrameListener::ApplicationFrameListener(Ogre::SceneManager * sceneMgr
 												   RepresentationManager * reprMgr, InputManager * inputMgr, 
 												   ClientCore* client)
 		: mSceneMgr(sceneMgr), mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
-		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO), mClient(client), mElapsed(0.0f) {
+		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO), mMouseVisual(),
+		mClient(client), mElapsed(0.0f) {
 	// Register this class with input manager
 	mInputManager->addKeyListener(this, "ApplicationFrameListener");
 	mInputManager->addMouseListener(this, "ApplicationFrameListener");
+
+	mGUIManager = GUIManager::getSingletonPtr();
+
+	mMouseVisual.setImage("cursor.png");
+	mMouseVisual.setVisible(true);
+	mMouseVisual.setWindowDimensions(mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight());
 }
 
 ApplicationFrameListener::~ApplicationFrameListener(void) {
@@ -20,6 +28,7 @@ ApplicationFrameListener::~ApplicationFrameListener(void) {
 
 bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 	mElapsed += evt.timeSinceLastFrame;
+
 	// Notify manager of new frame
 	mInputManager->capture();
 
@@ -43,6 +52,10 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 }
 
 bool ApplicationFrameListener::mouseMoved(const OIS::MouseEvent & e) { 
+	//Update the mous cursor
+	mMouseVisual.updatePosition(e.state.X.abs, e.state.Y.abs);
+	//Update GUI elements
+	mGUIManager->mouseMoved(e);
 	return true; 
 }
 
@@ -57,10 +70,14 @@ bool ApplicationFrameListener::mousePressed(const OIS::MouseEvent & e, OIS::Mous
 		break;
 	}
 
+	//Update GUI elements
+	mGUIManager->mousePressed(e, id);
 	return true;
 }
 
 bool ApplicationFrameListener::mouseReleased(const OIS::MouseEvent & e, OIS::MouseButtonID id) { 
+	//Update GUI elements
+	mGUIManager->mouseReleased(e, id);
 	return true;
 }
 
@@ -85,12 +102,17 @@ bool ApplicationFrameListener::keyPressed(const OIS::KeyEvent & e) {
 		break;
 	}
 	
+	//Update GUI elements
+	mGUIManager->keyPressed(e);
+
 	// Succes
 	return true; 
 }
 
 bool ApplicationFrameListener::keyReleased(const OIS::KeyEvent & e) { 
 	// Succes
+	//Update GUI elements
+	mGUIManager->keyReleased(e);
 	return true; 
 }
 

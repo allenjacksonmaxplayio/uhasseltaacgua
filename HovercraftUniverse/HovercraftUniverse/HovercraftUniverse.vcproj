@@ -192,6 +192,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MainMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MenuButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MouseVisualisation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Position.cpp"
 					>
 				</File>
@@ -583,6 +595,18 @@
 				</File>
 				<File
 					RelativePath=".\HUD.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MainMenu.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MenuButton.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MouseVisualisation.h"
 					>
 				</File>
 				<File

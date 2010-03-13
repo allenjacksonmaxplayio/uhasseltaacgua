@@ -58,23 +58,6 @@ public:
 	virtual ~HUD();
 
 	/**
-	 * Draws the HUD
-	 */
-	void activate();
-
-	/**
-	 * Hides the HUD
-	 */
-	void deactivate();
-
-	/** 
-	 * Indicates whether the HUD is visible or hidden.
-	 *
-	 * @return true if the HUD is visible and false if hidden
-	 */
-	bool isActivated() { return mIsActivated; }
-
-	/**
 	 * Update the direction arrow in the HUD (if present)
 	 *
 	 * @param position The current position of the player
