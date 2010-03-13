@@ -16,18 +16,20 @@ for o in objects do (
 			end = findString objectSettings.userdata ogreendkeyword
 		)
 		
+		/*break()*/
+		
 		/** SET OGRE-ENTITY ON GAME-ENTITIES **/
 			
 		/** if OGRE-ENTITY tag found but not a Ogre-Entity itself **/
-		if position != undefined AND position != 0 then (			
+		if position != undefined AND position != 1 then (			
 			/** Replace the name with the parent name or with "" **/
-			position += ogrekeyword.count
-			count = end - position		
-			if o.parent != undefined then (			
-				objectSettings.userdata = replace objectSettings.userdata position count o.parent.name
+			start = position + ogrekeyword.count
+			count = end - start	
+			if o.parent != undefined then (
+				objectSettings.userdata = replace objectSettings.userdata start count o.parent.name
 			)
 			else (
-				objectSettings.userdata = replace objectSettings.userdata position count ""
+				objectSettings.userdata = replace objectSettings.userdata start count ""
 			)				
 		)
 				
@@ -50,7 +52,7 @@ for o in objects do (
 				
 				/** The child should have the OGRE-ENTITY tag but it should not be an OGRE-ENTITY itself **/
 				test = findString childObjectSettings.userdata ogrekeyword
-				if test != undefined AND test != 0 do (			
+				if test != undefined AND test != 1 do (			
 						
 					/** Update the tag **/					
 					if objectSettings.userdata == undefined OR  objectSettings.userdata == "" then (
@@ -62,9 +64,9 @@ for o in objects do (
 					)
 					else if position != undefined  then (
 						/** Replace content if tag existed **/
-						position += ogrekeyword.count
-						count = end - position	
-						objectSettings.userdata = replace objectSettings.userdata position count child.name				
+						start = position + ogrekeyword.count
+						count = end - start	
+						objectSettings.userdata = replace objectSettings.userdata start count child.name				
 					)
 					else (
 						/** Add tag as extra tag on object **/
