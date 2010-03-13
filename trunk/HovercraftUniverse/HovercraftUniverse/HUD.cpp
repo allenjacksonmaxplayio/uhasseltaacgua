@@ -112,16 +112,6 @@ namespace HovUni {
 		}
 	}
 
-	void HUD::activate() {
-		mIsActivated = true;
-		GUIManager::getSingletonPtr()->activateOverlayContainer(this);
-	}
-
-	void HUD::deactivate() {
-		mIsActivated = false;
-		GUIManager::getSingletonPtr()->disableOverlayContainer(this);
-	}
-
 	void HUD::updateDirection(Ogre::Vector3& forward, Ogre::Vector3& destination, Ogre::Vector3& up) {
 		//Calculate angle
 		float angle = forward.angleBetween(destination).valueDegrees();

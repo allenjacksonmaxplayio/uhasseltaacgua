@@ -11,9 +11,43 @@ namespace HovUni{
 		private:
 			std::map<std::string, BasicOverlay *> mOverlays;
 
+			bool mIsActivated;
+
 		public:
+			/** Besic constructor */
+			OverlayContainer();
+
+			/**
+			 * Add an overlay to this container
+			 *
+			 * @param name The name for the overlay you are adding
+			 * @param overlay The overlay you want to add.
+			 */
 			void addOverlay(const std::string& name, BasicOverlay * overlay);
+
+			/** 
+			 * Remove an overlay out of the container
+			 *
+			 * @param name The name of the overlay
+			 */
 			void removeOverlay(const std::string& name);
+
+			/**
+			 * Draw the overlay container
+			 */
+			void activate();
+
+			/**
+			 * Hide the overlay container
+			 */
+			void deactivate();
+
+			/** 
+			 * Indicates whether the overlay container is visible or hidden.
+			 *
+			 * @return true if the overlay container is visible and false if hidden
+			 */
+			inline bool isActivated() { return mIsActivated; }
 
 		private:
 			std::map<std::string, BasicOverlay *>& getOverlays();

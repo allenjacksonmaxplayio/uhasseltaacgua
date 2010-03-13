@@ -6,7 +6,7 @@
 #include <HovSound.h>
 #include <tinyxml/tinyxml.h>
 #include <iostream>
-
+#include "MainMenu.h"
 
 namespace HovUni {
 
@@ -143,6 +143,9 @@ void Application::setupScene() {
 
 	//Set a HUD onto the GameView
 	gv->setHud(new HUD(root->FirstChildElement("HUD")));
+
+	MainMenu* menu = new MainMenu();
+	menu->activate();
 
 	// Initialise and store the SoundManager (dont remove trailing \)
 	SoundManager::init("sound\\", "HovSound.fev");
