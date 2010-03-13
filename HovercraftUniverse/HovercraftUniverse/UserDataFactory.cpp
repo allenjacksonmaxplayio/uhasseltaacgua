@@ -85,15 +85,14 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		}
 		//ASTEROID
 		else if(strcmp(root->Value(),"Asteroid") == 0){
-			//TODO WHEN KEEjOoW COMMITS
-			/*//create
+			//create
 			Ogre::SharedPtr<Asteroid> asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(),-1));
 			//load
 			asteroid->load(root);
 			//forward
 			for(std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++){
 				(*uc)->onAsteroid(asteroid);
-			}*/
+			}
 		}
 		//HOVERCRAFT
 		else if(strcmp(root->Value(),"Hovercraft") == 0){
@@ -109,7 +108,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//BOOST
 		else if(strcmp(root->Value(),"Boost") == 0){
 			//create
-			Ogre::SharedPtr<Boost> boost(new Boost(description.getName(),description.getPosition(), description.getOrientation(),-1));
+			Ogre::SharedPtr<SpeedBoost> boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(),-1));
 			//load
 			boost->load(root);
 			//forward

@@ -1,6 +1,8 @@
-#ifndef BOOSTPHANTOM_H
-#define BOOSTPHANTOM_H
+#ifndef SpeedBoostPhantom_H
+#define SpeedBoostPhantom_H
 
+#include <OgreSharedPtr.h>
+#include "SpeedBoost.h"
 #include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
 
 namespace HovUni {
@@ -10,11 +12,11 @@ namespace HovUni {
  * When a player passes trough it should receive a boost or a slowdown.
  * @author Pieter-Jan Pintens
  */
-class BoostPhantom : public hkpAabbPhantom
+class SpeedBoostPhantom : public hkpAabbPhantom
 {
 private:
 
-	hkReal mBoost;
+	Ogre::SharedPtr<SpeedBoost> mBoost;
 
 public:
 
@@ -23,9 +25,9 @@ public:
 	 * @param aabb, the bounding box
 	 * @param boost, use a negative value for a slowdown.
 	 */
-	BoostPhantom(const hkAabb& aabb, hkReal boost);
+	SpeedBoostPhantom(const hkAabb& aabb, Ogre::SharedPtr<SpeedBoost> boost);
 
-	~BoostPhantom(void);
+	~SpeedBoostPhantom(void);
 
 	virtual void addOverlappingCollidable( hkpCollidable* handle );
 

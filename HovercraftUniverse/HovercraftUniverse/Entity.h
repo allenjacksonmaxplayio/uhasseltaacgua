@@ -26,7 +26,9 @@ protected:
 
 	/** The orientation of the entity in the world */
 	Ogre::Quaternion mOrientation;
-	//float mOrientation[3];
+
+	/** The name of the ogre entity that represents this entity, can be empty */
+	Ogre::String mOgreEntity;
 
 	/** The controller that the entity polls to change state */
 	Controller * mController;
@@ -47,10 +49,11 @@ public:
 	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
+	 * @param name of the ogre entity that represents this entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval, unsigned short replicators = 0 );
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::String mOgreEntity = "", float processInterval = -1, unsigned short replicators = 0 );
 
 	/**
 	 * Constructor.
@@ -60,10 +63,11 @@ public:
 	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
+ 	 * @param name of the ogre entity that represents this entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval, unsigned short replicators = 0);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String mOgreEntity = "", float processInterval = -1, unsigned short replicators = 0);
 
 	/**
 	 * Destructor.
@@ -126,6 +130,14 @@ public:
 	 * @return the orientation
 	 */
 	Ogre::Vector3 getOrientation() const;
+
+	/**
+	 * Returns the unique name of the ogre entity that represents this entity,
+	 * Can be empty if no such ogre entity exists.
+	 *
+	 * @return the name of the ogre entity
+	 */
+	Ogre::String getOgreEntity() const;
 
 	/**
 	 * Returns the orientation of this entity.

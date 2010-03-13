@@ -2,7 +2,7 @@
 #define BOOSTREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "Boost.h"
+#include "SpeedBoost.h"
 
 namespace HovUni {
 
@@ -17,7 +17,7 @@ namespace HovUni {
 		/**
 		 * Constructor.
 		 */
-		BoostRepresentation(Boost * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
+		BoostRepresentation(SpeedBoost * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
 
 		/**
 		 * Destructor.

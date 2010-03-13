@@ -4,8 +4,8 @@ namespace HovUni {
 
 const Ogre::String Finish::CATEGORY("Finish");
 
-Finish::Finish(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,processInterval){
+Finish::Finish(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,ogreentity,processInterval){
 }
 
 void Finish::load(TiXmlElement * data) throw(ParseException){

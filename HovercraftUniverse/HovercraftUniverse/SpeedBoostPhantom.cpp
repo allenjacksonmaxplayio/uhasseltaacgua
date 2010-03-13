@@ -3,21 +3,21 @@
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 
 #include "HavokEntityType.h"
-#include "BoostPhantom.h"
+#include "SpeedBoostPhantom.h"
 #include "Havok.h"
 
 namespace HovUni {
 
-BoostPhantom::BoostPhantom(const hkAabb& aabb, hkReal boost ):
+SpeedBoostPhantom::SpeedBoostPhantom(const hkAabb& aabb, Ogre::SharedPtr<SpeedBoost> boost ):
 	hkpAabbPhantom( aabb, 0), mBoost(boost)
 {
 }
 
-BoostPhantom::~BoostPhantom(void)
+SpeedBoostPhantom::~SpeedBoostPhantom(void)
 {
 }
 
-void BoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
+void SpeedBoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {	
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
@@ -25,7 +25,7 @@ void BoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 		Character * character = Havok::getSingleton().getCharacter(rb->getName());	
 		if ( character != HK_NULL ){
      		hkVector4 boost = character->getForward();
-			boost.mul4(mBoost);
+			boost.mul4(mBoost->getBoost());
 			rb->applyLinearImpulseAsCriticalOperation(boost);
 		}
 	}
@@ -33,7 +33,7 @@ void BoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 	hkpAabbPhantom::addOverlappingCollidable( handle );
 }
 
-void BoostPhantom::removeOverlappingCollidable( hkpCollidable* handle )
+void SpeedBoostPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 {
 	hkpAabbPhantom::removeOverlappingCollidable( handle );
 }
