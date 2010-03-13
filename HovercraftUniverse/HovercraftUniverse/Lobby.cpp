@@ -4,6 +4,7 @@
 #include "String_Replicator.h"
 #include "GameEventParser.h"
 #include "DummyHovercraft.h"
+#include "Loader.h"
 
 namespace HovUni {
 
@@ -11,12 +12,13 @@ std::string Lobby::getClassName() {
 	return "Lobby";
 }
 
-Lobby::Lobby(): NetworkEntity(), mHasAdmin(false), mTrackFilename(""), mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0) {
-
+Lobby::Lobby(Loader * loader): NetworkEntity(), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0) {
+	loader->setLobby(this);
 }
 
 Lobby::~Lobby(void) {
-
+	if ( mLoader )
+		delete mLoader;
 }
 
 void Lobby::start() {
@@ -84,8 +86,8 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 
 void Lobby::onStart() {
 	//called when map should be loaded
-	//World::creat();
-	
+	mLoader->load(mTrackFilename);
+
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else
 	if(!mStarted) {

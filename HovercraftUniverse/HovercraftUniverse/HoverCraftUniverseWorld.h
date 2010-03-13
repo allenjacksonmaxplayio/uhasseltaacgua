@@ -80,14 +80,6 @@ public:
 	virtual ~HoverCraftUniverseWorld(void);
 
 	/**
-	 * Load a scene file.
-	 * Parse this and load a physics version of in in our havoc world
-	 * TODO this should not be done HERE!!
-	 * @param filename
-	 */
-	virtual bool loadSceneFile ( const char * filename );
-
-	/**
 	 * Get a character with given name
 	 * @param name
 	 * @return character, HK_NULL if not found

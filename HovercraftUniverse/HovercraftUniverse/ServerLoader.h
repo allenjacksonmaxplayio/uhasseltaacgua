@@ -1,19 +1,7 @@
 #ifndef SERVERLOADER_H
 #define SERVERLOADER_H
 
-#include "Asteroid.h"
-#include "Start.h"
-#include "StartPosition.h"
-#include "CheckPoint.h"
-#include "Finish.h"
-#include "Hovercraft.h"
-#include "Track.h"
-#include "Portal.h"
-#include "SpeedBoost.h"
-#include "PowerupSpawn.h"
-#include "ResetSpawn.h"
-#include "CustomOgreMaxSceneCallback.h"
-#include "ServerCore.h"
+#include "Loader.h"
 #include "UserDataCallback.h"
 #include "UserDataFactory.h"
 
@@ -21,41 +9,34 @@ namespace HovUni {
 
 class HoverCraftUniverseWorld;
 
-class ServerLoader : public UserDataCallback, public CustomOgreMaxSceneCallback {
+/**
+ * Loader for the server
+ * @author Pieter-Jan Pintens
+ */
+class ServerLoader : public UserDataCallback, public Loader {
 private:
-
-	char const * mPath;
-
-	ServerCore * mServer;
 
 	HoverCraftUniverseWorld * mHovercraftWorld;
 
+	/**
+	 * Current external
+	 */
 	OgreMax::Types::ExternalItem * mExternalitem;
 
-	OgreMax::Types::NodeParameters * mNodeparameters;
-
 public:
-	ServerLoader( HoverCraftUniverseWorld * world, ServerCore * server, char const * path );
+	ServerLoader();
 
 	~ServerLoader();
-	
-	virtual void StartedLoad(){
-		//TODO notify clients??
-	}
 
-	virtual void FinishedLoad( bool success );
+	virtual void load ( const Ogre::String& filename );
 
-	virtual void UpdatedLoadProgress( Ogre::Real progress ){
-		//TODO notify clients??
-	}
-
-	//Objects to be parsed
+	//Callbacks that need implementations
 
 	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData);
 
 	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem);
 
-	virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent);
+	virtual void FinishedLoad( bool success );
 
 	//Custom objects
 
@@ -80,46 +61,6 @@ public:
 	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn );
 
 	virtual void onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn );
-
-	//don't care about next
-
-	virtual void onSceneData( const OgreMax::Version& formatVersion, const OgreMax::Version& minOgreVersion, const OgreMax::Version& ogreMaxVersion, const Ogre::String& author, const Ogre::String& application, OgreMax::Types::UpAxis upAxis, Ogre::Real unitsPerMeter, const Ogre::String& unitType) {}
-
-	virtual void onSkyBox( OgreMax::Types::SkyBoxParameters& skyBoxParameters, std::vector<OgreMax::Types::NodeAnimation> * animation ) {}
-
-	virtual void onSkyDome( OgreMax::Types::SkyDomeParameters& skyDomeParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {}
-
-	virtual void onSkyPlane( OgreMax::Types::SkyPlaneParameters& skyPlaneParameters, std::vector<OgreMax::Types::NodeAnimation> * animation) {}
-
-	virtual void onClipping( Ogre::Real environmentNear, Ogre::Real environmentFar){}
-
-	virtual void onFog ( OgreMax::Types::FogParameters& fog ){}
-
-	virtual void onAmbientColour( const Ogre::ColourValue& colour ){}
-
-	virtual void onShadowProperties( OgreMax::Types::ShadowParameters& parameter ){}
-
-	virtual void onBackgroundColour( const Ogre::ColourValue& colour ){}
-
-	virtual void onRootNode ( const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale ) {}
-
-	virtual void onLight( OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent) {}
-        
-	virtual void onCamera(OgreMax::Types::CameraParameters& params, const OgreMax::Types::Attachable * parent ) {}
-
-	virtual void onBillboardSet( OgreMax::Types::BillboardSetParameters& bilboardsetparameters, std::vector<OgreMax::Types::Billboard>& billboardset, std::vector<OgreMax::Types::CustomParameter>& customParameters, const OgreMax::Types::Attachable * parent ) {}
-
-	virtual void onParticleSystem( OgreMax::Types::ParticleSystemParameters& particleSystem, const OgreMax::Types::Attachable * parent) {}
-
-	virtual void onPlane( OgreMax::Types::PlaneParameters planeparameters, const OgreMax::Types::Attachable * parent) {}
-
-	virtual void onSceneFile( const Ogre::String& fileName, Ogre::String& resourceGroupName){}
-	
-	virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive) {}
-
-	virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud) {}
-	
-	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ){}
 };
 
 }

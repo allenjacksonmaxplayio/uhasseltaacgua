@@ -18,125 +18,32 @@ CustomOgreMaxScene::~CustomOgreMaxScene()
 {
 }
 
-//getters and setters
-const String& CustomOgreMaxScene::GetBaseResourceLocation() const
-{
-    return this->baseResourceLocation;
-}
-
-void CustomOgreMaxScene::SetBaseResourceLocation(const String& directory)
-{
-    this->baseResourceLocation = directory;
-}
-
-void CustomOgreMaxScene::SetNamePrefix(const String& name, WhichNamePrefix prefixes)
-{
-    if (prefixes & OBJECT_NAME_PREFIX)
-        this->objectNamePrefix = name;
-    if (prefixes & NODE_NAME_PREFIX)
-        this->nodeNamePrefix = name;
-    if (prefixes & NODE_ANIMATION_NAME_PREFIX)
-        this->nodeAnimationNamePrefix = name;
-}
-
-
-
 const Vector3& CustomOgreMaxScene::GetUpVector() const
 {
 	return this->upAxis == OgreMax::Types::UP_AXIS_Y ? Vector3::UNIT_Y : Vector3::UNIT_Z;
 }
 
 //load
-void CustomOgreMaxScene::Load ( const String& fileNameOrContent, LoadOptions loadOptions, CustomOgreMaxSceneCallback* callback, const String& defaultResourceGroupName ) {
-    bool isFileName = (loadOptions & FILE_NAME_CONTAINS_CONTENT) == 0;
-
+void CustomOgreMaxScene::Load ( const String& fileName, CustomOgreMaxSceneCallback* callback, LoadOptions loadOptions, const String& defaultResourceGroupName ) {
 	this->mUniqueID = 0;
 	this->callback = callback;
 
-    //Parse the directory and file base name from the input file name, if it's a file name
-    String directory, fileBaseName;
-    if (isFileName) {
-        StringUtil::splitFilename(fileNameOrContent, fileBaseName, directory);
-        if (!directory.empty()) {
-            //A full path was passed in. Assume the caller wants the directory to be added as
-            //a resource location and that the directory be the base all other resource
-            //locations are relative to
-            SetBaseResourceLocation(directory);
-        }
-    }
 
     //Notify callback, possibly getting a new resource group name
     String resourceGroupName = defaultResourceGroupName;
 	if (this->callback != 0){
-		this->callback->onSceneFile(fileBaseName, resourceGroupName);
+		this->callback->onSceneFile(fileName, resourceGroupName);
 	}
 
     //Load the XML document
     TiXmlDocument document;
-    if (isFileName) {
-        //Load it from a file
-		String absoluteFileName = OgreMax::OgreMaxUtilities::JoinPath(this->baseResourceLocation, fileBaseName);
-        if (loadOptions & NO_FILE_SYSTEM_CHECK) {
-            //Caller wants to load from the Ogre resource system
-            OgreMax::OgreMaxUtilities::LoadXmlDocument(fileBaseName, document, resourceGroupName);
-        }
-        else if (OgreMax::OgreMaxUtilities::IsFileReadable(absoluteFileName)) {
-            //Load from disk
-            if (document.LoadFile(absoluteFileName.c_str())) {
-                //The file was successfully loaded. Enable the use of the resource locations in the file
-                this->loadedFromFileSystem = true;
-            }
-            else {
-                StringUtil::StrStreamType errorMessage;
-                errorMessage << "Unable to load OgreMax scene file: " << absoluteFileName;
-
-                OGRE_EXCEPT
-                    (
-                    Exception::ERR_INVALID_STATE,
-		            errorMessage.str(),
-		            "CustomOgreMaxScene::Load"
-                    );
-            }
-        }
-        else if (!this->baseResourceLocation.empty()) {
-            //File isn't readable and the caller wanted it to be
-            StringUtil::StrStreamType errorMessage;
-            errorMessage << "Unable to read OgreMax scene file: " << absoluteFileName;
-
-            OGRE_EXCEPT
-                (
-                Exception::ERR_FILE_NOT_FOUND,
-	            errorMessage.str(),
-	            "CustomOgreMaxScene::Load"
-                );
-        }
-        else {
-            //Everything else failed. Load from the Ogre resource system
-            OgreMax::OgreMaxUtilities::LoadXmlDocument(fileBaseName, document, resourceGroupName);
-        }
-    }
-    else {
-        //Load it from memory
-        document.Parse(fileNameOrContent.c_str());
-        if (document.Error()) {
-            StringUtil::StrStreamType errorMessage;
-            errorMessage << "There was an error parsing the OgreMax scene XML: " << document.ErrorDesc();
-
-            OGRE_EXCEPT
-                (
-                Exception::ERR_INVALIDPARAMS,
-		        errorMessage.str(),
-                "CustomOgreMaxScene::Load"
-                );
-        }
-    }
-
+	OgreMax::OgreMaxUtilities::LoadXmlDocument(fileName, document, resourceGroupName);
     Load(document.RootElement(), loadOptions, callback, resourceGroupName);
 }
 
 void CustomOgreMaxScene::Load ( TiXmlElement* objectElement, LoadOptions loadOptions, CustomOgreMaxSceneCallback* callback, const String& defaultResourceGroupName ) {
     this->callback = callback;
-    this->defaultResourceGroupName = defaultResourceGroupName;
+	this->defaultResourceGroupName = defaultResourceGroupName; 
 
 	//Send "start" notification to callback
 	if (this->callback != 0){
@@ -231,18 +138,7 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
 		LoadEnvironment(environmentElement);
 	}
 
-	//TODO THIS
-    //Create render textures
-	/*    
-	const TiXmlElement* renderTexturesElement = objectElement->FirstChildElement("renderTextures");
-    if (renderTexturesElement != 0)
-        LoadRenderTextures(renderTexturesElement);
-	*/
-
     //Parse child elements
-    const TiXmlElement* instancedGeometriesElement = 0;
-    const TiXmlElement* staticGeometriesElement = 0;
-    const TiXmlElement* portalConnectedZonesElement = 0;
     String elementName;
     const TiXmlElement* childElement = 0;
     while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement)) {
@@ -257,9 +153,9 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
 		else if (elementName == "externalUserData") {
             LoadExternalUserDatas(childElement);
 		}
-		else if (elementName == "terrain"){
+		/*else if (elementName == "terrain"){
             LoadTerrain(childElement);
-		}
+		}*/
 		else if (elementName == "light") {
             LoadLight(childElement,0);
 		}
@@ -272,41 +168,16 @@ void CustomOgreMaxScene::LoadScene(const TiXmlElement* objectElement)
         else if (elementName == "visibilityFlags") {
             LoadVisibilityFlagAliases(childElement);
 		}
-        else if (elementName == "instancedGeometries") {
+        /*else if (elementName == "instancedGeometries") {
             instancedGeometriesElement = childElement;
 		}
-        else if (elementName == "staticGeometries") {
+        /*else if (elementName == "staticGeometries") {
             staticGeometriesElement = childElement;
 		}
         else if (elementName == "portalConnectedZones") {
             portalConnectedZonesElement = childElement;
-		}
+		}*/
     }
-
-
-	//this->rootNode->setInitialState();
-
-    //Set default lighting if necessary
-    //if (this->loadOptions & SET_DEFAULT_LIGHTING)
-    //    OgreMax::OgreMaxUtilities::SetDefaultLighting(this->sceneManager, this->upAxis);
-
-    //Load instanced geometries
-    //if (instancedGeometriesElement != 0)
-    //   LoadInstancedGeometries(instancedGeometriesElement);
-
-    //Load static geometries
-    //if (staticGeometriesElement != 0)
-    //    LoadStaticGeometries(staticGeometriesElement);
-
-    //Load portal connected zones
-    //if (portalConnectedZonesElement == 0)
-    //    LoadPortalConnectedZones(portalConnectedZonesElement);
-
-    //Perform final steps for look and tracking targets
-    //FinishLoadingLookAndTrackTargets();
-
-    //Perform final steps for render textures
-    //FinishLoadingRenderTextures();
 }
 
 //misc
@@ -327,9 +198,6 @@ void CustomOgreMaxScene::LoadResourceLocations(const TiXmlElement* objectElement
         {
             //Name
             String name = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "name");
-			if (!this->baseResourceLocation.empty()){
-				name = OgreMax::OgreMaxUtilities::JoinPath(this->baseResourceLocation, name);
-			}
 
             //Type
             String type = OgreMax::OgreMaxUtilities::GetStringAttribute(childElement, "type");
@@ -356,10 +224,7 @@ Ogre::String CustomOgreMaxScene::GetNewObjectName(const TiXmlElement* objectElem
     if (name.empty() )
         name = getUniqueName();
 
-    String prefixedName = this->objectNamePrefix;
-    prefixedName += name;
-
-    return prefixedName;
+    return name;
 }
 
 
@@ -789,334 +654,6 @@ void CustomOgreMaxScene::LoadShadows(const TiXmlElement* objectElement)
 }
 
 
-//render textures TODO
-void CustomOgreMaxScene::LoadRenderTextureMaterials ( const TiXmlElement* objectElement, std::vector<OgreMax::Types::RenderTextureParameters::Material>& materials ) {
-/*    size_t index = 0;
-    const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
-        RenderTextureParameters::Material& material = materials[index++];
-        material.name = childElement->Attribute("name");
-        material.techniqueIndex = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "technique", 0);
-        material.passIndex = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "pass", 0);
-        material.textureUnitIndex = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "textureUnit", 0);
-    }*/
-}
-
-void CustomOgreMaxScene::LoadRenderTextures(const TiXmlElement* objectElement)
-{
- /*   //Get default pixel format
-    //It's unlikely that this would vary among render windows, but just take the minimum anyway
-    unsigned int bestColorDepth = 32;
-    if (this->renderWindows->Start())
-    {
-        do
-        {
-            bestColorDepth = std::min(this->renderWindows->GetCurrent()->getColourDepth(), bestColorDepth);
-        }while (this->renderWindows->MoveNext());
-    }
-    PixelFormat defaultPixelFormat = (bestColorDepth == 16) ? PF_A4R4G4B4 : PF_A8R8G8B8;
-
-    //Read all the render textures
-    const TiXmlElement* renderTextureElement = 0;
-    while (renderTextureElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, renderTextureElement))
-    {
-        LoadedRenderTexture* loadedRenderTexture = new LoadedRenderTexture;
-        this->loadedRenderTextures.push_back(loadedRenderTexture);
-
-        RenderTextureParameters& renderTextureParams = loadedRenderTexture->parameters;
-
-        renderTextureParams.name = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "name");
-        renderTextureParams.width = OgreMax::OgreMaxUtilities::GetIntAttribute(renderTextureElement, "width", 512);
-        renderTextureParams.height = OgreMax::OgreMaxUtilities::GetIntAttribute(renderTextureElement, "height", 512);
-        renderTextureParams.pixelFormat = OgreMax::OgreMaxUtilities::GetPixelFormatAttribute(renderTextureElement, "pixelFormat", defaultPixelFormat);
-        renderTextureParams.textureType = OgreMax::OgreMaxUtilities::GetTextureTypeAttribute(renderTextureElement, "textureType", renderTextureParams.textureType);
-        renderTextureParams.cameraName = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "camera");
-        renderTextureParams.scheme = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "scheme");
-        renderTextureParams.clearEveryFrame = OgreMax::OgreMaxUtilities::GetBoolAttribute(renderTextureElement, "clearEveryFrame", renderTextureParams.clearEveryFrame);
-        renderTextureParams.autoUpdate = OgreMax::OgreMaxUtilities::GetBoolAttribute(renderTextureElement, "autoUpdate", renderTextureParams.autoUpdate);
-        renderTextureParams.hideRenderObject = OgreMax::OgreMaxUtilities::GetBoolAttribute(renderTextureElement, "hideRenderObject", renderTextureParams.hideRenderObject);
-        renderTextureParams.renderObjectName = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "renderObjectName");
-        renderTextureParams.backgroundColor = this->backgroundColor;
-        renderTextureParams.resourceGroupName = this->defaultResourceGroupName;
-
-        String elementName;
-        const TiXmlElement* childElement = 0;
-        while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(renderTextureElement, childElement))
-        {
-            elementName = childElement->Value();
-
-            if (elementName == "backgroundColor")
-                renderTextureParams.backgroundColor = OgreMax::OgreMaxUtilities::LoadColor(childElement);
-            else if (elementName == "materials")
-            {
-                size_t materialCount = OgreMax::OgreMaxUtilities::GetElementCount(childElement, "material");
-                renderTextureParams.materials.resize(materialCount);
-                LoadRenderTextureMaterials(childElement, renderTextureParams.materials);
-            }
-            else if (elementName == "hiddenObjects")
-                LoadObjectNames(childElement, "hiddenObject", renderTextureParams.hiddenObjects);
-            else if (elementName == "exclusiveObjects")
-                LoadObjectNames(childElement, "exclusiveObject", renderTextureParams.exclusiveObjects);
-            else if (elementName == "renderPlane")
-                renderTextureParams.renderPlane = OgreMax::OgreMaxUtilities::LoadPlane(childElement);
-        }
-
-        //Notify callback
-        if (this->callback != 0)
-            this->callback->LoadingRenderTexture(this, renderTextureParams);
-
-        //Create the render texture
-        loadedRenderTexture->renderTexture = TextureManager::getSingleton().createManual
-            (
-            renderTextureParams.name,
-            renderTextureParams.resourceGroupName,
-            renderTextureParams.textureType,
-            renderTextureParams.width,
-            renderTextureParams.height,
-            0,
-            renderTextureParams.pixelFormat,
-            TU_RENDERTARGET
-            );
-
-        //Initialize all the texture's render targets
-        size_t faceCount = loadedRenderTexture->renderTexture->getNumFaces();
-        for (size_t faceIndex = 0; faceIndex < faceCount; faceIndex++)
-        {
-            RenderTarget* renderTarget = loadedRenderTexture->renderTexture->getBuffer(faceIndex)->getRenderTarget();
-            renderTarget->setAutoUpdated(renderTextureParams.autoUpdate);
-            renderTarget->addListener(this);
-            this->renderTargets[renderTarget] = loadedRenderTexture;
-        }
-    }*/
-}
-
-void CustomOgreMaxScene::FinishLoadingRenderTextures()
-{
- /*   static const Quaternion CUBE_FACE_CAMERA_ORIENTATIONS[] =
-        {
-        Quaternion(0.707107, 0, -0.707107, 0),
-        Quaternion(-0.707107, 0, -0.707107, 0),
-        Quaternion(0.707107, 0.707107, 0, 0),
-        Quaternion(0.707107, -0.707107, 0, 0),
-        Quaternion(1, 0, 0, 0),
-        Quaternion(0, 0, -1, 0)
-        };
-
-    for (; this->currentRenderTextureIndex < this->loadedRenderTextures.size(); this->currentRenderTextureIndex++)
-    {
-        LoadedRenderTexture* loadedRenderTexture = this->loadedRenderTextures[this->currentRenderTextureIndex];
-        const RenderTextureParameters& renderTextureParams = loadedRenderTexture->parameters;
-
-        //Create the scheme
-        if (!renderTextureParams.scheme.empty())
-            MaterialManager::getSingleton()._getSchemeIndex(renderTextureParams.scheme);
-
-        //Get the camera
-        //First try the camera callback
-        if (this->callback != 0)
-            loadedRenderTexture->camera = this->callback->GetRenderTextureCamera(this, renderTextureParams);
-
-        //If there's no camera yet, get the camera from the scene
-        if (loadedRenderTexture->camera == 0 &&
-            !renderTextureParams.cameraName.empty() &&
-            this->sceneManager->hasCamera(renderTextureParams.cameraName))
-        {
-            loadedRenderTexture->camera = this->sceneManager->getCamera(renderTextureParams.cameraName);
-        }
-
-        //Set up viewport and render object (either a reflection plane for 2D, or an object for 3D)
-        size_t faceCount = loadedRenderTexture->renderTexture->getNumFaces();
-        if (renderTextureParams.textureType == TEX_TYPE_2D)
-        {
-            Viewport* viewport = 0;
-            if (loadedRenderTexture->camera != 0)
-            {
-                RenderTarget* renderTarget = loadedRenderTexture->renderTexture->getBuffer()->getRenderTarget();
-
-                //Add viewport
-                Viewport* viewport = renderTarget->addViewport(loadedRenderTexture->camera);
-                viewport->setClearEveryFrame(renderTextureParams.clearEveryFrame);
-                viewport->setBackgroundColour(renderTextureParams.backgroundColor);
-                viewport->setMaterialScheme(renderTextureParams.scheme);
-                loadedRenderTexture->viewports[0] = viewport;
-
-                //Set up render object (reflection plane)
-                if (!renderTextureParams.renderObjectName.empty())
-                {
-                    //Build the plane name
-                    String movablePlaneName;
-                    OgreMax::OgreMaxUtilities::CreateMovablePlaneName(movablePlaneName, renderTextureParams.renderObjectName);
-
-                    //Get or create the render plane
-                    MovablePlanesMap::iterator planeIterator = this->movablePlanes.find(movablePlaneName);
-                    if (planeIterator != this->movablePlanes.end())
-                    {
-                        //Found an existing movable plane
-                        loadedRenderTexture->renderPlane = planeIterator->second;
-                        loadedRenderTexture->renderObjectNode = (SceneNode*)loadedRenderTexture->renderPlane->getParentNode();
-                    }
-                    else
-                    {
-                        //Create a new movable plane
-                        loadedRenderTexture->renderPlane = new MovablePlane(movablePlaneName);
-                        this->movablePlanes[movablePlaneName] = loadedRenderTexture->renderPlane;
-                        loadedRenderTexture->renderPlane->normal = renderTextureParams.renderPlane.normal;
-                        loadedRenderTexture->renderPlane->d = renderTextureParams.renderPlane.d;
-                    }
-
-                    //Configure reflection
-                    for (size_t materialIndex = 0; materialIndex < renderTextureParams.materials.size(); materialIndex++)
-                    {
-                        const RenderTextureParameters::Material& renderTextureMaterial =
-                            renderTextureParams.materials[materialIndex];
-
-                        MaterialPtr material = MaterialManager::getSingleton().getByName(renderTextureMaterial.name);
-                        if (!material.isNull())
-                        {
-                            if (renderTextureMaterial.techniqueIndex < material->getNumTechniques())
-                            {
-                                Technique* technique = material->getTechnique(renderTextureMaterial.techniqueIndex);
-                                if (renderTextureMaterial.passIndex < technique->getNumPasses())
-                                {
-                                    Pass* pass = technique->getPass(renderTextureMaterial.passIndex);
-                                    if (renderTextureMaterial.textureUnitIndex < pass->getNumTextureUnitStates())
-                                    {
-                                        TextureUnitState* textureUnit =
-                                            pass->getTextureUnitState(renderTextureMaterial.textureUnitIndex);
-                                        textureUnit->setProjectiveTexturing(true, loadedRenderTexture->camera);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    loadedRenderTexture->camera->enableReflection(loadedRenderTexture->renderPlane);
-                    loadedRenderTexture->camera->enableCustomNearClipPlane(loadedRenderTexture->renderPlane);
-                }
-            }
-        }
-        else if (renderTextureParams.textureType == TEX_TYPE_CUBE_MAP)
-        {
-            //Get the render object, if any
-            if (!renderTextureParams.renderObjectName.empty() && this->sceneManager->hasSceneNode(renderTextureParams.renderObjectName))
-                loadedRenderTexture->renderObjectNode = GetSceneNode(renderTextureParams.renderObjectName, false);
-
-            //Get the position from which the cube map will be rendered
-            Vector3 position;
-            loadedRenderTexture->GetReferencePosition(position);
-
-            //Create a camera and viewport for each cube face
-            String cameraName;
-            for (size_t faceIndex = 0; faceIndex < faceCount; faceIndex++)
-            {
-                //Build a unique camera name
-                cameraName = loadedRenderTexture->camera->getName() + "_CubeFaceCamera" + StringConverter::toString(faceIndex);
-
-                //Create camera
-                Camera* cubeFaceCamera = this->sceneManager->createCamera(cameraName);
-                cubeFaceCamera->setAspectRatio(1);
-                cubeFaceCamera->setFOVy(Degree(90));
-                cubeFaceCamera->setPosition(position);
-                cubeFaceCamera->setOrientation(CUBE_FACE_CAMERA_ORIENTATIONS[faceIndex]);
-
-                //Use the reference camera's clip distances, if possible
-                if (loadedRenderTexture->camera != 0)
-                {
-                    cubeFaceCamera->setNearClipDistance(loadedRenderTexture->camera->getNearClipDistance());
-                    cubeFaceCamera->setFarClipDistance(loadedRenderTexture->camera->getFarClipDistance());
-                }
-
-                loadedRenderTexture->cubeFaceCameras[faceIndex] = cubeFaceCamera;
-
-                //Add viewport
-                RenderTarget* renderTarget = loadedRenderTexture->renderTexture->getBuffer(faceIndex)->getRenderTarget();
-                Viewport* viewport = renderTarget->addViewport(cubeFaceCamera);
-                viewport->setClearEveryFrame(renderTextureParams.clearEveryFrame);
-                viewport->setBackgroundColour(renderTextureParams.backgroundColor);
-                viewport->setMaterialScheme(renderTextureParams.scheme);
-                loadedRenderTexture->viewports[faceIndex] = viewport;
-            }
-        }
-
-        GetRenderTextureObjects(loadedRenderTexture);
-
-        //Notify callback
-        if (this->callback != 0)
-            this->callback->CreatedRenderTexture(this, loadedRenderTexture);
-    }*/
-}
-
-void CustomOgreMaxScene::GetRenderTextureObjects(OgreMax::Types::LoadedRenderTexture* loadedRenderTexture)
-{
- /*   const RenderTextureParameters& renderTextureParams = loadedRenderTexture->parameters;
-
-    //Get hidden objects
-    loadedRenderTexture->hiddenObjects.reserve(renderTextureParams.hiddenObjects.size());
-    for (size_t hiddenIndex = 0; hiddenIndex < renderTextureParams.hiddenObjects.size(); hiddenIndex++)
-    {
-        if (this->sceneManager->hasSceneNode(renderTextureParams.hiddenObjects[hiddenIndex]))
-        {
-            SceneNode* node = GetSceneNode(renderTextureParams.hiddenObjects[hiddenIndex], false);
-            loadedRenderTexture->hiddenObjects.push_back(node);
-        }
-    }
-    loadedRenderTexture->hiddenObjects.Hide();
-
-    //Get exclusive objects
-    loadedRenderTexture->exclusiveObjects.reserve(renderTextureParams.exclusiveObjects.size());
-    for (size_t exclusiveIndex = 0; exclusiveIndex < renderTextureParams.exclusiveObjects.size(); exclusiveIndex++)
-    {
-        if (this->sceneManager->hasSceneNode(renderTextureParams.exclusiveObjects[exclusiveIndex]))
-        {
-            SceneNode* node = GetSceneNode(renderTextureParams.exclusiveObjects[exclusiveIndex], false);
-            loadedRenderTexture->exclusiveObjects.push_back(node);
-        }
-    }
-    loadedRenderTexture->exclusiveObjects.Hide();*/
-}
-
-
-
-//terrain TODO
-void CustomOgreMaxScene::LoadTerrain(const TiXmlElement* objectElement) {
- /*   //Exit early if skip option is set
-    if ((this->loadOptions & SKIP_TERRAIN) != 0)
-        return;
-
-    String renderQueue = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "renderQueue");
-
-    String dataFile = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "dataFile");
-    if (!dataFile.empty())
-    {
-        this->sceneManager->setWorldGeometry(dataFile);
-        if (!renderQueue.empty())
-            this->sceneManager->setWorldGeometryRenderQueue(OgreMax::OgreMaxUtilities::ParseRenderQueue(renderQueue));
-    }
-
-    //Parse child elements
-    String elementName;
-    const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
-        elementName = childElement->Value();
-
-        if (elementName == "userDataReference")
-            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, this->terrainExtraData.userDataReference);
-        else if (elementName == "userData")
-            OgreMax::OgreMaxUtilities::GetChildText(childElement, this->terrainExtraData.userData);
-    }
-
-    if (this->sceneManager->hasSceneNode("Terrain"))
-    {
-        SceneNode* terrainNode = this->sceneManager->getSceneNode("Terrain");
-        terrainNode->setOrientation(OgreMax::OgreMaxUtilities::GetOrientation(this->upAxis));
-    }
-
-    //Notify callback
-    if (this->callback != 0)
-        this->callback->CreatedTerrain(this, dataFile);*/
-}
-
 //nodes
 void CustomOgreMaxScene::LoadNodes(const TiXmlElement* objectElement) {
     //Exit early if skip option is set
@@ -1169,9 +706,7 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
 	
 	OgreMax::Types::NodeParameters parameters;
 
-    String name = this->nodeNamePrefix;
-    name += OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "name");
-	parameters.name = name;
+	parameters.name = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "name");;
 
     /*
 	TODO
@@ -1761,59 +1296,6 @@ void CustomOgreMaxScene::LoadBoneAttachment(const TiXmlElement* objectElement, O
 	//	owner.AttachEmpty(name);
 }
 
-/*void CustomOgreMaxScene::LoadLookTarget(const TiXmlElement* objectElement, SceneNode* node, Camera* camera)
-{
-    LookTarget lookTarget(node, camera);
-
-    lookTarget.nodeName = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "nodeName");
-
-    String relativeTo = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "relativeTo");
-    if (!relativeTo.empty())
-        lookTarget.relativeTo = OgreMax::OgreMaxUtilities::ParseTransformSpace(relativeTo);
-
-    //Parse child elements
-    String elementName;
-    const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
-        elementName = childElement->Value();
-
-        if (elementName == "position")
-        {
-            lookTarget.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-            lookTarget.isPositionSet = true;
-        }
-        else if (elementName == "localDirection")
-            lookTarget.localDirection = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-    }
-
-    //Store look target information for later
-    this->lookTargets.push_back(lookTarget);
-}*/
-
-/*void CustomOgreMaxScene::LoadTrackTarget(const TiXmlElement* objectElement, SceneNode* node, Camera* camera)
-{
-    TrackTarget trackTarget(node, camera);
-
-    trackTarget.nodeName = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "nodeName");
-
-    //Parse child elements
-    String elementName;
-    const TiXmlElement* childElement = 0;
-    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
-    {
-        elementName = childElement->Value();
-
-        if (elementName == "offset")
-            trackTarget.offset = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-        else if (elementName == "localDirection")
-            trackTarget.localDirection = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
-    }
-
-    //Store track target information for later
-    this->trackTargets.push_back(trackTarget);
-}*/
-
 void CustomOgreMaxScene::LoadBillboard(const TiXmlElement* objectElement, std::vector<OgreMax::Types::Billboard>& billboardset)
 {
 	OgreMax::Types::Billboard bb;
@@ -1908,8 +1390,7 @@ OgreMax::Types::NodeAnimation CustomOgreMaxScene::LoadNodeAnimation(const TiXmlE
     animation.parameters.looping = OgreMax::OgreMaxUtilities::GetBoolAttribute(objectElement, "loop", false);
 
     //Animation name
-    animation.parameters.name = this->nodeAnimationNamePrefix;
-    animation.parameters.name += OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "name");
+    animation.parameters.name = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "name");
 
     //Length
     animation.parameters.length = OgreMax::OgreMaxUtilities::GetRealAttribute(objectElement, "length", 0);
@@ -2200,7 +1681,391 @@ void CustomOgreMaxScene::LoadObjectNames(const TiXmlElement* objectElement, cons
 				this->sceneManager->destroyEntity(entity);
 			}
 		}
-		*/
 
+//render textures TODO
+void CustomOgreMaxScene::LoadRenderTextureMaterials ( const TiXmlElement* objectElement, std::vector<OgreMax::Types::RenderTextureParameters::Material>& materials ) {
+    size_t index = 0;
+    const TiXmlElement* childElement = 0;
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+    {
+        RenderTextureParameters::Material& material = materials[index++];
+        material.name = childElement->Attribute("name");
+        material.techniqueIndex = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "technique", 0);
+        material.passIndex = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "pass", 0);
+        material.textureUnitIndex = OgreMax::OgreMaxUtilities::GetIntAttribute(childElement, "textureUnit", 0);
+    }
+}
+
+void CustomOgreMaxScene::LoadRenderTextures(const TiXmlElement* objectElement)
+{
+    //Get default pixel format
+    //It's unlikely that this would vary among render windows, but just take the minimum anyway
+    unsigned int bestColorDepth = 32;
+    if (this->renderWindows->Start())
+    {
+        do
+        {
+            bestColorDepth = std::min(this->renderWindows->GetCurrent()->getColourDepth(), bestColorDepth);
+        }while (this->renderWindows->MoveNext());
+    }
+    PixelFormat defaultPixelFormat = (bestColorDepth == 16) ? PF_A4R4G4B4 : PF_A8R8G8B8;
+
+    //Read all the render textures
+    const TiXmlElement* renderTextureElement = 0;
+    while (renderTextureElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, renderTextureElement))
+    {
+        LoadedRenderTexture* loadedRenderTexture = new LoadedRenderTexture;
+        this->loadedRenderTextures.push_back(loadedRenderTexture);
+
+        RenderTextureParameters& renderTextureParams = loadedRenderTexture->parameters;
+
+        renderTextureParams.name = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "name");
+        renderTextureParams.width = OgreMax::OgreMaxUtilities::GetIntAttribute(renderTextureElement, "width", 512);
+        renderTextureParams.height = OgreMax::OgreMaxUtilities::GetIntAttribute(renderTextureElement, "height", 512);
+        renderTextureParams.pixelFormat = OgreMax::OgreMaxUtilities::GetPixelFormatAttribute(renderTextureElement, "pixelFormat", defaultPixelFormat);
+        renderTextureParams.textureType = OgreMax::OgreMaxUtilities::GetTextureTypeAttribute(renderTextureElement, "textureType", renderTextureParams.textureType);
+        renderTextureParams.cameraName = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "camera");
+        renderTextureParams.scheme = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "scheme");
+        renderTextureParams.clearEveryFrame = OgreMax::OgreMaxUtilities::GetBoolAttribute(renderTextureElement, "clearEveryFrame", renderTextureParams.clearEveryFrame);
+        renderTextureParams.autoUpdate = OgreMax::OgreMaxUtilities::GetBoolAttribute(renderTextureElement, "autoUpdate", renderTextureParams.autoUpdate);
+        renderTextureParams.hideRenderObject = OgreMax::OgreMaxUtilities::GetBoolAttribute(renderTextureElement, "hideRenderObject", renderTextureParams.hideRenderObject);
+        renderTextureParams.renderObjectName = OgreMax::OgreMaxUtilities::GetStringAttribute(renderTextureElement, "renderObjectName");
+        renderTextureParams.backgroundColor = this->backgroundColor;
+        renderTextureParams.resourceGroupName = this->defaultResourceGroupName;
+
+        String elementName;
+        const TiXmlElement* childElement = 0;
+        while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(renderTextureElement, childElement))
+        {
+            elementName = childElement->Value();
+
+            if (elementName == "backgroundColor")
+                renderTextureParams.backgroundColor = OgreMax::OgreMaxUtilities::LoadColor(childElement);
+            else if (elementName == "materials")
+            {
+                size_t materialCount = OgreMax::OgreMaxUtilities::GetElementCount(childElement, "material");
+                renderTextureParams.materials.resize(materialCount);
+                LoadRenderTextureMaterials(childElement, renderTextureParams.materials);
+            }
+            else if (elementName == "hiddenObjects")
+                LoadObjectNames(childElement, "hiddenObject", renderTextureParams.hiddenObjects);
+            else if (elementName == "exclusiveObjects")
+                LoadObjectNames(childElement, "exclusiveObject", renderTextureParams.exclusiveObjects);
+            else if (elementName == "renderPlane")
+                renderTextureParams.renderPlane = OgreMax::OgreMaxUtilities::LoadPlane(childElement);
+        }
+
+        //Notify callback
+        if (this->callback != 0)
+            this->callback->LoadingRenderTexture(this, renderTextureParams);
+
+        //Create the render texture
+        loadedRenderTexture->renderTexture = TextureManager::getSingleton().createManual
+            (
+            renderTextureParams.name,
+            renderTextureParams.resourceGroupName,
+            renderTextureParams.textureType,
+            renderTextureParams.width,
+            renderTextureParams.height,
+            0,
+            renderTextureParams.pixelFormat,
+            TU_RENDERTARGET
+            );
+
+        //Initialize all the texture's render targets
+        size_t faceCount = loadedRenderTexture->renderTexture->getNumFaces();
+        for (size_t faceIndex = 0; faceIndex < faceCount; faceIndex++)
+        {
+            RenderTarget* renderTarget = loadedRenderTexture->renderTexture->getBuffer(faceIndex)->getRenderTarget();
+            renderTarget->setAutoUpdated(renderTextureParams.autoUpdate);
+            renderTarget->addListener(this);
+            this->renderTargets[renderTarget] = loadedRenderTexture;
+        }
+    }
+}
+
+void CustomOgreMaxScene::FinishLoadingRenderTextures()
+{
+    static const Quaternion CUBE_FACE_CAMERA_ORIENTATIONS[] =
+        {
+        Quaternion(0.707107, 0, -0.707107, 0),
+        Quaternion(-0.707107, 0, -0.707107, 0),
+        Quaternion(0.707107, 0.707107, 0, 0),
+        Quaternion(0.707107, -0.707107, 0, 0),
+        Quaternion(1, 0, 0, 0),
+        Quaternion(0, 0, -1, 0)
+        };
+
+    for (; this->currentRenderTextureIndex < this->loadedRenderTextures.size(); this->currentRenderTextureIndex++)
+    {
+        LoadedRenderTexture* loadedRenderTexture = this->loadedRenderTextures[this->currentRenderTextureIndex];
+        const RenderTextureParameters& renderTextureParams = loadedRenderTexture->parameters;
+
+        //Create the scheme
+        if (!renderTextureParams.scheme.empty())
+            MaterialManager::getSingleton()._getSchemeIndex(renderTextureParams.scheme);
+
+        //Get the camera
+        //First try the camera callback
+        if (this->callback != 0)
+            loadedRenderTexture->camera = this->callback->GetRenderTextureCamera(this, renderTextureParams);
+
+        //If there's no camera yet, get the camera from the scene
+        if (loadedRenderTexture->camera == 0 &&
+            !renderTextureParams.cameraName.empty() &&
+            this->sceneManager->hasCamera(renderTextureParams.cameraName))
+        {
+            loadedRenderTexture->camera = this->sceneManager->getCamera(renderTextureParams.cameraName);
+        }
+
+        //Set up viewport and render object (either a reflection plane for 2D, or an object for 3D)
+        size_t faceCount = loadedRenderTexture->renderTexture->getNumFaces();
+        if (renderTextureParams.textureType == TEX_TYPE_2D)
+        {
+            Viewport* viewport = 0;
+            if (loadedRenderTexture->camera != 0)
+            {
+                RenderTarget* renderTarget = loadedRenderTexture->renderTexture->getBuffer()->getRenderTarget();
+
+                //Add viewport
+                Viewport* viewport = renderTarget->addViewport(loadedRenderTexture->camera);
+                viewport->setClearEveryFrame(renderTextureParams.clearEveryFrame);
+                viewport->setBackgroundColour(renderTextureParams.backgroundColor);
+                viewport->setMaterialScheme(renderTextureParams.scheme);
+                loadedRenderTexture->viewports[0] = viewport;
+
+                //Set up render object (reflection plane)
+                if (!renderTextureParams.renderObjectName.empty())
+                {
+                    //Build the plane name
+                    String movablePlaneName;
+                    OgreMax::OgreMaxUtilities::CreateMovablePlaneName(movablePlaneName, renderTextureParams.renderObjectName);
+
+                    //Get or create the render plane
+                    MovablePlanesMap::iterator planeIterator = this->movablePlanes.find(movablePlaneName);
+                    if (planeIterator != this->movablePlanes.end())
+                    {
+                        //Found an existing movable plane
+                        loadedRenderTexture->renderPlane = planeIterator->second;
+                        loadedRenderTexture->renderObjectNode = (SceneNode*)loadedRenderTexture->renderPlane->getParentNode();
+                    }
+                    else
+                    {
+                        //Create a new movable plane
+                        loadedRenderTexture->renderPlane = new MovablePlane(movablePlaneName);
+                        this->movablePlanes[movablePlaneName] = loadedRenderTexture->renderPlane;
+                        loadedRenderTexture->renderPlane->normal = renderTextureParams.renderPlane.normal;
+                        loadedRenderTexture->renderPlane->d = renderTextureParams.renderPlane.d;
+                    }
+
+                    //Configure reflection
+                    for (size_t materialIndex = 0; materialIndex < renderTextureParams.materials.size(); materialIndex++)
+                    {
+                        const RenderTextureParameters::Material& renderTextureMaterial =
+                            renderTextureParams.materials[materialIndex];
+
+                        MaterialPtr material = MaterialManager::getSingleton().getByName(renderTextureMaterial.name);
+                        if (!material.isNull())
+                        {
+                            if (renderTextureMaterial.techniqueIndex < material->getNumTechniques())
+                            {
+                                Technique* technique = material->getTechnique(renderTextureMaterial.techniqueIndex);
+                                if (renderTextureMaterial.passIndex < technique->getNumPasses())
+                                {
+                                    Pass* pass = technique->getPass(renderTextureMaterial.passIndex);
+                                    if (renderTextureMaterial.textureUnitIndex < pass->getNumTextureUnitStates())
+                                    {
+                                        TextureUnitState* textureUnit =
+                                            pass->getTextureUnitState(renderTextureMaterial.textureUnitIndex);
+                                        textureUnit->setProjectiveTexturing(true, loadedRenderTexture->camera);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    loadedRenderTexture->camera->enableReflection(loadedRenderTexture->renderPlane);
+                    loadedRenderTexture->camera->enableCustomNearClipPlane(loadedRenderTexture->renderPlane);
+                }
+            }
+        }
+        else if (renderTextureParams.textureType == TEX_TYPE_CUBE_MAP)
+        {
+            //Get the render object, if any
+            if (!renderTextureParams.renderObjectName.empty() && this->sceneManager->hasSceneNode(renderTextureParams.renderObjectName))
+                loadedRenderTexture->renderObjectNode = GetSceneNode(renderTextureParams.renderObjectName, false);
+
+            //Get the position from which the cube map will be rendered
+            Vector3 position;
+            loadedRenderTexture->GetReferencePosition(position);
+
+            //Create a camera and viewport for each cube face
+            String cameraName;
+            for (size_t faceIndex = 0; faceIndex < faceCount; faceIndex++)
+            {
+                //Build a unique camera name
+                cameraName = loadedRenderTexture->camera->getName() + "_CubeFaceCamera" + StringConverter::toString(faceIndex);
+
+                //Create camera
+                Camera* cubeFaceCamera = this->sceneManager->createCamera(cameraName);
+                cubeFaceCamera->setAspectRatio(1);
+                cubeFaceCamera->setFOVy(Degree(90));
+                cubeFaceCamera->setPosition(position);
+                cubeFaceCamera->setOrientation(CUBE_FACE_CAMERA_ORIENTATIONS[faceIndex]);
+
+                //Use the reference camera's clip distances, if possible
+                if (loadedRenderTexture->camera != 0)
+                {
+                    cubeFaceCamera->setNearClipDistance(loadedRenderTexture->camera->getNearClipDistance());
+                    cubeFaceCamera->setFarClipDistance(loadedRenderTexture->camera->getFarClipDistance());
+                }
+
+                loadedRenderTexture->cubeFaceCameras[faceIndex] = cubeFaceCamera;
+
+                //Add viewport
+                RenderTarget* renderTarget = loadedRenderTexture->renderTexture->getBuffer(faceIndex)->getRenderTarget();
+                Viewport* viewport = renderTarget->addViewport(cubeFaceCamera);
+                viewport->setClearEveryFrame(renderTextureParams.clearEveryFrame);
+                viewport->setBackgroundColour(renderTextureParams.backgroundColor);
+                viewport->setMaterialScheme(renderTextureParams.scheme);
+                loadedRenderTexture->viewports[faceIndex] = viewport;
+            }
+        }
+
+        GetRenderTextureObjects(loadedRenderTexture);
+
+        //Notify callback
+        if (this->callback != 0)
+           this->callback->CreatedRenderTexture(this, loadedRenderTexture);
+    }
+}
+
+void CustomOgreMaxScene::GetRenderTextureObjects(OgreMax::Types::LoadedRenderTexture* loadedRenderTexture)
+{
+    const RenderTextureParameters& renderTextureParams = loadedRenderTexture->parameters;
+
+    //Get hidden objects
+    loadedRenderTexture->hiddenObjects.reserve(renderTextureParams.hiddenObjects.size());
+    for (size_t hiddenIndex = 0; hiddenIndex < renderTextureParams.hiddenObjects.size(); hiddenIndex++)
+    {
+        if (this->sceneManager->hasSceneNode(renderTextureParams.hiddenObjects[hiddenIndex]))
+        {
+            SceneNode* node = GetSceneNode(renderTextureParams.hiddenObjects[hiddenIndex], false);
+            loadedRenderTexture->hiddenObjects.push_back(node);
+        }
+    }
+    loadedRenderTexture->hiddenObjects.Hide();
+
+    //Get exclusive objects
+    loadedRenderTexture->exclusiveObjects.reserve(renderTextureParams.exclusiveObjects.size());
+    for (size_t exclusiveIndex = 0; exclusiveIndex < renderTextureParams.exclusiveObjects.size(); exclusiveIndex++)
+    {
+        if (this->sceneManager->hasSceneNode(renderTextureParams.exclusiveObjects[exclusiveIndex]))
+        {
+            SceneNode* node = GetSceneNode(renderTextureParams.exclusiveObjects[exclusiveIndex], false);
+            loadedRenderTexture->exclusiveObjects.push_back(node);
+        }
+    }
+    loadedRenderTexture->exclusiveObjects.Hide();
+}
+
+
+
+//terrain TODO
+void CustomOgreMaxScene::LoadTerrain(const TiXmlElement* objectElement) {
+    //Exit early if skip option is set
+    if ((this->loadOptions & SKIP_TERRAIN) != 0)
+        return;
+
+    String renderQueue = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "renderQueue");
+
+    String dataFile = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "dataFile");
+    if (!dataFile.empty())
+    {
+        this->sceneManager->setWorldGeometry(dataFile);
+        if (!renderQueue.empty())
+            this->sceneManager->setWorldGeometryRenderQueue(OgreMax::OgreMaxUtilities::ParseRenderQueue(renderQueue));
+    }
+
+    //Parse child elements
+    String elementName;
+    const TiXmlElement* childElement = 0;
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+    {
+        elementName = childElement->Value();
+
+        if (elementName == "userDataReference")
+            OgreMax::OgreMaxUtilities::LoadUserDataReference(childElement, this->terrainExtraData.userDataReference);
+        else if (elementName == "userData")
+            OgreMax::OgreMaxUtilities::GetChildText(childElement, this->terrainExtraData.userData);
+    }
+
+    if (this->sceneManager->hasSceneNode("Terrain"))
+    {
+        SceneNode* terrainNode = this->sceneManager->getSceneNode("Terrain");
+        terrainNode->setOrientation(OgreMax::OgreMaxUtilities::GetOrientation(this->upAxis));
+    }
+
+    //Notify callback
+    if (this->callback != 0)
+        this->callback->CreatedTerrain(this, dataFile);
+		
+		
+}
+
+void CustomOgreMaxScene::LoadLookTarget(const TiXmlElement* objectElement, SceneNode* node, Camera* camera)
+{
+    LookTarget lookTarget(node, camera);
+
+    lookTarget.nodeName = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "nodeName");
+
+    String relativeTo = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "relativeTo");
+    if (!relativeTo.empty())
+        lookTarget.relativeTo = OgreMax::OgreMaxUtilities::ParseTransformSpace(relativeTo);
+
+    //Parse child elements
+    String elementName;
+    const TiXmlElement* childElement = 0;
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+    {
+        elementName = childElement->Value();
+
+        if (elementName == "position")
+        {
+            lookTarget.position = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+            lookTarget.isPositionSet = true;
+        }
+        else if (elementName == "localDirection")
+            lookTarget.localDirection = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+    }
+
+    //Store look target information for later
+    this->lookTargets.push_back(lookTarget);
+}
+
+void CustomOgreMaxScene::LoadTrackTarget(const TiXmlElement* objectElement, SceneNode* node, Camera* camera)
+{
+    TrackTarget trackTarget(node, camera);
+
+    trackTarget.nodeName = OgreMax::OgreMaxUtilities::GetStringAttribute(objectElement, "nodeName");
+
+    //Parse child elements
+    String elementName;
+    const TiXmlElement* childElement = 0;
+    while (childElement = OgreMax::OgreMaxUtilities::IterateChildElements(objectElement, childElement))
+    {
+        elementName = childElement->Value();
+
+        if (elementName == "offset")
+            trackTarget.offset = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+        else if (elementName == "localDirection")
+            trackTarget.localDirection = OgreMax::OgreMaxUtilities::LoadXYZ(childElement);
+    }
+
+    //Store track target information for later
+    this->trackTargets.push_back(trackTarget);
+}
+
+
+*/
 
 }

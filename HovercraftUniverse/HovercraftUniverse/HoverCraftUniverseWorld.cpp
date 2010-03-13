@@ -35,13 +35,6 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 	//...
 }
 
-bool HoverCraftUniverseWorld::loadSceneFile ( const char * filename ){
-	
-	//ServerLoader loader(this, ".\\..\\..\\..\\art\\models\\");
-
-	return true;
-}
-
 void HoverCraftUniverseWorld::postStep() {
 	// Rotate the character
 	hkStorageStringMap<Character*>::Iterator i = mCharactersMap.getIterator ();

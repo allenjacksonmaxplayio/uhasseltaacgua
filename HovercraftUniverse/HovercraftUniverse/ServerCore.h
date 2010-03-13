@@ -19,7 +19,7 @@ class ServerCore: public NetworkServer
 private:
 
 	/** The Loby **/
-	Lobby mLobby;
+	Lobby * mLobby;
 
 	/** The entity manager */
 	EntityManager * mEntityManager;
