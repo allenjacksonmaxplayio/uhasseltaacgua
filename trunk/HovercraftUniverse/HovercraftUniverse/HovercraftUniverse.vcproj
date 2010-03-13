@@ -359,10 +359,6 @@
 					Name="phantom"
 					>
 					<File
-						RelativePath=".\BoostPhantom.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\CheckpointPhantom.cpp"
 						>
 					</File>
@@ -376,6 +372,10 @@
 					</File>
 					<File
 						RelativePath=".\PowerupPhantom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SpeedBoostPhantom.cpp"
 						>
 					</File>
 					<File
@@ -435,10 +435,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Boost.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\CheckPoint.cpp"
 						>
 					</File>
@@ -475,7 +471,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\ServerLoader.cpp"
+						RelativePath=".\SpeedBoost.cpp"
 						>
 					</File>
 					<File
@@ -544,6 +540,14 @@
 					>
 					<File
 						RelativePath=".\CustomOgreMaxScene.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Loading"
+					>
+					<File
+						RelativePath=".\ServerLoader.cpp"
 						>
 					</File>
 				</Filter>
@@ -769,10 +773,6 @@
 					Name="phantom"
 					>
 					<File
-						RelativePath=".\BoostPhantom.h"
-						>
-					</File>
-					<File
 						RelativePath=".\CheckpointPhantom.h"
 						>
 					</File>
@@ -786,6 +786,10 @@
 					</File>
 					<File
 						RelativePath=".\PowerupPhantom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SpeedBoostPhantom.h"
 						>
 					</File>
 					<File
@@ -849,10 +853,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Boost.h"
-						>
-					</File>
-					<File
 						RelativePath=".\CheckPoint.h"
 						>
 					</File>
@@ -889,7 +889,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\ServerLoader.h"
+						RelativePath=".\SpeedBoost.h"
 						>
 					</File>
 					<File
@@ -966,6 +966,14 @@
 					</File>
 					<File
 						RelativePath=".\OgreMaxTypesExtension.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Loading"
+					>
+					<File
+						RelativePath=".\ServerLoader.h"
 						>
 					</File>
 				</Filter>

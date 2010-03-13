@@ -8,8 +8,8 @@ namespace HovUni {
 
 class EntityManager;
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, float processInterval, unsigned short replicators) : 
-		NetworkMovementEntity(replicators), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
+		NetworkMovementEntity(replicators), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -21,8 +21,8 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 	changeOrientation(orientation.getRotationTo(Ogre::Vector3::UNIT_Z));
 }
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, float processInterval, unsigned short replicators) : 
-		NetworkMovementEntity(replicators), mName(name), mCategory(category), mController(0), mProcessInterval(processInterval), 
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String ogreentity,float processInterval, unsigned short replicators) : 
+		NetworkMovementEntity(replicators), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -93,6 +93,10 @@ Ogre::Vector3 Entity::getPosition() const {
 
 Ogre::Vector3 Entity::getOrientation() const {
 	return mOrientation * Ogre::Vector3::UNIT_Z;
+}
+
+Ogre::String Entity::getOgreEntity() const {
+	return mOgreEntity;
 }
 
 Ogre::Quaternion Entity::getQuaternion() const {

@@ -14,7 +14,7 @@
 // Phantoms entities
 #include "CheckpointPhantom.h"
 #include "StartPhantom.h"
-#include "BoostPhantom.h"
+#include "SpeedBoostPhantom.h"
 #include "FinishPhantom.h"
 #include "PortalPhantom.h"
 #include "PowerupPhantom.h"
@@ -40,7 +40,7 @@ namespace {
 namespace HovUni {
 
 ServerLoader::ServerLoader(HoverCraftUniverseWorld * world, ServerCore * server, char const * path):
-	mHovercraftWorld(world), mPath(path), mExternalitem(0), mNodeparameters(0), mEntityparameters(0), mServer(server)
+	mHovercraftWorld(world), mPath(path), mExternalitem(0), mNodeparameters(0), mServer(server)
 {
 }
 
@@ -62,15 +62,6 @@ void ServerLoader::onNode( OgreMax::Types::NodeParameters& nodeparameters, std::
 		UserDataFactory::getSingleton().parseUserData(nodeparameters.extraData->userData , desc);
 	}
 	mNodeparameters = 0;
-}
-
-void ServerLoader::onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ) {
-	mEntityparameters = &entityparameters;
-	if ( !entityparameters.extraData.isNull() && !entityparameters.extraData->userData.empty() ){
-		EntityDescription desc(entityparameters.name,mNodeparameters->position,mNodeparameters->orientation);
-		UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData , desc);
-	}
-	mEntityparameters = 0;
 }
 
 void ServerLoader::onExternal( OgreMax::Types::ExternalItem& externalitem){
@@ -107,12 +98,12 @@ void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 
 void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 
-	if ( mEntityparameters == 0 ){
+	if ( mExternalitem == 0 ){
 		THROW(ParseException, "This should be an entity.");
 	}
 	
 	//Get the name of the asteroid
-	const char * asteroidname = mEntityparameters->name.c_str();
+	const char * asteroidname = mExternalitem->name.c_str();
 
 	// Find the planet
 	hkpRigidBody* planetRigidBody = mHovercraftWorld->mPhysicsData->findRigidBodyByName( asteroidname );
@@ -228,7 +219,7 @@ void ServerLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
 	phantom->removeReference();
 }
 
-void ServerLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
+void ServerLoader::onBoost( Ogre::SharedPtr<SpeedBoost> boost ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -240,7 +231,7 @@ void ServerLoader::onBoost( Ogre::SharedPtr<Boost> boost ) {
 
 	hkReal boostvalue = boost->getBoost();
 
-	BoostPhantom * phantom = new BoostPhantom( aabb, boostvalue );	
+	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( aabb, boost );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 }

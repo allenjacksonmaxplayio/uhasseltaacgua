@@ -55,7 +55,7 @@ public:
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Asteroid(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Asteroid(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
 
 	/**
 	 * Load

@@ -14,7 +14,7 @@ namespace HovUni {
  * A Boost should speed up an entity that passes over it in the direction it is currently heading. 
  * @author PJ
  */
-class Boost : public Entity{
+class SpeedBoost : public Entity{
 private:
 
 	/**
@@ -37,7 +37,7 @@ public:
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Boost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	SpeedBoost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
 
 	/**
 	 * Load
@@ -49,7 +49,7 @@ public:
 	/**
 	 * Destructor
 	 */
-	~Boost(void);
+	~SpeedBoost(void);
 
 	/**
 	 * Get the BoostData

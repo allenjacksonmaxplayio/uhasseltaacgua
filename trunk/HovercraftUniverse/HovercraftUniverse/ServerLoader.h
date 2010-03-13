@@ -9,7 +9,7 @@
 #include "Hovercraft.h"
 #include "Track.h"
 #include "Portal.h"
-#include "Boost.h"
+#include "SpeedBoost.h"
 #include "PowerupSpawn.h"
 #include "ResetSpawn.h"
 #include "CustomOgreMaxSceneCallback.h"
@@ -34,8 +34,6 @@ private:
 
 	OgreMax::Types::NodeParameters * mNodeparameters;
 
-	OgreMax::Types::EntityParameters * mEntityparameters;
-
 public:
 	ServerLoader( HoverCraftUniverseWorld * world, ServerCore * server, char const * path );
 
@@ -59,8 +57,6 @@ public:
 
 	virtual void onNode( OgreMax::Types::NodeParameters& nodeparameters, std::vector<OgreMax::Types::NodeAnimation> * animation, const OgreMax::Types::NodeParameters* parent);
 
-	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
-
 	//Custom objects
 
 	virtual void onAsteroid( Ogre::SharedPtr<Asteroid> asteroid );
@@ -79,7 +75,7 @@ public:
 
 	virtual void onPortal( Ogre::SharedPtr<Portal> portal );
 
-	virtual void onBoost( Ogre::SharedPtr<Boost> boost );
+	virtual void onBoost( Ogre::SharedPtr<SpeedBoost> boost );
 
 	virtual void onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn );
 
@@ -122,7 +118,8 @@ public:
 	virtual void onResourceLocation ( const Ogre::String& name, const Ogre::String& type, bool recursive) {}
 
 	virtual void onExternalUserData( OgreMax::Types::ExternalUserData& externalud) {}
-
+	
+	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ){}
 };
 
 }

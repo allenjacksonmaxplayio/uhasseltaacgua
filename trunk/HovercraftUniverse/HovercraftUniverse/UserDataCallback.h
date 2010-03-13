@@ -9,7 +9,7 @@
 #include "Hovercraft.h"
 #include "CheckPoint.h"
 #include "StartPosition.h"
-#include "Boost.h"
+#include "SpeedBoost.h"
 #include "Track.h"
 #include "Portal.h"
 #include "PowerupSpawn.h"
@@ -97,7 +97,7 @@ public:
 	 * @param boost
 	 * @param an object that has userbindings(eg Ogre Movable and SceneNode)
 	 */
-	virtual void onBoost(Ogre::SharedPtr<Boost> boost) {};
+	virtual void onBoost(Ogre::SharedPtr<SpeedBoost> boost) {};
 
 	/**
 	 * Callback when powerup spawn is loaded
