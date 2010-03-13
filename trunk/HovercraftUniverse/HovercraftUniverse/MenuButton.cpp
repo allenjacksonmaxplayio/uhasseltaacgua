@@ -2,7 +2,8 @@
 
 namespace HovUni {
 	MenuButton::MenuButton(const Ogre::String& text, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder)
-		: BasicOverlay(name, fileName, width, height, position, zOrder), mText(text) {
+			: BasicOverlay(name, fileName, width, height, position, zOrder), mText(text) {
+		setBParameter(BasicOverlay::ALPHAHACK, true);
 	}
 
 	void MenuButton::keepPressed() {
