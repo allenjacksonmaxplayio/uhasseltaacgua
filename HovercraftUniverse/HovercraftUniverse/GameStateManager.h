@@ -3,7 +3,9 @@
 
 #include <map>
 
+#include "InputManager.h"
 #include <Ogre.h>
+#include <OgreFrameListener.h>
 
 namespace HovUni {
 	class BasicGameState; //Forward declaration
@@ -14,7 +16,7 @@ namespace HovUni {
 	 *
 	 * @author Nick De Frangh
 	 */
-	class GameStateManager {
+	class GameStateManager : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener {
 		public:
 			/** Enumeration for all possible gamestates */
 			static enum GameState {
@@ -25,14 +27,20 @@ namespace HovUni {
 			/** A map containing all the regitered game states */
 			std::map<GameState, BasicGameState*> mGameStates;
 
+			/** A reference to the input manager */
+			InputManager* mInputManager;
+
 			/** The current state of the game */
 			GameState mCurrentState;
+
+			/** A reference to the active game state */
+			BasicGameState* mCurrentGameState;
 
 		public:
 			/** 
 			 * Basic constructor
 			 */
-			GameStateManager(GameState initialState = MAIN_MENU);
+			GameStateManager(InputManager * inputMgr, GameState initialState, BasicGameState* gameState);
 
 			/**
 			 * Add a new gamestate to the manager
@@ -43,21 +51,42 @@ namespace HovUni {
 			void addGameState(GameState state, BasicGameState* gameState);
 
 			/**
-			 * This function should be called every frame to make
-			 * changes possible. This will update the current active
-			 * GameState.
-			 *
-			 * @param evt The FrameEvent given by Ogre.
-			 */
-			void onFrame(const Ogre::FrameEvent& evt);
-
-			/**
 			 * Switch to a new state, can only be accessed by friend
 			 * classes (the game states).
 			 *
 			 * @param state The new stat to switch to
 			 */
 			void switchState(GameState state);
+
+			/**
+			 * @see FrameListener::frameStarted().
+			 */
+			bool frameStarted(const Ogre::FrameEvent & evt);
+
+			/**
+			 * @see MouseListener::mouseMoved().
+			 */
+			bool mouseMoved(const OIS::MouseEvent & e);
+
+			/**
+			 * @see MouseListener::mousePressed().
+			 */
+			bool mousePressed(const OIS::MouseEvent & e, OIS::MouseButtonID id);
+			
+			/**
+			 * @see MouseListener::mouseReleased().
+			 */
+			bool mouseReleased(const OIS::MouseEvent & e, OIS::MouseButtonID id);
+
+			/**
+			 * @see KeyListener::keyPressed().
+			 */
+			bool keyPressed(const OIS::KeyEvent & e);
+
+			/**
+			 * @see KeyListener::keyReleased().
+			 */
+			bool keyReleased(const OIS::KeyEvent & e);
 	};
 }
 

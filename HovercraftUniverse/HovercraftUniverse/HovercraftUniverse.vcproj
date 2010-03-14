@@ -326,6 +326,10 @@
 						RelativePath=".\GameStateManager.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\InGameState.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -766,6 +770,10 @@
 					</File>
 					<File
 						RelativePath=".\GameStateManager.h"
+						>
+					</File>
+					<File
+						RelativePath=".\InGameState.h"
 						>
 					</File>
 				</Filter>
