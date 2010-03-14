@@ -48,7 +48,7 @@ namespace HovUni {
 		}
 
 		//Register callbacks
-		for (int i = 0; i < mCallbacks.size(); ++i) {
+		for (unsigned int i = 0; i < mCallbacks.size(); ++i) {
 			std::pair<Ogre::DisplayString, Hikari::FlashDelegate> callback = mCallbacks[i];
 
 			mFlashControl->bind(callback.first, callback.second);
