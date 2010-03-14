@@ -77,10 +77,6 @@ void RepresentationManager::drawGameViews(Ogre::Real timeSinceLastFrame) {
 	for (std::vector<GameView *>::const_iterator it = mGameViews.begin(); it != mGameViews.end(); it++) {
 		(*it)->draw(timeSinceLastFrame);
 	}
-
-	//TODO: not fully convinced about placement :) (Nick)
-	GUIManager::getSingletonPtr()->update();
-	SoundManager::getSingletonPtr()->update();
 }
 
 

@@ -8,6 +8,8 @@
 #include <iostream>
 #include "MainMenu.h"
 
+#include "InGameState.h"
+
 namespace HovUni {
 
 Ogre::SceneManager* Application::msSceneMgr = 0;
@@ -105,6 +107,11 @@ void Application::initializeResourceGroups() {
 void Application::createClient(const Ogre::String& host, unsigned int port){
 	// Client
 	mClient = new ClientCore(host.c_str(), port);
+
+	TiXmlDocument doc("gui/GUIConfig.xml");
+	doc.LoadFile();
+
+	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::IN_GAME, new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD")));
 }
 
 void Application::setupScene() {
@@ -132,10 +139,13 @@ void Application::setupScene() {
 
 	TiXmlElement* root = doc.RootElement();
 
-	// Add single game view to representation manager
-	GameView * gv = new GameView(msSceneMgr);
-	Ogre::Viewport * vp = win->addViewport(gv->getCamera()->getCamera());
-	mRepresentationManager->addGameView(gv);
+	//////////////////////////////////////////////////////////////////////////
+	//TODO: The creation of a GameView should be moved to InGameState (Nick)//
+	//////////////////////////////////////////////////////////////////////////
+		// Add single game view to representation manager
+		GameView * gv = new GameView(msSceneMgr);
+		Ogre::Viewport * vp = win->addViewport(gv->getCamera()->getCamera());
+		mRepresentationManager->addGameView(gv);
 
 	// Initialise and store the GUIManager
 	GUIManager::init(root->Attribute("mediaPath"), vp);
@@ -162,9 +172,10 @@ void Application::setupInputSystem() {
 }
 
 void Application::createFrameListener() {
-	mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, 
-		mInputManager, mClient);
-	mOgreRoot->addFrameListener(mFrameListener);
+	//mFrameListener = new ApplicationFrameListener(mOgreRoot->getSceneManager("Default"), mEntityManager, mRepresentationManager, 
+	//	mInputManager, mClient);
+	//mOgreRoot->addFrameListener(mFrameListener);
+	mOgreRoot->addFrameListener(mGameStateMgr);
 }
 
 void Application::startRenderLoop() {

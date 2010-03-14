@@ -2,19 +2,38 @@
 #define INGAMESTATE_H
 
 #include "BasicGameState.h"
+#include "ClientCore.h"
+#include "EntityManager.h"
 #include "HUD.h"
+#include "RepresentationManager.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
 	class InGameState : public BasicGameState {
 		private:
+			/** A reference to the created client core */
+			ClientCore* mClientCore;
+
+			/** The instantiation of the hud */
 			HUD* mHud;
+
+			/** Monitor the time lapsed for the ClientCore */
+			float mTimeLapsed;
+
+			/** A reference to the entity manager */
+			EntityManager* mEntityManager;
+
+			/** A reference to the representation manager */
+			RepresentationManager* mRepresentationManager;
+
+			/** A boolean to mark when we want to quit */
+			bool mContinue;
 
 		public:
 			/**
 			 * Constructor
 			 */
-			InGameState(TiXmlElement* HUDConfig);
+			InGameState(ClientCore* client, TiXmlElement* HUDConfig);
 
 			/**
 			 * Function called when the state gets activated

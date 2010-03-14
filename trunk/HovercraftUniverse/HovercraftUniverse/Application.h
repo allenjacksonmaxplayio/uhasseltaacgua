@@ -11,6 +11,8 @@
 #include <SoundManager.h>
 #include <string>
 
+#include "GameStateManager.h"
+
 namespace HovUni {
 
 /**
@@ -26,6 +28,7 @@ private:
 
 	/** The application frame listener */
 	ApplicationFrameListener * mFrameListener;
+	GameStateManager* mGameStateMgr;
 
 	/** The entity manager */
 	EntityManager * mEntityManager;
