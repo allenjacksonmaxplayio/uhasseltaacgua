@@ -34,6 +34,7 @@ namespace HovUni {
 			void cancelPress();
 
 		protected:
+			/** Enter the given text into the button */
 			void setText();
 
 			virtual void customActionAfterActivate();

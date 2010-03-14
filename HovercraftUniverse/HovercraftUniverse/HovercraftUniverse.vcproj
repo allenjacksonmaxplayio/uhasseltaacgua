@@ -315,6 +315,18 @@
 					RelativePath=".\RepresentationManager.cpp"
 					>
 				</File>
+				<Filter
+					Name="GameState"
+					>
+					<File
+						RelativePath=".\BasicGameState.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\GameStateManager.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="CoreNetwork"
@@ -745,6 +757,18 @@
 					RelativePath=".\RepresentationManager.h"
 					>
 				</File>
+				<Filter
+					Name="GameState"
+					>
+					<File
+						RelativePath=".\BasicGameState.h"
+						>
+					</File>
+					<File
+						RelativePath=".\GameStateManager.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="CoreNetwork"
