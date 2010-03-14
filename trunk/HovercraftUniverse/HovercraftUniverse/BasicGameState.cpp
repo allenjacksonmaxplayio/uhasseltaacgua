@@ -1,6 +1,11 @@
 #include "BasicGameState.h"
 
 namespace HovUni {
+	BasicGameState::BasicGameState() {
+		mGUIManager = GUIManager::getSingletonPtr();
+		mSoundManager = SoundManager::getSingletonPtr();
+	}
+
 	void BasicGameState::setManager(GameStateManager* manager) {
 		mManager = manager;
 	}
