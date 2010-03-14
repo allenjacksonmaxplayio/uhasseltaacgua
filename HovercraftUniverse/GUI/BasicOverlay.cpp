@@ -47,6 +47,13 @@ namespace HovUni {
 			mFlashControl->setTransparent(false, false);
 		}
 
+		//Register callbacks
+		for (int i = 0; i < mCallbacks.size(); ++i) {
+			std::pair<Ogre::DisplayString, Hikari::FlashDelegate> callback = mCallbacks[i];
+
+			mFlashControl->bind(callback.first, callback.second);
+		}
+
 		customActionAfterActivate();
 	}
 
@@ -71,5 +78,11 @@ namespace HovUni {
 
 	bool BasicOverlay::getBParameter(enum OverlayParams_B paramIndex) {
 		return mParameters_B[paramIndex];
+	}
+
+	void BasicOverlay::bind(const Ogre::DisplayString& funcName, const Hikari::FlashDelegate& callback) {
+		//Store the bind
+		std::pair<Ogre::DisplayString, Hikari::FlashDelegate> callStore(funcName, callback);
+		mCallbacks.push_back(callStore);
 	}
 }

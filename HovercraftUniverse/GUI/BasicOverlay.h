@@ -10,11 +10,10 @@
 
 //Include IOS but prevent double link errors!
 #define OIS_DYNAMIC_LIB
+#include "Ogre.h"
 #include <OIS.h>
-
 #include <Hikari.h>
- 
-using std::string;
+#include <vector>
 
 namespace HovUni {
 	class BasicOverlay : public OIS::KeyListener {
@@ -41,6 +40,9 @@ namespace HovUni {
 
 			/** The flash control used for this overlay */
 			Hikari::FlashControl* mFlashControl;
+
+			/** A list of stored callbacks to be added to the overlay */
+			std::vector< std::pair<Ogre::DisplayString, Hikari::FlashDelegate> > mCallbacks;
 
 		public:
 			/** Enumeration containing all boolean parameters to modify */
@@ -160,6 +162,15 @@ namespace HovUni {
 			 * @param paramIndex The name of the parameter to retrieve
 			 */
 			bool getBParameter(enum OverlayParams_B paramIndex);
+
+			/**
+			 * Binds a local callback to a certain function name so the overlay can
+			 * call this function.
+			 *
+			 * @param funcName The name the function should get inside the overlay
+			 * @param callback The function to call on execution
+			 */
+			void bind(const Ogre::DisplayString& funcName, const Hikari::FlashDelegate& callback);
 	};
 }
 

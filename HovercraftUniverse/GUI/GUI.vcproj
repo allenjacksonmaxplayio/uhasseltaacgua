@@ -160,6 +160,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MouseVisualisation.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OverlayContainer.cpp"
 				>
 			</File>
@@ -175,6 +179,10 @@
 			</File>
 			<File
 				RelativePath=".\GUIManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MouseVisualisation.h"
 				>
 			</File>
 			<File

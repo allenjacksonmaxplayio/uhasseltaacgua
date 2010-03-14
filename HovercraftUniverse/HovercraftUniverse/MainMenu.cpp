@@ -5,8 +5,8 @@ namespace HovUni {
 		//Create buttons
 
 		//TODO: Make this resolution dependant
-		float width = 445;
-		float height = 320;
+		short width = 445;
+		short height = 320;
 
 		mSingleplayerButton = new MenuButton("Singleplayer", "singleplayerBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, -(width / 2.0f), -(height / 2.0f)));
 		mMultiplayerButton = new MenuButton("Multiplayer", "multiplayerBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, (width / 2.0f), -(height / 2.0f)));
