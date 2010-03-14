@@ -13,13 +13,13 @@ Havok::~Havok(void)
 {
 }
 
-void Havok::start() {
+void Havok::start( const char * filename, Loader * loader ) {
 	//Server means Havok
 	float timestep = 1.0f/120.0f;
 
 	//do Havok sim in background
 	ms_world = 0;
-	HavokThread::StartHavokThread();
+	HavokThread::StartHavokThread( filename, loader );
 }
 
 

@@ -7,7 +7,7 @@
 namespace HovUni {
 
 DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", true, Ogre::Vector3(0.0, 40.0, 0.0), 
-												Ogre::Vector3(1.0, 0.0,-1.0),"", 1.0f / 60.0f), mMovingStatus(0) {
+												Ogre::Vector3(1.0, 0.0,-1.0),"", 1.0f / 60.0f,0), mMovingStatus(0) {
 	// Already initialized
 }
 

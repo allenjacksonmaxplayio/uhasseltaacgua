@@ -1,11 +1,23 @@
 #include "HavokThread.h"
 #include "Havok.h"
+#include "CustomOgreMaxScene.h"
+#include "Loader.h"
+
+namespace {
+
+	struct LoadParameter {
+		HovUni::Loader * loader;
+		const char * file;
+	};
+
+}
 
 namespace HovUni {
 
 bool HavokThread::run = false;
 bool HavokThread::havokdebug = false;
 
+HANDLE HavokThread::startevent;
 STARTUPINFO HavokThread::si;
 PROCESS_INFORMATION HavokThread::pi;
 HANDLE HavokThread::handle;
@@ -28,7 +40,7 @@ void HavokThread::StopHavokThread(){
 	}
 }
 
-void HavokThread::StartHavokThread(){
+void HavokThread::StartHavokThread( const char * filename, Loader * loader ){
 
     ZeroMemory( &si, sizeof(HavokThread::si) );
     HavokThread::si.cb = sizeof(HavokThread::si);
@@ -54,21 +66,47 @@ void HavokThread::StartHavokThread(){
 
 	}
 
+	HavokThread::startevent = CreateEvent( 
+        NULL,               // default security attributes
+        TRUE,               // manual-reset event
+        FALSE,              // initial state is nonsignaled
+        TEXT("Havoc Start Event")  // object name
+        ); 
+
+	LoadParameter params;
+	params.file = filename;
+	params.loader = loader;
+
 	HavokThread::run = true;
 	HavokThread::handle = CreateThread( 
             NULL,			// default security attributes
             0,               // use default stack size  
             runHavok,       // thread function name
-            0,          // argument to thread function 
+            &params,          // argument to thread function 
             0,              // use default creation flags 
             0);   // returns the thread identifier
+
+	//wait untill at least the havoc world is set up
+	WaitForSingleObject (HavokThread::startevent,INFINITE);
+
+	//delete creation event
+	CloseHandle(HavokThread::startevent);
 }
 
 DWORD WINAPI runHavok( LPVOID lpParam ) {
 
+	LoadParameter * params = (LoadParameter*) lpParam;
+
 	HoverCraftUniverseWorld world(1.0f/120.0f);
 
 	Havok::ms_world = &world;
+
+	//load havok world should be done in THIS thread
+	CustomOgreMaxScene scene;
+	scene.Load(params->file,params->loader);
+
+	//notify that the world has loaded
+	SetEvent(HavokThread::startevent);
 
 	// A stopwatch for waiting until the real time has passed
 	hkStopwatch stopWatch;

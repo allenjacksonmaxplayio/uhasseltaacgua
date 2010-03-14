@@ -59,6 +59,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
 
+// HACK IN OGRE FILE THINGY
+
 		//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 		DWORD  retval=0;
 		TCHAR  buffer[MAX_PATH]=TEXT(""); 
@@ -83,8 +85,11 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
 			}
 		}
+
+		//make sure it doesn't parse materials
 		Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(Ogre::MaterialManager::getSingletonPtr());
 
+// HACK IN OGRE FILE THINGY
 
 		HovUni::Server* server = new HovUni::Server();
 		server->start();

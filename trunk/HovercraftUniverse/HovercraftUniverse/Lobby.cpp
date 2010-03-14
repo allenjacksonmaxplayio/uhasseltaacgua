@@ -86,7 +86,7 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 
 void Lobby::onStart() {
 	//called when map should be loaded
-	mLoader->load(mTrackFilename);
+	//mLoader->load(mTrackFilename);
 
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else

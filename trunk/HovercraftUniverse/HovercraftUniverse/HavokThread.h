@@ -2,6 +2,7 @@
 #define HAVOKTHREAD_H
 
 #include "windows.h"
+#include "Loader.h"
 
 namespace HovUni {
 
@@ -16,6 +17,7 @@ private:
 	static bool run;
 
 	static HANDLE handle;
+	static HANDLE startevent;
 
 	static bool havokdebug;
 	static STARTUPINFO si;
@@ -23,7 +25,7 @@ private:
 
 public:
 
-	static void StartHavokThread();
+	static void StartHavokThread( const char * filename, Loader * loader );
 
 	static void StopHavokThread();
 

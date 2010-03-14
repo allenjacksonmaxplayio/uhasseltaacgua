@@ -23,7 +23,7 @@ public:
 	/**
 	 * Start havok framework
 	 */
-	static void start();
+	static void start( const char * filename, Loader * loader );
 
 	/**
 	 * Get a pointer to the world object
