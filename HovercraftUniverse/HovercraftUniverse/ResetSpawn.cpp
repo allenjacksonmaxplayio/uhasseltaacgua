@@ -6,7 +6,7 @@ namespace HovUni {
 const Ogre::String ResetSpawn::CATEGORY("ResetSpawn");
 
 ResetSpawn::ResetSpawn(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,"",processInterval){
+	Entity(name,CATEGORY,false,position,orientation,"",processInterval,0){
 }
 
 void ResetSpawn::load(TiXmlElement * data) throw(ParseException){

@@ -50,9 +50,7 @@ ServerLoader::~ServerLoader(void)
 }
 
 void ServerLoader::load ( const Ogre::String& filename ){
-	CustomOgreMaxScene scene;
-	//TODO optimize options
-	scene.Load(filename,this);
+	Havok::start(filename.c_str(),this);
 }
 
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
@@ -78,9 +76,9 @@ void ServerLoader::FinishedLoad( bool success ){
 
 void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 
-	Ogre::String filename = track->getPhysicsFileName();
+	//TODO USE OGRE RESOURCES
 
-	Havok::start();
+	Ogre::String filename = ".\\levels\\" + track->getPhysicsFileName();
 
 	mHovercraftWorld = Havok::getSingletonPtr();
 
@@ -101,14 +99,14 @@ void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 
 	if ( mExternalitem == 0 ){
-		THROW(ParseException, "This should be an entity.");
+		THROW(ParseException, "This should be an external item.");
 	}
 	
 	//Get the entity name of the asteroid
-	const char * asteroidname = asteroid->getOgreEntity().c_str();
+	Ogre::String entityname = asteroid->getOgreEntity();
 
 	// Find the planet
-	hkpRigidBody* planetRigidBody = mHovercraftWorld->mPhysicsData->findRigidBodyByName( asteroidname );
+	hkpRigidBody* planetRigidBody = mHovercraftWorld->mPhysicsData->findRigidBodyByName( entityname.c_str() );
 
 	if ( planetRigidBody == HK_NULL ) {
 		THROW(ParseException, "No such name found.");

@@ -53,7 +53,7 @@ public:
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::String mOgreEntity = "", float processInterval = -1, unsigned short replicators = 0 );
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::String mOgreEntity, float processInterval, unsigned short replicators );
 
 	/**
 	 * Constructor.
@@ -67,7 +67,7 @@ public:
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String mOgreEntity = "", float processInterval = -1, unsigned short replicators = 0);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String mOgreEntity, float processInterval, unsigned short replicators);
 
 	/**
 	 * Destructor.

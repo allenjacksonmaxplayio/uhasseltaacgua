@@ -36,29 +36,28 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 	mDocument.Parse(data.c_str());
 	TiXmlElement * root = mDocument.RootElement();
 
-	//Read some generic things of entities here
-	Ogre::String ogreentity = "";
-	Ogre::Real processtime = -1.0f;
+	//if correct xml, see if user data is known
+	if(root){
 
-	TiXmlNode * parent = root->FirstChild();
-	if ( parent ){
-		TiXmlNode * current = parent->FirstChild();
+		//Read some generic things of entities here
+		Ogre::String ogreentity = "";
+		Ogre::Real processtime = -1.0f;
+
+
+		TiXmlNode * current = root->FirstChild();
 		while ( current ){
 			TiXmlElement * element = dynamic_cast<TiXmlElement *>(current);			
 			if ( element ) {
-				if ( strcmp(element->Value(),"ProcessInterval") ){
+				if ( strcmp(element->Value(),"ProcessInterval") == 0 ){
 					processtime = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 				}
-				else if ( strcmp(element->Value(),"OgreEntity") ){
+				else if ( strcmp(element->Value(),"OgreEntity") == 0 ){
 					ogreentity = Ogre::String(element->GetText());
 				}
 			}
-			current->NextSibling();
+			current = current->NextSibling();
 		}
-	}
 
-	//if correct xml, see if user data is known
-	if(root){
 
 		//START
 		if(strcmp(root->Value(),"Start") == 0){
