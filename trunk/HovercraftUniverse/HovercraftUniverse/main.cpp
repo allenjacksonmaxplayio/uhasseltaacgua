@@ -53,8 +53,38 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 		HovUni::Console::createConsole("SERVER");
 
-		new Ogre::Root();
+		new Ogre::Root;
+
+		Ogre::String mDataPath("..\\..\\data");
+
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
+
+		//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
+		DWORD  retval=0;
+		TCHAR  buffer[MAX_PATH]=TEXT(""); 
+		TCHAR** lppPart={NULL};
+		GetFullPathName(mDataPath.c_str(),MAX_PATH,buffer,lppPart);
+		std::cout << "Changing Working Dir to " << buffer << std::endl;
+		BOOL success = SetCurrentDirectory(buffer);
+
+		Ogre::ConfigFile cf;
+		cf.load("resources.cfg");
+		// Iterate over config
+		Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+		while (seci.hasMoreElements()) {
+			// Read property
+			Ogre::String secName = seci.peekNextKey();
+			Ogre::ConfigFile::SettingsMultiMap * settings = seci.getNext();
+			
+			// For all settings of that property, add them
+			for (Ogre::ConfigFile::SettingsMultiMap::iterator it = settings->begin(); it != settings->end(); it++) {
+				Ogre::String typeName = it->first;
+				Ogre::String archName = it->second;
+				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+			}
+		}
+		Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(Ogre::MaterialManager::getSingletonPtr());
+
 
 		HovUni::Server* server = new HovUni::Server();
 		server->start();
