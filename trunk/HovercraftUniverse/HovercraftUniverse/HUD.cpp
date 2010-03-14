@@ -6,15 +6,16 @@
 #include <OgreRoot.h>
 #include <sstream>
 #include <vector>
+#include <string>
 
 /** Helper function to check string end */
-bool endsWith(const string& a, const string& b) {
+bool endsWith(const std::string& a, const std::string& b) {
     if (b.size() > a.size()) return false;
     return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
 }
 
 /** Helper function to convert string to integer */
-int str2int (const string &str) {
+int str2int (const std::string &str) {
 	std::stringstream ss(str);
 	int num;
 	if((ss >> num).fail()) { 

@@ -5,7 +5,6 @@
 #include "EntityManager.h"
 //#include <GUIManager.h> //Don't activate, gives strage errors...
 #include "InputManager.h"
-#include "MouseVisualisation.h"
 #include "RepresentationManager.h"
 #include "ClientCore.h"
 #include "ServerCore.h"
@@ -34,9 +33,6 @@ protected:
 
 	/** The direction to move in */
 	Ogre::Vector3 mDirection;	
-
-	/** A visualisation of the mouse */
-	MouseVisualisation mMouseVisual;
 
 	/** Pointer tot he GUI Manager */
 	GUIManager* mGUIManager;

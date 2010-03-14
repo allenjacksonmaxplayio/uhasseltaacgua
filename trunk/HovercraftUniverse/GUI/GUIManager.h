@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "UninitialisedException.h"
+#include "MouseVisualisation.h"
 
 namespace HovUni {
 	class BasicOverlay; //Forward declaration
@@ -35,6 +36,9 @@ namespace HovUni {
 
 			/** A list of items who asked for keyboard events */
 			std::vector<OIS::KeyListener*> mKeyListeners;
+
+			/** A visualisation of the mouse */
+			MouseVisualisation mMouseVisual;
 			
 		protected:
 			/**
@@ -208,6 +212,14 @@ namespace HovUni {
 			 * @return The width of the viewport
 			 */
 			int getResolutionHeight();
+
+			/**
+			 * Call this function to show/hide the mouse cursor
+			 *
+			 * @param val If you pass TRUE the mouse will become visible,
+			 *		false will hide the cursor.
+			 */
+			void showCursor(bool val);
 	};
 }
 

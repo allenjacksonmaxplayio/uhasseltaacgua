@@ -208,10 +208,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\MouseVisualisation.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Position.cpp"
 					>
 				</File>
@@ -623,10 +619,6 @@
 				</File>
 				<File
 					RelativePath=".\MenuButton.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MouseVisualisation.h"
 					>
 				</File>
 				<File

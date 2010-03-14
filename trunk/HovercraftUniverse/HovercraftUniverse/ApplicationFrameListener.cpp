@@ -9,7 +9,7 @@ ApplicationFrameListener::ApplicationFrameListener(Ogre::SceneManager * sceneMgr
 												   RepresentationManager * reprMgr, InputManager * inputMgr, 
 												   ClientCore* client)
 		: mSceneMgr(sceneMgr), mEntityManager(entityMgr), mRepresentationManager(reprMgr), mInputManager(inputMgr), 
-		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO), mMouseVisual(),
+		mRotate(0.13f), mMove(250), mContinue(true), mDirection(Ogre::Vector3::ZERO),
 		mClient(client), mElapsed(0.0f) {
 	// Register this class with input manager
 	mInputManager->addKeyListener(this, "ApplicationFrameListener");
@@ -17,9 +17,7 @@ ApplicationFrameListener::ApplicationFrameListener(Ogre::SceneManager * sceneMgr
 
 	mGUIManager = GUIManager::getSingletonPtr();
 
-	mMouseVisual.setImage("cursor.png");
-	mMouseVisual.setVisible(true);
-	mMouseVisual.setWindowDimensions(mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight());
+	mGUIManager->showCursor(true);
 }
 
 ApplicationFrameListener::~ApplicationFrameListener(void) {
@@ -52,8 +50,6 @@ bool ApplicationFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 }
 
 bool ApplicationFrameListener::mouseMoved(const OIS::MouseEvent & e) { 
-	//Update the mous cursor
-	mMouseVisual.updatePosition(e.state.X.abs, e.state.Y.abs);
 	//Update GUI elements
 	mGUIManager->mouseMoved(e);
 	return true; 

@@ -6,8 +6,12 @@
 namespace HovUni {
 	GUIManager* GUIManager::msSingleton = 0;
 
-	GUIManager::GUIManager(const Ogre::String& mediaPath, Ogre::Viewport* viewport) : mViewport(viewport) {
+	GUIManager::GUIManager(const Ogre::String& mediaPath, Ogre::Viewport* viewport) 
+			: mViewport(viewport), mMouseVisual() {
 		mHikariMgr = new Hikari::HikariManager(mediaPath.c_str());
+
+		mMouseVisual.setImage("cursor.png");
+		mMouseVisual.setWindowDimensions(getResolutionWidth(), getResolutionHeight());
 	}
 
 	GUIManager& GUIManager::getSingleton(void) {
@@ -48,6 +52,9 @@ namespace HovUni {
 	}
 
 	bool GUIManager::mouseMoved(const OIS::MouseEvent &evt) {
+		//Update the mouse cursor
+		mMouseVisual.updatePosition(evt.state.X.abs, evt.state.Y.abs);
+
 		return mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
 	}
 
@@ -139,5 +146,9 @@ namespace HovUni {
 
 	int GUIManager::getResolutionHeight() {
 		return mViewport->getActualHeight();
+	}
+
+	void GUIManager::showCursor(bool val) {
+		mMouseVisual.setVisible(true);
 	}
 }
