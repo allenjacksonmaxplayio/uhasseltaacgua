@@ -43,7 +43,8 @@ namespace HovUni {
 			GameStateManager(InputManager * inputMgr, GameState initialState, BasicGameState* gameState);
 
 			/**
-			 * Add a new gamestate to the manager
+			 * Add a new gamestate to the manager. Old states CAN be replaced! This
+			 * will call delete on the pointer!
 			 *
 			 * @param state The identifier for this type of state
 			 * @param gameState The implementation for this game state

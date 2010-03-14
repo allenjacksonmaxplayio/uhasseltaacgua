@@ -21,7 +21,17 @@ namespace HovUni {
 	}
 
 	void GameStateManager::addGameState(GameState state, BasicGameState* gameState) {
-		//TODO: check for duplicates
+		//Old states CAN be replaced!
+		if (mGameStates[state] != 0) {
+			if (mCurrentState == state) {
+				//Set the new game state as active
+				mCurrentGameState = gameState;
+			}
+			//Delete the old state
+			delete mGameStates[state];
+			mGameStates[state] = 0;
+		}
+
 		mGameStates[state] = gameState;
 
 		// Register ourselfs to the gamestate
@@ -40,11 +50,10 @@ namespace HovUni {
 
 		//Set the new state as active
 		mCurrentState = state;
+		mCurrentGameState = mGameStates[mCurrentState];
 
-		currState = mGameStates[mCurrentState];
-
-		if (currState != 0) {
-			currState->activate();
+		if (mCurrentGameState != 0) {
+			mCurrentGameState->activate();
 		} else {
 			//TODO: Maybe notify?
 		}
