@@ -93,7 +93,9 @@ public:
 
 	/**
 	 * Sets the controller of the character. This allows for example for live migration between
-	 * player controlled characters and AI controlled characters.
+	 * player controlled characters and AI controlled characters. This operation has as a side
+	 * effect that the controller will automatically fetch information from the current entity 
+	 * in the future.
 	 *
 	 * @param controller the controller of the character
 	 */
