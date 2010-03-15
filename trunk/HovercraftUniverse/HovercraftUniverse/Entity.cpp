@@ -58,6 +58,7 @@ void Entity::setController(Controller * controller) {
 
 	// Set controller
 	mController = controller;
+	mController->setEntity(this);
 }
 
 void Entity::update(float timeSince) {
