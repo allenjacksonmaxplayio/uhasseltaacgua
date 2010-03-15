@@ -27,9 +27,6 @@ protected:
 	/** The position */
 	Ogre::Vector3 mPosition;
 
-	/** The up-vector */
-	Ogre::Vector3 mUpVector;
-
 	/** The orientation of the entity in the world */
 	Ogre::Quaternion mOrientation;
 
@@ -73,7 +70,7 @@ public:
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::Vector3 upvector, Ogre::String mOgreEntity, float processInterval, unsigned short replicators);
+	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String mOgreEntity, float processInterval, unsigned short replicators);
 
 	/**
 	 * Destructor.
@@ -86,13 +83,6 @@ public:
 	 * @param newPosition is the new position
 	 */
 	void changePosition(Ogre::Vector3 newPosition);
-
-	/**
-	 * Changes the up vector to the new orientation.
-	 *
-	 * @param newUp is the new up vector
-	 */
-	void changeUpVector(Ogre::Vector3 newUp);
 
 	/**
 	 * Changes the orientation to the new orientation.

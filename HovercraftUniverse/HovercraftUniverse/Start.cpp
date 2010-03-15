@@ -4,8 +4,8 @@ namespace HovUni {
 
 const Ogre::String Start::CATEGORY("Start");
 
-Start::Start(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& upVector, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,upVector,ogreentity,processInterval,0){
+Start::Start(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,ogreentity,processInterval,0){
 }
 
 void Start::load(TiXmlElement * data){
