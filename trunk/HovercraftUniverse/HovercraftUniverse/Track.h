@@ -47,7 +47,7 @@ public:
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& upVector, float processInterval);
 
 	/**
 	 * Constructor

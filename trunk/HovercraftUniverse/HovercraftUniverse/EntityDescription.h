@@ -18,6 +18,8 @@ private:
 
 	Ogre::Vector3 mPosition;
 
+	Ogre::Vector3 mUpVector;
+
 	Ogre::Quaternion mOrientation;
 
 public:
@@ -28,7 +30,7 @@ public:
 	 * @param position
 	 * @param orientation
 	 */
-	EntityDescription(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation);
+	EntityDescription(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& upvector);
 
 	/**
 	 * Get name
@@ -60,6 +62,22 @@ public:
 	 */
 	inline const Ogre::Vector3& getPosition() const {
 		return mPosition;
+	}
+
+	/**
+	 * Get up vector
+	 * @return vector
+	 */
+	inline Ogre::Vector3& getUpVector(){
+		return mUpVector;
+	}
+
+	/**
+	 * Get up vector
+	 * @return up vector
+	 */
+	inline const Ogre::Vector3& getUpVector() const {
+		return mUpVector;
 	}
 
 	/**

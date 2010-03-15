@@ -62,7 +62,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//START
 		if(strcmp(root->Value(),"Start") == 0){
 			//create
-			Ogre::SharedPtr<Start> start(new Start(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<Start> start(new Start(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			start->load(root);
 			//forward
@@ -73,7 +73,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//STARTPOSITION
 		if(strcmp(root->Value(),"StartPosition") == 0){
 			//create
-			Ogre::SharedPtr<StartPosition> startp(new StartPosition(description.getName(),description.getPosition(), description.getOrientation(), processtime));
+			Ogre::SharedPtr<StartPosition> startp(new StartPosition(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), processtime));
 			//load
 			startp->load(root);
 			//forward
@@ -84,7 +84,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//FINISH
 		else if(strcmp(root->Value(),"Finish") == 0){
 			//create
-			Ogre::SharedPtr<Finish> finish(new Finish(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<Finish> finish(new Finish(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			finish->load(root);
 			//forward
@@ -95,7 +95,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//CHECKPOINT
 		else if(strcmp(root->Value(),"CheckPoint") == 0){
 			//create
-			Ogre::SharedPtr<CheckPoint> checkpoint(new CheckPoint(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<CheckPoint> checkpoint(new CheckPoint(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			checkpoint->load(root);
 			//forward
@@ -106,7 +106,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//ASTEROID
 		else if(strcmp(root->Value(),"Asteroid") == 0){
 			//create
-			Ogre::SharedPtr<Asteroid> asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<Asteroid> asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			asteroid->load(root);
 			//forward
@@ -117,7 +117,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//HOVERCRAFT
 		else if(strcmp(root->Value(),"Hovercraft") == 0){
 			//create
-			Ogre::SharedPtr<Hovercraft> hovercraft(new Hovercraft(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<Hovercraft> hovercraft(new Hovercraft(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			hovercraft->load(root);
 			//forward
@@ -128,7 +128,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//BOOST
 		else if(strcmp(root->Value(),"Boost") == 0){
 			//create
-			Ogre::SharedPtr<SpeedBoost> boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<SpeedBoost> boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			boost->load(root);
 			//forward
@@ -139,7 +139,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//PORTAL
 		else if(strcmp(root->Value(),"Portal") == 0){
 			//create
-			Ogre::SharedPtr<Portal> portal(new Portal(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<Portal> portal(new Portal(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			portal->load(root);
 			//forward
@@ -150,7 +150,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//POWERUPSPAWN
 		else if(strcmp(root->Value(),"PowerupSpawn") == 0){
 			//create
-			Ogre::SharedPtr<PowerupSpawn> spawn(new PowerupSpawn(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Ogre::SharedPtr<PowerupSpawn> spawn(new PowerupSpawn(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), ogreentity, processtime));
 			//load
 			spawn->load(root);
 			//forward
@@ -161,7 +161,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//RESETSPAWN
 		else if(strcmp(root->Value(),"ResetSpawn") == 0){
 			//create
-			Ogre::SharedPtr<ResetSpawn> spawn(new ResetSpawn(description.getName(),description.getPosition(), description.getOrientation(), processtime));
+			Ogre::SharedPtr<ResetSpawn> spawn(new ResetSpawn(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), processtime));
 			//load
 			spawn->load(root);
 			//forward
@@ -172,7 +172,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//TRACK
 		else if(strcmp(root->Value(),"Track") == 0){
 			//create
-			Ogre::SharedPtr<Track> track(new Track(description.getName(),description.getPosition(), description.getOrientation(), processtime));
+			Ogre::SharedPtr<Track> track(new Track(description.getName(),description.getPosition(), description.getOrientation(), description.getUpVector(), processtime));
 			//load
 			track->load(root);
 			//forward
