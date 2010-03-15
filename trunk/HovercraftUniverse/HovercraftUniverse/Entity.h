@@ -3,7 +3,7 @@
 
 #include "Controller.h"
 #include <OgreVector3.h>
-#include "NetworkMovementEntity.h"
+#include "NetworkEntity.h"
 #include "ControllerEvent.h"
 #include <OgreLogManager.h>
 
@@ -15,7 +15,7 @@ namespace HovUni {
  *
  * @author Kristof Overdulve & Olivier Berghmans
  */
-class Entity: public NetworkMovementEntity {
+class Entity: public NetworkEntity {
 protected:
 	
 	/** The unique name of the entity */
@@ -23,6 +23,12 @@ protected:
 
 	/** The category to which this entity belongs */
 	Ogre::String mCategory;
+
+	/** The position */
+	Ogre::Vector3 mPosition;
+
+	/** The up-vector */
+	Ogre::Vector3 mUpVector;
 
 	/** The orientation of the entity in the world */
 	Ogre::Quaternion mOrientation;
@@ -182,11 +188,6 @@ protected:
 	 */
 	virtual void processEventsOther(ControllerEvent* event) = 0;
 
-	/**
-	 * @see NetworkMovementEntity::setReplication()
-	 */
-	void addReplicators();
-
 private:
 	/**
 	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream, float timeSince)
@@ -207,6 +208,11 @@ private:
 	 * @param event a controller event
 	 */
 	void processControllerEvents(ControllerEvent* event);
+
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
 
 };
 

@@ -9,7 +9,7 @@ namespace HovUni {
 class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkMovementEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+		NetworkEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -22,7 +22,7 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 }
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkMovementEntity(replicators), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+		NetworkEntity(replicators), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -42,7 +42,7 @@ void Entity::changePosition(Ogre::Vector3 newPosition) {
 	// TODO Check whether valid
 
 	// Set new position
-	setPosition(newPosition.ptr());
+	mPosition = newPosition;
 }
 
 void Entity::changeOrientation(Ogre::Quaternion newOrientation) {
@@ -88,7 +88,7 @@ Ogre::String Entity::getCategory() const {
 }
 
 Ogre::Vector3 Entity::getPosition() const { 
-	return NetworkMovementEntity::getPosition(); 
+	return mPosition; 
 }
 
 Ogre::Vector3 Entity::getOrientation() const {
@@ -147,7 +147,9 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 	}
 }
 
-void Entity::addReplicators() {
+void Entity::setupReplication() {
+	//TODO: min and max delay should be defined, not magic number...
+	replicateOgreVector3(&mPosition);
 	replicateOgreQuaternion(&mOrientation);
 }
 
