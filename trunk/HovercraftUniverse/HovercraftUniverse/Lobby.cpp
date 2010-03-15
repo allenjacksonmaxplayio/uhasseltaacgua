@@ -5,6 +5,7 @@
 #include "GameEventParser.h"
 #include "DummyHovercraft.h"
 #include "Loader.h"
+#include <iostream>
 
 namespace HovUni {
 
@@ -85,12 +86,18 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 }
 
 void Lobby::onStart() {
-	//called when map should be loaded
-	//mLoader->load(mTrackFilename);
+
+	std::cout << "ONSTART" << std::endl;
+
 
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else
 	if(!mStarted) {
+
+		//called when map should be loaded
+		mLoader->load(mTrackFilename);
+
+
 		NetworkIDManager* idmanager = NetworkIDManager::getServerSingletonPtr();
 		for(std::map<ZCom_ConnID,Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
 			DummyHovercraft * hovercraft = new DummyHovercraft();

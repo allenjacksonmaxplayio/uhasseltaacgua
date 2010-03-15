@@ -111,4 +111,8 @@ void Hovercraft::setupReplication(){
 	);
 }
 
+std::string Hovercraft::getClassName(){
+	return "Hovercraft";
+}
+
 }

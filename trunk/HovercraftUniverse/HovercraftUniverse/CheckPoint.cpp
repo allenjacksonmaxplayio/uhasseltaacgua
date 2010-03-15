@@ -4,6 +4,8 @@
 
 namespace HovUni {
 
+
+
 const Ogre::String CheckPoint::CATEGORY("Checkpoint");
 
 CheckPoint::CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
@@ -58,6 +60,10 @@ void CheckPoint::setupReplication(){
     ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
     ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
 	);
+}
+
+std::string CheckPoint::getClassName(){
+	return "Checkpoint";
 }
 
 }

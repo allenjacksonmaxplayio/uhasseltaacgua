@@ -18,4 +18,8 @@ void PowerupSpawn::load(TiXmlElement * data) throw(ParseException){
 PowerupSpawn::~PowerupSpawn(void){
 }
 
+std::string PowerupSpawn::getClassName(){
+	return "PowerupSpawn";
+}
+
 }

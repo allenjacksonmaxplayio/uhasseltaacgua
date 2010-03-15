@@ -42,4 +42,8 @@ void StartPosition::setupReplication(){
 	);
 }
 
+std::string StartPosition::getClassName(){
+	return "StartPosition";
+}
+
 }

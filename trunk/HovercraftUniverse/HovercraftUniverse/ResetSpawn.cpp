@@ -19,4 +19,8 @@ void ResetSpawn::load(TiXmlElement * data) throw(ParseException){
 ResetSpawn::~ResetSpawn(void){
 }
 
+std::string ResetSpawn::getClassName(){
+	return "ResetSpawn";
+}
+
 }
