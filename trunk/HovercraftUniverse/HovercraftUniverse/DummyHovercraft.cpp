@@ -24,8 +24,10 @@ void DummyHovercraft::process(float timeSince) {
 		if (mMovingStatus->moveLeft()) { accumulatedRotation += 0.01f; }
 		if (mMovingStatus->moveRight()) { accumulatedRotation -= 0.01f; }
 
-		Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Radian(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
-		changeOrientation(quat);
+		Ogre::Quaternion quat1 = Ogre::Quaternion(Ogre::Radian(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
+		changeOrientation(quat1);
+		Ogre::Quaternion quat2 = Ogre::Quaternion(Ogre::Radian(Ogre::Real(accumulatedRotation)), getOrientation());
+		changeOrientation(quat2);
 
 		// move forward and/or backward
 		if (mMovingStatus->moveForward()) { accumulatedDirection += getOrientation(); }

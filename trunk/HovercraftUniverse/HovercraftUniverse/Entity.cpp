@@ -9,7 +9,7 @@ namespace HovUni {
 class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::Vector3 upvector, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkEntity(replicators + 3), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+		NetworkEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -18,12 +18,12 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 
 	// Update data
 	changePosition(position);
-	changeUpVector(upvector);
 	changeOrientation(orientation.getRotationTo(Ogre::Vector3::UNIT_Z));
+	changeOrientation(upvector.getRotationTo(Ogre::Vector3::UNIT_Y));
 }
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::Vector3 upvector, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkEntity(replicators), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
+		NetworkEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -32,7 +32,6 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 
 	// Update data
 	changePosition(position);
-	changeUpVector(upvector);
 	changeOrientation(orientation);
 }
 
@@ -45,13 +44,6 @@ void Entity::changePosition(Ogre::Vector3 newPosition) {
 
 	// Set new position
 	mPosition = newPosition;
-}
-
-void Entity::changeUpVector(Ogre::Vector3 newUp) {
-	// TODO Check whether valid
-
-	// Set new up vector
-	mUpVector = newUp;
 }
 
 void Entity::changeOrientation(Ogre::Quaternion newOrientation) {
@@ -101,7 +93,7 @@ Ogre::Vector3 Entity::getPosition() const {
 }
 
 Ogre::Vector3 Entity::getUpVector() const { 
-	return mUpVector; 
+	return mOrientation * Ogre::Vector3::UNIT_Y; 
 }
 
 Ogre::Vector3 Entity::getOrientation() const {
@@ -164,7 +156,6 @@ void Entity::setupReplication() {
 	//TODO: min and max delay should be defined, not magic number...
 	replicateOgreVector3(&mPosition);
 	replicateOgreQuaternion(&mOrientation);
-	replicateOgreVector3(&mUpVector);
 }
 
 }

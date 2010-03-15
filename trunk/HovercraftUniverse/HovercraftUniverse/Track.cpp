@@ -6,8 +6,8 @@ namespace HovUni {
 
 const Ogre::String Track::CATEGORY("Track");
 
-Track::Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& upVector, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,upVector,"",processInterval,3){
+Track::Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
+	Entity(name,CATEGORY,false,position,orientation,"",processInterval,3){
 }
 
 void Track::load(TiXmlElement * data) throw(ParseException){

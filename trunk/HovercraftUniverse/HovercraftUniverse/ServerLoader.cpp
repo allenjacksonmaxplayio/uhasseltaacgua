@@ -55,7 +55,7 @@ void ServerLoader::load ( const Ogre::String& filename ){
 
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	if ( !userData.empty() ){
-		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,Ogre::Vector3::UNIT_Y);
+		EntityDescription desc("Track",Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
 		UserDataFactory::getSingleton().parseUserData(userData , desc);
 	}
 }
@@ -63,8 +63,7 @@ void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const 
 void ServerLoader::onExternal( OgreMax::Types::ExternalItem& externalitem){
 	mExternalitem = &externalitem;
 	if ( !externalitem.userData.empty() ){
-		//TODO get up vector from the external item??? PJ?
-		EntityDescription desc(externalitem.name,externalitem.position,externalitem.rotation,Ogre::Vector3::UNIT_Y);
+		EntityDescription desc(externalitem.name,externalitem.position,externalitem.rotation);
 		UserDataFactory::getSingleton().parseUserData(externalitem.userData , desc );
 	}
 	mExternalitem = 0;
