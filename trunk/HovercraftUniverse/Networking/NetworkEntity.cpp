@@ -1,6 +1,8 @@
 #include "NetworkEntity.h"
 
 #include "OgreVector3_Replicator.h"
+#include "String_Replicator.h"
+#include "OgreQuaternion_Replicator.h"
 
 namespace HovUni {
 
@@ -62,6 +64,10 @@ void NetworkEntity::replicateFloat(float* value, zU8 mantissaBits, zU8 flags, zU
 
 void NetworkEntity::replicateOgreVector3(Ogre::Vector3* vector, zU8 mantissaBits, zU8 flags, zU8 rules, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
 	mNode->addReplicator(new OgreVector3_Replicator(vector, mantissaBits, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
+}
+
+void NetworkEntity::replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 mantissaBits, zU8 flags, zU8 rules, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
+	mNode->addReplicator(new OgreQuaternion_Replicator(quat, mantissaBits, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
 }
 
 }
