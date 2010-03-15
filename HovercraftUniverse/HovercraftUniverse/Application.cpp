@@ -64,7 +64,7 @@ void Application::parseIni() {
 }
 
 void Application::createRoot() {
-	mOgreRoot = new Ogre::Root("plugins_debug.cfg", "ogre.cfg", mLogPath);
+	mOgreRoot = new Ogre::Root(mOgrePlugins.c_str(), "ogre.cfg", mLogPath);
 	std::cout << "Creating log at " << mLogPath << std::endl;
 }
 
