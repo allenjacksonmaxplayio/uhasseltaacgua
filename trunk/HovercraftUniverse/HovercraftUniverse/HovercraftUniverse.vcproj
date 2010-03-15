@@ -330,6 +330,10 @@
 						RelativePath=".\InGameState.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\MainMenuState.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -774,6 +778,10 @@
 					</File>
 					<File
 						RelativePath=".\InGameState.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MainMenuState.h"
 						>
 					</File>
 				</Filter>
