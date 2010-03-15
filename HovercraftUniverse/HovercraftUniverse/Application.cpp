@@ -9,6 +9,7 @@
 #include "MainMenu.h"
 
 #include "InGameState.h"
+#include "MainMenuState.h"
 
 namespace HovUni {
 
@@ -106,12 +107,15 @@ void Application::initializeResourceGroups() {
 
 void Application::createClient(const Ogre::String& host, unsigned int port){
 	// Client
+	/*
 	mClient = new ClientCore(host.c_str(), port);
 
 	TiXmlDocument doc("gui/GUIConfig.xml");
 	doc.LoadFile();
 
 	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::IN_GAME, new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD")));
+	*/
+	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::MAIN_MENU, new MainMenuState());
 }
 
 void Application::setupScene() {
@@ -154,8 +158,8 @@ void Application::setupScene() {
 	//Set a HUD onto the GameView
 	gv->setHud(new HUD(root->FirstChildElement("HUD")));
 
-	MainMenu* menu = new MainMenu();
-	menu->activate();
+	//MainMenu* menu = new MainMenu();
+	//menu->activate();
 
 	// Initialise and store the SoundManager (dont remove trailing \)
 	SoundManager::init("sound\\", "HovSound.fev");
