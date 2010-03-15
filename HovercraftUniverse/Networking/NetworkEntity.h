@@ -129,6 +129,13 @@ protected:
 	 */
 	void replicateOgreVector3(Ogre::Vector3* vector, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
 
+	/**
+	 * Add a quaternion to the replicated variabels
+	 *
+	 * @param qut the quaternion to replicate
+	 */
+	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+
 };
 
 template <typename EventType>

@@ -175,6 +175,10 @@
 				Name="CustomReplicators"
 				>
 				<File
+					RelativePath=".\OgreQuaternion_Replicator.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\OgreVector3_Replicator.cpp"
 					>
 				</File>
@@ -224,6 +228,10 @@
 			<Filter
 				Name="CustomReplicators"
 				>
+				<File
+					RelativePath=".\OgreQuaternion_Replicator.h"
+					>
+				</File>
 				<File
 					RelativePath=".\OgreVector3_Replicator.h"
 					>

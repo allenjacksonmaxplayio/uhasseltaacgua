@@ -9,7 +9,7 @@ namespace HovUni {
 class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkMovementEntity(replicators), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+		NetworkMovementEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
 	if (track) {
 		// Track this entity
@@ -148,7 +148,7 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 }
 
 void Entity::addReplicators() {
-
+	replicateOgreQuaternion(&mOrientation);
 }
 
 }
