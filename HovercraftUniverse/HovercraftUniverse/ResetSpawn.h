@@ -29,7 +29,7 @@ public:
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	ResetSpawn(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	ResetSpawn(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& upVector, float processInterval);
 
 	/**
 	 * load
