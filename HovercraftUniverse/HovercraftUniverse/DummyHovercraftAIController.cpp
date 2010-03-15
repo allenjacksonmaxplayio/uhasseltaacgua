@@ -1,40 +1,62 @@
 #include "DummyHovercraftAIController.h"
 #include "OgreLogManager.h"
+#include <sstream>
+#include "Exception.h"
+#include "EntityManager.h"
+#include "Entity.h"
 
 namespace HovUni {
-
 	DummyHovercraftAIController::DummyHovercraftAIController(std::string scriptname) {
-		mClassName = "[DummyHovercraftAIController] ";
+		mClassName = "DummyHovercraftAIController";
+	
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting.";
 		this->mScript = new ScriptWrapper();
-		this->mScript->doString("BASE_PATH = \"../../data/scripts/AI/\"\n");
 		try {
 			//Register our controller and its functions.
 			lua_State *luaState = mScript->getLuaState();
+			//Bind Ogre stuff
+			OgreLuaBindings ogrebindings(luaState);
+			ogrebindings.bindVector3(luaState);
+
 			luabind::module(luaState) [
-				//luabind::def("startAction", (void(DummyHovercraftAIController::*)(int))&DummyHovercraftAIController::startAction)
 				luabind::class_<DummyHovercraftAIController>("DummyHovercraftAIController")
-					//.def(luabind::constructor<>())
 					.def("startAction", &DummyHovercraftAIController::startAction)
+					.def("stopAction", &DummyHovercraftAIController::stopAction)
+					.def("luaLog", &DummyHovercraftAIController::luaLog)
 			];
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Loading file " << scriptname;
 			this->mScript->load(scriptname);
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Registering Controller.";
 			luabind::call_function<void>(luaState,"registerController", this);
 		} catch (const luabind::error &er) {
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << er.what() << " :: " << lua_tostring(mScript->getLuaState(), -1);
+			std::stringstream ss;
+			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), -1);
+			std::string error = ss.str();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua error while initialising: " << error;
+			THROW(ScriptingException, error);
 		}
 	}
 
-	void DummyHovercraftAIController::startAction(int action) {
+	void DummyHovercraftAIController::startAction(const int action) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting Action " << action;
 		ControllerActionType a = (ControllerActionType) action;
 		mActionMap[a] = true;
 	}
 
-	void DummyHovercraftAIController::stopAction(int action) {
+	void DummyHovercraftAIController::stopAction(const int action) {
 		ControllerActionType a = (ControllerActionType) action;
 		mActionMap[a] = false;
 	}
+
+	void DummyHovercraftAIController::luaLog(const std::string message) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua :: " << message;
+	}
+
+	//void DummyHovercraftAIController::getVariable(const int variable) {
+	//	//something?
+	//}
+
+
 
 	//stupid functions...
 	bool DummyHovercraftAIController::moveForward() {
@@ -54,12 +76,16 @@ namespace HovUni {
 	}
 
 	std::vector<ControllerEvent*> DummyHovercraftAIController::getEvents() {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "DummyHovercraftAIController deciding";
-		//AI CONTROL OCCURS HERE?
+		//World...
+		//AI CONTROL OCCURS HERE
 		try {
 			this->mScript->execute("decide");
 		} catch (const luabind::error &er) {
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << er.what() << " :: " << lua_tostring(mScript->getLuaState(), -1);
+			std::stringstream ss;
+			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), -1);
+			std::string error = ss.str();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << error;
+			THROW(ScriptingException, error);
 		}
 
 		std::vector<ControllerEvent*> events;

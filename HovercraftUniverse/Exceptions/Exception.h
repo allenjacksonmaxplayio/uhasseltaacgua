@@ -184,6 +184,7 @@ private:
 HOVUNI_EXCEPTION_DECLARE(NetworkException, Exception)
 HOVUNI_EXCEPTION_DECLARE(IOException, Exception)
 HOVUNI_EXCEPTION_DECLARE(ParseException, Exception)
+HOVUNI_EXCEPTION_DECLARE(ScriptingException, Exception)
 
 } // End of namespace
 

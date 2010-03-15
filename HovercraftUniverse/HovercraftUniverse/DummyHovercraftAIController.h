@@ -6,6 +6,7 @@
 #include <map>
 #include "DummyHovercraftController.h"
 #include "ScriptWrapper.h"
+#include "OgreLuaBindings.h"
 #include "ControllerActionType.h"
 
 namespace HovUni {
@@ -31,13 +32,22 @@ public:
 	*	Initiate an action (or: the AI presses a key)
 	*	@param	action	The action (ControllerActionType value).
 	*/
-	void startAction(int action);
+	void startAction(const int action);
 
 	/**
 	*	Stop an action (or: the AI releases a key)
 	*	@param	action	The action (ControllerActionType value)
 	*/
-	void stopAction(int action);
+	void stopAction(const int action);
+
+	/**
+	*	Provides a logging function for the Lua Script.
+	*/
+	void luaLog(const std::string message);
+
+	//void DummyHovercraftAIController::getVariable(const int variable);
+
+
 
 	/**
 	* @see DummyHovercraftController::moveForward()
