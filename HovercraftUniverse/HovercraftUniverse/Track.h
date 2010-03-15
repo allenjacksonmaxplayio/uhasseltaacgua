@@ -170,6 +170,14 @@ public:
 	 */
 	void setupReplication();
 
+	/**
+	 * Get the class name for this class. This is used for registering
+	 * the class with the network
+	 *
+	 * @return the class name
+	 */
+	static std::string getClassName();
+
 };
 
 }

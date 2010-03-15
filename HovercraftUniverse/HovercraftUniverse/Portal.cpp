@@ -65,4 +65,8 @@ void Portal::load(TiXmlElement * data) throw(ParseException){
 Portal::~Portal(void){
 }
 
+std::string Portal::getClassName(){
+	return "Portal";
+}
+
 }

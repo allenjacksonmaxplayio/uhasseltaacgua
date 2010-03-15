@@ -40,4 +40,8 @@ void SpeedBoost::setupReplication(){
 	);
 }
 
+std::string SpeedBoost::getClassName(){
+	return "SpeedBoost";
+}
+
 }

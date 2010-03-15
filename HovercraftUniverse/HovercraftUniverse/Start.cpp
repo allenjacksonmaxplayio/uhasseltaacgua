@@ -18,4 +18,8 @@ void Start::load(TiXmlElement * data){
 Start::~Start(void){
 }
 
+std::string Start::getClassName(){
+	return "Start";
+}
+
 }

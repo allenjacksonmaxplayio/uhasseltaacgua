@@ -88,4 +88,8 @@ void Track::setupReplication(){
 	);
 }
 
+std::string Track::getClassName(){
+	return "Track";
+}
+
 }

@@ -80,4 +80,8 @@ void Asteroid::setupReplication(){
 	);
 }
 
+std::string Asteroid::getClassName(){
+	return "Asteroid";
+}
+
 }

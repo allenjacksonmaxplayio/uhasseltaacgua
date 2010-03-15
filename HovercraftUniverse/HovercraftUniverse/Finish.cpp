@@ -18,4 +18,8 @@ void Finish::load(TiXmlElement * data) throw(ParseException){
 Finish::~Finish(void){
 }
 
+std::string Finish::getClassName(){
+	return "Finish";
+}
+
 }
