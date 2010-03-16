@@ -38,7 +38,7 @@ namespace HovUni {
 	}
 
 	void DummyHovercraftAIController::startAction(const int action) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting Action " << action;
+		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting Action " << action;
 		ControllerActionType a = (ControllerActionType) action;
 		mActionMap[a] = true;
 	}
@@ -79,7 +79,7 @@ namespace HovUni {
 		//AI CONTROL OCCURS HERE
 		try {
 		//Position test
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting position.";
+		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting position.";
 		luabind::call_function<void>(mScript->getLuaState(),"setPosition", getEntity()->getPosition());
 
 		
