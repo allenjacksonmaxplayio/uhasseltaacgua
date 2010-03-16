@@ -15,6 +15,7 @@ namespace HovUni {
 			//Register our controller and its functions.
 			lua_State *luaState = mScript->getLuaState();
 			//Bind Ogre stuff
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Ogre Classes.";
 			OgreLuaBindings ogrebindings(luaState);
 			ogrebindings.bindVector3(luaState);
 
@@ -37,6 +38,57 @@ namespace HovUni {
 		}
 	}
 
+	void DummyHovercraftAIController::initialize() {
+		try {
+			lua_State* luaState = mScript->getLuaState();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Game Entity Class.";
+			bindEntity(luaState);
+			luabind::call_function<void>(luaState,"setEntity", getEntity());
+		} catch (const luabind::error &er) {
+			std::stringstream ss;
+			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));
+			std::string error = ss.str();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << error;
+			THROW(ScriptingException, error);
+		}
+	}
+
+	std::vector<ControllerEvent*> DummyHovercraftAIController::getEvents() {
+		//AI CONTROL OCCURS HERE
+		try {
+			this->mScript->execute("decide");
+		} catch (const luabind::error &er) {
+			std::stringstream ss;
+			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));
+			std::string error = ss.str();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << error;
+			THROW(ScriptingException, error);
+		}
+
+
+
+		std::vector<ControllerEvent*> events;
+		BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight());
+		// Only send an event when there is a change
+		if (!(current == mLast)) {
+			events.push_back(new BasicEntityEvent(current));
+			mLast = current;
+		}
+		return events;
+	}
+
+	void DummyHovercraftAIController::bindEntity(lua_State* L) {
+		luabind::module(L)
+		[
+			luabind::class_<Entity>("GameEntity") //"Entity" bestaat al in Lua (Ogre::Entity)
+				.def("getName",			&Entity::getName)
+				.def("getOrientation",	&Entity::getOrientation)
+				.def("getPosition",		&Entity::getPosition)
+				.def("getUpVector",		&Entity::getUpVector)
+		];
+	}
+
+
 	void DummyHovercraftAIController::startAction(const int action) {
 		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting Action " << action;
 		ControllerActionType a = (ControllerActionType) action;
@@ -51,11 +103,6 @@ namespace HovUni {
 	void DummyHovercraftAIController::luaLog(const std::string message) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua :: " << message;
 	}
-
-	//void DummyHovercraftAIController::getVariable(const int variable) {
-	//	//something?
-	//}
-
 
 
 	//stupid functions...
@@ -75,32 +122,5 @@ namespace HovUni {
 		return mActionMap[TURNRIGHT];
 	}
 
-	std::vector<ControllerEvent*> DummyHovercraftAIController::getEvents() {
-		//AI CONTROL OCCURS HERE
-		try {
-		//Position test
-		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting position.";
-		luabind::call_function<void>(mScript->getLuaState(),"setPosition", getEntity()->getPosition());
-
-		
-			this->mScript->execute("decide");
-		} catch (const luabind::error &er) {
-			std::stringstream ss;
-			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));
-			std::string error = ss.str();
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << error;
-			THROW(ScriptingException, error);
-		}
-
-		std::vector<ControllerEvent*> events;
-		BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight());
-
-		// Only send an event when there is a change
-		if (!(current == mLast)) {
-			events.push_back(new BasicEntityEvent(current));
-			mLast = current;
-		}
-		return events;
-	}
 
 }
