@@ -48,7 +48,7 @@ namespace HovUni {
 		///////////////////////////////////////////
 		///////////////////////////////////////////
 		//For now, load the InGameState on click!
-		ClientCore* mClient = new ClientCore("localhost", 3040);
+		ClientCore* mClient = new ClientCore("localhost", 2375);
 
 		TiXmlDocument doc("gui/GUIConfig.xml");
 		doc.LoadFile();

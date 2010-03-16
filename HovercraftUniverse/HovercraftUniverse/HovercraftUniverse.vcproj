@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="HovercraftUniverse"
 	ProjectGUID="{CCFF60E1-9306-493F-AD38-410877FB3177}"
 	RootNamespace="HovercraftUniverse"
@@ -344,10 +344,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\NetworkCommand.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Server.cpp"
 					>
 				</File>
@@ -359,6 +355,34 @@
 					RelativePath=".\ServerThread.cpp"
 					>
 				</File>
+				<Filter
+					Name="Chat"
+					>
+					<File
+						RelativePath=".\ChatClient.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEntity.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEvent.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEventParser.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatServer.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TextEvent.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Havok"
@@ -794,14 +818,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\NetworkCommand.h"
-					>
-				</File>
-				<File
-					RelativePath=".\NetworkCommandType.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Server.h"
 					>
 				</File>
@@ -813,6 +829,38 @@
 					RelativePath=".\ServerThread.h"
 					>
 				</File>
+				<Filter
+					Name="Chat"
+					>
+					<File
+						RelativePath=".\ChatClient.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEntity.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEvent.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEventParser.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatEventType.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChatServer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TextEvent.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Havok"

@@ -13,7 +13,7 @@ std::string Lobby::getClassName() {
 	return "Lobby";
 }
 
-Lobby::Lobby(Loader * loader): NetworkEntity(), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0) {
+Lobby::Lobby(Loader * loader): NetworkEntity(4), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0) {
 	loader->setLobby(this);
 }
 
@@ -30,6 +30,10 @@ void Lobby::start() {
 	//} else {
 	//	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "send denied";
 	//}
+}
+
+bool Lobby::isAdmin() const {
+	return (mNode->getRole() == eZCom_RoleOwner);
 }
 
 bool Lobby::onConnectAttempt(ZCom_ConnID id) {
@@ -87,12 +91,12 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 
 void Lobby::onStart() {
 
-	std::cout << "ONSTART" << std::endl;
 
 
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else
 	if(!mStarted) {
+		std::cout << "ONSTART" << std::endl;
 
 		//called when map should be loaded
 		mLoader->load(mTrackFilename);

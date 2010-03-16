@@ -10,7 +10,11 @@ namespace HovUni {
  */
 enum ControllerEventType {
 	BasicEntity
+	// Make sure to adjust the amount below
 };
+
+/** The amount of controller event types, used for compressing in the network */
+static const unsigned ControllerEventTypeSize = 1;
 
 }
 

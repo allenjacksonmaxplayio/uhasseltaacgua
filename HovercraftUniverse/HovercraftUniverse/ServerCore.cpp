@@ -4,7 +4,7 @@
 
 namespace HovUni {
 
-ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDManager(0) {
+ServerCore::ServerCore() : NetworkServer(2375, 2376), mEntityManager(0), mIDManager(0) {
 	// Create and store entity manager
 	mEntityManager = EntityManager::getServerSingletonPtr();
 	mIDManager = NetworkIDManager::getServerSingletonPtr();
@@ -12,17 +12,16 @@ ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDMana
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
 
-	//create lobby
+	// Create lobby
 	mLobby = new Lobby(new ServerLoader());
 
-
-	// Register loby
-	mLobby->networkRegister(mIDManager->getID("Lobby"), this);
+	// Register lobby
+	mLobby->networkRegister(mIDManager->getID(Lobby::getClassName()), this);
 }
 
 ServerCore::~ServerCore() {
-	if ( mLobby )
-		delete mLobby;
+	delete mLobby;
+	mLobby;
 }
 
 void ServerCore::process() {

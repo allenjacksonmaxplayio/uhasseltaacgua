@@ -1,10 +1,9 @@
-#ifndef SERVERCORE_H_
-#define SERVERCORE_H_
+#ifndef CHATSERVER_H_
+#define CHATSERVER_H_
 
 #include "NetworkServer.h"
-#include "EntityManager.h"
 #include "NetworkIDManager.h"
-#include "Lobby.h"
+#include "ChatEntity.h"
 
 namespace HovUni {
 
@@ -14,15 +13,11 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ServerCore: public NetworkServer
+class ChatServer: public NetworkServer
 {
 private:
-
-	/** The Loby **/
-	Lobby * mLobby;
-
-	/** The entity manager */
-	EntityManager * mEntityManager;
+	/** The chat entity **/
+	ChatEntity* mChat;
 
 	/** The ID manager */
 	NetworkIDManager* mIDManager;
@@ -31,12 +26,12 @@ public:
 	/**
 	 * Constructor
 	 */
-	ServerCore();
+	ChatServer();
 
 	/**
 	 * Destructor
 	 */
-	~ServerCore();
+	~ChatServer();
 
 	/**
 	 * Process incoming and outgoing packets

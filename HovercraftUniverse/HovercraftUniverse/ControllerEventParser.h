@@ -12,7 +12,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ControllerEventParser: public NetworkEventParser<ControllerEventType>
+class ControllerEventParser: public NetworkEventParser<ControllerEventType, ControllerEventTypeSize>
 {
 public:
 	/**
