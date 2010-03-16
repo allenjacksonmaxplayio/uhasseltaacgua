@@ -2,6 +2,7 @@
 #include "NetworkIDManager.h"
 #include "ChatEventParser.h"
 #include "TextEvent.h"
+#include "NotifyEvent.h"
 #include <iostream>
 
 namespace HovUni {
@@ -10,7 +11,7 @@ std::string ChatEntity::getClassName() {
 	return "ChatEntity";
 }
 
-ChatEntity::ChatEntity(unsigned size) : NetworkEntity(0), mSize(size) {
+ChatEntity::ChatEntity() : NetworkEntity(0) {
 
 }
 
@@ -18,8 +19,18 @@ ChatEntity::~ChatEntity() {
 
 }
 
+void ChatEntity::registerListener(ChatListener* listener) {
+	mListeners.push_back(listener);
+}
+
 void ChatEntity::sendLine(const string& user, const string& line) {
 	sendEvent(TextEvent(user, line));
+}
+
+void ChatEntity::sendNotification(const std::string& notif) {
+	if (mNode->getRole() == eZCom_RoleAuthority) {
+		sendEvent(NotifyEvent(notif));
+	}
 }
 
 void ChatEntity::parseEvents(ZCom_BitStream* stream, float timeSince) {
@@ -38,32 +49,42 @@ void ChatEntity::parseEvents(ZCom_BitStream* stream, float timeSince) {
 }
 
 void ChatEntity::processEventsServer(ChatEvent* event) {
-	// Save the new event in the moving status
+	// A text line
 	TextEvent* text = dynamic_cast<TextEvent*>(event);
 	if (text) {
-		addLine(text->getLine());
+		// TODO Maybe some advanced checking for bad language?
 		sendEvent(*text);
 	}
+
+	// Notification events are not processed because they 
+	// are sent by the server and should not pass this function
 }
 
 void ChatEntity::processEventsClient(ChatEvent* event) {
-	// Save the new event in the moving status
+	// A text line
 	TextEvent* text = dynamic_cast<TextEvent*>(event);
 	if (text) {
-		addLine(text->getLine());
-		std::cout << "CHAT: " << text->getLine() << std::endl;
+		// Update all the listeners
+		std::string user = text->getUser();
+		std::string line = text->getLine();
+		for (std::vector<ChatListener*>::iterator it = mListeners.begin(); it != mListeners.end(); ++it) {
+			(*it)->newMessage(user, line);
+		}
+	}
+
+	// A notification
+	NotifyEvent* notify = dynamic_cast<NotifyEvent*>(event);
+	if (notify) {
+		// Update all the listeners
+		std::string line = notify->getLine();
+		for (std::vector<ChatListener*>::iterator it = mListeners.begin(); it != mListeners.end(); ++it) {
+			(*it)->newNotification(line);
+		}
 	}
 }
 
 void ChatEntity::setupReplication() {
 
-}
-
-void ChatEntity::addLine(const std::string& line) {
-	if (mList.size() == mSize) {
-		mList.erase(mList.begin());
-	}
-	mList.push_back(line);
 }
 
 }

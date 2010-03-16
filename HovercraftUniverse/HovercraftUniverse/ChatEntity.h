@@ -3,8 +3,9 @@
 
 #include "NetworkEntity.h"
 #include "ChatEvent.h"
-#include <vector>
+#include "ChatListener.h"
 #include <string>
+#include <vector>
 
 namespace HovUni {
 
@@ -15,25 +16,27 @@ namespace HovUni {
  */
 class ChatEntity: public NetworkEntity {
 private:
-	/** The maximum number of lines kept in the list */
-	unsigned mSize;
-
-	/** The list of chat lines */
-	std::vector<std::string> mList;
+	/** List of listeners to update upon incoming message */
+	std::vector<ChatListener*> mListeners;
 
 public:
 
 	/**
 	 * Constructor
-	 *
-	 * @param size the number of lines that are kept in the cache
 	 */
-	ChatEntity(unsigned size);
+	ChatEntity();
 
 	/**
 	 * Destructor
 	 */
 	~ChatEntity();
+
+	/**
+	 * Register a listener
+	 *
+	 * @param listener The listener
+	 */
+	void registerListener(ChatListener* listener);
 
 	/**
 	 * Send a chat line
@@ -42,6 +45,13 @@ public:
 	 * @param line the chat line
 	 */
 	void sendLine(const string& user, const std::string& line);
+
+	/**
+	 * Send a chat line
+	 *
+	 * @param notif the notification
+	 */
+	void sendNotification(const std::string& notif);
 
 	//OVERWRITEN FROM NetworkEntity
 
@@ -76,15 +86,6 @@ public:
 	 * @return the class name
 	 */
 	static std::string getClassName();
-
-private:
-
-	/**
-	 * Add a line to the list
-	 *
-	 * @param line the line
-	 */
-	void addLine(const std::string& line);
 };
 
 }

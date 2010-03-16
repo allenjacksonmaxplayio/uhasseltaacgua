@@ -10,7 +10,7 @@ ChatServer::ChatServer() : NetworkServer(2377, 2378), mChat(0), mIDManager(0) {
 	ZCom_setUpstreamLimit(0, 0);
 
 	// Create chat entity
-	mChat = new ChatEntity(50);
+	mChat = new ChatEntity();
 
 	// Register chat entity
 	mChat->networkRegister(mIDManager->getID(ChatEntity::getClassName()), this);
@@ -24,6 +24,12 @@ ChatServer::~ChatServer() {
 void ChatServer::process() {
 	NetworkServer::process();
 	mChat->processEvents(0.0f);
+}
+
+void ChatServer::sendNotification(const std::string& notification) {
+	if (mChat) {
+		mChat->sendNotification(notification);
+	}
 }
 
 bool ChatServer::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {

@@ -4,7 +4,9 @@
 #include "NetworkClient.h"
 #include "NetworkIDManager.h"
 #include "ChatEntity.h"
+#include "ChatListener.h"
 #include <string>
+#include <vector>
 
 namespace HovUni {
 
@@ -25,6 +27,9 @@ private:
 
 	/** The user name */
 	std::string mUser;
+
+	/** List of listeners to update upon incoming message (used for passing to the chat entity */
+	std::vector<ChatListener*> mListeners;
 
 public:
 	/**
@@ -50,6 +55,13 @@ public:
 	 * Destructor
 	 */
 	~ChatClient();
+
+	/**
+	 * Register a listener
+	 *
+	 * @param listener The listener
+	 */
+	void registerListener(ChatListener* listener);
 
 	/**
 	 * Process incoming and outgoing packets

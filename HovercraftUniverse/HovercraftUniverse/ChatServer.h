@@ -38,6 +38,13 @@ public:
 	 */
 	virtual void process();
 
+	/**
+	 * Send a notification
+	 *
+	 * @param notification the notification
+	 */
+	void sendNotification(const std::string& notification);
+
 //
 // ZCom_Control callbacks
 //
