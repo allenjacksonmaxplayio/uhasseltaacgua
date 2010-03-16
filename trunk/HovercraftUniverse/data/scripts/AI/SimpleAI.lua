@@ -66,15 +66,14 @@ threshold = 300;
 --	All very hardcoded and just for testing purposes!
 --]]
 function decide()
-	println("Position: " .. mPosition.x .. ", " .. mPosition.y .. ", " .. mPosition.z);
-	--println("AI Deciding"); --too much output :p
+	--println("Position: " .. mPosition.x .. ", " .. mPosition.y .. ", " .. mPosition.z);
 	if (mCurrentState == ST_IDLE) then
 		game:startAction(ACCELERATE);
 		mACCELERATE = true;
 		mCurrentState = ST_MOVING;
 	elseif (mCurrentState == ST_MOVING) then
 		distance = mPosition:distance(mInitialPosition);
-		println("Current distance from starting point = " .. distance);
+		--println("Current distance from starting point = " .. distance);
 		if (distance > threshold) then
 			if (mACCELERATE) then
 				--stop
