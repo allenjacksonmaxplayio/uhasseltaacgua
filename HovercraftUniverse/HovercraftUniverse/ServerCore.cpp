@@ -13,7 +13,7 @@ ServerCore::ServerCore() : NetworkServer(3040, 3041), mEntityManager(0), mIDMana
 	ZCom_setUpstreamLimit(0, 0);
 
 	//create lobby
-	mLobby = new Lobby(new ServerLoader());
+	mLobby = new Lobby(new ServerLoader(this));
 
 
 	// Register loby
