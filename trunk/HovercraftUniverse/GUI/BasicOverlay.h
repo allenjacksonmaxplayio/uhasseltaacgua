@@ -44,6 +44,9 @@ namespace HovUni {
 			/** A list of stored callbacks to be added to the overlay */
 			std::vector< std::pair<Ogre::DisplayString, Hikari::FlashDelegate> > mCallbacks;
 
+			/** Boolean to mark if we want to ignore all inputs or not */
+			bool mIgnoreInputs;
+
 		public:
 			/** Enumeration containing all boolean parameters to modify */
 			enum OverlayParams_B {
@@ -171,6 +174,13 @@ namespace HovUni {
 			 * @param callback The function to call on execution
 			 */
 			void bind(const Ogre::DisplayString& funcName, const Hikari::FlashDelegate& callback);
+
+			/**
+			 * Tell the overlay to ignore, or listen to, inputs from mouse and keyboard
+			 *
+			 * @param val True when you want to ignore all inputs, false otherwise
+			 */
+			void ignoreInputs(bool val);
 	};
 }
 

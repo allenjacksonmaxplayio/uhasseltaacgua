@@ -43,7 +43,10 @@ namespace HovUni {
 		//Hide the connect window
 		GUIManager::getSingletonPtr()->disableOverlay(mConnectWindow);
 
-		//TODO: re-enable buttons on background
+		//re-enable buttons on background
+		mCreateButton->ignoreInputs(false);
+		mJoinButton->ignoreInputs(false);
+		mBackButton->ignoreInputs(false);
 
 		return Hikari::FlashValue();
 	}
@@ -58,7 +61,11 @@ namespace HovUni {
 		//show the connectWindow
 		GUIManager::getSingletonPtr()->activateOverlay(mConnectWindow);
 
-		//TODO: disable buttons on background
+		//disable buttons on background
+		mCreateButton->ignoreInputs(true);
+		mJoinButton->ignoreInputs(true);
+		mBackButton->ignoreInputs(true);
+
 		return Hikari::FlashValue();
 	}
 }

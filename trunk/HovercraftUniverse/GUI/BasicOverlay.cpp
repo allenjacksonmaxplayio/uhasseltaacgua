@@ -5,7 +5,7 @@
 
 namespace HovUni {
 	BasicOverlay::BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position &position, Ogre::ushort zOrder) 
-		: mName(name), mFileName(fileName), mWidth(width), mHeight(height), mPosition(position), mZOrder(zOrder) {
+		: mName(name), mFileName(fileName), mWidth(width), mHeight(height), mPosition(position), mZOrder(zOrder), mIgnoreInputs(false) {
 		//Set default values for parameters
 		mParameters_B[TRANSPARANCY] = true;
 		mParameters_B[ALPHAHACK] = false;
@@ -47,6 +47,9 @@ namespace HovUni {
 			mFlashControl->setTransparent(false, false);
 		}
 
+		//Set the input ignore value
+		mFlashControl->handleInputs(!mIgnoreInputs);
+
 		//Register callbacks
 		for (unsigned int i = 0; i < mCallbacks.size(); ++i) {
 			std::pair<Ogre::DisplayString, Hikari::FlashDelegate> callback = mCallbacks[i];
@@ -84,5 +87,13 @@ namespace HovUni {
 		//Store the bind
 		std::pair<Ogre::DisplayString, Hikari::FlashDelegate> callStore(funcName, callback);
 		mCallbacks.push_back(callStore);
+	}
+
+	void BasicOverlay::ignoreInputs(bool val) {
+		mIgnoreInputs = val;
+
+		if (mFlashControl) {
+			mFlashControl->handleInputs(!mIgnoreInputs);
+		}
 	}
 }
