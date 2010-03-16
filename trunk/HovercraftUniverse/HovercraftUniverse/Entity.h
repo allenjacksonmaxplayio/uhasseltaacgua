@@ -220,6 +220,10 @@ private:
 	 */
 	void setupReplication();
 
+	/**
+	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)
+	 */
+	void setAnnouncementData(ZCom_BitStream* stream);
 };
 
 }

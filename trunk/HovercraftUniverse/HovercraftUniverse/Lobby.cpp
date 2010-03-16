@@ -188,4 +188,8 @@ void Lobby::setupReplication() {
 	);
 }
 
+void Lobby::setAnnouncementData(ZCom_BitStream* stream) {
+
+}
+
 }

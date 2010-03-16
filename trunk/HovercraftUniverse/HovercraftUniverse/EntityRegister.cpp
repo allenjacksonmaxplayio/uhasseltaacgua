@@ -40,7 +40,6 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	manager.registerClass(Start::getClassName());
 	manager.registerClass(StartPosition::getClassName());
 
-
 	manager.registerClass("DummyHovercraft");
 }
 

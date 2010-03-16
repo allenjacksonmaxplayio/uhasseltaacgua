@@ -34,7 +34,7 @@ public:
 	 *
 	 * @param replicators the estimated number of replicators for this entity
 	 */
-	NetworkEntity(unsigned short replicators = 0);
+	NetworkEntity(unsigned short replicators);
 
 	/**
 	 * Destructor
@@ -46,16 +46,18 @@ public:
 	 *
 	 * @param id the zoidcom class ID
 	 * @param control the zoidcom control
+	 * @param announce whether the announcement data should be set (Use this on server only)
 	 */
-	void networkRegister(ZCom_ClassID id, ZCom_Control* control);
+	void networkRegister(ZCom_ClassID id, ZCom_Control* control, bool announce = false);
 
 	/**
 	 * Register the node for the network
 	 *
 	 * @param idmanager the network ID manager
 	 * @param name the registered class name
+	 * @param announce whether the announcement data should be set (Use this on server only)
 	 */
-	void networkRegister(NetworkIDManager* idmanager, std::string name);
+	void networkRegister(NetworkIDManager* idmanager, std::string name, bool announce = false);
 
 	/**
 	 * Check whether the entity is registered for the network
@@ -113,6 +115,14 @@ private:
 	 * constructor is zero, this callback can be implemented as empty.
 	 */
 	virtual void setupReplication() = 0;
+
+	/**
+	 * A callback that should be implemented so the announcement data for this
+	 * entity can be set.
+	 *
+	 * @param stream the bitstream where the data can be set
+	 */
+	virtual void setAnnouncementData(ZCom_BitStream* stream) = 0;
 
 protected:
 	/**

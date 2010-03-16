@@ -129,6 +129,8 @@ public:
 
 	virtual void setupReplication();
 
+	virtual void setAnnouncementData(ZCom_BitStream* stream);
+
 	/**
 	 * Process a game event at the server
 	 *

@@ -28,9 +28,14 @@ ZCom_Control* NetworkIDManager::getControl() {
 	return mControl;
 }
 
-ZCom_ClassID NetworkIDManager::registerClass(const string& className) {
+ZCom_ClassID NetworkIDManager::registerClass(const string& className, bool announce) {
 	assert(mControl);
-	ZCom_ClassID classID = mControl->ZCom_registerClass(className.c_str());
+	ZCom_ClassID classID;
+	if (announce) {
+		classID = mControl->ZCom_registerClass(className.c_str(), ZCOM_CLASSFLAG_ANNOUNCEDATA);
+	} else {
+		classID = mControl->ZCom_registerClass(className.c_str());
+	}
 	mMap.insert(pair<string, ZCom_ClassID>(className,classID));
 	return classID;
 }
