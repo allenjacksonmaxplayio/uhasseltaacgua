@@ -7,6 +7,17 @@
 #include "DummyHovercraftRepresentation.h"
 #include "EntityRegister.h"
 
+#include "Start.h"
+#include "Finish.h"
+#include "Asteroid.h"
+#include "Hovercraft.h"
+#include "CheckPoint.h"
+#include "StartPosition.h"
+#include "SpeedBoost.h"
+#include "Portal.h"
+#include "PowerupSpawn.h"
+#include "ResetSpawn.h"
+
 namespace HovUni {
 
 ClientCore::ClientCore(const char* name,unsigned int port) : NetworkClient(name,port), mEntityManager(0), mIDManager(0), mLobby(0) {
@@ -66,6 +77,43 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		mLobby = new Lobby(new ClientLoader());
 		mLobby->networkRegister(requested_class, this);
 	}
+/*
+	if ( requested_class == mIDManager->getID(Asteroid::getName()) ){
+		Asteroid * entity = new Asteroid();
+		entity->networkRegister(requested_class,this);
+	}
+	if ( requested_class == mIDManager->getID(CheckPoint::getName()) ){
+		CheckPoint * entity = new CheckPoint();
+		entity->networkRegister(requested_class,this);
+	}
+	if ( requested_class == mIDManager->getID(Start::getName()) ){
+		Start * entity = new Start();
+		entity->networkRegister(requested_class,this);
+	}
+	if ( requested_class == mIDManager->getID(StartPosition::getName()) ){
+		StartPosition * entity = new StartPosition();
+		entity->networkRegister(requested_class,this);
+	}
+	if ( requested_class == mIDManager->getID(Finish::getName()) ){
+		Finish * entity = new Finish();
+		entity->networkRegister(requested_class,this);	
+	}
+	if ( requested_class == mIDManager->getID(ResetSpawn::getName()) ){
+		StartPosition * entity = new ResetSpawn();
+		entity->networkRegister(requested_class,this);
+	}
+	if ( requested_class == mIDManager->getID(PowerupSpawn::getName()) ){
+		Finish * entity = new PowerupSpawn();
+		entity->networkRegister(requested_class,this);	
+	}
+	if ( requested_class == mIDManager->getID(SpeedBoost::getName()) ){
+		StartPosition * entity = new SpeedBoost();
+		entity->networkRegister(requested_class,this);
+	}
+	if ( requested_class == mIDManager->getID(Portal::getName()) ){
+		Finish * entity = new Portal();
+		entity->networkRegister(requested_class,this);	
+	}*/
 
 	if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();
