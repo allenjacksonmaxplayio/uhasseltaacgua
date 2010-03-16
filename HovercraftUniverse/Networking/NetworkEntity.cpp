@@ -17,7 +17,7 @@ NetworkEntity::~NetworkEntity() {
 	}
 }
 
-void NetworkEntity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
+void NetworkEntity::networkRegister(ZCom_ClassID id, ZCom_Control* control, bool announce) {
 	// Set up replication
 	mNode->beginReplicationSetup(mReplicatorNr);
 	setupReplication();
@@ -26,10 +26,17 @@ void NetworkEntity::networkRegister(ZCom_ClassID id, ZCom_Control* control) {
 	// Register to node
 	mNode->registerNodeDynamic(id, control);
 	mRegistered = true;
+
+	// Check to set announcement data
+	if (announce) {
+		ZCom_BitStream* stream = new ZCom_BitStream();
+		setAnnouncementData(stream);
+		mNode->setAnnounceData(stream);
+	}
 }
 
-void NetworkEntity::networkRegister(NetworkIDManager* idmanager, std::string name) {
-	networkRegister(idmanager->getID(name), idmanager->getControl());
+void NetworkEntity::networkRegister(NetworkIDManager* idmanager, std::string name, bool announce) {
+	networkRegister(idmanager->getID(name), idmanager->getControl(), announce);
 }
 
 bool NetworkEntity::isRegistered() const {

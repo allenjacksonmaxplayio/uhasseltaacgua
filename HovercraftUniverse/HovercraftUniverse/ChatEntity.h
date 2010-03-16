@@ -53,8 +53,15 @@ public:
 	 */
 	void sendNotification(const std::string& notif);
 
-	//OVERWRITEN FROM NetworkEntity
+	/**
+	 * Get the class name for this class. This is used for registering
+	 * the class with the network
+	 *
+	 * @return the class name
+	 */
+	static std::string getClassName();
 
+private:
 	/**
 	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream, float timeSince);
 	 */
@@ -64,6 +71,11 @@ public:
 	 * @see NetworkEntity::setupReplication();
 	 */
 	virtual void setupReplication();
+
+	/**
+	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)
+	 */
+	void setAnnouncementData(ZCom_BitStream* stream);
 
 	/**
 	 * Process a chat event at the server
@@ -79,13 +91,6 @@ public:
 	 */
 	void processEventsClient(ChatEvent* event);
 
-	/**
-	 * Get the class name for this class. This is used for registering
-	 * the class with the network
-	 *
-	 * @return the class name
-	 */
-	static std::string getClassName();
 };
 
 }

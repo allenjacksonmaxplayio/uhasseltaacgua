@@ -159,4 +159,8 @@ void Entity::setupReplication() {
 	replicateOgreQuaternion(&mOrientation);
 }
 
+void Entity::setAnnouncementData(ZCom_BitStream* stream) {
+
+}
+
 }

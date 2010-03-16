@@ -87,4 +87,8 @@ void ChatEntity::setupReplication() {
 
 }
 
+void ChatEntity::setAnnouncementData(ZCom_BitStream* stream) {
+
+}
+
 }

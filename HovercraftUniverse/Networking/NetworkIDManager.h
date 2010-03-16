@@ -82,9 +82,10 @@ public:
 	 * to succeed.
 	 *
 	 * @param className the name of the class
+	 * @param announce whether this class will have announce data
 	 * @return the ID
 	 */
-	ZCom_ClassID registerClass(const string& className);
+	ZCom_ClassID registerClass(const string& className, bool announce = false);
 
 	/**
 	 * Get an ID for a class
