@@ -38,7 +38,17 @@ Ogre::Vector3 ObjectTrackCameraController::getDirection() {
 		return mEntity->getOrientation();
 	} else {
 		// Return default value
-		return Ogre::Vector3::UNIT_Z;
+		return Ogre::Vector3::NEGATIVE_UNIT_Z;
+	}
+}
+
+Ogre::Quaternion ObjectTrackCameraController::getOrientation() {
+	initialize();
+	if (mEntity) {
+		return mEntity->getQuaternion();
+	} else {
+		// Return default value
+		return Ogre::Quaternion::IDENTITY;
 	}
 }
 
@@ -46,7 +56,7 @@ Ogre::Vector3 ObjectTrackCameraController::getUpVector() {
 	initialize();
 	// TODO Make sure the up vector can change
 	if (mEntity) {
-		return Ogre::Vector3::UNIT_Y;
+		return mEntity->getUpVector();
 	} else {
 		// Return default value
 		return Ogre::Vector3::UNIT_Y;

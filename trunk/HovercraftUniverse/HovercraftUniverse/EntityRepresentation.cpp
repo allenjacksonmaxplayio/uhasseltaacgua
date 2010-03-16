@@ -18,6 +18,7 @@ void EntityRepresentation::draw() {
 	// Update the settings
 	mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
+
 }
 
 }

@@ -20,7 +20,7 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 	// Create rear view camera
 	mRearViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "RearPersonNode", 
 		Ogre::Vector3(0, 20, -40));
-	mRearViewpointNode->yaw(Ogre::Degree(180));
+	//mRearViewpointNode->yaw(Ogre::Degree(180));
 	mRearViewpointNode = mRearViewpointNode->createChildSceneNode(mRearViewpointNode->getName() + "Pitch");
 
 	// Create free roam camera
@@ -107,30 +107,45 @@ bool RaceCamera::keyReleased(const OIS::KeyEvent & e) {
 
 void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	Ogre::Vector3 positionCam;
+	
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 30);
-		positionCam.y = 50;
-
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 30) + (mObjectTrackCameraController->getUpVector() * 30);
+		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
-		mActiveViewpointNode->lookAt(mObjectTrackCameraController->getPosition() + Ogre::Vector3(0.0, 0.0, -100.0), Ogre::Node::TS_WORLD);
+
+		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
+		//mActiveViewpointNode->setDirection(mObjectTrackCameraController->getDirection(), Ogre::Node::TS_WORLD);
+		//mActiveViewpointNode->yaw(mObjectTrackCameraController->getOrientation().getYaw(), Ogre::Node::TS_WORLD);
+		//mActiveViewpointNode->pitch(mObjectTrackCameraController->getOrientation().getPitch(), Ogre::Node::TS_LOCAL);
+		mActiveViewpointNode->pitch(Ogre::Radian(-0.52f), Ogre::Node::TS_LOCAL);
+		
+		// TODO: Position isn't correct when we turn...
+
+		//mActiveViewpointNode->lookAt(mObjectTrackCameraController->getPosition() + Ogre::Vector3(0.0, 0.0, -100.0), Ogre::Node::TS_WORLD);
+		
 
 		break;
 	case FirstPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - Ogre::Vector3(0.0, 0.0, 100.0);
-		positionCam.y = 20;
+		positionCam = mObjectTrackCameraController->getPosition() + (mObjectTrackCameraController->getDirection() * 100);
 
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
-		// TODO This looks at a random point for now
-		//mActiveViewpointNode->lookAt(positionCam + mObjectTrackCameraController->getDirection(), Ogre::Node::TS_WORLD);
+		mActiveViewpointNode->setDirection(mObjectTrackCameraController->getDirection(), Ogre::Node::TS_WORLD);
 
 		break;
 	case RearView:
-		// TODO Set rear view
+		// Determine position camera
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 100);
+		
+		// Set position and direction to look at
+		mActiveViewpointNode->setPosition(positionCam);
+		mActiveViewpointNode->setDirection(mObjectTrackCameraController->getDirection() * (-1), Ogre::Node::TS_WORLD);
+		
+
 		break;
 	case FreeRoam:
 		// Get input from free roaming controller and apply
