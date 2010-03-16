@@ -27,3 +27,8 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
   * Functionaliteit: map laden, ... (Olivier)
   * Lower level: welk soort commands (Olivier)
   * NetworkMovementEntity --> meer dynamisch object van maken zonder vaste functionaliteit. Mogelijk functies voorzien om het toevoegen van te-synchroniseren variabelen en het uitvoeren hiervan te vereenvoudigen voor de gebruiken. (Nick)
+
+== Vergadering 17/03 ==
+ * Algemeen
+  * Folder structuur
+  * Hoofd project (Olivier)
