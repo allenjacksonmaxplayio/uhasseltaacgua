@@ -3,6 +3,7 @@
 namespace HovUni {
 	MainMenu::MainMenu(ServerMenuListener* serverListener) {
 		//Create buttons
+		mListener = serverListener;
 
 		//TODO: Make this resolution dependant
 		short width = 445;
@@ -34,7 +35,7 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue MainMenu::onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-
+		mListener->onConnect("localhost");
 		return Hikari::FlashValue();
 	}
 

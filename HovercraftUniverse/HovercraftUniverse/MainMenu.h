@@ -15,6 +15,9 @@ namespace HovUni {
 			MenuButton* mQuitButton;
 
 			ServerMenu* mServerMenu;
+			
+			//TEMP
+			ServerMenuListener* mListener;
 
 		public:
 			MainMenu(ServerMenuListener* serverListener);
