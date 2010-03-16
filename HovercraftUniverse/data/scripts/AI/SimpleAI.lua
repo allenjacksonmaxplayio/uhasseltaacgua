@@ -50,8 +50,8 @@ epsilon = 0.01; --epsilon for avoiding oscillations
 function decide()
 	--Poll Position
 	position = mEntity:getPosition();
-	println("");
-	println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
+	--println("");
+	--println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
 	targetPosition = Vector3(-350.0, 40.0, 200.0);
 
 	--Calculate orientation
@@ -62,7 +62,7 @@ function decide()
 	--println("myOrientation: " .. myOrientation.x .. ", " .. myOrientation.y .. ", " .. myOrientation.z);
 	side = myOrientation:crossProduct(mEntity:getUpVector());
 	side = side:dotProduct(targetOrientation);
-	println("side = " .. side);
+	--println("side = " .. side);
 
 	--deltaOrientation is the unit vector telling us which way to go, from our current direction.
 	--note: working with coordinates (z, x)!!!!
