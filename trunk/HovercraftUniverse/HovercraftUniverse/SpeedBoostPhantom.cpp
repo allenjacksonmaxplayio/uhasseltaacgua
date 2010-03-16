@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-SpeedBoostPhantom::SpeedBoostPhantom(const hkAabb& aabb, Ogre::SharedPtr<SpeedBoost> boost ):
+SpeedBoostPhantom::SpeedBoostPhantom(const hkAabb& aabb, SpeedBoost * boost ):
 	hkpAabbPhantom( aabb, 0), mBoost(boost)
 {
 }

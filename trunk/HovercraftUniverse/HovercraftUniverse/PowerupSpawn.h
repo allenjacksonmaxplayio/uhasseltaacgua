@@ -7,7 +7,7 @@
 
 namespace HovUni {
 
-class PowerupSpawn : Entity{
+class PowerupSpawn : public Entity{
 public:
 
 	/**
