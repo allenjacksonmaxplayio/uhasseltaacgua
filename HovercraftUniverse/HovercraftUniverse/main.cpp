@@ -51,7 +51,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 	if ( server ) {
 
-		HovUni::Console::createConsole("SERVER");
+		HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
 
 		new Ogre::Root;
 
@@ -101,7 +101,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 	} else {
 		if ( console )
-			HovUni::Console::createConsole("CLIENT");
+			HovUni::Console::createConsole("HovercraftUniverse Debug Console");
 
 		HovUni::Application app;
 		
