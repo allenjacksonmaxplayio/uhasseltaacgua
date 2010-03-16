@@ -40,16 +40,18 @@ public:
 	void initialize();
 
 	/**
-	*	Initiate an action (or: the AI presses a key)
+	*	Initiate or stop an action (the AI presses or releases a key)
 	*	@param	action	The action (ControllerActionType value).
+	*	@pararm	state	The current state (on or off: true or false)
 	*/
-	void startAction(const int action);
+	void setAction(const int action, const bool state);
 
 	/**
-	*	Stop an action (or: the AI releases a key)
+	*	Get the current state of an action.
 	*	@param	action	The action (ControllerActionType value)
+	*	@return	The current state (true for on, false for off)
 	*/
-	void stopAction(const int action);
+	bool getAction(const int action);
 
 	/**
 	*	Provides a logging function for the Lua Script.

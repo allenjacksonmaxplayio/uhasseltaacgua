@@ -18,11 +18,10 @@ namespace HovUni {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Ogre Classes.";
 			OgreLuaBindings ogrebindings(luaState);
 			ogrebindings.bindVector3(luaState);
-
 			luabind::module(luaState) [
-				luabind::class_<DummyHovercraftAIController>("DummyHovercraftAIController")
-					.def("startAction", &DummyHovercraftAIController::startAction)
-					.def("stopAction", &DummyHovercraftAIController::stopAction)
+				luabind::class_<DummyHovercraftAIController>("AIController")
+					.def("setAction", &DummyHovercraftAIController::setAction)
+					.def("getAction", &DummyHovercraftAIController::getAction)
 					.def("luaLog", &DummyHovercraftAIController::luaLog)
 			];
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Loading file " << scriptname;
@@ -89,15 +88,15 @@ namespace HovUni {
 	}
 
 
-	void DummyHovercraftAIController::startAction(const int action) {
-		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting Action " << action;
+	void DummyHovercraftAIController::setAction(const int action, const bool state) {
+		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "AI SETTING " << action << " TO " << state;
 		ControllerActionType a = (ControllerActionType) action;
-		mActionMap[a] = true;
+		mActionMap[a] = state;
 	}
 
-	void DummyHovercraftAIController::stopAction(const int action) {
+	bool DummyHovercraftAIController::getAction(const int action) {
 		ControllerActionType a = (ControllerActionType) action;
-		mActionMap[a] = false;
+		return mActionMap[a];
 	}
 
 	void DummyHovercraftAIController::luaLog(const std::string message) {

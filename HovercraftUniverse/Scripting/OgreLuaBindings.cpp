@@ -58,7 +58,7 @@ namespace HovUni {
 			.def("makeFloor", &Vector3::makeFloor )
 			.def("midPoint", &Vector3::midPoint )
 			.def("normalise", &Vector3::normalise )
-			.def("nornaliseCopy", &Vector3::normalisedCopy )
+			.def("normalisedCopy", &Vector3::normalisedCopy )
 			.def("perpendicular", &Vector3::perpendicular )
 			.def("positionCloses", &Vector3::positionCloses )
 			.def("positionEquals", &Vector3::positionEquals )
