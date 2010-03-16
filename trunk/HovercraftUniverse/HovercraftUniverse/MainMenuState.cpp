@@ -5,7 +5,31 @@
 
 namespace HovUni {
 	MainMenuState::MainMenuState() {
-		mMenu = new MainMenu();
+		mMenu = new MainMenu(this);
+	}
+
+	bool MainMenuState::onConnect(const Ogre::String& address) {
+		//Connect to the give address
+		///////////////////////////////////////////
+		///////////////////////////////////////////
+		//TODO: Parse IP and Port?
+		ClientCore* mClient = new ClientCore(address.c_str());
+
+		TiXmlDocument doc("gui/GUIConfig.xml");
+		doc.LoadFile();
+
+		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
+		mManager->addGameState(GameStateManager::IN_GAME, newState);
+		mManager->switchState(GameStateManager::IN_GAME);
+		///////////////////////////////////////////
+		///////////////////////////////////////////
+
+		//should check if connection was successfull
+		return true;
+	}
+
+	void MainMenuState::onCreate() {
+		//Create a new game
 	}
 
 	void MainMenuState::activate() {
@@ -45,19 +69,6 @@ namespace HovUni {
 	bool MainMenuState::mousePressed(const OIS::MouseEvent & e, OIS::MouseButtonID id) {
 		bool result = true;
 
-		///////////////////////////////////////////
-		///////////////////////////////////////////
-		//For now, load the InGameState on click!
-		ClientCore* mClient = new ClientCore("localhost", 2375);
-
-		TiXmlDocument doc("gui/GUIConfig.xml");
-		doc.LoadFile();
-
-		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
-		mManager->addGameState(GameStateManager::IN_GAME, newState);
-		mManager->switchState(GameStateManager::IN_GAME);
-		///////////////////////////////////////////
-		///////////////////////////////////////////
 
 		//We are using a GUI, so update it
 		result = result && mGUIManager->mousePressed(e, id);

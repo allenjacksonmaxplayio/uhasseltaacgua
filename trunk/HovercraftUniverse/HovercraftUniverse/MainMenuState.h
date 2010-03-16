@@ -4,6 +4,7 @@
 #include "BasicGameState.h"
 
 #include "MainMenu.h"
+#include "ServerMenuListener.h"
 
 namespace HovUni {
 	/**
@@ -11,7 +12,7 @@ namespace HovUni {
 	 *
 	 * @author Nick De Frangh
 	 */
-	class MainMenuState : public BasicGameState {
+	class MainMenuState : public BasicGameState, public ServerMenuListener {
 		private:
 			/** The Overlay for the Main menu */
 			MainMenu* mMenu;
@@ -21,6 +22,18 @@ namespace HovUni {
 			 * Constructor for the Main menu state
 			 */
 			MainMenuState();
+
+			/**
+			 * this function gets calles when we want to connect to a certain IP
+			 *
+			 * @param address The adress to connect to <IP:port> or <IP>
+			 */
+			virtual bool onConnect(const Ogre::String& address);
+
+			/**
+			 * Called when we need to create a multiplayer game
+			 */
+			virtual void onCreate();
 
 			/**
 			 * Function called when the state gets activated
