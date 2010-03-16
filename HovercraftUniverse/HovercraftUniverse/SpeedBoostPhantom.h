@@ -16,7 +16,7 @@ class SpeedBoostPhantom : public hkpAabbPhantom
 {
 private:
 
-	Ogre::SharedPtr<SpeedBoost> mBoost;
+	SpeedBoost * mBoost;
 
 public:
 
@@ -25,7 +25,7 @@ public:
 	 * @param aabb, the bounding box
 	 * @param boost, use a negative value for a slowdown.
 	 */
-	SpeedBoostPhantom(const hkAabb& aabb, Ogre::SharedPtr<SpeedBoost> boost);
+	SpeedBoostPhantom(const hkAabb& aabb, SpeedBoost * boost);
 
 	~SpeedBoostPhantom(void);
 

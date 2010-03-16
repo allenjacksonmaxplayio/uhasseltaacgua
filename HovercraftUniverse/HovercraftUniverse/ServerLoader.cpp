@@ -1,12 +1,11 @@
-#include "ServerLoader.h"
-
 #include "CustomOgreMaxScene.h"
 #include "Exception.h"
 #include "EntityDescription.h"
 
 //Lobby
 #include "Lobby.h"
-#include "ServerCore.h"
+#include "NetworkIDManager.h"
+#include "EntityManager.h"
 
 // Physics
 #include "Havok.h"
@@ -42,7 +41,7 @@ namespace {
 
 namespace HovUni {
 
-ServerLoader::ServerLoader(ServerCore * server): mHovercraftWorld(0),mServer(server)
+ServerLoader::ServerLoader(): mHovercraftWorld(0)
 {
 }
 
@@ -75,7 +74,7 @@ void ServerLoader::FinishedLoad( bool success ){
 		mHovercraftWorld->mPhysicsWorld->unmarkForWrite();
 }
 
-void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
+void ServerLoader::onTrack( Track * track ) {
 
 	//TODO USE OGRE RESOURCES
 
@@ -95,9 +94,11 @@ void ServerLoader::onTrack( Ogre::SharedPtr<Track> track ) {
 
 	hkVector4 zero;
 	mHovercraftWorld->mStartPositions.setSize(track->getMaximumPlayers(),zero);
+
+	delete track;
 }
 
-void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
+void ServerLoader::onAsteroid( Asteroid * asteroid ) {
 
 	if ( mExternalitem == 0 ){
 		THROW(ParseException, "This should be an external item.");
@@ -140,9 +141,15 @@ void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 		mHovercraftWorld->mPhysicsWorld->addPhantom( gravityphantom );
 		gravityphantom->removeReference();
 	}
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(asteroid);
+
+	//network register asteroid
+	asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName());
 }
 
-void ServerLoader::onStart( Ogre::SharedPtr<Start> start ) {
+void ServerLoader::onStart( Start * start ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -155,9 +162,15 @@ void ServerLoader::onStart( Ogre::SharedPtr<Start> start ) {
 	StartPhantom * phantom = new StartPhantom(	aabb );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(start);
+
+	//network register asteroid
+	start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName());
 }
 
-void ServerLoader::onStartPosition( Ogre::SharedPtr<StartPosition> startposition ) {
+void ServerLoader::onStartPosition( StartPosition * startposition ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -165,9 +178,11 @@ void ServerLoader::onStartPosition( Ogre::SharedPtr<StartPosition> startposition
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
 	int pos = startposition->getPlayerNumber();
 	mHovercraftWorld->mStartPositions[pos] = position;	
+
+	delete startposition;
 }
 
-void ServerLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
+void ServerLoader::onCheckPoint( CheckPoint * checkpoint ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -184,9 +199,15 @@ void ServerLoader::onCheckPoint( Ogre::SharedPtr<CheckPoint> checkpoint ) {
 	mHovercraftWorld->mPhysicsWorld->addPhantom( checkpointphantom );
 	checkpointphantom->removeReference();
 
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(checkpoint);
+
+	//network register asteroid
+	checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName());
+
 }
 
-void ServerLoader::onFinish( Ogre::SharedPtr<Finish> finish ) {
+void ServerLoader::onFinish( Finish * finish ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}	
@@ -199,13 +220,21 @@ void ServerLoader::onFinish( Ogre::SharedPtr<Finish> finish ) {
 	FinishPhantom * phantom = new FinishPhantom( aabb );
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(finish);
+
+	//network register asteroid
+	finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName());
 }
 
-void ServerLoader::onHoverCraft( Ogre::SharedPtr<Hovercraft> hovercraft ) {
+void ServerLoader::onHoverCraft( Hovercraft * hovercraft ) {
 	//TODO add hovercraft	
+
+	delete hovercraft;
 }
 
-void ServerLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
+void ServerLoader::onPortal( Portal * portal ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}	
@@ -218,9 +247,15 @@ void ServerLoader::onPortal( Ogre::SharedPtr<Portal> portal ) {
 	PortalPhantom * phantom = new PortalPhantom( aabb );
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(portal);
+
+	//network register asteroid
+	portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName());	
 }
 
-void ServerLoader::onBoost( Ogre::SharedPtr<SpeedBoost> boost ) {
+void ServerLoader::onBoost( SpeedBoost * boost ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -235,9 +270,15 @@ void ServerLoader::onBoost( Ogre::SharedPtr<SpeedBoost> boost ) {
 	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( aabb, boost );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(boost);
+
+	//network register asteroid
+	boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName());	
 }
 
-void ServerLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) {
+void ServerLoader::onPowerupSpawn( PowerupSpawn * powerupspawn ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -249,9 +290,15 @@ void ServerLoader::onPowerupSpawn( Ogre::SharedPtr<PowerupSpawn> powerupspawn ) 
 	}
 	
 	mHovercraftWorld->mPowerupPositions.pushBack(position);
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(powerupspawn);
+
+	//network register asteroid
+	powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName());	
 }
 
-void ServerLoader::onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn ) {
+void ServerLoader::onResetSpawn( ResetSpawn * spawn ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
 	}
@@ -263,6 +310,12 @@ void ServerLoader::onResetSpawn( Ogre::SharedPtr<ResetSpawn> spawn ) {
 	}
 	
 	mHovercraftWorld->mResetPositions.pushBack(position);
+
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(spawn);
+
+	//network register asteroid
+	spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName());	
 }
 
 
