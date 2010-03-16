@@ -8,6 +8,7 @@
 namespace HovUni {
 
 class HoverCraftUniverseWorld;
+class ServerCore;
 
 /**
  * Loader for the server
@@ -16,7 +17,15 @@ class HoverCraftUniverseWorld;
 class ServerLoader : public UserDataCallback, public Loader {
 private:
 
+	/**
+	 * Havok world
+	 */
 	HoverCraftUniverseWorld * mHovercraftWorld;
+
+	/**
+	 * Server
+	 */
+	ServerCore * mServer;
 
 	/**
 	 * Current external
@@ -24,7 +33,7 @@ private:
 	OgreMax::Types::ExternalItem * mExternalitem;
 
 public:
-	ServerLoader();
+	ServerLoader(ServerCore * server);
 
 	~ServerLoader();
 

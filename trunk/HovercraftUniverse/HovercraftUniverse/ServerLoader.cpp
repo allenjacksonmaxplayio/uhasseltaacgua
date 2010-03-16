@@ -6,6 +6,7 @@
 
 //Lobby
 #include "Lobby.h"
+#include "ServerCore.h"
 
 // Physics
 #include "Havok.h"
@@ -41,7 +42,7 @@ namespace {
 
 namespace HovUni {
 
-ServerLoader::ServerLoader(): mHovercraftWorld(0)
+ServerLoader::ServerLoader(ServerCore * server): mHovercraftWorld(0),mServer(server)
 {
 }
 
@@ -139,8 +140,6 @@ void ServerLoader::onAsteroid( Ogre::SharedPtr<Asteroid> asteroid ) {
 		mHovercraftWorld->mPhysicsWorld->addPhantom( gravityphantom );
 		gravityphantom->removeReference();
 	}
-
-	
 }
 
 void ServerLoader::onStart( Ogre::SharedPtr<Start> start ) {
