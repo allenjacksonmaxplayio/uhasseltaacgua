@@ -9,7 +9,8 @@ namespace HovUni {
  * @author Olivier Berghmans
  */
 enum ChatEventType {
-	textLine
+	textLine,
+	notifyLine
 	// Make sure to adjust the amount below
 };
 

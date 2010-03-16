@@ -21,9 +21,19 @@ void ChatClient::initialize() {
 	ZCom_setUpstreamLimit(0, 0);
 }
 
+void ChatClient::registerListener(ChatListener* listener) {
+	if (mChat) {
+		mChat->registerListener(listener);
+	} else {
+		mListeners.push_back(listener);
+	}
+}
+
 void ChatClient::process() {
 	NetworkClient::process();
-	mChat->processEvents(0.0f);
+	if (mChat) {
+		mChat->processEvents(0.0f);
+	}
 }
 
 void ChatClient::sendText(const std::string& line) {
@@ -61,8 +71,13 @@ void ChatClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 
 void ChatClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	if (requested_class == mIDManager->getID(ChatEntity::getClassName())) {
 		// Lobby received (upon connect)
-		mChat = new ChatEntity(10);
+		mChat = new ChatEntity();
 		mChat->networkRegister(requested_class, this);
+
+		for (std::vector<ChatListener*>::iterator it = mListeners.begin(); it != mListeners.end(); ++it) {
+			mChat->registerListener(*it);
+		}
+		mListeners.clear();
 	}
 }
 
