@@ -21,12 +21,23 @@ private:
 	ScriptWrapper* mScript;
 	std::map<ControllerActionType, bool> mActionMap;
 	std::string mClassName;
-public:
 
+	void bindEntity(lua_State* L);
+public:
 	/**
 	*	Start the AI Controller with a script.
+	*	NOTE: MUST CALL "initialize" function after constructing and setting the controller!
+	*	1) Construct the controller
+	*	2) setController() in the client
+	*	3) AIController.initialize();
 	*/
 	DummyHovercraftAIController(std::string scriptname);
+
+	/**
+	*	Initialization function.
+	*	Takes care of bindings and definition of entities.
+	*/
+	void initialize();
 
 	/**
 	*	Initiate an action (or: the AI presses a key)
@@ -44,9 +55,6 @@ public:
 	*	Provides a logging function for the Lua Script.
 	*/
 	void luaLog(const std::string message);
-
-	//void DummyHovercraftAIController::getVariable(const int variable);
-
 
 
 	/**

@@ -33,7 +33,7 @@ ST_IDLE 	=	0;
 ST_MOVING 	=	1;
 -----------------------------
 mCurrentState = 0;
-mPosition = 0
+mEntity = 0
 mInitialPosition = 0
 --HovercraftAIController game
 
@@ -52,11 +52,11 @@ function println(msg)
 	game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
-function setPosition(pos)
-	if (mPosition == 0) then
-		mInitialPosition = pos;
+function setEntity(entity)
+	if (mEntity == 0) then
+		mInitialPosition = entity:getPosition();
 	end
-	mPosition = pos;
+	mEntity = entity;
 end
 
 threshold = 300;
@@ -66,13 +66,16 @@ threshold = 300;
 --	All very hardcoded and just for testing purposes!
 --]]
 function decide()
-	--println("Position: " .. mPosition.x .. ", " .. mPosition.y .. ", " .. mPosition.z);
+	--Poll Position
+	position = mEntity:getPosition();
+
+	--println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
 	if (mCurrentState == ST_IDLE) then
 		game:startAction(ACCELERATE);
 		mACCELERATE = true;
 		mCurrentState = ST_MOVING;
 	elseif (mCurrentState == ST_MOVING) then
-		distance = mPosition:distance(mInitialPosition);
+		distance = position:distance(mInitialPosition);
 		--println("Current distance from starting point = " .. distance);
 		if (distance > threshold) then
 			if (mACCELERATE) then
