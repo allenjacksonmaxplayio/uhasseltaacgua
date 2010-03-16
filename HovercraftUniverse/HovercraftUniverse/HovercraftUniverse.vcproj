@@ -192,6 +192,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ConnectWindow.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Direction.cpp"
 					>
 				</File>
@@ -209,6 +213,10 @@
 				</File>
 				<File
 					RelativePath=".\Position.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerMenu.cpp"
 					>
 				</File>
 				<File
@@ -650,6 +658,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ConnectWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Direction.h"
 					>
 				</File>
@@ -667,6 +679,14 @@
 				</File>
 				<File
 					RelativePath=".\Position.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerMenu.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerMenuListener.h"
 					>
 				</File>
 				<File
