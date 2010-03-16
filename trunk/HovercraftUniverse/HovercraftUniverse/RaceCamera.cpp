@@ -9,7 +9,7 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 	mCamera->setNearClipDistance(5);
 
 	// Create 3rd person view camera
-	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode", Ogre::Vector3(0, 200, 400));
+	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode");
 	m3rdPersonViewpointNode = m3rdPersonViewpointNode->createChildSceneNode(m3rdPersonViewpointNode->getName() + "Pitch");
 
 	// Create 1st person view camera
@@ -111,22 +111,14 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 30) + (mObjectTrackCameraController->getUpVector() * 30);
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 400) + (mObjectTrackCameraController->getUpVector() * 200);
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
-
 		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
-		//mActiveViewpointNode->setDirection(mObjectTrackCameraController->getDirection(), Ogre::Node::TS_WORLD);
-		//mActiveViewpointNode->yaw(mObjectTrackCameraController->getOrientation().getYaw(), Ogre::Node::TS_WORLD);
-		//mActiveViewpointNode->pitch(mObjectTrackCameraController->getOrientation().getPitch(), Ogre::Node::TS_LOCAL);
-		mActiveViewpointNode->pitch(Ogre::Radian(-0.52f), Ogre::Node::TS_LOCAL);
+		//turn the camera slightly to the tracked entity
+		mActiveViewpointNode->pitch(Ogre::Degree(-20.0f), Ogre::Node::TS_LOCAL);
 		
-		// TODO: Position isn't correct when we turn...
-
-		//mActiveViewpointNode->lookAt(mObjectTrackCameraController->getPosition() + Ogre::Vector3(0.0, 0.0, -100.0), Ogre::Node::TS_WORLD);
-		
-
 		break;
 	case FirstPerson:
 		// Determine position camera

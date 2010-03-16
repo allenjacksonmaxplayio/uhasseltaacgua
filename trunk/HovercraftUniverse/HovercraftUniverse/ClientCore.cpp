@@ -75,8 +75,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
 
 		if (role == eZCom_RoleOwner) {
-			hovercraft->setController(new DummyHovercraftAIController("scripts/AI/SimpleAI.lua"));
-			//hovercraft->setController(new DummyHovercraftPlayerController());
+			//hovercraft->setController(new DummyHovercraftAIController("scripts/AI/SimpleAI.lua"));
+			hovercraft->setController(new DummyHovercraftPlayerController());
 		}
 	}
 }
