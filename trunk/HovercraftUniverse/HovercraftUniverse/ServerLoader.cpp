@@ -145,8 +145,9 @@ void ServerLoader::onAsteroid( Asteroid * asteroid ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(asteroid);
 
+	//TODO when client ready
 	//network register asteroid
-	asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName());
+	//asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName());
 }
 
 void ServerLoader::onStart( Start * start ) {
@@ -166,8 +167,9 @@ void ServerLoader::onStart( Start * start ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(start);
 
+	//TODO when client ready
 	//network register asteroid
-	start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName());
+	//start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName());
 }
 
 void ServerLoader::onStartPosition( StartPosition * startposition ) {
@@ -179,7 +181,12 @@ void ServerLoader::onStartPosition( StartPosition * startposition ) {
 	int pos = startposition->getPlayerNumber();
 	mHovercraftWorld->mStartPositions[pos] = position;	
 
-	delete startposition;
+	//Add to entity manager
+	EntityManager::getServerSingletonPtr()->registerEntity(startposition);
+
+	//TODO when client ready
+	//network register asteroid
+	//startposition->networkRegister(NetworkIDManager::getServerSingletonPtr(), StartPosition::getClassName());
 }
 
 void ServerLoader::onCheckPoint( CheckPoint * checkpoint ) {
@@ -202,8 +209,9 @@ void ServerLoader::onCheckPoint( CheckPoint * checkpoint ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(checkpoint);
 
+	//TODO when client ready
 	//network register asteroid
-	checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName());
+	//checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName());
 
 }
 
@@ -224,8 +232,9 @@ void ServerLoader::onFinish( Finish * finish ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(finish);
 
+	//TODO when client ready
 	//network register asteroid
-	finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName());
+	//finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName());
 }
 
 void ServerLoader::onHoverCraft( Hovercraft * hovercraft ) {
@@ -251,8 +260,9 @@ void ServerLoader::onPortal( Portal * portal ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(portal);
 
+	//TODO when client ready
 	//network register asteroid
-	portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName());	
+	//portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName());	
 }
 
 void ServerLoader::onBoost( SpeedBoost * boost ) {
@@ -274,8 +284,9 @@ void ServerLoader::onBoost( SpeedBoost * boost ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(boost);
 
+	//TODO when client ready
 	//network register asteroid
-	boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName());	
+	//boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName());	
 }
 
 void ServerLoader::onPowerupSpawn( PowerupSpawn * powerupspawn ) {
@@ -294,8 +305,9 @@ void ServerLoader::onPowerupSpawn( PowerupSpawn * powerupspawn ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(powerupspawn);
 
+	//TODO when client ready
 	//network register asteroid
-	powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName());	
+	//powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName());	
 }
 
 void ServerLoader::onResetSpawn( ResetSpawn * spawn ) {
@@ -314,8 +326,9 @@ void ServerLoader::onResetSpawn( ResetSpawn * spawn ) {
 	//Add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(spawn);
 
+	//TODO when client ready
 	//network register asteroid
-	spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName());	
+	//spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName());	
 }
 
 
