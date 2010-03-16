@@ -1,10 +1,10 @@
-#ifndef CLIENTCORE_H_
-#define CLIENTCORE_H_
+#ifndef CHATCLIENT_H_
+#define CHATCLIENT_H_
 
 #include "NetworkClient.h"
-#include "EntityManager.h"
 #include "NetworkIDManager.h"
-#include "Lobby.h"
+#include "ChatEntity.h"
+#include <string>
 
 namespace HovUni {
 
@@ -14,47 +14,54 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ClientCore: public NetworkClient
+class ChatClient: public NetworkClient
 {
 private:
-	/** The entity manager */
-	EntityManager * mEntityManager;
+	/** The chat entity **/
+	ChatEntity* mChat;
 
-	/** The entity manager */
+	/** The ID manager */
 	NetworkIDManager* mIDManager;
 
-	/** The lobby */
-	Lobby* mLobby;
+	/** The user name */
+	std::string mUser;
 
 public:
 	/**
 	 * Constructor for a client using a remote connection
 	 *
+	 * @param username the name of the user to chat
 	 * @param name the name of the server
 	 * @param port the port of the server
 	 */
-	ClientCore(const char* name, unsigned int port = 2375);
+	ChatClient(const std::string& username, const char* name, unsigned int port = 2377);
 
 	/**
 	 * Constructor for a client using a local connection. This client
 	 * must be running in the same instance of a program as the server. 
 	 * It is used for combining the client and server to avoid the
 	 * overhead of real network.
+	 *
+	 * @param username the name of the user to chat
 	 */
-	ClientCore();
+	ChatClient(const std::string& username);
 
 	/**
 	 * Destructor
 	 */
-	~ClientCore();
+	~ChatClient();
 
 	/**
 	 * Process incoming and outgoing packets
 	 */
 	virtual void process();
 
-	//TODO remove
-	void start();
+	/**
+	 * Send a text line
+	 *
+	 * @param line the text line
+	 */
+	void sendText(const std::string& line);
 
 private:
 	/**

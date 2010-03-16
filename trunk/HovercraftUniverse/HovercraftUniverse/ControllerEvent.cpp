@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-ControllerEvent::ControllerEvent(ControllerEventType type) : NetworkEvent<ControllerEventType>(type) {
+ControllerEvent::ControllerEvent(ControllerEventType type) : NetworkEvent<ControllerEventType, ControllerEventTypeSize>(type) {
 
 }
 

@@ -20,11 +20,11 @@
 
 namespace HovUni {
 
-ClientCore::ClientCore(const char* name,unsigned int port) : NetworkClient(name,port), mEntityManager(0), mIDManager(0), mLobby(0) {
+ClientCore::ClientCore(const char* name, unsigned int port) : NetworkClient(name, port), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 
-ClientCore::ClientCore() : NetworkClient(3041), mEntityManager(0), mIDManager(0), mLobby(0) {
+ClientCore::ClientCore() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 

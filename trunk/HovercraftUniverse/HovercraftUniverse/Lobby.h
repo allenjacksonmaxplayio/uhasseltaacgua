@@ -64,6 +64,11 @@ public:
 	 */
 	void start();
 
+	/**
+	 * Check if the client is the administrator
+	 */
+	bool isAdmin() const;
+
 	// Connect callback on authority
 
 	/**

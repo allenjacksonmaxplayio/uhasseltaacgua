@@ -80,8 +80,8 @@ public:
 	 * @param secret false if the data may be send to all proxies
 	 * @return result of the send operation
 	 */
-	template <typename EventType>
-	bool sendEvent(const NetworkEvent<EventType>& event, bool secret = false) const;
+	template <typename EventType, int N>
+	bool sendEvent(const NetworkEvent<EventType, N>& event, bool secret = false) const;
 
 	/**
 	 * Get the network node. You should probably not be calling this.
@@ -138,8 +138,8 @@ protected:
 
 };
 
-template <typename EventType>
-bool NetworkEntity::sendEvent(const NetworkEvent<EventType>& event, bool secret) const {
+template <typename EventType, int N>
+bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secret) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
 	event.serialize(stream);
 
