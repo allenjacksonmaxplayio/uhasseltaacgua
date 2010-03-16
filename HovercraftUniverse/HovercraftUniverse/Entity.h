@@ -13,7 +13,7 @@ namespace HovUni {
  * An entity is an object in the game world that has a game state. This state can be modified by the 
  * interaction of players with the game.
  *
- * @author Kristof Overdulve & Olivier Berghmans
+ * @author Kristof Overdulve, Olivier Berghmans & Tobias Van Bladel
  */
 class Entity: public NetworkEntity {
 protected:

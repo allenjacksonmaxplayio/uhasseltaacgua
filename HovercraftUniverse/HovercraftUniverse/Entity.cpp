@@ -10,7 +10,7 @@ class EntityManager;
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::Vector3 upvector, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
-		mProcessElapsed(processInterval) {
+			mProcessElapsed(processInterval), mOrientation(Ogre::Quaternion::IDENTITY) {
 	if (track) {
 		// Track this entity
 		EntityManager::getClientSingletonPtr()->trackEntity(mName);
@@ -18,8 +18,8 @@ Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vecto
 
 	// Update data
 	changePosition(position);
-	changeOrientation(orientation.getRotationTo(Ogre::Vector3::UNIT_Z));
-	changeOrientation(upvector.getRotationTo(Ogre::Vector3::UNIT_Y));
+	changeOrientation(Ogre::Vector3::UNIT_Y.getRotationTo(upvector));
+	changeOrientation(Ogre::Vector3::NEGATIVE_UNIT_Z.getRotationTo(orientation));
 }
 
 Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
@@ -98,7 +98,7 @@ Ogre::Vector3 Entity::getUpVector() const {
 }
 
 Ogre::Vector3 Entity::getOrientation() const {
-	return mOrientation * Ogre::Vector3::UNIT_Z;
+	return mOrientation * Ogre::Vector3::NEGATIVE_UNIT_Z;
 }
 
 Ogre::String Entity::getOgreEntity() const {

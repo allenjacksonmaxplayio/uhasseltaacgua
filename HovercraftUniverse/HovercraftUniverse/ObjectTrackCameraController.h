@@ -52,6 +52,13 @@ public:
 	virtual Ogre::Vector3 getDirection();
 
 	/**
+	 * Tells the orientaion of the object that is being tracked.
+	 *
+	 * @return the orientation
+	 */
+	virtual Ogre::Quaternion getOrientation();
+
+	/**
 	 * Tells the up vector of the object that is being tracked.
 	 *
 	 * @return the up vector
