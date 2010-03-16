@@ -4,17 +4,6 @@
 --]]
 AI_NAME = "Simple AI";
 
---[[
-	Values and functions received from game:
-
-	/** Start an action (press a button) */
-	void startAction(ControllerActionType action);
-
-	/** Stop an action (release a button) */
-	void stopAction(ControllerActionType action);
-
-
-]]
 -----------------------------
 -- Control enum Constants
 -- TODO control via enum
@@ -37,13 +26,6 @@ mEntity = 0
 mInitialPosition = 0
 --HovercraftAIController game
 
-
---Current button state
-mACCELERATE	=	false;
-mBRAKE		=	false;
-mTURNLEFT	=	false;
-mTURNRIGHT	=	false;
-
 function registerController(controllerObj)
 	game = controllerObj;
 end
@@ -59,51 +41,46 @@ function setEntity(entity)
 	mEntity = entity;
 end
 
-threshold = 300;
+epsilon = 0.01; --epsilon for avoiding oscillations
 
 --[[
 --	Main function
---	All very hardcoded and just for testing purposes!
+--	Preliminary, pseudostateless AI
 --]]
 function decide()
 	--Poll Position
 	position = mEntity:getPosition();
+	println("");
+	println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
+	targetPosition = Vector3(-350.0, 40.0, 200.0);
 
-	--println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
-	if (mCurrentState == ST_IDLE) then
-		game:startAction(ACCELERATE);
-		mACCELERATE = true;
-		mCurrentState = ST_MOVING;
-	elseif (mCurrentState == ST_MOVING) then
-		distance = position:distance(mInitialPosition);
-		--println("Current distance from starting point = " .. distance);
-		if (distance > threshold) then
-			if (mACCELERATE) then
-				--stop
-				game:stopAction(ACCELERATE);
-				mACCELERATE = false;
-				game:stopAction(TURNLEFT);
-				mTURNLEFT = false;
-				--start
-				game:startAction(BRAKE);
-				mBRAKE = true;
-				game:startAction(TURNRIGHT);
-				mTURNRIGHT = true;
-			elseif (mBRAKE) then
-				--stop
-				game:stopAction(BRAKE);
-				mBRAKE = false;
-				game:stopAction(TURNRIGHT);
-				mTURNRIGHT = false;
-				--start
-				game:startAction(ACCELERATE);
-				mACCELERATE = true;
-				game:startAction(TURNLEFT);
-				mTURNLEFT = true;
-			end
+	--Calculate orientation
+	targetOrientation = targetPosition - position;
+	targetOrientation = targetOrientation:normalisedCopy();
+	--println("targetOrientation: " .. targetOrientation.x .. ", " .. targetOrientation.y .. ", " .. targetOrientation.z);
+	myOrientation = mEntity:getOrientation();
+	--println("myOrientation: " .. myOrientation.x .. ", " .. myOrientation.y .. ", " .. myOrientation.z);
+	side = myOrientation:crossProduct(mEntity:getUpVector());
+	side = side:dotProduct(targetOrientation);
+	println("side = " .. side);
+
+	--deltaOrientation is the unit vector telling us which way to go, from our current direction.
+	--note: working with coordinates (z, x)!!!!
+	if (position:distance(targetPosition) > 20) then
+		game:setAction(ACCELERATE, true);
+		if (side > epsilon) then
+			game:setAction(TURNLEFT, false);
+			game:setAction(TURNRIGHT, true);
+		elseif (side < -epsilon) then
+			game:setAction(TURNRIGHT, false);
+			game:setAction(TURNLEFT, true);
+		else
+			game:setAction(TURNRIGHT, false);
+			game:setAction(TURNLEFT, false);
 		end
+	else
+		game:setAction(ACCELERATE, false);
 	end
-
 
 	return 0;
 end
