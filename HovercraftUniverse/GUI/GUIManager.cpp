@@ -55,15 +55,21 @@ namespace HovUni {
 		//Update the mouse cursor
 		mMouseVisual.updatePosition(evt.state.X.abs, evt.state.Y.abs);
 
-		return mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
+		mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
+
+		return true;
 	}
 
 	bool GUIManager::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id) {
-		return mHikariMgr->injectMouseDown(id);
+		mHikariMgr->injectMouseDown(id);
+
+		return true;
 	}
 
 	bool GUIManager::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id) {
-		return mHikariMgr->injectMouseUp(id);
+		mHikariMgr->injectMouseUp(id);
+
+		return true;
 	}
 
 	bool GUIManager::keyPressed(const OIS::KeyEvent &evt) {
@@ -71,13 +77,6 @@ namespace HovUni {
 
 		for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
 			(*it)->keyPressed(evt);
-		}
-
-		return true;
-		
-		//Quite meaningless code, taken from Hikari demo, will change when needed
-		if(mHikariMgr->isAnyFocused()) {
-			return true;
 		}
 
 		return true;
@@ -149,6 +148,6 @@ namespace HovUni {
 	}
 
 	void GUIManager::showCursor(bool val) {
-		mMouseVisual.setVisible(true);
+		mMouseVisual.setVisible(val);
 	}
 }
