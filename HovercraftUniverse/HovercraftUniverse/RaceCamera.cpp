@@ -107,7 +107,8 @@ bool RaceCamera::keyReleased(const OIS::KeyEvent & e) {
 
 void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	Ogre::Vector3 positionCam;
-	
+	Ogre::Quaternion back;
+
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		// Determine position camera
@@ -126,7 +127,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
-		mActiveViewpointNode->setDirection(mObjectTrackCameraController->getDirection(), Ogre::Node::TS_WORLD);
+		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
 
 		break;
 	case RearView:
@@ -135,8 +136,9 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
-		mActiveViewpointNode->setDirection(mObjectTrackCameraController->getDirection() * (-1), Ogre::Node::TS_WORLD);
-		
+		// turn the camera 180 degrees around the up vector
+		back = Ogre::Quaternion(Ogre::Degree(180), mObjectTrackCameraController->getUpVector());
+		mActiveViewpointNode->setOrientation(back * mObjectTrackCameraController->getOrientation());
 
 		break;
 	case FreeRoam:

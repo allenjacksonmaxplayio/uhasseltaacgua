@@ -7,7 +7,7 @@
 namespace HovUni {
 
 DummyHovercraft::DummyHovercraft(void) : Entity("hovercraft", "vehicles", true, Ogre::Vector3(0.0, 40.0, 0.0), 
-												Ogre::Vector3(0.0, 0.0,-1.0),Ogre::Vector3(0.0, 1.0, 0.0),"", 1.0f / 60.0f,0), mMovingStatus(0) {
+												Ogre::Vector3(1.0, 0.0,-1.0),Ogre::Vector3(0.0, 1.0, 0.0),"", 1.0f / 60.0f,0), mMovingStatus(0), mTilt(0.0f) {
 	// Already initialized
 }
 
@@ -19,21 +19,61 @@ void DummyHovercraft::process(float timeSince) {
 	if (mMovingStatus && (timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
 		Ogre::Vector3 accumulatedDirection = Ogre::Vector3::ZERO;
 		float accumulatedRotation = 0.0f;
+		float accumulatedTilt = mTilt;
 		
-		// calculate new direction
-		if (mMovingStatus->moveLeft()) { accumulatedRotation += 1.0f; }
-		if (mMovingStatus->moveRight()) { accumulatedRotation -= 1.0f; }
 
-		Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
-		changeOrientation(quat);
-		//Ogre::Quaternion quat2 = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), getOrientation());
-		//changeOrientation(quat2);
+		// calculate new direction
+		if (mMovingStatus->moveLeft()) { 
+			// check direction, we won't allow turning without moving
+			if (mMovingStatus->moveForward()) {
+				accumulatedRotation += 1.0f;
+			} else if (mMovingStatus->moveBackward()) {
+				accumulatedRotation -= 1.0f;
+			}
+			// set tilt
+			if ((mMovingStatus->moveForward() || mMovingStatus->moveBackward()) && mTilt > -20.0f) {
+				mTilt -= 0.5f;
+			}
+		}
+		if (mMovingStatus->moveRight()) { 
+			// check direction, we won't allow turning without moving
+			if (mMovingStatus->moveForward()) {
+				accumulatedRotation -= 1.0f;
+			} else if (mMovingStatus->moveBackward()) {
+				accumulatedRotation += 1.0f;
+			}
+			// set tilt
+			if ((mMovingStatus->moveForward() || mMovingStatus->moveBackward()) && mTilt < 20.0f) {
+				mTilt += 0.5f;
+			}
+		}
+		// if not turning, lower tilt
+		if ((!mMovingStatus->moveLeft() && !mMovingStatus->moveRight()) || 
+					((mMovingStatus->moveLeft() || mMovingStatus->moveRight()) && (!mMovingStatus->moveForward() && !mMovingStatus->moveBackward()))) {
+			mTilt *= 0.9f;
+		}
+		
+
+		// calculate orientation
+		// TODO: Should be the UpVector, but in the tilt test this would give weird results...
+		//Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), getUpVector());
+		Ogre::Quaternion rotation = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
+		changeOrientation(rotation);
+
+		//calculate tilt
+		accumulatedTilt = mTilt - accumulatedTilt;
+		Ogre::Quaternion tilt = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedTilt)), getOrientation());
+		changeOrientation(tilt);
 
 		
 
 		// move forward and/or backward
-		if (mMovingStatus->moveForward()) { accumulatedDirection += getOrientation(); }
-		if (mMovingStatus->moveBackward()) { accumulatedDirection -= getOrientation(); }
+		if (mMovingStatus->moveForward()) { 
+			accumulatedDirection += getOrientation(); 
+		}
+		if (mMovingStatus->moveBackward()) { 
+			accumulatedDirection -= getOrientation(); 
+		}
 		accumulatedDirection.normalise();
 	
 		changePosition(getPosition() + accumulatedDirection * timeSince * 100);

@@ -16,6 +16,9 @@ private:
 	/** The moving status */
 	BasicEntityEvent* mMovingStatus;
 
+	/** Tilt test */
+	float mTilt;
+
 public:
 
 	/**
