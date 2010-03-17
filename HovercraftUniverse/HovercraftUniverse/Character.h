@@ -4,6 +4,7 @@
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
 #include "Controller.h"
+#include "Entity.h"
 
 namespace HovUni {
 
@@ -12,6 +13,11 @@ namespace HovUni {
  */
 class Character {
 protected:
+
+	/**
+	 * Entity
+	 */
+	Entity * mEntity;
 
 	/**
 	 * Refernce to world
@@ -43,7 +49,7 @@ public:
 	 * @param characterContext
 	 * @param controllor
 	 */
-	Character( hkpWorld * world, const char * name, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+	Character( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
 
 	/**
 	 * Destructor
