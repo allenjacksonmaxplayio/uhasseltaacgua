@@ -92,7 +92,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		Asteroid * ent = new Asteroid(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		Asteroid * ent = new Asteroid(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
@@ -103,7 +113,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		CheckPoint * ent = new CheckPoint(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		CheckPoint * ent = new CheckPoint(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
@@ -114,7 +134,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		Start * ent = new Start(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		Start * ent = new Start(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
@@ -125,7 +155,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		StartPosition * ent = new StartPosition(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		StartPosition * ent = new StartPosition(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),processinterval);
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
@@ -136,7 +176,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		Finish * ent = new Finish(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		Finish * ent = new Finish(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
 
 		mEntityManager->registerEntity(ent);
@@ -147,7 +197,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		ResetSpawn * ent = new ResetSpawn(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		ResetSpawn * ent = new ResetSpawn(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),processinterval);
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
@@ -158,7 +218,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		PowerupSpawn * ent = new PowerupSpawn(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		PowerupSpawn * ent = new PowerupSpawn(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
 
 		mEntityManager->registerEntity(ent);
@@ -169,7 +239,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		SpeedBoost * ent = new SpeedBoost(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		SpeedBoost * ent = new SpeedBoost(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
@@ -180,7 +260,17 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		Portal * ent = new Portal(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		Portal * ent = new Portal(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
 
 		mEntityManager->registerEntity(ent);
@@ -188,10 +278,20 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(portalRep);
 	}
 	else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+ 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
-		Hovercraft * ent = new Hovercraft(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+
+		float x = announcedata->getFloat(4);
+		float y = announcedata->getFloat(4);
+		float z = announcedata->getFloat(4);
+
+		float rx = announcedata->getFloat(4);
+		float ry = announcedata->getFloat(4);
+		float rz = announcedata->getFloat(4);
+		float rw = announcedata->getFloat(4);
+
+		Hovercraft * ent = new Hovercraft(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
 
 
@@ -207,7 +307,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 
 
 
-	if (requested_class == mIDManager->getID("DummyHovercraft")) {
+	/*if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();
 		hovercraft->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(hovercraft);
@@ -220,7 +320,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 			//ai->initialize();
 			hovercraft->setController(new DummyHovercraftPlayerController());
 		}
-	}
+	}*/
 }
 
 void ClientCore::start() {

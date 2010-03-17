@@ -7,7 +7,7 @@ namespace HovUni {
 const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
 Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,ogreentity,processInterval,5), mTilt(0.0f)
+	Entity(name,CATEGORY,true,position,orientation,ogreentity,processInterval,5), mTilt(0.0f)
 	{
 }
 
