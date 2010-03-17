@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\dependencies\Hikari\includes;..\dependencies\OGRE\include\OIS;..\dependencies\OGRE\include\OGRE"
+				AdditionalIncludeDirectories="..\dependencies\Hikari\includes;..\dependencies\OGRE\include\OIS;..\dependencies\OGRE\include\OGRE;&quot;$(ProjectDir)..\Exceptions&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\dependencies\Hikari\includes;..\dependencies\OGRE\include\OIS;..\dependencies\OGRE\include\OGRE"
+				AdditionalIncludeDirectories="..\dependencies\Hikari\includes;..\dependencies\OGRE\include\OIS;..\dependencies\OGRE\include\OGRE;&quot;$(ProjectDir)..\Exceptions&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -151,53 +151,141 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\BasicOverlay.cpp"
+			<Filter
+				Name="Core"
 				>
-			</File>
-			<File
-				RelativePath=".\GUIManager.cpp"
+				<File
+					RelativePath=".\BasicOverlay.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GUIManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MouseVisualisation.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\OverlayContainer.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Overlays"
 				>
-			</File>
-			<File
-				RelativePath=".\MouseVisualisation.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OverlayContainer.cpp"
-				>
-			</File>
+				<File
+					RelativePath=".\Chat.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ConnectWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Direction.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MainMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MenuButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Position.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Speedometer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TimeBehind.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Timer.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\BasicOverlay.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GUIManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MouseVisualisation.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OverlayContainer.h"
-				>
-			</File>
 			<Filter
-				Name="Exceptions"
+				Name="Core"
 				>
 				<File
-					RelativePath=".\OverlayNotActivatedException.h"
+					RelativePath=".\BasicOverlay.h"
 					>
 				</File>
 				<File
-					RelativePath=".\UninitialisedException.h"
+					RelativePath=".\GUIManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MouseVisualisation.h"
+					>
+				</File>
+				<File
+					RelativePath=".\OverlayContainer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Overlays"
+				>
+				<File
+					RelativePath=".\Chat.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ConnectWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Direction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MainMenu.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MenuButton.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Position.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerMenu.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ServerMenuListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Speedometer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TimeBehind.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Timer.h"
 					>
 				</File>
 			</Filter>

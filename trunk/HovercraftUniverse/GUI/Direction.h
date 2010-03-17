@@ -1,7 +1,7 @@
-#ifndef DIRECTION_H
-#define DIRECTION_H
+#ifndef _DIRECTION_H
+#define _DIRECTION_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**
@@ -23,4 +23,4 @@ namespace HovUni {
 	};
 }
 
-#endif //DIRECTION_H
+#endif //_DIRECTION_H

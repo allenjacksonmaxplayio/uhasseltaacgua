@@ -90,4 +90,14 @@ HOVUNI_EXCEPTION_DEFINITION(IOException, Exception)
 HOVUNI_EXCEPTION_DEFINITION(ParseException, Exception)
 HOVUNI_EXCEPTION_DEFINITION(ScriptingException, Exception)
 
+////////////
+// GLOBAL
+////////////
+HOVUNI_EXCEPTION_DEFINITION(UninitializedException, Exception)
+
+////////////
+// GUI
+////////////
+HOVUNI_EXCEPTION_DEFINITION(OverlayNotActivatedException, Exception)
+
 }

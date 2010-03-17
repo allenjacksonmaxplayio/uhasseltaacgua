@@ -1,7 +1,7 @@
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef _TIMER_H
+#define _TIMER_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**
@@ -19,4 +19,4 @@ namespace HovUni {
 	};
 }
 
-#endif //TIMEBEHIND_H
+#endif //_TIMEBEHIND_H

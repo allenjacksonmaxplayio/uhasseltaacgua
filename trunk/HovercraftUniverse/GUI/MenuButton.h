@@ -1,7 +1,7 @@
-#ifndef MENUBUTTON_H
-#define MENUBUTTON_H
+#ifndef _MENUBUTTON_H
+#define _MENUBUTTON_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**
@@ -41,4 +41,4 @@ namespace HovUni {
 	};
 }
 
-#endif //MENUBUTTON_H
+#endif //_MENUBUTTON_H

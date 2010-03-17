@@ -1,8 +1,8 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#ifndef _MAINMENU_H
+#define _MAINMENU_H
 
 #include "MenuButton.h"
-#include <OverlayContainer.h>
+#include "OverlayContainer.h"
 #include "ServerMenu.h"
 #include "ServerMenuListener.h"
 
@@ -39,4 +39,4 @@ namespace HovUni {
 	};
 }
 
-#endif //MAINMENU_H
+#endif //_MAINMENU_H

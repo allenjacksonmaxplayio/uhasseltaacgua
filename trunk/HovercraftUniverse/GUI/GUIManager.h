@@ -16,7 +16,7 @@
 #include <Ogre.h>
 #include <vector>
 
-#include "UninitialisedException.h"
+#include <Exception.h>
 #include "MouseVisualisation.h"
 
 namespace HovUni {
