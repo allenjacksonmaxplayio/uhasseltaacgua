@@ -32,3 +32,26 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
  * Algemeen
   * Folder structuur
   * Hoofd project (Olivier)
+ * Besluiten:
+   * Folder structuur:
+    * Alles in data folder dat at runtime nodig is om het spel te runnen. Zaken die niet op runtime nodig zijn mogen ergens anders staan. Geen duplicaten!
+    * Tobias moet leren packages extracten.
+   * Hoofd project: 
+    * Exceptions: alle exceptions komen hierin
+    * CoreEngine: moet in apart project komen met generieke Application klasse die overgeerfd moet worden door bv HovercraftApplication in het Hovercraft Universe project.
+    * BasicEntityEvent moet bij Entity komen.
+    * ControllerActionType: refactor and make generic for all types of controls (FPS, race, ...) and must be inherited by HU specific class that contains race controls for our game.
+    * Bij aanmaken nieuwe entity, documenteren waar deze in de rest van de solution ook moet worden bijgevoegd voor visualizatie/networking/scripting/...
+    * EntityRegister: Moet in HovercraftUniverse project komen bij networking (niet core-networking).
+    * RaceCamera: generiek maken
+    * GameView: indirectie verwijderen
+    * EntityManager & RepresentationManager: moet pointers deleten en alles kunnen clearen.
+    * CoreNetwork->Chat: in networking project
+    * CoreNetwork->ClientCore/ServerCore: behouden en hernoemen naar HUClient en HUServer of dergelijke.
+    * CoreNetwork->Server+ServerThread: in HU behouden.
+    * CustomOgreMaxScene: in CoreEngine
+    * GUI uit HU in GUI project
+    * Havok (generic) in core engine en game specifieke functionaliteit in HU.
+    * INI in core engine.
+    * Delete TiXml*
+    * _Vrijdag vanaf 16u00 gaat de refactoring gebeuren tot alles in orde is._
