@@ -160,7 +160,9 @@ void Entity::setupReplication() {
 }
 
 void Entity::setAnnouncementData(ZCom_BitStream* stream) {
-
+	stream->addString(mName.c_str());
+	stream->addString(mOgreEntity.c_str());
+	stream->addFloat(mProcessInterval,4);
 }
 
 }

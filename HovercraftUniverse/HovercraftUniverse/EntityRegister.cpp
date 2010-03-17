@@ -29,16 +29,16 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	manager.registerClass(ChatEntity::getClassName());
 
 	//Entities
-	manager.registerClass(Asteroid::getClassName());
-	manager.registerClass(CheckPoint::getClassName());
-	manager.registerClass(Finish::getClassName());
-	manager.registerClass(Hovercraft::getClassName());
-	manager.registerClass(Portal::getClassName());
-	manager.registerClass(PowerupSpawn::getClassName());
-	manager.registerClass(ResetSpawn::getClassName());
-	manager.registerClass(SpeedBoost::getClassName());
-	manager.registerClass(Start::getClassName());
-	manager.registerClass(StartPosition::getClassName());
+	manager.registerClass(Asteroid::getClassName(),true);
+	manager.registerClass(CheckPoint::getClassName(),true);
+	manager.registerClass(Finish::getClassName(),true);
+	manager.registerClass(Hovercraft::getClassName(),true);
+	manager.registerClass(Portal::getClassName(),true);
+	manager.registerClass(PowerupSpawn::getClassName(),true);
+	manager.registerClass(ResetSpawn::getClassName(),true);
+	manager.registerClass(SpeedBoost::getClassName(),true);
+	manager.registerClass(Start::getClassName(),true);
+	manager.registerClass(StartPosition::getClassName(),true);
 
 	manager.registerClass("DummyHovercraft");
 }

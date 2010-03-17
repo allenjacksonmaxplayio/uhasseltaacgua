@@ -147,7 +147,7 @@ void ServerLoader::onAsteroid( Asteroid * asteroid ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName());
+	asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName(),true);
 }
 
 void ServerLoader::onStart( Start * start ) {
@@ -169,7 +169,7 @@ void ServerLoader::onStart( Start * start ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName());
+	start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName(),true);
 }
 
 void ServerLoader::onStartPosition( StartPosition * startposition ) {
@@ -186,7 +186,7 @@ void ServerLoader::onStartPosition( StartPosition * startposition ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//startposition->networkRegister(NetworkIDManager::getServerSingletonPtr(), StartPosition::getClassName());
+	startposition->networkRegister(NetworkIDManager::getServerSingletonPtr(), StartPosition::getClassName(),true);
 }
 
 void ServerLoader::onCheckPoint( CheckPoint * checkpoint ) {
@@ -211,7 +211,7 @@ void ServerLoader::onCheckPoint( CheckPoint * checkpoint ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName());
+	checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName(),true);
 
 }
 
@@ -234,7 +234,7 @@ void ServerLoader::onFinish( Finish * finish ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName());
+	finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName(),true);
 }
 
 void ServerLoader::onHoverCraft( Hovercraft * hovercraft ) {
@@ -262,7 +262,7 @@ void ServerLoader::onPortal( Portal * portal ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName());	
+	portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName(),true);	
 }
 
 void ServerLoader::onBoost( SpeedBoost * boost ) {
@@ -286,7 +286,7 @@ void ServerLoader::onBoost( SpeedBoost * boost ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName());	
+	boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName(),true);	
 }
 
 void ServerLoader::onPowerupSpawn( PowerupSpawn * powerupspawn ) {
@@ -307,7 +307,7 @@ void ServerLoader::onPowerupSpawn( PowerupSpawn * powerupspawn ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName());	
+	powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName(),true);	
 }
 
 void ServerLoader::onResetSpawn( ResetSpawn * spawn ) {
@@ -328,7 +328,7 @@ void ServerLoader::onResetSpawn( ResetSpawn * spawn ) {
 
 	//TODO when client ready
 	//network register asteroid
-	//spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName());	
+	spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(),true);	
 }
 
 
