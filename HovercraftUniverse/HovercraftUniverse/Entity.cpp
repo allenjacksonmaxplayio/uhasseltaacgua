@@ -163,6 +163,15 @@ void Entity::setAnnouncementData(ZCom_BitStream* stream) {
 	stream->addString(mName.c_str());
 	stream->addString(mOgreEntity.c_str());
 	stream->addFloat(mProcessInterval,4);
+	
+	stream->addFloat(mPosition[0],4);
+	stream->addFloat(mPosition[1],4);
+	stream->addFloat(mPosition[2],4);
+
+	stream->addFloat(mOrientation[0],4);
+	stream->addFloat(mOrientation[1],4);
+	stream->addFloat(mOrientation[2],4);
+	stream->addFloat(mOrientation[3],4);
 }
 
 }

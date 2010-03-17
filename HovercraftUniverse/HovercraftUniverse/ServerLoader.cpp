@@ -78,11 +78,13 @@ void ServerLoader::FinishedLoad( bool success ){
 		int j = 0;
 		for ( Lobby::playermap::const_iterator i = map.begin(); i != map.end(); i++ ){
 
-			mHovercraftWorld->addCharacter(i->second->getPlayerName().c_str(),"TODO",j);
+			Ogre::String name = i->second->getPlayerName().c_str() + Ogre::String("_") + Ogre::StringConverter::toString(j);
+
+			mHovercraftWorld->addCharacter(name.c_str(),"TODO",j);
 
 			Ogre::Vector3 position(mHovercraftWorld->mStartPositions[j](0),mHovercraftWorld->mStartPositions[j](1),mHovercraftWorld->mStartPositions[j](2));
 
-			Hovercraft * craft = new Hovercraft(i->second->getPlayerName(),position,Ogre::Quaternion::IDENTITY,"TODO",1.0f/60.0f);
+			Hovercraft * craft = new Hovercraft(name,position,Ogre::Quaternion::IDENTITY,"TODO",1.0f/60.0f);
 			craft->getNetworkNode()->setOwner(i->first, true);			
 			EntityManager::getServerSingletonPtr()->registerEntity(craft);
 			craft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(),true);
