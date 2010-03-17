@@ -307,7 +307,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 
 
 
-	/*if (requested_class == mIDManager->getID("DummyHovercraft")) {
+	if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();
 		hovercraft->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(hovercraft);
@@ -320,7 +320,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 			//ai->initialize();
 			hovercraft->setController(new DummyHovercraftPlayerController());
 		}
-	}*/
+	}
 }
 
 void ClientCore::start() {
