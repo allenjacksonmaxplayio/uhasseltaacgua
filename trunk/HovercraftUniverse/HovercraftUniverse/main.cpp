@@ -24,7 +24,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 	bool console = false;
 	bool server = false;
-	unsigned int port = 3040;
+	unsigned int port = 2375;
 	Ogre::String host = "localhost";
 	//parse all commandline parameters (seperated by spaces)
 	Ogre::String commandline (strCmdLine);
