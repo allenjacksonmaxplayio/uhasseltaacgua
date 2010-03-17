@@ -92,7 +92,7 @@ public:
 	 * @param type
 	 * @param pos
 	 */
-	void addCharacter( const char * name, const char * filename, int pos );
+	void addCharacter( Entity * entity, int pos );
 
 	virtual void preStep();
 

@@ -65,7 +65,7 @@ Character * HoverCraftUniverseWorld::getCharacter(const char * name) {
 	return result;
 }
 
-void HoverCraftUniverseWorld::addCharacter( const char * name, const char * type, int pos ){
+void HoverCraftUniverseWorld::addCharacter( Entity * entity, int pos ){
 
 	//	Create a character rigid body object
 	// Construct a shape
@@ -106,8 +106,8 @@ void HoverCraftUniverseWorld::addCharacter( const char * name, const char * type
 	// Set character type
 	m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	Character * c = new Character(mPhysicsWorld,name,&info,m_characterContext);
-	mCharactersMap.insert(name,c);
+	Character * c = new Character(mPhysicsWorld,entity,&info,m_characterContext);
+	mCharactersMap.insert(entity->getName().c_str(),c);
 
 	m_characterContext->removeReference();
 

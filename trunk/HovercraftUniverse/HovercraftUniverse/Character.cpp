@@ -10,8 +10,8 @@
 
 namespace HovUni {
 
-Character::Character( hkpWorld * world, const char * name, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
-	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext)
+Character::Character( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
+	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext), mEntity(entity)
 {
 	mForward.set( 1.0f, 0.0f, 0.0f );
 	mUp.set(0.0f,1.0f,0.0f);
@@ -30,7 +30,7 @@ Character::Character( hkpWorld * world, const char * name, hkpCharacterRigidBody
 	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
 
 	//set name and type
-	charbody->setName(name);
+	charbody->setName(entity->getName().c_str());
 	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
 
 	mPhysicsWorld->addEntity( charbody );
@@ -220,6 +220,12 @@ void Character::update(){
 	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::LIMEGREEN );
 	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::BLUE );
 
+
+	const hkQuaternion& quat = mCharacterRigidBody->getRigidBody()->getRotation();
+	const hkVector4& position = mCharacterRigidBody->getPosition();
+
+	mEntity->changePosition(Ogre::Vector3(position(0),position(1),position(2)));
+	mEntity->changeOrientation(Ogre::Quaternion(quat(0),quat(1),quat(2),quat(3)));
 	mPhysicsWorld->unmarkForWrite();
 }
 	
