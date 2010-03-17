@@ -77,43 +77,70 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		mLobby = new Lobby(new ClientLoader());
 		mLobby->networkRegister(requested_class, this);
 	}
-/*
-	if ( requested_class == mIDManager->getID(Asteroid::getName()) ){
-		Asteroid * entity = new Asteroid();
-		entity->networkRegister(requested_class,this);
+
+	if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		Asteroid * ent = new Asteroid(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);
 	}
-	if ( requested_class == mIDManager->getID(CheckPoint::getName()) ){
-		CheckPoint * entity = new CheckPoint();
-		entity->networkRegister(requested_class,this);
+	if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		CheckPoint * ent = new CheckPoint(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);
 	}
-	if ( requested_class == mIDManager->getID(Start::getName()) ){
-		Start * entity = new Start();
-		entity->networkRegister(requested_class,this);
+	if ( requested_class == mIDManager->getID(Start::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		Start * ent = new Start(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);
 	}
-	if ( requested_class == mIDManager->getID(StartPosition::getName()) ){
-		StartPosition * entity = new StartPosition();
-		entity->networkRegister(requested_class,this);
+	if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		StartPosition * ent = new StartPosition(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,processinterval);
+		ent->networkRegister(requested_class,this);
 	}
-	if ( requested_class == mIDManager->getID(Finish::getName()) ){
-		Finish * entity = new Finish();
-		entity->networkRegister(requested_class,this);	
+	if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		Finish * ent = new Finish(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);	
 	}
-	if ( requested_class == mIDManager->getID(ResetSpawn::getName()) ){
-		StartPosition * entity = new ResetSpawn();
-		entity->networkRegister(requested_class,this);
+	if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		ResetSpawn * ent = new ResetSpawn(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,processinterval);
+		ent->networkRegister(requested_class,this);
 	}
-	if ( requested_class == mIDManager->getID(PowerupSpawn::getName()) ){
-		Finish * entity = new PowerupSpawn();
-		entity->networkRegister(requested_class,this);	
+	if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		PowerupSpawn * ent = new PowerupSpawn(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);	
 	}
-	if ( requested_class == mIDManager->getID(SpeedBoost::getName()) ){
-		StartPosition * entity = new SpeedBoost();
-		entity->networkRegister(requested_class,this);
+	if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		SpeedBoost * ent = new SpeedBoost(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);
 	}
-	if ( requested_class == mIDManager->getID(Portal::getName()) ){
-		Finish * entity = new Portal();
-		entity->networkRegister(requested_class,this);	
-	}*/
+	if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		Portal * ent = new Portal(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);	
+	}
 
 	if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();
