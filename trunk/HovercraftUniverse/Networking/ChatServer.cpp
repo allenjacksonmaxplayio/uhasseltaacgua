@@ -1,12 +1,11 @@
 #include "ChatServer.h"
-#include "EntityRegister.h"
 
 namespace HovUni {
 
 ChatServer::ChatServer() : NetworkServer(2377, 2378), mChat(0), mIDManager(0) {
 	// Create and store entity manager
 	mIDManager = new NetworkIDManager(this);
-	EntityRegister::registerAll(*mIDManager);
+	mIDManager->registerClass(ChatEntity::getClassName());
 	ZCom_setUpstreamLimit(0, 0);
 
 	// Create chat entity

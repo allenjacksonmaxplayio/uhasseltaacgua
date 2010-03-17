@@ -363,38 +363,6 @@
 					RelativePath=".\ServerThread.cpp"
 					>
 				</File>
-				<Filter
-					Name="Chat"
-					>
-					<File
-						RelativePath=".\ChatClient.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEntity.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEvent.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEventParser.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatServer.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\NotifyEvent.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TextEvent.cpp"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Havok"
@@ -853,46 +821,6 @@
 					RelativePath=".\ServerThread.h"
 					>
 				</File>
-				<Filter
-					Name="Chat"
-					>
-					<File
-						RelativePath=".\ChatClient.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEntity.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEvent.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEventParser.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatEventType.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatListener.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ChatServer.h"
-						>
-					</File>
-					<File
-						RelativePath=".\NotifyEvent.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TextEvent.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Havok"

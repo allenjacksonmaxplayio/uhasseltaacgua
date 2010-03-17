@@ -26,7 +26,6 @@ EntityRegister::~EntityRegister(void)
 
 void EntityRegister::registerAll(NetworkIDManager& manager) {
 	manager.registerClass(Lobby::getClassName());
-	manager.registerClass(ChatEntity::getClassName());
 
 	//Entities
 	manager.registerClass(Asteroid::getClassName(),true);
