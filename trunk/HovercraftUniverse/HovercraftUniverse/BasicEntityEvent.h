@@ -28,6 +28,12 @@ private:
 	bool mRight;
 
 public:
+
+	/**
+	 * Default onstructor for parsing
+	 */
+	BasicEntityEvent();
+
 	/**
 	 * Constructor
 	 *
@@ -87,10 +93,6 @@ public:
 	static BasicEntityEvent* parse(ZCom_BitStream* stream);
 
 protected:
-	/**
-	 * Default onstructor for parsing
-	 */
-	BasicEntityEvent();
 
 	/**
 	 * @see ControllerEvent::write(ZCom_BitStream* stream)

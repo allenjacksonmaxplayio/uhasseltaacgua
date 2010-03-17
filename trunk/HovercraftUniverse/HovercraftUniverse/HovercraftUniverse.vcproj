@@ -176,14 +176,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\TiXmlManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TiXmlResource.cpp"
-				>
-			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -463,6 +455,14 @@
 					RelativePath=".\Console.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\TiXmlManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TiXmlResource.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Game"
@@ -595,6 +595,26 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="controller"
+					>
+					<Filter
+						Name="Hovercraft"
+						>
+						<File
+							RelativePath=".\HovercraftAIController.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\HovercraftController.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\HovercraftPlayerController.cpp"
+							>
+						</File>
+					</Filter>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="GameEvents"
@@ -614,14 +634,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\TiXmlManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TiXmlResource.h"
-				>
-			</File>
 			<Filter
 				Name="GUI"
 				>
@@ -925,6 +937,14 @@
 					RelativePath=".\Console.h"
 					>
 				</File>
+				<File
+					RelativePath=".\TiXmlManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TiXmlResource.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Game"
@@ -1064,6 +1084,26 @@
 						RelativePath=".\ServerLoader.h"
 						>
 					</File>
+				</Filter>
+				<Filter
+					Name="controller"
+					>
+					<Filter
+						Name="Hovercraft"
+						>
+						<File
+							RelativePath=".\HovercraftAIController.h"
+							>
+						</File>
+						<File
+							RelativePath=".\HovercraftController.h"
+							>
+						</File>
+						<File
+							RelativePath=".\HovercraftPlayerController.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter

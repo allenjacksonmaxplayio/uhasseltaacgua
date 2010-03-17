@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include <OgreString.h>
 #include <tinyxml/tinyxml.h>
+#include "BasicEntityEvent.h"
 
 namespace HovUni {
 
@@ -13,6 +14,16 @@ namespace HovUni {
  */ 
 class Hovercraft : public Entity{
 private:
+
+	/**
+	 * The moving status 
+	 */
+	BasicEntityEvent mMovingStatus;
+
+	/**
+	 * Tilt test 
+	 */
+	float mTilt;
 
 	/**
 	 * The name
@@ -154,8 +165,7 @@ public:
 	 *
 	 * @param timeSince the time since the last processing of the entity
 	 */
-	virtual void process(float timeSince){
-	}
+	virtual void process(float timeSince);
 
 	/**
 	 * Callback to process a controller event at the server that got processed by the 
@@ -164,8 +174,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsServer(ControllerEvent* event){
-	}
+	virtual void processEventsServer(ControllerEvent* event);
 
 	/**
 	 * Callback to process a controller event at the owner that got processed by the 

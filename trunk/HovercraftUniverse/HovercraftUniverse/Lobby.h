@@ -18,6 +18,11 @@ class Loader;
  * @author Pieter-Jan Pintens & Olivier Berghmans
  */
 class Lobby : public NetworkEntity{
+
+public:
+	
+	typedef std::map<ZCom_ConnID,Player*> playermap;
+
 private:
 
 	//TODO MUTEX PROTECT PLAYERS
@@ -41,7 +46,7 @@ private:
 	Ogre::String mTrackFilename;
 
 	/** Map with all players */
-	std::map<ZCom_ConnID,Player*> mPlayers;
+	playermap mPlayers;
 
 	// TODO Remove
 	bool mStarted;
@@ -68,6 +73,15 @@ public:
 	 * Check if the client is the administrator
 	 */
 	bool isAdmin() const;
+
+	/**
+	 * Get a map with all players mapped on their connection id
+	 * @return player mapped on their connection id
+	 */
+	const playermap& getPlayers() const {
+		return mPlayers;
+	}
+
 
 	// Connect callback on authority
 
