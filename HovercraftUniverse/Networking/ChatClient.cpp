@@ -1,5 +1,4 @@
 #include "ChatClient.h"
-#include "EntityRegister.h"
 
 namespace HovUni {
 
@@ -17,7 +16,7 @@ ChatClient::~ChatClient() {
 
 void ChatClient::initialize() {
 	mIDManager = new NetworkIDManager(this);
-	EntityRegister::registerAll(*mIDManager);
+	mIDManager->registerClass(ChatEntity::getClassName());
 	ZCom_setUpstreamLimit(0, 0);
 }
 
