@@ -7,6 +7,17 @@
 #include "DummyHovercraftRepresentation.h"
 #include "EntityRegister.h"
 
+#include "HovercraftPlayerController.h"
+
+#include "AsteroidRepresentation.h"
+#include "BoostRepresentation.h"
+#include "CheckPointRepresentation.h"
+#include "FinishRepresentation.h"
+#include "HovercraftRepresentation.h"
+#include "PortalRepresentation.h"
+#include "StartRepresentation.h"
+#include "TrackRepresentation.h"
+
 #include "Start.h"
 #include "Finish.h"
 #include "Asteroid.h"
@@ -77,70 +88,124 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		mLobby = new Lobby(new ClientLoader());
 		mLobby->networkRegister(requested_class, this);
 	}
-
-	if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		Asteroid * ent = new Asteroid(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);
+
+		mEntityManager->registerEntity(ent);
+		AsteroidRepresentation * asteroidRep = new AsteroidRepresentation(ent,entity,Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(asteroidRep);
 	}
-	if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		CheckPoint * ent = new CheckPoint(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);
+
+		mEntityManager->registerEntity(ent);
+		CheckPointRepresentation * checkPointRep = new CheckPointRepresentation(ent,entity,Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(checkPointRep);
 	}
-	if ( requested_class == mIDManager->getID(Start::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(Start::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		Start * ent = new Start(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);
+
+		mEntityManager->registerEntity(ent);
+		StartRepresentation * finishRep = new StartRepresentation(ent,entity,Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(finishRep);
 	}
-	if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		StartPosition * ent = new StartPosition(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,processinterval);
 		ent->networkRegister(requested_class,this);
+
+		mEntityManager->registerEntity(ent);
+		//FinishRepresentation * finishRep = new FinishRepresentation(ent, Application::msSceneMgr);
+		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(finishRep);
 	}
-	if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		Finish * ent = new Finish(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);	
+
+		mEntityManager->registerEntity(ent);
+		FinishRepresentation * finishRep = new FinishRepresentation(ent,entity,Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(finishRep);
 	}
-	if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		ResetSpawn * ent = new ResetSpawn(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,processinterval);
 		ent->networkRegister(requested_class,this);
+
+		mEntityManager->registerEntity(ent);
+		//BoostRepresentation * boostRep = new BoostRepresentation(ent, Application::msSceneMgr);
+		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(boostRep);
 	}
-	if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		PowerupSpawn * ent = new PowerupSpawn(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);	
+
+		mEntityManager->registerEntity(ent);
+		//BoostRepresentation * boostRep = new BoostRepresentation(ent, Application::msSceneMgr);
+		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(boostRep);
 	}
-	if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		SpeedBoost * ent = new SpeedBoost(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);
+
+		mEntityManager->registerEntity(ent);
+		BoostRepresentation * boostRep = new BoostRepresentation(ent,entity, Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(boostRep);
 	}
-	if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
 		Ogre::String name(announcedata->getString());
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 		Portal * ent = new Portal(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
 		ent->networkRegister(requested_class,this);	
+
+		mEntityManager->registerEntity(ent);
+		PortalRepresentation * portalRep = new PortalRepresentation(ent,entity,Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(portalRep);
 	}
+	else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
+		Ogre::String name(announcedata->getString());
+		Ogre::String entity(announcedata->getString());
+		float processinterval = announcedata->getFloat(4);
+		Hovercraft * ent = new Hovercraft(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY,entity,processinterval);
+		ent->networkRegister(requested_class,this);	
+
+
+		mEntityManager->registerEntity(ent);
+		HovercraftRepresentation * hovercraftRep = new HovercraftRepresentation(ent, entity, Application::msSceneMgr);
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
+
+		if (role == eZCom_RoleOwner) {
+			ent->setController(new HovercraftPlayerController());
+		}
+	}
+
+
+
 
 	if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();

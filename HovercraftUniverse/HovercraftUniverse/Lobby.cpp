@@ -5,7 +5,6 @@
 #include "GameEventParser.h"
 #include "DummyHovercraft.h"
 #include "Loader.h"
-#include <iostream>
 
 namespace HovUni {
 
@@ -96,8 +95,6 @@ void Lobby::onStart() {
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else
 	if(!mStarted) {
-		std::cout << "ONSTART" << std::endl;
-
 		//called when map should be loaded
 		mLoader->load(mTrackFilename);
 
