@@ -186,6 +186,17 @@ HOVUNI_EXCEPTION_DECLARE(IOException, Exception)
 HOVUNI_EXCEPTION_DECLARE(ParseException, Exception)
 HOVUNI_EXCEPTION_DECLARE(ScriptingException, Exception)
 
+////////////
+// GLOBAL
+////////////
+HOVUNI_EXCEPTION_DECLARE(UninitializedException, Exception)
+
+////////////
+// GUI
+////////////
+HOVUNI_EXCEPTION_DECLARE(OverlayNotActivatedException, Exception)
+
+
 } // End of namespace
 
 #endif

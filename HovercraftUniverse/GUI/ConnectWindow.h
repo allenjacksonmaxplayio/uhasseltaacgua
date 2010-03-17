@@ -1,7 +1,7 @@
 #ifndef _CONNECTWINDOW_H
 #define _CONNECTWINDOW_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**

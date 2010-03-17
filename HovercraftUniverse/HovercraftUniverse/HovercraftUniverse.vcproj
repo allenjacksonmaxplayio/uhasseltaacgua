@@ -180,47 +180,7 @@
 				Name="GUI"
 				>
 				<File
-					RelativePath=".\Chat.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ConnectWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Direction.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\HUD.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MainMenu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MenuButton.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Position.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ServerMenu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Speedometer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\TimeBehind.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Timer.cpp"
 					>
 				</File>
 			</Filter>
@@ -638,51 +598,7 @@
 				Name="GUI"
 				>
 				<File
-					RelativePath=".\Chat.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ConnectWindow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Direction.h"
-					>
-				</File>
-				<File
 					RelativePath=".\HUD.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MainMenu.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MenuButton.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Position.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ServerMenu.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ServerMenuListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Speedometer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\TimeBehind.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Timer.h"
 					>
 				</File>
 			</Filter>

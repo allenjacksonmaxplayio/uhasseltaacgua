@@ -1,7 +1,7 @@
-#ifndef POSITION_H
-#define POSITION_H
+#ifndef _POSITION_H
+#define _POSITION_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**
@@ -19,4 +19,4 @@ namespace HovUni {
 	};
 }
 
-#endif //POSITION_H
+#endif //_POSITION_H

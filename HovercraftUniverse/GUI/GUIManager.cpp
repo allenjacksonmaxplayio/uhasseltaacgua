@@ -16,14 +16,14 @@ namespace HovUni {
 
 	GUIManager& GUIManager::getSingleton(void) {
 		if (!msSingleton) {
-			throw UninitialisedException();
+			THROW(UninitializedException, "GUIManager needs to be initialised before you use it.");
 		}
 		return (*msSingleton);
 	}
 
 	GUIManager* GUIManager::getSingletonPtr(void) {
 		if (!msSingleton) {
-			throw UninitialisedException();
+			THROW(UninitializedException, "GUIManager needs to be initialised before you use it.");
 		}
 		return msSingleton;
 	}

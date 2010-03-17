@@ -1,7 +1,7 @@
-#ifndef CHAT_H
-#define CHAT_H
+#ifndef _CHAT_H
+#define _CHAT_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**
@@ -19,4 +19,4 @@ namespace HovUni {
 	};
 }
 
-#endif //CHAT_H
+#endif //_CHAT_H

@@ -1,7 +1,7 @@
 #include "BasicOverlay.h"
 
 #include "GUIManager.h"
-#include "OverlayNotActivatedException.h"
+#include "Exception.h"
 
 namespace HovUni {
 	BasicOverlay::BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position &position, Ogre::ushort zOrder) 
@@ -71,7 +71,7 @@ namespace HovUni {
 			return mFlashControl->callFunction(name, args);
 		} else {
 			//Exception
-			throw new OverlayNotActivatedException();
+			THROW(OverlayNotActivatedException, "You need to activate the overlay before you can call functions on it");
 		}
 	}
 

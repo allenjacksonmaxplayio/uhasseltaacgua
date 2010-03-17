@@ -1,7 +1,7 @@
-#ifndef SPEEDOMETER_H
-#define SPEEDOMETER_H
+#ifndef _SPEEDOMETER_H
+#define _SPEEDOMETER_H
 
-#include <BasicOverlay.h>
+#include "BasicOverlay.h"
 
 namespace HovUni {
 	/**
@@ -40,4 +40,4 @@ namespace HovUni {
 	};
 }
 
-#endif //SPEEDOMETER_H
+#endif //_SPEEDOMETER_H
