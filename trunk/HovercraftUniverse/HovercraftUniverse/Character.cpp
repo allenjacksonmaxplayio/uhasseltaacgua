@@ -224,8 +224,8 @@ void Character::update(){
 	const hkQuaternion& quat = mCharacterRigidBody->getRigidBody()->getRotation();
 	const hkVector4& position = mCharacterRigidBody->getPosition();
 
-	mEntity->changePosition(Ogre::Vector3(position(0),position(1),position(2)));
-	mEntity->changeOrientation(Ogre::Quaternion(quat(0),quat(1),quat(2),quat(3)));
+	/*mEntity->changePosition(Ogre::Vector3(position(0),position(1),position(2)));
+	mEntity->changeOrientation(Ogre::Quaternion(quat(0),quat(1),quat(2),quat(3)));*/
 	mPhysicsWorld->unmarkForWrite();
 }
 	
