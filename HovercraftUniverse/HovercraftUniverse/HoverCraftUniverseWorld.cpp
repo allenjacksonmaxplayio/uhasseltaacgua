@@ -65,7 +65,7 @@ Character * HoverCraftUniverseWorld::getCharacter(const char * name) {
 	return result;
 }
 
-void HoverCraftUniverseWorld::addCharacter( Entity * entity, int pos ){
+void HoverCraftUniverseWorld::addCharacter( Hovercraft * entity, int pos ){
 
 	//	Create a character rigid body object
 	// Construct a shape

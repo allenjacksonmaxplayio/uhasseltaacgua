@@ -80,6 +80,14 @@ public:
 	~Hovercraft(void);
 
 	/**
+	 * Get the moving status
+	 * @return the moving status
+	 */
+	inline const BasicEntityEvent& getMovingStatus() const {
+		return mMovingStatus;
+	}
+
+	/**
 	 * Get the name
 	 * @return name
 	 */
