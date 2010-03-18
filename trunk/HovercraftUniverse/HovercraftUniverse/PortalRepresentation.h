@@ -3,6 +3,7 @@
 
 #include "EntityRepresentation.h"
 #include "Portal.h"
+#include <vector>
 
 namespace HovUni {
 
@@ -17,7 +18,8 @@ namespace HovUni {
 		/**
 		 * Constructor.
 		 */
-		PortalRepresentation(Portal * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
+		PortalRepresentation(Portal * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
+			Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
 
 		/**
 		 * Destructor.

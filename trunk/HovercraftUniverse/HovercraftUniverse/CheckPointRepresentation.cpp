@@ -2,7 +2,9 @@
 
 namespace HovUni {
 
-CheckPointRepresentation::CheckPointRepresentation(CheckPoint * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr) : EntityRepresentation(entity, "CheckPoint0Geom.mesh",   sceneMgr) {
+CheckPointRepresentation::CheckPointRepresentation(CheckPoint * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
+												   Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials) 
+											   : EntityRepresentation(entity, meshFile,  sceneMgr, resourceGroupName, visible, castShadows, renderingDistance, materialFile, subMaterials) {
 	// Empty
 }
 

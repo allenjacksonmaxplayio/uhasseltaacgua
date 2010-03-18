@@ -26,6 +26,9 @@ private:
 	/** The lobby */
 	Lobby* mLobby;
 
+	/** The scene manager */
+	Ogre::SceneManager * mSceneMgr;
+
 public:
 	/**
 	 * Constructor for a client using a remote connection

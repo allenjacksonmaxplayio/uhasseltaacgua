@@ -174,6 +174,9 @@ public:
 	 */
 	static std::string getClassName();
 
+	// Getters
+	Ogre::String getTrackFilename() { return mTrackFilename; }
+
 };
 
 }

@@ -4,6 +4,7 @@
 #include <OgreRoot.h>
 #include "ApplicationFrameListener.h"
 #include "ClientCore.h"
+#include "ClientPreparationLoader.h"
 #include "EntityManager.h"
 #include "InputManager.h"
 #include "RepresentationManager.h"
@@ -56,8 +57,11 @@ private:
 	
 public:
 
-	// TODO Better solution
-	static Ogre::SceneManager* msSceneMgr;
+	/** The scene manager */
+	static Ogre::SceneManager * msSceneMgr;
+
+	/** The client preparation loader that can be used to read and reread scenes to render */
+	static ClientPreparationLoader * msPreparationLoader;
 
 	/**
 	 * Constructor.

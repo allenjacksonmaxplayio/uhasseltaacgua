@@ -547,6 +547,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ClientPreparationLoader.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Loader.cpp"
 						>
 					</File>
@@ -990,6 +994,10 @@
 					>
 					<File
 						RelativePath=".\ClientLoader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ClientPreparationLoader.h"
 						>
 					</File>
 					<File

@@ -79,6 +79,13 @@ public:
 	void addGameView(GameView * gameView);
 
 	/**
+	 * Returns the game views.
+	 *
+	 * @return the game views
+	 */
+	std::vector<GameView *> getGameViews() { return mGameViews; }
+
+	/**
 	 * Returns the entity manager singleton.
 	 *
 	 * @return the singleton pointer

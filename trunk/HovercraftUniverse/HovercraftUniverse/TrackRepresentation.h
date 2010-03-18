@@ -3,6 +3,7 @@
 
 #include "EntityRepresentation.h"
 #include "Track.h"
+#include <vector>
 
 namespace HovUni {
 
@@ -17,7 +18,8 @@ namespace HovUni {
 		/**
 		 * Constructor.
 		 */
-		TrackRepresentation(Track * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
+		TrackRepresentation(Track * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
+			Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
 
 		/**
 		 * Destructor.

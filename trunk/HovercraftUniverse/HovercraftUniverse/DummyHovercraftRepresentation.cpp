@@ -5,11 +5,13 @@
 
 namespace HovUni {
 
-DummyHovercraftRepresentation::DummyHovercraftRepresentation(DummyHovercraft * hovercraft, 
-		Ogre::SceneManager * sceneMgr) : EntityRepresentation(hovercraft, "cube.mesh", sceneMgr), Moveable3DEmitter(EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT) {
+DummyHovercraftRepresentation::DummyHovercraftRepresentation(DummyHovercraft * hovercraft, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, 
+															 bool visible, bool castShadows, Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials) 
+															 : EntityRepresentation(hovercraft, meshFile, sceneMgr, resourceGroupName, visible, castShadows, renderingDistance, materialFile, subMaterials), 
+															   Moveable3DEmitter(EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT) {
 	// Scale cube to represent a car a little bit more
 	// TODO Normally the mesh should speak for itself and these things should not be necessary
-	mOgreNode->scale(Ogre::Vector3(0.5, 0.5, 1.0));
+	mOgreNode->scale(Ogre::Vector3(0.05, 0.05, 0.1));
 
 	//Initialize sound
 	setEventParameter(EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_RPM, 1000.0f);

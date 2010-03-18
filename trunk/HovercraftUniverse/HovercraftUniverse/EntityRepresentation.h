@@ -5,6 +5,7 @@
 #include <OgreEntity.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
+#include <vector>
 
 namespace HovUni {
 
@@ -24,9 +25,6 @@ protected:
 	/** The entity to which this representation applies */
 	Entity * mEntity;
 
-	/** The mesh to draw when presenting the representation */
-	Ogre::String mMesh;
-
 	/** The Ogre scene manager */
 	Ogre::SceneManager * mSceneMgr;
 
@@ -45,7 +43,8 @@ public:
 	 * @param mesh the mesh that this entity must draw
 	 * @param sceneMgr the Ogre scene manager
 	 */
-	EntityRepresentation(Entity * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
+	EntityRepresentation(Entity * entity, Ogre::String meshFile, Ogre::SceneManager * sceneMgr, Ogre::String resourceGroupName, bool visible, bool castShadows, 
+		Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
 
 	/**
 	 * Destructor.
