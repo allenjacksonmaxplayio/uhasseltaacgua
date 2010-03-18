@@ -6,8 +6,8 @@ namespace HovUni {
 
 const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
-Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,true,position,orientation,ogreentity,processInterval,5), mTilt(0.0f)
+Hovercraft::Hovercraft(const Ogre::String& name, bool track, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
+	Entity(name,CATEGORY,track,position,orientation,ogreentity,processInterval,5), mTilt(0.0f)
 	{
 }
 
@@ -76,6 +76,9 @@ Hovercraft::~Hovercraft(void){
 
 void Hovercraft::process(float timeSince){
 	if ( (timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
+
+		//TODO HAVOK
+
 		Ogre::Vector3 accumulatedDirection = Ogre::Vector3::ZERO;
 		float accumulatedRotation = 0.0f;
 		float accumulatedTilt = mTilt;
@@ -148,6 +151,9 @@ void Hovercraft::processEventsServer(ControllerEvent* event){
 }
 
 void Hovercraft::setupReplication(){
+
+	Entity::setupReplication();
+
 	//mDisplayName
 	mNode->addReplicator(
 		new String_Replicator(&mDisplayName,

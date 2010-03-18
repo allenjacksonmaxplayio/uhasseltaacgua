@@ -8,6 +8,7 @@
 #include "EntityRegister.h"
 
 #include "HovercraftPlayerController.h"
+#include "HovercraftAIController.h"
 
 #include "AsteroidRepresentation.h"
 #include "BoostRepresentation.h"
@@ -266,15 +267,22 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		float rz = announcedata->getFloat(4);
 		float rw = announcedata->getFloat(4);
 
-		Hovercraft * ent = new Hovercraft(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+		Hovercraft * ent = 0;
+		
+		if (role == eZCom_RoleOwner) {
+			ent = new Hovercraft(name,true,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+			ent->setController(new HovercraftPlayerController());
+		}else {
+			ent = new Hovercraft(name,false,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/SimpleAI.lua");
+			ent->setController(ai);
+			ai->initialize();	
+		}	
+		
 		ent->networkRegister(requested_class,this);	
-
-
 		mEntityManager->registerEntity(ent);
 
-		if (role == eZCom_RoleOwner) {
-			ent->setController(new HovercraftPlayerController());
-		}
+
 	}
 
 	// Now that we have created the entity, notify the client preparation loader of the arrival

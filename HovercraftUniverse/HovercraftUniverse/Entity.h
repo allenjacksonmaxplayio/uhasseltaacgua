@@ -194,6 +194,11 @@ protected:
 	 */
 	virtual void processEventsOther(ControllerEvent* event) = 0;
 
+	/**
+	 * @see NetworkEntity::setReplication()
+	 */
+	void setupReplication();
+
 private:
 	/**
 	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream, float timeSince)
@@ -214,11 +219,6 @@ private:
 	 * @param event a controller event
 	 */
 	void processControllerEvents(ControllerEvent* event);
-
-	/**
-	 * @see NetworkEntity::setReplication()
-	 */
-	void setupReplication();
 
 	/**
 	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)

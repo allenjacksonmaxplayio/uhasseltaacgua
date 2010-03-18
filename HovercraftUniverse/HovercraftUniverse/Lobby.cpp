@@ -100,13 +100,13 @@ void Lobby::onStart() {
 		//called when map should be loaded
 		mLoader->load(mTrackFilename);
 
-		NetworkIDManager* idmanager = NetworkIDManager::getServerSingletonPtr();
+		/*NetworkIDManager* idmanager = NetworkIDManager::getServerSingletonPtr();
 		for(std::map<ZCom_ConnID,Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
 			DummyHovercraft * hovercraft = new DummyHovercraft();
 			hovercraft->networkRegister(idmanager, "DummyHovercraft");
 			hovercraft->getNetworkNode()->setOwner(it->first, true);
 			EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
-		}
+		}*/
 		mStarted = true;
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Start event received and processed";
 	}

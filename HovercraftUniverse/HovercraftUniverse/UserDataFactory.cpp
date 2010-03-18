@@ -117,7 +117,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//HOVERCRAFT
 		else if(strcmp(root->Value(),"Hovercraft") == 0){
 			//create
-			Hovercraft * hovercraft(new Hovercraft(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			Hovercraft * hovercraft(new Hovercraft(description.getName(),false,description.getPosition(), description.getOrientation(), ogreentity, processtime));
 			//load
 			hovercraft->load(root);
 			//forward
