@@ -12,14 +12,6 @@ GameView::GameView(Ogre::SceneManager * sceneMgr) : mHUD(0), mSceneMgr(sceneMgr)
 	// Create camera for this game view
 	mRaceCam = new RaceCamera(mSceneMgr, mID);
 
-	// TODO PUT IN MORE GENERIC FORMAT
-	// Plane entity
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
-	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
-		plane, 1500, 1500, 20, 20, true, 1, 5.0, 5.0, Ogre::Vector3::UNIT_Z);
-	Ogre::Entity * ent = mSceneMgr->createEntity("GroundEntity", "ground");
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ent);
-
 	// Light 
 	Ogre::Light * light = mSceneMgr->createLight("Light1");
 	light->setType(Ogre::Light::LT_POINT);

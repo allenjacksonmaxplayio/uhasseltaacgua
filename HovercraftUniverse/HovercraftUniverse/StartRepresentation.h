@@ -3,6 +3,7 @@
 
 #include "EntityRepresentation.h"
 #include "Start.h"
+#include <vector>
 
 namespace HovUni {
 
@@ -17,7 +18,8 @@ namespace HovUni {
 		/**
 		 * Constructor.
 		 */
-		StartRepresentation(Start * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
+		StartRepresentation(Start * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
+			Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
 
 		/**
 		 * Destructor.

@@ -83,13 +83,15 @@ void ClientCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 
 }
 
 void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+	// Receive and create the entity
+	Ogre::String name("");
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
 		// Lobby received (upon connect)
-		mLobby = new Lobby(new ClientLoader());
+		mLobby = new Lobby(0);
 		mLobby->networkRegister(requested_class, this);
-	}
-	else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+		Application::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
+	} else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -106,11 +108,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
-		AsteroidRepresentation * asteroidRep = new AsteroidRepresentation(ent,entity,Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(asteroidRep);
-	}
-	else if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -127,11 +126,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
-		CheckPointRepresentation * checkPointRep = new CheckPointRepresentation(ent,entity,Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(checkPointRep);
-	}
-	else if ( requested_class == mIDManager->getID(Start::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(Start::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -148,11 +144,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
-		StartRepresentation * finishRep = new StartRepresentation(ent,entity,Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(finishRep);
-	}
-	else if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -169,11 +162,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
-		//FinishRepresentation * finishRep = new FinishRepresentation(ent, Application::msSceneMgr);
-		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(finishRep);
-	}
-	else if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -190,11 +180,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);	
 
 		mEntityManager->registerEntity(ent);
-		FinishRepresentation * finishRep = new FinishRepresentation(ent,entity,Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(finishRep);
-	}
-	else if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -211,11 +198,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
-		//BoostRepresentation * boostRep = new BoostRepresentation(ent, Application::msSceneMgr);
-		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(boostRep);
-	}
-	else if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -232,11 +216,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);	
 
 		mEntityManager->registerEntity(ent);
-		//BoostRepresentation * boostRep = new BoostRepresentation(ent, Application::msSceneMgr);
-		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(boostRep);
-	}
-	else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -253,11 +234,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);
 
 		mEntityManager->registerEntity(ent);
-		BoostRepresentation * boostRep = new BoostRepresentation(ent,entity, Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(boostRep);
-	}
-	else if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
-		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
+		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -274,11 +252,8 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		ent->networkRegister(requested_class,this);	
 
 		mEntityManager->registerEntity(ent);
-		PortalRepresentation * portalRep = new PortalRepresentation(ent,entity,Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(portalRep);
-	}
-	else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
- 		Ogre::String name(announcedata->getString());
+	} else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
+ 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
 		float processinterval = announcedata->getFloat(4);
 
@@ -296,22 +271,24 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 
 
 		mEntityManager->registerEntity(ent);
-		HovercraftRepresentation * hovercraftRep = new HovercraftRepresentation(ent, entity, Application::msSceneMgr);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
 
 		if (role == eZCom_RoleOwner) {
 			ent->setController(new HovercraftPlayerController());
 		}
 	}
 
+	// Now that we have created the entity, notify the client preparation loader of the arrival
+	Application::msPreparationLoader->update(name);
 
-
-
+	// Handle dummy hovercraft
+	// TODO Remove this as soon as possible
 	if (requested_class == mIDManager->getID("DummyHovercraft")) {
 		DummyHovercraft* hovercraft = new DummyHovercraft();
 		hovercraft->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(hovercraft);
-		DummyHovercraftRepresentation * hovercraftRep = new DummyHovercraftRepresentation(hovercraft, Application::msSceneMgr);
+		vector<Ogre::String> subMaterials;
+		DummyHovercraftRepresentation * hovercraftRep = new DummyHovercraftRepresentation(hovercraft, Application::msSceneMgr, "cube.mesh", 
+			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true, true, 10000.0, "dirt.jpg", subMaterials);
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
 
 		if (role == eZCom_RoleOwner) {

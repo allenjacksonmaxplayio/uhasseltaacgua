@@ -3,6 +3,7 @@
 
 #include "EntityRepresentation.h"
 #include "SpeedBoost.h"
+#include <vector>
 
 namespace HovUni {
 
@@ -17,7 +18,8 @@ namespace HovUni {
 		/**
 		 * Constructor.
 		 */
-		BoostRepresentation(SpeedBoost * entity, Ogre::String mesh, Ogre::SceneManager * sceneMgr);
+		BoostRepresentation(SpeedBoost * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
+			Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
 
 		/**
 		 * Destructor.

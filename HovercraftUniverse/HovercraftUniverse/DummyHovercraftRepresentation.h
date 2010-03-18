@@ -22,7 +22,8 @@ public:
 	 * @param hovercraft the hovercraft entity that this representation represents
 	 * @param sceneMgr the Ogre scene manager
 	 */
-	DummyHovercraftRepresentation(DummyHovercraft * hovercraft, Ogre::SceneManager * sceneMgr);
+	DummyHovercraftRepresentation(DummyHovercraft * hovercraft, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, 
+									bool visible, bool castShadows, Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
 
 	/**
 	 * Destructor.

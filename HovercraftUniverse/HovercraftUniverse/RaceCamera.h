@@ -79,6 +79,23 @@ public:
 	~RaceCamera(void);
 
 	/**
+	 * Sets the free roaming position and orientation.
+	 *
+	 * @param pos the position of the freeroam camera
+	 * @param orientation the orientation of the camera
+	 */
+	void setFreeroam(Ogre::Vector3 pos, Ogre::Quaternion orientation);
+
+	/**
+	 * Sets the free roaming position and orientation.
+	 *
+	 * @param pos the position of the freeroam camera
+	 * @param orientation the orientation of the camera
+	 * @param dir the direction to which the camera points
+	 */
+	void setFreeroam(Ogre::Vector3 pos, Ogre::Quaternion orientation, Ogre::Vector3 dir);
+
+	/**
 	 * @see KeyListener::keyPressed().
 	 */
 	bool keyPressed(const OIS::KeyEvent & e);

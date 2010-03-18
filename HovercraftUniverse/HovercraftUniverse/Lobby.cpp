@@ -13,7 +13,9 @@ std::string Lobby::getClassName() {
 }
 
 Lobby::Lobby(Loader * loader): NetworkEntity(4), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0) {
-	loader->setLobby(this);
+	if (loader) {
+		loader->setLobby(this);
+	}
 }
 
 Lobby::~Lobby(void) {
@@ -89,15 +91,14 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 }
 
 void Lobby::onStart() {
-
-
-
 	// For now just create a dummy hovercraft for each player
 	// TODO Move somewhere else
 	if(!mStarted) {
+		// TODO This is only called on the server. The client should wait for entities before being able to process them, so in fact the loader is only required
+		// at the server side of the lobby. Therefore i would recommend to move this to a server specific class, so that lobby does not need a loader anymore, but
+		// just the track name. For now, i will pass 0 as loader for the client Lobby
 		//called when map should be loaded
 		mLoader->load(mTrackFilename);
-
 
 		NetworkIDManager* idmanager = NetworkIDManager::getServerSingletonPtr();
 		for(std::map<ZCom_ConnID,Player*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {

@@ -52,6 +52,17 @@ RaceCamera::~RaceCamera() {
 	mInputManager->removeKeyListener("RaceCamera");
 }
 
+void RaceCamera::setFreeroam(Ogre::Vector3 pos, Ogre::Quaternion orientation) {
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Position is now: " << pos << "\n";
+	mFreeRoamViewpointNode->setPosition(pos);
+	mFreeRoamViewpointNode->setOrientation(orientation);
+}
+
+void RaceCamera::setFreeroam(Ogre::Vector3 pos, Ogre::Quaternion orientation, Ogre::Vector3 dir) {
+	setFreeroam(pos, orientation);
+	mFreeRoamViewpointNode->setDirection(dir);
+}
+
 bool RaceCamera::keyPressed(const OIS::KeyEvent & e) { 
 	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
 	// TODO Set the camera controller
@@ -112,7 +123,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 400) + (mObjectTrackCameraController->getUpVector() * 200);
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 40) + (mObjectTrackCameraController->getUpVector() * 20);
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
@@ -123,7 +134,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case FirstPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() + (mObjectTrackCameraController->getDirection() * 100);
+		positionCam = mObjectTrackCameraController->getPosition() + (mObjectTrackCameraController->getDirection() * 10);
 
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
@@ -132,7 +143,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case RearView:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 100);
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 10);
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
@@ -143,7 +154,8 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case FreeRoam:
 		// Get input from free roaming controller and apply
-		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 100), Ogre::Node::TS_LOCAL);
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Update: " << mActiveViewpointNode->getPosition() << "\n";
+		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 10), Ogre::Node::TS_LOCAL);
 		mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw(), Ogre::Node::TS_WORLD);
 		mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch(), Ogre::Node::TS_LOCAL);
 		break;

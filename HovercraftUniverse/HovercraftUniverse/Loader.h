@@ -32,7 +32,12 @@ public:
 	 * Load given scene file
 	 * @param filename
 	 */
-	virtual void load ( const Ogre::String& filename );
+	virtual void load(const Ogre::String& filename);
+
+	/**
+	 * Loads the scene file from the scene stored in the lobby.
+	 */
+	virtual void load();
 
 	/**
 	 * Set the loby the loader belongs to
