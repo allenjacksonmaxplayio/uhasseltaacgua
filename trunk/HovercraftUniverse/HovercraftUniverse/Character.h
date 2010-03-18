@@ -4,7 +4,7 @@
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
 #include "Controller.h"
-#include "Entity.h"
+#include "Hovercraft.h"
 
 namespace HovUni {
 
@@ -17,7 +17,7 @@ protected:
 	/**
 	 * Entity
 	 */
-	Entity * mEntity;
+	Hovercraft * mEntity;
 
 	/**
 	 * Refernce to world
@@ -49,12 +49,24 @@ public:
 	 * @param characterContext
 	 * @param controllor
 	 */
-	Character( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+	Character( hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
 
 	/**
 	 * Destructor
 	 */
 	virtual ~Character();
+
+	/**
+	 * Get the position of the character
+	 * @return the position of the character
+	 */
+	const hkVector4& getPosition() const;
+
+	/**
+	 * Get the orientation of the character
+	 * @return the orientation of the character
+	 */
+	const hkQuaternion& getOrientation() const;
 
 	/**
 	 * Get forward vector

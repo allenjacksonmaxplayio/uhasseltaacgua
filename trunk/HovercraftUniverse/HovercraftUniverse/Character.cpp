@@ -10,7 +10,7 @@
 
 namespace HovUni {
 
-Character::Character( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
+Character::Character( hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
 	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext), mEntity(entity)
 {
 	mForward.set( 1.0f, 0.0f, 0.0f );
@@ -30,7 +30,7 @@ Character::Character( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCi
 	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
 
 	//set name and type
-	charbody->setName(entity->getName().c_str());
+	charbody->setUserData(reinterpret_cast<hkUlong>(this));
 	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
 
 	mPhysicsWorld->addEntity( charbody );
@@ -48,6 +48,14 @@ Character::~Character() {
 
 	mPhysicsWorld->removeReference();
 	mPhysicsWorld = HK_NULL;
+}
+
+const hkVector4& Character::getPosition() const {
+	return mCharacterRigidBody->getPosition();
+}
+
+const hkQuaternion& Character::getOrientation() const {
+	return mCharacterRigidBody->getRigidBody()->getRotation();
 }
 
 void Character::updateUp( hkVector4& newUp ) {
@@ -98,9 +106,80 @@ void Character::reorientCharacter()
 void Character::update(){
 	mPhysicsWorld->markForWrite();
 
+	const BasicEntityEvent& status = mEntity->getMovingStatus();
+
+
+	if ( status.moveForward() )
+		mCharacterRigidBody->getRigidBody()->applyForce(Havok::getSingleton().getTimeStep(),mForward);
+
+
+/*	hkVector4 accumulatedDirection = hkVector4::getZero();
+	float accumulatedRotation = 0.0f;
+	float accumulatedTilt = mTilt;
+
+	// calculate new direction
+	if (mMovingStatus.moveLeft()) { 
+		// check direction, we won't allow turning without moving
+		if (mMovingStatus.moveForward()) {
+			accumulatedRotation += 1.0f;
+		} else if (mMovingStatus.moveBackward()) {
+			accumulatedRotation -= 1.0f;
+		}
+		// set tilt
+		if ((mMovingStatus.moveForward() || mMovingStatus.moveBackward()) && mTilt > -20.0f) {
+			mTilt -= 0.5f;
+		}
+	}
+	if (mMovingStatus.moveRight()) { 
+		// check direction, we won't allow turning without moving
+		if (mMovingStatus.moveForward()) {
+			accumulatedRotation -= 1.0f;
+		} else if (mMovingStatus.moveBackward()) {
+			accumulatedRotation += 1.0f;
+		}
+		// set tilt
+		if ((mMovingStatus.moveForward() || mMovingStatus.moveBackward()) && mTilt < 20.0f) {
+			mTilt += 0.5f;
+		}
+	}
+	// if not turning, lower tilt
+	if ((!mMovingStatus.moveLeft() && !mMovingStatus.moveRight()) || 
+				((mMovingStatus.moveLeft() || mMovingStatus.moveRight()) && (!mMovingStatus.moveForward() && !mMovingStatus.moveBackward()))) {
+		mTilt *= 0.9f;
+	}
+	
+
+	// calculate orientation
+	// TODO: Should be the UpVector, but in the tilt test this would give weird results...
+	//Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), getUpVector());
+	Ogre::Quaternion rotation = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
+	changeOrientation(rotation);
+
+	//calculate tilt
+	accumulatedTilt = mTilt - accumulatedTilt;
+	Ogre::Quaternion tilt = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedTilt)), getOrientation());
+	changeOrientation(tilt);
+	
+
+	// move forward and/or backward
+	if (mMovingStatus.moveForward()) { 
+		accumulatedDirection += getOrientation(); 
+	}
+	if (mMovingStatus.moveBackward()) { 
+		accumulatedDirection -= getOrientation(); 
+	}
+	accumulatedDirection.normalise();
+
+	accumulatedDirection * timeSince * 100);*/
+
+
+
+/*
+
+
 	//TODO INPUT MAKE THE DUDE DO WHAT YOU WANT HIM TO DO
 
-	/*
+	
 	// Update the character context
 	mCharacterRigidBody->m_up = mUp;
 	hkReal posX = 0.0f;
@@ -134,19 +213,10 @@ void Character::update(){
  			m_characterForward.setRotatedDir( newRotation, m_cameraForward );
  			m_characterForward.normalize3();
 		}
-
-		// Rotate the camera's forward vector based on world up vector and mouse movement
-		if( deltaAngle != 0.0f && m_characterRigidBody->getRigidBody()->getRotation().hasValidAxis() )
-		{
-			hkRotation newRotation;
-			newRotation.setAxisAngle( m_worldUp, deltaAngle );
- 			m_cameraForward.setRotatedDir( newRotation, m_cameraForward );
- 			m_cameraForward.normalize3();
-		}
 	}
-	*/
+	
 
-/*	
+	
 	hkpCharacterInput input;
 	hkpCharacterOutput output;
 	{
@@ -210,8 +280,8 @@ void Character::update(){
 		mCharacterRigidBody->setLinearVelocity( output.m_velocity, Havok::getSingleton().getTimeStep() );
 
 		HK_TIMER_END();
-	}
-*/
+	}*/
+
 
 	//DEBUG SHOW FARWARD AS GREEN ARROW
 	hkRotation characterRotation;
@@ -220,12 +290,6 @@ void Character::update(){
 	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::LIMEGREEN );
 	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::BLUE );
 
-
-	const hkQuaternion& quat = mCharacterRigidBody->getRigidBody()->getRotation();
-	const hkVector4& position = mCharacterRigidBody->getPosition();
-
-	/*mEntity->changePosition(Ogre::Vector3(position(0),position(1),position(2)));
-	mEntity->changeOrientation(Ogre::Quaternion(quat(0),quat(1),quat(2),quat(3)));*/
 	mPhysicsWorld->unmarkForWrite();
 }
 	

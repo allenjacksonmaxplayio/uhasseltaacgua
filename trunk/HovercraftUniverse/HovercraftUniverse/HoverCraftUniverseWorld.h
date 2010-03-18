@@ -92,7 +92,7 @@ public:
 	 * @param type
 	 * @param pos
 	 */
-	void addCharacter( Entity * entity, int pos );
+	void addCharacter( Hovercraft * entity, int pos );
 
 	virtual void preStep();
 

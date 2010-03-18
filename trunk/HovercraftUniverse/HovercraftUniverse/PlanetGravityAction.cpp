@@ -60,7 +60,7 @@ void PlanetGravityAction::applyAction( const hkStepInfo& stepInfo )
 	hkVector4 force;
 
 	if (  HavokEntityType::getEntityType(rb) == HavokEntityType::CHARACTER ){
-		Character * character = Havok::getSingleton().getCharacter(rb->getName());
+		Character * character = reinterpret_cast<Character*>(rb->getUserData());
 		if ( character != HK_NULL ){
 		
 			hkVector4 newUp(forceDir);
