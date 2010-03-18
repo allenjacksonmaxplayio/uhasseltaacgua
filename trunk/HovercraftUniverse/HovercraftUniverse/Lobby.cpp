@@ -3,7 +3,6 @@
 #include "NetworkIDManager.h"
 #include "String_Replicator.h"
 #include "GameEventParser.h"
-#include "DummyHovercraft.h"
 #include "Loader.h"
 
 namespace HovUni {

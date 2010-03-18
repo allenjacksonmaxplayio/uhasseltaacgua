@@ -185,30 +185,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="DummyData"
-				>
-				<File
-					RelativePath=".\DummyHovercraft.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftAIController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftPlayerController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftRepresentation.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="CoreEngine"
 				>
 				<File
@@ -603,30 +579,6 @@
 				>
 				<File
 					RelativePath=".\HUD.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="DummyData"
-				>
-				<File
-					RelativePath=".\DummyHovercraft.h"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftAIController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftPlayerController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\DummyHovercraftRepresentation.h"
 					>
 				</File>
 			</Filter>
