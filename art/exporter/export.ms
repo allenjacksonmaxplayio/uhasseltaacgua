@@ -36,9 +36,6 @@ for o in objects do (
 		/** SET GAME-ENTITIES ON OGRE-ENTITY **/		
 		done = false
 		
-		bla =  "--" + o.name
-		print bla
-		
 		for child in o.children while  done == false do (
 					
 			childObjectSettings = ogremax.GetObjectSettingsByNode(child) 	
@@ -47,8 +44,6 @@ for o in objects do (
 			
 			/** The child should have userdata **/
 			if hasProperty childObjectSettings "userdata" AND childObjectSettings.userdata != undefined do (
-				
-				print child.name
 				
 				/** The child should have the OGRE-ENTITY tag but it should not be an OGRE-ENTITY itself **/
 				test = findString childObjectSettings.userdata ogrekeyword
@@ -82,6 +77,12 @@ for o in objects do (
 						newtag = ogrekeyword + "<GameEntity>" + child.name + "</GameEntity>" + ogreendkeyword	
 						objectSettings.userdata = replace objectSettings.userdata p2 0 newtag												
 					)
+					
+					/** SET  UP PIVOT POSITION **/
+					print o.pivot
+					print child.pivot
+					
+					o.pivot = child.pivot
 					
 					done = true
 				)
