@@ -1,10 +1,6 @@
 #include "ClientCore.h"
 #include "Application.h"
 #include "ClientLoader.h"
-#include "DummyHovercraft.h"
-#include "DummyHovercraftPlayerController.h"
-#include "DummyHovercraftAIController.h"
-#include "DummyHovercraftRepresentation.h"
 #include "EntityRegister.h"
 
 #include "HovercraftPlayerController.h"
@@ -287,25 +283,6 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 
 	// Now that we have created the entity, notify the client preparation loader of the arrival
 	Application::msPreparationLoader->update(name);
-
-	// Handle dummy hovercraft
-	// TODO Remove this as soon as possible
-	if (requested_class == mIDManager->getID("DummyHovercraft")) {
-		DummyHovercraft* hovercraft = new DummyHovercraft();
-		hovercraft->networkRegister(requested_class, this);
-		mEntityManager->registerEntity(hovercraft);
-		vector<Ogre::String> subMaterials;
-		DummyHovercraftRepresentation * hovercraftRep = new DummyHovercraftRepresentation(hovercraft, Application::msSceneMgr, "cube.mesh", 
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true, true, 10000.0, "dirt.jpg", subMaterials);
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(hovercraftRep);
-
-		if (role == eZCom_RoleOwner) {
-			//DummyHovercraftAIController* ai = new DummyHovercraftAIController("scripts/AI/SimpleAI.lua");
-			//hovercraft->setController(ai);
-			//ai->initialize();
-			hovercraft->setController(new DummyHovercraftPlayerController());
-		}
-	}
 }
 
 void ClientCore::start() {
