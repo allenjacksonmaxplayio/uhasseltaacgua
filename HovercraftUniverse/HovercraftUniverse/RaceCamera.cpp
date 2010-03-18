@@ -13,19 +13,16 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 	m3rdPersonViewpointNode = m3rdPersonViewpointNode->createChildSceneNode(m3rdPersonViewpointNode->getName() + "Pitch");
 
 	// Create 1st person view camera
-	m1stPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "1stPersonNode", 
-		Ogre::Vector3(0, 20, -40));
+	m1stPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "1stPersonNode");
 	m1stPersonViewpointNode = m1stPersonViewpointNode->createChildSceneNode(m1stPersonViewpointNode->getName() + "Pitch");
 
 	// Create rear view camera
-	mRearViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "RearPersonNode", 
-		Ogre::Vector3(0, 20, -40));
-	//mRearViewpointNode->yaw(Ogre::Degree(180));
+	mRearViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "RearPersonNode"); 
 	mRearViewpointNode = mRearViewpointNode->createChildSceneNode(mRearViewpointNode->getName() + "Pitch");
 
 	// Create free roam camera
 	mFreeRoamViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "FreeRoamNode", 
-		Ogre::Vector3(-400, 200, 400));
+		Ogre::Vector3(-40, 20, 40));
 	mFreeRoamViewpointNode->yaw(Ogre::Degree(-45));
 	mFreeRoamViewpointNode = mFreeRoamViewpointNode->createChildSceneNode(mFreeRoamViewpointNode->getName() + "Pitch");
 
@@ -123,7 +120,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 40) + (mObjectTrackCameraController->getUpVector() * 20);
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 10) + (mObjectTrackCameraController->getUpVector() * 5);
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
@@ -134,7 +131,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case FirstPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() + (mObjectTrackCameraController->getDirection() * 10);
+		positionCam = mObjectTrackCameraController->getPosition() + mObjectTrackCameraController->getDirection();
 
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
@@ -143,7 +140,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case RearView:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 10);
+		positionCam = mObjectTrackCameraController->getPosition() - mObjectTrackCameraController->getDirection();
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
