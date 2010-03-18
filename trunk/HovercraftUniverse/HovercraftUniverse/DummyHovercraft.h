@@ -18,6 +18,7 @@ private:
 
 	/** Tilt test */
 	float mTilt;
+	float mSpeed;
 
 public:
 

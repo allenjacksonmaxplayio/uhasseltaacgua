@@ -11,7 +11,7 @@ DummyHovercraftRepresentation::DummyHovercraftRepresentation(DummyHovercraft * h
 															   Moveable3DEmitter(EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT) {
 	// Scale cube to represent a car a little bit more
 	// TODO Normally the mesh should speak for itself and these things should not be necessary
-	mOgreNode->scale(Ogre::Vector3(0.05, 0.05, 0.1));
+	mOgreNode->scale(Ogre::Vector3(0.005, 0.005, 0.01));
 
 	//Initialize sound
 	setEventParameter(EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_RPM, 1000.0f);
