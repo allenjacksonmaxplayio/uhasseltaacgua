@@ -3,6 +3,9 @@
 #include <OgreSubEntity.h>
 #include <vector>
 
+#include "Hovercraft.h"
+#include <iostream>
+
 namespace HovUni {
 
 EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFile, Ogre::SceneManager * sceneMgr, Ogre::String resourceGroupName, bool visible, bool castShadows, 
@@ -33,9 +36,11 @@ EntityRepresentation::~EntityRepresentation() {
 
 void EntityRepresentation::draw() {
 	// Update the settings
+	
+	std::cout << mEntity->getName() << " " << mEntity->getCategory() << " " << mEntity->getPosition() << std::endl;
+
 	mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
-
 }
 
 }

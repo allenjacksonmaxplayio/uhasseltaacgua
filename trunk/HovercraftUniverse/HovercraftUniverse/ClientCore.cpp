@@ -90,16 +90,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		Asteroid * ent = new Asteroid(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
@@ -108,16 +108,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		CheckPoint * ent = new CheckPoint(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
@@ -126,16 +126,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(Start::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		Start * ent = new Start(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
@@ -144,16 +144,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		StartPosition * ent = new StartPosition(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),processinterval);
 		ent->networkRegister(requested_class,this);
@@ -162,16 +162,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		Finish * ent = new Finish(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
@@ -180,16 +180,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		ResetSpawn * ent = new ResetSpawn(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),processinterval);
 		ent->networkRegister(requested_class,this);
@@ -198,16 +198,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		PowerupSpawn * ent = new PowerupSpawn(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
@@ -216,16 +216,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		SpeedBoost * ent = new SpeedBoost(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);
@@ -234,16 +234,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		Portal * ent = new Portal(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
 		ent->networkRegister(requested_class,this);	
@@ -252,16 +252,16 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	} else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
  		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(4);
+		float processinterval = announcedata->getFloat(10);
 
-		float x = announcedata->getFloat(4);
-		float y = announcedata->getFloat(4);
-		float z = announcedata->getFloat(4);
+		float x = announcedata->getFloat(10);
+		float y = announcedata->getFloat(10);
+		float z = announcedata->getFloat(10);
 
-		float rx = announcedata->getFloat(4);
-		float ry = announcedata->getFloat(4);
-		float rz = announcedata->getFloat(4);
-		float rw = announcedata->getFloat(4);
+		float rx = announcedata->getFloat(10);
+		float ry = announcedata->getFloat(10);
+		float rz = announcedata->getFloat(10);
+		float rw = announcedata->getFloat(10);
 
 		Hovercraft * ent = 0;
 		

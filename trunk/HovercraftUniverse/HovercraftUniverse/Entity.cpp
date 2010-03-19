@@ -162,16 +162,16 @@ void Entity::setupReplication() {
 void Entity::setAnnouncementData(ZCom_BitStream* stream) {
 	stream->addString(mName.c_str());
 	stream->addString(mOgreEntity.c_str());
-	stream->addFloat(mProcessInterval,4);
+	stream->addFloat(mProcessInterval,10);
 	
-	stream->addFloat(mPosition[0],4);
-	stream->addFloat(mPosition[1],4);
-	stream->addFloat(mPosition[2],4);
+	stream->addFloat(mPosition[0],10);
+	stream->addFloat(mPosition[1],10);
+	stream->addFloat(mPosition[2],10);
 
-	stream->addFloat(mOrientation[0],4);
-	stream->addFloat(mOrientation[1],4);
-	stream->addFloat(mOrientation[2],4);
-	stream->addFloat(mOrientation[3],4);
+	stream->addFloat(mOrientation[0],10);
+	stream->addFloat(mOrientation[1],10);
+	stream->addFloat(mOrientation[2],10);
+	stream->addFloat(mOrientation[3],10);
 }
 
 }
