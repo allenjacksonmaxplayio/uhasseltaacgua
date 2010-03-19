@@ -8,7 +8,7 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
 
 == Vooruitgang == 
 
-  * _Exceptions: alle exceptions komen hierin_
+  * *Exceptions: alle exceptions komen hierin*
   * CoreEngine: moet in apart project komen met generieke Application klasse die overgeerfd moet worden door bv HovercraftApplication in het Hovercraft Universe project.
   * BasicEntityEvent moet bij Entity komen.
   * ControllerActionType: refactor and make generic for all types of controls (FPS, race, ...) and must be inherited by HU specific class that contains race controls for our game.
@@ -24,4 +24,4 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
   * GUI uit HU in GUI project
   * Havok (generic) in core engine en game specifieke functionaliteit in HU.
   * INI in core engine.
-  * Delete TiXml
+  * *Delete TiXml*
