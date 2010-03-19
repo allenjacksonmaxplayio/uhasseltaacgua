@@ -22,5 +22,5 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
   * CustomOgreMaxScene: in CoreEngine
   * GUI uit HU in GUI project
   * Havok (generic) in core engine en game specifieke functionaliteit in HU.
-  * INI in core engine.
+  * _INI in core engine._
   * *Delete TiXml*
