@@ -40,6 +40,9 @@ void SpeedBoost::onLeave( Hovercraft * hovercraft ){
 }
 
 void SpeedBoost::setupReplication(){
+	//setup parent
+	Entity::setupReplication();
+
 	//mBoost
 	mNode->addReplicationFloat(&mBoost,
 		4,

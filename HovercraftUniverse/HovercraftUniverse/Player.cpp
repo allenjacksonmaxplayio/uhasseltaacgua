@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-Player::Player(ZCom_ConnID connectionID) : mConnectionID(connectionID) {
+Player::Player(ZCom_ConnID connectionID) : NetworkEntity(0), mConnectionID(connectionID) {
 	// Empty
 }
 

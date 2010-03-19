@@ -1,12 +1,14 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "NetworkEntity.h"
 #include <zoidcom/zoidcom.h>
 #include <OgreString.h>
+#include "GameEvent.h"
 
 namespace HovUni {
 
-class Player {
+class Player : public NetworkEntity {
 private:
 
 	//connection id
@@ -87,7 +89,25 @@ public:
 		return mConnectionID;
 	}
 
+	virtual void parseEvents(ZCom_BitStream* stream, float timeSince){
+	}
 
+protected:
+
+	/**
+	 * A callback that should be implemented so the replicators for this
+	 * entity can be set up. In case the number of replicators given to the
+	 * constructor is zero, this callback can be implemented as empty.
+	 */
+	virtual void setupReplication(){}
+
+	/**
+	 * A callback that should be implemented so the announcement data for this
+	 * entity can be set.
+	 *
+	 * @param stream the bitstream where the data can be set
+	 */
+	virtual void setAnnouncementData(ZCom_BitStream* stream){}
 };
 
 }

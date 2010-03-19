@@ -32,6 +32,8 @@ StartPosition::~StartPosition(void){
 }
 
 void StartPosition::setupReplication(){
+	//parent
+	Entity::setupReplication();
 
 	//mPlayerNumber
 	mNode->addReplicationInt(&mPlayerNumber,		// pointer to the variable

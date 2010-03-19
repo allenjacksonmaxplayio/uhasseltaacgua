@@ -435,14 +435,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Lobby.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Player.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\Portal.cpp"
 						>
 					</File>
@@ -562,6 +554,18 @@
 							>
 						</File>
 					</Filter>
+				</Filter>
+				<Filter
+					Name="Loby"
+					>
+					<File
+						RelativePath=".\Lobby.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Player.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -869,14 +873,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Lobby.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Player.h"
-						>
-					</File>
-					<File
 						RelativePath=".\Portal.h"
 						>
 					</File>
@@ -1004,6 +1000,18 @@
 							>
 						</File>
 					</Filter>
+				</Filter>
+				<Filter
+					Name="Lobby"
+					>
+					<File
+						RelativePath=".\Lobby.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Player.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

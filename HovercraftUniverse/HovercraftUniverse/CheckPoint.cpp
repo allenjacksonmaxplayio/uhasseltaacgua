@@ -53,6 +53,8 @@ void CheckPoint::onLeave( Hovercraft * hovercraft ){
 }
 
 void CheckPoint::setupReplication(){
+	Entity::setupReplication();
+
 	//mName
 	mNode->addReplicator(
 		new String_Replicator(&mDisplayName,

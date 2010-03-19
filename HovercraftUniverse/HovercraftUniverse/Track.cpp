@@ -63,6 +63,9 @@ Track::~Track(void){
 }
 
 void Track::setupReplication(){
+	//parent
+	Entity::setupReplication();
+
 	//mName
 	mNode->addReplicator(
 		new String_Replicator(&mDisplayName,
