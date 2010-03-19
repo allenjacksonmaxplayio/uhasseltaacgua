@@ -1,4 +1,4 @@
-#include "Character.h"
+#include "HavokEntity.h"
 #include "HavokEntityType.h"
 #include "Havok.h"
 
@@ -10,7 +10,7 @@
 
 namespace HovUni {
 
-Character::Character( hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
+HavokEntity::HavokEntity( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
 	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext), mEntity(entity)
 {
 	mForward.set( 1.0f, 0.0f, 0.0f );
@@ -37,7 +37,7 @@ Character::Character( hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBo
 	mPhysicsWorld->unmarkForWrite();
 }
 
-Character::~Character() {	
+HavokEntity::~HavokEntity() {	
 	mCharacterContext->removeReference();
 	mCharacterContext = HK_NULL;
 
@@ -50,15 +50,15 @@ Character::~Character() {
 	mPhysicsWorld = HK_NULL;
 }
 
-const hkVector4& Character::getPosition() const {
+const hkVector4& HavokEntity::getPosition() const {
 	return mCharacterRigidBody->getPosition();
 }
 
-const hkQuaternion& Character::getOrientation() const {
+const hkQuaternion& HavokEntity::getOrientation() const {
 	return mCharacterRigidBody->getRigidBody()->getRotation();
 }
 
-void Character::updateUp( hkVector4& newUp ) {
+void HavokEntity::updateUp( hkVector4& newUp ) {
 	// Only change gravity if the change isn't negligible
 	if( mUp.dot3(newUp) < 1e-6f)
 	{
@@ -77,7 +77,7 @@ void Character::updateUp( hkVector4& newUp ) {
 	mUp = newUp;
 }
 
-void Character::reorientCharacter()
+void HavokEntity::reorientCharacter()
 {
 	mPhysicsWorld->markForWrite();
 	hkRotation newOrientation;
@@ -103,14 +103,14 @@ void Character::reorientCharacter()
 	mPhysicsWorld->unmarkForWrite();
 }
 
-void Character::update(){
+void HavokEntity::update(){
 	mPhysicsWorld->markForWrite();
 
-	const BasicEntityEvent& status = mEntity->getMovingStatus();
+	//const BasicEntityEvent& status = mEntity->getMovingStatus();
 
 
-	if ( status.moveForward() )
-		mCharacterRigidBody->getRigidBody()->applyForce(Havok::getSingleton().getTimeStep(),mForward);
+	//if ( status.moveForward() )
+	//	mCharacterRigidBody->getRigidBody()->applyForce(Havok::getSingleton().getTimeStep(),mForward);
 
 
 /*	hkVector4 accumulatedDirection = hkVector4::getZero();

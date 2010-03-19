@@ -1,4 +1,5 @@
 #include "UserDataFactory.h"
+#include "GameEntities.h"
 
 namespace HovUni {
 

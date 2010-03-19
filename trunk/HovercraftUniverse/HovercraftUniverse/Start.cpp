@@ -1,4 +1,5 @@
 #include "Start.h"
+#include "Hovercraft.h"
 
 namespace HovUni {
 
@@ -16,6 +17,14 @@ void Start::load(TiXmlElement * data){
 }
 
 Start::~Start(void){
+}
+
+void Start::onEnter ( Hovercraft * hovercraft ){
+
+}
+
+void Start::onLeave( Hovercraft * hovercraft ){
+
 }
 
 std::string Start::getClassName(){

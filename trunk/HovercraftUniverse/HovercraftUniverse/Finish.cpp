@@ -1,4 +1,5 @@
 #include "Finish.h"
+#include "Hovercraft.h"
 
 namespace HovUni {
 
@@ -13,6 +14,14 @@ void Finish::load(TiXmlElement * data) throw(ParseException){
 	if(strcmp(data->Value(),"Finish") != 0){
 		THROW(ParseException, "Given XML element is not of type finish.");
 	}	
+}
+
+void Finish::onEnter ( Hovercraft * hovercraft ){
+	//TODO
+}
+
+void Finish::onLeave( Hovercraft * hovercraft ){
+	//TODO
 }
 
 Finish::~Finish(void){

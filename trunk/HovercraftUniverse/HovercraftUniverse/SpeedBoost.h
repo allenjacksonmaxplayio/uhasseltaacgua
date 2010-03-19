@@ -1,13 +1,14 @@
 #ifndef SPEED_BOOST_H
 #define SPEED_BOOST_H
 
-#include "Exception.h"
 #include "Entity.h"
+
+#include "Exception.h"
 #include <tinyxml/tinyxml.h>
-#include <OgreString.h>
-#include <OgrePlatform.h>
 
 namespace HovUni {
+
+class Hovercraft;
 
 /**
  * Boost
@@ -66,6 +67,19 @@ public:
 	void setBoost(Ogre::Real boost) {
 		mBoost = boost;
 	}
+
+	/**
+	 * Called when given hovercraft enters the portal bounding box
+	 * @param hovercraft
+	 */
+	void onEnter ( Hovercraft * hovercraft );
+
+	/**
+	 * Called when given hovercraft leaves the portal bounding box
+	 * @param hovercraft
+	 */
+	void onLeave( Hovercraft * hovercraft );
+
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

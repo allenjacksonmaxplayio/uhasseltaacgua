@@ -1,6 +1,8 @@
 #include "UserDataCallback.h"
 #include "UserDataFactory.h"
 
+#include "GameEntities.h"
+
 namespace HovUni {
 
 	UserDataCallback::UserDataCallback(bool reg){

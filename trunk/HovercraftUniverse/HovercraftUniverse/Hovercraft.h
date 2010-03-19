@@ -1,10 +1,10 @@
 #ifndef HOVERCRAFT_H
 #define HOVERCRAFT_H
 
-#include "Exception.h"
 #include "Entity.h"
-#include <OgreString.h>
 #include <tinyxml/tinyxml.h>
+#include "Exception.h"
+
 #include "BasicEntityEvent.h"
 
 namespace HovUni {

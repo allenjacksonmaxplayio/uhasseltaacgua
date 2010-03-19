@@ -5,6 +5,8 @@
 
 namespace HovUni {
 
+class Start;
+
 /**
  * A phantom to check if a player has passed the start line
  * @author Pieter-Jan Pintens
@@ -13,12 +15,14 @@ class StartPhantom : public hkpAabbPhantom
 {
 private:
 
+	Start * mStart;
+
 public:
 	/**
 	 * Constructor
 	 * @param aabb, the bounding box
 	 */
-	StartPhantom(const hkAabb& aabb);
+	StartPhantom(const hkAabb& aabb, Start * start );
 
 	~StartPhantom(void);
 

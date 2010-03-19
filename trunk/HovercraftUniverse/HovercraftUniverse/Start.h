@@ -1,11 +1,14 @@
 #ifndef START_H
 #define START_H
 
-#include "Exception.h"
 #include "Entity.h"
+
+#include "Exception.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
+
+class Hovercraft;
 
 /**
  * Start 
@@ -41,6 +44,18 @@ public:
 	 * Destructor
 	 */
 	~Start(void);
+
+	/**
+	 * Called when given hovercraft enters the start bounding box
+	 * @param hovercraft
+	 */
+	void onEnter ( Hovercraft * hovercraft );
+
+	/**
+	 * Called when given hovercraft leaves the start bounding box
+	 * @param hovercraft
+	 */
+	void onLeave( Hovercraft * hovercraft );
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

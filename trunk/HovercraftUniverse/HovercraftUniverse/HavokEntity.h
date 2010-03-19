@@ -1,23 +1,23 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef HAVOKENTITY_H
+#define HAVOKENTITY_H
 
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
 #include "Controller.h"
-#include "Hovercraft.h"
+#include "Entity.h"
 
 namespace HovUni {
 
 /**
  * A character
  */
-class Character {
+class HavokEntity {
 protected:
 
 	/**
 	 * Entity
 	 */
-	Hovercraft * mEntity;
+	Entity * mEntity;
 
 	/**
 	 * Refernce to world
@@ -49,12 +49,12 @@ public:
 	 * @param characterContext
 	 * @param controllor
 	 */
-	Character( hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+	HavokEntity( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
 
 	/**
 	 * Destructor
 	 */
-	virtual ~Character();
+	virtual ~HavokEntity();
 
 	/**
 	 * Get the position of the character
@@ -69,6 +69,14 @@ public:
 	const hkQuaternion& getOrientation() const;
 
 	/**
+	 * Get the entity
+	 * @return entity
+	 */
+	Entity * getEntity()  {
+		return mEntity;
+	}
+
+	/**
 	 * Get forward vector
 	 * @return forward
 	 */
@@ -80,7 +88,7 @@ public:
 	 * Get forward vector
 	 * @return forward
 	 */
-	hkVector4& getForward(){
+	hkVector4& getForward() {
 		return mForward;
 	}
 

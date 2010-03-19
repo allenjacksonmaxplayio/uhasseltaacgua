@@ -1,14 +1,13 @@
 #ifndef PORTAL_H
 #define PORTAL_H
 
-#include "Exception.h"
-#include <tinyxml/tinyxml.h>
-#include <OgreString.h>
-#include <OgreVector3.h>
-#include <OgrePlatform.h>
 #include "Entity.h"
+#include <tinyxml/tinyxml.h>
+#include "Exception.h"
 
 namespace HovUni {
+
+class Hovercraft;
 
 /**
  * Portal 
@@ -125,6 +124,19 @@ public:
 	void setEnd(const Ogre::Vector3& end){
 		mEnd = end;
 	}
+
+	/**
+	 * Called when given hovercraft enters the portal bounding box
+	 * @param hovercraft
+	 */
+	void onEnter ( Hovercraft * hovercraft );
+
+	/**
+	 * Called when given hovercraft leaves the portal bounding box
+	 * @param hovercraft
+	 */
+	void onLeave( Hovercraft * hovercraft );
+
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

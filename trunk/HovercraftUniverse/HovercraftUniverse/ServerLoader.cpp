@@ -2,6 +2,8 @@
 #include "Exception.h"
 #include "EntityDescription.h"
 
+#include "GameEntities.h"
+
 //Lobby
 #include "Lobby.h"
 #include "NetworkIDManager.h"
@@ -169,10 +171,10 @@ void ServerLoader::onAsteroid( Asteroid * asteroid ) {
 		gravityphantom->removeReference();
 	}
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(asteroid);
 
-	//TODO when client ready
+	
 	//network register asteroid
 	asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName(),true);
 }
@@ -184,17 +186,14 @@ void ServerLoader::onStart( Start * start ) {
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
-
-	StartPhantom * phantom = new StartPhantom(	aabb );	
+	StartPhantom * phantom = new StartPhantom(aabb, start );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(start);
 
-	//TODO when client ready
 	//network register asteroid
 	start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName(),true);
 }
@@ -204,14 +203,14 @@ void ServerLoader::onStartPosition( StartPosition * startposition ) {
 		THROW(ParseException, "This should be an external item.");
 	}
 	
+	//add start position
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
 	int pos = startposition->getPlayerNumber();
 	mHovercraftWorld->mStartPositions[pos] = position;	
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(startposition);
 
-	//TODO when client ready
 	//network register asteroid
 	startposition->networkRegister(NetworkIDManager::getServerSingletonPtr(), StartPosition::getClassName(),true);
 }
@@ -223,43 +222,33 @@ void ServerLoader::onCheckPoint( CheckPoint * checkpoint ) {
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
-
-	hkString name(checkpoint->getName().c_str());
-	hkInt32 number = checkpoint->getNumber();
-
-	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(	aabb, name, number);	
+	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(	aabb, checkpoint);	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( checkpointphantom );
 	checkpointphantom->removeReference();
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(checkpoint);
 
-	//TODO when client ready
 	//network register asteroid
 	checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName(),true);
-
 }
 
 void ServerLoader::onFinish( Finish * finish ) {
 	if ( !mExternalitem ){
 		THROW(ParseException, "This should be an external item.");
-	}	
+	}
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
-
-	FinishPhantom * phantom = new FinishPhantom( aabb );
+	FinishPhantom * phantom = new FinishPhantom( aabb, finish );
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(finish);
-
-	//TODO when client ready
+	
 	//network register asteroid
 	finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName(),true);
 }
@@ -277,17 +266,14 @@ void ServerLoader::onPortal( Portal * portal ) {
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
-
-	PortalPhantom * phantom = new PortalPhantom( aabb );
+	PortalPhantom * phantom = new PortalPhantom( aabb, portal );
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(portal);
-
-	//TODO when client ready
+	
 	//network register asteroid
 	portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName(),true);	
 }
@@ -299,19 +285,14 @@ void ServerLoader::onBoost( SpeedBoost * boost ) {
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-
 	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
-
-	hkReal boostvalue = boost->getBoost();
-
 	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( aabb, boost );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(boost);
-
-	//TODO when client ready
+	
 	//network register asteroid
 	boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName(),true);	
 }
@@ -321,18 +302,17 @@ void ServerLoader::onPowerupSpawn( PowerupSpawn * powerupspawn ) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
+	//add powerup spawn
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
-
 	if ( mHovercraftWorld->mPowerupPositions.getSize() == mHovercraftWorld->mPowerupPositions.getCapacity() ){
 		mHovercraftWorld->mPowerupPositions.expandBy(32);
-	}
-	
+	}	
 	mHovercraftWorld->mPowerupPositions.pushBack(position);
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(powerupspawn);
 
-	//TODO when client ready
+	
 	//network register asteroid
 	powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName(),true);	
 }
@@ -342,18 +322,16 @@ void ServerLoader::onResetSpawn( ResetSpawn * spawn ) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
+	//add reset spawn
 	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
-
 	if ( mHovercraftWorld->mResetPositions.getSize() == mHovercraftWorld->mResetPositions.getCapacity() ){
 		mHovercraftWorld->mResetPositions.expandBy(32);
-	}
-	
+	}	
 	mHovercraftWorld->mResetPositions.pushBack(position);
 
-	//Add to entity manager
+	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(spawn);
-
-	//TODO when client ready
+	
 	//network register asteroid
 	spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(),true);	
 }

@@ -295,81 +295,89 @@
 			<Filter
 				Name="Havok"
 				>
-				<File
-					RelativePath=".\AbstractHavokWorld.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\CharacterContextContainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Havok.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\HavokEntityType.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\HavokThread.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\HoverCraftUniverseWorld.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PhantomTrackAction.cpp"
-					>
-				</File>
 				<Filter
-					Name="phantom"
+					Name="abstract"
 					>
 					<File
-						RelativePath=".\CheckpointPhantom.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\FinishPhantom.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\PortalPhantom.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\PowerupPhantom.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SpeedBoostPhantom.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\StartPhantom.cpp"
+						RelativePath=".\AbstractHavokWorld.cpp"
 						>
 					</File>
 				</Filter>
 				<Filter
-					Name="planet"
+					Name="impl"
 					>
 					<File
-						RelativePath=".\PlanetGravityAction.cpp"
+						RelativePath=".\CharacterContextContainer.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\PlanetGravityPhantom.cpp"
+						RelativePath=".\Havok.cpp"
 						>
 					</File>
-				</Filter>
-				<Filter
-					Name="character"
-					>
 					<File
-						RelativePath=".\Character.cpp"
+						RelativePath=".\HavokEntityType.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\HavokThread.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HoverCraftUniverseWorld.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PhantomTrackAction.cpp"
+						>
+					</File>
+					<Filter
+						Name="phantom"
+						>
+						<File
+							RelativePath=".\CheckpointPhantom.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\FinishPhantom.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\PortalPhantom.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\PowerupPhantom.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\SpeedBoostPhantom.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\StartPhantom.cpp"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="planet"
+						>
+						<File
+							RelativePath=".\PlanetGravityAction.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\PlanetGravityPhantom.cpp"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="entity"
+						>
+						<File
+							RelativePath=".\HavokEntity.cpp"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter
@@ -709,83 +717,91 @@
 			<Filter
 				Name="Havok"
 				>
-				<File
-					RelativePath=".\AbstractHavokWorld.h"
-					>
-				</File>
-				<File
-					RelativePath=".\CharacterContextContainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Havok.h"
-					>
-				</File>
-				<File
-					RelativePath=".\HavokEntityType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\HavokThread.h"
-					>
-				</File>
-				<File
-					RelativePath=".\HoverCraftUniverseWorld.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PhantomTrackAction.h"
-					>
-				</File>
 				<Filter
-					Name="phantom"
+					Name="impl"
 					>
 					<File
-						RelativePath=".\CheckpointPhantom.h"
+						RelativePath=".\CharacterContextContainer.h"
 						>
 					</File>
 					<File
-						RelativePath=".\FinishPhantom.h"
+						RelativePath=".\Havok.h"
 						>
 					</File>
 					<File
-						RelativePath=".\PortalPhantom.h"
+						RelativePath=".\HavokEntityType.h"
 						>
 					</File>
 					<File
-						RelativePath=".\PowerupPhantom.h"
+						RelativePath=".\HavokThread.h"
 						>
 					</File>
 					<File
-						RelativePath=".\SpeedBoostPhantom.h"
+						RelativePath=".\HoverCraftUniverseWorld.h"
 						>
 					</File>
 					<File
-						RelativePath=".\StartPhantom.h"
+						RelativePath=".\PhantomTrackAction.h"
 						>
 					</File>
+					<Filter
+						Name="phantom"
+						>
+						<File
+							RelativePath=".\CheckpointPhantom.h"
+							>
+						</File>
+						<File
+							RelativePath=".\FinishPhantom.h"
+							>
+						</File>
+						<File
+							RelativePath=".\PortalPhantom.h"
+							>
+						</File>
+						<File
+							RelativePath=".\PowerupPhantom.h"
+							>
+						</File>
+						<File
+							RelativePath=".\SpeedBoostPhantom.h"
+							>
+						</File>
+						<File
+							RelativePath=".\StartPhantom.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="planet"
+						>
+						<File
+							RelativePath=".\PlanetGravityAction.h"
+							>
+						</File>
+						<File
+							RelativePath=".\PlanetGravityPhantom.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="powerup"
+						>
+					</Filter>
+					<Filter
+						Name="entity"
+						>
+						<File
+							RelativePath=".\HavokEntity.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
-					Name="planet"
+					Name="abstract"
 					>
 					<File
-						RelativePath=".\PlanetGravityAction.h"
-						>
-					</File>
-					<File
-						RelativePath=".\PlanetGravityPhantom.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="powerup"
-					>
-				</Filter>
-				<Filter
-					Name="character"
-					>
-					<File
-						RelativePath=".\Character.h"
+						RelativePath=".\AbstractHavokWorld.h"
 						>
 					</File>
 				</Filter>
@@ -838,6 +854,14 @@
 					</File>
 					<File
 						RelativePath=".\Finish.h"
+						>
+					</File>
+					<File
+						RelativePath=".\GameEntities.h"
+						>
+					</File>
+					<File
+						RelativePath=".\GameEntityDeclarations.h"
 						>
 					</File>
 					<File

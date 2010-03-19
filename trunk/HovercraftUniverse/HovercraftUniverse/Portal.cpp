@@ -1,5 +1,6 @@
 #include "Portal.h"
 #include <OgreStringConverter.h>
+#include "Hovercraft.h"
 
 namespace HovUni {
 
@@ -63,6 +64,12 @@ void Portal::load(TiXmlElement * data) throw(ParseException){
 }
 
 Portal::~Portal(void){
+}
+
+void Portal::onEnter ( Hovercraft * hovercraft ){
+}
+
+void Portal::onLeave( Hovercraft * hovercraft ){
 }
 
 std::string Portal::getClassName(){

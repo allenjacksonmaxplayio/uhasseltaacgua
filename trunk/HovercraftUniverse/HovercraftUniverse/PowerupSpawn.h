@@ -1,11 +1,13 @@
 #ifndef POWERUPSPAWN_H
 #define POWERUPSPAWN_H
 
-#include "Exception.h"
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
+#include "Exception.h"
 
 namespace HovUni {
+
+class Hovercraft;
 
 class PowerupSpawn : public Entity{
 public:
@@ -36,6 +38,19 @@ public:
 	 * Destructor
 	 */
 	~PowerupSpawn(void);
+
+	/**
+	 * Called when given hovercraft enters the powerupspawn bounding box
+	 * @param hovercraft
+	 */
+	void onEnter ( Hovercraft * hovercraft );
+
+	/**
+	 * Called when given hovercraft leaves the powerupspawn bounding box
+	 * @param hovercraft
+	 */
+	void onLeave( Hovercraft * hovercraft );
+
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

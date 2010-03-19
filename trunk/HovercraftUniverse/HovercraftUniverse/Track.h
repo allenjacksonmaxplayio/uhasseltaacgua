@@ -1,11 +1,10 @@
 #ifndef TRACK_H
 #define TRACK_H
 
+#include "Entity.h"
+
 #include "Exception.h"
 #include <tinyxml/tinyxml.h>
-#include <OgreString.h>
-#include <OgrePlatform.h>
-#include "Entity.h"
 
 namespace HovUni {
 

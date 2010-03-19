@@ -22,4 +22,12 @@ std::string PowerupSpawn::getClassName(){
 	return "PowerupSpawn";
 }
 
+void PowerupSpawn::onEnter ( Hovercraft * hovercraft ){
+
+}
+
+void PowerupSpawn::onLeave( Hovercraft * hovercraft ){
+
+}
+
 }

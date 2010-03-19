@@ -5,6 +5,8 @@
 
 namespace HovUni {
 
+class CheckPoint;
+
 /**
  * This is a phantom for a checkpoint. It can be used to detect if a player passes a checkpoint.
  * @author Pieter-Jan Pintens
@@ -13,18 +15,15 @@ class CheckpointPhantom : public hkpAabbPhantom
 {
 private:
 
-	hkString mName;
-
-	hkInt32 mNummer;
+	CheckPoint * mCheckPoint;
 
 public:
 	/**
 	 * Constructor
 	 * @param aabb, the bounding box
-	 * @param name, the name of the checkpoint
-	 * @param int, the number of the checkpoint
+	 * @param checkpoint
 	 */
-	CheckpointPhantom(const hkAabb& aabb, hkString name, hkInt32 nummer);
+	CheckpointPhantom(const hkAabb& aabb, CheckPoint * checkpoint);
 
 	~CheckpointPhantom(void);
 
