@@ -9,7 +9,7 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
 == Vooruitgang == 
 
   * *Exceptions: alle exceptions komen hierin*
-  * CoreEngine: moet in apart project komen met generieke Application klasse die overgeerfd moet worden door bv HovercraftApplication in het Hovercraft Universe project.
+  * _CoreEngine: moet in apart project komen met generieke Application klasse die overgeerfd moet worden door bv HovercraftApplication in het Hovercraft Universe project._
   * BasicEntityEvent moet bij Entity komen.
   * ControllerActionType: refactor and make generic for all types of controls (FPS, race, ...) and must be inherited by HU specific class that contains race controls for our game.
   * Bij aanmaken nieuwe entity, documenteren waar deze in de rest van de solution ook moet worden bijgevoegd voor visualizatie/networking/scripting/...
