@@ -1,16 +1,22 @@
 #ifndef FINISH_H
 #define FINISH_H
 
-#include "Exception.h"
-#include <tinyxml/tinyxml.h>
 #include "Entity.h"
+#include <tinyxml/tinyxml.h>
+#include "Exception.h"
 
 namespace HovUni {
+
+class Hovercraft;
 
 /**
  * @author PJ
  */ 
 class Finish : public Entity{
+
+private:
+	
+
 public:
 
 	/**
@@ -39,6 +45,20 @@ public:
 	 * Destructor
 	 */
 	~Finish(void);
+
+	/**
+	 * Called when given hovercraft enters the finish bounding box
+	 * @param hovercraft
+	 */
+	void onEnter ( Hovercraft * hovercraft );
+
+	/**
+	 * Called when given hovercraft leaves the finish bounding box
+	 * @param hovercraft
+	 */
+	void onLeave( Hovercraft * hovercraft );
+	
+	// Network
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

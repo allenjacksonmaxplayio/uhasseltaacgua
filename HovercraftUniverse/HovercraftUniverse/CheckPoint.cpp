@@ -1,6 +1,7 @@
 #include "CheckPoint.h"
 #include <OgreStringConverter.h>
 #include "String_Replicator.h"
+#include "Hovercraft.h"
 
 namespace HovUni {
 
@@ -42,6 +43,13 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 }
 
 CheckPoint::~CheckPoint(void){
+}
+
+void CheckPoint::onEnter ( Hovercraft * hovercraft ){
+}
+
+
+void CheckPoint::onLeave( Hovercraft * hovercraft ){
 }
 
 void CheckPoint::setupReplication(){

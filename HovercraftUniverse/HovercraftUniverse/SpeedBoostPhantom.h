@@ -1,11 +1,11 @@
 #ifndef SpeedBoostPhantom_H
 #define SpeedBoostPhantom_H
 
-#include <OgreSharedPtr.h>
-#include "SpeedBoost.h"
 #include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
 
 namespace HovUni {
+
+class SpeedBoost;
 
 /**
  * This is a boost phantom
@@ -23,7 +23,7 @@ public:
 	/**
 	 * Constructor 
 	 * @param aabb, the bounding box
-	 * @param boost, use a negative value for a slowdown.
+	 * @param boost
 	 */
 	SpeedBoostPhantom(const hkAabb& aabb, SpeedBoost * boost);
 

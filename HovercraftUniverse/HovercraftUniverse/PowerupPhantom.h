@@ -5,6 +5,8 @@
 
 namespace HovUni {
 
+class PowerupSpawn;
+
 /**
  * A phantom to check if a player has picked up a powerup
  * @author Pieter-Jan Pintens
@@ -13,11 +15,16 @@ class PowerupPhantom : public hkpAabbPhantom
 {
 private:
 
-	//TODO
+	PowerupSpawn * mPowerupSpawn;
 
 public:
 
-	PowerupPhantom(const hkAabb& aabb);
+	/**
+	 * Constructor
+	 * @param bounding box
+	 * @param powerupspawn
+	 */
+	PowerupPhantom(const hkAabb& aabb, PowerupSpawn * powerupspawn );
 
 	~PowerupPhantom(void);
 

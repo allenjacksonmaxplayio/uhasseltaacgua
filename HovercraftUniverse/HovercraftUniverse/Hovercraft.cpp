@@ -1,7 +1,9 @@
 #include "Hovercraft.h"
 #include <OgreStringConverter.h>
-#include "String_Replicator.h"
+
 #include "Havok.h"
+
+#include "String_Replicator.h"
 
 namespace HovUni {
 
@@ -80,7 +82,7 @@ void Hovercraft::process(float timeSince){
 
 		//TODO HAVOK
 		//Fetch from havok
-		Character * character = Havok::getSingleton().getCharacter(mName.c_str());
+		HavokEntity * character = Havok::getSingleton().getCharacter(mName.c_str());
 		const hkVector4& position = character->getPosition();
 		changePosition(Ogre::Vector3(position(0),position(1),position(2)));
 

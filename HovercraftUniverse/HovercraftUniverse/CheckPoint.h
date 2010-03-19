@@ -1,19 +1,21 @@
 #ifndef CHECKPOINT_H
 #define CHECKPOINT_H
 
-#include "Exception.h"
 #include "Entity.h"
-#include <OgreString.h>
-#include <OgrePlatform.h>
 #include <tinyxml/tinyxml.h>
+#include "Exception.h"
 
 namespace HovUni {
+
+class Hovercraft;
 
 /**
  * @author PJ
  */ 
 class CheckPoint : public Entity {
 private:
+
+
 
 	/**
 	 * The name
@@ -85,6 +87,18 @@ public:
 	inline void setNumber(Ogre::int32 number) {
 		mNumber = number;
 	}
+
+	/**
+	 * Called when given hovercraft enters the checkpoint bounding box
+	 * @param hovercraft
+	 */
+	void onEnter ( Hovercraft * hovercraft );
+
+	/**
+	 * Called when given hovercraft leaves the checkpoint bounding box
+	 * @param hovercraft
+	 */
+	void onLeave( Hovercraft * hovercraft );
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing

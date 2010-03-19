@@ -6,6 +6,8 @@
 #include "HavokEntityType.h"
 #include "PhantomTrackAction.h"
 
+#include "Hovercraft.h"
+
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
 
@@ -37,9 +39,9 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 
 void HoverCraftUniverseWorld::postStep() {
 	// Rotate the character
-	hkStorageStringMap<Character*>::Iterator i = mCharactersMap.getIterator ();
+	hkStorageStringMap<HavokEntity*>::Iterator i = mCharactersMap.getIterator ();
 	while ( mCharactersMap.isValid(i) ){
-		Character * ch = mCharactersMap.getValue(i); 
+		HavokEntity * ch = mCharactersMap.getValue(i); 
 		ch->reorientCharacter();	
 		i = mCharactersMap.getNext(i);
 	}
@@ -48,19 +50,19 @@ void HoverCraftUniverseWorld::postStep() {
 void HoverCraftUniverseWorld::preStep() {
 	//SETUP CHARACTERS
 
-	hkStorageStringMap<Character*>::Iterator i = mCharactersMap.getIterator ();
+	hkStorageStringMap<HavokEntity*>::Iterator i = mCharactersMap.getIterator ();
 	while ( mCharactersMap.isValid(i) ){
-		Character * ch = mCharactersMap.getValue(i); 
+		HavokEntity * ch = mCharactersMap.getValue(i); 
 		ch->update();	
 		i = mCharactersMap.getNext(i);
 	}
 }
 
-Character * HoverCraftUniverseWorld::getCharacter(const char * name) {
+HavokEntity * HoverCraftUniverseWorld::getCharacter(const char * name) {
 	if (name == 0 )
 		return HK_NULL;
 
-	Character * result = HK_NULL;
+	HavokEntity * result = HK_NULL;
 	mCharactersMap.get(name,&result);
 	return result;
 }
@@ -106,7 +108,7 @@ void HoverCraftUniverseWorld::addCharacter( Hovercraft * entity, int pos ){
 	// Set character type
 	m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	Character * c = new Character(mPhysicsWorld,entity,&info,m_characterContext);
+	HavokEntity * c = new HavokEntity(mPhysicsWorld,entity,&info,m_characterContext);
 	mCharactersMap.insert(entity->getName().c_str(),c);
 
 	m_characterContext->removeReference();

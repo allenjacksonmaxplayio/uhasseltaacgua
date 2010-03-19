@@ -3,8 +3,7 @@
 
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
-#include <OgreString.h>
-#include <OgrePlatform.h>
+#include "Exception.h"
 
 namespace HovUni {
 
@@ -62,7 +61,7 @@ public:
 	 * @param data, xml element that descripes the asteroid
 	 * @throws ParseException
 	 */
-	void load(TiXmlElement * data);
+	void load(TiXmlElement * data) throw(ParseException);
 
 	/**
 	 * Destructor

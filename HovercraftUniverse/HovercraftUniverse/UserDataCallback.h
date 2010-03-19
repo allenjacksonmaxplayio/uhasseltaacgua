@@ -1,19 +1,7 @@
 #ifndef USERDATACALLBACK_H
 #define USERDATACALLBACK_H
 
-#include <OgreSharedPtr.h>
-
-#include "Start.h"
-#include "Finish.h"
-#include "Asteroid.h"
-#include "Hovercraft.h"
-#include "CheckPoint.h"
-#include "StartPosition.h"
-#include "SpeedBoost.h"
-#include "Track.h"
-#include "Portal.h"
-#include "PowerupSpawn.h"
-#include "ResetSpawn.h"
+#include "GameEntityDeclarations.h"
 
 namespace HovUni {
 

@@ -3,7 +3,7 @@
 
 #include "AbstractHavokWorld.h"
 #include "ServerLoader.h"
-#include "Character.h"
+#include "HavokEntity.h"
 #include "CharacterContextContainer.h"
 
 namespace HovUni {
@@ -60,7 +60,7 @@ private:
 	/**
 	 * Map with characters mapped on their name
 	 */
-	hkStorageStringMap<Character*> mCharactersMap;
+	hkStorageStringMap<HavokEntity*> mCharactersMap;
 
 	/**
 	 * Container for all types of characters we want
@@ -84,7 +84,7 @@ public:
 	 * @param name
 	 * @return character, HK_NULL if not found
 	 */
-	Character * getCharacter(const char * name);
+	HavokEntity * getCharacter(const char * name);
 
 	/**
 	 * Add a character of a given type on a given start position

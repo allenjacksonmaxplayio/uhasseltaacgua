@@ -1,10 +1,10 @@
 #ifndef STARTPOSITION_H
 #define STARTPOSITION_H
 
+#include "Entity.h"
+
 #include "Exception.h"
 #include <tinyxml/tinyxml.h>
-#include <OgrePlatform.h>
-#include "Entity.h"
 
 namespace HovUni {
 

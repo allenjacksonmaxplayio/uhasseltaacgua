@@ -1,10 +1,9 @@
 #ifndef RESETSPAWN_H
 #define RESETSPAWN_H
 
-#include "Exception.h"
-#include <tinyxml/tinyxml.h>
-#include <OgrePlatform.h>
 #include "Entity.h"
+#include <tinyxml/tinyxml.h>
+#include "Exception.h"
 
 namespace HovUni {
 

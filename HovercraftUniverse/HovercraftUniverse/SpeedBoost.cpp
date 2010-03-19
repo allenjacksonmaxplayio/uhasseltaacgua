@@ -1,5 +1,6 @@
 #include "SpeedBoost.h"
 #include <OgreStringConverter.h>
+#include "Hovercraft.h"
 
 namespace HovUni {
 
@@ -29,6 +30,13 @@ void SpeedBoost::load(TiXmlElement * data) throw(ParseException){
 }
 
 SpeedBoost::~SpeedBoost(void){
+}
+
+void SpeedBoost::onEnter ( Hovercraft * hovercraft ){
+}
+
+
+void SpeedBoost::onLeave( Hovercraft * hovercraft ){
 }
 
 void SpeedBoost::setupReplication(){
