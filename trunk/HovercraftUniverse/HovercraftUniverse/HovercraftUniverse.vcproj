@@ -542,6 +542,10 @@
 				<Filter
 					Name="controller"
 					>
+					<File
+						RelativePath=".\HovercraftKeyManager.cpp"
+						>
+					</File>
 					<Filter
 						Name="Hovercraft"
 						>
@@ -984,6 +988,10 @@
 				<Filter
 					Name="controller"
 					>
+					<File
+						RelativePath=".\HovercraftKeyManager.h"
+						>
+					</File>
 					<Filter
 						Name="Hovercraft"
 						>

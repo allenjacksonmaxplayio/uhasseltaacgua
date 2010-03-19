@@ -6,38 +6,43 @@ namespace HovUni {
 
 KeyManager::KeyManager(void) {
 	// TODO: for now hardcoded keys...
-	mMapping[OIS::KC_UP] = ACCELERATE;
-	mMapping[OIS::KC_DOWN] = BRAKE;
-	mMapping[OIS::KC_LEFT] = TURNLEFT;
-	mMapping[OIS::KC_RIGHT] = TURNRIGHT;
+	/*
+	mKeyMapping[OIS::KC_UP] = ACCELERATE;
+	mKeyMapping[OIS::KC_DOWN] = BRAKE;
+	mKeyMapping[OIS::KC_LEFT] = TURNLEFT;
+	mKeyMapping[OIS::KC_RIGHT] = TURNRIGHT;
 
-	mMapping[OIS::KC_NUMPAD8] = ACCELERATE;
-	mMapping[OIS::KC_NUMPAD2] = BRAKE;
-	mMapping[OIS::KC_NUMPAD4] = TURNLEFT;
-	mMapping[OIS::KC_NUMPAD6] = TURNRIGHT;
+	mKeyMapping[OIS::KC_NUMPAD8] = ACCELERATE;
+	mKeyMapping[OIS::KC_NUMPAD2] = BRAKE;
+	mKeyMapping[OIS::KC_NUMPAD4] = TURNLEFT;
+	mKeyMapping[OIS::KC_NUMPAD6] = TURNRIGHT;
 
-	mMapping[OIS::KC_C] = CHANGECAMERA;
-	mMapping[OIS::KC_1] = THIRD_PERSON_CAMERA;
-	mMapping[OIS::KC_2] = FIRST_PERSON_CAMERA;
-	mMapping[OIS::KC_3] = REAR_VIEW_CAMERA;
-	mMapping[OIS::KC_4] = FREE_CAMERA;
-	mMapping[OIS::KC_W] = FREE_CAMERA_FWD;
-	mMapping[OIS::KC_S] = FREE_CAMERA_BACK;
-	mMapping[OIS::KC_A] = FREE_CAMERA_LEFT;
-	mMapping[OIS::KC_D] = FREE_CAMERA_RIGHT;
-	mMapping[OIS::KC_E] = FREE_CAMERA_UP;
-	mMapping[OIS::KC_Q] = FREE_CAMERA_DOWN;
-	
+	mKeyMapping[OIS::KC_C] = CHANGECAMERA;
+	mKeyMapping[OIS::KC_1] = THIRD_PERSON_CAMERA;
+	mKeyMapping[OIS::KC_2] = FIRST_PERSON_CAMERA;
+	mKeyMapping[OIS::KC_3] = REAR_VIEW_CAMERA;
+	mKeyMapping[OIS::KC_4] = FREE_CAMERA;
+	mKeyMapping[OIS::KC_W] = FREE_CAMERA_FWD;
+	mKeyMapping[OIS::KC_S] = FREE_CAMERA_BACK;
+	mKeyMapping[OIS::KC_A] = FREE_CAMERA_LEFT;
+	mKeyMapping[OIS::KC_D] = FREE_CAMERA_RIGHT;
+	mKeyMapping[OIS::KC_E] = FREE_CAMERA_UP;
+	mKeyMapping[OIS::KC_Q] = FREE_CAMERA_DOWN;
+	*/
 }
 
 KeyManager::~KeyManager(void) {
 }
 
-const std::list<OIS::KeyCode> KeyManager::getKeys(const ControllerActionType action) {
+void KeyManager::registerAction(const int action, const char * name) {
+	mActionMapping[action] = name;
+}
+
+const std::list<OIS::KeyCode> KeyManager::getKeys(const int action) {
 	std::list<OIS::KeyCode> keys;
 
-    std::map<OIS::KeyCode, ControllerActionType>::const_iterator iter;
-    for (iter = mMapping.begin(); iter != mMapping.end(); ++iter) {
+    std::map<OIS::KeyCode, int>::const_iterator iter;
+    for (iter = mKeyMapping.begin(); iter != mKeyMapping.end(); ++iter) {
         if (iter->second == action) {
             keys.push_back(iter->first);
         }
@@ -46,16 +51,16 @@ const std::list<OIS::KeyCode> KeyManager::getKeys(const ControllerActionType act
     return keys;
 }
 
-void KeyManager::setKey(const ControllerActionType action, const OIS::KeyCode key) {
-	mMapping[key] = action;
+void KeyManager::setKey(const int action, const OIS::KeyCode key) {
+	mKeyMapping[key] = action;
 }
 
-const ControllerActionType KeyManager::getAction(const OIS::KeyCode key) {
-	return mMapping[key];
+const int KeyManager::getAction(const OIS::KeyCode key) {
+	return mKeyMapping[key];
 }
 
-const char* KeyManager::getName(const ControllerActionType action) {
-	return actionNames[action];
+const char* KeyManager::getName(const int action) {
+	return mActionMapping[action];
 }
 
 }

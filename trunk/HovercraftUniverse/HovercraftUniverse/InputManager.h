@@ -1,7 +1,7 @@
 #ifndef INPUTMANAGER_H_
 #define INPUTMANAGER_H_
 
-//Include IOS but prevent double link errors!
+//Include OIS but prevent double link errors!
 #define OIS_DYNAMIC_LIB
 #include <OIS.h>
 

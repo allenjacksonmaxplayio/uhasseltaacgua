@@ -1,5 +1,6 @@
 #include "HovercraftPlayerController.h"
-#include "KeyManager.h"
+//#include "KeyManager.h"
+#include "ControllerActionType.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -34,7 +35,7 @@ bool HovercraftPlayerController::turnRight() {
 
 bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) { 
 	// Process possibly resulting move
-	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
+	int action = mInputManager->getKeyManager()->getAction(e.key);
 	switch (action) {
 		case ACCELERATE:
 			mMovingForward = true;
@@ -57,7 +58,7 @@ bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) {
 }
 
 bool HovercraftPlayerController::keyReleased(const OIS::KeyEvent & e) { 
-	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
+	int action = mInputManager->getKeyManager()->getAction(e.key);
 	// Clear movement for that key
 	switch (action) {
 		case ACCELERATE:
