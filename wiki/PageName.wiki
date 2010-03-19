@@ -16,7 +16,7 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
   * *RaceCamera: generiek maken*
   * GameView: indirectie verwijderen
   * EntityManager & RepresentationManager: moet pointers deleten en alles kunnen clearen.
-  * _CoreNetwork->Chat: in networking project_
+  * *CoreNetwork->Chat: in networking project*
   * CoreNetwork->ClientCore/ServerCore: behouden en hernoemen naar HUClient en HUServer of dergelijke.
   * CoreNetwork->Server+ServerThread: in HU behouden.
   * CustomOgreMaxScene: in CoreEngine
