@@ -56,6 +56,9 @@ Asteroid::~Asteroid(void) {
 }
 
 void Asteroid::setupReplication(){
+	//set up parent
+	Entity::setupReplication();
+
 	//mName
 	mNode->addReplicator(
 		new String_Replicator(&mDisplayName,

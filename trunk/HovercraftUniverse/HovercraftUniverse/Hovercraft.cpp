@@ -163,7 +163,7 @@ void Hovercraft::processEventsServer(ControllerEvent* event){
 }
 
 void Hovercraft::setupReplication(){
-
+	//set up replication
 	Entity::setupReplication();
 
 	//mDisplayName

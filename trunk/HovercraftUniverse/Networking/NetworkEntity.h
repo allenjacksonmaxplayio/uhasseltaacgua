@@ -109,6 +109,8 @@ private:
 	 */
 	virtual void parseEvents(ZCom_BitStream* stream, float timeSince) = 0;
 
+protected:
+
 	/**
 	 * A callback that should be implemented so the replicators for this
 	 * entity can be set up. In case the number of replicators given to the
@@ -124,7 +126,7 @@ private:
 	 */
 	virtual void setAnnouncementData(ZCom_BitStream* stream) = 0;
 
-protected:
+
 	/**
 	 * Add a float to the replicated variabels
 	 *
