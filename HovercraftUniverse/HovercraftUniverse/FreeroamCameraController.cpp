@@ -1,4 +1,5 @@
 #include "FreeroamCameraController.h"
+#include "ControllerActionType.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -63,7 +64,7 @@ Ogre::Degree FreeroamCameraController::getPitch() {
 }
 
 bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) { 
-	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
+	int action = mInputManager->getKeyManager()->getAction(e.key);
 	// Process possibly resulting move
 	switch (action) {
 		case FREE_CAMERA_FWD:
@@ -93,7 +94,7 @@ bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) {
 }
 
 bool FreeroamCameraController::keyReleased(const OIS::KeyEvent & e) { 
-	ControllerActionType action = mInputManager->getKeyManager()->getAction(e.key);
+	int action = mInputManager->getKeyManager()->getAction(e.key);
 	// Clear movement for that key
 	switch (action) {
 		case FREE_CAMERA_FWD:
