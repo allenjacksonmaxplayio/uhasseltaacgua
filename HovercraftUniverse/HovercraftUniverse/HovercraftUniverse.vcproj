@@ -411,6 +411,10 @@
 			<Filter
 				Name="Game"
 				>
+				<File
+					RelativePath=".\HUApplication.cpp"
+					>
+				</File>
 				<Filter
 					Name="Entities"
 					>
@@ -829,18 +833,14 @@
 					RelativePath=".\Console.h"
 					>
 				</File>
-				<File
-					RelativePath=".\TiXmlManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\TiXmlResource.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Game"
 				>
+				<File
+					RelativePath=".\HUApplication.h"
+					>
+				</File>
 				<Filter
 					Name="Entities"
 					>

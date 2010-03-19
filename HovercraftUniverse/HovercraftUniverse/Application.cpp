@@ -4,7 +4,6 @@
 #include "Exception.h"
 #include "HUD.h"
 #include "INIReader/INIReader.h"
-#include <HovSound.h>
 #include <tinyxml/tinyxml.h>
 #include <iostream>
 #include "MainMenu.h"
@@ -17,11 +16,12 @@ namespace HovUni {
 Ogre::SceneManager* Application::msSceneMgr = 0;
 ClientPreparationLoader * Application::msPreparationLoader = 0;
 
-Application::Application(void) {
+Application::Application(Ogre::String appName, Ogre::String configINI) : mAppName(appName), mConfigINI(configINI) {
+	// All was initialized
 }
 
-Application::~Application(void) {
-
+Application::~Application() {
+	// Empty
 }
 
 void Application::go(const Ogre::String& host, unsigned int port) {
@@ -42,8 +42,9 @@ void Application::parseIni() {
 	//TCHAR szDirectory[MAX_PATH] = "";
 	//GetCurrentDirectory(sizeof(szDirectory) - 1, szDirectory);
 	//std::string curDir (szDirectory);
-	INIReader reader("HovercraftUniverse.ini");
+	INIReader reader(mConfigINI);
 	if (reader.ParseError() < 0) {
+		// TODO Throw exception (added by Kristof)
         cerr << "Error reading INI!";
     }
 	//Get(section, name, defaultValue)
@@ -51,6 +52,8 @@ void Application::parseIni() {
 	mLogPath = reader.Get("Ogre", "LogFile", "Client.log");
 	mOgreConfig = reader.Get("Ogre", "Resources", "resources.cfg");
 	mOgrePlugins = reader.Get("Ogre", "Plugins", "plugins.cfg");
+	mSoundPath = reader.Get("Sound", "Path", "sound\\");
+	mSoundFile = reader.Get("Sound", "File", "Sound.fev");
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;
@@ -98,14 +101,13 @@ void Application::setupRenderSystem() {
 }
 
 void Application::createRenderWindow() {
-	mOgreRoot->initialise(true, "Hovercraft Universe"); //Make this configurable? Maybe that doesn't make much sense... (Dirk)
+	mOgreRoot->initialise(true, mAppName);
 }
 
 void Application::initializeResourceGroups() {
 	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
-
 
 void Application::createClient(const Ogre::String& host, unsigned int port){
 	// Client
@@ -117,6 +119,8 @@ void Application::createClient(const Ogre::String& host, unsigned int port){
 
 	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::IN_GAME, new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD")));
 	*/
+
+	// TODO MAIN_MENU is not generic enough (added by Kristof)
 	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::MAIN_MENU, new MainMenuState());
 }
 
@@ -167,12 +171,14 @@ void Application::setupScene() {
 	//menu->activate();
 
 	// Initialise and store the SoundManager (dont remove trailing \)
-	SoundManager::init("sound\\", "HovSound.fev");
+	SoundManager::init(mSoundPath, mSoundFile);
 	mSoundManager = SoundManager::getSingletonPtr();
 
-	//Start music
-	mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
-	mSoundManager->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
+	// Allow an inheriting class to play music
+	playMusic(mSoundManager);
+
+	// Allow some custom setup for inheriting classes
+	customSceneSetup();
 }
 
 void Application::setupInputSystem() {
