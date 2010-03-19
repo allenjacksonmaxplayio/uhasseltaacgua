@@ -1,4 +1,4 @@
-#include "Application.h"
+#include "HUApplication.h"
 #include "Server.h"
 #include "Havok.h"
 #include "EntityManager.h"
@@ -50,13 +50,9 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 	}
 
 	if ( server ) {
-
 		HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
-
 		new Ogre::Root;
-
 		Ogre::String mDataPath("..\\..\\data");
-
 		Ogre::LogManager::getSingleton().createLog("Server.log", true);
 
 // HACK IN OGRE FILE THINGY
@@ -103,7 +99,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		if ( console )
 			HovUni::Console::createConsole("HovercraftUniverse Debug Console");
 
-		HovUni::Application app;
+		HovUni::HUApplication app;
 		
 		try {
 			app.go(host,port);
