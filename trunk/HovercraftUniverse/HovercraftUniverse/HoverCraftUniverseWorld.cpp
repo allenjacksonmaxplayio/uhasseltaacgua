@@ -42,7 +42,7 @@ void HoverCraftUniverseWorld::postStep() {
 	hkStorageStringMap<HavokEntity*>::Iterator i = mCharactersMap.getIterator ();
 	while ( mCharactersMap.isValid(i) ){
 		HavokEntity * ch = mCharactersMap.getValue(i); 
-		ch->reorientCharacter();	
+		ch->postStep();	
 		i = mCharactersMap.getNext(i);
 	}
 }
@@ -53,7 +53,7 @@ void HoverCraftUniverseWorld::preStep() {
 	hkStorageStringMap<HavokEntity*>::Iterator i = mCharactersMap.getIterator ();
 	while ( mCharactersMap.isValid(i) ){
 		HavokEntity * ch = mCharactersMap.getValue(i); 
-		ch->update();	
+		ch->preStep();	
 		i = mCharactersMap.getNext(i);
 	}
 }

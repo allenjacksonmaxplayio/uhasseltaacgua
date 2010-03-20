@@ -86,8 +86,6 @@ void Hovercraft::process(float timeSince){
 		const hkVector4& position = character->getPosition();
 		changePosition(Ogre::Vector3(position(0),position(1),position(2)));
 
-		std::cout << mPosition << std::endl;
-
 		const hkQuaternion& rotation = character->getOrientation();
 		changeOrientation(Ogre::Quaternion(rotation(0),rotation(1),rotation(2),rotation(3)));
 /*
