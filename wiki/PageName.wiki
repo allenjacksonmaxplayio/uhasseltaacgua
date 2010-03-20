@@ -12,10 +12,10 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
   * *!CoreEngine: moet in apart project komen met generieke Application klasse die overgeerfd moet worden door bv HovercraftApplication in het Hovercraft Universe project.*
   * *!BasicEntityEvent moet bij Entity komen.*
   * !ControllerActionType: refactor and make generic for all types of controls (FPS, race, ...) and must be inherited by HU specific class that contains race controls for our game._
-  * *!EntityRegister: Moet in HovercraftUniverse project komen bij networking (niet core-networking).*
+  * *!EntityRegister: Moet in !HovercraftUniverse project komen bij networking (niet core-networking).*
   * *!RaceCamera: generiek maken*
   * !GameView: indirectie verwijderen
-  * !EntityManager & RepresentationManager: moet pointers deleten en alles kunnen clearen.
+  * !EntityManager & !RepresentationManager: moet pointers deleten en alles kunnen clearen.
   * *!CoreNetwork->Chat: in networking project*
   * *!CoreNetwork->!ClientCore/!ServerCore: behouden en hernoemen naar HUClient en HUServer of dergelijke.*
   * *!CoreNetwork->Server+!ServerThread: in HU behouden.*
