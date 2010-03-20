@@ -36,10 +36,12 @@ namespace HovUni {
 	void OverlayContainer::activate() {
 		mIsActivated = true;
 		GUIManager::getSingletonPtr()->activateOverlayContainer(this);
+		onActivate();
 	}
 
 	void OverlayContainer::deactivate() {
 		mIsActivated = false;
+		onDeactivate();
 		GUIManager::getSingletonPtr()->disableOverlayContainer(this);
 	}
 

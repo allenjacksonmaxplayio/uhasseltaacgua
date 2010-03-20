@@ -181,6 +181,11 @@ namespace HovUni {
 			 * @param val True when you want to ignore all inputs, false otherwise
 			 */
 			void ignoreInputs(bool val);
+
+			/**
+			 * Mark this overlay as focused
+			 */
+			void focus();
 	};
 }
 

@@ -15,6 +15,7 @@
 #include <Hikari.h>
 #include <Ogre.h>
 #include <vector>
+#include <utility>
 
 #include <Exception.h>
 #include "MouseVisualisation.h"
@@ -220,6 +221,11 @@ namespace HovUni {
 			 *		false will hide the cursor.
 			 */
 			void showCursor(bool val);
+
+			/**
+			 * Scale a given width and height to the current resolution
+			 */
+			std::pair<int, int> scale(int minWidth, int minHeight, int maxWidth, int maxHeight, int minResWidth = 800, int minResHeight = 600, int maxResWidth = 1680, int maxResHeight = 1050);
 	};
 }
 

@@ -16,6 +16,9 @@ namespace HovUni {
 		private:
 			/** The Overlay for the Main menu */
 			MainMenu* mMenu;
+
+			/** Boolean to check if we want to stop or not */
+			bool mContinue;
 	
 		public:
 			/**
@@ -34,6 +37,14 @@ namespace HovUni {
 			 * Called when we need to create a multiplayer game
 			 */
 			virtual void onCreate();
+
+			/**
+			 * Function that will be called when we want to quit the game
+			 *
+			 * @param caller A Reference to the caller, should be ignored
+			 * @param arg Some arguments, will be empty
+			 */
+			Hikari::FlashValue onQuit(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			/**
 			 * Function called when the state gets activated

@@ -14,23 +14,27 @@ namespace HovUni {
 			MenuButton* mOptionsButton;
 			MenuButton* mQuitButton;
 
+			BasicOverlay* mTitle;
+
 			ServerMenu* mServerMenu;
 			
 			//TEMP
 			ServerMenuListener* mListener;
 
 		public:
-			MainMenu(ServerMenuListener* serverListener);
+			MainMenu(ServerMenuListener* serverListener, const Hikari::FlashDelegate& onQuit);
 
 			virtual ~MainMenu();
+
+			virtual void onActivate();
+
+			virtual void onDeactivate();
 
 			Hikari::FlashValue onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			Hikari::FlashValue onMultiplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			Hikari::FlashValue onOptions(Hikari::FlashControl* caller, const Hikari::Arguments& args);
-
-			Hikari::FlashValue onQuit(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			Hikari::FlashValue onBack(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 

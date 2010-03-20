@@ -4,8 +4,8 @@
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
-	MainMenuState::MainMenuState() {
-		mMenu = new MainMenu(this);
+	MainMenuState::MainMenuState() : mContinue(true) {
+		mMenu = new MainMenu(this, Hikari::FlashDelegate(this, &MainMenuState::onQuit));
 	}
 
 	bool MainMenuState::onConnect(const Ogre::String& address) {
@@ -32,6 +32,12 @@ namespace HovUni {
 		//Create a new game
 	}
 
+	Hikari::FlashValue MainMenuState::onQuit(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		mContinue = false;
+
+		return Hikari::FlashValue();
+	}
+
 	void MainMenuState::activate() {
 		//Make sure we have a cursor
 		mGUIManager->showCursor(true);
@@ -54,7 +60,7 @@ namespace HovUni {
 		//We have sound, update it
 		mSoundManager->update();
 
-		return result;
+		return (result && mContinue);
 	}
 
 	bool MainMenuState::mouseMoved(const OIS::MouseEvent & e) {
@@ -87,6 +93,26 @@ namespace HovUni {
 
 	bool MainMenuState::keyPressed(const OIS::KeyEvent & e) {
 		bool result = true;
+
+		OIS::Keyboard * keyboard = InputManager::getSingletonPtr()->getKeyboard();
+
+		switch (e.key) {
+			case OIS::KC_ESCAPE:
+			case OIS::KC_LMENU:
+			case OIS::KC_RMENU:
+			case OIS::KC_F4:
+				// Check whether right combinations are pressed concurrently
+				if (keyboard->isKeyDown(OIS::KC_ESCAPE) || 
+					(keyboard->isKeyDown(OIS::KC_LMENU) && keyboard->isKeyDown(OIS::KC_RMENU) && keyboard->isKeyDown(OIS::KC_F4))) {
+					// Stop rendering
+					mContinue = false;			
+				}
+
+				break;
+			default:
+				// Do nothing
+				break;
+		}
 
 		//We are using a GUI, so update it
 		result = result && mGUIManager->keyPressed(e);
