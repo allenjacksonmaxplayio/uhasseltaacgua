@@ -36,6 +36,17 @@ const int KeyManager::getAction(const OIS::KeyCode key) {
 	return mKeyMapping[key];
 }
 
+const std::list<int> KeyManager::getRegisteredActions() {
+	std::list<int> actions;
+
+    std::map<int, const char *>::const_iterator iter;
+    for (iter = mActionMapping.begin(); iter != mActionMapping.end(); ++iter) {
+        actions.push_back(iter->first);
+    }
+
+    return actions;
+}
+
 const char* KeyManager::getName(const int action) {
 	return mActionMapping[action];
 }

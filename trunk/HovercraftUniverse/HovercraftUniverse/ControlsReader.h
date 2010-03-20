@@ -39,8 +39,7 @@ public:
 	void setDefaultControls();
 
 	/**
-	 * Loads the default controls.
-	 * Useful when the player has deleted his controls.ini file, or when he wants to reset them.
+	 * Loads the controls from the ini file.
 	 */
 	void readControls();
 };

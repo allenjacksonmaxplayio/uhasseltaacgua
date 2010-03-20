@@ -12,8 +12,8 @@ HovercraftPlayerController::HovercraftPlayerController(void) : mMovingLeft(false
 	mInputManager->addKeyListener(this, "HovercraftPlayerController");
 	mControlsReader = new ControlsReader(mInputManager);
 	
-	// TODO: for now, just set default controls...
-	mControlsReader->setDefaultControls();
+	// read controls from ini file
+	mControlsReader->readControls();
 }
 
 HovercraftPlayerController::~HovercraftPlayerController(void) {
