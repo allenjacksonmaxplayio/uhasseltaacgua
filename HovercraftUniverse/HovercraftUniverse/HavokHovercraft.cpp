@@ -59,16 +59,16 @@ void HavokHovercraft::preStep(){
 	float posY = 0.f;
 
 	if ( status.moveForward() ){
-	
+		posY=1.f;
 	}
 	else if ( status.moveBackward() ){
-	
+		posY=-1.f;
 	}
 	else if ( status.moveLeft() ){
-	
+		posX=1.f;
 	}
 	else if ( status.moveRight() ){
-	
+		posX=-1.f;
 	}
 
 
