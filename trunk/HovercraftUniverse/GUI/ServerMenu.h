@@ -25,6 +25,8 @@ namespace HovUni {
 		public:
 			ServerMenu(ServerMenuListener* listener, const Hikari::FlashDelegate& onBack);
 
+			~ServerMenu();
+
 			Hikari::FlashValue onOk(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			Hikari::FlashValue onCancel(Hikari::FlashControl* caller, const Hikari::Arguments& args);

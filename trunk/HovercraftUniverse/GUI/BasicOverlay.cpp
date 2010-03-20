@@ -16,6 +16,9 @@ namespace HovUni {
 	}
 
 	bool BasicOverlay::keyPressed(const OIS::KeyEvent &evt) {
+		if (mFlashControl) {
+			//mFlashControl->handleInputs(
+		}
 		return true;
 	}
 
@@ -94,6 +97,12 @@ namespace HovUni {
 
 		if (mFlashControl) {
 			mFlashControl->handleInputs(!mIgnoreInputs);
+		}
+	}
+
+	void BasicOverlay::focus() {
+		if (mFlashControl) {
+			mFlashControl->focus();
 		}
 	}
 }

@@ -33,6 +33,16 @@ namespace HovUni{
 			void removeOverlay(const std::string& name);
 
 			/**
+			 * Function called when this container is activated.
+			 */
+			virtual void onActivate() {}
+
+			/**
+			 * Function called when this container is deactivated.
+			 */
+			virtual void onDeactivate() {}
+
+			/**
 			 * Draw the overlay container
 			 */
 			void activate();

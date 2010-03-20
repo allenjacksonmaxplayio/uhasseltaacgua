@@ -150,4 +150,28 @@ namespace HovUni {
 	void GUIManager::showCursor(bool val) {
 		mMouseVisual.setVisible(val);
 	}
+
+	std::pair<int, int> GUIManager::scale(int minWidth, int minHeight, int maxWidth, int maxHeight, int minResWidth, int minResHeight, int maxResWidth, int maxResHeight) {
+		int screenWidth = getResolutionWidth();
+		int screenHeight = getResolutionHeight();
+
+		float scale;
+		{
+			if ( (maxResWidth <= screenWidth) && (maxResHeight <= screenHeight) ) {
+				scale = 1;
+			} else if ( (minResWidth >= screenWidth) && (minResHeight >= screenHeight) ) {
+				scale = 0;
+			} else {
+				float scaleX = ((float)(screenWidth - minResWidth) / (float)(maxResWidth - minResWidth));
+				float scaleY = ((float)(screenHeight - minResHeight ) / (float)(maxResHeight  - minResHeight ));
+
+				scale = (scaleX < scaleY) ? scaleX : scaleY;
+			}
+		}
+
+		int width = (int) (minWidth + scale * (maxWidth - minWidth));
+		int height = (int) (minHeight + scale * (maxHeight - minHeight));
+
+		return std::pair<int, int>(width, height);
+	}
 }

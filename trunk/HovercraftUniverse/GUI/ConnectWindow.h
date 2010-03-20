@@ -12,6 +12,8 @@ namespace HovUni {
 	class ConnectWindow : public BasicOverlay {
 		public:
 			ConnectWindow(const Hikari::FlashDelegate& okCallback, const Hikari::FlashDelegate& cancelCallback, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+
+			void customActionAfterActivate();
 	};
 }
 

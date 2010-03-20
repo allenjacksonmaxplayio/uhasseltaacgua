@@ -8,4 +8,8 @@ namespace HovUni {
 		bind("onOk", okCallback);
 		bind("onCancel", cancelCallback);
 	}
+
+	void ConnectWindow::customActionAfterActivate() {
+		this->focus();
+	}
 }
