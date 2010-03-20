@@ -7,6 +7,7 @@
 #include "PhantomTrackAction.h"
 
 #include "Hovercraft.h"
+#include "HavokHovercraft.h"
 
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
@@ -108,7 +109,7 @@ void HoverCraftUniverseWorld::addCharacter( Hovercraft * entity, int pos ){
 	// Set character type
 	m_characterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	HavokEntity * c = new HavokEntity(mPhysicsWorld,entity,&info,m_characterContext);
+	HavokEntity * c = new HavokHovercraft(mPhysicsWorld,entity,&info,m_characterContext);
 	mCharactersMap.insert(entity->getName().c_str(),c);
 
 	m_characterContext->removeReference();

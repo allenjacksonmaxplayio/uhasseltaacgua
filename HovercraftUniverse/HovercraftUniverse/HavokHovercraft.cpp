@@ -54,14 +54,23 @@ void HavokHovercraft::preStep(){
 
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
 
+	float deltaAngle = 0.f;
+	float posX = 0.f;
+	float posY = 0.f;
 
+	if ( status.moveForward() ){
+	
+	}
+	else if ( status.moveBackward() ){
+	
+	}
+	else if ( status.moveLeft() ){
+	
+	}
+	else if ( status.moveRight() ){
+	
+	}
 
-	//if ( status.
-
-
-
-	//if ( status.moveForward() )
-	//	mCharacterRigidBody->getRigidBody()->applyForce(Havok::getSingleton().getTimeStep(),mForward);
 
 
 /*	hkVector4 accumulatedDirection = hkVector4::getZero();

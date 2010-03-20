@@ -15,7 +15,7 @@ namespace HovUni {
 HavokEntity::HavokEntity( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info, hkpCharacterContext * characterContext ): 
 	mPhysicsWorld(world), mCharacterRigidBody(HK_NULL), mCharacterContext(characterContext), mEntity(entity)
 {
-	mForward.set( 0.0f, 0.0f, 1.0f );
+	mForward.set( 0.0f, 0.0f, -1.0f );
 	mUp.set(0.0f,1.0f,0.0f);
 
 	//add references here
