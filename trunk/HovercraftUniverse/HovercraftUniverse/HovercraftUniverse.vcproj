@@ -181,26 +181,26 @@
 				>
 			</File>
 			<Filter
-				Name="CoreNetwork"
+				Name="Network"
 				>
-				<File
-					RelativePath=".\ClientCore.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\EntityRegister.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Server.cpp"
+					RelativePath=".\HUClient.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\ServerCore.cpp"
+					RelativePath=".\HUServer.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\ServerThread.cpp"
+					RelativePath=".\HUServerCore.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HUServerThread.cpp"
 					>
 				</File>
 			</Filter>
@@ -495,26 +495,26 @@
 				>
 			</File>
 			<Filter
-				Name="CoreNetwork"
+				Name="Network"
 				>
-				<File
-					RelativePath=".\ClientCore.h"
-					>
-				</File>
 				<File
 					RelativePath=".\EntityRegister.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Server.h"
+					RelativePath=".\HUClient.h"
 					>
 				</File>
 				<File
-					RelativePath=".\ServerCore.h"
+					RelativePath=".\HUServer.h"
 					>
 				</File>
 				<File
-					RelativePath=".\ServerThread.h"
+					RelativePath=".\HUServerCore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HUServerThread.h"
 					>
 				</File>
 			</Filter>

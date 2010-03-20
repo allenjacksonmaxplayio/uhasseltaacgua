@@ -1,24 +1,24 @@
-#include "Server.h"
+#include "HUServer.h"
 #include <boost/ref.hpp>
 
 namespace HovUni {
 
-Server::Server() : mThread(0), mServerThread(0) {
+HUServer::HUServer() : mThread(0), mServerThread(0) {
 
 }
 
 
-Server::~Server() {
+HUServer::~HUServer() {
 }
 
-void Server::start() {
+void HUServer::start() {
 	if (!mThread && !mServerThread) {
-		mServerThread = new ServerThread();
+		mServerThread = new HUServerThread();
 		mThread = new boost::thread(boost::ref(*mServerThread));
 	}
 }
 
-void Server::stop() {
+void HUServer::stop() {
 	if (mThread && mServerThread) {
 		mServerThread->stop();
 		mThread->join();
@@ -29,11 +29,11 @@ void Server::stop() {
 	}
 }
 
-bool Server::isRunning() {
+bool HUServer::isRunning() {
 	return (mThread != 0);
 }
 
-void Server::join() {
+void HUServer::join() {
 	if (mThread) {
 		mThread->join();
 	}

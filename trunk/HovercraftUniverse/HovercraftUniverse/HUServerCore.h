@@ -1,5 +1,5 @@
-#ifndef SERVERCORE_H_
-#define SERVERCORE_H_
+#ifndef HUSERVERCORE_H_
+#define HUSERVERCORE_H_
 
 #include "NetworkServer.h"
 #include "EntityManager.h"
@@ -14,7 +14,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ServerCore: public NetworkServer
+class HUServerCore: public NetworkServer
 {
 private:
 
@@ -31,12 +31,12 @@ public:
 	/**
 	 * Constructor
 	 */
-	ServerCore();
+	HUServerCore();
 
 	/**
 	 * Destructor
 	 */
-	~ServerCore();
+	~HUServerCore();
 
 	/**
 	 * Process incoming and outgoing packets

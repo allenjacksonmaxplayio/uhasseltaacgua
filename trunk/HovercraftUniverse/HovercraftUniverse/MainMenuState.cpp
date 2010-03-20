@@ -1,6 +1,6 @@
 #include "MainMenuState.h"
 #include "InGameState.h"
-#include "ClientCore.h"
+#include "HUClient.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
@@ -13,7 +13,7 @@ namespace HovUni {
 		///////////////////////////////////////////
 		///////////////////////////////////////////
 		//TODO: Parse IP and Port?
-		ClientCore* mClient = new ClientCore(address.c_str());
+		HUClient* mClient = new HUClient(address.c_str());
 
 		TiXmlDocument doc("gui/GUIConfig.xml");
 		doc.LoadFile();

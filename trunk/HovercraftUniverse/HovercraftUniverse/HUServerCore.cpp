@@ -1,10 +1,10 @@
-#include "ServerCore.h"
+#include "HUServerCore.h"
 #include "ServerLoader.h"
 #include "EntityRegister.h"
 
 namespace HovUni {
 
-ServerCore::ServerCore() : NetworkServer(2375, 2376), mEntityManager(0), mIDManager(0) {
+HUServerCore::HUServerCore() : NetworkServer(2375, 2376), mEntityManager(0), mIDManager(0) {
 	// Create and store entity manager
 	mEntityManager = EntityManager::getServerSingletonPtr();
 	mIDManager = NetworkIDManager::getServerSingletonPtr();
@@ -19,38 +19,38 @@ ServerCore::ServerCore() : NetworkServer(2375, 2376), mEntityManager(0), mIDMana
 	mLobby->networkRegister(mIDManager->getID(Lobby::getClassName()), this);
 }
 
-ServerCore::~ServerCore() {
+HUServerCore::~HUServerCore() {
 	delete mLobby;
 	mLobby;
 }
 
-void ServerCore::process() {
+void HUServerCore::process() {
 	NetworkServer::process();
 	mLobby->processEvents(0.0f);
 }
 
-bool ServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
+bool HUServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
 	// Accept a connection if lobby isn't full
 	return mLobby->onConnectAttempt(id);
 }
 
-void ServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
+void HUServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 	ZCom_requestDownstreamLimit(id, 60, 600);
 
 	// Notice the lobby of new connection
 	mLobby->onConnect(id);
 }
 
-void ServerCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
+void HUServerCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
 	// Connection closed
 	mLobby->onDisconnect(id);
 }
 
-void ServerCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
+void HUServerCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
 
 }
 
-bool ServerCore::ZCom_cbZoidRequest(ZCom_ConnID id, zU8 requested_level, ZCom_BitStream& reason) {
+bool HUServerCore::ZCom_cbZoidRequest(ZCom_ConnID id, zU8 requested_level, ZCom_BitStream& reason) {
 	// Only accept level 1
 	if (requested_level == 1) {
 		return true;
@@ -59,7 +59,7 @@ bool ServerCore::ZCom_cbZoidRequest(ZCom_ConnID id, zU8 requested_level, ZCom_Bi
 	}
 }
 
-void ServerCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
+void HUServerCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
 	// Result of zoid request
 }
 
