@@ -293,6 +293,10 @@
 							RelativePath=".\HavokEntity.cpp"
 							>
 						</File>
+						<File
+							RelativePath=".\HavokHovercraft.cpp"
+							>
+						</File>
 					</Filter>
 				</Filter>
 			</Filter>
@@ -609,6 +613,10 @@
 						>
 						<File
 							RelativePath=".\HavokEntity.h"
+							>
+						</File>
+						<File
+							RelativePath=".\HavokHovercraft.h"
 							>
 						</File>
 					</Filter>

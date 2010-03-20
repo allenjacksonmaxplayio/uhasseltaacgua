@@ -3,10 +3,11 @@
 
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
-#include "Controller.h"
-#include "Entity.h"
+
 
 namespace HovUni {
+
+class Entity;
 
 /**
  * A character
@@ -20,7 +21,7 @@ protected:
 	Entity * mEntity;
 
 	/**
-	 * Refernce to world
+	 * Reference to world
 	 */
 	hkpWorld * mPhysicsWorld;
 	
@@ -39,6 +40,9 @@ protected:
 	 */
 	hkVector4 mUp;
 
+	/**
+	 * A vector of what the character sees as forward vector	
+	 */
 	hkVector4 mForward;
 
 public:
@@ -72,42 +76,36 @@ public:
 	 * Get the entity
 	 * @return entity
 	 */
-	Entity * getEntity()  {
-		return mEntity;
-	}
+	Entity * getEntity();
 
 	/**
 	 * Get forward vector
 	 * @return forward
 	 */
-	const hkVector4& getForward() const {
-		return mForward;
-	}
+	const hkVector4& getForward() const;
 
 	/**
 	 * Get forward vector
 	 * @return forward
 	 */
-	hkVector4& getForward() {
-		return mForward;
-	}
+	hkVector4& getForward();
 
 	/**
 	 * Get the rigid body for the character
 	 */
-	hkpCharacterRigidBody * getCharacterRigidBody() {
-		return mCharacterRigidBody;
-	}
+	hkpCharacterRigidBody * getCharacterRigidBody();
 
-	void reorientCharacter();
-
-	void updateUp( hkVector4& newUp );
-	
 	/**
-	 * Update the character movement
+	 * Action te be done in the preStep
 	 */
-	void update();
+	virtual void preStep(){};
 
+	/**
+	 * Action to be done in the post step
+	 */
+	virtual void postStep(){};
+
+	virtual void updateUp( hkVector4& newUp);		
 	
 };
 

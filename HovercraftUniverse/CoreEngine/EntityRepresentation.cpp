@@ -2,7 +2,6 @@
 #include <OgreMaxUtilities.hpp>
 #include <OgreSubEntity.h>
 #include <vector>
-#include <iostream>
 
 namespace HovUni {
 
@@ -34,9 +33,6 @@ EntityRepresentation::~EntityRepresentation() {
 
 void EntityRepresentation::draw() {
 	// Update the settings
-	
-	std::cout << mEntity->getName() << " " << mEntity->getCategory() << " " << mEntity->getPosition() << std::endl;
-
 	mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
 }
