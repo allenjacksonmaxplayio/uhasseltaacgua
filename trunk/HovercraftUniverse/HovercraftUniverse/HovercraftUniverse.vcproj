@@ -764,6 +764,10 @@
 				<Filter
 					Name="controller"
 					>
+					<File
+						RelativePath="..\CoreEngine\ControllerActionType.h"
+						>
+					</File>
 					<Filter
 						Name="Hovercraft"
 						>

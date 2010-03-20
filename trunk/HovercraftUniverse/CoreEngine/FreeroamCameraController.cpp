@@ -1,5 +1,5 @@
 #include "FreeroamCameraController.h"
-#include "ControllerActionType.h"
+#include "CameraControllerActionType.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -64,25 +64,25 @@ Ogre::Degree FreeroamCameraController::getPitch() {
 }
 
 bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) { 
-	int action = mInputManager->getKeyManager()->getAction(e.key);
+	CameraActions::CameraControllerActionType action = mInputManager->getKeyManager()->getCameraAction(e.key);
 	// Process possibly resulting move
 	switch (action) {
-		case FREE_CAMERA_FWD:
+		case CameraActions::FREE_CAMERA_FWD:
 			mMovingForward = true;
 			break;
-		case FREE_CAMERA_BACK:
+		case CameraActions::FREE_CAMERA_BACK:
 			mMovingBackward = true;
 			break;
-		case FREE_CAMERA_LEFT:
+		case CameraActions::FREE_CAMERA_LEFT:
 			mMovingLeft = true;
 			break;
-		case FREE_CAMERA_RIGHT:
+		case CameraActions::FREE_CAMERA_RIGHT:
 			mMovingRight = true;
 			break;
-		case FREE_CAMERA_UP:
+		case CameraActions::FREE_CAMERA_UP:
 			mMovingUp = true;
 			break;
-		case FREE_CAMERA_DOWN:
+		case CameraActions::FREE_CAMERA_DOWN:
 			mMovingDown = true;
 			break;
 		default:
@@ -94,25 +94,25 @@ bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) {
 }
 
 bool FreeroamCameraController::keyReleased(const OIS::KeyEvent & e) { 
-	int action = mInputManager->getKeyManager()->getAction(e.key);
+	CameraActions::CameraControllerActionType action = mInputManager->getKeyManager()->getCameraAction(e.key);
 	// Clear movement for that key
 	switch (action) {
-		case FREE_CAMERA_FWD:
+		case CameraActions::FREE_CAMERA_FWD:
 			mMovingForward = false;
 			break;
-		case FREE_CAMERA_BACK:
+		case CameraActions::FREE_CAMERA_BACK:
 			mMovingBackward = false;
 			break;
-		case FREE_CAMERA_LEFT:
+		case CameraActions::FREE_CAMERA_LEFT:
 			mMovingLeft = false;
 			break;
-		case FREE_CAMERA_RIGHT:
+		case CameraActions::FREE_CAMERA_RIGHT:
 			mMovingRight = false;
 			break;
-		case FREE_CAMERA_UP:
+		case CameraActions::FREE_CAMERA_UP:
 			mMovingUp = false;
 			break;
-		case FREE_CAMERA_DOWN:
+		case CameraActions::FREE_CAMERA_DOWN:
 			mMovingDown = false;
 			break;
 		default:
