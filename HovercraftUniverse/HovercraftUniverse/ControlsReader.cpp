@@ -2,6 +2,7 @@
 #include "KeyManager.h"
 #include "CameraControllerActionType.h"
 #include "ControllerActionType.h"
+#include "INIReader/INIReader.h"
 
 namespace HovUni {
 
@@ -55,7 +56,14 @@ void ControlsReader::setDefaultControls() {
 }
 
 void ControlsReader::readControls() {
-	//TODO: read ini file
+	KeyManager * keys = mInputManager->getKeyManager();
+	std::string controlINI = mInputManager->getControlsFile();
+
+	INIReader reader(controlINI);
+	// TODO: read contents and set controls
+	// for now just load default values...
+	setDefaultControls();
+
 }
 
 }

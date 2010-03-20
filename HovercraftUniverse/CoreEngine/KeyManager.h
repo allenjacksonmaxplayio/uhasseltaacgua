@@ -36,8 +36,6 @@ public:
 	virtual ~KeyManager(void);
 
 	//TODO: is OIS::KeyCode voldoende? Werkt dit ook voor bv controllers?
-	//TODO: Controls inlezen uit INI file
-	//TODO: Controls wegschrijven naar INI file?
 
 	/**
 	 * Register an action.
@@ -70,6 +68,13 @@ public:
 	 * @return	The action associated with this key.
 	 */
 	const int getAction(const OIS::KeyCode key);
+
+	/**
+	 * Get all registered actions (as int code).
+	 *
+	 * @return	All registered user actions.
+	 */
+	const std::list<int> getRegisteredActions();
 
 	/** 
 	 * Get the string representation of the action.
