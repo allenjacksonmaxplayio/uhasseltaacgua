@@ -17,8 +17,8 @@ Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorin
   * GameView: indirectie verwijderen
   * EntityManager & RepresentationManager: moet pointers deleten en alles kunnen clearen.
   * *CoreNetwork->Chat: in networking project*
-  * CoreNetwork->ClientCore/ServerCore: behouden en hernoemen naar HUClient en HUServer of dergelijke.
-  * CoreNetwork->Server+ServerThread: in HU behouden.
+  * _CoreNetwork->ClientCore/ServerCore: behouden en hernoemen naar HUClient en HUServer of dergelijke._
+  * _CoreNetwork->Server+ServerThread: in HU behouden._
   * CustomOgreMaxScene: in CoreEngine
   * *GUI uit HU in GUI project*
   * Havok (generic) in core engine en game specifieke functionaliteit in HU.
