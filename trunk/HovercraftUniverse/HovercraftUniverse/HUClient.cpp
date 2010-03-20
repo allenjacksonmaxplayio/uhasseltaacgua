@@ -267,6 +267,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		
 		if (role == eZCom_RoleOwner) {
 			ent = new Hovercraft(name,true,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+
 			ent->setController(new HovercraftPlayerController());
 		}else {
 			ent = new Hovercraft(name,false,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
@@ -275,6 +276,10 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			ai->initialize();	
 		}	
 		
+		HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
+		RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
+
+
 		ent->networkRegister(requested_class,this);	
 		mEntityManager->registerEntity(ent);
 
