@@ -1,4 +1,4 @@
-#include "ClientCore.h"
+#include "HUClient.h"
 #include "HUApplication.h"
 #include "ClientLoader.h"
 #include "EntityRegister.h"
@@ -28,19 +28,19 @@
 
 namespace HovUni {
 
-ClientCore::ClientCore(const char* name, unsigned int port) : NetworkClient(name, port), mEntityManager(0), mIDManager(0), mLobby(0) {
+HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 
-ClientCore::ClientCore() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
+HUClient::HUClient() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
 	initialize();
 }
 
-ClientCore::~ClientCore() {
+HUClient::~HUClient() {
 
 }
 
-void ClientCore::initialize() {
+void HUClient::initialize() {
 	// Create and store entity manager
 	mEntityManager = EntityManager::getClientSingletonPtr();
 	mIDManager = new NetworkIDManager(this);
@@ -48,11 +48,11 @@ void ClientCore::initialize() {
 	ZCom_setUpstreamLimit(0, 0);
 }
 
-void ClientCore::process() {
+void HUClient::process() {
 	NetworkClient::process();
 }
 
-void ClientCore::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
+void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
 		ZCom_requestDownstreamLimit(id, 60, 600);
@@ -63,15 +63,15 @@ void ClientCore::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result
 	}
 }
 
-void ClientCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
+void HUClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
 	// Connection closed
 }
 
-void ClientCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
+void HUClient::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
 	// Data received
 }  
 
-void ClientCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
+void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
 	if (result == eZCom_ZoidEnabled) {
 		// Requested zoid level was confirmed
 	} else {
@@ -79,7 +79,7 @@ void ClientCore::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 
 	}
 }
 
-void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	// Receive and create the entity
 	Ogre::String name("");
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
@@ -285,7 +285,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	HUApplication::msPreparationLoader->update(name);
 }
 
-void ClientCore::start() {
+void HUClient::start() {
 	if (mLobby) {
 		mLobby->start();
 	}

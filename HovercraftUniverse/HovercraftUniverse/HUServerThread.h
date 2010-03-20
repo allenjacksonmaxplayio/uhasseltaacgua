@@ -1,7 +1,7 @@
-#ifndef SERVERTHREAD_H_
-#define SERVERTHREAD_H_
+#ifndef HUSERVERTHREAD_H_
+#define HUSERVERTHREAD_H_
 
-#include "ServerCore.h"
+#include "HUServerCore.h"
 
 namespace HovUni {
 
@@ -10,10 +10,10 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ServerThread {
+class HUServerThread {
 private:
 	/** The server core */
-	ServerCore* mServerCore;
+	HUServerCore* mServerCore;
 
 	/** Whether to stop the thread */
 	bool mStop;
@@ -22,12 +22,12 @@ public:
 	/**
 	 * Constructor
 	 */
-	ServerThread();
+	HUServerThread();
 
 	/**
 	 * Destructor
 	 */
-	~ServerThread();
+	~HUServerThread();
 
 	/**
 	 * Indicate the thread to stop

@@ -2,7 +2,7 @@
 #define INGAMESTATE_H
 
 #include "BasicGameState.h"
-#include "ClientCore.h"
+#include "HUClient.h"
 #include "EntityManager.h"
 #include "HUD.h"
 #include "RepresentationManager.h"
@@ -12,12 +12,12 @@ namespace HovUni {
 	class InGameState : public BasicGameState {
 		private:
 			/** A reference to the created client core */
-			ClientCore* mClientCore;
+			HUClient* mHUClient;
 
 			/** The instantiation of the hud */
 			HUD* mHud;
 
-			/** Monitor the time lapsed for the ClientCore */
+			/** Monitor the time lapsed for the HUClient */
 			float mTimeLapsed;
 
 			/** A reference to the entity manager */
@@ -33,7 +33,7 @@ namespace HovUni {
 			/**
 			 * Constructor
 			 */
-			InGameState(ClientCore* client, TiXmlElement* HUDConfig);
+			InGameState(HUClient* client, TiXmlElement* HUDConfig);
 
 			/**
 			 * Function called when the state gets activated

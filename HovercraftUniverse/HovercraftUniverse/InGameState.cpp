@@ -1,8 +1,8 @@
 #include "InGameState.h"
 
 namespace HovUni {
-	InGameState::InGameState(ClientCore* client, TiXmlElement* HUDConfig) 
-			: mClientCore(client), mTimeLapsed(0), mContinue(true) {
+	InGameState::InGameState(HUClient* client, TiXmlElement* HUDConfig) 
+			: mHUClient(client), mTimeLapsed(0), mContinue(true) {
 
 		mHud = new HUD(HUDConfig);
 		mEntityManager = EntityManager::getClientSingletonPtr();
@@ -30,11 +30,11 @@ namespace HovUni {
 		// Process the client
 		if (mTimeLapsed > 0.016f) {
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
-			mClientCore->process();
+			mHUClient->process();
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 			mTimeLapsed = 0.0f;
 			// TODO Remove
-			mClientCore->start();
+			mHUClient->start();
 		}
 
 		// Update representation manager

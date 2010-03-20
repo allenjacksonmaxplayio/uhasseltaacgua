@@ -1,5 +1,5 @@
-#ifndef CLIENTCORE_H_
-#define CLIENTCORE_H_
+#ifndef HUCLIENT_H_
+#define HUCLIENT_H_
 
 #include "NetworkClient.h"
 #include "EntityManager.h"
@@ -14,7 +14,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ClientCore: public NetworkClient
+class HUClient: public NetworkClient
 {
 private:
 	/** The entity manager */
@@ -36,7 +36,7 @@ public:
 	 * @param name the name of the server
 	 * @param port the port of the server
 	 */
-	ClientCore(const char* name, unsigned int port = 2375);
+	HUClient(const char* name, unsigned int port = 2375);
 
 	/**
 	 * Constructor for a client using a local connection. This client
@@ -44,12 +44,12 @@ public:
 	 * It is used for combining the client and server to avoid the
 	 * overhead of real network.
 	 */
-	ClientCore();
+	HUClient();
 
 	/**
 	 * Destructor
 	 */
-	~ClientCore();
+	~HUClient();
 
 	/**
 	 * Process incoming and outgoing packets

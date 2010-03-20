@@ -1,5 +1,5 @@
 #include "HUApplication.h"
-#include "Server.h"
+#include "HUServer.h"
 #include "Havok.h"
 #include "EntityManager.h"
 #include "Console.h"
@@ -87,7 +87,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 // HACK IN OGRE FILE THINGY
 
-		HovUni::Server* server = new HovUni::Server();
+		HovUni::HUServer* server = new HovUni::HUServer();
 		server->start();
 		server->join();
 		delete server;

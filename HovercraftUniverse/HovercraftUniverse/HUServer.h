@@ -1,7 +1,7 @@
-#ifndef SERVER_H_
-#define SERVER_H_
+#ifndef HUSERVER_H_
+#define HUSERVER_H_
 
-#include "ServerThread.h"
+#include "HUServerThread.h"
 #include <boost/thread/thread.hpp>
 
 namespace HovUni {
@@ -11,24 +11,24 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class Server {
+class HUServer {
 private:
 	/** The boost thread container */
 	boost::thread* mThread;
 
 	/** The server thread */
-	ServerThread* mServerThread;
+	HUServerThread* mServerThread;
 
 public:
 	/**
 	 * Constructor
 	 */
-	Server();
+	HUServer();
 
 	/**
 	 * Destructor
 	 */
-	~Server();
+	~HUServer();
 
 	/**
 	 * Start the server

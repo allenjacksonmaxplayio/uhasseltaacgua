@@ -1,4 +1,4 @@
-#include "ServerThread.h"
+#include "HUServerThread.h"
 #include "Havok.h"
 #include "EntityManager.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
@@ -8,20 +8,20 @@
 
 namespace HovUni {
 
-ServerThread::ServerThread() : mServerCore(0), mStop(false) {
-	mServerCore = new ServerCore();
+HUServerThread::HUServerThread() : mServerCore(0), mStop(false) {
+	mServerCore = new HUServerCore();
 }
 
-ServerThread::~ServerThread() {
+HUServerThread::~HUServerThread() {
 	delete mServerCore;
 	mServerCore = 0;
 }
 
-void ServerThread::stop() {
+void HUServerThread::stop() {
 	mStop = true;
 }
 
-void ServerThread::operator()() {
+void HUServerThread::operator()() {
 	boost::posix_time::ptime lastTime(boost::posix_time::microsec_clock::universal_time());
 
 	while (!mStop) {
