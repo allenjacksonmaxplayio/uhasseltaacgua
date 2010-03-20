@@ -47,6 +47,8 @@ void Application::parseIni() {
 	mOgrePlugins = reader.Get("Ogre", "Plugins", "plugins.cfg");
 	mSoundPath = reader.Get("Sound", "Path", "sound\\");
 	mSoundFile = reader.Get("Sound", "File", "Sound.fev");
+	mControlsPath = reader.Get("Controls", "Path", "controls\\");
+	mControlsFile = reader.Get("Controls", "File", "Controls.ini");
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;
