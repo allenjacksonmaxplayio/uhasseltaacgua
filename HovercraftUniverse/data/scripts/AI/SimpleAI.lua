@@ -41,6 +41,10 @@ function setEntity(entity)
 	mEntity = entity;
 end
 
+function setTarget(entity)
+	mTarget = entity;
+end
+
 epsilon = 0.01; --epsilon for avoiding oscillations
 
 --[[
@@ -51,9 +55,9 @@ function decide()
 	--Poll Position
 	position = mEntity:getPosition();
 	--println("");
-	--println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
-	targetPosition = Vector3(-350.0, 40.0, 200.0);
-
+	println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
+	targetPosition = mTarget:getPosition();
+	println("Target: " .. targetPosition.x .. ", " .. targetPosition.y .. ", " .. targetPosition.z);
 	--Calculate orientation
 	targetOrientation = targetPosition - position;
 	targetOrientation = targetOrientation:normalisedCopy();
