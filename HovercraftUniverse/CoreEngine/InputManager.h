@@ -43,6 +43,9 @@ protected:
 	/** The key manager */
 	KeyManager * mKeyManager;
 
+	/** The config file with the controls */
+	std::string mControlsFile;
+
 	/** The singleton object */
     static InputManager * mInputManager;
 
@@ -199,6 +202,20 @@ public:
 	 * @return the key manager.
 	 */
 	KeyManager * getKeyManager(void);
+
+	/**
+	 * Set the location of the controls ini file
+	 *
+	 * @param	file	Location of Controls.ini
+	 */
+	void setControlsFile(std::string file);
+
+	/**
+	 * Get the location of the controls ini file
+	 *
+	 * @return	file	Location of Controls.ini
+	 */
+	std::string getControlsFile();
 
 private:
 

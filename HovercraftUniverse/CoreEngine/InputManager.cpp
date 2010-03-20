@@ -356,4 +356,12 @@ KeyManager * InputManager::getKeyManager(void) {
 	return mKeyManager;
 }
 
+void InputManager::setControlsFile(std::string file) {
+	mControlsFile = file;
+}
+
+std::string InputManager::getControlsFile() {
+	return mControlsFile;
+}
+
 }

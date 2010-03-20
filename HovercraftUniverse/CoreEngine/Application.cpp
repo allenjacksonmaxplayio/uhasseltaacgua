@@ -176,6 +176,7 @@ void Application::setupScene() {
 void Application::setupInputSystem() {
 	mInputManager = InputManager::getSingletonPtr();
 	mInputManager->initialise(mOgreRoot->getAutoCreatedWindow());
+	mInputManager->setControlsFile(mControlsPath + mControlsFile);
 }
 
 void Application::createFrameListener() {

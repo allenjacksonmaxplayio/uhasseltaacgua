@@ -4,6 +4,7 @@
 #include "HovercraftController.h"
 #include <OgreVector3.h>
 #include "InputManager.h"
+#include "ControlsReader.h"
 
 namespace HovUni {
 
@@ -18,6 +19,9 @@ protected:
 	/** The input manager */
 	InputManager * mInputManager;
 
+	/** The controls reader */
+	ControlsReader * mControlsReader;
+
 	/** The different states the hovercraft can be in */
 	bool mMovingLeft;
 	bool mMovingForward;
@@ -27,7 +31,7 @@ protected:
 
 public:
 	/**
-	 * Constructr.
+	 * Constructor.
 	 */
 	HovercraftPlayerController(void);
 
