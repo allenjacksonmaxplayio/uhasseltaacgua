@@ -5,30 +5,6 @@
 namespace HovUni {
 
 KeyManager::KeyManager(void) {
-	// TODO: for now hardcoded keys...
-	/*
-	mKeyMapping[OIS::KC_UP] = ACCELERATE;
-	mKeyMapping[OIS::KC_DOWN] = BRAKE;
-	mKeyMapping[OIS::KC_LEFT] = TURNLEFT;
-	mKeyMapping[OIS::KC_RIGHT] = TURNRIGHT;
-
-	mKeyMapping[OIS::KC_NUMPAD8] = ACCELERATE;
-	mKeyMapping[OIS::KC_NUMPAD2] = BRAKE;
-	mKeyMapping[OIS::KC_NUMPAD4] = TURNLEFT;
-	mKeyMapping[OIS::KC_NUMPAD6] = TURNRIGHT;
-	*/
-	mCameraMapping[OIS::KC_C] = CameraActions::CHANGECAMERA;
-	mCameraMapping[OIS::KC_1] = CameraActions::THIRD_PERSON_CAMERA;
-	mCameraMapping[OIS::KC_2] = CameraActions::FIRST_PERSON_CAMERA;
-	mCameraMapping[OIS::KC_3] = CameraActions::REAR_VIEW_CAMERA;
-	mCameraMapping[OIS::KC_4] = CameraActions::FREE_CAMERA;
-	mCameraMapping[OIS::KC_W] = CameraActions::FREE_CAMERA_FWD;
-	mCameraMapping[OIS::KC_S] = CameraActions::FREE_CAMERA_BACK;
-	mCameraMapping[OIS::KC_A] = CameraActions::FREE_CAMERA_LEFT;
-	mCameraMapping[OIS::KC_D] = CameraActions::FREE_CAMERA_RIGHT;
-	mCameraMapping[OIS::KC_E] = CameraActions::FREE_CAMERA_UP;
-	mCameraMapping[OIS::KC_Q] = CameraActions::FREE_CAMERA_DOWN;
-	
 }
 
 KeyManager::~KeyManager(void) {

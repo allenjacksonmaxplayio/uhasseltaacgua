@@ -17,7 +17,11 @@ enum ControllerActionType {
 	ACCELERATE=1, 
 	BRAKE=2, 
 	TURNLEFT=3, 
-	TURNRIGHT=4
+	TURNRIGHT=4,
+
+
+
+	ACTIONS_END	// shouldn't be used as a real control, just a check for the last entry in the enum
 };
 
 /** String representations of the actions */

@@ -177,6 +177,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ControlsReader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HUApplication.cpp"
 				>
 			</File>
@@ -428,7 +432,7 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="controller"
+					Name="Controller"
 					>
 					<Filter
 						Name="Hovercraft"
@@ -471,6 +475,10 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Input"
+					>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="GameEvents"
@@ -490,6 +498,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ControlsReader.h"
+				>
+			</File>
 			<File
 				RelativePath=".\HUApplication.h"
 				>
@@ -762,12 +774,8 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="controller"
+					Name="Controller"
 					>
-					<File
-						RelativePath="..\CoreEngine\ControllerActionType.h"
-						>
-					</File>
 					<Filter
 						Name="Hovercraft"
 						>
@@ -806,6 +814,14 @@
 					</File>
 					<File
 						RelativePath=".\MainMenuState.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Input"
+					>
+					<File
+						RelativePath="..\CoreEngine\ControllerActionType.h"
 						>
 					</File>
 				</Filter>
