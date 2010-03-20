@@ -50,89 +50,51 @@ void HavokHovercraft::postStep()
 void HavokHovercraft::preStep(){
 	mPhysicsWorld->markForWrite();
 
-/*	hkVector4 accumulatedDirection = hkVector4::getZero();
-	float accumulatedRotation = 0.0f;
-	float accumulatedTilt = mTilt;
-
-	// calculate new direction
-	if (mMovingStatus.moveLeft()) { 
-		// check direction, we won't allow turning without moving
-		if (mMovingStatus.moveForward()) {
-			accumulatedRotation += 1.0f;
-		} else if (mMovingStatus.moveBackward()) {
-			accumulatedRotation -= 1.0f;
-		}
-		// set tilt
-		if ((mMovingStatus.moveForward() || mMovingStatus.moveBackward()) && mTilt > -20.0f) {
-			mTilt -= 0.5f;
-		}
-	}
-	if (mMovingStatus.moveRight()) { 
-		// check direction, we won't allow turning without moving
-		if (mMovingStatus.moveForward()) {
-			accumulatedRotation -= 1.0f;
-		} else if (mMovingStatus.moveBackward()) {
-			accumulatedRotation += 1.0f;
-		}
-		// set tilt
-		if ((mMovingStatus.moveForward() || mMovingStatus.moveBackward()) && mTilt < 20.0f) {
-			mTilt += 0.5f;
-		}
-	}
-	// if not turning, lower tilt
-	if ((!mMovingStatus.moveLeft() && !mMovingStatus.moveRight()) || 
-				((mMovingStatus.moveLeft() || mMovingStatus.moveRight()) && (!mMovingStatus.moveForward() && !mMovingStatus.moveBackward()))) {
-		mTilt *= 0.9f;
-	}
-	
-
-	// calculate orientation
-	// TODO: Should be the UpVector, but in the tilt test this would give weird results...
-	//Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), getUpVector());
-	Ogre::Quaternion rotation = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedRotation)), Ogre::Vector3::UNIT_Y);
-	changeOrientation(rotation);
-
-	//calculate tilt
-	accumulatedTilt = mTilt - accumulatedTilt;
-	Ogre::Quaternion tilt = Ogre::Quaternion(Ogre::Degree(Ogre::Real(accumulatedTilt)), getOrientation());
-	changeOrientation(tilt);
-	
-
-	// move forward and/or backward
-	if (mMovingStatus.moveForward()) { 
-		accumulatedDirection += getOrientation(); 
-	}
-	if (mMovingStatus.moveBackward()) { 
-		accumulatedDirection -= getOrientation(); 
-	}
-	accumulatedDirection.normalise();
-
-	accumulatedDirection * timeSince * 100);*/
-
-
-
-	//TODO INPUT MAKE THE DUDE DO WHAT YOU WANT HIM TO DO
-
 	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
 
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
+
+	hkStepInfo stepInfo;
+	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
+	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
+
+	hkReal speed = hovercraft->getSpeed();
+
+
+	std::cout << speed << std::endl;
 
 	float deltaAngle = 0.f;
 	float posX = 0.f;
 	float posY = 0.f;
 
-	if ( status.moveForward() ){
-		posY=1.f;
+	if ( status.moveForward() ){		
+		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
+		if ( speed > hovercraft->getMaximumSpeed() ){
+			hovercraft->setSpeed(hovercraft->getMaximumSpeed());
+		} else {
+			hovercraft->setSpeed(speed);
+		}	
+
+		posY -= 1;
 	}
-	else if ( status.moveBackward() ){
-		posY=-1.f;
+	if ( status.moveBackward() ){
+		speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
+		if ( speed < -1 * hovercraft->getMaximumSpeed() ){
+			hovercraft->setSpeed(-1 * hovercraft->getMaximumSpeed());
+		} else {
+			hovercraft->setSpeed(speed);
+		}
+
+		posY += 1;
 	}
-	else if ( status.moveLeft() ){
-		posX=1.f;
+	if ( status.moveLeft() ){
+		posX += 1.f;
 	}
-	else if ( status.moveRight() ){
-		posX=-1.f;
+	if ( status.moveRight() ){
+		posX -= 1.f;
 	}
+
+	
 
 	
 	// Update the character context
@@ -194,17 +156,10 @@ void HavokHovercraft::preStep(){
 			hkVector4 newRot;
 			newRot.setCross( mForward, mUp );
 
-			// Display character's current heading
-	/*		hkRotation characterRotation;
-			characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );
-			HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::LIMEGREEN );
-*/
 			input.m_forward = mForward;
 		}
 
-		hkStepInfo stepInfo;
-		stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
-		stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
+
 
 		input.m_stepInfo = stepInfo;
 		input.m_characterGravity.setMul4( -20.0f, mUp );

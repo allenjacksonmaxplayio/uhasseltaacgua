@@ -43,12 +43,12 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 	}
 
 	//Read Speed
-	mSpeed = 0.0f;
+	mMaximumSpeed = 0.0f;
 	node = data->FirstChild("Speed");
 	if(node){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if(element){
-			mSpeed = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+			mMaximumSpeed = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}
 
@@ -71,6 +71,9 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 			mAcceleration = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}
+
+	//set up fields that are not in xml
+	mSpeed = 0.0f;
 }
 
 Hovercraft::~Hovercraft(void){
@@ -192,6 +195,13 @@ void Hovercraft::setupReplication(){
 
 	//mMass
 	mNode->addReplicationFloat(&mMass,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
+
+	//mMaximumSpeed
+	mNode->addReplicationFloat(&mMaximumSpeed,
 	4,
 	ZCOM_REPFLAG_MOSTRECENT,
 	ZCOM_REPRULE_AUTH_2_ALL
