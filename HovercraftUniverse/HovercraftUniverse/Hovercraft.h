@@ -36,7 +36,12 @@ private:
 	Ogre::String mDescription;
 
 	/**
-	 * The speed
+	 * The default maximum speed
+	 */
+	Ogre::Real mMaximumSpeed;
+
+	/**
+	 * The current speed
 	 */
 	Ogre::Real mSpeed;
 
@@ -120,7 +125,15 @@ public:
 	}
 
 	/**
-	 * Get the speed
+	 * Get the maximum speed
+	 * @return maximum speed
+	 */
+	inline Ogre::Real getMaximumSpeed() const {
+		return mMaximumSpeed;
+	}
+
+	/**
+	 * Get the current speed
 	 * @return speed
 	 */
 	inline Ogre::Real getSpeed() const {
@@ -128,7 +141,7 @@ public:
 	}
 
 	/**
-	 * Set the speed
+	 * Set the current speed
 	 * @param speed
 	 */
 	inline void setSpeed(Ogre::Real speed) {
