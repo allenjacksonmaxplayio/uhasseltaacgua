@@ -1,20 +1,13 @@
 #include "Application.h"
-#include "ApplicationFrameListener.h"
-#include "ClientLoader.h"
 #include "Exception.h"
 #include "HUD.h"
 #include "INIReader/INIReader.h"
 #include <tinyxml/tinyxml.h>
 #include <iostream>
-#include "MainMenu.h"
-
-#include "InGameState.h"
-#include "MainMenuState.h"
 
 namespace HovUni {
 
 Ogre::SceneManager* Application::msSceneMgr = 0;
-ClientPreparationLoader * Application::msPreparationLoader = 0;
 
 Application::Application(Ogre::String appName, Ogre::String configINI) : mAppName(appName), mConfigINI(configINI) {
 	// All was initialized
@@ -121,7 +114,7 @@ void Application::createClient(const Ogre::String& host, unsigned int port){
 	*/
 
 	// TODO MAIN_MENU is not generic enough (added by Kristof)
-	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::MAIN_MENU, new MainMenuState());
+	mGameStateMgr = new GameStateManager(mInputManager, GameStateManager::MAIN_MENU, getInitialGameState());
 }
 
 void Application::setupScene() {
@@ -156,9 +149,6 @@ void Application::setupScene() {
 		GameView * gv = new GameView(msSceneMgr);
 		Ogre::Viewport * vp = win->addViewport(gv->getCamera()->getCamera());
 		mRepresentationManager->addGameView(gv);
-
-	// Initialize the client preparation loader 
-	msPreparationLoader = new ClientPreparationLoader();
 
 	// Initialise and store the GUIManager
 	GUIManager::init(root->Attribute("mediaPath"), vp);

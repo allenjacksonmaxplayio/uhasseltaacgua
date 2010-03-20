@@ -2,6 +2,7 @@
 #define HUAPPLICATION_H_
 
 #include "Application.h"
+#include "ClientPreparationLoader.h"
 
 namespace HovUni {
 
@@ -12,6 +13,9 @@ namespace HovUni {
 	*/
 	class HUApplication : public Application {
 	public:
+
+		/** The client preparation loader that can be used to read and reread scenes to render */
+		static ClientPreparationLoader * msPreparationLoader;
 
 		/**
 		* Constructor.
@@ -27,6 +31,11 @@ namespace HovUni {
 		 * @see Application::playMusic().
 		 */
 		void playMusic(SoundManager * soundMgr);
+
+		/**
+		 * @see Application::getInitialGameState().
+		 */
+		BasicGameState * getInitialGameState();
 
 		/**
 		 * @see Application::customSceneSetup().
