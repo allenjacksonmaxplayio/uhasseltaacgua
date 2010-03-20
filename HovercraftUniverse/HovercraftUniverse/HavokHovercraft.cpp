@@ -50,29 +50,6 @@ void HavokHovercraft::postStep()
 void HavokHovercraft::preStep(){
 	mPhysicsWorld->markForWrite();
 
-	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
-
-	const BasicEntityEvent& status = hovercraft->getMovingStatus();
-
-	float deltaAngle = 0.f;
-	float posX = 0.f;
-	float posY = 0.f;
-
-	if ( status.moveForward() ){
-		posY=1.f;
-	}
-	else if ( status.moveBackward() ){
-		posY=-1.f;
-	}
-	else if ( status.moveLeft() ){
-		posX=1.f;
-	}
-	else if ( status.moveRight() ){
-		posX=-1.f;
-	}
-
-
-
 /*	hkVector4 accumulatedDirection = hkVector4::getZero();
 	float accumulatedRotation = 0.0f;
 	float accumulatedTilt = mTilt;
@@ -134,19 +111,34 @@ void HavokHovercraft::preStep(){
 
 
 
-/*
-
-
 	//TODO INPUT MAKE THE DUDE DO WHAT YOU WANT HIM TO DO
+
+	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
+
+	const BasicEntityEvent& status = hovercraft->getMovingStatus();
+
+	float deltaAngle = 0.f;
+	float posX = 0.f;
+	float posY = 0.f;
+
+	if ( status.moveForward() ){
+		posY=1.f;
+	}
+	else if ( status.moveBackward() ){
+		posY=-1.f;
+	}
+	else if ( status.moveLeft() ){
+		posX=1.f;
+	}
+	else if ( status.moveRight() ){
+		posX=-1.f;
+	}
 
 	
 	// Update the character context
 	mCharacterRigidBody->m_up = mUp;
-	hkReal posX = 0.0f;
-	hkReal posY = 0.0f;
-	
-	
-	if( !m_detachedCamera )
+		
+	/*if( !m_detachedCamera )
 	{
 		float deltaAngle;
 		CharacterUtils::getUserInputForCharacter( m_env, deltaAngle, posX, posY );
@@ -169,11 +161,11 @@ void HavokHovercraft::preStep(){
 
 			// Rotate the character's rigid body to face in the direction it's moving
 			hkRotation newRotation;
-			newRotation.setAxisAngle( m_worldUp, characterAngle );
- 			m_characterForward.setRotatedDir( newRotation, m_cameraForward );
- 			m_characterForward.normalize3();
+			newRotation.setAxisAngle( mUp, characterAngle );
+ 			mForward.setRotatedDir( newRotation, m_cameraForward );
+ 			mForward.normalize3();
 		}
-	}
+	}*/
 	
 
 	
@@ -203,10 +195,10 @@ void HavokHovercraft::preStep(){
 			newRot.setCross( mForward, mUp );
 
 			// Display character's current heading
-			hkRotation characterRotation;
+	/*		hkRotation characterRotation;
 			characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );
 			HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::LIMEGREEN );
-
+*/
 			input.m_forward = mForward;
 		}
 
@@ -240,7 +232,7 @@ void HavokHovercraft::preStep(){
 		mCharacterRigidBody->setLinearVelocity( output.m_velocity, Havok::getSingleton().getTimeStep() );
 
 		HK_TIMER_END();
-	}*/
+	}
 
 
 	//DEBUG SHOW FARWARD AS GREEN ARROW
