@@ -54,6 +54,8 @@ private:
 	std::string mOgrePlugins;
 	std::string mSoundPath;
 	std::string mSoundFile;
+	std::string mControlsPath;
+	std::string mControlsFile;
 	
 public:
 

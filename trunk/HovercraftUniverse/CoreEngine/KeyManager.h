@@ -36,6 +36,8 @@ public:
 	virtual ~KeyManager(void);
 
 	//TODO: is OIS::KeyCode voldoende? Werkt dit ook voor bv controllers?
+	//TODO: Controls inlezen uit INI file
+	//TODO: Controls wegschrijven naar INI file?
 
 	/**
 	 * Register an action.
