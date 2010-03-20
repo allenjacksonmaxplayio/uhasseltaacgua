@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Data\sound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\Scripting&quot;;&quot;$(ProjectDir)..\dependencies\lua\include&quot;;&quot;$(ProjectDir)..\dependencies\luabind\include&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Data\sound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\Scripting&quot;;&quot;$(ProjectDir)..\dependencies\lua\include&quot;;&quot;$(ProjectDir)..\dependencies\luabind\include&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;;&quot;$(ProjectDir)..\CoreEngine&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -176,107 +176,19 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<Filter
-				Name="GUI"
+			<File
+				RelativePath=".\HUApplication.cpp"
 				>
-				<File
-					RelativePath=".\HUD.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="CoreEngine"
-				>
-				<File
-					RelativePath=".\Application.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ApplicationFrameListener.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\BasicEntityEvent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ControllerEvent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ControllerEventParser.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Entity.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityRegister.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityRepresentation.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FreeroamCameraController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GameView.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\InputManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\KeyManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ObjectTrackCameraController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\RaceCamera.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\RepresentationManager.cpp"
-					>
-				</File>
-				<Filter
-					Name="GameState"
-					>
-					<File
-						RelativePath=".\BasicGameState.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\GameStateManager.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\InGameState.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\MainMenuState.cpp"
-						>
-					</File>
-				</Filter>
-			</Filter>
+			</File>
 			<Filter
 				Name="CoreNetwork"
 				>
 				<File
 					RelativePath=".\ClientCore.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityRegister.cpp"
 					>
 				</File>
 				<File
@@ -381,40 +293,16 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="INI"
-				>
-				<File
-					RelativePath=".\INIReader\ini.c"
-					>
-				</File>
-				<File
-					RelativePath=".\INIReader\INIReader.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Misc"
 				>
 				<File
 					RelativePath=".\Console.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\TiXmlManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\TiXmlResource.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Game"
 				>
-				<File
-					RelativePath=".\HUApplication.cpp"
-					>
-				</File>
 				<Filter
 					Name="Entities"
 					>
@@ -542,10 +430,6 @@
 				<Filter
 					Name="controller"
 					>
-					<File
-						RelativePath=".\HovercraftKeyManager.cpp"
-						>
-					</File>
 					<Filter
 						Name="Hovercraft"
 						>
@@ -564,7 +448,7 @@
 					</Filter>
 				</Filter>
 				<Filter
-					Name="Loby"
+					Name="Lobby"
 					>
 					<File
 						RelativePath=".\Lobby.cpp"
@@ -572,6 +456,18 @@
 					</File>
 					<File
 						RelativePath=".\Player.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="State"
+					>
+					<File
+						RelativePath=".\InGameState.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MainMenuState.cpp"
 						>
 					</File>
 				</Filter>
@@ -594,123 +490,19 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<Filter
-				Name="GUI"
+			<File
+				RelativePath=".\HUApplication.h"
 				>
-				<File
-					RelativePath=".\HUD.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="CoreEngine"
-				>
-				<File
-					RelativePath=".\Application.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ApplicationFrameListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\BasicEntityEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Controller.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ControllerActionType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ControllerEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ControllerEventParser.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ControllerEventType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Entity.h"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityRegister.h"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityRepresentation.h"
-					>
-				</File>
-				<File
-					RelativePath=".\EntityResource.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FreeroamCameraController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GameView.h"
-					>
-				</File>
-				<File
-					RelativePath=".\InputManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\KeyManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ObjectTrackCameraController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RaceCamera.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RepresentationManager.h"
-					>
-				</File>
-				<Filter
-					Name="GameState"
-					>
-					<File
-						RelativePath=".\BasicGameState.h"
-						>
-					</File>
-					<File
-						RelativePath=".\GameStateManager.h"
-						>
-					</File>
-					<File
-						RelativePath=".\InGameState.h"
-						>
-					</File>
-					<File
-						RelativePath=".\MainMenuState.h"
-						>
-					</File>
-				</Filter>
-			</Filter>
+			</File>
 			<Filter
 				Name="CoreNetwork"
 				>
 				<File
 					RelativePath=".\ClientCore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityRegister.h"
 					>
 				</File>
 				<File
@@ -819,18 +611,6 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="INI"
-				>
-				<File
-					RelativePath=".\INIReader\ini.h"
-					>
-				</File>
-				<File
-					RelativePath=".\INIReader\INIReader.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Misc"
 				>
 				<File
@@ -841,10 +621,6 @@
 			<Filter
 				Name="Game"
 				>
-				<File
-					RelativePath=".\HUApplication.h"
-					>
-				</File>
 				<Filter
 					Name="Entities"
 					>
@@ -988,10 +764,6 @@
 				<Filter
 					Name="controller"
 					>
-					<File
-						RelativePath=".\HovercraftKeyManager.h"
-						>
-					</File>
 					<Filter
 						Name="Hovercraft"
 						>
@@ -1018,6 +790,18 @@
 					</File>
 					<File
 						RelativePath=".\Player.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="State"
+					>
+					<File
+						RelativePath=".\InGameState.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MainMenuState.h"
 						>
 					</File>
 				</Filter>

@@ -14,6 +14,7 @@ namespace HovUni {
 /**
  * The HUD is a 2D display that overlays the 3D scene to a player. It contains useful information
  * about the game state and/or provides controls that the player can use.
+ * TODO Must be made generic enough to remain in the Core Engine (added by Kristof)
  *
  * @author Kristof Overdulve & Nick De Frangh
  */

@@ -2,8 +2,6 @@
 #include <OgreMaxUtilities.hpp>
 #include <OgreSubEntity.h>
 #include <vector>
-
-#include "Hovercraft.h"
 #include <iostream>
 
 namespace HovUni {

@@ -2,17 +2,13 @@
 #define APPLICATION_H_
 
 #include <OgreRoot.h>
-#include "ApplicationFrameListener.h"
-#include "ClientCore.h"
-#include "ClientPreparationLoader.h"
 #include "EntityManager.h"
 #include "InputManager.h"
+#include "GameStateManager.h"
 #include "RepresentationManager.h"
 #include <GUIManager.h>
 #include <SoundManager.h>
 #include <string>
-
-#include "GameStateManager.h"
 
 namespace HovUni {
 
@@ -33,9 +29,6 @@ private:
 	/** The root Ogre object */
 	Ogre::Root * mOgreRoot;
 
-	/** The application frame listener */
-	ApplicationFrameListener * mFrameListener;
-
 	/** The game state manager */
 	GameStateManager* mGameStateMgr;
 
@@ -54,9 +47,6 @@ private:
 	/** The sound manager */
 	SoundManager * mSoundManager;
 
-	/** The client */
-	ClientCore* mClient;
-
 	/** INI file values */
 	std::string mDataPath;
 	std::string mLogPath;
@@ -69,9 +59,6 @@ public:
 
 	/** The scene manager */
 	static Ogre::SceneManager * msSceneMgr;
-
-	/** The client preparation loader that can be used to read and reread scenes to render */
-	static ClientPreparationLoader * msPreparationLoader;
 
 	/**
 	 * Constructor.
@@ -101,6 +88,13 @@ public:
 	 * @param port the port to connect on
 	 */
 	void createClient(const Ogre::String& host, unsigned int port);
+
+	/**
+	 * Allows the inheriting class to define an initial game state.
+	 *
+	 * @return the initial game state
+	 */
+	virtual BasicGameState * getInitialGameState() = 0;
 
 	/**
 	 * Parse the INI file.

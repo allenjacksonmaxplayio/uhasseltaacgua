@@ -1,7 +1,10 @@
 #include "HUApplication.h"
+#include "MainMenuState.h"
 #include <HovSound.h>
 
 namespace HovUni {
+
+	ClientPreparationLoader * HUApplication::msPreparationLoader = 0;
 
 	HUApplication::HUApplication() : Application("Hovercraft Universe", "HovercraftUniverse.ini") { 
 		// Empty
@@ -17,8 +20,13 @@ namespace HovUni {
 		soundMgr->updateListenerPosition(new Ogre::Vector3(-10.0f, 40.0f, 0.0f));
 	}
 
+	BasicGameState * HUApplication::getInitialGameState() {
+		return new MainMenuState();
+	}
+
 	void HUApplication::customSceneSetup() {
-		// Empty
+		// Initialize the client preparation loader 
+		msPreparationLoader = new ClientPreparationLoader();
 	}
 
 }

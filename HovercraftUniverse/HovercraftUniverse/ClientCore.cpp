@@ -1,5 +1,5 @@
 #include "ClientCore.h"
-#include "Application.h"
+#include "HUApplication.h"
 #include "ClientLoader.h"
 #include "EntityRegister.h"
 
@@ -86,7 +86,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 		// Lobby received (upon connect)
 		mLobby = new Lobby(0);
 		mLobby->networkRegister(requested_class, this);
-		Application::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
+		HUApplication::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
 	} else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
 		name = announcedata->getString();
 		Ogre::String entity(announcedata->getString());
@@ -282,7 +282,7 @@ void ClientCore::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID request
 	}
 
 	// Now that we have created the entity, notify the client preparation loader of the arrival
-	Application::msPreparationLoader->update(name);
+	HUApplication::msPreparationLoader->update(name);
 }
 
 void ClientCore::start() {
