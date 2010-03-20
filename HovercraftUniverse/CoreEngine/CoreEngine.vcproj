@@ -303,11 +303,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Controller.h"
+					RelativePath=".\CameraControllerActionType.h"
 					>
 				</File>
 				<File
-					RelativePath=".\ControllerActionType.h"
+					RelativePath=".\Controller.h"
 					>
 				</File>
 				<File

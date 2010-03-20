@@ -3,6 +3,8 @@
 
 namespace HovUni {
 
+namespace ControllerActions{
+
 /**
  * This is an enumeration for the different controller actions.
  *
@@ -15,25 +17,11 @@ enum ControllerActionType {
 	ACCELERATE=1, 
 	BRAKE=2, 
 	TURNLEFT=3, 
-	TURNRIGHT=4, 
-	CHANGECAMERA, 
-	THIRD_PERSON_CAMERA, 
-	FIRST_PERSON_CAMERA, 
-	REAR_VIEW_CAMERA, 
-	FREE_CAMERA, 
-	FREE_CAMERA_FWD, 
-	FREE_CAMERA_BACK,
-	FREE_CAMERA_UP, 
-	FREE_CAMERA_DOWN, 
-	FREE_CAMERA_LEFT, 
-	FREE_CAMERA_RIGHT
+	TURNRIGHT=4
 };
 
-namespace Actions {
 /** String representations of the actions */
-static const char * actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right",
-	"Change Camera", "External View", "Cockpit View", "Rear View", "Free Roam Camera", "Forward", "Back",
-	"Up", "Down", "Left", "Right"};
+static const char * actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right",};
 }
 
 }

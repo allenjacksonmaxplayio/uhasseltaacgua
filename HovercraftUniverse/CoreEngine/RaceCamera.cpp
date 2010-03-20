@@ -1,5 +1,5 @@
 #include "RaceCamera.h"
-#include "ControllerActionType.h"
+#include "CameraControllerActionType.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -62,10 +62,10 @@ void RaceCamera::setFreeroam(Ogre::Vector3 pos, Ogre::Quaternion orientation, Og
 }
 
 bool RaceCamera::keyPressed(const OIS::KeyEvent & e) { 
-	int action = mInputManager->getKeyManager()->getAction(e.key);
+	CameraActions::CameraControllerActionType action = mInputManager->getKeyManager()->getCameraAction(e.key);
 	// TODO Set the camera controller
 	switch (action) {
-	case CHANGECAMERA:
+	case CameraActions::CHANGECAMERA:
 		// Switch to next camera
 		if (mCurrCamViewpoint == FreeRoam) {
 			mCurrCamViewpoint = ThirdPerson;
@@ -73,19 +73,19 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 			mCurrCamViewpoint = CameraViewpoint(mCurrCamViewpoint + 1);
 		}
 		break;
-	case THIRD_PERSON_CAMERA:
+	case CameraActions::THIRD_PERSON_CAMERA:
 		// Switch to 3rd person
 		mCurrCamViewpoint = ThirdPerson;
 		break;
-	case FIRST_PERSON_CAMERA:
+	case CameraActions::FIRST_PERSON_CAMERA:
 		// Switch to 1st person
 		mCurrCamViewpoint = FirstPerson;
 		break;
-	case REAR_VIEW_CAMERA:
+	case CameraActions::REAR_VIEW_CAMERA:
 		// Switch to rear view
 		mCurrCamViewpoint = RearView;
 		break;
-	case FREE_CAMERA:
+	case CameraActions::FREE_CAMERA:
 		// Switch to free roaming
 		mCurrCamViewpoint = FreeRoam;
 		break;

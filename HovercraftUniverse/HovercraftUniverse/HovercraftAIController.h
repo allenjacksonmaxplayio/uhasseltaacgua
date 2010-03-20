@@ -19,7 +19,7 @@ class HovercraftAIController : public HovercraftController {
 	//Provide public accesspoints for AI script.
 private:
 	ScriptWrapper* mScript;
-	std::map<ControllerActionType, bool> mActionMap;
+	std::map<ControllerActions::ControllerActionType, bool> mActionMap;
 	std::string mClassName;
 
 	void bindEntity(lua_State* L);

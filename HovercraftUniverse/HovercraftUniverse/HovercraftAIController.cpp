@@ -90,12 +90,12 @@ namespace HovUni {
 
 	void HovercraftAIController::setAction(const int action, const bool state) {
 		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "AI SETTING " << action << " TO " << state;
-		ControllerActionType a = (ControllerActionType) action;
+		ControllerActions::ControllerActionType a = (ControllerActions::ControllerActionType) action;
 		mActionMap[a] = state;
 	}
 
 	bool HovercraftAIController::getAction(const int action) {
-		ControllerActionType a = (ControllerActionType) action;
+		ControllerActions::ControllerActionType a = (ControllerActions::ControllerActionType) action;
 		return mActionMap[a];
 	}
 
@@ -106,19 +106,19 @@ namespace HovUni {
 
 	//stupid functions...
 	bool HovercraftAIController::moveForward() {
-		return mActionMap[ACCELERATE];
+		return mActionMap[ControllerActions::ACCELERATE];
 	}
 
 	bool HovercraftAIController::moveBackward() {
-		return mActionMap[BRAKE];
+		return mActionMap[ControllerActions::BRAKE];
 	}
 
 	bool HovercraftAIController::turnLeft() {
-		return mActionMap[TURNLEFT];
+		return mActionMap[ControllerActions::TURNLEFT];
 	}
 
 	bool HovercraftAIController::turnRight() {
-		return mActionMap[TURNRIGHT];
+		return mActionMap[ControllerActions::TURNRIGHT];
 	}
 
 

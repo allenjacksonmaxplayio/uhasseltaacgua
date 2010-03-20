@@ -37,16 +37,16 @@ bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) {
 	// Process possibly resulting move
 	int action = mInputManager->getKeyManager()->getAction(e.key);
 	switch (action) {
-		case ACCELERATE:
+		case ControllerActions::ACCELERATE:
 			mMovingForward = true;
 			break;
-		case BRAKE:
+		case ControllerActions::BRAKE:
 			mMovingBackward = true;
 			break;
-		case TURNLEFT:
+		case ControllerActions::TURNLEFT:
 			mMovingLeft = true;
 			break;
-		case TURNRIGHT:
+		case ControllerActions::TURNRIGHT:
 			mMovingRight = true;
 			break;
 		default:
@@ -61,16 +61,16 @@ bool HovercraftPlayerController::keyReleased(const OIS::KeyEvent & e) {
 	int action = mInputManager->getKeyManager()->getAction(e.key);
 	// Clear movement for that key
 	switch (action) {
-		case ACCELERATE:
+		case ControllerActions::ACCELERATE:
 			mMovingForward = false;
 			break;
-		case BRAKE:
+		case ControllerActions::BRAKE:
 			mMovingBackward = false;
 			break;
-		case TURNLEFT:
+		case ControllerActions::TURNLEFT:
 			mMovingLeft = false;
 			break;
-		case TURNRIGHT:
+		case ControllerActions::TURNRIGHT:
 			mMovingRight = false;
 			break;
 		default:
