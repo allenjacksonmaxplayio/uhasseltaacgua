@@ -6,6 +6,9 @@
 #include "HovercraftPlayerController.h"
 #include "HovercraftAIController.h"
 
+#include "Lobby.h"
+#include "Player.h"
+
 #include "AsteroidRepresentation.h"
 #include "BoostRepresentation.h"
 #include "CheckPointRepresentation.h"
@@ -82,195 +85,73 @@ void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 ne
 void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	// Receive and create the entity
 	Ogre::String name("");
+
+	//Lobby
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
 		// Lobby received (upon connect)
 		mLobby = new Lobby(0);
 		mLobby->networkRegister(requested_class, this);
 		HUApplication::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
-	} else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		Asteroid * ent = new Asteroid(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+	} 
+	else if ( requested_class == mIDManager->getID(Player::getClassName()) ){
+		// Player (TODO do something with it)
+		Player * ent = new Player(announcedata);
 		ent->networkRegister(requested_class,this);
-
+	}	
+	//Entities
+	else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
+		Asteroid * ent = new Asteroid(announcedata);
+		ent->networkRegister(requested_class,this);
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		CheckPoint * ent = new CheckPoint(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+		CheckPoint * ent = new CheckPoint(announcedata);
 		ent->networkRegister(requested_class,this);
-
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(Start::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		Start * ent = new Start(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+		Start * ent = new Start(announcedata);
 		ent->networkRegister(requested_class,this);
-
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		StartPosition * ent = new StartPosition(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),processinterval);
+		StartPosition * ent = new StartPosition(announcedata);
 		ent->networkRegister(requested_class,this);
-
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		Finish * ent = new Finish(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+		Finish * ent = new Finish(announcedata);
 		ent->networkRegister(requested_class,this);	
-
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		ResetSpawn * ent = new ResetSpawn(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),processinterval);
+		ResetSpawn * ent = new ResetSpawn(announcedata);
 		ent->networkRegister(requested_class,this);
-
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		PowerupSpawn * ent = new PowerupSpawn(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
-		ent->networkRegister(requested_class,this);	
-
-		mEntityManager->registerEntity(ent);
-	} else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		SpeedBoost * ent = new SpeedBoost(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+		PowerupSpawn * ent = new PowerupSpawn(announcedata);
 		ent->networkRegister(requested_class,this);
-
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
+	} else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){	
+		SpeedBoost * ent = new SpeedBoost(announcedata);
+		ent->networkRegister(requested_class,this);
+		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
-		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
-		Portal * ent = new Portal(name,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
-		ent->networkRegister(requested_class,this);	
-
+		Portal * ent = new Portal(announcedata);
+		ent->networkRegister(requested_class,this);
 		mEntityManager->registerEntity(ent);
+		name = ent->getName();
 	} else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
- 		name = announcedata->getString();
-		Ogre::String entity(announcedata->getString());
-		float processinterval = announcedata->getFloat(10);
-
-		float x = announcedata->getFloat(10);
-		float y = announcedata->getFloat(10);
-		float z = announcedata->getFloat(10);
-
-		float rx = announcedata->getFloat(10);
-		float ry = announcedata->getFloat(10);
-		float rz = announcedata->getFloat(10);
-		float rw = announcedata->getFloat(10);
-
 		Hovercraft * ent = 0;
 		
 		if (role == eZCom_RoleOwner) {
-			ent = new Hovercraft(name,true,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
-
+			ent = new Hovercraft(announcedata);
 			ent->setController(new HovercraftPlayerController());
 		}else {
-			ent = new Hovercraft(name,false,Ogre::Vector3(x,y,z),Ogre::Quaternion(rx,ry,rz,rw),entity,processinterval);
+			ent = new Hovercraft(announcedata);
 			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/SimpleAI.lua");
 			ent->setController(ai);
 			ai->initialize();	
@@ -279,15 +160,17 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
 
-
 		ent->networkRegister(requested_class,this);	
 		mEntityManager->registerEntity(ent);
 
-
+		if (role == eZCom_RoleOwner) {
+			mEntityManager->trackEntity(ent->getName());
+		}
 	}
 
 	// Now that we have created the entity, notify the client preparation loader of the arrival
 	HUApplication::msPreparationLoader->update(name);
+
 }
 
 void HUClient::start() {

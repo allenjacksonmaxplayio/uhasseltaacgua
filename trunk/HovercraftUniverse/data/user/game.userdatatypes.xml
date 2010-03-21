@@ -41,9 +41,9 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   <class name="Hovercraft" super="GameEntity" usage="object">
     <data name="Name" displayName="Name" groupName="Info" type="string"/>
     <data name="Description" displayName="Description" groupName="Info" type="string" editWidth="200" editHeight="100"/>
-    <data name="Speed" displayName="Speed" groupName="Physics" type="float" default="0.0" minValue="0" maxValue="5000"/> 
+    <data name="Speed" displayName="Speed" groupName="Physics" type="float" default="0.0" minValue="0" maxValue="300"/> 
     <data name="Mass" displayName="Mass" groupName="Physics" type="float" default="0.0" minValue="0" maxValue="5000"/>
-    <data name="Acceleration" displayName="Acceleration" groupName="Physics" type="float" default="0.0" minValue="0" maxValue="5000"/>
+    <data name="Acceleration" displayName="Acceleration" groupName="Physics" type="float" default="0.0" minValue="0" maxValue="20"/>
   </class>
   
   <!-- 

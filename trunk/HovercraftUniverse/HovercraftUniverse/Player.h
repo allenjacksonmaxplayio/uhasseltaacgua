@@ -11,8 +11,8 @@ namespace HovUni {
 class Player : public NetworkEntity {
 private:
 
-	//connection id
-	const ZCom_ConnID mConnectionID;
+	//connection id (const)
+	ZCom_ConnID mConnectionID;
 
 	//name
 	Ogre::String mPlayerName;
@@ -31,7 +31,21 @@ public:
 	 */
 	Player(ZCom_ConnID mConnectionID);
 
+	/**
+	 * Constructor
+	 * @param announcedata
+	 */
+	Player(ZCom_BitStream* announcedata);
+
 	~Player(void);
+
+	/**
+	 * Get the class name for this class. This is used for registering
+	 * the class with the network
+	 *
+	 * @return the class name
+	 */
+	static std::string getClassName();
 
 	/**
 	 * Set player name
@@ -99,15 +113,15 @@ protected:
 	 * entity can be set up. In case the number of replicators given to the
 	 * constructor is zero, this callback can be implemented as empty.
 	 */
-	virtual void setupReplication(){}
-
+	virtual void setupReplication();
+	
 	/**
 	 * A callback that should be implemented so the announcement data for this
 	 * entity can be set.
 	 *
 	 * @param stream the bitstream where the data can be set
 	 */
-	virtual void setAnnouncementData(ZCom_BitStream* stream){}
+	virtual void setAnnouncementData(ZCom_BitStream* stream);
 };
 
 }

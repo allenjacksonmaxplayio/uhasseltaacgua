@@ -1,6 +1,8 @@
 #include "EntityRegister.h"
-#include "Lobby.h"
 #include "ChatEntity.h"
+
+#include "Lobby.h"
+#include "Player.h"
 
 #include "Start.h"
 #include "Finish.h"
@@ -25,7 +27,10 @@ EntityRegister::~EntityRegister(void)
 }
 
 void EntityRegister::registerAll(NetworkIDManager& manager) {
+	
+	//Lobby
 	manager.registerClass(Lobby::getClassName());
+	manager.registerClass(Player::getClassName(),true);
 
 	//Entities
 	manager.registerClass(Asteroid::getClassName(),true);
@@ -38,8 +43,6 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	manager.registerClass(SpeedBoost::getClassName(),true);
 	manager.registerClass(Start::getClassName(),true);
 	manager.registerClass(StartPosition::getClassName(),true);
-
-	manager.registerClass("DummyHovercraft");
 }
 
 }

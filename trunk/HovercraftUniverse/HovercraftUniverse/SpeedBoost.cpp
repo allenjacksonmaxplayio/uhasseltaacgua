@@ -7,7 +7,12 @@ namespace HovUni {
 const Ogre::String SpeedBoost::CATEGORY("Boost");
 
 SpeedBoost::SpeedBoost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,ogreentity,processInterval,1){
+	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,1){
+}
+
+SpeedBoost::SpeedBoost( ZCom_BitStream* announcedata ):
+	Entity(announcedata,CATEGORY,1)
+{
 }
 
 void SpeedBoost::load(TiXmlElement * data) throw(ParseException){

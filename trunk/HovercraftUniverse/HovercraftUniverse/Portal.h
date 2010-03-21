@@ -50,6 +50,13 @@ public:
 	Portal(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
 
 	/**
+	 * Constructor.
+	 * 
+	 * @param announcedata
+	 */
+	Portal( ZCom_BitStream* announcedata );
+
+	/**
 	 * load
 	 * @param data
 	 * @throws ParseException

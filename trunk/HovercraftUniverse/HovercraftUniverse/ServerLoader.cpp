@@ -83,7 +83,7 @@ void ServerLoader::FinishedLoad( bool success ){
 			Ogre::String name = i->second->getPlayerName().c_str() + Ogre::String("_") + Ogre::StringConverter::toString(j);
 			Ogre::Vector3 position(mHovercraftWorld->mStartPositions[j](0),mHovercraftWorld->mStartPositions[j](1),mHovercraftWorld->mStartPositions[j](2));
 
-			Hovercraft * craft = new Hovercraft(name,false,position,Ogre::Quaternion::IDENTITY,"TODO",1.0f/60.0f);
+			Hovercraft * craft = new Hovercraft(name,position,Ogre::Quaternion::IDENTITY,"TODO",1.0f/60.0f);
 			
 			mHovercraftWorld->addCharacter(craft,j);
 			

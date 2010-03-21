@@ -37,7 +37,7 @@ protected:
 	Controller * mController;
 
 	/** The interval between two processings of the object */
-	const float mProcessInterval;
+	float mProcessInterval;
 
 	/** The time since last process of the object */
 	float mProcessElapsed;
@@ -49,28 +49,35 @@ public:
 	 *
 	 * @param name the unique name of the entity
 	 * @param category the category to which this entity belongs
-	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
 	 * @param name of the ogre entity that represents this entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::Vector3 upvector, Ogre::String mOgreEntity, float processInterval, unsigned short replicators );
+	Entity( const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Vector3& orientation, const Ogre::Vector3& upvector, const Ogre::String& mOgreEntity, float processInterval, unsigned short replicators );
 
 	/**
 	 * Constructor.
 	 *
 	 * @param name the unique name of the entity
 	 * @param category the category to which this entity belongs
-	 * @param track indicates that this object should be tracked by the camera
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
  	 * @param name of the ogre entity that represents this entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used
 	 */
-	Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String mOgreEntity, float processInterval, unsigned short replicators);
+	Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& mOgreEntity, float processInterval, unsigned short replicators);
+
+	/**
+	 * Constructor.
+	 *
+	 * @param announcementdata the data send by the server
+ 	 * @param category the category to which this entity belongs
+	 * @param replicators the number of replicator to be used
+	 */
+	Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators );
 
 	/**
 	 * Destructor.
@@ -82,14 +89,14 @@ public:
 	 *
 	 * @param newPosition is the new position
 	 */
-	void changePosition(Ogre::Vector3 newPosition);
+	void changePosition(const Ogre::Vector3& newPosition);
 
 	/**
 	 * Changes the orientation to the new orientation.
 	 *
 	 * @param newOrientation is the new orientation
 	 */
-	void changeOrientation(Ogre::Quaternion newOrientation);
+	void changeOrientation(const Ogre::Quaternion& newOrientation);
 
 	/**
 	 * Sets the controller of the character. This allows for example for live migration between
