@@ -217,6 +217,14 @@ public:
 	 */
 	std::string getControlsFile();
 
+	/**
+	 * Move the mouse to a given location
+	 *
+	 * @param x The x coördinate
+	 * @param y The y coördinate
+	 */
+	void moveMouseTo(int x, int y);
+
 private:
 
 	/**
