@@ -168,8 +168,10 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		}
 	}
 
-	// Now that we have created the entity, notify the client preparation loader of the arrival
-	HUApplication::msPreparationLoader->update(name);
+	if ( !name.empty() ){
+		// Now that we have created the entity, notify the client preparation loader of the arrival
+		HUApplication::msPreparationLoader->update(name);
+	}
 
 }
 

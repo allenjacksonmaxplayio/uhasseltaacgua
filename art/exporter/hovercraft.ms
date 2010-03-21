@@ -6,6 +6,13 @@ for o in objects while done == false do (
 	
 	if hasProperty objectSettings "userdata" do ( 
 		
+		if  objectSettings.userdata != undefined and objectSettings.UserDataClass == "Hovercraft" then (
+			start = findString objectSettings.userdata "<OgreEntity>" + 12
+			end = findString objectSettings.userdata "</OgreEntity>"
+			count = end - start			
+			objectSettings.userdata = replace objectSettings.userdata start count o.name
+		)		
+		
 		if  objectSettings.userdata != undefined and objectSettings.UserDataClass == "Hovercraft" and o.children.count > 0 then (	
 
 			for child in o.children while done == false do (

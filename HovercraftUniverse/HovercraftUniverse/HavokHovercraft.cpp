@@ -1,23 +1,115 @@
 #include "HavokHovercraft.h"
 #include "Havok.h"
+#include "HavokEntityType.h"
 
 #include <Common/Base/Types/Color/hkColor.h>
 #include <Common/Visualize/hkDebugDisplay.h>
 
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBodyListener.h>
+#include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
+#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBodyCinfo.h>
+
+#include <Physics/Utilities/Serialize/hkpHavokSnapshot.h>
+#include <Common/Base/System/Error/hkDefaultError.h>
+#include <Common/Base/Monitor/hkMonitorStream.h>
+#include <Common/Base/System/Io/IStream/hkIStream.h>
+
 
 #include "Hovercraft.h"
 
+
+
 namespace HovUni {
 
-HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext):
-	HavokEntity( world, entity, info, characterContext)
+HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
+	HavokEntity( world, entity), mFilename(filename), mEntityName(entityname)
 {
 }
 
 HavokHovercraft::~HavokHovercraft(void)
 {
+}
+
+void HavokHovercraft::loadCharacter(const hkVector4& position){
+	mPhysicsWorld->markForWrite();
+
+	//Hovercrafts right
+	Hovercraft * hovercraft = dynamic_cast<Hovercraft*>(mEntity);
+
+	//load the hovercraft hull from file
+
+	hkIstream infile( mFilename.cString() );
+	HK_ASSERT( 0x215d080c, infile.isOk() );
+
+	/**
+	 * The world in memory as loaded from file
+	 */
+	hkPackfileReader::AllocatedData* mLoadedData;
+
+	hkpPhysicsData * mPhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &mLoadedData );
+	HK_ASSERT( 0, mPhysicsData != HK_NULL );
+
+	hkpRigidBody * body = mPhysicsData->findRigidBodyByName( mEntityName.cString() );
+	HK_ASSERT( 0x215d080c, body != HK_NULL );
+
+	const hkpShape * shape = body->getCollidable()->getShape();
+	shape->addReference();
+
+	//mPhysicsData->removeReference();
+	//mLoadedData->removeReference();
+
+
+	hkpShape * tmp = new hkpSphereShape (5);
+
+	//set up its parameters
+	hkpCharacterRigidBodyCinfo info;
+	info.m_mass = hovercraft->getMass();
+	info.m_shape = tmp;
+	info.m_maxLinearVelocity = hovercraft->getMaximumSpeed();	//TODO should this be Hovercraft::MAXSPEED??
+	info.m_maxForce = 8000.0f;	//TODO dunno
+	info.m_position = position;
+	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
+	info.m_friction = 0.1f;
+	
+	//set up the actions
+	hkpCharacterState* state;
+	hkpCharacterStateManager* manager = new hkpCharacterStateManager();
+
+	state = new hkpCharacterStateOnGround();
+	manager->registerState( state,	HK_CHARACTER_ON_GROUND );
+
+	static_cast<hkpCharacterStateOnGround*>( manager->getState( HK_CHARACTER_ON_GROUND ) )->setDisableHorizontalProjection( true );
+	state->removeReference();
+
+	state = new hkpCharacterStateInAir();
+	manager->registerState( state,	HK_CHARACTER_IN_AIR );
+	state->removeReference();
+
+	state = new hkpCharacterStateJumping();
+	manager->registerState( state,	HK_CHARACTER_JUMPING );
+	state->removeReference();
+
+	mCharacterContext = new hkpCharacterContext( manager, HK_CHARACTER_IN_AIR );
+	mCharacterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
+
+	//Create a character rigid body
+	mCharacterRigidBody = new hkpCharacterRigidBody( info );
+	hkpCharacterRigidBodyListener* listener = new hkpCharacterRigidBodyListener();
+	mCharacterRigidBody->setListener( listener );
+
+	listener->removeReference();		
+	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
+
+	charbody->setShape(shape);
+	tmp->removeReference();
+
+	//set name and type
+	charbody->setUserData(reinterpret_cast<hkUlong>(this));
+	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
+
+	mPhysicsWorld->addEntity( charbody );
+	mPhysicsWorld->unmarkForWrite();
 }
 
 void HavokHovercraft::postStep()
@@ -98,12 +190,12 @@ void HavokHovercraft::preStep(){
 
 
 	if ( status.moveLeft() ){
-		//posX += 1.f;
+		posX += 1.f;
 		//ROTATE
 
 	}
 	if ( status.moveRight() ){
-		//posX -= 1.f;
+		posX -= 1.f;
 		//ROTATE
 	}
 

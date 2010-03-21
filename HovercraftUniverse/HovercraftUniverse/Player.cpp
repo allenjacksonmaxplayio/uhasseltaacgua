@@ -10,6 +10,9 @@ Player::Player(ZCom_ConnID connectionID) :
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(),getClassName(),true);
+
+	//some default values
+	mHovercraft = "hover1";
 }
 
 Player::Player(ZCom_BitStream* announcedata):

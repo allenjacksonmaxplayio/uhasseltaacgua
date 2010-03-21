@@ -45,19 +45,28 @@ protected:
 	 */
 	hkVector4 mForward;
 
+protected:
+
 	/**
-	 * 
+	 * Load the character, this method must set up the rigid body and character context
+	 * @param position
 	 */
+	virtual void loadCharacter(const hkVector4& position);
 
 public:
 
 	/**
 	 * Constructor
-	 * @param info
-	 * @param characterContext
-	 * @param controllor
+	 * @param world
+	 * @param entity
 	 */
-	HavokEntity( hkpWorld * world, Entity * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+	HavokEntity( hkpWorld * world, Entity * entity);
+
+	/**
+	 * Load the character, must be called before the character is used
+	 * @param position
+	 */
+	void load(const hkVector4& position);
 
 	/**
 	 * Destructor
@@ -100,6 +109,12 @@ public:
 	hkpCharacterRigidBody * getCharacterRigidBody();
 
 	/**
+	 * Updaye the up vector
+	 * @param up vector
+	 */
+	virtual void updateUp( const hkVector4& newUp);
+
+	/**
 	 * Action te be done in the preStep
 	 */
 	virtual void preStep(){};
@@ -109,7 +124,7 @@ public:
 	 */
 	virtual void postStep(){};
 
-	virtual void updateUp( hkVector4& newUp);		
+		
 	
 };
 

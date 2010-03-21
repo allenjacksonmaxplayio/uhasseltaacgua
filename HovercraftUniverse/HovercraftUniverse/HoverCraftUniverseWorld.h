@@ -87,15 +87,20 @@ public:
 	HavokEntity * getCharacter(const char * name);
 
 	/**
-	 * Add a character of a given type on a given start position
+	 * Add a hovercraft with given name on a given start position
 	 * @param name
-	 * @param type
 	 * @param pos
 	 */
-	void addCharacter( Hovercraft * entity, int pos );
+	void addHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, int pos );
 
+	/**
+	 * Pre simulation steps
+	 */
 	virtual void preStep();
 
+	/**
+	 * Post simulation steps
+	 */
 	virtual void postStep();
 
 };
