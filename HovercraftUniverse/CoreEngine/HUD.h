@@ -7,6 +7,7 @@
 #include "Direction.h"
 #include "Position.h"
 #include "Speedometer.h"
+#include "Timer.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
@@ -31,6 +32,9 @@ private:
 
 	/** Chat widget */
 	Chat* mChat;
+
+	/** Timer widget */
+	Timer* mTimer;
 
 	/** Indicates whether the HUD should be activated */
 	bool mIsActivated;
@@ -80,6 +84,26 @@ public:
 	 * @param boost The boost value to visualise [0 - 100]
 	 */
 	void updateBoost(float boost);
+
+	/**
+	 * Start the timer
+	 */
+	void startLapTimer();
+
+	/**
+	 * Stop the timer
+	 */
+	void stopLapTimer();
+
+	/**
+	 * Set the timer to a given value, make sure it is stopped, otherwise
+	 * it will be overwritten
+	 *
+	 * @param minutes The minutes value
+	 * @param seconds The seconds value
+	 * @param hundreds The hundreds value
+	 */
+	void setLapTimer(int minutes, int seconds, int hundreds);
 
 private:
 	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents );

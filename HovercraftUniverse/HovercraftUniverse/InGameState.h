@@ -79,6 +79,12 @@ namespace HovUni {
 			 * Can be implemented as needed.
 			 */
 			virtual bool keyReleased(const OIS::KeyEvent & e);
+
+		protected:
+			/**
+			 * Call this function to update the hud visuals
+			 */
+			void updateHud();
 	};
 }
 

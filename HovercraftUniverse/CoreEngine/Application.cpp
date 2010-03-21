@@ -156,12 +156,6 @@ void Application::setupScene() {
 	GUIManager::init(root->Attribute("mediaPath"), vp);
 	mGUIManager = GUIManager::getSingletonPtr();
 
-	//Set a HUD onto the GameView
-	gv->setHud(new HUD(root->FirstChildElement("HUD")));
-
-	//MainMenu* menu = new MainMenu();
-	//menu->activate();
-
 	// Initialise and store the SoundManager (dont remove trailing \)
 	SoundManager::init(mSoundPath, mSoundFile);
 	mSoundManager = SoundManager::getSingletonPtr();

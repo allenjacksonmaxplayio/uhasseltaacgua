@@ -80,7 +80,9 @@ namespace HovUni {
 			} else if (!strcmp(data->mName.c_str(), "positionBar")) {
 
 			} else if (!strcmp(data->mName.c_str(), "timer")) {
-
+				mTimer = new Timer(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
+				mTimer->setBParameter(BasicOverlay::ALPHAHACK, true);
+				this->addOverlay(data->mName, mTimer);
 			} else if (!strcmp(data->mName.c_str(), "direction")) {
 				mDirection = new Direction(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mDirection->setBParameter(BasicOverlay::ALPHAHACK, true);
@@ -132,6 +134,24 @@ namespace HovUni {
 	void HUD::updateBoost(float boost) {
 		if (mSpeedometer) {
 			mSpeedometer->setBoost(boost);
+		}
+	}
+
+	void HUD::startLapTimer() {
+		if (mTimer) {
+			mTimer->start();
+		}
+	}
+
+	void HUD::stopLapTimer() {
+		if (mTimer) {
+			mTimer->stop();
+		}
+	}
+
+	void HUD::setLapTimer(int minutes, int seconds, int hundreds) {
+		if (mTimer) {
+			mTimer->setTime(minutes, seconds, hundreds);
 		}
 	}
 
