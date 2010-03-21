@@ -39,6 +39,9 @@ namespace HovUni {
 	}
 
 	void MainMenuState::activate() {
+		//Try and move the mouse to the center of the screen
+		mInputManager->moveMouseTo(mGUIManager->getResolutionWidth() / 2, mGUIManager->getResolutionHeight() / 2);
+
 		//Make sure we have a cursor
 		mGUIManager->showCursor(true);
 

@@ -4,6 +4,7 @@ namespace HovUni {
 	BasicGameState::BasicGameState() {
 		mGUIManager = GUIManager::getSingletonPtr();
 		mSoundManager = SoundManager::getSingletonPtr();
+		mInputManager = InputManager::getSingletonPtr();
 	}
 
 	void BasicGameState::setManager(GameStateManager* manager) {

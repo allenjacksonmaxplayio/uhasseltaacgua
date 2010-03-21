@@ -4,11 +4,14 @@
 #include "GameStateManager.h"
 #include <GUIManager.h>
 #include <SoundManager.h>
+#include "InputManager.h"
 
 namespace HovUni {
 	/**
 	 * A class to represent a game state. Specific states should be derived
 	 * from this basic class
+	 *
+	 * @author Nick De Frangh
 	 */
 	class BasicGameState : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener {
 		protected:
@@ -20,6 +23,9 @@ namespace HovUni {
 
 			/** A reference to the Sound Manager */
 			SoundManager* mSoundManager;
+
+			/** A reference tot he Input manager */
+			InputManager* mInputManager;
 
 		public:
 			/** Default constructor */

@@ -364,4 +364,12 @@ std::string InputManager::getControlsFile() {
 	return mControlsFile;
 }
 
+void InputManager::moveMouseTo(int x, int y) {
+	OIS::MouseState &mutableMouseState = const_cast<OIS::MouseState &>(mMouse->getMouseState());
+	mutableMouseState.X.abs = x;
+	mutableMouseState.Y.abs = y;
+
+	mouseMoved(OIS::MouseEvent(mMouse, mutableMouseState));
+}
+
 }
