@@ -45,6 +45,10 @@ protected:
 	 */
 	hkVector4 mForward;
 
+	/**
+	 * 
+	 */
+
 public:
 
 	/**
