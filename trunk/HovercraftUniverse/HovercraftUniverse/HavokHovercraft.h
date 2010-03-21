@@ -9,8 +9,28 @@ class Hovercraft;
 
 class HavokHovercraft : public HavokEntity
 {
+private:
+
+	/**
+	 * The filename from which the hovercraft physic should be read
+	 */
+	hkString mFilename;
+
+	hkString mEntityName;
+
+protected:
+
+	virtual void loadCharacter(const hkVector4& position);
+
 public:
-	HavokHovercraft(hkpWorld * world, Hovercraft * entity, hkpCharacterRigidBodyCinfo * info,  hkpCharacterContext * characterContext);
+
+	/**
+	 * Constructor
+	 * @paam world
+	 * @param entity
+	 * @param filename
+	 */
+	HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname );
 
 	~HavokHovercraft(void);
 

@@ -43,7 +43,7 @@ namespace {
 
 namespace HovUni {
 
-ServerLoader::ServerLoader(): mHovercraftWorld(0)
+ServerLoader::ServerLoader(): mHovercraftWorld(0), mLoadingHovercrafts(false)
 {
 }
 
@@ -71,31 +71,44 @@ void ServerLoader::onExternal( OgreMax::Types::ExternalItem& externalitem){
 	mExternalitem = 0;
 }
 
+void ServerLoader::onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent ){
+	//should be called when loading hovercrafts
+	if (mLoadingHovercrafts){
+		if ( !entityparameters.extraData.isNull() && entityparameters.extraData->HasUserData()) {
+			mCurrentHovercraft = entityparameters.name;
+			Ogre::String name = mPlayer->getPlayerName() + "_" + Ogre::StringConverter::toString(mPosition);
+			EntityDescription desc(name,Ogre::Vector3::ZERO,Ogre::Quaternion::IDENTITY);
+			UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData, desc );
+		}
+	}
+}
+
 void ServerLoader::FinishedLoad( bool success ){
+
+	if (mLoadingHovercrafts )
+		return;
+
 
 	if ( success ){
 		//add players
 		const Lobby::playermap& map = mLobby->getPlayers();
 
+		mLoadingHovercrafts = true;
+
 		int j = 0;
 		for ( Lobby::playermap::const_iterator i = map.begin(); i != map.end(); i++ ){
+			//set player and position
+			mPlayer = i->second;
+			mPosition = j;
 
-			Ogre::String name = i->second->getPlayerName().c_str() + Ogre::String("_") + Ogre::StringConverter::toString(j);
-			Ogre::Vector3 position(mHovercraftWorld->mStartPositions[j](0),mHovercraftWorld->mStartPositions[j](1),mHovercraftWorld->mStartPositions[j](2));
-
-			Hovercraft * craft = new Hovercraft(name,position,Ogre::Quaternion::IDENTITY,"TODO",1.0f/60.0f);
-			
-			mHovercraftWorld->addCharacter(craft,j);
-			
-			craft->getNetworkNode()->setOwner(i->first, true);			
-			EntityManager::getServerSingletonPtr()->registerEntity(craft);
-			craft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(),true);
-
-			
+			//call hovercraft loader
+			CustomOgreMaxScene scene;
+			scene.Load(i->second->getHovercraft() + ".scene",this);
 
 			j++;
-		}	
-	
+		}
+
+		mLoadingHovercrafts = false;
 	}
 
 
@@ -254,9 +267,16 @@ void ServerLoader::onFinish( Finish * finish ) {
 }
 
 void ServerLoader::onHoverCraft( Hovercraft * hovercraft ) {
-	//TODO add hovercraft	
+	Ogre::String filename = ".\\hovercraft\\" + mPlayer->getHovercraft() + ".hkx";
+	hkString hovercraftname(filename.c_str());
 
-	delete hovercraft;
+	mHovercraftWorld->addHovercraft(hovercraft,hovercraftname,mCurrentHovercraft.c_str(),mPosition);		
+	EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
+
+	hkVector4& v = mHovercraftWorld->mStartPositions[mPosition];
+	hovercraft->changePosition( Ogre::Vector3(v(0),v(1),v(2)) );
+	hovercraft->getNetworkNode()->setOwner(mPlayer->getConnectionID(), true);	
+	hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(),true);
 }
 
 void ServerLoader::onPortal( Portal * portal ) {

@@ -27,6 +27,23 @@ private:
 	 */
 	OgreMax::Types::ExternalItem * mExternalitem;
 
+	/**
+	 * A flag to state that the loader is working on hovercrafts
+	 */
+	bool mLoadingHovercrafts;
+
+	/**
+	 * Current player
+	 */
+	Player * mPlayer;
+
+	Ogre::String mCurrentHovercraft;
+
+	/**
+	 * Current position
+	 */
+	int mPosition;
+
 public:
 	ServerLoader();
 
@@ -41,6 +58,8 @@ public:
 	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem);
 
 	virtual void FinishedLoad( bool success );
+
+	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
 
 	//Custom objects
 

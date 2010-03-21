@@ -1,30 +1,13 @@
 
-material Material#25_OgreMax
+material Material#28_OgreMax
 {
-	technique Map#1
+	technique Map#7
 	{
-		pass Map#2
+		pass Map#8
 		{
-			ambient 0 0 0 1
-			diffuse 0 0 0 1
-			specular 0 0 0 1 10
-		}
-
-	}
-
-}
-
-
-
-material Material#26_OgreMax
-{
-	technique Map#3
-	{
-		pass Map#4
-		{
-			ambient 0.266667 0.709804 0.694118 1
-			diffuse 0.266667 0.709804 0.694118 1
-			specular 0 0 0 1 10
+			ambient 0.94902 0.254902 0.0705882 1
+			diffuse 0.94902 0.254902 0.0705882 1
+			specular 0.09 0.09 0.09 1 10
 		}
 
 	}
@@ -41,6 +24,23 @@ material Material#27_OgreMax
 		{
 			ambient 0.294118 0.262745 0.290196 1
 			diffuse 0.294118 0.262745 0.290196 1
+			specular 0 0 0 1 10
+		}
+
+	}
+
+}
+
+
+
+material Material#25_OgreMax
+{
+	technique Map#1
+	{
+		pass Map#2
+		{
+			ambient 0 0 0 1
+			diffuse 0 0 0 1
 			specular 0 0 0 1 10
 		}
 
@@ -67,15 +67,15 @@ material Material#29_OgreMax
 
 
 
-material Material#28_OgreMax
+material Material#26_OgreMax
 {
-	technique Map#7
+	technique Map#3
 	{
-		pass Map#8
+		pass Map#4
 		{
-			ambient 0.94902 0.254902 0.0705882 1
-			diffuse 0.94902 0.254902 0.0705882 1
-			specular 0.09 0.09 0.09 1 10
+			ambient 0.266667 0.709804 0.694118 1
+			diffuse 0.266667 0.709804 0.694118 1
+			specular 0 0 0 1 10
 		}
 
 	}
