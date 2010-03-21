@@ -59,10 +59,10 @@
 		</element>
 	-->	
 
-		<element type="timer" file="timer.swf">
+		<element type="timer" file="lapTimer.swf">
 			<size>
-				<min width="114" height="40" />
-				<max width="340" height="120" />
+				<min width="174" height="40" />
+				<max width="520" height="120" />
 			</size>
 			<position>
 				<relative val="TopRight" />

@@ -14,8 +14,7 @@ namespace HovUni {
 
 /**
  * A game view draws the world for one player. This includes keeping track of the active
- * camera, drawing all entity representations in view and the static world around it, and
- * finally drawing the HUD as a 2D overlay.
+ * camera, drawing all entity representations in view and the static world around it.
  *
  * @author Kristof Overdulve & Nick De Frangh
  */
@@ -24,9 +23,6 @@ protected:
 
 	/** The list of entity representations to visualize for this player */
 	std::vector<EntityRepresentation *> mEntityRepresentations;
-
-	/** The HUD to draw as an overlay */
-	HUD * mHUD;
 
 	/** The camera of the view */
 	RaceCamera * mRaceCam;
@@ -77,13 +73,6 @@ public:
 	void draw(Ogre::Real timeSinceLastFrame);
 
 	/**
-	 * Set a HUD on this GameView
-	 *
-	 * @param hud The hud you want to set.
-	 */
-	void setHud(HUD* hud);
-
-	/**
 	 * Returns the camera associated with this game view.
 	 *
 	 * @return the camera
@@ -96,11 +85,6 @@ protected:
 	 * Draw the entity representations.
 	 */
 	void drawEntityRepresentations();
-
-	/**
-	 * Update the 2D HUD overlay.
-	 */
-	void updateHUD();
 
 };
 

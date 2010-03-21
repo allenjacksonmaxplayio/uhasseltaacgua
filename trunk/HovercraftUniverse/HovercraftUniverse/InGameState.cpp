@@ -12,9 +12,15 @@ namespace HovUni {
 	void InGameState::activate() {
 		//Remove cursor
 		mGUIManager->showCursor(false);
+
+		//Show the hud
+		mHud->activate();
 	}
 
 	void InGameState::disable() {
+		//Remove the hud
+		mHud->deactivate();
+
 		//Restore cursor
 		mGUIManager->showCursor(true);
 	}
@@ -39,6 +45,9 @@ namespace HovUni {
 
 		// Update representation manager
 		mRepresentationManager->drawGameViews(evt.timeSinceLastFrame);
+
+		//Update the HUD
+		updateHud();
 
 		//We are using a GUI, so update it
 		mGUIManager->update();
@@ -112,5 +121,15 @@ namespace HovUni {
 		result = result && mGUIManager->keyReleased(e);
 		
 		return result;
+	}
+
+	void InGameState::updateHud() {
+		//Update hud objects to new values
+		//Current entity
+		Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
+
+		if (currEnt != 0) {
+			mHud->updateDirection(currEnt->getOrientation(), (Ogre::Vector3(2, 0, 0) - currEnt->getPosition()), Ogre::Vector3(0.0f, 1.0f, 0.0f));
+		}
 	}
 }

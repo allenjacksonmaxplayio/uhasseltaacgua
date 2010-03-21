@@ -16,6 +16,25 @@ namespace HovUni {
 			 */
 			Timer(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
+			/**
+			 * Start the timer
+			 */
+			void start();
+
+			/**
+			 * Stop the timer
+			 */
+			void stop();
+
+			/**
+			 * Set the timer to a given value, make sure it is stopped, otherwise
+			 * it will be overwritten
+			 *
+			 * @param minutes The minutes value
+			 * @param seconds The seconds value
+			 * @param hundreds The hundreds value
+			 */
+			void setTime(int minutes, int seconds, int hundreds);
 	};
 }
 
