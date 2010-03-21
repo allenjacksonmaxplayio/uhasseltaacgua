@@ -842,7 +842,7 @@
 			>
 		</Filter>
 		<File
-			RelativePath="..\..\art\custom data\game.userdatatypes.xml"
+			RelativePath="..\data\user\game.userdatatypes.xml"
 			>
 		</File>
 		<File
@@ -850,7 +850,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\art\custom data\types.userdatatypes.xml"
+			RelativePath="..\data\user\types.userdatatypes.xml"
 			>
 		</File>
 	</Files>

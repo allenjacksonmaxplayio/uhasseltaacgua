@@ -88,10 +88,13 @@ void HavokHovercraft::preStep(){
 		posY += 1;
 	}
 	if ( status.moveLeft() ){
-		posX += 1.f;
+		//posX += 1.f;
+
+
 	}
 	if ( status.moveRight() ){
-		posX -= 1.f;
+		//posX -= 1.f;
+
 	}
 
 	
@@ -99,11 +102,8 @@ void HavokHovercraft::preStep(){
 	
 	// Update the character context
 	mCharacterRigidBody->m_up = mUp;
-		
-	/*if( !m_detachedCamera )
-	{
+/*
 		float deltaAngle;
-		CharacterUtils::getUserInputForCharacter( m_env, deltaAngle, posX, posY );
 
 		if( ( ( hkMath::fabs( posX ) < HK_REAL_MAX ) && ( hkMath::fabs( posY ) < HK_REAL_MAX ) ) && ( posX || posY ) )
 		{
@@ -127,7 +127,7 @@ void HavokHovercraft::preStep(){
  			mForward.setRotatedDir( newRotation, m_cameraForward );
  			mForward.normalize3();
 		}
-	}*/
+*/
 	
 
 	
