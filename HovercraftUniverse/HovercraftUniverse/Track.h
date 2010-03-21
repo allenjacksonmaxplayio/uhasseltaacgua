@@ -49,6 +49,13 @@ public:
 	Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
+	 * Constructor.
+	 * 
+	 * @param announcedata
+	 */
+	Track( ZCom_BitStream* announcedata );
+
+	/**
 	 * Constructor
 	 * @param data
 	 * @throws ParseException

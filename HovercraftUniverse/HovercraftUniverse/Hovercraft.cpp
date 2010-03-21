@@ -9,9 +9,16 @@ namespace HovUni {
 
 const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
-Hovercraft::Hovercraft(const Ogre::String& name, bool track, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,track,position,orientation,ogreentity,processInterval,5), mTilt(0.0f)
+const Ogre::Real Hovercraft::MAXSPEED(300);
+
+Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
+	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,6), mTilt(0.0f)
 	{
+}
+
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ):
+	Entity(announcedata,CATEGORY,6)
+{
 }
 
 void Hovercraft::load(TiXmlElement * data) throw(ParseException){
@@ -91,7 +98,7 @@ void Hovercraft::process(float timeSince){
 
 		const hkQuaternion& rotation = character->getOrientation();
 	
-		std::cout << rotation(0) << "," << rotation(1) << "," << rotation(2) << "," << rotation(3) << std::endl;
+		//std::cout << rotation(0) << "," << rotation(1) << "," << rotation(2) << "," << rotation(3) << std::endl;
 
 		//changeOrientation(Ogre::Quaternion(rotation(3),rotation(0),rotation(1),rotation(2)));
 
@@ -170,13 +177,8 @@ void Hovercraft::setupReplication(){
 	//set up replication
 	Entity::setupReplication();
 
-	//mDisplayName
-	mNode->addReplicator(
-		new String_Replicator(&mDisplayName,
-		ZCOM_REPFLAG_MOSTRECENT,
-		ZCOM_REPRULE_AUTH_2_ALL
-	), 
-	true);
+	//name
+	replicateString(&mDisplayName);
 
 	//mDescription
 	mNode->addReplicator(

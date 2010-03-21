@@ -77,4 +77,8 @@ void NetworkEntity::replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 mantissa
 	mNode->addReplicator(new OgreQuaternion_Replicator(quat, mantissaBits, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
 }
 
+void NetworkEntity::replicateString(Ogre::String * str, zU8 flags, zU8 rules, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
+	mNode->addReplicator(new String_Replicator(str, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
+}
+
 }

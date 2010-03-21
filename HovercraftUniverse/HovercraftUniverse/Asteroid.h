@@ -57,6 +57,13 @@ public:
 	Asteroid(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
 
 	/**
+	 * Constructor.
+	 * 
+	 * @param announcedata
+	 */
+	Asteroid( ZCom_BitStream* announcedata );
+
+	/**
 	 * Load
 	 * @param data, xml element that descripes the asteroid
 	 * @throws ParseException
@@ -162,7 +169,7 @@ public:
 	}
 
 	/**
-	 * @see NetworkEntity::setReplication()
+	 * @see NetworkEntity
 	 */
 	void setupReplication();
 

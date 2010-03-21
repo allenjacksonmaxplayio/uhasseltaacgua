@@ -58,43 +58,53 @@ void HavokHovercraft::preStep(){
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
 	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
 
+
+	//1.0 forward = Hovercraft::MAXSPEED
+
+	//keep speed values
+	hkReal maxspeed = hovercraft->getMaximumSpeed();
 	hkReal speed = hovercraft->getSpeed();
 
-
-	std::cout << speed << std::endl;
+	//Speed on a scale [0-1]
+	//hkReal scaledmaxspeed = hovercraft->getMaximumSpeed() / Hovercraft::MAXSPEED;
 
 	float deltaAngle = 0.f;
 	float posX = 0.f;
 	float posY = 0.f;
 
-	if ( status.moveForward() ){		
+	//speeding
+	if ( status.moveForward() ){	
+		//accelerate, update speed
 		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
 		if ( speed > hovercraft->getMaximumSpeed() ){
 			hovercraft->setSpeed(hovercraft->getMaximumSpeed());
 		} else {
 			hovercraft->setSpeed(speed);
 		}	
-
-		posY -= 1;
 	}
+
+	//braking..
 	if ( status.moveBackward() ){
 		speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
+		
 		if ( speed < -1 * hovercraft->getMaximumSpeed() ){
 			hovercraft->setSpeed(-1 * hovercraft->getMaximumSpeed());
 		} else {
 			hovercraft->setSpeed(speed);
 		}
-
-		posY += 1;
 	}
+
+	posY = speed / Hovercraft::MAXSPEED; 
+
+
 	if ( status.moveLeft() ){
 		//posX += 1.f;
-
+		//ROTATE
 
 	}
 	if ( status.moveRight() ){
 		//posX -= 1.f;
-
+		//ROTATE
 	}
 
 	

@@ -36,6 +36,12 @@ public:
 	 */
 	StartPosition(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param announcedata
+	 */
+	StartPosition( ZCom_BitStream* announcedata );
 
 	/**
 	 * Constructor

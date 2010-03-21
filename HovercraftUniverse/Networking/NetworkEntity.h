@@ -148,6 +148,14 @@ protected:
 	 */
 	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
 
+	/**
+	 * Add a string to the replicated variabels
+	 *
+	 * @param str the string to replicate
+	 */
+	void replicateString(Ogre::String * str, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+
+
 };
 
 template <typename EventType, int N>

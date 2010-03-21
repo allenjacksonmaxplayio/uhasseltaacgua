@@ -5,12 +5,21 @@
 
 namespace HovUni {
 
-
-
 const Ogre::String CheckPoint::CATEGORY("Checkpoint");
 
 CheckPoint::CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation,const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,false,position,orientation,ogreentity,processInterval,2){
+	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,2){
+}
+
+CheckPoint::CheckPoint(ZCom_BitStream* announcedata):
+Entity(announcedata,CATEGORY,2){
+}
+
+CheckPoint::~CheckPoint(void){
+}
+
+std::string CheckPoint::getClassName(){
+	return "Checkpoint";
 }
 
 void CheckPoint::load(TiXmlElement * data) throw(ParseException){
@@ -42,9 +51,6 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 	}
 }
 
-CheckPoint::~CheckPoint(void){
-}
-
 void CheckPoint::onEnter ( Hovercraft * hovercraft ){
 }
 
@@ -72,8 +78,5 @@ void CheckPoint::setupReplication(){
 	);
 }
 
-std::string CheckPoint::getClassName(){
-	return "Checkpoint";
-}
 
 }

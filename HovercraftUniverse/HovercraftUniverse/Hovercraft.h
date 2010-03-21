@@ -58,6 +58,11 @@ private:
 public:
 
 	/**
+	 * The maximum speed any hovercraft can reach, defined in game.userdatatypes.xml
+	 */
+	static const Ogre::Real MAXSPEED;
+
+	/**
 	 * The category used for hovercrafts
 	 */
 	static const Ogre::String CATEGORY;
@@ -70,7 +75,14 @@ public:
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Hovercraft(const Ogre::String& name, bool track, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
+	Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param announcedata
+	 */
+	Hovercraft( ZCom_BitStream* announcedata );
 
 	/**
 	 * load

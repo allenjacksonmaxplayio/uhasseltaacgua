@@ -8,45 +8,59 @@ namespace HovUni {
 
 class EntityManager;
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Vector3 orientation, Ogre::Vector3 upvector, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
+Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Vector3& orientation, const Ogre::Vector3& upvector, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 			mProcessElapsed(processInterval), mOrientation(Ogre::Quaternion::IDENTITY) {
-	if (track) {
-		// Track this entity
-		EntityManager::getClientSingletonPtr()->trackEntity(mName);
-	}
-
 	// Update data
 	changePosition(position);
 	changeOrientation(Ogre::Vector3::UNIT_Y.getRotationTo(upvector));
 	changeOrientation(Ogre::Vector3::NEGATIVE_UNIT_Z.getRotationTo(orientation));
 }
 
-Entity::Entity(Ogre::String name, Ogre::String category, bool track, Ogre::Vector3 position, Ogre::Quaternion orientation, Ogre::String ogreentity, float processInterval, unsigned short replicators) : 
+Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 2), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
 		mProcessElapsed(processInterval) {
-	if (track) {
-		// Track this entity
-		EntityManager::getClientSingletonPtr()->trackEntity(mName);
-	}
-
 	// Update data
 	changePosition(position);
 	changeOrientation(orientation);
 }
 
+Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators ): 
+	NetworkEntity(replicators + 2), mController(0), mCategory(category)
+{
+	//name and entity
+	mName = Ogre::String(announcementdata->getString());
+	mOgreEntity = Ogre::String(announcementdata->getString());
+
+	//process info
+	mProcessInterval = announcementdata->getFloat(10);
+	mProcessElapsed = mProcessInterval;
+
+	//position
+	mPosition[0] = announcementdata->getFloat(10);
+	mPosition[1] = announcementdata->getFloat(10);
+	mPosition[2] = announcementdata->getFloat(10);
+	
+	//orientation
+	mOrientation[0] = announcementdata->getFloat(10);
+	mOrientation[1] = announcementdata->getFloat(10);
+	mOrientation[2] = announcementdata->getFloat(10);
+	mOrientation[3] = announcementdata->getFloat(10);
+}
+
+
 Entity::~Entity() {
 	// Empty
 }
 
-void Entity::changePosition(Ogre::Vector3 newPosition) {
+void Entity::changePosition(const Ogre::Vector3& newPosition) {
 	// TODO Check whether valid
 
 	// Set new position
 	mPosition = newPosition;
 }
 
-void Entity::changeOrientation(Ogre::Quaternion newOrientation) {
+void Entity::changeOrientation(const Ogre::Quaternion& newOrientation) {
 	// TODO Check whether valid
 
 	// Set new orientation

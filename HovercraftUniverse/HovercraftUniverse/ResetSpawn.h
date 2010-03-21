@@ -31,16 +31,24 @@ public:
 	ResetSpawn(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
 
 	/**
+	 * Constructor.
+	 * 
+	 * @param announcedata
+	 */
+	ResetSpawn( ZCom_BitStream* announcedata );
+
+	/**
+	 * Destructor
+	 */
+	~ResetSpawn(void);
+
+	/**
 	 * load
 	 * @param data, xml element that descripes the reset spawn
 	 * @throws ParseException
 	 */
 	void load(TiXmlElement * data) throw(ParseException);
 
-	/**
-	 * Destructor
-	 */
-	~ResetSpawn(void);
 
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
