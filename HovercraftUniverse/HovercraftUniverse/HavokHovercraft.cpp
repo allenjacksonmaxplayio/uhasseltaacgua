@@ -45,21 +45,18 @@ void HavokHovercraft::loadCharacter(const hkVector4& position){
 	/**
 	 * The world in memory as loaded from file
 	 */
-	hkPackfileReader::AllocatedData* mLoadedData;
+	hkPackfileReader::AllocatedData* LoadedData;
 
-	hkpPhysicsData * mPhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &mLoadedData );
-	HK_ASSERT( 0, mPhysicsData != HK_NULL );
+	hkpPhysicsData * PhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &LoadedData );
+	HK_ASSERT( 0, PhysicsData != HK_NULL );
 
-	hkpRigidBody * body = mPhysicsData->findRigidBodyByName( mEntityName.cString() );
+	hkpRigidBody * body = PhysicsData->findRigidBodyByName( mEntityName.cString() );
 	HK_ASSERT( 0x215d080c, body != HK_NULL );
 
 	const hkpShape * shape = body->getCollidable()->getShape();
 	shape->addReference();
 
-	//mPhysicsData->removeReference();
-	//mLoadedData->removeReference();
-
-
+	//create a temporart shape
 	hkpShape * tmp = new hkpSphereShape (5);
 
 	//set up its parameters
@@ -101,14 +98,22 @@ void HavokHovercraft::loadCharacter(const hkVector4& position){
 	listener->removeReference();		
 	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
 
+	//set the loaded shape here
 	charbody->setShape(shape);
-	tmp->removeReference();
 
 	//set name and type
 	charbody->setUserData(reinterpret_cast<hkUlong>(this));
 	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
-
 	mPhysicsWorld->addEntity( charbody );
+
+	//Remove some data
+	tmp->removeReference();
+
+
+	//PhysicsData->removeReference();
+	//LoadedData->removeReference();
+
+
 	mPhysicsWorld->unmarkForWrite();
 }
 

@@ -1,13 +1,13 @@
-<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" unitType="meters" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <environment>
         <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
         <colourBackground r="0" g="0" b="0" />
-        <clipping near="0" far="2540" />
+        <clipping near="0" far="100000" />
     </environment>
     <nodes>
         <node name="hover1">
-            <position x="-6.05583e-009" y="3.02792e-009" z="-2.11838e-008" />
-            <scale x="1.59709" y="1.59709" z="1.59709" />
+            <position x="4.43386e-006" y="0" z="0" />
+            <scale x="1" y="1" z="1" />
             <rotation qx="-0.5" qy="-0.5" qz="0.5" qw="-0.5" />
             <entity name="hover1" castShadows="true" receiveShadows="true" meshFile="hover1.mesh">
                 <userData>
