@@ -57,31 +57,43 @@ for o in objects do (
 						objectSettings.userdata += child.name
 						objectSettings.userdata += "</GameEntity>" + ogreendkeyword
 					)
-					else if position != undefined  then (
-						/** Replace content if tag existed **/
-						start = position + ogrekeyword.count
-						count = end - start	
-						objectSettings.userdata = replace objectSettings.userdata start count child.name				
-					)
 					else (
-						/** Add tag as extra tag on object **/
 						
-						/** look for last "</" **/
-						p1 = 0
-						p2 = undefined						
-						while p1 != undefined do (
-							p2 = p1
-							p1 = findString objectSettings.userdata "</"							
+						gamekeyword = "<GameEntity>"
+						gameendkeyword = "</GameEntity>"	
+						
+						position = findString objectSettings.userdata gamekeyword
+						end = findString objectSettings.userdata gameendkeyword
+						
+						
+						if position != undefined and end != undefined then (
+							/** Replace content if tag existed **/
+							print objectSettings.userdata
+							
+							start = position + gamekeyword.count
+							count = end - start	
+							objectSettings.userdata = replace objectSettings.userdata start count child.name		
+
+							print  objectSettings.userdata	
+							
 						)
-												
-						newtag = ogrekeyword + "<GameEntity>" + child.name + "</GameEntity>" + ogreendkeyword	
-						objectSettings.userdata = replace objectSettings.userdata p2 0 newtag												
+						else (							
+							/** Add tag as extra tag on object **/
+							
+							/** look for last "</" **/
+							p1 = 0
+							p2 = undefined						
+							while p1 != undefined do (
+								p2 = p1
+								p1 = findString objectSettings.userdata "</"							
+							)
+													
+							newtag = ogrekeyword + "<GameEntity>" + child.name + "</GameEntity>" + ogreendkeyword	
+							objectSettings.userdata = replace objectSettings.userdata p2 0 newtag		
+						)						
 					)
 					
 					/** SET  UP PIVOT POSITION **/
-					print o.pivot
-					print child.pivot
-					
 					o.pivot = child.pivot
 					
 					done = true
