@@ -1,12 +1,12 @@
 
-material Material#26_OgreMax
+material Material#25_OgreMax
 {
-	technique Map#3
+	technique Map#1
 	{
-		pass Map#4
+		pass Map#2
 		{
-			ambient 0.266667 0.709804 0.694118 1
-			diffuse 0.266667 0.709804 0.694118 1
+			ambient 0 0 0 1
+			diffuse 0 0 0 1
 			specular 0 0 0 1 10
 		}
 
@@ -16,14 +16,14 @@ material Material#26_OgreMax
 
 
 
-material Material#25_OgreMax
+material Material#26_OgreMax
 {
-	technique Map#1
+	technique Map#3
 	{
-		pass Map#2
+		pass Map#4
 		{
-			ambient 0 0 0 1
-			diffuse 0 0 0 1
+			ambient 0.266667 0.709804 0.694118 1
+			diffuse 0.266667 0.709804 0.694118 1
 			specular 0 0 0 1 10
 		}
 

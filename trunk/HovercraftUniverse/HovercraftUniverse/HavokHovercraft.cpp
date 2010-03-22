@@ -68,6 +68,7 @@ void HavokHovercraft::loadCharacter(const hkVector4& position){
 	info.m_position = position;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
 	info.m_friction = 0.1f;
+	info.m_rotation = hkQuaternion::getIdentity();
 	
 	//set up the actions
 	hkpCharacterState* state;
@@ -191,16 +192,16 @@ void HavokHovercraft::preStep(){
 		}
 	}
 
-	posY = speed / Hovercraft::MAXSPEED; 
+	posX = speed / Hovercraft::MAXSPEED; 
 
 
 	if ( status.moveLeft() ){
-		posX += 1.f;
+		posY += 1.f;
 		//ROTATE
 
 	}
 	if ( status.moveRight() ){
-		posX -= 1.f;
+		posY -= 1.f;
 		//ROTATE
 	}
 
