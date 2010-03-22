@@ -26,10 +26,11 @@ Start::~Start(void){
 
 void Start::onEnter ( Hovercraft * hovercraft ){
 
+	std::cout << hovercraft->getName() << " enters start " << getName() << std::endl;
 }
 
 void Start::onLeave( Hovercraft * hovercraft ){
-
+	std::cout << hovercraft->getName() << " leaves start " << getName() << std::endl;
 }
 
 std::string Start::getClassName(){
