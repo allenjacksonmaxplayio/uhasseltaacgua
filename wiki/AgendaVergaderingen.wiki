@@ -53,15 +53,15 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
     * GUI uit HU in GUI project
     * Havok (generic) in core engine en game specifieke functionaliteit in HU.
     * INI in core engine.
-    * Delete TiXml*
+    * Delete TiXml
     * _Vrijdag vanaf 16u00 gaat de refactoring gebeuren tot alles in orde is._
-   * Taakverdeling:
+  * *Taakverdeling:
     * Dirk: scripting met echte entiteiten
     * Olivier: helpen met server console en networking
     * PJ + Tobias: physics gebruiken op entities
     * Kristof: server console input en listentities voor staat entities; entity representations visualizeren; beginnen modelleren
-    * Nick: menu 
+    * Nick: menu *
 
 == Vergadering 24/03 ==
- * Scripting
-  * AI Obstacle avoidance: hoe ga ik de dimensie van andere entiteiten na? Bv entiteiten met bounding box of radius, of algemeen: functie "bool probe(Vector3 position)" die direct aan Havok vraagt of er zich op dat punt een obstakel bevindt. (Dirk)
+  * Scripting
+    * AI Obstacle avoidance: hoe ga ik de dimensie van andere entiteiten na? Bv entiteiten met bounding box of radius, of algemeen: functie "bool probe(Vector3 position)" die direct aan Havok vraagt of er zich op dat punt een obstakel bevindt. (Dirk)
