@@ -52,10 +52,14 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 }
 
 void CheckPoint::onEnter ( Hovercraft * hovercraft ){
+
+	std::cout << hovercraft->getName() << " entres checkpoint " << getName() << std::endl;
 }
 
 
 void CheckPoint::onLeave( Hovercraft * hovercraft ){
+
+	std::cout << hovercraft->getName() << " leaves checkpoint " << getName() << std::endl;
 }
 
 void CheckPoint::setupReplication(){

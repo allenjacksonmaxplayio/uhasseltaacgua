@@ -30,10 +30,14 @@ void Finish::load(TiXmlElement * data) throw(ParseException){
 
 void Finish::onEnter ( Hovercraft * hovercraft ){
 	//TODO
+
+	std::cout << hovercraft->getName() << " enters finish " << getName() << std::endl;
 }
 
 void Finish::onLeave( Hovercraft * hovercraft ){
 	//TODO
+
+	std::cout << hovercraft->getName() << " leaves finish " << getName() << std::endl;
 }
 
 
