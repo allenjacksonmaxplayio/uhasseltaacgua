@@ -18,6 +18,8 @@ for o in objects while done == false do (
 			for child in o.children while done == false do (
 				for m in child.modifiers while done == false do(
 					if m.name == "Rigid Body" then (
+						
+						child.name = o.name
 							
 						start = findString objectSettings.userdata "<Mass>" + 6
 						end = findString objectSettings.userdata "</Mass>"
