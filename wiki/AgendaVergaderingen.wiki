@@ -63,6 +63,8 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
     * Nick: menu *
 
 == Vergadering 24/03 ==
+  * Algemeen
+    * Hoe gaat de "GameController" gemaakt/toegevoegd worden? Gamecontroller zijnde een entiteit die verantwoordelijk is voor alle gameplay --> Starten van race, stoppen van race, bepalen wie welke positie heeft, etc. (Nick)
   * Havok
     * Havok controls / forces 
   * Scripting
