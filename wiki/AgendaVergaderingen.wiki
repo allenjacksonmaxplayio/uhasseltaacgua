@@ -63,5 +63,8 @@ Zet hier je agendapunten voor volgende vergadering, met je naam vermeld. Op deze
     * Nick: menu *
 
 == Vergadering 24/03 ==
+  * Havok
+    * Havok controls / forces 
   * Scripting
+    * Path definitie
     * AI Obstacle avoidance: hoe ga ik de dimensie van andere entiteiten na? Bv entiteiten met bounding box of radius, of algemeen: functie "bool probe(Vector3 position)" die direct aan Havok vraagt of er zich op dat punt een obstakel bevindt. (Dirk)
