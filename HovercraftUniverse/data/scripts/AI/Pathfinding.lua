@@ -34,7 +34,7 @@ mInitialPosition = 0
 -- Pathfinding Constants
 -----------------------------
 PATH_PROBELENGTH = 50;
-PATH_RADIUS = 40;
+PATH_RADIUS = 80;
 -----------------------------
 
 
@@ -54,10 +54,6 @@ function setEntity(entity)
 		mInitialPosition = entity:getPosition();
 	end
 	mEntity = entity;
-end
-
-function setTarget(entity)
-	mTarget = entity;
 end
 
 epsilon = 0.01; --epsilon for avoiding oscillations
@@ -82,7 +78,7 @@ function decide()
 	--############################### PATH FINDING
 	local probe = velocity * PATH_PROBELENGTH;
 	-- TODO hardcoded path
-	local path = {Vector3(-90, 0, -10), Vector3(0, 0, 0), Vector3(50, 0, 0)};
+	local path = {Vector3(-50, 0, 100), Vector3(0, 0, 50), Vector3(50, 0, 0)};
 	--LUA TABLES START AT INDEX 1
 	local distanceToPath = math.huge;
 	local pathIndex = 0;
@@ -103,6 +99,16 @@ function decide()
 	local project = project(probe, p0, p1);
 	local distanceToPath = position:distance(project);
 	println("Closest path lies between " .. toString(p0) .. " and " .. toString(p1) .. ", at " .. distanceToPath .. " units distance.");
+	local targetPosition;
+	if (distanceToPath > PATH_RADIUS) then
+		--Seek the path
+		println("Seeking " .. toString(project));
+		targetPosition = project;
+	else
+		--No corrective steering required. Force this by setting target to the predicted position.
+		println("No corrective steering required. Seeking " .. toString(probe));
+		targetPosition = probe;
+	end
 
 	--################################## END PATH FINDING
 
@@ -122,16 +128,18 @@ function decide()
 	--println("side = " .. side);
 
 	--deltaOrientation is the unit vector telling us which way to go, from our current direction.
-	--note: working with coordinates (z, x)!!!!
 	if (position:distance(targetPosition) > 20) then
 		game:setAction(ACCELERATE, true);
 		if (side > epsilon) then
+			println("Turning Right");
 			game:setAction(TURNLEFT, false);
 			game:setAction(TURNRIGHT, true);
 		elseif (side < -epsilon) then
+			println("Turning Left");
 			game:setAction(TURNRIGHT, false);
 			game:setAction(TURNLEFT, true);
 		else
+			println("Going Straight");
 			game:setAction(TURNRIGHT, false);
 			game:setAction(TURNLEFT, false);
 		end

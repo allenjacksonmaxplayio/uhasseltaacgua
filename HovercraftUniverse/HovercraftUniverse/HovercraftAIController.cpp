@@ -5,8 +5,6 @@
 #include "EntityManager.h"
 #include "Entity.h"
 
-#include "Finish.h"
-
 namespace HovUni {
 	HovercraftAIController::HovercraftAIController(std::string scriptname) {
 		mClassName = "[HovercraftAIController]: ";
@@ -45,7 +43,7 @@ namespace HovUni {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Game Entity Class.";
 			bindEntity(luaState);
 			luabind::call_function<void>(luaState,"setEntity", getEntity());
-			luabind::call_function<void>(luaState,"setTarget", EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY));
+			//luabind::call_function<void>(luaState,"setTarget", EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY));
 		} catch (const luabind::error &er) {
 			std::stringstream ss;
 			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));

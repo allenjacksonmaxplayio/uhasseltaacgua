@@ -152,7 +152,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			ent->setController(new HovercraftPlayerController());
 		}else {
 			ent = new Hovercraft(announcedata);
-			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/SimpleAI.lua");
+			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 			ent->setController(ai);
 			ai->initialize();	
 		}	
