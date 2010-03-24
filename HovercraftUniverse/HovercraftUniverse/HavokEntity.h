@@ -51,7 +51,7 @@ protected:
 	 * Load the character, this method must set up the rigid body and character context
 	 * @param position
 	 */
-	virtual void loadCharacter(const hkVector4& position);
+	virtual void loadCharacter(const hkVector4& position) = 0;
 
 public:
 
@@ -104,12 +104,7 @@ public:
 	hkVector4& getForward();
 
 	/**
-	 * Get the rigid body for the character
-	 */
-	hkpCharacterRigidBody * getCharacterRigidBody();
-
-	/**
-	 * Updaye the up vector
+	 * Update the up vector
 	 * @param up vector
 	 */
 	virtual void updateUp( const hkVector4& newUp);
