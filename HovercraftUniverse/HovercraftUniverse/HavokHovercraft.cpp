@@ -67,8 +67,8 @@ void HavokHovercraft::loadCharacter(const hkVector4& position){
 	hkpCharacterRigidBodyCinfo info;
 	info.m_mass = hovercraft->getMass();
 	info.m_shape = tmp;
-	info.m_maxLinearVelocity = 5000;//Hovercraft::MAXSPEED;
-	info.m_maxForce = 8000.0f;	//TODO dunno
+	info.m_maxLinearVelocity = 500;//Hovercraft::MAXSPEED;
+	info.m_maxForce = 800.0f;	//TODO dunno
 	info.m_position = position;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
 	info.m_friction = 0.1f;
@@ -215,10 +215,18 @@ void HavokHovercraft::preStep(){
 		if (angle != 0.0f) {
 			hkVector4 axis;
 			mCharacterRigidBody->getRigidBody()->getRotation().getAxis(axis);
-			angle = angle * axis(1); //Multiply by y-component of  rotation axis, to get the sign for the angel
+			//angle = angle * axis(1); //Multiply by y-component of  rotation axis, to get the sign for the angel
 			//TODO I assume this only works with a rotation axis that points straight up, so this is basically a 2D solution. (Dirk)
 			//Tobias may fix this :)
 			//std::cout << "Axis = " << axis << std::endl;
+
+			hkVector4 crossProduct;
+			crossProduct.setCross( hkVector4(1,0,0,0), mForward );
+
+			if ( crossProduct(1) < 0 ){
+				angle = angle * -1;
+			}
+
 		}
 
 		if ( status.moveLeft() ){
@@ -231,11 +239,15 @@ void HavokHovercraft::preStep(){
 			angle = angle - delta;	
 			hkQuaternion q(mUp,angle);
 			mForward.setRotatedDir(q,hkVector4(1,0,0,0));
-			mForward.normalize3();			
+			mForward.normalize3();
+
 		}
+
+		std::cout << "UP = " << mUp << std::endl;
+		std::cout << "FORWARD = " << mForward << std::endl;
 	}
 
-	//update forward vector
+
 
 	hkRotation characterRotation;
 	characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );

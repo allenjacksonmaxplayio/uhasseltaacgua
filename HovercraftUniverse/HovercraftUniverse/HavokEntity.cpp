@@ -67,16 +67,12 @@ void HavokEntity::updateUp( const hkVector4& newUp ) {
 	// Only change gravity if the change isn't negligible
 	if( mUp.dot3(newUp) < 1e-6f)
 	{
-		// don't reorient character when it has an invalid rotational axis
-		//  (this may happen the first few frames)
-		if( mCharacterRigidBody->getRigidBody()->getRotation().hasValidAxis()) {
-			hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
-			hkVector4& oldForward = rbRotation.getColumn(0);
-			hkVector4 newRot; 
-			newRot.setCross(oldForward, newUp);
-			mForward.setCross(newUp, newRot);
-			mForward.normalize3();
-		}
+		hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
+		hkVector4& oldForward = rbRotation.getColumn(0);
+		hkVector4 newRot;
+		newRot.setCross(oldForward, newUp);
+		mForward.setCross(newUp, newRot);
+		mForward.normalize3();
 	}
 
 	mUp = newUp;
