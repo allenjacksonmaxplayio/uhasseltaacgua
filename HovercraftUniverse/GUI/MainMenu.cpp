@@ -24,10 +24,17 @@ namespace HovUni {
 		addOverlay("optionsBtn", mOptionsButton);
 		addOverlay("quitBtn", mQuitButton);
 
+		//Calculate inition top padding, this is the total space available above the buttons
+		int topPadding = ((GUIManager::getSingletonPtr()->getResolutionHeight() / 2) - height);
 		size = GUIManager::getSingletonPtr()->scale(356, 86, 713, 173);
 		width = size.first;
 		height = size.second;
-		mTitle = new BasicOverlay("Title", "title.swf", width, height, Hikari::TopCenter);
+		
+		//Adjust the padding to the calculated height
+		//topPadding -= (height - (height / 3));
+		topPadding = (topPadding / 2) - (height / 4);
+
+		mTitle = new BasicOverlay("Title", "title.swf", width, height, Hikari::Position(Hikari::TopCenter, 0, topPadding), 1);
 		mTitle->setBParameter(BasicOverlay::ALPHAHACK, true);
 
 		mServerMenu = new ServerMenu(serverListener, Hikari::FlashDelegate(this, &MainMenu::onBack));
