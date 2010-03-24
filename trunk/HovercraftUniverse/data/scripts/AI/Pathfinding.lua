@@ -115,7 +115,6 @@ function decide()
 
 	--println("");
 	println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
-	local targetPosition = mTarget:getPosition();
 	println("Target: " .. targetPosition.x .. ", " .. targetPosition.y .. ", " .. targetPosition.z);
 	--Calculate orientation
 	targetOrientation = targetPosition - position;
