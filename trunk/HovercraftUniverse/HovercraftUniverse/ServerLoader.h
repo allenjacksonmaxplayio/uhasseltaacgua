@@ -35,7 +35,7 @@ private:
 	/**
 	 * Current player
 	 */
-	Player * mPlayer;
+	PlayerSettings * mPlayer;
 
 	Ogre::String mCurrentHovercraft;
 

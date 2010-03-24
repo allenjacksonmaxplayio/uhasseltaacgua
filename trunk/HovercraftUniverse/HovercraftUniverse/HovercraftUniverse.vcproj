@@ -451,7 +451,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Player.cpp"
+						RelativePath=".\PlayerSettings.cpp"
 						>
 					</File>
 				</Filter>
@@ -789,7 +789,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Player.h"
+						RelativePath=".\PlayerSettings.h"
 						>
 					</File>
 				</Filter>

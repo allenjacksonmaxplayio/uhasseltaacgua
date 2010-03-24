@@ -56,7 +56,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	}
 
 	// Add player to map
-	mPlayers.insert(std::pair<ZCom_ConnID,Player*>(id,new Player(id)));
+	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(id,new PlayerSettings(id)));
 	mCurrentPlayers++;
 }
 
@@ -64,7 +64,7 @@ void Lobby::onDisconnect(ZCom_ConnID id) {
 	//TODO lock mutex
 
 	// Remove from map
-	std::map<ZCom_ConnID,Player*>::iterator i =  mPlayers.find(id);
+	std::map<ZCom_ConnID,PlayerSettings*>::iterator i =  mPlayers.find(id);
 	delete i->second;
 	mPlayers.erase(i);
 	mCurrentPlayers--;

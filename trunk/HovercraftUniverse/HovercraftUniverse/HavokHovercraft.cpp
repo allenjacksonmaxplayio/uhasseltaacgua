@@ -63,7 +63,7 @@ void HavokHovercraft::loadCharacter(const hkVector4& position){
 	hkpCharacterRigidBodyCinfo info;
 	info.m_mass = hovercraft->getMass();
 	info.m_shape = tmp;
-	//info.m_maxLinearVelocity = hovercraft->getMaximumSpeed();	//TODO should this be Hovercraft::MAXSPEED??
+	info.m_maxLinearVelocity = 5000;//Hovercraft::MAXSPEED;
 	info.m_maxForce = 8000.0f;	//TODO dunno
 	info.m_position = position;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
@@ -193,6 +193,11 @@ void HavokHovercraft::preStep(){
 	}
 
 	posX = speed / Hovercraft::MAXSPEED; 
+
+	std::cout << "MAX " << Hovercraft::MAXSPEED << std::endl;
+	std::cout << "HOV-MAX " << hovercraft->getMaximumSpeed() << std::endl;
+	std::cout << "HOV-SPEED " << hovercraft->getSpeed() << " " << posX << std::endl;
+
 
 
 	if ( status.moveLeft() ){
