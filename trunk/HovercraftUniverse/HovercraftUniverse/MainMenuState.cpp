@@ -4,7 +4,7 @@
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
-	MainMenuState::MainMenuState() : mContinue(true) {
+	MainMenuState::MainMenuState() : mContinue(true), mLastGUIUpdate(-1) {
 		mMenu = new MainMenu(this, Hikari::FlashDelegate(this, &MainMenuState::onQuit));
 	}
 
@@ -57,8 +57,13 @@ namespace HovUni {
 	bool MainMenuState::frameStarted(const Ogre::FrameEvent & evt) {
 		bool result = true;
 
-		//We are using a GUI, so update it
-		mGUIManager->update();
+		mLastGUIUpdate += evt.timeSinceLastFrame;
+
+		if (mLastGUIUpdate > (1.0f / 25.0f) || mLastGUIUpdate < 0) {
+			//We are using a GUI, so update it
+			mGUIManager->update();
+			mLastGUIUpdate = 0.0f; //Reset
+		}
 
 		//We have sound, update it
 		mSoundManager->update();

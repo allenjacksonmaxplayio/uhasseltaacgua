@@ -17,6 +17,9 @@ namespace HovUni {
 			/** The Overlay for the Main menu */
 			MainMenu* mMenu;
 
+			/** Time since last GUI update */
+			Ogre::Real mLastGUIUpdate;
+
 			/** Boolean to check if we want to stop or not */
 			bool mContinue;
 	
