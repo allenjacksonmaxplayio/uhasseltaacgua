@@ -80,6 +80,12 @@ public:
 	const hkVector4& getPosition() const;
 
 	/**
+	* Get the linear velocity of the character (Dirk, 24/03/2010)
+	* @reurn the linear velocity of the character
+	*/
+	const hkVector4& getVelocity() const;
+
+	/**
 	 * Get the orientation of the character
 	 * @return the orientation of the character
 	 */

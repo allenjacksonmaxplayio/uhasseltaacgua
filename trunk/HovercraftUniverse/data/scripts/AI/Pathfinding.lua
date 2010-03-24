@@ -67,20 +67,23 @@ end
 --	Preliminary, pseudostateless AI
 --]]
 function decide()
-	local position;
+	--position = global because we want to retain this to calculate deltaPosition.
 	if (position == nil) then
 		position = mEntity:getPosition();
 	end
-	local velocity = mEntity:getPosition() - position;
+	local velocity = mEntity:getPosition() - position; --TODO use mEntity:getVelocity() but not yet synchronized atm
 	position = mEntity:getPosition();--Vector3
-
+	println("Position: " .. toString(position));
+	println("Velocity: " .. toString(velocity));
+	
 
 	--############################### PATH FINDING
-	local probe = velocity * PATH_PROBELENGTH;
+	local probe = position + (velocity * PATH_PROBELENGTH);
+	println("Probe: " .. toString(probe));
 	-- TODO hardcoded path
 	local path = {Vector3(-50, 0, 100), Vector3(0, 0, 50), Vector3(50, 0, 0)};
 	--LUA TABLES START AT INDEX 1
-	local distanceToPath = math.huge;
+	local distanceToPath = math.huge; --math.huge = +infinity
 	local pathIndex = 0;
 	for key,value in pairs(path) do
 		if (key ~= 1) then
@@ -97,8 +100,8 @@ function decide()
 	local p0 = path[pathIndex-1];
 	local p1 = path[pathIndex];
 	local project = project(probe, p0, p1);
-	local distanceToPath = position:distance(project);
-	println("Closest path lies between " .. toString(p0) .. " and " .. toString(p1) .. ", at " .. distanceToPath .. " units distance.");
+	distanceToPath = position:distance(project);
+	println("Closest path lies between " .. toString(p0) .. " and " .. toString(p1) .. ",projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
 	local targetPosition;
 	if (distanceToPath > PATH_RADIUS) then
 		--Seek the path
@@ -114,11 +117,11 @@ function decide()
 
 
 	--println("");
-	println("Position: " .. position.x .. ", " .. position.y .. ", " .. position.z);
-	println("Target: " .. targetPosition.x .. ", " .. targetPosition.y .. ", " .. targetPosition.z);
+	
+	println("Target: " .. toString(targetPosition));
 	--Calculate orientation
 	targetOrientation = targetPosition - position;
-	targetOrientation = targetOrientation:normalisedCopy();
+	targetOrientation:normalise();
 	--println("targetOrientation: " .. targetOrientation.x .. ", " .. targetOrientation.y .. ", " .. targetOrientation.z);
 	local myOrientation = mEntity:getOrientation();
 	--println("myOrientation: " .. myOrientation.x .. ", " .. myOrientation.y .. ", " .. myOrientation.z);

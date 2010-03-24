@@ -83,6 +83,7 @@ namespace HovUni {
 				.def("getName",			&Entity::getName)
 				.def("getOrientation",	&Entity::getOrientation)
 				.def("getPosition",		&Entity::getPosition)
+				.def("getVelocity",		&Entity::getVelocity)
 				.def("getUpVector",		&Entity::getUpVector)
 		];
 	}

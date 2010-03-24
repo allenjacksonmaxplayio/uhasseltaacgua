@@ -27,6 +27,9 @@ protected:
 	/** The position */
 	Ogre::Vector3 mPosition;
 
+	/** The linear velocity (Dirk)*/
+	Ogre::Vector3 mVelocity;
+
 	/** The orientation of the entity in the world */
 	Ogre::Quaternion mOrientation;
 
@@ -92,6 +95,13 @@ public:
 	void changePosition(const Ogre::Vector3& newPosition);
 
 	/**
+	* Changes the linear velocity to this new value.
+	*
+	* @param newVelocity is the new linear velocity
+	*/
+	void changeVelocity(const Ogre::Vector3& newVelocity);
+
+	/**
 	 * Changes the orientation to the new orientation.
 	 *
 	 * @param newOrientation is the new orientation
@@ -135,6 +145,13 @@ public:
 	 * @return the position
 	 */
 	Ogre::Vector3 getPosition() const;
+
+	/**
+	 * Returns the linear velocity of this entity.
+	 *
+	 * @return the linear velocity 
+	 */
+	Ogre::Vector3 getVelocity() const;
 
 	/**
 	 * Returns the up vector of this entity.

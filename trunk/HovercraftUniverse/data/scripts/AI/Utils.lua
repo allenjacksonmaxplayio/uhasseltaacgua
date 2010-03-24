@@ -12,7 +12,15 @@
 -- @return			Vector3	The point, colinear with and situated inside p0 and p1, with the closest distance to point.
 --]]
 function project(point, p0, p1)
-	local scalar = (p1-p0):dotProduct(point-p0)
-	scalar = scalar / (p1-p0):length();
-	return p0 + ((p1-p0) * scalar);
+	--TODO Optimize (save the divide)
+	local diff = point - p0;
+	local dir = p1 - p0;
+	local t = diff:dotProduct(dir) / dir:dotProduct(dir);
+	if (t <= 0) then
+		return p0;
+	elseif (t >= 1) then
+		return p1;
+	else
+		return p0 + (dir * t);
+	end
 end
