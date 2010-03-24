@@ -22,6 +22,10 @@
 
 namespace HovUni {
 
+std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
+	return stream << "hkVector4(" << v.getSimdAt(0) << ", " << v.getSimdAt(1) << ", " << v.getSimdAt(2) << ", " << "w=" << v.getSimdAt(3) << ")";
+}
+
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
 	HavokEntity( world, entity), mFilename(filename), mEntityName(entityname)
 {
@@ -195,24 +199,40 @@ void HavokHovercraft::preStep(){
 
 	posX = speed / Hovercraft::MAXSPEED; 
 
+	
+
+
 	//std::cout << "MAX " << Hovercraft::MAXSPEED << std::endl;
 	//std::cout << "HOV-MAX " << hovercraft->getMaximumSpeed() << std::endl;
 	//std::cout << "HOV-SPEED " << hovercraft->getSpeed() << " " << posX << std::endl;
+	if (status.moveLeft() || status.moveRight()) {
+		//Rotation
+		double epsilon = 0.001;
+		double delta = 0.01;
+		const double PI = 3.1415926535;
 
-	if ( status.moveLeft() ){
-		//ROTATE
 		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
-		hkQuaternion q(mUp,angle + 0.01);
-		mForward.setRotatedDir(q,hkVector4(1,0,0,0));
-		mForward.normalize3();
-	}
-	if ( status.moveRight() ){
-		//get current orientation
-		//ROTATE
-		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
-		hkQuaternion q(mUp,angle - 0.01);
-		mForward.setRotatedDir(q,hkVector4(1,0,0,0));
-		mForward.normalize3();			
+		if (angle != 0.0f) {
+			hkVector4 axis;
+			mCharacterRigidBody->getRigidBody()->getRotation().getAxis(axis);
+			angle = angle * axis(1); //Multiply by y-component of  rotation axis, to get the sign for the angel
+			//TODO I assume this only works with a rotation axis that points straight up, so this is basically a 2D solution. (Dirk)
+			//Tobias may fix this :)
+			//std::cout << "Axis = " << axis << std::endl;
+		}
+
+		if ( status.moveLeft() ){
+			angle = angle + delta;
+			hkQuaternion q(mUp,angle);
+			mForward.setRotatedDir(q,hkVector4(1,0,0,0));
+			mForward.normalize3();
+		}
+		if ( status.moveRight() ){
+			angle = angle - delta;	
+			hkQuaternion q(mUp,angle);
+			mForward.setRotatedDir(q,hkVector4(1,0,0,0));
+			mForward.normalize3();			
+		}
 	}
 
 	//update forward vector
