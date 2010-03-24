@@ -194,14 +194,14 @@ void HavokHovercraft::preStep(){
 
 	posX = speed / Hovercraft::MAXSPEED; 
 
-	std::cout << "MAX " << Hovercraft::MAXSPEED << std::endl;
-	std::cout << "HOV-MAX " << hovercraft->getMaximumSpeed() << std::endl;
-	std::cout << "HOV-SPEED " << hovercraft->getSpeed() << " " << posX << std::endl;
-
-
+	//std::cout << "MAX " << Hovercraft::MAXSPEED << std::endl;
+	//std::cout << "HOV-MAX " << hovercraft->getMaximumSpeed() << std::endl;
+	//std::cout << "HOV-SPEED " << hovercraft->getSpeed() << " " << posX << std::endl;
 
 	if ( status.moveLeft() ){
 		posY += 1.f;
+
+		//this->mCharacterRigidBody->getRigidBody()->setRotation(
 		//ROTATE
 
 	}

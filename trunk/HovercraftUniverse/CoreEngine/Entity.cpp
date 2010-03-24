@@ -64,7 +64,7 @@ void Entity::changeOrientation(const Ogre::Quaternion& newOrientation) {
 	// TODO Check whether valid
 
 	// Set new orientation
-	mOrientation = newOrientation * mOrientation;
+	mOrientation = newOrientation;
 }
 
 void Entity::setController(Controller * controller) {
