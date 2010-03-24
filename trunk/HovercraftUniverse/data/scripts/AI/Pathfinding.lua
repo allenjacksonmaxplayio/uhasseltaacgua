@@ -35,8 +35,8 @@ mInitialPosition = 0
 -----------------------------
 -- Pathfinding Constants
 -----------------------------
-PATH_PROBELENGTH = 50;
-PATH_RADIUS = 2.5;
+PATH_PROBELENGTH = 5;
+PATH_RADIUS = 1;
 -----------------------------
 
 
@@ -110,12 +110,13 @@ function decide()
 	local p1 = mPath[pathIndex]:getPosition();
 	local project = project(probe, p0, p1);
 	distanceToPath = position:distance(project);
-	println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
-	println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
+	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
+	--println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
+	println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
 	local targetPosition;
 	local distanceThreshold = 2;
 	if (distanceToPath > PATH_RADIUS) then
-		--Seek the path
+		--Probe is too far away, steer towards path.
 		println("Seeking " .. toString(project));
 		targetPosition = project;
 	else
