@@ -2,7 +2,9 @@
 --	Pathfinding AI
 --	@author Dirk Delahaye, 23/03/2010
 --
--- TODO (24/03/2010): Implement "arrival" behaviour.
+-- TODO:
+-- (24/03/2010): Implement "arrival" behaviour.
+-- (24/03/2010): flatten function: project against a plane in the orientation of our entity, instead of just projcting against (X, Z)
 --]]
 AI_NAME = "PathAI"; --Not too long, this appears in every logline
 dofile("scripts/AI/Utils.lua");
@@ -35,8 +37,8 @@ mInitialPosition = 0
 -----------------------------
 -- Pathfinding Constants
 -----------------------------
-PATH_PROBELENGTH = 5;
-PATH_RADIUS = 1;
+PATH_PROBELENGTH = 1;
+PATH_RADIUS = 5;
 -----------------------------
 
 
@@ -76,12 +78,10 @@ end
 --	Preliminary, pseudostateless AI
 --]]
 function decide()
-	--position = global because we want to retain this to calculate deltaPosition.
-	if (position == nil) then
-		position = mEntity:getPosition();
-	end
-	local velocity = mEntity:getPosition() - position; --TODO use mEntity:getVelocity() but not yet synchronized atm
-	position = mEntity:getPosition();--Vector3
+	local position = mEntity:getPosition();--Vector3
+	local velocity = mEntity:getVelocity();
+	position.y = 0;
+	velocity.y = 0;
 	println("Position: " .. toString(position));
 	println("Velocity: " .. toString(velocity));
 	
@@ -97,7 +97,8 @@ function decide()
 			--they are Entities.
 			local p0 = mPath[key-1]:getPosition();
 			local p1 = mPath[key]:getPosition();
-			
+			p0.y = 0;
+			p1.y = 0;
 			local project = project(probe, p0, p1);
 			if (position:distance(project) < distanceToPath) then
 				distanceToPath = position:distance(project);
@@ -108,8 +109,10 @@ function decide()
 
 	local p0 = mPath[pathIndex-1]:getPosition();
 	local p1 = mPath[pathIndex]:getPosition();
+	p0.y = 0;
+	p1.y = 0;
 	local project = project(probe, p0, p1);
-	distanceToPath = position:distance(project);
+	distanceToPath = probe:distance(project);
 	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
 	--println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
 	println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
@@ -143,7 +146,7 @@ function decide()
 	
 	
 	
-	epsilon = 0.0001; --epsilon for avoiding steering oscillations
+	epsilon = 0.01; --epsilon for avoiding steering oscillations
 	if (position:distance(targetPosition) > distanceThreshold) then
 		game:setAction(ACCELERATE, true);
 		if (side > epsilon) then
