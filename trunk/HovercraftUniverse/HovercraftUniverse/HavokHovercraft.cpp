@@ -156,7 +156,6 @@ void HavokHovercraft::preStep(){
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
 	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
 
-
 	//1.0 forward = Hovercraft::MAXSPEED
 
 	//keep speed values
@@ -164,9 +163,6 @@ void HavokHovercraft::preStep(){
 	hkReal speed = hovercraft->getSpeed();
 
 	//Speed on a scale [0-1]
-	//hkReal scaledmaxspeed = hovercraft->getMaximumSpeed() / Hovercraft::MAXSPEED;
-
-	float deltaAngle = 0.f;
 	float posX = 0.f;
 	float posY = 0.f;
 
@@ -182,9 +178,14 @@ void HavokHovercraft::preStep(){
 	}
 
 	//braking..
-	if ( status.moveBackward() ){
+	if ( status.moveBackward() || !status.moveForward() ){
+
 		speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
 		
+		if ( !status.moveBackward() && !status.moveForward() && (speed < 0.0f) ){
+			speed = 0.0f;
+		}
+
 		if ( speed < -1 * hovercraft->getMaximumSpeed() ){
 			hovercraft->setSpeed(-1 * hovercraft->getMaximumSpeed());
 		} else {
@@ -199,49 +200,33 @@ void HavokHovercraft::preStep(){
 	//std::cout << "HOV-SPEED " << hovercraft->getSpeed() << " " << posX << std::endl;
 
 	if ( status.moveLeft() ){
-		posY += 1.f;
-
-		//this->mCharacterRigidBody->getRigidBody()->setRotation(
 		//ROTATE
-
+		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
+		hkQuaternion q(mUp,angle + 0.01);
+		mForward.setRotatedDir(q,hkVector4(1,0,0,0));
+		mForward.normalize3();
 	}
 	if ( status.moveRight() ){
-		posY -= 1.f;
+		//get current orientation
 		//ROTATE
+		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
+		hkQuaternion q(mUp,angle - 0.01);
+		mForward.setRotatedDir(q,hkVector4(1,0,0,0));
+		mForward.normalize3();			
 	}
 
-	
+	//update forward vector
 
+	hkRotation characterRotation;
+	characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );
+
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::PALEGOLDENROD );
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::BLUE );
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::RED );
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::AQUAMARINE );
 	
 	// Update the character context
 	mCharacterRigidBody->m_up = mUp;
-/*
-		float deltaAngle;
-
-		if( ( ( hkMath::fabs( posX ) < HK_REAL_MAX ) && ( hkMath::fabs( posY ) < HK_REAL_MAX ) ) && ( posX || posY ) )
-		{
-			// find new orientation in local space
-			hkVector4 newForward( -posY, 0.0f, -posX );
-			hkVector4 absoluteForward( 1.0f, 0.0f, 0.0f );
-			hkReal characterAngle = hkMath::acos( absoluteForward.dot3( newForward ) );
-
-			// Calculate cross product to get sign of rotation.
-			hkVector4 crossProduct;
-			crossProduct.setCross( absoluteForward, newForward );
-
-			if( crossProduct(1) < 0.0f )
-			{
-				characterAngle *= -1.0f;
-			}
-
-			// Rotate the character's rigid body to face in the direction it's moving
-			hkRotation newRotation;
-			newRotation.setAxisAngle( mUp, characterAngle );
- 			mForward.setRotatedDir( newRotation, m_cameraForward );
- 			mForward.normalize3();
-		}
-*/
-	
 
 	
 	hkpCharacterInput input;
@@ -254,26 +239,8 @@ void HavokHovercraft::preStep(){
 		input.m_inputUD = posY;
 		input.m_wantJump = false;
 
-
-		// Check that we have a valid rotation. Probably won't for the first couple of frames.
-		if( !( mCharacterRigidBody->getRigidBody()->getRotation().hasValidAxis() ) )
-		{
-			input.m_up = mUp;
-			input.m_forward = mForward;
-		}
-		else
-		{
-			input.m_up = mUp;
-
-			// Recalculate m_forward so it's perpendicular to m_worldUp
-			hkVector4 newRot;
-			newRot.setCross( mForward, mUp );
-
-			input.m_forward = mForward;
-		}
-
-
-
+		input.m_up = mUp;
+		input.m_forward = mForward;
 		input.m_stepInfo = stepInfo;
 		input.m_characterGravity.setMul4( -20.0f, mUp );
 		input.m_velocity = mCharacterRigidBody->getRigidBody()->getLinearVelocity();
@@ -301,14 +268,6 @@ void HavokHovercraft::preStep(){
 
 		HK_TIMER_END();
 	}
-
-
-	//DEBUG SHOW FARWARD AS GREEN ARROW
-	hkRotation characterRotation;
-	characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::RED );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::LIMEGREEN );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::BLUE );
 
 	mPhysicsWorld->unmarkForWrite();
 }
