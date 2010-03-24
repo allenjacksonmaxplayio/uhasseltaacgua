@@ -243,8 +243,8 @@ void HavokHovercraft::preStep(){
 
 		}
 
-		std::cout << "UP = " << mUp << std::endl;
-		std::cout << "FORWARD = " << mForward << std::endl;
+		//std::cout << "UP = " << mUp << std::endl;
+		//std::cout << "FORWARD = " << mForward << std::endl;
 	}
 
 

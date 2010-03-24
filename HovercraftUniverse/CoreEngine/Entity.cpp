@@ -60,6 +60,10 @@ void Entity::changePosition(const Ogre::Vector3& newPosition) {
 	mPosition = newPosition;
 }
 
+void Entity::changeVelocity(const Ogre::Vector3& newVelocity) {
+	mVelocity = newVelocity;
+}
+
 void Entity::changeOrientation(const Ogre::Quaternion& newOrientation) {
 	// TODO Check whether valid
 
@@ -105,6 +109,10 @@ Ogre::String Entity::getCategory() const {
 
 Ogre::Vector3 Entity::getPosition() const { 
 	return mPosition; 
+}
+
+Ogre::Vector3 Entity::getVelocity() const { 
+	return mVelocity; 
 }
 
 Ogre::Vector3 Entity::getUpVector() const { 

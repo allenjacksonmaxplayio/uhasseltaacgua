@@ -47,6 +47,10 @@ const hkVector4& HavokEntity::getPosition() const {
 	return mCharacterRigidBody->getPosition();
 }
 
+const hkVector4& HavokEntity::getVelocity() const {
+	return mCharacterRigidBody->getLinearVelocity();
+}
+
 const hkQuaternion& HavokEntity::getOrientation() const {
 	return mCharacterRigidBody->getRigidBody()->getRotation();
 }

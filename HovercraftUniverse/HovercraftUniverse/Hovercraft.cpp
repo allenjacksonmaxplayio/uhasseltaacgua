@@ -96,11 +96,13 @@ Hovercraft::~Hovercraft(void){
 void Hovercraft::process(float timeSince){
 	if ( (timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
 
-		//TODO HAVOK
 		//Fetch from havok
 		HavokEntity * character = Havok::getSingleton().getCharacter(mName.c_str());
 		const hkVector4& position = character->getPosition();
 		changePosition(Ogre::Vector3(position(0),position(1),position(2)));
+
+		const hkVector4& velocity = character->getVelocity();
+		changeVelocity(Ogre::Vector3(velocity(0),velocity(1),velocity(2)));
 
 		const hkQuaternion& rotation = character->getOrientation();
 		changeOrientation(Ogre::Quaternion(rotation(3),rotation(0),rotation(1),rotation(2)));
