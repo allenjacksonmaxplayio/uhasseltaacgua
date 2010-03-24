@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYERSETTINGS_H
+#define PLAYERSETTINGS_H
 
 #include "NetworkEntity.h"
 #include <zoidcom/zoidcom.h>
@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-class Player : public NetworkEntity {
+class PlayerSettings : public NetworkEntity {
 private:
 
 	//connection id (const)
@@ -29,15 +29,15 @@ public:
 	 * Constructor
 	 * @param mconnectionid
 	 */
-	Player(ZCom_ConnID mConnectionID);
+	PlayerSettings(ZCom_ConnID mConnectionID);
 
 	/**
 	 * Constructor
 	 * @param announcedata
 	 */
-	Player(ZCom_BitStream* announcedata);
+	PlayerSettings(ZCom_BitStream* announcedata);
 
-	~Player(void);
+	~PlayerSettings(void);
 
 	/**
 	 * Get the class name for this class. This is used for registering

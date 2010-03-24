@@ -2,7 +2,7 @@
 #define LOBBY_H
 
 #include "NetworkEntity.h"
-#include "Player.h"
+#include "PlayerSettings.h"
 #include "GameEvent.h"
 #include <map>
 #include <string>
@@ -21,7 +21,7 @@ class Lobby : public NetworkEntity{
 
 public:
 	
-	typedef std::map<ZCom_ConnID,Player*> playermap;
+	typedef std::map<ZCom_ConnID,PlayerSettings*> playermap;
 
 private:
 

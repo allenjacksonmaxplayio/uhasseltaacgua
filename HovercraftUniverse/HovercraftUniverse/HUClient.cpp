@@ -7,7 +7,7 @@
 #include "HovercraftAIController.h"
 
 #include "Lobby.h"
-#include "Player.h"
+#include "PlayerSettings.h"
 
 #include "AsteroidRepresentation.h"
 #include "BoostRepresentation.h"
@@ -93,9 +93,9 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		mLobby->networkRegister(requested_class, this);
 		HUApplication::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
 	} 
-	else if ( requested_class == mIDManager->getID(Player::getClassName()) ){
+	else if ( requested_class == mIDManager->getID(PlayerSettings::getClassName()) ){
 		// Player (TODO do something with it)
-		Player * ent = new Player(announcedata);
+		PlayerSettings * ent = new PlayerSettings(announcedata);
 		ent->networkRegister(requested_class,this);
 	}	
 	//Entities

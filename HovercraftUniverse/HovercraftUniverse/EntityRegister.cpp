@@ -2,7 +2,7 @@
 #include "ChatEntity.h"
 
 #include "Lobby.h"
-#include "Player.h"
+#include "PlayerSettings.h"
 
 #include "Start.h"
 #include "Finish.h"
@@ -30,7 +30,7 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	
 	//Lobby
 	manager.registerClass(Lobby::getClassName());
-	manager.registerClass(Player::getClassName(),true);
+	manager.registerClass(PlayerSettings::getClassName(),true);
 
 	//Entities
 	manager.registerClass(Asteroid::getClassName(),true);

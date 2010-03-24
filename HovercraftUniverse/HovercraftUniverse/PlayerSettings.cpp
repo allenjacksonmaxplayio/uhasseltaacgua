@@ -1,8 +1,8 @@
-#include "Player.h"
+#include "PlayerSettings.h"
 
 namespace HovUni {
 
-Player::Player(ZCom_ConnID connectionID) : 
+PlayerSettings::PlayerSettings(ZCom_ConnID connectionID) : 
 	NetworkEntity(3), mConnectionID(connectionID), mCharacter(""), mHovercraft(""), mPlayerName("") {
 	
 	// Empty
@@ -15,24 +15,24 @@ Player::Player(ZCom_ConnID connectionID) :
 	mHovercraft = "hover1";
 }
 
-Player::Player(ZCom_BitStream* announcedata):
+PlayerSettings::PlayerSettings(ZCom_BitStream* announcedata):
 	NetworkEntity(3)
 {
 	mConnectionID = announcedata->getInt(sizeof(ZCom_ConnID) * 8);
 }
 
-Player::~Player(void){
+PlayerSettings::~PlayerSettings(void){
 }
 
-std::string Player::getClassName(){
+std::string PlayerSettings::getClassName(){
 	return "Player";
 }
 
-void Player::setAnnouncementData(ZCom_BitStream* stream){
+void PlayerSettings::setAnnouncementData(ZCom_BitStream* stream){
 	stream->addInt(mConnectionID,sizeof(ZCom_ConnID) * 8);
 }
 
-void Player::setupReplication(){
+void PlayerSettings::setupReplication(){
 	//replicate name
 	replicateString(&mPlayerName);
 
