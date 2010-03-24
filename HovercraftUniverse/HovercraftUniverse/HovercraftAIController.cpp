@@ -2,8 +2,11 @@
 #include "OgreLogManager.h"
 #include <sstream>
 #include "Exception.h"
+
 #include "EntityManager.h"
 #include "Entity.h"
+#include "CheckPoint.h"
+#include "Finish.h"
 
 namespace HovUni {
 	HovercraftAIController::HovercraftAIController(std::string scriptname) {
@@ -34,6 +37,9 @@ namespace HovUni {
 			std::string error = ss.str();
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua error while initialising: " << error;
 			THROW(ScriptingException, error);
+		} catch (const std::runtime_error &e) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Runtime error while initialising: " << e.what();
+			THROW(ScriptingException, e.what());
 		}
 	}
 
@@ -43,13 +49,30 @@ namespace HovUni {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Game Entity Class.";
 			bindEntity(luaState);
 			luabind::call_function<void>(luaState,"setEntity", getEntity());
-			//luabind::call_function<void>(luaState,"setTarget", EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY));
+			
+			
+			//Temporary Path! 
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";
+			luabind::object table = luabind::newtable(luaState);
+			std::vector<Entity*> checkpoints = EntityManager::getClientSingletonPtr()->getEntities(CheckPoint::CATEGORY);
+			int index = 1; // Lua tables start at 1.
+			for(unsigned int i = 0; i < checkpoints.size(); i++) {
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path[" << index << "] to checkpoints[" << i << "].";
+				table[index] = checkpoints[i];
+				index++;
+			}
+			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY);
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
+			luabind::call_function<void>(luaState,"setPath", table);
 		} catch (const luabind::error &er) {
 			std::stringstream ss;
 			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));
 			std::string error = ss.str();
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << error;
 			THROW(ScriptingException, error);
+		} catch (const std::runtime_error &e) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Runtime Error: " << e.what();
+			THROW(ScriptingException, e.what());
 		}
 	}
 
@@ -62,6 +85,9 @@ namespace HovUni {
 			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << ss.str();
 			THROW(ScriptingException, ss.str());
+		} catch (const std::runtime_error &e) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Runtime Error: " << e.what();
+			THROW(ScriptingException, e.what());
 		}
 
 
