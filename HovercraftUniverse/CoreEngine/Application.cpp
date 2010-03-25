@@ -1,7 +1,7 @@
 #include "Application.h"
 #include "Exception.h"
 #include "HUD.h"
-#include "INIReader/INIReader.h"
+#include "inifile.h"
 #include <tinyxml/tinyxml.h>
 #include <iostream>
 
@@ -32,23 +32,21 @@ void Application::go(const Ogre::String& host, unsigned int port) {
 }
 
 void Application::parseIni() {
-	//TCHAR szDirectory[MAX_PATH] = "";
-	//GetCurrentDirectory(sizeof(szDirectory) - 1, szDirectory);
-	//std::string curDir (szDirectory);
-	INIReader reader(mConfigINI);
-	if (reader.ParseError() < 0) {
-		// TODO Throw exception (added by Kristof)
-        cerr << "Error reading INI!";
-    }
+	CIniFile reader;
+	bool readerSuccess = reader.Load(mConfigINI);
+	if (!readerSuccess) {
+		//TODO gooi iets, zoals een error
+		std::cerr << "Reading INI failed!" << std::endl;
+	}
 	//Get(section, name, defaultValue)
-	mDataPath = reader.Get("Paths", "DataPath", "./data");
-	mLogPath = reader.Get("Ogre", "LogFile", "Client.log");
-	mOgreConfig = reader.Get("Ogre", "Resources", "resources.cfg");
-	mOgrePlugins = reader.Get("Ogre", "Plugins", "plugins.cfg");
-	mSoundPath = reader.Get("Sound", "Path", "sound\\");
-	mSoundFile = reader.Get("Sound", "File", "Sound.fev");
-	mControlsPath = reader.Get("Controls", "Path", "controls\\");
-	mControlsFile = reader.Get("Controls", "File", "Controls.ini");
+	mDataPath = reader.GetKeyValue("Paths", "DataPath");//, "./data");
+	mLogPath = reader.GetKeyValue("Ogre", "LogFile");//, "Client.log");
+	mOgreConfig = reader.GetKeyValue("Ogre", "Resources");//, "resources.cfg");
+	mOgrePlugins = reader.GetKeyValue("Ogre", "Plugins");//, "plugins.cfg");
+	mSoundPath = reader.GetKeyValue("Sound", "Path");//, "sound\\");
+	mSoundFile = reader.GetKeyValue("Sound", "File");//, "Sound.fev");
+	mControlsPath = reader.GetKeyValue("Controls", "Path");//, "controls\\");
+	mControlsFile = reader.GetKeyValue("Controls", "File");//, "Controls.ini");
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;
@@ -57,10 +55,10 @@ void Application::parseIni() {
 	GetFullPathName(mDataPath.c_str(),MAX_PATH,buffer,lppPart);
 	std::cout << "Changing Working Dir to " << buffer << std::endl;
 	BOOL success = SetCurrentDirectory(buffer);
-
-//	char absolutePath[MAX_PATH];
-//	std::realpath("../../", absolutePath);
-//	SetCurrentDirectory(absolutePath);
+	if (!success) {
+		//TODO error handling
+		std::cerr << "Could not set working dir (check config file DataPath var)!" << std::endl;
+	}
 }
 
 void Application::createRoot() {

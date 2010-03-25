@@ -154,11 +154,7 @@
 				Name="INI"
 				>
 				<File
-					RelativePath=".\INIReader\ini.c"
-					>
-				</File>
-				<File
-					RelativePath=".\INIReader\INIReader.cpp"
+					RelativePath=".\inifile.cpp"
 					>
 				</File>
 			</Filter>
@@ -260,11 +256,11 @@
 				Name="INI"
 				>
 				<File
-					RelativePath=".\INIReader\ini.h"
+					RelativePath=".\inifile.h"
 					>
 				</File>
 				<File
-					RelativePath=".\INIReader\INIReader.h"
+					RelativePath=".\tstdlibs.h"
 					>
 				</File>
 			</Filter>
