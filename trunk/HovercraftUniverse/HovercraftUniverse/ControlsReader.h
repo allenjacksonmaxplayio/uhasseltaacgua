@@ -2,6 +2,8 @@
 #define CONTROLSREADER_H_
 
 #include "InputManager.h"
+#include "CameraControllerActionType.h"
+#include "ControllerActionType.h"
 
 namespace HovUni {
 
@@ -17,6 +19,25 @@ protected:
 
 	/** The input manager */
 	InputManager * mInputManager;
+
+	/**
+	 * Sets all keys from the string (seperated by a comma) for this action.
+	 *
+	 * @param	action	Action code from the enum.
+	 * @param	keys	String with keys, seperated by a comma.
+	 * @param	defaultValue	Default key for this action, when no valid keys are given.
+	 */
+	void setKeys(ControllerActions::ControllerActionType action, std::string keys, std::string defaultValue);
+
+	/**
+	 * Sets all keys from the string (seperated by a comma) for this action.
+	 *
+	 * @param	action	Action code from the enum.
+	 * @param	keys	String with keys, seperated by a comma.
+	 * @param	defaultValue	Default key for this action, when no valid keys are given.
+	 */
+	void setKeys(CameraActions::CameraControllerActionType action, std::string keys, std::string defaultValue);
+
 
 public:
 
@@ -42,6 +63,11 @@ public:
 	 * Loads the controls from the ini file.
 	 */
 	void readControls();
+
+	/**
+	 * Write the controls to the ini file.
+	 */
+	void writeControls();
 };
 
 }

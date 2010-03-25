@@ -24,6 +24,14 @@ private:
 	/** Mapping with actions to their name */
 	std::map<int, const char *> mActionMapping;
 
+	/** Mapping with key names to their OIS keycode */
+	std::map<std::string, OIS::KeyCode> mKeyCodeMapping;
+
+	/**
+	 * Register the keycodes.
+	 */
+	void registerKeyCodes();
+
 public:
 	/**
 	 * Constructor
@@ -60,6 +68,14 @@ public:
 	 * @param	key		New key for this action.
 	 */
 	void setKey(const int action, const OIS::KeyCode key);
+
+	/** 
+	 * Change the key for this action.
+	 *
+	 * @param	action	Action you want to change the key of.
+	 * @param	key		Name of the key for this action.
+	 */
+	void setKey(const int action, std::string key);
 
 	/**
 	 * Gets the action associated with this key.
@@ -100,6 +116,14 @@ public:
 	 */
 	void setCameraKey(const CameraActions::CameraControllerActionType action, const OIS::KeyCode key);
 
+	/** 
+	 * Change the key for this camera action.
+	 *
+	 * @param	action	Action you want to change the key of.
+	 * @param	key		Name of the key for this camera action.
+	 */
+	void setCameraKey(const CameraActions::CameraControllerActionType action, std::string key);
+
 	/**
 	 * Gets the cameraaction associated with this key.
 	 *
@@ -115,6 +139,22 @@ public:
 	 * @return	The name of this camera action.
 	 */
 	const char* getCameraName(const CameraActions::CameraControllerActionType action);
+
+	/**
+	 * Get the key code of this key name.
+	 *
+	 * @param	name	Name of the key.
+	 * @return	The key code of this key name.
+	 */
+	OIS::KeyCode getKeyCode(std::string name);
+
+	/**
+	 * Get the key name of this key code.
+	 *
+	 * @param	key	Key code of the key.
+	 * @return	The key name of this key code.
+	 */
+	std::string getKeyName(OIS::KeyCode key);
 
 };
 
