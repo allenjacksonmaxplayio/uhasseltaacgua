@@ -1,5 +1,6 @@
 #include "MainMenuState.h"
 #include "InGameState.h"
+#include "LobbyState.h"
 #include "HUClient.h"
 #include <tinyxml/tinyxml.h>
 
@@ -15,12 +16,17 @@ namespace HovUni {
 		//TODO: Parse IP and Port?
 		HUClient* mClient = new HUClient(address.c_str());
 
+		LobbyState* newState = new LobbyState(mClient, mClient->getLobby());
+		mManager->addGameState(GameStateManager::LOBBY, newState);
+		mManager->switchState(GameStateManager::LOBBY);
+
+		/*
 		TiXmlDocument doc("gui/GUIConfig.xml");
 		doc.LoadFile();
-
 		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
 		mManager->addGameState(GameStateManager::IN_GAME, newState);
 		mManager->switchState(GameStateManager::IN_GAME);
+		*/
 		///////////////////////////////////////////
 		///////////////////////////////////////////
 

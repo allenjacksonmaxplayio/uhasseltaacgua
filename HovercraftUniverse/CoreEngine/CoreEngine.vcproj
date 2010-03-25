@@ -241,10 +241,6 @@
 					RelativePath=".\GameView.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\HUD.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -361,10 +357,6 @@
 				</File>
 				<File
 					RelativePath=".\GameView.h"
-					>
-				</File>
-				<File
-					RelativePath=".\HUD.h"
 					>
 				</File>
 			</Filter>

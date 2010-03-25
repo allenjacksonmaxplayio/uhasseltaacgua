@@ -32,15 +32,21 @@
 namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port), mEntityManager(0), mIDManager(0), mLobby(0) {
+	//Initialize the chat client
+	mChatClient = new ChatClient("Player", name);
+
 	initialize();
 }
 
 HUClient::HUClient() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
+	//Initialize the chat client
+	mChatClient = new ChatClient("Player");
+	
 	initialize();
 }
 
 HUClient::~HUClient() {
-
+	delete mChatClient;
 }
 
 void HUClient::initialize() {
@@ -53,6 +59,7 @@ void HUClient::initialize() {
 
 void HUClient::process() {
 	NetworkClient::process();
+	mChatClient->process();
 }
 
 void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
@@ -147,15 +154,15 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 	} else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
 		Hovercraft * ent = 0;
 		
-		if (role == eZCom_RoleOwner) {
-			ent = new Hovercraft(announcedata);
-			ent->setController(new HovercraftPlayerController());
-		}else {
+		//if (role == eZCom_RoleOwner) {
+		//	ent = new Hovercraft(announcedata);
+		//	ent->setController(new HovercraftPlayerController());
+		//}else {
 			ent = new Hovercraft(announcedata);
 			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 			ent->setController(ai);
 			ai->initialize();	
-		}	
+		//}	
 		
 		HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
