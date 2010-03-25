@@ -154,15 +154,15 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 	} else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
 		Hovercraft * ent = 0;
 		
-		//if (role == eZCom_RoleOwner) {
-		//	ent = new Hovercraft(announcedata);
-		//	ent->setController(new HovercraftPlayerController());
-		//}else {
+		if (role == eZCom_RoleOwner) {
+			ent = new Hovercraft(announcedata);
+			ent->setController(new HovercraftPlayerController());
+		}else {
 			ent = new Hovercraft(announcedata);
 			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 			ent->setController(ai);
 			ai->initialize();	
-		//}	
+		}	
 		
 		HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);

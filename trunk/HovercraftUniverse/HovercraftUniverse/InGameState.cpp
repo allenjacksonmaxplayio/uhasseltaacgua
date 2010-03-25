@@ -39,8 +39,6 @@ namespace HovUni {
 			mHUClient->process();
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 			mTimeLapsed = 0.0f;
-			// TODO Remove
-			mHUClient->start();
 		}
 
 		// Update representation manager
