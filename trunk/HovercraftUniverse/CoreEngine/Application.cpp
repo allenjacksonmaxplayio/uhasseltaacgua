@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "Exception.h"
-#include "HUD.h"
 #include "inifile.h"
 #include <tinyxml/tinyxml.h>
 #include <iostream>

@@ -7,7 +7,7 @@
 namespace HovUni {
 	LobbyState::LobbyState(HUClient* client, Lobby* lobby) : mClient(client), mLobby(lobby), mLastGUIUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
-		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat));
+		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onStart), Hikari::FlashDelegate(this, &LobbyState::onLeave));
 
 		mClient->getChatClient()->registerListener(mLobbyGUI);
 	}
@@ -29,11 +29,15 @@ namespace HovUni {
 		mManager->addGameState(GameStateManager::IN_GAME, newState);
 		mManager->switchState(GameStateManager::IN_GAME);
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 
 	Hikari::FlashValue LobbyState::onLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		return Hikari::FlashValue();
+		mManager->switchState(GameStateManager::MAIN_MENU);
+		//Delete the client to save some resources
+		delete mClient;
+
+		return "success";
 	}
 
 	void LobbyState::activate() {

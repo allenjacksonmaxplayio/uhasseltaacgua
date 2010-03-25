@@ -5,7 +5,6 @@
 #include <OgreCamera.h>
 #include <OgreSceneManager.h>
 #include "EntityRepresentation.h"
-#include "HUD.h"
 #include "RaceCamera.h"
 
 using namespace std;
