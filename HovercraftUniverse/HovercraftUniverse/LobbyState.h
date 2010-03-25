@@ -21,8 +21,11 @@ namespace HovUni {
 			/** The vieualisation for the GUI */
 			LobbyGUI* mLobbyGUI;
 
-			/** time since last GUI update, in seconds */
+			/** Time since last GUI update, in seconds */
 			Ogre::Real mLastGUIUpdate;
+
+			/** Time since the last client update, in seconds */
+			Ogre::Real mLastClientUpdate;
 
 		public:
 			/**

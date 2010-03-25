@@ -5,11 +5,12 @@
 #include <OgreRoot.h>
 
 namespace HovUni {
-	LobbyState::LobbyState(HUClient* client, Lobby* lobby) : mClient(client), mLobby(lobby), mLastGUIUpdate(0) {
+	LobbyState::LobbyState(HUClient* client, Lobby* lobby) : mClient(client), mLobby(lobby), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
 		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onStart), Hikari::FlashDelegate(this, &LobbyState::onLeave));
 
 		mClient->getChatClient()->registerListener(mLobbyGUI);
+		mClient->process();
 	}
 
 	LobbyState::~LobbyState() {
@@ -23,6 +24,8 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue LobbyState::onStart(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		mClient->start();
+
 		TiXmlDocument doc("gui/GUIConfig.xml");
 		doc.LoadFile();
 		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
@@ -57,11 +60,17 @@ namespace HovUni {
 		bool result = true;
 
 		mLastGUIUpdate += evt.timeSinceLastFrame;
+		mLastClientUpdate += evt.timeSinceLastFrame;
 
 		if (mLastGUIUpdate > (1.0f / 25.0f) || mLastGUIUpdate < 0) {
 			//We are using a GUI, so update it
 			mGUIManager->update();
 			mLastGUIUpdate = 0.0f; //Reset
+		}
+
+		if (mLastClientUpdate > 0.016f) {
+			mClient->process();
+			mLastClientUpdate = 0.0f;
 		}
 
 		//We have sound, update it
