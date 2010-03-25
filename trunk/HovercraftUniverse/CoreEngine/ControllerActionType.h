@@ -25,7 +25,7 @@ enum ControllerActionType {
 };
 
 /** String representations of the actions */
-static const char * actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right",};
+static std::string actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right",};
 }
 
 }

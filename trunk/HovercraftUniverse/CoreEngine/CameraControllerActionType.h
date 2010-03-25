@@ -22,14 +22,20 @@ enum CameraControllerActionType {
 	FREE_CAMERA_UP, 
 	FREE_CAMERA_DOWN, 
 	FREE_CAMERA_LEFT, 
-	FREE_CAMERA_RIGHT
+	FREE_CAMERA_RIGHT,
+
+
+
+	CAMERA_END	// shouldn't be used as a real control, just a check for the last entry in the enum
 };
 
 /** String representations of the actions */
-static const char * cameraActionNames[]={ "Invalid", "Change Camera", "External View", 
+static std::string cameraActionNames[]={ "Invalid", "Change Camera", "External View", 
 	"Cockpit View", "Rear View", "Free Roam Camera", "Forward", "Back",
 	"Up", "Down", "Left", "Right"};
+
 }
+
 
 }
 

@@ -1,4 +1,5 @@
 #include "KeyManager.h"
+#include "inifile.h"
 #include <utility>
 #include <algorithm>
 
@@ -11,12 +12,73 @@ KeyManager::KeyManager(void) {
 KeyManager::~KeyManager(void) {
 }
 
-void KeyManager::registerAction(const int action, const char * name) {
-	mActionMapping[action] = name;
+void KeyManager::resetKeyMappings() {
+	mKeyMapping.clear();
+	mCameraMapping.clear();
 }
 
-const std::list<OIS::KeyCode> KeyManager::getKeys(const int action) {
-	std::list<OIS::KeyCode> keys;
+void KeyManager::resetRegisteredActions() {
+	mActionMapping.clear();
+	mActionTypeMapping.clear();
+}
+
+void KeyManager::writeControlsFile() {
+	CIniFile writer;
+	
+	// write the registered actions
+	std::vector<int> actions = getRegisteredActions();
+	for (unsigned int i = 0; i < actions.size(); ++i) {
+		const std::string name = getActionName(actions[i]);
+		std::vector<OIS::KeyCode> keys = getKeys(actions[i]);
+		std::string keystring;
+		for (unsigned int j = 0; j < keys.size(); ++j) {
+			if (j > 0) {
+				keystring.append(",");
+			}
+			keystring.append(getKeyName(keys[j]));
+		}
+		std::string type = getActionType(actions[i]);
+		writer.SetKeyValue(type, name, keystring);
+	}
+
+	// write the camera actions
+	for (int i = CameraActions::CHANGECAMERA; i <= CameraActions::FREE_CAMERA; ++i) {
+		const std::string name = getCameraName(CameraActions::CameraControllerActionType(i));
+		std::vector<OIS::KeyCode> keys = getCameraKeys(CameraActions::CameraControllerActionType(i));
+		std::string keystring;
+		for (unsigned int j = 0; j < keys.size(); ++j) {
+			if (j > 0) {
+				keystring.append(",");
+			}
+			keystring.append(getKeyName(keys[j]));
+		}
+		writer.SetKeyValue("Camera", name, keystring);
+	}
+
+	// write the free roam camera actions
+	for (int i = CameraActions::FREE_CAMERA_FWD; i < CameraActions::CAMERA_END; ++i) {
+		const std::string name = getCameraName(CameraActions::CameraControllerActionType(i));
+		std::vector<OIS::KeyCode> keys = getCameraKeys(CameraActions::CameraControllerActionType(i));
+		std::string keystring;
+		for (unsigned int j = 0; j < keys.size(); ++j) {
+			if (j > 0) {
+				keystring.append(",");
+			}
+			keystring.append(getKeyName(keys[j]));
+		}
+		writer.SetKeyValue("FreeCamera", name, keystring);
+	}
+
+	writer.Save("controls\\test.ini");
+}
+
+void KeyManager::registerAction(const int action, std::string name, std::string type) {
+	mActionMapping[action] = name;
+	mActionTypeMapping[action] = type;
+}
+
+const std::vector<OIS::KeyCode> KeyManager::getKeys(const int action) {
+	std::vector<OIS::KeyCode> keys;
 
     std::map<OIS::KeyCode, int>::const_iterator iter;
     for (iter = mKeyMapping.begin(); iter != mKeyMapping.end(); ++iter) {
@@ -28,23 +90,23 @@ const std::list<OIS::KeyCode> KeyManager::getKeys(const int action) {
     return keys;
 }
 
-void KeyManager::setKey(const int action, const OIS::KeyCode key) {
+void KeyManager::setKey(const int action, const OIS::KeyCode key, bool initial) {
 	mKeyMapping[key] = action;
 	mCameraMapping[key] = CameraActions::INVALID;
 }
 
-void KeyManager::setKey(const int action, std::string key) {
-	setKey(action, getKeyCode(key));
+void KeyManager::setKey(const int action, std::string key, bool initial) {
+	setKey(action, getKeyCode(key), initial);
 }
 
 const int KeyManager::getAction(const OIS::KeyCode key) {
 	return mKeyMapping[key];
 }
 
-const std::list<int> KeyManager::getRegisteredActions() {
-	std::list<int> actions;
+const std::vector<int> KeyManager::getRegisteredActions() {
+	std::vector<int> actions;
 
-    std::map<int, const char *>::const_iterator iter;
+	std::map<int, std::string>::const_iterator iter;
     for (iter = mActionMapping.begin(); iter != mActionMapping.end(); ++iter) {
         actions.push_back(iter->first);
     }
@@ -52,12 +114,16 @@ const std::list<int> KeyManager::getRegisteredActions() {
     return actions;
 }
 
-const char* KeyManager::getName(const int action) {
+const std::string KeyManager::getActionName(const int action) {
 	return mActionMapping[action];
 }
 
-const std::list<OIS::KeyCode> KeyManager::getCameraKeys(const CameraActions::CameraControllerActionType action) {
-	std::list<OIS::KeyCode> keys;
+const std::string KeyManager::getActionType(const int action) {
+	return mActionTypeMapping[action];
+}
+
+const std::vector<OIS::KeyCode> KeyManager::getCameraKeys(const CameraActions::CameraControllerActionType action) {
+	std::vector<OIS::KeyCode> keys;
 
     std::map<OIS::KeyCode, CameraActions::CameraControllerActionType>::const_iterator iter;
     for (iter = mCameraMapping.begin(); iter != mCameraMapping.end(); ++iter) {
@@ -69,20 +135,20 @@ const std::list<OIS::KeyCode> KeyManager::getCameraKeys(const CameraActions::Cam
     return keys;
 }
 
-void KeyManager::setCameraKey(const CameraActions::CameraControllerActionType action, const OIS::KeyCode key) {
+void KeyManager::setCameraKey(const CameraActions::CameraControllerActionType action, const OIS::KeyCode key, bool initial) {
 	mKeyMapping[key] = 0;
 	mCameraMapping[key] = action;
 }
 
-void KeyManager::setCameraKey(const CameraActions::CameraControllerActionType action, std::string key) {
-	setCameraKey(action, getKeyCode(key));
+void KeyManager::setCameraKey(const CameraActions::CameraControllerActionType action, std::string key, bool initial) {
+	setCameraKey(action, getKeyCode(key), initial);
 }
 
 const CameraActions::CameraControllerActionType KeyManager::getCameraAction(const OIS::KeyCode key) {
 	return mCameraMapping[key];
 }
 
-const char* KeyManager::getCameraName(const CameraActions::CameraControllerActionType action) {
+const std::string KeyManager::getCameraName(const CameraActions::CameraControllerActionType action) {
 	return CameraActions::cameraActionNames[action];
 }
 
