@@ -1,5 +1,6 @@
 #include "HUApplication.h"
 #include "MainMenuState.h"
+#include "ControlsReader.h"
 #include <HovSound.h>
 
 namespace HovUni {
@@ -27,6 +28,20 @@ namespace HovUni {
 	void HUApplication::customSceneSetup() {
 		// Initialize the client preparation loader 
 		msPreparationLoader = new ClientPreparationLoader();
+	}
+
+	void HUApplication::init() {
+		parseIni();
+		createRoot();
+		defineResources();
+		setupRenderSystem();
+		createRenderWindow();
+		initializeResourceGroups();
+		setupInputSystem();
+
+		// read controls
+		ControlsReader * controls = new ControlsReader(mInputManager->getKeyManager());
+		controls->readControls();
 	}
 
 }

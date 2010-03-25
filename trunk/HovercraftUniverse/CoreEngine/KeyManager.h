@@ -27,6 +27,9 @@ private:
 	/** Mapping with key names to their OIS keycode */
 	std::map<std::string, OIS::KeyCode> mKeyCodeMapping;
 
+	/** The config file with the controls */
+	std::string mControlsFile;
+
 	/**
 	 * Register the keycodes.
 	 */
@@ -155,6 +158,20 @@ public:
 	 * @return	The key name of this key code.
 	 */
 	std::string getKeyName(OIS::KeyCode key);
+
+	/**
+	 * Set the location of the controls ini file
+	 *
+	 * @param	file	Location of Controls.ini
+	 */
+	void setControlsFile(std::string file);
+
+	/**
+	 * Get the location of the controls ini file
+	 *
+	 * @return	file	Location of Controls.ini
+	 */
+	std::string getControlsFile();
 
 };
 

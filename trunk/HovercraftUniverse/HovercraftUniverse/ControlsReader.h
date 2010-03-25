@@ -1,7 +1,7 @@
 #ifndef CONTROLSREADER_H_
 #define CONTROLSREADER_H_
 
-#include "InputManager.h"
+#include "KeyManager.h"
 #include "CameraControllerActionType.h"
 #include "ControllerActionType.h"
 
@@ -17,8 +17,8 @@ namespace HovUni {
 class ControlsReader {
 protected:
 
-	/** The input manager */
-	InputManager * mInputManager;
+	/** The key manager */
+	KeyManager * mKeyManager;
 
 	/**
 	 * Sets all keys from the string (seperated by a comma) for this action.
@@ -44,9 +44,9 @@ public:
 	/**
 	 * Constructor.
 	 *
-	 * @param	ipm	The inputmanager where we should add our controls.
+	 * @param	keyManager	The key manager where we should add our controls.
 	 */
-	ControlsReader(InputManager * ipm);
+	ControlsReader(KeyManager * keyManager);
 
 	/**
 	 * Destructor.
@@ -63,11 +63,6 @@ public:
 	 * Loads the controls from the ini file.
 	 */
 	void readControls();
-
-	/**
-	 * Write the controls to the ini file.
-	 */
-	void writeControls();
 };
 
 }

@@ -41,6 +41,11 @@ namespace HovUni {
 		 * @see Application::customSceneSetup().
 		 */
 		void customSceneSetup();
+
+		/**
+		 * @see Application::init().
+		 */
+		void init();
 	};
 
 #endif

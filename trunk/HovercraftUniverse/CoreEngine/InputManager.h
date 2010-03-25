@@ -43,9 +43,6 @@ protected:
 	/** The key manager */
 	KeyManager * mKeyManager;
 
-	/** The config file with the controls */
-	std::string mControlsFile;
-
 	/** The singleton object */
     static InputManager * mInputManager;
 

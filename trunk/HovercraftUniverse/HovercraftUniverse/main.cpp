@@ -102,6 +102,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		HovUni::HUApplication app;
 		
 		try {
+			app.init();
 			app.go(host,port);
 		} catch (Ogre::Exception & e) {
 			MessageBox(NULL, e.getFullDescription().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

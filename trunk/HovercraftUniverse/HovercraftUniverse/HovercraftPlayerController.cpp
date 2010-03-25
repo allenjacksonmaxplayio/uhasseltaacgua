@@ -1,5 +1,4 @@
 #include "HovercraftPlayerController.h"
-//#include "KeyManager.h"
 #include "ControllerActionType.h"
 #include <OgreLogManager.h>
 
@@ -10,10 +9,6 @@ HovercraftPlayerController::HovercraftPlayerController(void) : mMovingLeft(false
 	// Fetch input manager object
 	mInputManager = InputManager::getSingletonPtr();
 	mInputManager->addKeyListener(this, "HovercraftPlayerController");
-	mControlsReader = new ControlsReader(mInputManager);
-	
-	// read controls from ini file
-	mControlsReader->readControls();
 }
 
 HovercraftPlayerController::~HovercraftPlayerController(void) {
