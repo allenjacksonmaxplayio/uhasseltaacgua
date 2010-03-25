@@ -69,7 +69,7 @@ void KeyManager::writeControlsFile() {
 		writer.SetKeyValue("FreeCamera", name, keystring);
 	}
 
-	writer.Save("controls\\test.ini");
+	writer.Save(mControlsFile);
 }
 
 void KeyManager::registerAction(const int action, std::string name, std::string type) {
