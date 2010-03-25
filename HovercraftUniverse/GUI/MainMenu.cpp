@@ -36,32 +36,40 @@ namespace HovUni {
 
 		mTitle = new BasicOverlay("Title", "title.swf", width, height, Hikari::Position(Hikari::TopCenter, 0, topPadding), 1);
 		mTitle->setBParameter(BasicOverlay::ALPHAHACK, true);
+		addOverlay("title", mTitle);
 
 		mServerMenu = new ServerMenu(serverListener, Hikari::FlashDelegate(this, &MainMenu::onBack));
 	}
 
 	MainMenu::~MainMenu() {
+		if (isActivated()) {
+			deactivate();
+		}
+		if (mServerMenu->isActivated()) {
+			mServerMenu->deactivate();
+		}
+
 		delete mSingleplayerButton;
 		delete mMultiplayerButton;
 		delete mOptionsButton;
 		delete mQuitButton;
-		delete mServerMenu;
 		delete mTitle;
+		delete mServerMenu;
 	}
 
 	void MainMenu::onActivate() {
-		//Activate the header
-		GUIManager::getSingletonPtr()->activateOverlay(mTitle);
 	}
 
 	void MainMenu::onDeactivate() {
-		//Disable the header
-		GUIManager::getSingletonPtr()->disableOverlay(mTitle);
+		if (mServerMenu->isActivated()) {
+			mServerMenu->deactivate();
+		}
 	}
 
 	Hikari::FlashValue MainMenu::onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mListener->onConnect("localhost");
-		return Hikari::FlashValue();
+
+		return "success";
 	}
 
 	Hikari::FlashValue MainMenu::onMultiplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
@@ -71,12 +79,12 @@ namespace HovUni {
 		//Activate the ServerMenu
 		mServerMenu->activate();
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 
 	Hikari::FlashValue MainMenu::onOptions(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 
 	Hikari::FlashValue MainMenu::onBack(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
@@ -86,6 +94,6 @@ namespace HovUni {
 		//activate ourself
 		this->activate();
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 }

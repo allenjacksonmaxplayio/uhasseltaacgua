@@ -28,6 +28,13 @@ namespace HovUni {
 	}
 
 	ServerMenu::~ServerMenu() {
+		if (isActivated()) {
+			deactivate();
+		}
+		if (mConnectWindow->isActivated()) {
+			GUIManager::getSingletonPtr()->disableOverlay(mConnectWindow);
+		}
+
 		delete mCreateButton;
 		delete mJoinButton;
 		delete mBackButton;
@@ -44,7 +51,7 @@ namespace HovUni {
 			this->deactivate();
 		}
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 
 	Hikari::FlashValue ServerMenu::onCancel(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
@@ -56,13 +63,13 @@ namespace HovUni {
 		mJoinButton->ignoreInputs(false);
 		mBackButton->ignoreInputs(false);
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 
 	Hikari::FlashValue ServerMenu::onCreate(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mListener->onCreate();
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 
 	Hikari::FlashValue ServerMenu::onJoin(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
@@ -74,6 +81,6 @@ namespace HovUni {
 		mJoinButton->ignoreInputs(true);
 		mBackButton->ignoreInputs(true);
 
-		return Hikari::FlashValue();
+		return "success";
 	}
 }

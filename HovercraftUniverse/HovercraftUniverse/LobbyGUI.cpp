@@ -2,7 +2,7 @@
 #include "GUIManager.h"
 
 namespace HovUni {
-	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& onChat) {
+	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave) {
 		//Lets make the buttons first, calculate their size
 		int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 4; //We want to fill the entire screen
 		float scale = (height * 1.0f) / 320.0f;
@@ -12,7 +12,9 @@ namespace HovUni {
 		//mSingleplayerButton->bind("press", Hikari::FlashDelegate(this, &MainMenu::onSingleplayer));;
 		mPickChar = new MenuButton("Change\nCharacter", "pickCharBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, -(height / 2)));
 		mLeave = new MenuButton("Leave Lobby", "leaveBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, (height / 2)));
+		mLeave->bind("press", onLeave);
 		mStart = new MenuButton("Start", "startBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, (3 * (height / 2))));
+		mStart->bind("press", onStart);
 
 		addOverlay("pickCarBtn", mPickCar);
 		addOverlay("pickCharBtn", mPickChar);

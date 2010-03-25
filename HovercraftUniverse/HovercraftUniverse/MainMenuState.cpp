@@ -5,8 +5,7 @@
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
-	MainMenuState::MainMenuState() : mContinue(true), mLastGUIUpdate(-1) {
-		mMenu = new MainMenu(this, Hikari::FlashDelegate(this, &MainMenuState::onQuit));
+	MainMenuState::MainMenuState() : mMenu(0), mContinue(true), mLastGUIUpdate(-1) {
 	}
 
 	bool MainMenuState::onConnect(const Ogre::String& address) {
@@ -18,6 +17,10 @@ namespace HovUni {
 
 		LobbyState* newState = new LobbyState(mClient, mClient->getLobby());
 		mManager->addGameState(GameStateManager::LOBBY, newState);
+
+		//Deactivate our overlay
+		mMenu->deactivate();
+
 		mManager->switchState(GameStateManager::LOBBY);
 
 		/*
@@ -45,6 +48,12 @@ namespace HovUni {
 	}
 
 	void MainMenuState::activate() {
+		//Creat the MainMenu object
+		if (mMenu != 0) {
+			delete mMenu;
+		}
+		mMenu = new MainMenu(this, Hikari::FlashDelegate(this, &MainMenuState::onQuit));
+
 		//Try and move the mouse to the center of the screen
 		mInputManager->moveMouseTo(mGUIManager->getResolutionWidth() / 2, mGUIManager->getResolutionHeight() / 2);
 
@@ -58,6 +67,9 @@ namespace HovUni {
 	void MainMenuState::disable() {
 		//Deactivate the menu overlay
 		mMenu->deactivate();
+
+		//Delete the menu overlay
+		//delete mMenu;
 	}
 
 	bool MainMenuState::frameStarted(const Ogre::FrameEvent & evt) {

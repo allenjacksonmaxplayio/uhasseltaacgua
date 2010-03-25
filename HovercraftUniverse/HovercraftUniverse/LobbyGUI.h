@@ -37,7 +37,7 @@ namespace HovUni {
 			 *
 			 * @param onChat Function to be called when a user gives new chat input
 			 */
-			LobbyGUI(const Hikari::FlashDelegate& onChat);
+			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave);
 
 			/**
 			 * Add a new chat message to the lobby chat

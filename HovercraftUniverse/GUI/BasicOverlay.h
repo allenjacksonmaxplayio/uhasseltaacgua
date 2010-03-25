@@ -121,6 +121,11 @@ namespace HovUni {
 			 */
 			Hikari::FlashControl* getFlashControl();
 
+			/**
+			 * Check if this overlay is activated
+			 */
+			bool isActivated() { return (mFlashControl != 0); }
+
 		protected:
 			/** Function to execute custom actions before activation */
 			virtual void customActionBeforeActivate() {}
