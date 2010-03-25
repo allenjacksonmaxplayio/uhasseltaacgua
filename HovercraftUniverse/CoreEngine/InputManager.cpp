@@ -357,11 +357,11 @@ KeyManager * InputManager::getKeyManager(void) {
 }
 
 void InputManager::setControlsFile(std::string file) {
-	mControlsFile = file;
+	mKeyManager->setControlsFile(file);
 }
 
 std::string InputManager::getControlsFile() {
-	return mControlsFile;
+	return mKeyManager->getControlsFile();
 }
 
 void InputManager::moveMouseTo(int x, int y) {

@@ -18,7 +18,7 @@ namespace HovUni {
  * @author Kristof Overdulve, Dirk Delahaye
  */
 class Application {
-private:
+protected:
 
 	/** The name of the application */
 	Ogre::String mAppName;
@@ -74,6 +74,11 @@ public:
 	 * Destructor.
 	 */
 	virtual ~Application();
+
+	/**
+	 * Initialize all things
+	 */
+	void init();
 
 	/**
 	 * The main method that triggers the application to run.

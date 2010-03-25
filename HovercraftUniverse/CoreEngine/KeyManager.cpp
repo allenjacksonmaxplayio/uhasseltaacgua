@@ -249,4 +249,12 @@ void KeyManager::registerKeyCodes() {
 	mKeyCodeMapping["KC_MEDIASELECT"]= OIS::KC_MEDIASELECT;
 }
 
+void KeyManager::setControlsFile(std::string file) {
+	mControlsFile = file;
+}
+
+std::string KeyManager::getControlsFile() {
+	return mControlsFile;
+}
+
 }

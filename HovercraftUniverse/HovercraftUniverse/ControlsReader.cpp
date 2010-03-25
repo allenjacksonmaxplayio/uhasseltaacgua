@@ -1,17 +1,14 @@
 #include "ControlsReader.h"
-#include "KeyManager.h"
 #include "inifile.h"
 #include <boost/algorithm/string.hpp>
 
 
 namespace HovUni {
 
-ControlsReader::ControlsReader(InputManager * ipm): mInputManager(ipm) {
-	KeyManager * keys = mInputManager->getKeyManager();
-	
+ControlsReader::ControlsReader(KeyManager * keyManager): mKeyManager(keyManager) {
 	// register actions
 	for (int i = 0; i < ControllerActions::ACTIONS_END; ++i) {
-		keys->registerAction(i, ControllerActions::actionNames[i]);
+		mKeyManager->registerAction(i, ControllerActions::actionNames[i]);
 	}
 }
 
@@ -20,72 +17,66 @@ ControlsReader::~ControlsReader(void) {
 }
 
 void ControlsReader::setDefaultControls() {
-	KeyManager * keys = mInputManager->getKeyManager();
 	
 	// ACCELERATE
-	keys->setKey(ControllerActions::ACCELERATE, OIS::KC_UP);
-	keys->setKey(ControllerActions::ACCELERATE, OIS::KC_NUMPAD8);
+	mKeyManager->setKey(ControllerActions::ACCELERATE, OIS::KC_UP);
+	mKeyManager->setKey(ControllerActions::ACCELERATE, OIS::KC_NUMPAD8);
 
 	// BRAKE
-	keys->setKey(ControllerActions::BRAKE, OIS::KC_DOWN);
-	keys->setKey(ControllerActions::BRAKE, OIS::KC_NUMPAD2);
+	mKeyManager->setKey(ControllerActions::BRAKE, OIS::KC_DOWN);
+	mKeyManager->setKey(ControllerActions::BRAKE, OIS::KC_NUMPAD2);
 
 	// TURN LEFT
-	keys->setKey(ControllerActions::TURNLEFT, OIS::KC_LEFT);
-	keys->setKey(ControllerActions::TURNLEFT, OIS::KC_NUMPAD4);
+	mKeyManager->setKey(ControllerActions::TURNLEFT, OIS::KC_LEFT);
+	mKeyManager->setKey(ControllerActions::TURNLEFT, OIS::KC_NUMPAD4);
 
 	// TURN RIGHT
-	keys->setKey(ControllerActions::TURNRIGHT, OIS::KC_RIGHT);
-	keys->setKey(ControllerActions::TURNRIGHT, OIS::KC_NUMPAD6);
+	mKeyManager->setKey(ControllerActions::TURNRIGHT, OIS::KC_RIGHT);
+	mKeyManager->setKey(ControllerActions::TURNRIGHT, OIS::KC_NUMPAD6);
 
 	// CAMERA
-	keys->setCameraKey(CameraActions::CHANGECAMERA, OIS::KC_C);
-	keys->setCameraKey(CameraActions::CHANGECAMERA, OIS::KC_V);
+	mKeyManager->setCameraKey(CameraActions::CHANGECAMERA, OIS::KC_C);
+	mKeyManager->setCameraKey(CameraActions::CHANGECAMERA, OIS::KC_V);
 
-	keys->setCameraKey(CameraActions::THIRD_PERSON_CAMERA, OIS::KC_1);
-	keys->setCameraKey(CameraActions::FIRST_PERSON_CAMERA, OIS::KC_2);
-	keys->setCameraKey(CameraActions::REAR_VIEW_CAMERA, OIS::KC_3);
-	keys->setCameraKey(CameraActions::FREE_CAMERA, OIS::KC_4);
+	mKeyManager->setCameraKey(CameraActions::THIRD_PERSON_CAMERA, OIS::KC_1);
+	mKeyManager->setCameraKey(CameraActions::FIRST_PERSON_CAMERA, OIS::KC_2);
+	mKeyManager->setCameraKey(CameraActions::REAR_VIEW_CAMERA, OIS::KC_3);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA, OIS::KC_4);
 
-	keys->setCameraKey(CameraActions::FREE_CAMERA_FWD, OIS::KC_W);
-	keys->setCameraKey(CameraActions::FREE_CAMERA_BACK, OIS::KC_S);
-	keys->setCameraKey(CameraActions::FREE_CAMERA_LEFT, OIS::KC_A);
-	keys->setCameraKey(CameraActions::FREE_CAMERA_RIGHT, OIS::KC_D);
-	keys->setCameraKey(CameraActions::FREE_CAMERA_UP, OIS::KC_E);
-	keys->setCameraKey(CameraActions::FREE_CAMERA_DOWN, OIS::KC_Q);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_FWD, OIS::KC_W);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_BACK, OIS::KC_S);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_LEFT, OIS::KC_A);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_RIGHT, OIS::KC_D);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_UP, OIS::KC_E);
+	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_DOWN, OIS::KC_Q);
 }
 
 void ControlsReader::setKeys(ControllerActions::ControllerActionType action, std::string keys, std::string defaultValue) {
-	KeyManager * keyManager = mInputManager->getKeyManager();
-	
 	std::vector<std::string> strs;
 	boost::split(strs, keys, boost::is_any_of(","));
 	if (strs.size() == 0) {
-		keyManager->setKey(action, defaultValue);
+		mKeyManager->setKey(action, defaultValue);
 	} else {
 		for (unsigned int i = 0; i < strs.size(); ++i) {
-			keyManager->setKey(action, strs[i]);
+			mKeyManager->setKey(action, strs[i]);
 		}
 	}
 }
 
 void ControlsReader::setKeys(CameraActions::CameraControllerActionType action, std::string keys, std::string defaultValue) {
-	KeyManager * keyManager = mInputManager->getKeyManager();
-	
 	std::vector<std::string> strs;
 	boost::split(strs, keys, boost::is_any_of(","));
 	if (strs.size() == 0) {
-		keyManager->setCameraKey(action, defaultValue);
+		mKeyManager->setCameraKey(action, defaultValue);
 	} else {
 		for (unsigned int i = 0; i < strs.size(); ++i) {
-			keyManager->setCameraKey(action, strs[i]);
+			mKeyManager->setCameraKey(action, strs[i]);
 		}
 	}
 }
 
 void ControlsReader::readControls() {
-	KeyManager * keys = mInputManager->getKeyManager();
-	std::string controlINI = mInputManager->getControlsFile();
+	std::string controlINI = mKeyManager->getControlsFile();
 
 	CIniFile reader;
 	bool readerSuccess = reader.Load(controlINI);
@@ -107,13 +98,6 @@ void ControlsReader::readControls() {
 	setKeys(CameraActions::FREE_CAMERA_RIGHT, reader.GetKeyValue("FreeCamera", "Right"), "KC_D");
 	setKeys(CameraActions::FREE_CAMERA_UP, reader.GetKeyValue("FreeCamera", "Up"), "KC_E");
 	setKeys(CameraActions::FREE_CAMERA_DOWN, reader.GetKeyValue("FreeCamera", "Down"), "KC_Q");
-}
-
-void ControlsReader::writeControls() {
-	KeyManager * keys = mInputManager->getKeyManager();
-	std::string controlINI = mInputManager->getControlsFile();
-
-	// TODO: write INI
 }
 
 }

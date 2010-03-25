@@ -17,7 +17,7 @@ Application::~Application() {
 	// Empty
 }
 
-void Application::go(const Ogre::String& host, unsigned int port) {
+void Application::init() {
 	parseIni();
 	createRoot();
 	defineResources();
@@ -25,6 +25,9 @@ void Application::go(const Ogre::String& host, unsigned int port) {
 	createRenderWindow();
 	initializeResourceGroups();
 	setupInputSystem();
+}
+
+void Application::go(const Ogre::String& host, unsigned int port) {
 	setupScene();
 	createClient(host,port);
 	createFrameListener();
