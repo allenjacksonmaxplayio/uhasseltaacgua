@@ -6,9 +6,13 @@
 namespace HovUni {
 
 ControlsReader::ControlsReader(KeyManager * keyManager): mKeyManager(keyManager) {
+	// clear current key mapping
+	mKeyManager->resetKeyMappings();
+	mKeyManager->resetRegisteredActions();
+	
 	// register actions
-	for (int i = 0; i < ControllerActions::ACTIONS_END; ++i) {
-		mKeyManager->registerAction(i, ControllerActions::actionNames[i]);
+	for (int i = 1; i < ACTIONS_END; ++i) {
+		mKeyManager->registerAction(i, actionNames[i], "Movement");
 	}
 }
 
@@ -17,60 +21,67 @@ ControlsReader::~ControlsReader(void) {
 }
 
 void ControlsReader::setDefaultControls() {
-	
+	// reset current key mapping
+	mKeyManager->resetKeyMappings();
+
 	// ACCELERATE
-	mKeyManager->setKey(ControllerActions::ACCELERATE, OIS::KC_UP);
-	mKeyManager->setKey(ControllerActions::ACCELERATE, OIS::KC_NUMPAD8);
+	mKeyManager->setKey(ACCELERATE, OIS::KC_UP, true);
+	mKeyManager->setKey(ACCELERATE, OIS::KC_NUMPAD8, true);
 
 	// BRAKE
-	mKeyManager->setKey(ControllerActions::BRAKE, OIS::KC_DOWN);
-	mKeyManager->setKey(ControllerActions::BRAKE, OIS::KC_NUMPAD2);
+	mKeyManager->setKey(BRAKE, OIS::KC_DOWN, true);
+	mKeyManager->setKey(BRAKE, OIS::KC_NUMPAD2, true);
 
 	// TURN LEFT
-	mKeyManager->setKey(ControllerActions::TURNLEFT, OIS::KC_LEFT);
-	mKeyManager->setKey(ControllerActions::TURNLEFT, OIS::KC_NUMPAD4);
+	mKeyManager->setKey(TURNLEFT, OIS::KC_LEFT, true);
+	mKeyManager->setKey(TURNLEFT, OIS::KC_NUMPAD4, true);
 
 	// TURN RIGHT
-	mKeyManager->setKey(ControllerActions::TURNRIGHT, OIS::KC_RIGHT);
-	mKeyManager->setKey(ControllerActions::TURNRIGHT, OIS::KC_NUMPAD6);
+	mKeyManager->setKey(TURNRIGHT, OIS::KC_RIGHT, true);
+	mKeyManager->setKey(TURNRIGHT, OIS::KC_NUMPAD6, true);
 
 	// CAMERA
-	mKeyManager->setCameraKey(CameraActions::CHANGECAMERA, OIS::KC_C);
-	mKeyManager->setCameraKey(CameraActions::CHANGECAMERA, OIS::KC_V);
+	mKeyManager->setCameraKey(CHANGECAMERA, OIS::KC_C, true);
+	mKeyManager->setCameraKey(CHANGECAMERA, OIS::KC_V, true);
 
-	mKeyManager->setCameraKey(CameraActions::THIRD_PERSON_CAMERA, OIS::KC_1);
-	mKeyManager->setCameraKey(CameraActions::FIRST_PERSON_CAMERA, OIS::KC_2);
-	mKeyManager->setCameraKey(CameraActions::REAR_VIEW_CAMERA, OIS::KC_3);
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA, OIS::KC_4);
+	mKeyManager->setCameraKey(THIRD_PERSON_CAMERA, OIS::KC_1, true);
+	mKeyManager->setCameraKey(FIRST_PERSON_CAMERA, OIS::KC_2, true);
+	mKeyManager->setCameraKey(REAR_VIEW_CAMERA, OIS::KC_3, true);
+	mKeyManager->setCameraKey(FREE_CAMERA, OIS::KC_4, true);
 
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_FWD, OIS::KC_W);
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_BACK, OIS::KC_S);
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_LEFT, OIS::KC_A);
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_RIGHT, OIS::KC_D);
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_UP, OIS::KC_E);
-	mKeyManager->setCameraKey(CameraActions::FREE_CAMERA_DOWN, OIS::KC_Q);
+	mKeyManager->setCameraKey(FREE_CAMERA_FWD, OIS::KC_W, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_BACK, OIS::KC_S, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_LEFT, OIS::KC_A, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_RIGHT, OIS::KC_D, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_UP, OIS::KC_E, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_DOWN, OIS::KC_Q, true);
+
+	// write controls to file
+	mKeyManager->writeControlsFile();
 }
 
-void ControlsReader::setKeys(ControllerActions::ControllerActionType action, std::string keys, std::string defaultValue) {
-	std::vector<std::string> strs;
-	boost::split(strs, keys, boost::is_any_of(","));
-	if (strs.size() == 0) {
-		mKeyManager->setKey(action, defaultValue);
-	} else {
+void ControlsReader::setKeys(ControllerActionType action, const std::string keys, std::string defaultValue) {
+	if (keys == "") {
+		mKeyManager->setKey(action, defaultValue, true);
+	} else {	
+		std::vector<std::string> strs;
+		boost::split(strs, keys, boost::is_any_of(","));
+	
 		for (unsigned int i = 0; i < strs.size(); ++i) {
-			mKeyManager->setKey(action, strs[i]);
+			mKeyManager->setKey(action, strs[i], true);
 		}
 	}
 }
 
-void ControlsReader::setKeys(CameraActions::CameraControllerActionType action, std::string keys, std::string defaultValue) {
-	std::vector<std::string> strs;
-	boost::split(strs, keys, boost::is_any_of(","));
-	if (strs.size() == 0) {
-		mKeyManager->setCameraKey(action, defaultValue);
-	} else {
+void ControlsReader::setCameraKeys(CameraControllerActionType action, std::string keys, std::string defaultValue) {
+	if (keys == "") {
+		mKeyManager->setCameraKey(action, defaultValue, true);
+	} else {	
+		std::vector<std::string> strs;
+		boost::split(strs, keys, boost::is_any_of(","));
+	
 		for (unsigned int i = 0; i < strs.size(); ++i) {
-			mKeyManager->setCameraKey(action, strs[i]);
+			mKeyManager->setCameraKey(action, strs[i], true);
 		}
 	}
 }
@@ -80,24 +91,33 @@ void ControlsReader::readControls() {
 
 	CIniFile reader;
 	bool readerSuccess = reader.Load(controlINI);
-	
-	setKeys(ControllerActions::ACCELERATE, reader.GetKeyValue("Movement", "Accelerate"), "KC_UP");
-	setKeys(ControllerActions::BRAKE, reader.GetKeyValue("Movement", "Brake"), "KC_DOWN");
-	setKeys(ControllerActions::TURNLEFT, reader.GetKeyValue("Movement", "Turnleft"), "KC_LEFT");
-	setKeys(ControllerActions::TURNRIGHT, reader.GetKeyValue("Movement", "Turnright"), "KC_RIGHT");
+	if (!readerSuccess) {
+		//load defaults
+		setDefaultControls();
+	} else {
 
-	setKeys(CameraActions::CHANGECAMERA, reader.GetKeyValue("Camera", "Changecamera"), "KC_C");
-	setKeys(CameraActions::THIRD_PERSON_CAMERA, reader.GetKeyValue("Camera", "Thirdperson"), "KC_1");
-	setKeys(CameraActions::FIRST_PERSON_CAMERA, reader.GetKeyValue("Camera", "Firstperson"), "KC_2");
-	setKeys(CameraActions::REAR_VIEW_CAMERA, reader.GetKeyValue("Camera", "Rearview"), "KC_3");
-	setKeys(CameraActions::FREE_CAMERA, reader.GetKeyValue("Camera", "Freeroam"), "KC_4");
+		// reset current key mapping
+		mKeyManager->resetKeyMappings();
 
-	setKeys(CameraActions::FREE_CAMERA_FWD, reader.GetKeyValue("FreeCamera", "Forward"), "KC_W");
-	setKeys(CameraActions::FREE_CAMERA_BACK, reader.GetKeyValue("FreeCamera", "Back"), "KC_S");
-	setKeys(CameraActions::FREE_CAMERA_LEFT, reader.GetKeyValue("FreeCamera", "Left"), "KC_A");
-	setKeys(CameraActions::FREE_CAMERA_RIGHT, reader.GetKeyValue("FreeCamera", "Right"), "KC_D");
-	setKeys(CameraActions::FREE_CAMERA_UP, reader.GetKeyValue("FreeCamera", "Up"), "KC_E");
-	setKeys(CameraActions::FREE_CAMERA_DOWN, reader.GetKeyValue("FreeCamera", "Down"), "KC_Q");
+		setKeys(ACCELERATE, reader.GetKeyValue("Movement", actionNames[ACCELERATE]), "KC_UP");
+		setKeys(BRAKE, reader.GetKeyValue("Movement", actionNames[BRAKE]), "KC_DOWN");
+		setKeys(TURNLEFT, reader.GetKeyValue("Movement", actionNames[TURNLEFT]), "KC_LEFT");
+		setKeys(TURNRIGHT, reader.GetKeyValue("Movement", actionNames[TURNRIGHT]), "KC_RIGHT");
+
+		setCameraKeys(CHANGECAMERA, reader.GetKeyValue("Camera", cameraActionNames[CHANGECAMERA]), "KC_C");
+		setCameraKeys(THIRD_PERSON_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[THIRD_PERSON_CAMERA]), "KC_1");
+		setCameraKeys(FIRST_PERSON_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[FIRST_PERSON_CAMERA]), "KC_2");
+		setCameraKeys(REAR_VIEW_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[REAR_VIEW_CAMERA]), "KC_3");
+		setCameraKeys(FREE_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[FREE_CAMERA]), "KC_4");
+
+		setCameraKeys(FREE_CAMERA_FWD, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_FWD]), "KC_W");
+		setCameraKeys(FREE_CAMERA_BACK, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_BACK]), "KC_S");
+		setCameraKeys(FREE_CAMERA_LEFT, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_LEFT]), "KC_A");
+		setCameraKeys(FREE_CAMERA_RIGHT, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_RIGHT]), "KC_D");
+		setCameraKeys(FREE_CAMERA_UP, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_UP]), "KC_E");
+		setCameraKeys(FREE_CAMERA_DOWN, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_DOWN]), "KC_Q");
+	}
+
 }
 
 }

@@ -7,6 +7,9 @@
 
 namespace HovUni {
 
+	using namespace ControllerActions;
+	using namespace CameraActions;
+
 /**
  * Reads the controls from the control.ini file and registers them with the input manager.
  * TODO: Should be able to write the controls back to the ini file, when they are changed?
@@ -27,7 +30,7 @@ protected:
 	 * @param	keys	String with keys, seperated by a comma.
 	 * @param	defaultValue	Default key for this action, when no valid keys are given.
 	 */
-	void setKeys(ControllerActions::ControllerActionType action, std::string keys, std::string defaultValue);
+	void setKeys(ControllerActionType action, const std::string keys, std::string defaultValue);
 
 	/**
 	 * Sets all keys from the string (seperated by a comma) for this action.
@@ -36,7 +39,7 @@ protected:
 	 * @param	keys	String with keys, seperated by a comma.
 	 * @param	defaultValue	Default key for this action, when no valid keys are given.
 	 */
-	void setKeys(CameraActions::CameraControllerActionType action, std::string keys, std::string defaultValue);
+	void setCameraKeys(CameraControllerActionType action, std::string keys, std::string defaultValue);
 
 
 public:
