@@ -463,6 +463,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\LobbyState.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\MainMenuState.cpp"
 						>
 					</File>
@@ -472,6 +476,18 @@
 					>
 					<File
 						RelativePath=".\ControlsReader.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="GUI"
+					>
+					<File
+						RelativePath=".\HUD.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LobbyGUI.cpp"
 						>
 					</File>
 				</Filter>
@@ -801,6 +817,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\LobbyState.h"
+						>
+					</File>
+					<File
 						RelativePath=".\MainMenuState.h"
 						>
 					</File>
@@ -814,6 +834,18 @@
 					</File>
 					<File
 						RelativePath=".\ControlsReader.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="GUI"
+					>
+					<File
+						RelativePath=".\HUD.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LobbyGUI.h"
 						>
 					</File>
 				</Filter>

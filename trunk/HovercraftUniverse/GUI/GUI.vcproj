@@ -187,6 +187,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LobbyOverlay.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MainMenu.cpp"
 					>
 				</File>
@@ -254,6 +258,10 @@
 				</File>
 				<File
 					RelativePath=".\Direction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LobbyOverlay.h"
 					>
 				</File>
 				<File

@@ -21,7 +21,6 @@ namespace HovUni {
 		addOverlay("backBtn", mBackButton);
 
 		//Create the connect window
-		//TODO: make resolution dependent
 		size = GUIManager::getSingletonPtr()->scale(341, 91, 682, 181);
 		width = size.first;
 		height = size.second;

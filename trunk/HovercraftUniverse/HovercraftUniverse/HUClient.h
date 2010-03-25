@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "NetworkIDManager.h"
 #include "Lobby.h"
+#include <ChatClient.h>
 
 namespace HovUni {
 
@@ -28,6 +29,9 @@ private:
 
 	/** The scene manager */
 	Ogre::SceneManager * mSceneMgr;
+
+	/** A chat client associated with this server */
+	ChatClient* mChatClient;
 
 public:
 	/**
@@ -55,6 +59,16 @@ public:
 	 * Process incoming and outgoing packets
 	 */
 	virtual void process();
+
+	/**
+	 * Request the current chat client
+	 */
+	ChatClient* getChatClient() { return mChatClient; }
+
+	/**
+	 * Request the lobby object
+	 */
+	Lobby* getLobby() { return mLobby; }
 
 	//TODO remove
 	void start();
