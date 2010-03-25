@@ -10,7 +10,7 @@
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBodyCinfo.h>
 
-#include <Physics/Utilities/Serialize/hkpHavokSnapshot.h>
+
 #include <Common/Base/System/Error/hkDefaultError.h>
 #include <Common/Base/Monitor/hkMonitorStream.h>
 #include <Common/Base/System/Io/IStream/hkIStream.h>
@@ -27,130 +27,65 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 }
 
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
-	HavokEntity( world, entity), mFilename(filename), mEntityName(entityname)
+	HavokEntity(), mWorld(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
+		mUp(HavokEntity::UP), mForward(HavokEntity::FORWARD), mCharacterContext(HK_NULL)
 {
+	mWorld->addReference();
 }
 
 HavokHovercraft::~HavokHovercraft(void)
 {
-}
+	mWorld->removeReference();
 
-void HavokHovercraft::loadCharacter(const hkVector4& position){
-	mPhysicsWorld->markForWrite();
+	mCharacterRigidBody->removeReference();
+	mCharacterRigidBody = HK_NULL;
 
-	//Hovercrafts right
-	Hovercraft * hovercraft = dynamic_cast<Hovercraft*>(mEntity);
+	mCharacterContext->removeReference();
+	mCharacterContext = HK_NULL;
 
-	//load the hovercraft hull from file
-
-	hkIstream infile( mFilename.cString() );
-	HK_ASSERT( 0x215d080c, infile.isOk() );
-
-	/**
-	 * The world in memory as loaded from file
-	 */
-	hkPackfileReader::AllocatedData* LoadedData;
-
-	hkpPhysicsData * PhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &LoadedData );
-	HK_ASSERT( 0, PhysicsData != HK_NULL );
-
-	hkpRigidBody * body = PhysicsData->findRigidBodyByName( mEntityName.cString() );
-	HK_ASSERT( 0x215d080c, body != HK_NULL );
-
-	const hkpShape * shape = body->getCollidable()->getShape();
-	shape->addReference();
-
-	//create a temporart shape
-	hkpShape * tmp = new hkpSphereShape (5);
-
-	//set up its parameters
-	hkpCharacterRigidBodyCinfo info;
-	info.m_mass = hovercraft->getMass();
-	info.m_shape = tmp;
-	info.m_maxLinearVelocity = 500;//Hovercraft::MAXSPEED;
-	info.m_maxForce = 800.0f;	//TODO dunno
-	info.m_position = position;
-	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
-	info.m_friction = 0.1f;
-	info.m_rotation = hkQuaternion::getIdentity();
+	mPhysicsData->removeReference();
+	mPhysicsData = HK_NULL;
 	
-	//set up the actions
-	hkpCharacterState* state;
-	hkpCharacterStateManager* manager = new hkpCharacterStateManager();
+	//TODO look at this memory leak thing
+	mLoadedData->disableDestructors();
+	mLoadedData->callDestructors();
+	mLoadedData->removeReference();
 
-	state = new hkpCharacterStateOnGround();
-	manager->registerState( state,	HK_CHARACTER_ON_GROUND );
-
-	static_cast<hkpCharacterStateOnGround*>( manager->getState( HK_CHARACTER_ON_GROUND ) )->setDisableHorizontalProjection( true );
-	state->removeReference();
-
-	state = new hkpCharacterStateInAir();
-	manager->registerState( state,	HK_CHARACTER_IN_AIR );
-	state->removeReference();
-
-	state = new hkpCharacterStateJumping();
-	manager->registerState( state,	HK_CHARACTER_JUMPING );
-	state->removeReference();
-
-	mCharacterContext = new hkpCharacterContext( manager, HK_CHARACTER_IN_AIR );
-	mCharacterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
-
-	//Create a character rigid body
-	mCharacterRigidBody = new hkpCharacterRigidBody( info );
-	hkpCharacterRigidBodyListener* listener = new hkpCharacterRigidBodyListener();
-	mCharacterRigidBody->setListener( listener );
-
-	listener->removeReference();		
-	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
-
-	//set the loaded shape here
-	charbody->setShape(shape);
-
-	//set name and type
-	charbody->setUserData(reinterpret_cast<hkUlong>(this));
-	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
-	mPhysicsWorld->addEntity( charbody );
-
-	//Remove some data
-	tmp->removeReference();
-
-
-	//PhysicsData->removeReference();
-	//LoadedData->removeReference();
-
-
-	mPhysicsWorld->unmarkForWrite();
 }
 
-void HavokHovercraft::postStep()
-{
-	mPhysicsWorld->markForWrite();
-	hkRotation newOrientation;
-	newOrientation.getColumn(0) = mForward;
-	newOrientation.getColumn(1) = mUp;
-	newOrientation.getColumn(2).setCross( newOrientation.getColumn(0), newOrientation.getColumn(1) );
-	newOrientation.renormalize();	
-
-	const hkReal gain = 0.5f;
-
-	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
-
-	hkQuaternion desiredOrient;
-	desiredOrient.set( newOrientation );
-
-	hkVector4 angle;
-	hkVector4 angularVelocity;
-	currentOrient.estimateAngleTo( desiredOrient, angle );
-	angularVelocity.setMul4( gain / Havok::getSingleton().getTimeStep(), angle );
-
-	mCharacterRigidBody->setAngularVelocity( angularVelocity );
-
-	mPhysicsWorld->unmarkForWrite();
+const hkVector4& HavokHovercraft::getPosition() const {
+	return mCharacterRigidBody->getPosition();
 }
 
+const hkVector4& HavokHovercraft::getVelocity() const {
+	return mCharacterRigidBody->getLinearVelocity();
+}
 
-void HavokHovercraft::preStep(){
-	mPhysicsWorld->markForWrite();
+const hkQuaternion& HavokHovercraft::getOrientation() const {
+	return mCharacterRigidBody->getRigidBody()->getRotation();
+}
+
+Entity * HavokHovercraft::getEntity() {
+	return mEntity;
+}
+
+void HavokHovercraft::updateUp( const hkVector4& newUp ) {
+	if( mUp.dot3(newUp) < 1e-6f)
+	{
+		hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
+		hkVector4& oldForward = rbRotation.getColumn(0);
+		hkVector4 newRot;
+		newRot.setCross(oldForward, newUp);
+		mForward.setCross(newUp, newRot);
+		mForward.normalize3();
+	}
+
+	mUp = newUp;
+}
+
+void HavokHovercraft::update(){
+	//PRE STEP
+	mWorld->markForWrite();
 
 	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
 
@@ -243,8 +178,8 @@ void HavokHovercraft::preStep(){
 
 		}
 
-		//std::cout << "UP = " << mUp << std::endl;
-		//std::cout << "FORWARD = " << mForward << std::endl;
+		std::cout << "UP = " << mUp << std::endl;
+		std::cout << "FORWARD = " << mForward << std::endl;
 	}
 
 
@@ -301,7 +236,115 @@ void HavokHovercraft::preStep(){
 		HK_TIMER_END();
 	}
 
-	mPhysicsWorld->unmarkForWrite();
+	mWorld->unmarkForWrite();
+
+
+
+
+	//POST STEP
+	mWorld->markForWrite();
+	hkRotation newOrientation;
+	newOrientation.getColumn(0) = mForward;
+	newOrientation.getColumn(1) = mUp;
+	newOrientation.getColumn(2).setCross( newOrientation.getColumn(0), newOrientation.getColumn(1) );
+	newOrientation.renormalize();	
+
+	const hkReal gain = 0.5f;
+
+	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
+
+	hkQuaternion desiredOrient;
+	desiredOrient.set( newOrientation );
+
+	hkVector4 angle;
+	hkVector4 angularVelocity;
+	currentOrient.estimateAngleTo( desiredOrient, angle );
+	angularVelocity.setMul4( gain / Havok::getSingleton().getTimeStep(), angle );
+
+	mCharacterRigidBody->setAngularVelocity( angularVelocity );
+
+	mWorld->unmarkForWrite();
+}
+
+
+void HavokHovercraft::load(const hkVector4& position){
+	mWorld->markForWrite();
+
+	//Hovercrafts right
+	Hovercraft * hovercraft = dynamic_cast<Hovercraft*>(mEntity);
+
+	//load the hovercraft hull from file
+
+	hkIstream infile( mFilename.cString() );
+	HK_ASSERT( 0x215d080c, infile.isOk() );
+
+	/**
+	 * The world in memory as loaded from file
+	 */
+	mPhysicsData = hkpHavokSnapshot::load( infile.getStreamReader(), &mLoadedData );
+	HK_ASSERT( 0, mPhysicsData != HK_NULL );
+
+	hkpRigidBody * body = mPhysicsData->findRigidBodyByName( mEntityName.cString() );
+	HK_ASSERT( 0x215d080c, body != HK_NULL );
+
+	const hkpShape * shape = body->getCollidable()->getShape();
+	shape->addReference();
+
+	//create a temporart shape
+	hkpShape * tmp = new hkpSphereShape (5);
+
+	//set up its parameters
+	hkpCharacterRigidBodyCinfo info;
+	info.m_mass = hovercraft->getMass();
+	info.m_shape = tmp;
+	info.m_maxLinearVelocity = 500;//Hovercraft::MAXSPEED;
+	info.m_maxForce = 800.0f;	//TODO dunno
+	info.m_position = position;
+	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
+	info.m_friction = 0.1f;
+	info.m_rotation = hkQuaternion::getIdentity();
+	
+	//set up the actions
+	hkpCharacterState* state;
+	hkpCharacterStateManager* manager = new hkpCharacterStateManager();
+
+	state = new hkpCharacterStateOnGround();
+	manager->registerState( state,	HK_CHARACTER_ON_GROUND );
+
+	static_cast<hkpCharacterStateOnGround*>( manager->getState( HK_CHARACTER_ON_GROUND ) )->setDisableHorizontalProjection( true );
+	state->removeReference();
+
+	state = new hkpCharacterStateInAir();
+	manager->registerState( state,	HK_CHARACTER_IN_AIR );
+	state->removeReference();
+
+	state = new hkpCharacterStateJumping();
+	manager->registerState( state,	HK_CHARACTER_JUMPING );
+	state->removeReference();
+
+	mCharacterContext = new hkpCharacterContext( manager, HK_CHARACTER_IN_AIR );
+	mCharacterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
+
+	//Create a character rigid body
+	mCharacterRigidBody = new hkpCharacterRigidBody( info );
+	hkpCharacterRigidBodyListener* listener = new hkpCharacterRigidBodyListener();
+	mCharacterRigidBody->setListener( listener );
+
+	listener->removeReference();		
+	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
+
+	//set the loaded shape here
+	charbody->setShape(shape);
+
+	//set name and type
+	charbody->setUserData(reinterpret_cast<hkUlong>(this));
+	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
+	mWorld->addEntity( charbody );
+
+	//Remove some data
+	tmp->removeReference();
+
+	mWorld->unmarkForWrite();
 }
 
 }

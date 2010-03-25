@@ -1,8 +1,7 @@
 #ifndef HAVOKENTITY_H
 #define HAVOKENTITY_H
 
-#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
-#include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
+#include <Common/Base/hkBase.h>
 
 
 namespace HovUni {
@@ -13,60 +12,19 @@ class Entity;
  * A character
  */
 class HavokEntity {
-protected:
-
-	/**
-	 * Entity
-	 */
-	Entity * mEntity;
-
-	/**
-	 * Reference to world
-	 */
-	hkpWorld * mPhysicsWorld;
-	
-	/**
-	 * A charater rigid body
-	 */
-	hkpCharacterRigidBody * mCharacterRigidBody;
-
-	/**
-	 * The context of the character
-	 */
-	hkpCharacterContext * mCharacterContext;
-
-	/**
-	 * A vector of what the character sees as up vector	
-	 */
-	hkVector4 mUp;
-
-	/**
-	 * A vector of what the character sees as forward vector	
-	 */
-	hkVector4 mForward;
-
-protected:
-
-	/**
-	 * Load the character, this method must set up the rigid body and character context
-	 * @param position
-	 */
-	virtual void loadCharacter(const hkVector4& position) = 0;
 
 public:
+
+	static const hkVector4 UP;
+
+	static const hkVector4 FORWARD;
 
 	/**
 	 * Constructor
 	 * @param world
 	 * @param entity
 	 */
-	HavokEntity( hkpWorld * world, Entity * entity);
-
-	/**
-	 * Load the character, must be called before the character is used
-	 * @param position
-	 */
-	void load(const hkVector4& position);
+	HavokEntity();
 
 	/**
 	 * Destructor
@@ -74,58 +32,45 @@ public:
 	virtual ~HavokEntity();
 
 	/**
+	 * Load the character, must be called before the character is used
+	 * @param position
+	 */
+	virtual void load(const hkVector4& position) = 0;
+
+	/**
 	 * Get the position of the character
 	 * @return the position of the character
 	 */
-	const hkVector4& getPosition() const;
+	virtual const hkVector4& getPosition() const = 0;
 
 	/**
 	* Get the linear velocity of the character (Dirk, 24/03/2010)
 	* @reurn the linear velocity of the character
 	*/
-	const hkVector4& getVelocity() const;
+	virtual const hkVector4& getVelocity() const = 0;
 
 	/**
 	 * Get the orientation of the character
 	 * @return the orientation of the character
 	 */
-	const hkQuaternion& getOrientation() const;
+	virtual const hkQuaternion& getOrientation() const = 0;
 
 	/**
 	 * Get the entity
 	 * @return entity
 	 */
-	Entity * getEntity();
+	virtual Entity * getEntity() = 0;
 
 	/**
-	 * Get forward vector
-	 * @return forward
+	 * Update the character based on movement
 	 */
-	const hkVector4& getForward() const;
-
-	/**
-	 * Get forward vector
-	 * @return forward
-	 */
-	hkVector4& getForward();
+	virtual void update() = 0;
 
 	/**
 	 * Update the up vector
 	 * @param up vector
 	 */
-	virtual void updateUp( const hkVector4& newUp);
-
-	/**
-	 * Action te be done in the preStep
-	 */
-	virtual void preStep(){};
-
-	/**
-	 * Action to be done in the post step
-	 */
-	virtual void postStep(){};
-
-		
+	virtual void updateUp( const hkVector4& newUp) = 0;
 	
 };
 
