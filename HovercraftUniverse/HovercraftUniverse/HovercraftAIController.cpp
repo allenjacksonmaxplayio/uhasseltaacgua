@@ -5,6 +5,7 @@
 
 #include "EntityManager.h"
 #include "Entity.h"
+#include "Start.h"
 #include "CheckPoint.h"
 #include "Finish.h"
 
@@ -56,6 +57,8 @@ namespace HovUni {
 			luabind::object table = luabind::newtable(luaState);
 			std::vector<Entity*> checkpoints = EntityManager::getClientSingletonPtr()->getEntities(CheckPoint::CATEGORY);
 			int index = 1; // Lua tables start at 1.
+			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Start::CATEGORY);
+			index++;
 			for(unsigned int i = 0; i < checkpoints.size(); i++) {
 				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path[" << index << "] to checkpoints[" << i << "].";
 				table[index] = checkpoints[i];

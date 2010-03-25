@@ -82,13 +82,13 @@ function decide()
 	local velocity = mEntity:getVelocity();
 	position.y = 0;
 	velocity.y = 0;
-	println("Position: " .. toString(position));
-	println("Velocity: " .. toString(velocity));
+	--println("Position: " .. toString(position));
+	--println("Velocity: " .. toString(velocity));
 	
 
 	--############################### PATH FINDING
 	local probe = position + (velocity * PATH_PROBELENGTH);
-	println("Probe: " .. toString(probe));
+	--println("Probe: " .. toString(probe));
 	--LUA TABLES START AT INDEX 1
 	local distanceToPath = math.huge; --math.huge = +infinity
 	local pathIndex = 0;
@@ -115,16 +115,16 @@ function decide()
 	distanceToPath = probe:distance(project);
 	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
 	--println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
-	println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
+	--println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
 	local targetPosition;
 	local distanceThreshold = 2;
 	if (distanceToPath > PATH_RADIUS) then
 		--Probe is too far away, steer towards path.
-		println("Seeking " .. toString(project));
+		--println("Seeking " .. toString(project));
 		targetPosition = project;
 	else
 		--No corrective steering required.
-		println("No corrective steering required.");
+		--println("No corrective steering required.");
 		game:setAction(TURNRIGHT, false);
 		game:setAction(TURNLEFT, false);
 		if (position:distance(p1) > distanceThreshold) then
@@ -150,15 +150,15 @@ function decide()
 	if (position:distance(targetPosition) > distanceThreshold) then
 		game:setAction(ACCELERATE, true);
 		if (side > epsilon) then
-			println("Turning Right");
+			--println("Turning Right");
 			game:setAction(TURNLEFT, false);
 			game:setAction(TURNRIGHT, true);
 		elseif (side < -epsilon) then
-			println("Turning Left");
+			--println("Turning Left");
 			game:setAction(TURNRIGHT, false);
 			game:setAction(TURNLEFT, true);
 		else
-			println("Going Straight");
+			--println("Going Straight");
 			game:setAction(TURNRIGHT, false);
 			game:setAction(TURNLEFT, false);
 		end
