@@ -31,13 +31,7 @@ namespace HovUni {
 	}
 
 	void HUApplication::init() {
-		parseIni();
-		createRoot();
-		defineResources();
-		setupRenderSystem();
-		createRenderWindow();
-		initializeResourceGroups();
-		setupInputSystem();
+		Application::init();
 
 		// read controls
 		ControlsReader * controls = new ControlsReader(mInputManager->getKeyManager());
