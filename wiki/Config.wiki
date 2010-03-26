@@ -1,0 +1,31 @@
+#labels Phase-Implementation
+Config file example:
+{{{
+[Paths]
+DataPath=..\..\data
+
+[Ogre]
+Resources=resources.cfg
+Plugins=plugins_debug.cfg
+LogFile=../bin/debug/HovercraftUniverse.log
+
+[Sound]
+Path=sound\
+File=HovSound.fev
+
+[Controls]
+Path=controls\
+File=Controls.ini
+
+[Player]
+PlayerName=UnnamedPlayer
+Character=MyCharacter1
+Hovercraft=SuperCraft3
+}}}
+
+Gebruik in C++ om bv de playername te krijgen:
+
+{{{
+#include "Config.h"
+std::string myName = Config::getSingletonPtr()->getValue("Player", "PlayerName");
+}}}
