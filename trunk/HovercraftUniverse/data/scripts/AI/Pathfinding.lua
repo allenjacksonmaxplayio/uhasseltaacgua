@@ -84,7 +84,7 @@ function decide()
 	velocity.y = 0;
 	--println("Position: " .. toString(position));
 	--println("Velocity: " .. toString(velocity));
-	
+
 
 	--############################### PATH FINDING
 	local probe = position + (velocity * PATH_PROBELENGTH);
@@ -120,8 +120,8 @@ function decide()
 	local distanceThreshold = 2;
 	if (distanceToPath > PATH_RADIUS) then
 		--Probe is too far away, steer towards path.
-		--println("Seeking " .. toString(project));
-		targetPosition = project;
+		--targetPosition = project;
+		targetPosition = p1;
 	else
 		--No corrective steering required.
 		--println("No corrective steering required.");
@@ -143,9 +143,9 @@ function decide()
 	local myOrientation = mEntity:getOrientation();
 	local side = myOrientation:crossProduct(mEntity:getUpVector());
 	side = side:dotProduct(targetOrientation);
-	
-	
-	
+
+
+
 	epsilon = 0.01; --epsilon for avoiding steering oscillations
 	if (position:distance(targetPosition) > distanceThreshold) then
 		game:setAction(ACCELERATE, true);

@@ -23,7 +23,7 @@ protected:
 	/** The name of the application */
 	Ogre::String mAppName;
 
-	/** The config INI file */
+	/** The config INI filename */
 	Ogre::String mConfigINI;
 
 	/** The root Ogre object */

@@ -154,6 +154,10 @@
 				Name="INI"
 				>
 				<File
+					RelativePath=".\Config.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\inifile.cpp"
 					>
 				</File>
@@ -251,6 +255,10 @@
 			<Filter
 				Name="INI"
 				>
+				<File
+					RelativePath=".\Config.h"
+					>
+				</File>
 				<File
 					RelativePath=".\inifile.h"
 					>

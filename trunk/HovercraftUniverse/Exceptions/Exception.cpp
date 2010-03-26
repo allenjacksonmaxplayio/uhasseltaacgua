@@ -89,6 +89,7 @@ HOVUNI_EXCEPTION_DEFINITION(NetworkException, Exception)
 HOVUNI_EXCEPTION_DEFINITION(IOException, Exception)
 HOVUNI_EXCEPTION_DEFINITION(ParseException, Exception)
 HOVUNI_EXCEPTION_DEFINITION(ScriptingException, Exception)
+HOVUNI_EXCEPTION_DEFINITION(ConfigException, Exception)
 
 ////////////
 // GLOBAL

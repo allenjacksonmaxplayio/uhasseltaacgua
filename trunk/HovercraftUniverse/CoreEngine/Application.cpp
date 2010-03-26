@@ -1,8 +1,8 @@
 #include "Application.h"
 #include "Exception.h"
-#include "inifile.h"
 #include <tinyxml/tinyxml.h>
 #include <iostream>
+#include "Config.h"
 
 namespace HovUni {
 
@@ -34,21 +34,17 @@ void Application::go(const Ogre::String& host, unsigned int port) {
 }
 
 void Application::parseIni() {
-	CIniFile reader;
-	bool readerSuccess = reader.Load(mConfigINI);
-	if (!readerSuccess) {
-		//TODO gooi iets, zoals een error
-		std::cerr << "Reading INI failed!" << std::endl;
-	}
+	Config* config = Config::getSingletonPtr();
+	config->loadFile(mConfigINI);
 	//Get(section, name, defaultValue)
-	mDataPath = reader.GetKeyValue("Paths", "DataPath");//, "./data");
-	mLogPath = reader.GetKeyValue("Ogre", "LogFile");//, "Client.log");
-	mOgreConfig = reader.GetKeyValue("Ogre", "Resources");//, "resources.cfg");
-	mOgrePlugins = reader.GetKeyValue("Ogre", "Plugins");//, "plugins.cfg");
-	mSoundPath = reader.GetKeyValue("Sound", "Path");//, "sound\\");
-	mSoundFile = reader.GetKeyValue("Sound", "File");//, "Sound.fev");
-	mControlsPath = reader.GetKeyValue("Controls", "Path");//, "controls\\");
-	mControlsFile = reader.GetKeyValue("Controls", "File");//, "Controls.ini");
+	mDataPath = config->getValue("Paths", "DataPath");//, "./data");
+	mLogPath = config->getValue("Ogre", "LogFile");//, "Client.log");
+	mOgreConfig = config->getValue("Ogre", "Resources");//, "resources.cfg");
+	mOgrePlugins = config->getValue("Ogre", "Plugins");//, "plugins.cfg");
+	mSoundPath = config->getValue("Sound", "Path");//, "sound\\");
+	mSoundFile = config->getValue("Sound", "File");//, "Sound.fev");
+	mControlsPath = config->getValue("Controls", "Path");//, "controls\\");
+	mControlsFile = config->getValue("Controls", "File");//, "Controls.ini");
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;

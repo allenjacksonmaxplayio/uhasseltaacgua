@@ -185,6 +185,7 @@ HOVUNI_EXCEPTION_DECLARE(NetworkException, Exception)
 HOVUNI_EXCEPTION_DECLARE(IOException, Exception)
 HOVUNI_EXCEPTION_DECLARE(ParseException, Exception)
 HOVUNI_EXCEPTION_DECLARE(ScriptingException, Exception)
+HOVUNI_EXCEPTION_DECLARE(ConfigException, Exception)
 
 ////////////
 // GLOBAL
