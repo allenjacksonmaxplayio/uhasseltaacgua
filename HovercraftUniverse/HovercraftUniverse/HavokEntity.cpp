@@ -15,7 +15,7 @@ namespace HovUni {
 
 const hkVector4 HavokEntity::UP(0,1,0);
 
-const hkVector4 HavokEntity::FORWARD(0,0,1);
+const hkVector4 HavokEntity::FORWARD(0,0,-1);
 
 HavokEntity::HavokEntity()
 {
