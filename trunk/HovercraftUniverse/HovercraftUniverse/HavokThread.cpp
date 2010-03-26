@@ -97,7 +97,7 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 
 	LoadParameter * params = (LoadParameter*) lpParam;
 
-	HoverCraftUniverseWorld world(1.0f/120.0f);
+	HoverCraftUniverseWorld world(1.0f/30.0f);
 
 	Havok::ms_world = &world;
 
