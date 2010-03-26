@@ -186,8 +186,8 @@ void HavokHovercraft::update(){
 			mForward.normalize3();
 		}
 
-		std::cout << "UP = " << mUp << std::endl;
-		std::cout << "FORWARD = " << mForward << std::endl;
+		//std::cout << "UP = " << mUp << std::endl;
+		//std::cout << "FORWARD = " << mForward << std::endl;
 	}
 
 

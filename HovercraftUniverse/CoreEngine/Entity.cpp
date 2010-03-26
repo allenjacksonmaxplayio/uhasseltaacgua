@@ -159,12 +159,12 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 	eZCom_NodeRole role = mNode->getRole();
 	switch (role) {
 		case eZCom_RoleAuthority:
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Event for server";
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Event for server";
 			processEventsServer(event);
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Processed for server";
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Processed event for server";
 			break;
 		case eZCom_RoleOwner:
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Event for owner";
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Event for owner"; 
 			processEventsOwner(event);
 			break;
 		case eZCom_RoleProxy:
