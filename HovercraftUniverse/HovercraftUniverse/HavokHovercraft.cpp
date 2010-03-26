@@ -89,6 +89,15 @@ void HavokHovercraft::update(){
 
 	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
 
+	{
+		hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
+		hkVector4& oldForward = rbRotation.getColumn(0);
+		hkVector4 newRot;
+		newRot.setCross(oldForward, mUp);
+		mForward.setCross(mUp, newRot);
+		mForward.normalize3();
+	}
+
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
 
 	hkStepInfo stepInfo;
@@ -148,15 +157,15 @@ void HavokHovercraft::update(){
 
 		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 		if (angle != 0.0f) {
-			hkVector4 axis;
-			mCharacterRigidBody->getRigidBody()->getRotation().getAxis(axis);
+			hkVector4 axis = mUp;
+			//mCharacterRigidBody->getRigidBody()->getRotation().getAxis(axis);
 			//angle = angle * axis(1); //Multiply by y-component of  rotation axis, to get the sign for the angel
 			//TODO I assume this only works with a rotation axis that points straight up, so this is basically a 2D solution. (Dirk)
 			//Tobias may fix this :)
 			//std::cout << "Axis = " << axis << std::endl;
 
 			hkVector4 crossProduct;
-			crossProduct.setCross( hkVector4(1,0,0,0), mForward );
+			crossProduct.setCross( mUp, mForward );
 
 			if ( crossProduct(1) < 0 ){
 				angle = angle * -1;
@@ -165,17 +174,16 @@ void HavokHovercraft::update(){
 		}
 
 		if ( status.moveLeft() ){
-			angle = angle + delta;
+			angle = delta;
 			hkQuaternion q(mUp,angle);
-			mForward.setRotatedDir(q,hkVector4(1,0,0,0));
+			mForward.setRotatedDir(q, mForward);
 			mForward.normalize3();
 		}
 		if ( status.moveRight() ){
-			angle = angle - delta;	
+			angle = -delta;	
 			hkQuaternion q(mUp,angle);
-			mForward.setRotatedDir(q,hkVector4(1,0,0,0));
+			mForward.setRotatedDir(q, mForward);
 			mForward.normalize3();
-
 		}
 
 		std::cout << "UP = " << mUp << std::endl;
@@ -187,10 +195,10 @@ void HavokHovercraft::update(){
 	hkRotation characterRotation;
 	characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );
 
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::PALEGOLDENROD );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::BLUE );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::RED );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::AQUAMARINE );
+	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::PALEGOLDENROD );
+	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::BLUE );
+	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::RED );
+	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::AQUAMARINE );
 	
 	// Update the character context
 	mCharacterRigidBody->m_up = mUp;
@@ -244,10 +252,21 @@ void HavokHovercraft::update(){
 	//POST STEP
 	mWorld->markForWrite();
 	hkRotation newOrientation;
+
 	newOrientation.getColumn(0) = mForward;
 	newOrientation.getColumn(1) = mUp;
-	newOrientation.getColumn(2).setCross( newOrientation.getColumn(0), newOrientation.getColumn(1) );
+	newOrientation.getColumn(2).setCross( mForward, mUp );
+
+	hkVector4 tmp = mCharacterRigidBody->getPosition();
+	tmp.add4(mUp);
+
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE );
+	HK_DISPLAY_ARROW( tmp, mUp, hkColor::RED );
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), newOrientation.getColumn(2), hkColor::GREEN );
+
 	newOrientation.renormalize();	
+
+	
 
 	const hkReal gain = 0.5f;
 
