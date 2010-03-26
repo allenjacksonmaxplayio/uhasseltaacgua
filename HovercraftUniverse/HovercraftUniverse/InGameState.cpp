@@ -1,5 +1,7 @@
 #include "InGameState.h"
 
+#include "Hovercraft.h"
+
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, TiXmlElement* HUDConfig) 
 			: mHUClient(client), mTimeLapsed(0), mContinue(true) {
@@ -127,7 +129,13 @@ namespace HovUni {
 		Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
 
 		if (currEnt != 0) {
+			Hovercraft* hov = (Hovercraft*) currEnt;
+
 			mHud->updateDirection(currEnt->getOrientation(), (Ogre::Vector3(2, 0, 0) - currEnt->getPosition()), Ogre::Vector3(0.0f, 1.0f, 0.0f));
+			mHud->updateSpeed( (hov->getSpeed() / hov->getMaximumSpeed()) * 100.0f );
 		}
+
+		
+		
 	}
 }
