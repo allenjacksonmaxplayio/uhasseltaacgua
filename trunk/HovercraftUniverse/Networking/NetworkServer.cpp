@@ -3,8 +3,8 @@
 
 namespace HovUni {
 
-NetworkServer::NetworkServer(const unsigned port, const unsigned internalport) : mServerPort(port), mInternalPort(internalport) {
-	ZCom_setDebugName("NetworkServer");
+NetworkServer::NetworkServer(const unsigned port, const unsigned internalport, const char* debugname) : mServerPort(port), mInternalPort(internalport) {
+	ZCom_setDebugName(debugname);
 
 	// Create and initialize network sockets (UDP, UDP port, internal socket port)
 	bool result = ZCom_initSockets(true, mServerPort, mInternalPort);
@@ -12,7 +12,6 @@ NetworkServer::NetworkServer(const unsigned port, const unsigned internalport) :
 	if (!result) {
 		THROW(NetworkException, "Cannot initialize sockets");
 	}
-
 }
 
 NetworkServer::~NetworkServer() {
@@ -23,6 +22,7 @@ void NetworkServer::process() {
 	ZCom_processReplicators(1);
 	ZCom_processInput();
 	ZCom_processOutput();
+	ZoidCom::Sleep(10);
 }
 
 bool NetworkServer::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {

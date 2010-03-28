@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-ChatServer::ChatServer() : NetworkServer(2377, 2378), mChat(0), mIDManager(0) {
+ChatServer::ChatServer() : NetworkServer(2377, 2378, "ChatServer"), mChat(0), mIDManager(0) {
 	// Create and store entity manager
 	mIDManager = new NetworkIDManager(this);
 	mIDManager->registerClass(ChatEntity::getClassName());

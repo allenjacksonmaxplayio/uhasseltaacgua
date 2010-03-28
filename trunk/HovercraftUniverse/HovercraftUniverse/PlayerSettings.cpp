@@ -18,18 +18,17 @@ PlayerSettings::PlayerSettings(ZCom_ConnID connectionID) :
 PlayerSettings::PlayerSettings(ZCom_BitStream* announcedata):
 	NetworkEntity(3)
 {
-	mConnectionID = announcedata->getInt(sizeof(ZCom_ConnID) * 8);
 }
 
 PlayerSettings::~PlayerSettings(void){
 }
 
 std::string PlayerSettings::getClassName(){
-	return "Player";
+	return "PlayerSettings";
 }
 
 void PlayerSettings::setAnnouncementData(ZCom_BitStream* stream){
-	stream->addInt(mConnectionID,sizeof(ZCom_ConnID) * 8);
+	// No need to send the connection ID since it is already known by the client
 }
 
 void PlayerSettings::setupReplication(){

@@ -1,8 +1,9 @@
 #include "ChatClient.h"
+#include "Exception.h"
 
 namespace HovUni {
 
-ChatClient::ChatClient(const std::string& username, const char* name, unsigned int port) : NetworkClient(name, port), mChat(0), mIDManager(0), mUser(username) {
+ChatClient::ChatClient(const std::string& username, const char* name, unsigned int port) : NetworkClient(name, port, "ChatClient"), mChat(0), mIDManager(0), mUser(username) {
 	initialize();
 }
 
@@ -47,6 +48,7 @@ void ChatClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result
 		ZCom_requestZoidMode(id, 1);
 	} else {
 		// Connection failed
+		THROW(NetworkException, "Connection failed");
 		return;
 	}
 }
