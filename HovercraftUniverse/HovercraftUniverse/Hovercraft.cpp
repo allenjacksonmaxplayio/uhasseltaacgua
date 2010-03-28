@@ -9,7 +9,7 @@ namespace HovUni {
 
 const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
-const Ogre::Real Hovercraft::MAXSPEED(500);
+const Ogre::Real Hovercraft::MAXSPEED(5000);
 
 Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
 	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,6), mTilt(0.0f)
