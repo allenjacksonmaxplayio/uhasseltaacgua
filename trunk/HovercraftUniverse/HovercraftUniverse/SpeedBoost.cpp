@@ -38,6 +38,7 @@ SpeedBoost::~SpeedBoost(void){
 }
 
 void SpeedBoost::onEnter ( Hovercraft * hovercraft ){
+	hovercraft->setSpeed(Hovercraft::MAXSPEED);
 }
 
 

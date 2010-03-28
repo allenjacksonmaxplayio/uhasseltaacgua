@@ -206,7 +206,7 @@ void HavokHovercraft::update(){
 	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE );
 	
 
-	const hkReal gain = 0.5f;
+	const hkReal gain = 1.0f;
 	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
 	hkQuaternion desiredOrient;
 	desiredOrient.set( newOrientation );
@@ -249,7 +249,7 @@ void HavokHovercraft::load(const hkVector4& position){
 	hkpCharacterRigidBodyCinfo info;
 	info.m_mass = hovercraft->getMass();
 	info.m_shape = tmp;
-	info.m_maxLinearVelocity = 500;//Hovercraft::MAXSPEED;
+	info.m_maxLinearVelocity = Hovercraft::MAXSPEED;
 	info.m_maxForce = 800.0f;	//TODO dunno
 	info.m_position = position;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
