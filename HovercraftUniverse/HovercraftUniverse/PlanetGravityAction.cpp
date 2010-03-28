@@ -60,24 +60,25 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 			newUp.normalize3();
 
 			character->updateUp(newUp);
-/*
+
 			// hovering
 			hkVector4 hover;
-			hkVector4 difference = rb->getPosition();
+			hkVector4 position = rb->getPosition();
 			hkVector4 ground = collector.getHitContact().getPosition();
 
-			difference.sub4(ground);
+			hkVector4 difference(0.0f, position(1) - ground(1), 0.0f);
 			float distanceSquared = difference.lengthSquared3();
 			float distance = difference.length3();
 			if (distance > 0.01f && distance < 2.0f) {
 				hkVector4 direction(difference);
-				direction.mul4(1 / distance);
-				float magnitude = 1.0f / distanceSquared * 200.0f;
+				direction.normalize3();
+				direction.zeroElement(3);
+				float magnitude = (1.0f / distanceSquared) * 200.0f;
 
-				hover.setMul4(rb->getMass() * magnitude, forceDir);
+				hover.setMul4(rb->getMass() * magnitude, direction);
 				rb->applyForce(stepInfo.m_deltaTime, hover);
 			}
-*/
+
 			
 		}
 	}
