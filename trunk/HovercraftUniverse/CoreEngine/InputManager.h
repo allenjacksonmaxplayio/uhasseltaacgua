@@ -217,8 +217,8 @@ public:
 	/**
 	 * Move the mouse to a given location
 	 *
-	 * @param x The x coördinate
-	 * @param y The y coördinate
+	 * @param x The x coordinate
+	 * @param y The y coordinate
 	 */
 	void moveMouseTo(int x, int y);
 
