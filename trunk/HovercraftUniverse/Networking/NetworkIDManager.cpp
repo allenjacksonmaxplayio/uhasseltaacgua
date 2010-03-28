@@ -48,6 +48,15 @@ ZCom_ClassID NetworkIDManager::getID(const string& className) const {
 	THROW(NetworkException, "No such class name registered");
 }
 
+string NetworkIDManager::getName(const ZCom_ClassID& id) const {
+	for (map_type::const_iterator it = mMap.begin(); it != mMap.end(); ++it) {
+		if (it->second == id) {
+			return it->first;
+		}
+	}
+	return "";
+}
+
 NetworkIDManager* NetworkIDManager::getServerSingletonPtr() {
 	if (!msNetworkIDManager) {
 		msNetworkIDManager = new NetworkIDManager();
