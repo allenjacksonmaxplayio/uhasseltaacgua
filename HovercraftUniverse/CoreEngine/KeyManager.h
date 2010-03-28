@@ -33,6 +33,9 @@ private:
 	/** The config file with the controls */
 	std::string mControlsFile;
 
+	/** The activity of the controls. Should be true in-game, and false in the menu. */
+	bool mActive;
+
 	/**
 	 * Register the keycodes.
 	 */
@@ -208,6 +211,28 @@ public:
 	 * @return	file	Location of Controls.ini
 	 */
 	std::string getControlsFile();
+
+	/**
+	 * Toggle controls activity.
+	 */
+	void toggleActivity();
+
+	/**
+	 * Set controls active.
+	 */
+	void setActive();
+	
+	/**
+	 * Set controls inactive.
+	 */
+	void setInactive();
+
+	/**
+	 * Are controls active?
+	 *
+	 * @return True of the controls are active, false otherwise.
+	 */
+	bool isActive();
 
 };
 
