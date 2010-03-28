@@ -85,6 +85,8 @@ void HavokHovercraft::update(){
 	mSide.setCross(mUp, newRot);
 	mSide.normalize3();
 	mForward.setCross(mSide,mUp);
+
+	//mCharacterRigidBody->getRigidBody()->applyForce();
 	
 
 	//Get the hovercraft and input
@@ -98,9 +100,11 @@ void HavokHovercraft::update(){
 	float scaledspeed = 0.f;
 
 	//speeding
-	if ( status.moveForward() ){	
-		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
-		if ( speed > hovercraft->getMaximumSpeed() ){
+	if (status.moveForward()) {	
+
+		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 20;
+
+		if (speed > hovercraft->getMaximumSpeed()) {
 			hovercraft->setSpeed(hovercraft->getMaximumSpeed());
 		} else {
 			hovercraft->setSpeed(speed);
@@ -108,19 +112,26 @@ void HavokHovercraft::update(){
 	}
 
 	//braking..
-	if ( status.moveBackward() || !status.moveForward() ){
-
-		speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
+	if (status.moveBackward()) {
 		
-		if ( !status.moveBackward() && !status.moveForward() && (speed < 0.0f) ){
-			speed = 0.0f;
+		if (speed > 0.0f) {
+			// braking should be harder than moving backwards
+			speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 20;
+		} else {
+			speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 10;
 		}
 
-		if ( speed < -1 * hovercraft->getMaximumSpeed() ){
+		if (speed < -1 * hovercraft->getMaximumSpeed()) {
 			hovercraft->setSpeed(-1 * hovercraft->getMaximumSpeed());
 		} else {
 			hovercraft->setSpeed(speed);
 		}
+	}
+
+	// slow down when idle
+	if (!status.moveBackward() && !status.moveForward()) {
+		speed *= 0.95f;
+		hovercraft->setSpeed(speed);
 	}
 
 	scaledspeed = speed / Hovercraft::MAXSPEED; 
@@ -128,7 +139,7 @@ void HavokHovercraft::update(){
 	
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
-		double delta = 0.01;
+		double delta = 0.03;
 
 		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 		if (angle != 0.0f) {
@@ -136,16 +147,24 @@ void HavokHovercraft::update(){
 			hkVector4 crossProduct;
 			crossProduct.setCross( mUp, mSide );
 
-			if ( crossProduct(1) < 0 ){
+			if (crossProduct(1) < 0) {
 				angle = angle * -1;
 			}
 		}
 
-		if ( status.moveLeft() ){
-			angle = delta;
+		if (status.moveLeft()) {
+			if (speed > 0.0f) {
+				angle = delta;
+			} else if (speed < 0.0f) {
+				angle = -delta;
+			}
 		}
-		if ( status.moveRight() ){
-			angle = -delta;	
+		if (status.moveRight()) {
+			if (speed > 0.0f) {
+				angle = -delta;
+			} else if (speed < 0.0f) {
+				angle = delta;
+			}
 		}
 
 		hkQuaternion q(mUp,angle);
