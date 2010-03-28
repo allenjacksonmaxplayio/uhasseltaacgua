@@ -31,16 +31,12 @@ private:
 	
  	hkpCharacterRigidBody* mCharacterRigidBody;
 
-	// Current world's up vector. This changes as the simulation progresses.
- 	hkVector4 mUp;
-
-	// Character controller's rigid body's forward direction based on camera, user input and local gravity
- 	hkVector4 mForward;
-
-	//hkPackfileReader::AllocatedData* m_loadedData;
-	//class hkpPhysicsData* m_physicsData;
-
 	hkpCharacterContext * mCharacterContext;
+
+	// Current world vectors. This changes as the simulation progresses.
+ 	hkVector4 mUp;
+ 	hkVector4 mSide;
+	hkVector4 mForward;	
 
 public:
 

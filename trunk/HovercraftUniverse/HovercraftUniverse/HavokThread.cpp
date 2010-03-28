@@ -49,7 +49,7 @@ void HavokThread::StartHavokThread( const char * filename, Loader * loader ){
 	DWORD fileAttr;
     fileAttr = GetFileAttributes("hkVisualDebugger.exe");
 	if (0xFFFFFFFF != fileAttr){
-
+/*
 		if (CreateProcess( "hkVisualDebugger.exe",   // No module name (use command line)
 			NULL,        // Command line
 			NULL,           // Process handle not inheritable
@@ -62,8 +62,7 @@ void HavokThread::StartHavokThread( const char * filename, Loader * loader ){
 			&HavokThread::pi )           // Pointer to PROCESS_INFORMATION structure
 		) {
 			HavokThread::havokdebug = true;
-		}
-
+		}*/
 	}
 
 	HavokThread::startevent = CreateEvent( 
