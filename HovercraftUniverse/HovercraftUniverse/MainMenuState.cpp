@@ -48,6 +48,9 @@ namespace HovUni {
 	}
 
 	void MainMenuState::activate() {
+		//We don't want any crazy input keys
+		mInputManager->getKeyManager()->setInactive();
+
 		//Creat the MainMenu object
 		if (mMenu != 0) {
 			delete mMenu;

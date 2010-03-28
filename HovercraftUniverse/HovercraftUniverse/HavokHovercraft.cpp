@@ -140,7 +140,7 @@ void HavokHovercraft::update(){
 	
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
-		double delta = 0.1;
+		double delta = 0.1f;
 
 		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 		if (angle != 0.0f) {

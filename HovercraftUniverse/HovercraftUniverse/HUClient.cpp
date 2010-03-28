@@ -7,6 +7,7 @@
 #include "HovercraftPlayerController.h"
 #include "HovercraftAIController.h"
 
+#include "Config.h"
 #include "Lobby.h"
 #include "PlayerSettings.h"
 
@@ -34,14 +35,14 @@ namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
 	//Initialize the chat client
-	mChatClient = new ChatClient("Player", name);
+	mChatClient = new ChatClient(Config::getSingletonPtr()->getValue("Player", "PlayerName"), name);
 
 	initialize();
 }
 
 HUClient::HUClient() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
 	//Initialize the chat client
-	mChatClient = new ChatClient("Player");
+	mChatClient = new ChatClient(Config::getSingletonPtr()->getValue("Player", "PlayerName"));
 	
 	initialize();
 }
