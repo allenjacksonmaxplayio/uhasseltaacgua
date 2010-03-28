@@ -1,5 +1,6 @@
 #include "LobbyState.h"
 
+#include "Config.h"
 #include "InGameState.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreRoot.h>
@@ -44,11 +45,18 @@ namespace HovUni {
 	}
 
 	void LobbyState::activate() {
+		//We don't want any crazy input keys
+		mInputManager->getKeyManager()->setInactive();
+
 		//Make sure we have a cursor
 		mGUIManager->showCursor(true);
 
 		//Activate the menu overlay
 		mLobbyGUI->activate();
+
+		//Show ourselves in the lobby!
+		Config* conf = Config::getSingletonPtr();
+		mLobbyGUI->addUser(1, conf->getValue("Player", "PlayerName"), conf->getValue("Player", "Character"), conf->getValue("Player", "Hovercraft"));
 	}
 
 	void LobbyState::disable() {

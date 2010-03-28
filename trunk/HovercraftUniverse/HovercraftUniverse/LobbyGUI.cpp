@@ -38,12 +38,22 @@ namespace HovUni {
 	}
 
 	void LobbyGUI::newMessage(const std::string& user, const std::string& line) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "LobbyGUI :: " << "received message: " << user << ": " << line;
 		mLobbyOverlay->addText(user, line);
 	}
 
 	void LobbyGUI::newNotification(const std::string& notif) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "LobbyGUI :: " << "received message: " << notif;
 		mLobbyOverlay->addAction(notif);
+	}
+
+	void LobbyGUI::addUser(int id, const std::string& username, const std::string& character, const std::string& car) {
+		mLobbyOverlay->addUser(id, username, character, car);
+	}
+
+	void LobbyGUI::editUser(int id, const std::string& username, const std::string& character, const std::string& car) {
+		mLobbyOverlay->editUser(id, username, character, car);
+	}
+
+	void LobbyGUI::deleteUser(int id) {
+		mLobbyOverlay->deleteUser(id);
 	}
 }

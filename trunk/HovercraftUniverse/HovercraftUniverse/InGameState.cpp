@@ -12,6 +12,9 @@ namespace HovUni {
 	}
 
 	void InGameState::activate() {
+		//Make sure we activate all the key actions
+		mInputManager->getKeyManager()->setActive();
+
 		//Remove cursor
 		mGUIManager->showCursor(false);
 

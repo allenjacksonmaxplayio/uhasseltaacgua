@@ -15,6 +15,18 @@ namespace HovUni {
 		this->callFunction("addAction", Hikari::Args(message));
 	}
 
+	void LobbyOverlay::addUser(int id, const std::string& username, const std::string& character, const std::string& car) {
+		this->callFunction("addUser", Hikari::Args(id)(username)(character)(car));
+	}
+
+	void LobbyOverlay::editUser(int id, const std::string& username, const std::string& character, const std::string& car) {
+		this->callFunction("editUser", Hikari::Args(id)(username)(character)(car));
+	}
+
+	void LobbyOverlay::deleteUser(int id) {
+		this->callFunction("deleteUser", Hikari::Args(id));
+	}
+
 	void LobbyOverlay::customActionAfterActivate() {
 		this->focus();
 	}

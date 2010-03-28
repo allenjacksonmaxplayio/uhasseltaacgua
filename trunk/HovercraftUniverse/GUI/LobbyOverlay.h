@@ -29,6 +29,34 @@ namespace HovUni {
 			void addAction(const Ogre::String& message);
 
 			/**
+			 * Add a new user to the userlist. This list will be sorted in order of
+			 * calls to this function.
+			 *
+			 * @param id A unique id for this user
+			 * @param username The username of the user
+			 * @param character The name of the character of the user
+			 * @param car The name of the var of the user
+			 */
+			void addUser(int id, const std::string& username, const std::string& character, const std::string& car);
+
+			/**
+			 * Edit a given user's data, identified by the id.
+			 *
+			 * @param id A unique id for this user
+			 * @param username The username of the user
+			 * @param character The name of the character of the user
+			 * @param car The name of the var of the user
+			 */
+			void editUser(int id, const std::string& username, const std::string& character, const std::string& car);
+
+			/**
+			 * Delete the user from the list with the given ID.
+			 *
+			 * @param The id of the user you want to delete
+			 */
+			void deleteUser(int id);
+
+			/**
 			 * This will be called after the overlay has been activated.
 			 * It will mark this overlay for keyboard input
 			 */
