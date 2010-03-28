@@ -5,7 +5,7 @@
 
 namespace HovUni {
 
-KeyManager::KeyManager(void) {
+KeyManager::KeyManager(void): mActive(true) {
 	registerKeyCodes();
 }
 
@@ -100,7 +100,11 @@ void KeyManager::setKey(const int action, std::string key, bool initial) {
 }
 
 const int KeyManager::getAction(const OIS::KeyCode key) {
-	return mKeyMapping[key];
+	if (mActive) {
+		return mKeyMapping[key];
+	} else {
+		return 0;
+	}
 }
 
 const std::vector<int> KeyManager::getRegisteredActions() {
@@ -145,7 +149,11 @@ void KeyManager::setCameraKey(const CameraActions::CameraControllerActionType ac
 }
 
 const CameraActions::CameraControllerActionType KeyManager::getCameraAction(const OIS::KeyCode key) {
-	return mCameraMapping[key];
+	if (mActive) {
+		return mCameraMapping[key];
+	} else {
+		return CameraActions::CameraControllerActionType::INVALID;
+	}
 }
 
 const std::string KeyManager::getCameraName(const CameraActions::CameraControllerActionType action) {
@@ -321,6 +329,22 @@ void KeyManager::setControlsFile(std::string file) {
 
 std::string KeyManager::getControlsFile() {
 	return mControlsFile;
+}
+
+void KeyManager::toggleActivity() {
+	mActive = !mActive;
+}
+
+void KeyManager::setActive() {
+	mActive = true;
+}
+
+void KeyManager::setInactive() {
+	mActive = false;
+}
+
+bool KeyManager::isActive() {
+	return mActive;
 }
 
 }

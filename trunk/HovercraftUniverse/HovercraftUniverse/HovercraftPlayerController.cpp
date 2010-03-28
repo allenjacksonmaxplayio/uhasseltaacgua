@@ -33,6 +33,12 @@ bool HovercraftPlayerController::turnRight() {
 }
 
 bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) { 
+	
+	// TODO: this is a temporary hack, should be removed after Nick toggles this in the gamestate somewhere...
+	if (e.key == OIS::KC_B) {
+		mInputManager->getKeyManager()->toggleActivity();
+	}
+
 	// Process possibly resulting move
 	int action = mInputManager->getKeyManager()->getAction(e.key);
 	switch (action) {
