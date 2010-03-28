@@ -85,8 +85,9 @@ void HavokHovercraft::update(){
 	mSide.setCross(mUp, newRot);
 	mSide.normalize3();
 	mForward.setCross(mSide,mUp);
-
-	//mCharacterRigidBody->getRigidBody()->applyForce();
+	
+	// Update the character context
+	mCharacterRigidBody->m_up = mUp;
 	
 
 	//Get the hovercraft and input
@@ -139,13 +140,13 @@ void HavokHovercraft::update(){
 	
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
-		double delta = 0.03;
+		double delta = 0.1;
 
 		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 		if (angle != 0.0f) {
 			hkVector4 axis = mUp;
 			hkVector4 crossProduct;
-			crossProduct.setCross( mUp, mSide );
+			crossProduct.setCross(mUp, mSide);
 
 			if (crossProduct(1) < 0) {
 				angle = angle * -1;
@@ -172,9 +173,6 @@ void HavokHovercraft::update(){
 		mSide.normalize3();
 	}
 
-	// Update the character context
-	mCharacterRigidBody->m_up = mUp;
-	
 
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
@@ -183,7 +181,7 @@ void HavokHovercraft::update(){
 	hkpCharacterInput input;
 	hkpCharacterOutput output;
 	{
-		HK_TIMER_BEGIN( "set character state", HK_NULL );
+		HK_TIMER_BEGIN("set character state", HK_NULL);
 
 		input.m_atLadder = false;
 		input.m_inputLR = 0;
@@ -193,26 +191,26 @@ void HavokHovercraft::update(){
 		input.m_up = mUp;
 		input.m_forward = mForward;
 		input.m_stepInfo = stepInfo;
-		input.m_characterGravity.setMul4( -20.0f, mUp );
+		input.m_characterGravity.setMul4(-20.0f, mUp);
 		input.m_velocity = mCharacterRigidBody->getRigidBody()->getLinearVelocity();
 		input.m_position = mCharacterRigidBody->getRigidBody()->getPosition();
-		mCharacterRigidBody->checkSupport( stepInfo, input.m_surfaceInfo );
+		mCharacterRigidBody->checkSupport(stepInfo, input.m_surfaceInfo);
 
 		HK_TIMER_END();
 	}
 
 	// Apply the character state machine
 	{
-		HK_TIMER_BEGIN( "update character state", HK_NULL );
-		mCharacterContext->update( input, output );
+		HK_TIMER_BEGIN("update character state", HK_NULL);
+		mCharacterContext->update(input, output);
 		HK_TIMER_END();
 	}
 
 	//Apply the player character controller
 	{
-		HK_TIMER_BEGIN( "simulate character", HK_NULL );
+		HK_TIMER_BEGIN("simulate character", HK_NULL);
 		// Set output velocity from state machine into character rigid body
-		mCharacterRigidBody->setLinearVelocity( output.m_velocity, Havok::getSingleton().getTimeStep() );
+		mCharacterRigidBody->setLinearVelocity(output.m_velocity, Havok::getSingleton().getTimeStep());
 		HK_TIMER_END();
 	}
 
@@ -220,20 +218,21 @@ void HavokHovercraft::update(){
 	hkRotation newOrientation;
 	newOrientation.getColumn(0) = mSide;
 	newOrientation.getColumn(1) = mUp;
-	newOrientation.getColumn(2).setCross( mSide, mUp );
+	newOrientation.getColumn(2).setCross(mSide, mUp);
 	newOrientation.renormalize();
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE );
-	
+	HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE);
+	HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mUp, hkColor::RED);
 
-	const hkReal gain = 1.0f;
+	const hkReal gain = 0.25f;
 	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
 	hkQuaternion desiredOrient;
-	desiredOrient.set( newOrientation );
+	desiredOrient.set(newOrientation);
 	hkVector4 angle;
 	hkVector4 angularVelocity;
-	currentOrient.estimateAngleTo( desiredOrient, angle );
-	angularVelocity.setMul4( gain / Havok::getSingleton().getTimeStep(), angle );
-	mCharacterRigidBody->setAngularVelocity( angularVelocity );
+	currentOrient.estimateAngleTo(desiredOrient, angle);
+	angularVelocity.setMul4(gain / Havok::getSingleton().getTimeStep(), angle);
+	mCharacterRigidBody->setAngularVelocity(angularVelocity);
+	
 	mWorld->unmarkForWrite();
 }
 
