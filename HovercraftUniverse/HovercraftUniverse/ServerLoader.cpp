@@ -26,18 +26,45 @@
 namespace {
 
 	void setBox ( hkAabb& aabb, const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale  ){
+		aabb.m_max.set(1,1,1);
+		aabb.m_max.set(-1,-1,-1);
+		
 		hkVector4 t(position.x, position.y, position.z);
 		hkQuaternion q(rotation.x, rotation.y, rotation.z, rotation.w);
 		
 		hkTransform tr(q,t);
 		
-		hkVector4 pos;
-		
-		pos.set(scale.x * 5, scale.y * 5, scale.z * 5);
-		aabb.m_max.setTransformedPos(tr,pos);
+		hkVector4 pos1;
+		pos1.set(scale.x * 5, scale.y * 5, scale.z * 5);
+		pos1.setTransformedPos(tr,pos1);
 
-		pos.set(scale.x * -5, scale.y * -5, scale.z * -5);
-		aabb.m_min.setTransformedPos(tr,pos);
+		hkVector4 pos2;
+		pos2.set(scale.x * -5, scale.y * -5, scale.z * -5);
+		pos2.setTransformedPos(tr,pos2);
+
+		if ( pos1(0) > pos2(0) ){
+			aabb.m_max(0) = pos1(0);
+			aabb.m_min(0) = pos2(0);
+		}else {
+			aabb.m_max(0) = pos2(0);
+			aabb.m_min(0) = pos1(0);		
+		}
+
+		if ( pos1(1) > pos2(1) ){
+			aabb.m_max(1) = pos1(1);
+			aabb.m_min(1) = pos2(1);
+		}else {
+			aabb.m_max(1) = pos2(1);
+			aabb.m_min(1) = pos1(1);		
+		}
+
+		if ( pos1(2) > pos2(2) ){
+			aabb.m_max(2) = pos1(2);
+			aabb.m_min(2) = pos2(2);
+		}else {
+			aabb.m_max(2) = pos2(2);
+			aabb.m_min(2) = pos1(2);		
+		}
 	}
 }
 

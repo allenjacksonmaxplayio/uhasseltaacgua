@@ -1,13 +1,13 @@
 
-material Material#25_OgreMax
+material Chassis
 {
-	technique Map#1
+	technique
 	{
-		pass Map#2
+		pass
 		{
-			ambient 0 0 0 1
-			diffuse 0 0 0 1
-			specular 0 0 0 1 10
+			ambient 0.788235 0.172549 0.0980392 1
+			diffuse 0.788235 0.172549 0.0980392 1
+			specular 0 0 0 10 0
 		}
 
 	}
@@ -16,15 +16,15 @@ material Material#25_OgreMax
 
 
 
-material Material#26_OgreMax
+material Bumper
 {
-	technique Map#3
+	technique
 	{
-		pass Map#4
+		pass
 		{
-			ambient 0.266667 0.709804 0.694118 1
-			diffuse 0.266667 0.709804 0.694118 1
-			specular 0 0 0 1 10
+			ambient 0.192157 0.184314 0.192157 1
+			diffuse 0.192157 0.184314 0.192157 1
+			specular 0 0 0 10 0
 		}
 
 	}
@@ -33,15 +33,15 @@ material Material#26_OgreMax
 
 
 
-material Material#27_OgreMax
+material Blades
 {
-	technique Map#5
+	technique
 	{
-		pass Map#6
+		pass
 		{
-			ambient 0.294118 0.262745 0.290196 1
-			diffuse 0.294118 0.262745 0.290196 1
-			specular 0 0 0 1 10
+			ambient 0.862745 0.862745 0.862745 1
+			diffuse 0.862745 0.862745 0.862745 1
+			specular 0 0 0 10 0
 		}
 
 	}
@@ -50,15 +50,15 @@ material Material#27_OgreMax
 
 
 
-material Material#28_OgreMax
+material Window
 {
-	technique Map#7
+	technique
 	{
-		pass Map#8
+		pass
 		{
-			ambient 0.94902 0.254902 0.0705882 1
-			diffuse 0.94902 0.254902 0.0705882 1
-			specular 0.09 0.09 0.09 1 10
+			ambient 0.529412 0.498039 0.745098 1
+			diffuse 0.529412 0.498039 0.745098 1
+			specular 0 0 0 10 0
 		}
 
 	}
@@ -67,15 +67,15 @@ material Material#28_OgreMax
 
 
 
-material Material#29_OgreMax
+material Dark
 {
-	technique Map#9
+	technique
 	{
-		pass Map#10
+		pass
 		{
-			ambient 0.803922 0.803922 0.803922 1
-			diffuse 0.803922 0.803922 0.803922 1
-			specular 0.27 0.27 0.27 1 10
+			ambient 0.12549 0.12549 0.12549 1
+			diffuse 0.12549 0.12549 0.12549 1
+			specular 0 0 0 10 0
 		}
 
 	}

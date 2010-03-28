@@ -239,6 +239,10 @@
 					Name="entity"
 					>
 					<File
+						RelativePath=".\EntityCollisionPrevention.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\HavokEntity.cpp"
 						>
 					</File>
@@ -572,6 +576,10 @@
 				<Filter
 					Name="entity"
 					>
+					<File
+						RelativePath=".\EntityCollisionPrevention.h"
+						>
+					</File>
 					<File
 						RelativePath=".\HavokEntity.h"
 						>
