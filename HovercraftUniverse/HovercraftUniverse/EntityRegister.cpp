@@ -30,7 +30,7 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	
 	//Lobby
 	manager.registerClass(Lobby::getClassName());
-	manager.registerClass(PlayerSettings::getClassName(),true);
+	manager.registerClass(PlayerSettings::getClassName());
 
 	//Entities
 	manager.registerClass(Asteroid::getClassName(),true);
