@@ -18,7 +18,7 @@ Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, 
 		//fill some defaults for testing
 		mSpeed = 0;
 		mMaximumSpeed = 250;
-		mAcceleration = 10;
+		mAcceleration = 100;
 		mMass = 30;
 }
 
