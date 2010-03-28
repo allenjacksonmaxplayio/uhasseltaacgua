@@ -9,7 +9,7 @@ PlayerSettings::PlayerSettings(ZCom_ConnID connectionID) :
 	mNode->setOwner(connectionID,true);
 
 	// Add as network entity
-	networkRegister(NetworkIDManager::getServerSingletonPtr(),getClassName(),true);
+	networkRegister(NetworkIDManager::getServerSingletonPtr(),getClassName());
 
 	//some default values
 	mHovercraft = "hover1";
