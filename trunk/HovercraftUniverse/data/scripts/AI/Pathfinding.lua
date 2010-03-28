@@ -120,8 +120,7 @@ function decide()
 	local distanceThreshold = 2;
 	if (distanceToPath > PATH_RADIUS) then
 		--Probe is too far away, steer towards path.
-		--targetPosition = project;
-		targetPosition = p1;
+		targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
 	else
 		--No corrective steering required.
 		--println("No corrective steering required.");
