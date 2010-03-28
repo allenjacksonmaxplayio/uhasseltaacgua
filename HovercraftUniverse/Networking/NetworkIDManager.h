@@ -95,6 +95,14 @@ public:
 	 */
 	ZCom_ClassID getID(const string& className) const;
 
+	/**
+	 * Get the class for an ID (probably used for debugging)
+	 *
+	 * @param id the ID
+	 * @return the name of the class
+	 */
+	string getName(const ZCom_ClassID& id) const;
+
 private:
 	/**
 	 * Constructor
