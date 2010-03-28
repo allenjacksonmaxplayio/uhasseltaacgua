@@ -1,18 +1,4 @@
 
-material NoMaterial
-{
-	technique
-	{
-		pass
-		{
-		}
-
-	}
-
-}
-
-
-
 material 01-Default
 {
 	technique

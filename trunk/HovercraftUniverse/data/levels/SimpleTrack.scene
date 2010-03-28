@@ -109,7 +109,7 @@
                         <![CDATA[<OgreEntity><GameEntity>Boost</GameEntity></OgreEntity>]]>
 </userData>
                     <subentities>
-                        <subentity index="0" materialName="NoMaterial" />
+                        <subentity index="0" materialName="03-Default" />
                     </subentities>
                 </entity>
             </node>
