@@ -173,7 +173,6 @@ void HavokHovercraft::update(){
 		mSide.normalize3();
 	}
 
-
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
 	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();

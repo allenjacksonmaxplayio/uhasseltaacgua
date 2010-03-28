@@ -121,13 +121,13 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 10) + (mObjectTrackCameraController->getUpVector() * 5);
+		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
 		
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
 		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
 		//turn the camera slightly to the tracked entity
-		mActiveViewpointNode->pitch(Ogre::Degree(-20.0f), Ogre::Node::TS_LOCAL);
+		mActiveViewpointNode->pitch(Ogre::Degree(-15.0f), Ogre::Node::TS_LOCAL);
 		
 		break;
 	case FirstPerson:
