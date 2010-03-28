@@ -4,7 +4,7 @@
 
 namespace HovUni {
 
-HUServerCore::HUServerCore() : NetworkServer(2375, 2376), mEntityManager(0), mIDManager(0) {
+HUServerCore::HUServerCore() : NetworkServer(2375, 2376, "HUServer"), mEntityManager(0), mIDManager(0) {
 	// Create and store entity manager
 	mEntityManager = EntityManager::getServerSingletonPtr();
 	mIDManager = NetworkIDManager::getServerSingletonPtr();

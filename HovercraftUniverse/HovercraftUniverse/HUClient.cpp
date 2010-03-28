@@ -2,6 +2,7 @@
 #include "HUApplication.h"
 #include "ClientLoader.h"
 #include "EntityRegister.h"
+#include "Exception.h"
 
 #include "HovercraftPlayerController.h"
 #include "HovercraftAIController.h"
@@ -31,7 +32,7 @@
 
 namespace HovUni {
 
-HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port), mEntityManager(0), mIDManager(0), mLobby(0) {
+HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
 	//Initialize the chat client
 	mChatClient = new ChatClient("Player", name);
 
@@ -69,6 +70,7 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, 
 		ZCom_requestZoidMode(id, 1);
 	} else {
 		// Connection failed
+		THROW(NetworkException, "Connection failed");
 		return;
 	}
 }

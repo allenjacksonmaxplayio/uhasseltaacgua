@@ -25,9 +25,10 @@ public:
 	 * Constructor
 	 *
 	 * @param port the listening port of the server
-	 * @param internalport the port the internal socket will be bound to, or 0 if socket won't be used. 
+	 * @param internalport the port the internal socket will be bound to, or 0 if socket won't be used.
+	 * @param debugname the debug name used for this server (default is NetworkServer)
 	 */
-	NetworkServer(const unsigned port, const unsigned internalport);
+	NetworkServer(const unsigned port, const unsigned internalport, const char* debugname = "NetworkServer");
 
 	/**
 	 * Destructor

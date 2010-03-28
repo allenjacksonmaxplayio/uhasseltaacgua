@@ -25,15 +25,17 @@ public:
 	 *
 	 * @param name the name of the server
 	 * @param port the port of the server
+	 * @param debugname the debug name used for this client (default is NetworkClient)
 	 */
-	NetworkClient(const char* name, const unsigned port);
+	NetworkClient(const char* name, const unsigned port, const char* debugname = "NetworkClient");
 
 	/**
 	 * Constructor for local connection
 	 *
 	 * @param port the port of the server
+	 * @param debugname the debug name used for this client (default is NetworkClient)
 	 */
-	NetworkClient(const unsigned port);
+	NetworkClient(const unsigned port, const char* debugname = "NetworkClient");
 
 	/**
 	 * Destructor
@@ -56,9 +58,10 @@ private:
 	/**
 	 * Initialize the client
 	 *
+	 * @param debugname the debug name used for this client
 	 * @param remote whether it is a remote or local connection
 	 */
-	void initialize(bool remote);
+	void initialize(const char* debugname, bool remote);
 
 //
 // ZCom_Control callbacks

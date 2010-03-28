@@ -4,12 +4,12 @@
 
 namespace HovUni {
 
-NetworkClient::NetworkClient(const char* name, const unsigned port) : mServerName(name), mConnectPort(port) {
-	initialize(true);
+NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) : mServerName(name), mConnectPort(port) {
+	initialize(debugname, true);
 }
 
-NetworkClient::NetworkClient(const unsigned port) : mServerName(0), mConnectPort(port) {
-	initialize(false);
+NetworkClient::NetworkClient(const unsigned port, const char* debugname) : mServerName(0), mConnectPort(port) {
+	initialize(debugname, false);
 }
 
 
@@ -17,8 +17,8 @@ NetworkClient::~NetworkClient() {
 
 }
 
-void NetworkClient::initialize(bool remote) {
-	ZCom_setDebugName("NetworkClient");
+void NetworkClient::initialize(const char* debugname, bool remote) {
+	ZCom_setDebugName(debugname);
 
 	// Create and initialize network sockets (UDP, UDP port, internal socket port)
 	bool result = ZCom_initSockets(true, 0, (remote ? 0 : 1));
@@ -41,6 +41,10 @@ void NetworkClient::initialize(bool remote) {
 		}
 		// Connect
 		ZCom_ConnID connection_id = ZCom_Connect(server_addr, 0);
+
+		if (connection_id == ZCom_Invalid_ID) {
+			THROW(NetworkException, "Connection failed");
+		}
 	}
 }
 
@@ -48,6 +52,7 @@ void NetworkClient::process() {
 	ZCom_processReplicators(1);
 	ZCom_processInput();
 	ZCom_processOutput();
+	ZoidCom::Sleep(10);
 }
 
 void NetworkClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
