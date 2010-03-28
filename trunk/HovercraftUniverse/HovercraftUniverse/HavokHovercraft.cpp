@@ -203,7 +203,7 @@ void HavokHovercraft::update(){
 	newOrientation.getColumn(1) = mUp;
 	newOrientation.getColumn(2).setCross( mSide, mUp );
 	newOrientation.renormalize();
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mSide, hkColor::BLUE );
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE );
 	
 
 	const hkReal gain = 0.5f;

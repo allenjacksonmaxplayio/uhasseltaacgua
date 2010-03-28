@@ -17,7 +17,7 @@
             </camera>
         </node>
         <node name="PlanetGeom">
-            <position x="0" y="0" z="0" />
+            <position x="0" y="0.215397" z="7.61998e-006" />
             <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <entity name="PlanetGeom" castShadows="true" receiveShadows="true" meshFile="PlanetGeom.mesh">
@@ -28,21 +28,8 @@
                     <subentity index="0" materialName="01-Default" />
                 </subentities>
             </entity>
-            <node name="BoostGeom">
-                <position x="67.6227" y="16.5584" z="3.02457" />
-                <scale x="0.534545" y="0.534545" z="0.534545" />
-                <rotation qx="0" qy="0" qz="0" qw="1" />
-                <entity name="BoostGeom" castShadows="true" receiveShadows="true" meshFile="BoostGeom.mesh">
-                    <userData>
-                        <![CDATA[<OgreEntity><GameEntity>Boost</GameEntity></OgreEntity>]]>
-</userData>
-                    <subentities>
-                        <subentity index="0" materialName="NoMaterial" />
-                    </subentities>
-                </entity>
-            </node>
             <node name="StartGeom">
-                <position x="-74.4041" y="13.5245" z="-2.03577" />
+                <position x="-74.4041" y="13.3091" z="-2.03577" />
                 <scale x="1" y="1" z="1" />
                 <rotation qx="0" qy="0" qz="0" qw="1" />
                 <entity name="StartGeom" castShadows="true" receiveShadows="true" meshFile="StartGeom.mesh">
@@ -55,7 +42,7 @@
                 </entity>
             </node>
             <node name="Omni01">
-                <position x="16.9022" y="37.4426" z="-4.84085" />
+                <position x="16.9022" y="56.115" z="-4.84086" />
                 <scale x="1" y="1" z="1" />
                 <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
                 <light name="Omni01" visible="true" type="point" castShadows="false" power="1">
@@ -65,9 +52,9 @@
                 </light>
             </node>
             <node name="CheckPoint0Geom">
-                <position x="-27.6582" y="13.5245" z="-13.9197" />
+                <position x="92.3102" y="13.048" z="-8.50238" />
                 <scale x="1" y="1" z="1" />
-                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <rotation qx="0" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
                 <entity name="CheckPoint0Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint0Geom.mesh">
                     <userData>
                         <![CDATA[<OgreEntity><GameEntity>CheckPoint0</GameEntity></OgreEntity>]]>
@@ -78,9 +65,9 @@
                 </entity>
             </node>
             <node name="CheckPoint1Geom">
-                <position x="33.6935" y="12.7018" z="21.2277" />
+                <position x="-11.2809" y="-52.3571" z="8.69171" />
                 <scale x="1" y="1" z="1" />
-                <rotation qx="0" qy="0.154852" qz="-6.76882e-009" qw="0.987938" />
+                <rotation qx="-0.154853" qy="-1.80668e-007" qz="0.987938" qw="-1.11507e-007" />
                 <entity name="CheckPoint1Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint1Geom.mesh">
                     <userData>
                         <![CDATA[<OgreEntity><GameEntity>CheckPoint1</GameEntity></OgreEntity>]]>
@@ -91,15 +78,38 @@
                 </entity>
             </node>
             <node name="FinishGeom">
-                <position x="93.1446" y="13.5245" z="-1.34671" />
+                <position x="-94.4195" y="-53.3248" z="-1.34672" />
                 <scale x="1" y="1" z="1" />
-                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <rotation qx="1.19209e-007" qy="4.37114e-008" qz="1" qw="-7.54979e-008" />
                 <entity name="FinishGeom" castShadows="true" receiveShadows="true" meshFile="FinishGeom.mesh">
                     <userData>
                         <![CDATA[<OgreEntity><GameEntity>Finish</GameEntity></OgreEntity>]]>
 </userData>
                     <subentities>
                         <subentity index="0" materialName="03-Default" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="Omni02">
+                <position x="-25.565" y="-84.9794" z="-4.84085" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+                <light name="Omni02" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="0.12549" b="0.12549" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
+            <node name="BoostGeom">
+                <position x="68.6671" y="16.5584" z="-24.2902" />
+                <scale x="0.752474" y="0.752474" z="0.752474" />
+                <rotation qx="0" qy="-0.300706" qz="1.31443e-008" qw="0.953717" />
+                <entity name="BoostGeom" castShadows="true" receiveShadows="true" meshFile="BoostGeom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>Boost</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="NoMaterial" />
                     </subentities>
                 </entity>
             </node>
@@ -114,22 +124,6 @@
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="1" y="1" z="1" />
         </item>
-        <item name="Planet">
-            <userData>
-                <![CDATA[<Asteroid><Name>Planet</Name><Gravity>9</Gravity><AsteroidType>0</AsteroidType><OgreEntity>PlanetGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
-</userData>
-            <position x="0" y="0" z="0" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="28.3886" y="8.48906" z="19.8434" />
-        </item>
-        <item name="Boost">
-            <userData>
-                <![CDATA[<Boost><Boost>5</Boost><ProcessInterval>-1</ProcessInterval><OgreEntity>BoostGeom</OgreEntity></Boost>]]>
-</userData>
-            <position x="67.6227" y="16.5584" z="3.02457" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="1.45318" y="2.34003" z="1.82491" />
-        </item>
         <item name="Start">
             <userData>
                 <![CDATA[<Start><ProcessInterval>-1</ProcessInterval><OgreEntity>StartGeom</OgreEntity></Start>]]>
@@ -142,25 +136,41 @@
             <userData>
                 <![CDATA[<CheckPoint><Name>CP0</Name><Number>0</Number><ProcessInterval>-1</ProcessInterval><OgreEntity>CheckPoint0Geom</OgreEntity></CheckPoint>]]>
 </userData>
-            <position x="-27.6582" y="13.5245" z="-13.9197" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <position x="92.3102" y="13.2634" z="-8.50237" />
+            <rotation qx="0" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
             <scale x="0.248662" y="1.67741" z="2.0673" />
         </item>
         <item name="CheckPoint1">
             <userData>
                 <![CDATA[<CheckPoint><Name>CP1</Name><Number>1</Number><ProcessInterval>-1</ProcessInterval><OgreEntity>CheckPoint1Geom</OgreEntity></CheckPoint>]]>
 </userData>
-            <position x="33.6935" y="12.7018" z="21.2277" />
-            <rotation qx="-1.12378e-016" qy="0.154853" qz="-6.76882e-009" qw="0.987938" />
+            <position x="-11.2809" y="-52.1417" z="8.69171" />
+            <rotation qx="-0.154853" qy="-1.80667e-007" qz="0.987938" qw="-1.11507e-007" />
             <scale x="0.248662" y="1.67741" z="2.0673" />
         </item>
         <item name="Finish">
             <userData>
                 <![CDATA[<Finish><ProcessInterval>-1</ProcessInterval><OgreEntity>FinishGeom</OgreEntity></Finish>]]>
 </userData>
-            <position x="93.1446" y="13.5245" z="-1.34671" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <position x="-94.4195" y="-53.1094" z="-1.34671" />
+            <rotation qx="1.19209e-007" qy="4.37114e-008" qz="1" qw="-7.54979e-008" />
             <scale x="0.248662" y="1.67741" z="2.0673" />
+        </item>
+        <item name="Boost">
+            <userData>
+                <![CDATA[<Boost><Boost>5</Boost><ProcessInterval>-1</ProcessInterval><OgreEntity>BoostGeom</OgreEntity></Boost>]]>
+</userData>
+            <position x="68.6671" y="16.7738" z="-24.2902" />
+            <rotation qx="0" qy="-0.300706" qz="1.31443e-008" qw="0.953717" />
+            <scale x="1.45318" y="2.34003" z="1.82491" />
+        </item>
+        <item name="Planet">
+            <userData>
+                <![CDATA[<Asteroid><Name>Planet</Name><Gravity>9</Gravity><AsteroidType>0</AsteroidType><OgreEntity>PlanetGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+</userData>
+            <position x="0" y="0.215397" z="7.61998e-006" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="28.3886" y="16.5484" z="19.8434" />
         </item>
     </externals>
 </scene>
