@@ -28,7 +28,7 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
 	HavokEntity(), mWorld(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
-		mUp(HavokEntity::UP), mForward(HavokEntity::FORWARD), mCharacterContext(HK_NULL)
+		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL)
 {
 	mWorld->addReference();
 }
@@ -70,16 +70,6 @@ Entity * HavokHovercraft::getEntity() {
 }
 
 void HavokHovercraft::updateUp( const hkVector4& newUp ) {
-	if( mUp.dot3(newUp) < 1e-6f)
-	{
-		hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
-		hkVector4& oldForward = rbRotation.getColumn(0);
-		hkVector4 newRot;
-		newRot.setCross(oldForward, newUp);
-		mForward.setCross(newUp, newRot);
-		mForward.normalize3();
-	}
-
 	mUp = newUp;
 }
 
@@ -87,36 +77,28 @@ void HavokHovercraft::update(){
 	//PRE STEP
 	mWorld->markForWrite();
 
+	//Update SIDE with new UP
+	hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
+	hkVector4& oldForward = rbRotation.getColumn(0);
+	hkVector4 newRot;
+	newRot.setCross(oldForward, mUp);
+	mSide.setCross(mUp, newRot);
+	mSide.normalize3();
+	mForward.setCross(mSide,mUp);
+	
+
+	//Get the hovercraft and input
 	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
-
-	{
-		hkRotation rbRotation; rbRotation.set(mCharacterRigidBody->getRigidBody()->getRotation());
-		hkVector4& oldForward = rbRotation.getColumn(0);
-		hkVector4 newRot;
-		newRot.setCross(oldForward, mUp);
-		mForward.setCross(mUp, newRot);
-		mForward.normalize3();
-	}
-
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
-
-	hkStepInfo stepInfo;
-	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
-	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
-
-	//1.0 forward = Hovercraft::MAXSPEED
-
-	//keep speed values
 	hkReal maxspeed = hovercraft->getMaximumSpeed();
 	hkReal speed = hovercraft->getSpeed();
 
+
 	//Speed on a scale [0-1]
-	float posX = 0.f;
-	float posY = 0.f;
+	float scaledspeed = 0.f;
 
 	//speeding
 	if ( status.moveForward() ){	
-		//accelerate, update speed
 		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
 		if ( speed > hovercraft->getMaximumSpeed() ){
 			hovercraft->setSpeed(hovercraft->getMaximumSpeed());
@@ -141,77 +123,52 @@ void HavokHovercraft::update(){
 		}
 	}
 
-	posX = speed / Hovercraft::MAXSPEED; 
+	scaledspeed = speed / Hovercraft::MAXSPEED; 
 
 	
-
-
-	//std::cout << "MAX " << Hovercraft::MAXSPEED << std::endl;
-	//std::cout << "HOV-MAX " << hovercraft->getMaximumSpeed() << std::endl;
-	//std::cout << "HOV-SPEED " << hovercraft->getSpeed() << " " << posX << std::endl;
+	//rotations
 	if (status.moveLeft() || status.moveRight()) {
-		//Rotation
-		double epsilon = 0.001;
 		double delta = 0.01;
-		const double PI = 3.1415926535;
 
 		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 		if (angle != 0.0f) {
 			hkVector4 axis = mUp;
-			//mCharacterRigidBody->getRigidBody()->getRotation().getAxis(axis);
-			//angle = angle * axis(1); //Multiply by y-component of  rotation axis, to get the sign for the angel
-			//TODO I assume this only works with a rotation axis that points straight up, so this is basically a 2D solution. (Dirk)
-			//Tobias may fix this :)
-			//std::cout << "Axis = " << axis << std::endl;
-
 			hkVector4 crossProduct;
-			crossProduct.setCross( mUp, mForward );
+			crossProduct.setCross( mUp, mSide );
 
 			if ( crossProduct(1) < 0 ){
 				angle = angle * -1;
 			}
-
 		}
 
 		if ( status.moveLeft() ){
 			angle = delta;
-			hkQuaternion q(mUp,angle);
-			mForward.setRotatedDir(q, mForward);
-			mForward.normalize3();
 		}
 		if ( status.moveRight() ){
 			angle = -delta;	
-			hkQuaternion q(mUp,angle);
-			mForward.setRotatedDir(q, mForward);
-			mForward.normalize3();
 		}
 
-		//std::cout << "UP = " << mUp << std::endl;
-		//std::cout << "FORWARD = " << mForward << std::endl;
+		hkQuaternion q(mUp,angle);
+		mSide.setRotatedDir(q, mSide);
+		mSide.normalize3();
 	}
 
-
-
-	hkRotation characterRotation;
-	characterRotation.set( mCharacterRigidBody->getRigidBody()->getRotation() );
-
-	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::PALEGOLDENROD );
-	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(0), hkColor::BLUE );
-	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(1), hkColor::RED );
-	//HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), characterRotation.getColumn(2), hkColor::AQUAMARINE );
-	
 	// Update the character context
 	mCharacterRigidBody->m_up = mUp;
-
 	
+
+	hkStepInfo stepInfo;
+	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
+	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
+
 	hkpCharacterInput input;
 	hkpCharacterOutput output;
 	{
 		HK_TIMER_BEGIN( "set character state", HK_NULL );
 
 		input.m_atLadder = false;
-		input.m_inputLR = posX;
-		input.m_inputUD = posY;
+		input.m_inputLR = 0;
+		input.m_inputUD = scaledspeed;
 		input.m_wantJump = false;
 
 		input.m_up = mUp;
@@ -228,60 +185,36 @@ void HavokHovercraft::update(){
 	// Apply the character state machine
 	{
 		HK_TIMER_BEGIN( "update character state", HK_NULL );
-
 		mCharacterContext->update( input, output );
-
 		HK_TIMER_END();
 	}
 
 	//Apply the player character controller
 	{
 		HK_TIMER_BEGIN( "simulate character", HK_NULL );
-
 		// Set output velocity from state machine into character rigid body
 		mCharacterRigidBody->setLinearVelocity( output.m_velocity, Havok::getSingleton().getTimeStep() );
-
 		HK_TIMER_END();
 	}
 
-	mWorld->unmarkForWrite();
-
-
-
-
 	//POST STEP
-	mWorld->markForWrite();
 	hkRotation newOrientation;
-
-	newOrientation.getColumn(0) = mForward;
+	newOrientation.getColumn(0) = mSide;
 	newOrientation.getColumn(1) = mUp;
-	newOrientation.getColumn(2).setCross( mForward, mUp );
-
-	hkVector4 tmp = mCharacterRigidBody->getPosition();
-	tmp.add4(mUp);
-
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE );
-	HK_DISPLAY_ARROW( tmp, mUp, hkColor::RED );
-	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), newOrientation.getColumn(2), hkColor::GREEN );
-
-	newOrientation.renormalize();	
-
+	newOrientation.getColumn(2).setCross( mSide, mUp );
+	newOrientation.renormalize();
+	HK_DISPLAY_ARROW( mCharacterRigidBody->getPosition(), mSide, hkColor::BLUE );
 	
 
 	const hkReal gain = 0.5f;
-
 	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
-
 	hkQuaternion desiredOrient;
 	desiredOrient.set( newOrientation );
-
 	hkVector4 angle;
 	hkVector4 angularVelocity;
 	currentOrient.estimateAngleTo( desiredOrient, angle );
 	angularVelocity.setMul4( gain / Havok::getSingleton().getTimeStep(), angle );
-
 	mCharacterRigidBody->setAngularVelocity( angularVelocity );
-
 	mWorld->unmarkForWrite();
 }
 
