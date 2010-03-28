@@ -1,12 +1,12 @@
 
-material Chassis
+material Dark
 {
 	technique
 	{
 		pass
 		{
-			ambient 0.788235 0.172549 0.0980392 1
-			diffuse 0.788235 0.172549 0.0980392 1
+			ambient 0.12549 0.12549 0.12549 1
+			diffuse 0.12549 0.12549 0.12549 1
 			specular 0 0 0 10 0
 		}
 
@@ -24,6 +24,23 @@ material Bumper
 		{
 			ambient 0.192157 0.184314 0.192157 1
 			diffuse 0.192157 0.184314 0.192157 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material Chassis
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.788235 0.172549 0.0980392 1
+			diffuse 0.788235 0.172549 0.0980392 1
 			specular 0 0 0 10 0
 		}
 
@@ -58,23 +75,6 @@ material Window
 		{
 			ambient 0.529412 0.498039 0.745098 1
 			diffuse 0.529412 0.498039 0.745098 1
-			specular 0 0 0 10 0
-		}
-
-	}
-
-}
-
-
-
-material Dark
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.12549 0.12549 0.12549 1
-			diffuse 0.12549 0.12549 0.12549 1
 			specular 0 0 0 10 0
 		}
 
