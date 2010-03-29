@@ -1,2 +1,2 @@
-IDI_HELLOICON       ICON         "HovercraftUniverseIcon.ico"
-IDI_SMALL               ICON         "HovercraftUniverseIconSmall.ico"
+IDI_HOVERCRAFTUNIVERSE	ICON	"HovercraftUniverseIcon.ico"
+IDI_SMALL				ICON	"HovercraftUniverseIconSmall.ico"
