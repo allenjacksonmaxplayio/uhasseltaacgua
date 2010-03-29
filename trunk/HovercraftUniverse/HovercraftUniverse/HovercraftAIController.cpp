@@ -21,7 +21,7 @@ namespace HovUni {
 			//Bind Ogre stuff
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Ogre Classes.";
 			OgreLuaBindings ogrebindings(luaState);
-			ogrebindings.bindVector3(luaState);
+			ogrebindings.bindVector3();
 			luabind::module(luaState) [
 				luabind::class_<HovercraftAIController>("AIController")
 					.def("setAction", &HovercraftAIController::setAction)
