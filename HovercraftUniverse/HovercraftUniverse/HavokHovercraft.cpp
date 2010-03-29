@@ -69,6 +69,10 @@ Entity * HavokHovercraft::getEntity() {
 	return mEntity;
 }
 
+const hkpRigidBody * HavokHovercraft::getRigidBody() const {
+	return mCharacterRigidBody->getRigidBody();
+}
+
 void HavokHovercraft::updateUp( const hkVector4& newUp ) {
 	mUp = newUp;
 }

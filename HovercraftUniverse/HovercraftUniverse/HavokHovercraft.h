@@ -74,6 +74,12 @@ public:
 	virtual const hkQuaternion& getOrientation() const;
 
 	/**
+	 * Get the rigid body that is used for the entity
+	 * @return the rigid body used for the entity
+	 */
+	virtual const hkpRigidBody * getRigidBody() const;
+
+	/**
 	 * Get the entity
 	 * @return entity
 	 */
