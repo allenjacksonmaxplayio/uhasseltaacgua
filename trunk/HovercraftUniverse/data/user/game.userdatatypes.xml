@@ -53,10 +53,11 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
     track they like.
   -->
   <class name="Track" usage="scene">
-	  <data name="Name" displayName="Name" groupName="Info" type="string"/>
+	<data name="Name" displayName="Name" groupName="Info" type="string"/>
     <data name="MinimumPlayers" displayName="MinimumPlayers" groupName="Info" type="int" default="0" minValue="0" maxValue="32"/>
     <data name="MaximumPlayers" displayName="MaximumPlayers" groupName="Info" type="int" default="0" minValue="0" maxValue="32"/>  
     <data name="PhysicsFileName" displayName="PhysicsFileName" groupName="PhysicsFileName" type="string"/>
+	<data name="PathFileName" displayName="PathFileName" groupName="PathFileName" type="string"/>
   </class>
 
   <!-- 

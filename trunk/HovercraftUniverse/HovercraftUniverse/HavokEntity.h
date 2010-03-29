@@ -3,6 +3,7 @@
 
 #include <Common/Base/hkBase.h>
 
+class hkpRigidBody;
 
 namespace HovUni {
 
@@ -54,6 +55,12 @@ public:
 	 * @return the orientation of the character
 	 */
 	virtual const hkQuaternion& getOrientation() const = 0;
+
+	/**
+	 * Get the rigid body that is used for the entity
+	 * @return the rigid body used for the entity
+	 */
+	virtual const hkpRigidBody * getRigidBody() const = 0;
 
 	/**
 	 * Get the entity

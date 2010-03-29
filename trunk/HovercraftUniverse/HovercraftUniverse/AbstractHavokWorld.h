@@ -82,6 +82,14 @@ public:
 	~AbstractHavokWorld(void);
 
 	/**
+	 * Get the world
+	 * @return world
+	 */
+	hkpWorld* getWorld() {
+		return mPhysicsWorld;
+	}
+
+	/**
 	 * Get the world timestep
 	 * @return timestep
 	 */
