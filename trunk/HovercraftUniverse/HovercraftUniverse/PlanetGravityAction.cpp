@@ -67,10 +67,11 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 			hkVector4 ground = collector.getHitContact().getPosition();
 
 			// TODO: This only works in XZ-plane
-			hkVector4 difference(0.0f, position(1) - ground(1), 0.0f);
+			//hkVector4 difference(0.0f, position(1) - ground(1), 0.0f);
+			hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
 			float distanceSquared = difference.lengthSquared3();
 			float distance = difference.length3();
-			if (distance > 0.01f && distance < 10.0f) {
+			if (distance > 0.01f && distance < 5.0f) {
 				hkVector4 direction(difference);
 				direction.normalize3();
 				direction.zeroElement(3);
@@ -79,7 +80,8 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 					magnitude = 2000.0f;
 				}
 
-				hover.setMul4(rb->getMass() * magnitude, direction);
+				//hover.setMul4(rb->getMass() * magnitude, direction);
+				hover.setMul4(rb->getMass() * magnitude, newUp);
 				rb->applyForce(stepInfo.m_deltaTime, hover);
 			}
 

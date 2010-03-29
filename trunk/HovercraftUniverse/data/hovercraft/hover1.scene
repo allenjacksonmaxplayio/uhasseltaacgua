@@ -11,7 +11,7 @@
             <rotation qx="-8.34465e-007" qy="-4.65685e-009" qz="-4.19138e-009" qw="1" />
             <entity name="hover1" castShadows="true" receiveShadows="true" meshFile="hover1.mesh">
                 <userData>
-                    <![CDATA[<Hovercraft><Name>Test</Name><Description>Test</Description><OgreEntity>hover1</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>3500</Speed><Mass>50</Mass><Acceleration>300</Acceleration></Hovercraft>]]>
+                    <![CDATA[<Hovercraft><Name>Test</Name><Description>Test</Description><OgreEntity>hover1</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>50000</Speed><Mass>50</Mass><Acceleration>1000</Acceleration></Hovercraft>]]>
 </userData>
                 <subentities>
                     <subentity index="0" materialName="Bumper" />
