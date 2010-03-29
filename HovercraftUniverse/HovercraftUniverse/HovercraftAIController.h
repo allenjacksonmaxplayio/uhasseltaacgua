@@ -18,10 +18,14 @@ namespace HovUni {
 class HovercraftAIController : public HovercraftController {
 	//Provide public accesspoints for AI script.
 private:
-	ScriptWrapper* mScript;
-	std::map<ControllerActions::ControllerActionType, bool> mActionMap;
+	/** Class name*/
 	std::string mClassName;
-
+	/** The script object */
+	ScriptWrapper* mScript;
+	/** The map that maps ControllerActionTypes to integers for the Script */
+	std::map<ControllerActions::ControllerActionType, bool> mActionMap;
+	
+	/** Binds the HovUni::Entity class to LuaBind state */
 	void bindEntity(lua_State* L);
 public:
 	/**
@@ -60,22 +64,22 @@ public:
 
 
 	/**
-	* @see DummyHovercraftController::moveForward()
+	* @see HovercraftController::moveForward()
 	*/
 	bool moveForward();
 
 	/**
-	* @see DummyHovercraftController::moveBackward()
+	* @see HovercraftController::moveBackward()
 	*/
 	bool moveBackward();
 
 	/**
-	* @see DummyHovercraftController::turnLeft()
+	* @see HovercraftController::turnLeft()
 	*/
 	bool turnLeft();
 
 	/**
-	* @see DummyHovercraftController::turnRight()
+	* @see HovercraftController::turnRight()
 	*/
 	bool turnRight();
 

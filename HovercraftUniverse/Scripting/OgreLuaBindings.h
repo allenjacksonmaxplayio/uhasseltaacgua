@@ -14,29 +14,60 @@ namespace HovUni {
 	/**
 	*	Bindings that add the following Ogre classes to the given Lua State	:
 	*		<ul>	
-	*			<li>Vector3</li>
-	*			<li>ColourValue</li>
-	*			<li>Entity</li>
-	*			<li>SceneNode</li>
-	*			<li>Camera</li>
+	*			<li>Ogre::Vector3</li>
+	*			<li>Ogre::ColourValue</li>
+	*			<li>Ogre::Entity</li>
+	*			<li>Ogre::SceneNode</li>
+	*			<li>Ogre::Camera</li>
 	*		</ul>
+	*	Source: http://www.codeproject.com/KB/graphics/luabindLuaAndOgre3d.aspx
 	*	@author Dirk Delahaye, Nigel Atkinson
 	*/
 	class OgreLuaBindings {
 	private:
+		/** The Lua State */
 		lua_State* mLuaState;
 
 	public:
+		/** 
+		*	Constructor.
+		*	@param	L	The Lua State
+		*/
 		OgreLuaBindings(lua_State* L);
+
+		/**
+		*	Destructor.
+		*/
 		~OgreLuaBindings();
 
-		void OgreLuaBindings::bindVector3( lua_State* L );
-		void OgreLuaBindings::bindColourValue( lua_State* L );
-		void OgreLuaBindings::bindEntity( lua_State* L );
-		//Ogre::SceneNode* OgreLuaBindings::createChildSceneNode( SceneNode *obj, const String name );
-		//void OgreLuaBindings::SceneNode_yaw( SceneNode *obj, const Real degrees );
-		void OgreLuaBindings::bindSceneNode( lua_State* L );
-		void OgreLuaBindings::bindCamera( lua_State* L );
+		/**
+		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*/
+		void OgreLuaBindings::bindVector3();
+
+		/**
+		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*/
+		void OgreLuaBindings::bindColourValue();
+
+		/**
+		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*/
+		void OgreLuaBindings::bindEntity();
+
+		/**
+		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*/
+		void OgreLuaBindings::bindSceneNode();
+
+		/**
+		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*/
+		void OgreLuaBindings::bindCamera();
+
+		/**
+		*	Convenience function that adds all the other class bindings in this class.
+		*/
 		void OgreLuaBindings::bindLua();
 	};
 }
