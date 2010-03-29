@@ -9,6 +9,8 @@ DefaultGroupName=Hovercraft Universe
 AlwaysShowDirOnReadyPage=true
 UninstallDisplayName=Hovercraft Universe
 AppVersion=0.1
+AppID={{3F2DDF97-F798-426F-81C7-2C9D4A6EAB05}
+UninstallDisplayIcon={app}\HovercraftUniverse.exe
 [Files]
 Source: bin\release\HovercraftUniverse.exe; DestDir: {app}
 Source: bin\installer\HovercraftUniverse.ini; DestDir: {app}
@@ -101,7 +103,7 @@ Name: {app}\data\scripts\AI
 Name: {app}\data\sound
 Name: {app}\data\user
 [Icons]
-Name: {commondesktop}\Hovercraft Universe; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; IconFilename: {app}\HovercraftUniverse.exe; Comment: Play Hovercraft Universe
-Name: {commondesktop}\Hovercraft Universe Dedicated Server; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; IconFilename: {app}\HovercraftUniverse.exe; Comment: Hovercraft Universe Dedicated Server; Parameters: --server
+Name: {commondesktop}\Hovercraft Universe; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; IconFilename: {app}\HovercraftUniverse.exe; Comment: Play Hovercraft Universe; IconIndex: 0
+Name: {commondesktop}\Hovercraft Universe Dedicated Server; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; IconFilename: {app}\HovercraftUniverse.exe; Comment: Hovercraft Universe Dedicated Server; Parameters: --server; IconIndex: 0
 [Run]
 Filename: {app}\HovercraftUniverse.exe; Description: Start Hovercraft Universe; Flags: postinstall skipifsilent unchecked
