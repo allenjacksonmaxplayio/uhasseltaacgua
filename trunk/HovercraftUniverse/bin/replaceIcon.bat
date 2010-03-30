@@ -1,3 +1,0 @@
-ReplaceVistaIcon.exe debug/HovercraftUniverse.exe HovercraftUniverseVista.ico
-ReplaceVistaIcon.exe release/HovercraftUniverse.exe HovercraftUniverseVista.ico
-pause
