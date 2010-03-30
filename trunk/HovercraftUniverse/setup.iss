@@ -11,6 +11,7 @@ UninstallDisplayName=Hovercraft Universe
 AppVersion=0.1
 AppID={{3F2DDF97-F798-426F-81C7-2C9D4A6EAB05}
 UninstallDisplayIcon={app}\HovercraftUniverse.exe
+AllowNoIcons=true
 [Files]
 Source: bin\release\HovercraftUniverse.exe; DestDir: {app}
 Source: bin\installer\HovercraftUniverse.ini; DestDir: {app}
@@ -82,6 +83,7 @@ Source: data\hkVisualDebugger.exe; DestDir: {app}\data\
 Source: data\ogre.cfg; DestDir: {app}\data\
 Source: data\plugins_release.cfg; DestDir: {app}\data\
 Source: data\resources.cfg; DestDir: {app}\data\
+Source: data\engine_settings.cfg; DestDir: {app}\data\
 [Dirs]
 Name: {app}\data
 Name: {app}\data\controls
