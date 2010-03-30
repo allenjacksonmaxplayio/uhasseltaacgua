@@ -9,7 +9,6 @@
 
 namespace HovUni {
 	void HUDedicatedServer::run() {
-		parseIni();
 
 		Ogre::Root* ogreRoot = new Ogre::Root(mConfig->getValue("Ogre", "Plugins").c_str(), "ogre.cfg", "Server.log");
 		//Ogre::LogManager::getSingleton().createLog("Server.log", true);

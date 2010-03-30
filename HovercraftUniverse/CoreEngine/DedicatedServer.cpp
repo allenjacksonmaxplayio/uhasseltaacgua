@@ -10,6 +10,7 @@ namespace HovUni {
 
 	DedicatedServer::~DedicatedServer() {
 		delete mConfig;
+		mConfig = 0;
 	}
 
 	Config* DedicatedServer::mEngineSettings = 0;
@@ -38,12 +39,9 @@ namespace HovUni {
 		BOOL success = SetCurrentDirectory(buffer);
 		if (!success) {
 			std::string error = "Could not set working dir (check config file DataPath var)!";
-			//TODO trhrow exception
 			std::cerr << error << std::endl;
+			//TODO Throw Exception
 		}
-		delete mConfig;
-
-
 		//Parse Engine settings
 		mEngineSettings = getEngineSettings();
 		mEngineSettings->loadFile("engine_settings.cfg");
