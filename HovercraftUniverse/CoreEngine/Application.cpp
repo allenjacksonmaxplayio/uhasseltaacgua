@@ -7,6 +7,8 @@
 namespace HovUni {
 
 Ogre::SceneManager* Application::msSceneMgr = 0;
+Config* Application::mConfig = 0;
+Config* Application::mEngineSettings = 0;
 
 Application::Application(Ogre::String appName, Ogre::String configINI) : mAppName(appName), mConfigINI(configINI) {
 	// All was initialized
@@ -14,6 +16,20 @@ Application::Application(Ogre::String appName, Ogre::String configINI) : mAppNam
 
 Application::~Application() {
 	// Empty
+}
+
+Config* Application::getConfig() {
+	if (!mConfig) {
+		mConfig = new Config();
+	}
+	return mConfig;
+}
+
+Config* Application::getEngineSettings() {
+	if (!mEngineSettings) {
+		mEngineSettings = new Config();
+	}
+	return mEngineSettings;
 }
 
 void Application::init() {
@@ -34,17 +50,17 @@ void Application::go(const Ogre::String& host, unsigned int port) {
 }
 
 void Application::parseIni() {
-	Config* config = Config::getSingletonPtr();
-	config->loadFile(mConfigINI);
+	mConfig = getConfig();
+	mConfig->loadFile(mConfigINI);
 	//Get(section, name, defaultValue)
-	mDataPath = config->getValue("Paths", "DataPath");//, "./data");
-	mLogPath = config->getValue("Ogre", "LogFile");//, "Client.log");
-	mOgreConfig = config->getValue("Ogre", "Resources");//, "resources.cfg");
-	mOgrePlugins = config->getValue("Ogre", "Plugins");//, "plugins.cfg");
-	mSoundPath = config->getValue("Sound", "Path");//, "sound\\");
-	mSoundFile = config->getValue("Sound", "File");//, "Sound.fev");
-	mControlsPath = config->getValue("Controls", "Path");//, "controls\\");
-	mControlsFile = config->getValue("Controls", "File");//, "Controls.ini");
+	mDataPath = mConfig->getValue("Paths", "DataPath");//, "./data");
+	mLogPath = mConfig->getValue("Ogre", "LogFile");//, "Client.log");
+	mOgreConfig = mConfig->getValue("Ogre", "Resources");//, "resources.cfg");
+	mOgrePlugins = mConfig->getValue("Ogre", "Plugins");//, "plugins.cfg");
+	mSoundPath = mConfig->getValue("Sound", "Path");//, "sound\\");
+	mSoundFile = mConfig->getValue("Sound", "File");//, "Sound.fev");
+	mControlsPath = mConfig->getValue("Controls", "Path");//, "controls\\");
+	mControlsFile = mConfig->getValue("Controls", "File");//, "Controls.ini");
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;
@@ -57,6 +73,10 @@ void Application::parseIni() {
 		//TODO error handling
 		std::cerr << "Could not set working dir (check config file DataPath var)!" << std::endl;
 	}
+
+	//Parse Engine settings
+	mEngineSettings = getEngineSettings();
+	mEngineSettings->loadFile("engine_settings.cfg");
 }
 
 void Application::createRoot() {

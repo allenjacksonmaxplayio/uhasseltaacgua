@@ -2,6 +2,8 @@
 #include "Havok.h"
 #include "CustomOgreMaxScene.h"
 #include "Loader.h"
+#include "Application.h"
+#include "Config.h"
 
 namespace {
 
@@ -96,6 +98,10 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 
 	LoadParameter * params = (LoadParameter*) lpParam;
 
+	//THE HAVOK FRAMERATE IS NOW CONTROLLED THROUGH SCRIPT.
+	//change data/engine_settings.cfg to change this!
+	//int fps = atoi(Application::getEngineSettings()->getValue("Havok", "Framerate").c_str());
+	//HoverCraftUniverseWorld world(1.0f/(float) fps);
 	HoverCraftUniverseWorld world(1.0f/30.0f);
 
 	Havok::ms_world = &world;

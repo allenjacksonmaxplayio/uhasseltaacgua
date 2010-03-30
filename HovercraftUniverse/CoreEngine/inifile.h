@@ -50,7 +50,9 @@
 		#pragma warning(disable: 4786)
 	#endif
 	// Prevent compile time warnings for deprecation
-	#define _CRT_SECURE_NO_DEPRECATE
+	#ifndef _CRT_SECURE_NO_DEPRECATE
+		#define _CRT_SECURE_NO_DEPRECATE
+	#endif
 #endif
 
 #include <map>

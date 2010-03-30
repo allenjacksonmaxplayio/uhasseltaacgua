@@ -152,7 +152,7 @@ const CameraActions::CameraControllerActionType KeyManager::getCameraAction(cons
 	if (mActive) {
 		return mCameraMapping[key];
 	} else {
-		return CameraActions::CameraControllerActionType::INVALID;
+		return CameraActions::INVALID;
 	}
 }
 
