@@ -59,6 +59,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			MessageBox(NULL, e.getFullDescription().c_str(), "An Ogre exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		} catch (HovUni::Exception e2) {
 			MessageBox(NULL, e2.getMessage().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		} catch (...) {
+			MessageBox(NULL, "Unknown fatal exception!", "An error has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		}
 		HovUni::Console::destroyConsole();
 

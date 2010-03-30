@@ -16,7 +16,7 @@ namespace HovUni {
 
 	void Config::loadFile(std::string filename) {
 		bool success = mReader.Load(filename, true);
-		std::cout << "Config Loading file " << filename << std::endl;
+		std::cout << "Config Loading file " << filename <<"."<< std::endl;
 		if (!success) {
 			throw new ConfigException("Could not read file " + filename + ": INI library returned false.");
 		}
