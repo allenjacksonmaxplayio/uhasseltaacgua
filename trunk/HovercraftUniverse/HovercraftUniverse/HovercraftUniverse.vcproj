@@ -88,6 +88,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="&quot;$(SolutionDir)bin\ReplaceVistaIcon.exe&quot;  &quot;$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName).exe&quot;  &quot;$(SolutionDir)bin\HovercraftUniverseVista.ico&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -165,6 +166,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="&quot;$(SolutionDir)bin\ReplaceVistaIcon.exe&quot;  &quot;$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName).exe&quot;  &quot;$(SolutionDir)bin\HovercraftUniverseVista.ico&quot;"
 			/>
 		</Configuration>
 	</Configurations>
