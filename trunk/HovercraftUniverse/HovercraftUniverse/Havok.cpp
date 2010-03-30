@@ -15,8 +15,6 @@ Havok::~Havok(void)
 
 void Havok::start( const char * filename, Loader * loader ) {
 	//Server means Havok
-	float timestep = 1.0f/30.0f;
-
 	//do Havok sim in background
 	ms_world = 0;
 	HavokThread::StartHavokThread( filename, loader );

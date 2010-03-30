@@ -7,6 +7,7 @@
 #include "HovercraftPlayerController.h"
 #include "HovercraftAIController.h"
 
+#include "Application.h"
 #include "Config.h"
 #include "Lobby.h"
 #include "PlayerSettings.h"
@@ -35,14 +36,14 @@ namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
 	//Initialize the chat client
-	mChatClient = new ChatClient(Config::getSingletonPtr()->getValue("Player", "PlayerName"), name);
+	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"), name);
 
 	initialize();
 }
 
 HUClient::HUClient() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
 	//Initialize the chat client
-	mChatClient = new ChatClient(Config::getSingletonPtr()->getValue("Player", "PlayerName"));
+	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
 	
 	initialize();
 }
@@ -165,7 +166,8 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 			ent->setController(ai);
 			ai->initialize();	
-		}	
+		}
+
 		
 		HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
 		RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);

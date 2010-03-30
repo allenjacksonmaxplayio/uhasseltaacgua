@@ -5,21 +5,12 @@
 
 namespace HovUni {
 
-	Config* Config::mConfig = 0;
-
 	Config::Config() {
 
 	}
 
 	Config::~Config() {
 		//...
-	}
-
-	Config* Config::getSingletonPtr() {
-		if (!mConfig) {
-			mConfig = new Config();
-		}
-		return mConfig;
 	}
 
 	void Config::loadFile(std::string filename) {

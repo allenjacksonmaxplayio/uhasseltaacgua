@@ -12,10 +12,7 @@ namespace HovUni {
 	*/
 	class Config {
 	private:
-		/**
-		*	The singleton Config object.
-		*/
-		static Config* mConfig;
+		
 
 		/**
 		*	The INI File object.
@@ -39,12 +36,6 @@ namespace HovUni {
 		*	Destructor.
 		*/
 		~Config();
-
-		/**
-		*	Returns a pointer to the singleton Config object.
-		*	@return	The Config object (singleton).
-		*/
-		static Config* getSingletonPtr();
 
 		/**
 		*	Loads an INI File. 

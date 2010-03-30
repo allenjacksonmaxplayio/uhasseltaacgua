@@ -9,6 +9,7 @@
 #include <GUIManager.h>
 #include <SoundManager.h>
 #include <string>
+#include "Config.h"
 
 namespace HovUni {
 
@@ -22,6 +23,16 @@ protected:
 
 	/** The name of the application */
 	Ogre::String mAppName;
+
+	/**
+	*	The singleton Config object.
+	*/
+	static Config* mConfig;
+
+	/**
+	*	The singleton Engine Settings object.
+	*/
+	static Config* mEngineSettings;
 
 	/** The config INI filename */
 	Ogre::String mConfigINI;
@@ -58,6 +69,19 @@ protected:
 	std::string mControlsFile;
 	
 public:
+
+	/**
+	*	Returns a pointer to the singleton Config object.
+	*	@return	The Config object (singleton).
+	*/
+	static Config* getConfig();
+
+	/**
+	*	Returns a pointer to the singleton Config object.
+	*	@return	The Config object (singleton).
+	*/
+	static Config* getEngineSettings();
+
 
 	/** The scene manager */
 	static Ogre::SceneManager * msSceneMgr;
