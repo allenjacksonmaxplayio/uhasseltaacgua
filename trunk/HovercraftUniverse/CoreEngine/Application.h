@@ -29,11 +29,6 @@ protected:
 	*/
 	static Config* mConfig;
 
-	/**
-	*	The singleton Engine Settings object.
-	*/
-	static Config* mEngineSettings;
-
 	/** The config INI filename */
 	Ogre::String mConfigINI;
 

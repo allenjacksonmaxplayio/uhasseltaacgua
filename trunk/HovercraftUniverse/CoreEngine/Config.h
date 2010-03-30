@@ -68,6 +68,15 @@ namespace HovUni {
 		std::string getValue(std::string section, std::string field);
 
 		/**
+		*	Returns the value for the given section and field, but converted to
+		*	an integer.
+		*	@param	section	The section name
+		*	@param	field	The key, or field name.
+		*	@return	The value, as an int.
+		*/
+		int Config::getIntValue(std::string section, std::string field);
+
+		/**
 		*	Put the value in the config as a (section, field, value) tuple.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.

@@ -2,6 +2,7 @@
 
 #include "Exception.h"
 #include <boost/algorithm/string/trim.hpp>
+#include <sstream>
 
 namespace HovUni {
 
@@ -15,10 +16,12 @@ namespace HovUni {
 
 	void Config::loadFile(std::string filename) {
 		bool success = mReader.Load(filename, true);
+		std::cout << "Config Loading file " << filename << std::endl;
 		if (!success) {
 			throw new ConfigException("Could not read file " + filename + ": INI library returned false.");
 		}
 		mFilename = filename;
+		std::cout << "Config new Filename " << mFilename << std::endl;
 	}
 
 	void Config::saveFile(std::string filename) {
@@ -39,6 +42,17 @@ namespace HovUni {
 		std::string value = mReader.GetKeyValue(section, field);
 		boost::algorithm::trim(value);
 		return value;
+	}
+
+	int Config::getIntValue(std::string section, std::string field) {
+		std::cout << mFilename << " :: Getting [" << section << "] " << field << std::endl;
+		std::string stringValue = getValue(section, field);
+		std::cout << mFilename << " :: value = " << stringValue <<std::endl;
+		std::istringstream buffer(stringValue);
+		int result;
+		buffer >> result;
+		std::cout << mFilename << " :: result = " << result << std::endl;
+		return result;
 	}
 
 	void Config::putValue(std::string section, std::string field, std::string value) {
