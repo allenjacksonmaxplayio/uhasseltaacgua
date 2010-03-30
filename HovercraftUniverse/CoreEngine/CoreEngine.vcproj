@@ -242,6 +242,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\DedicatedServer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\GameView.cpp"
 					>
 				</File>
@@ -361,6 +365,10 @@
 				>
 				<File
 					RelativePath=".\Application.h"
+					>
+				</File>
+				<File
+					RelativePath=".\DedicatedServer.h"
 					>
 				</File>
 				<File

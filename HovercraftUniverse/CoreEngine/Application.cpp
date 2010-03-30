@@ -8,7 +8,6 @@ namespace HovUni {
 
 Ogre::SceneManager* Application::msSceneMgr = 0;
 Config* Application::mConfig = 0;
-Config* Application::mEngineSettings = 0;
 
 Application::Application(Ogre::String appName, Ogre::String configINI) : mAppName(appName), mConfigINI(configINI) {
 	// All was initialized
@@ -23,13 +22,6 @@ Config* Application::getConfig() {
 		mConfig = new Config();
 	}
 	return mConfig;
-}
-
-Config* Application::getEngineSettings() {
-	if (!mEngineSettings) {
-		mEngineSettings = new Config();
-	}
-	return mEngineSettings;
 }
 
 void Application::init() {
@@ -74,9 +66,6 @@ void Application::parseIni() {
 		std::cerr << "Could not set working dir (check config file DataPath var)!" << std::endl;
 	}
 
-	//Parse Engine settings
-	mEngineSettings = getEngineSettings();
-	mEngineSettings->loadFile("engine_settings.cfg");
 }
 
 void Application::createRoot() {

@@ -1,10 +1,10 @@
 #include "HUApplication.h"
+#include "HUDedicatedServer.h"
 #include "HUServer.h"
-#include "Havok.h"
 #include "EntityManager.h"
 #include "Console.h"
-#include <windows.h>
 #include <OgreString.h>
+#include "Exception.h"
 
 void process_zoidcom_log(const char *_log) {
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << _log;
@@ -49,50 +49,17 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 		}
 	}
 
-	if ( server ) {
+	if (server) {
 		HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
-		new Ogre::Root;
-		Ogre::String mDataPath("..\\..\\data");
-		Ogre::LogManager::getSingleton().createLog("Server.log", true);
-
-// HACK IN OGRE FILE THINGY
-
-		//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
-		DWORD  retval=0;
-		TCHAR  buffer[MAX_PATH]=TEXT(""); 
-		TCHAR** lppPart={NULL};
-		GetFullPathName(mDataPath.c_str(),MAX_PATH,buffer,lppPart);
-		std::cout << "Changing Working Dir to " << buffer << std::endl;
-		BOOL success = SetCurrentDirectory(buffer);
-
-		Ogre::ConfigFile cf;
-		cf.load("resources.cfg");
-		// Iterate over config
-		Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
-		while (seci.hasMoreElements()) {
-			// Read property
-			Ogre::String secName = seci.peekNextKey();
-			Ogre::ConfigFile::SettingsMultiMap * settings = seci.getNext();
-			
-			// For all settings of that property, add them
-			for (Ogre::ConfigFile::SettingsMultiMap::iterator it = settings->begin(); it != settings->end(); it++) {
-				Ogre::String typeName = it->first;
-				Ogre::String archName = it->second;
-				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
-			}
+		HovUni::HUDedicatedServer app;
+		try {
+			app.init();
+			app.run();
+		} catch (Ogre::Exception& e) {
+			MessageBox(NULL, e.getFullDescription().c_str(), "An Ogre exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		} catch (HovUni::Exception e2) {
+			MessageBox(NULL, e2.getMessage().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		}
-
-		//make sure it doesn't parse materials
-		Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(Ogre::MaterialManager::getSingletonPtr());
-
-// HACK IN OGRE FILE THINGY
-
-		HovUni::HUServer* server = new HovUni::HUServer();
-		server->start();
-		server->join();
-		delete server;
-
-		server = 0;
 		HovUni::Console::destroyConsole();
 
 	} else {

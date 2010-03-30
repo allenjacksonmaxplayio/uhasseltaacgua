@@ -182,6 +182,10 @@
 				RelativePath=".\HUApplication.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\HUDedicatedServer.cpp"
+				>
+			</File>
 			<Filter
 				Name="Network"
 				>
@@ -518,6 +522,10 @@
 			>
 			<File
 				RelativePath=".\HUApplication.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HUDedicatedServer.h"
 				>
 			</File>
 			<Filter
