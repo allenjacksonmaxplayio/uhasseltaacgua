@@ -17,7 +17,7 @@
 
 
 #include "Hovercraft.h"
-
+#include "DedicatedServer.h"
 
 
 namespace HovUni {
@@ -27,8 +27,11 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 }
 
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
-	HavokEntity(), mWorld(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
-		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL)
+		HavokEntity(), mWorld(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
+		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL),
+		mRotationDelta(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "TurnAngle")),
+		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping"))
+		
 {
 	mWorld->addReference();
 }
@@ -109,9 +112,7 @@ void HavokHovercraft::update(){
 		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 20;
 		
 		if (speed > hovercraft->getMaximumSpeed()) {
-			hovercraft->setSpeed(hovercraft->getMaximumSpeed());
-		} else {
-			hovercraft->setSpeed(speed);
+			speed = hovercraft->getMaximumSpeed();
 		}
 		
 	}
@@ -127,29 +128,27 @@ void HavokHovercraft::update(){
 		}
 		
 		if (speed < -1 * hovercraft->getMaximumSpeed()) {
-			hovercraft->setSpeed(-1 * hovercraft->getMaximumSpeed());
-		} else {
-			hovercraft->setSpeed(speed);
+			speed = -1 * hovercraft->getMaximumSpeed();
 		}
 		
 	}
 
 	// slow down when idle
 	if (!status.moveBackward() && !status.moveForward()) {
-		speed *= 0.95f;
-		if ((speed < 1.0f) || (speed > -1.0f)) {
+		speed *= mSpeedDamping;
+		if ((speed < 1.0f) && (speed > -1.0f)) {
 			speed = 0.0f;
 		}
-		hovercraft->setSpeed(speed);
 	}
-	
-	scaledspeed = speed / Hovercraft::MAXSPEED; 
+
+	hovercraft->setSpeed(speed);
 
 	
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
-		double delta = 0.1f;
-		if ((speed > 1.0f) || (speed < -1.0f)) {
+
+		// we can only turn while we're moving
+		if ((hovercraft->getSpeed() > 1.0f) || (hovercraft->getSpeed() < -1.0f)) {
 			float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 			if (angle != 0.0f) {
 				hkVector4 axis = mUp;
@@ -163,16 +162,16 @@ void HavokHovercraft::update(){
 
 			if (status.moveLeft()) {
 				if (speed > 0.0f) {
-					angle = delta;
+					angle = mRotationDelta;
 				} else if (speed < 0.0f) {
-					angle = -delta;
+					angle = -mRotationDelta;
 				}
 			}
 			if (status.moveRight()) {
 				if (speed > 0.0f) {
-					angle = -delta;
+					angle = -mRotationDelta;
 				} else if (speed < 0.0f) {
-					angle = delta;
+					angle = mRotationDelta;
 				}
 			}
 
@@ -182,6 +181,17 @@ void HavokHovercraft::update(){
 			mSide.normalize3();
 		}
 	}
+
+	scaledspeed = speed / Hovercraft::MAXSPEED; 
+	/*
+	if (status.moveForward()) {
+		scaledspeed = 1000.0f;
+	} else if (status.moveBackward()) {
+		scaledspeed = -1000.0f;
+	} else {
+		scaledspeed = 0.0f;
+	}
+	*/
 
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
@@ -220,7 +230,6 @@ void HavokHovercraft::update(){
 		HK_TIMER_BEGIN("simulate character", HK_NULL);
 		// Set output velocity from state machine into character rigid body
 		mCharacterRigidBody->setLinearVelocity(output.m_velocity, Havok::getSingleton().getTimeStep());
-		//hovercraft->setSpeed(output.m_velocity);
 		HK_TIMER_END();
 	}
 
@@ -243,7 +252,10 @@ void HavokHovercraft::update(){
 	angularVelocity.setMul4(gain / Havok::getSingleton().getTimeStep(), angle);
 	mCharacterRigidBody->setAngularVelocity(angularVelocity);
 
-	//std::cout << speed << "  " << output.m_velocity.length3() << "  " << scaledspeed << std::endl;
+	hkVector4 newSpeed = output.m_velocity;
+	hkSimdReal speedSize = -newSpeed.dot3(mForward)/mForward.dot3(mForward);
+	//hovercraft->setSpeed(speedSize);
+	//std::cout << scaledspeed << "  " << speed << "  " << speedSize << std::endl;
 	
 	mWorld->unmarkForWrite();
 }
@@ -280,7 +292,7 @@ void HavokHovercraft::load(const hkVector4& position){
 	info.m_mass = hovercraft->getMass();
 	info.m_shape = tmp;
 	info.m_maxLinearVelocity = Hovercraft::MAXSPEED;
-	info.m_maxForce = 800.0f;	//TODO dunno
+	info.m_maxForce = 1000.0f;
 	info.m_position = position;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
 	info.m_friction = 0.1f;

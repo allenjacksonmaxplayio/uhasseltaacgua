@@ -38,6 +38,9 @@ private:
  	hkVector4 mSide;
 	hkVector4 mForward;	
 
+	const float mRotationDelta;
+	const float mSpeedDamping;
+
 public:
 
 	/**

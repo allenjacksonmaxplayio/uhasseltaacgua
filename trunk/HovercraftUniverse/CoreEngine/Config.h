@@ -77,6 +77,24 @@ namespace HovUni {
 		int Config::getIntValue(std::string section, std::string field);
 
 		/**
+		*	Returns the value for the given section and field, but converted to
+		*	a float.
+		*	@param	section	The section name
+		*	@param	field	The key, or field name.
+		*	@return	The value, as a float.
+		*/
+		float Config::getFloatValue(std::string section, std::string field);
+
+		/**
+		*	Returns the value for the given section and field, but converted to
+		*	a double.
+		*	@param	section	The section name
+		*	@param	field	The key, or field name.
+		*	@return	The value, as a double.
+		*/
+		double Config::getDoubleValue(std::string section, std::string field);
+
+		/**
 		*	Put the value in the config as a (section, field, value) tuple.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.
