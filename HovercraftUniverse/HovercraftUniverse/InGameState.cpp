@@ -135,7 +135,7 @@ namespace HovUni {
 			Hovercraft* hov = (Hovercraft*) currEnt;
 
 			mHud->updateDirection(currEnt->getOrientation(), (Ogre::Vector3(2, 0, 0) - currEnt->getPosition()), Ogre::Vector3(0.0f, 1.0f, 0.0f));
-			mHud->updateSpeed( (hov->getSpeed() / hov->getMaximumSpeed()) * 100.0f );
+			mHud->updateSpeed( fabs((hov->getSpeed() / hov->getMaximumSpeed()) * 100.0f) );
 		}
 
 		

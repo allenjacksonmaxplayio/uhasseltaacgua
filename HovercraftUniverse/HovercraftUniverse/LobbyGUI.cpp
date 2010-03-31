@@ -3,6 +3,11 @@
 
 namespace HovUni {
 	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave) {
+		//Show the background
+		mBackground = new BasicOverlay("Background_LB", "background.swf", GUIManager::getSingletonPtr()->getResolutionWidth(), GUIManager::getSingletonPtr()->getResolutionHeight(), Hikari::Center, 1);
+		mBackground->setExactFit(true);
+		addOverlay("Background__LB", mBackground);
+		
 		//Lets make the buttons first, calculate their size
 		int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 4; //We want to fill the entire screen
 		float scale = (height * 1.0f) / 320.0f;

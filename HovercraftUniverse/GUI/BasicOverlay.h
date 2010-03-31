@@ -44,6 +44,9 @@ namespace HovUni {
 			/** A list of stored callbacks to be added to the overlay */
 			std::vector< std::pair<Ogre::DisplayString, Hikari::FlashDelegate> > mCallbacks;
 
+			/** Boolean to mark if this overlay should use exact fit or not */
+			bool mExactFit;
+
 			/** Boolean to mark if we want to ignore all inputs or not */
 			bool mIgnoreInputs;
 
@@ -191,6 +194,13 @@ namespace HovUni {
 			 * Mark this overlay as focused
 			 */
 			void focus();
+
+			/**
+			 * Mark this overlay to use (or not use) exact fit, default is false
+			 *
+			 * @param val True of false to set/unset exact fit. Dfault is false
+			 */
+			void setExactFit(bool val = false);
 	};
 }
 

@@ -6,6 +6,11 @@ namespace HovUni {
 		//Create buttons
 		mListener = serverListener;
 
+		//Show the background
+		mBackground = new BasicOverlay("Background_MM", "background.swf", GUIManager::getSingletonPtr()->getResolutionWidth(), GUIManager::getSingletonPtr()->getResolutionHeight(), Hikari::Center, 1);
+		mBackground->setExactFit(true);
+		addOverlay("Background__MM", mBackground);
+
 		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(222, 160, 445, 320);
 		int width = size.first;
 		int height = size.second;
@@ -55,6 +60,7 @@ namespace HovUni {
 		delete mQuitButton;
 		delete mTitle;
 		delete mServerMenu;
+		delete mBackground;
 	}
 
 	void MainMenu::onActivate() {
