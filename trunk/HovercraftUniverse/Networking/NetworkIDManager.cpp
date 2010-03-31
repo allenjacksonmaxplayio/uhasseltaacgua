@@ -1,6 +1,7 @@
 #include "Exception.h"
 #include "NetworkIDManager.h"
 #include <cassert>
+#include <sstream>
 
 namespace HovUni {
 
@@ -55,6 +56,15 @@ string NetworkIDManager::getName(const ZCom_ClassID& id) const {
 		}
 	}
 	return "";
+}
+
+string NetworkIDManager::info() const {
+	std::stringstream ss;
+	ss << "Table: " << std::endl;
+	for (map_type::const_iterator it = mMap.begin(); it != mMap.end(); ++it) {
+		ss << " - " << it->first << " = " << it->second << std::endl;
+	}
+	return ss.str();
 }
 
 NetworkIDManager* NetworkIDManager::getServerSingletonPtr() {
