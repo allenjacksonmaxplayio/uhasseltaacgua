@@ -100,6 +100,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 	Ogre::String name("");
 
 	// Debug output
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << mIDManager->info();
 	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Creating object of type " << mIDManager->getName(requested_class);
 
 	//Lobby

@@ -103,6 +103,13 @@ public:
 	 */
 	string getName(const ZCom_ClassID& id) const;
 
+	/**
+	 * Get the info
+	 *
+	 * @return the info
+	 */
+	string info() const;
+
 private:
 	/**
 	 * Constructor
