@@ -33,6 +33,16 @@ class PlanetGravityAction: public hkpUnaryAction
 		 */
 		hkReal mGravityForce;
 
+		/**
+		 * The height of the hovering
+		 */
+		const float mHoveringHeight;
+
+		/**
+		 * The magnitude of the hovering
+		 */
+		const float mHoveringMagnitude;
+
 	public:
 
 		static const hkUlong HK_SPHERE_ACTION_ID = 0x28021978;

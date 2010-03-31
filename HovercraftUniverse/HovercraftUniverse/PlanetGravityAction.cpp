@@ -2,6 +2,7 @@
 #include "HavokEntityType.h"
 #include "HoverCraftUniverseWorld.h"
 #include "Havok.h"
+#include "DedicatedServer.h"
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h>
 #include <Physics/Collide/Agent/hkpProcessCollisionInput.h>
@@ -10,7 +11,8 @@
 namespace HovUni {
 
 PlanetGravityAction::PlanetGravityAction(hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration):
-			hkpUnaryAction(satellite), mPlanetBody(planetBody), mHullCollidable(hullCollidable), mPhantomId(phantomId), mGravityForce(maxAcceleration) {
+			hkpUnaryAction(satellite), mPlanetBody(planetBody), mHullCollidable(hullCollidable), mPhantomId(phantomId), mGravityForce(maxAcceleration),
+			mHoveringHeight(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Height")), mHoveringMagnitude(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Magnitude")){
 	setUserData(HK_SPHERE_ACTION_ID);
 }
 
@@ -66,12 +68,10 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 			hkVector4 position = rb->getPosition();
 			hkVector4 ground = collector.getHitContact().getPosition();
 
-			// TODO: This only works in XZ-plane
-			//hkVector4 difference(0.0f, position(1) - ground(1), 0.0f);
 			hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
 			float distanceSquared = difference.lengthSquared3();
 			float distance = difference.length3();
-			if (distance > 0.01f && distance < 5.0f) {
+			if (distance > 0.01f && distance < mHoveringHeight) {
 				hkVector4 direction(difference);
 				direction.normalize3();
 				direction.zeroElement(3);
@@ -80,7 +80,6 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 					magnitude = 2000.0f;
 				}
 
-				//hover.setMul4(rb->getMass() * magnitude, direction);
 				hover.setMul4(rb->getMass() * magnitude, newUp);
 				rb->applyForce(stepInfo.m_deltaTime, hover);
 			}
