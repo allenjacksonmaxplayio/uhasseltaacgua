@@ -76,8 +76,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
 
    * WP 8 (Nick): Menu + HUD
     * WP 8.1: Visualizatie control mapping + bieden mogelijkheden om controls aan te passen en op te slaan voor volgende keer.
-    * WP 8.2: Visualizatie pijl zodat die de path volgt (of volgende checkpoint) om zo de 
-richting waarin een Hovercraft zou moeten bewegen aan te duiden (depends on WP 6.1 indien path following).
+    * WP 8.2: Visualizatie pijl zodat die de path volgt (of volgende checkpoint) om zo de richting waarin een Hovercraft zou moeten bewegen aan te duiden (depends on WP 6.1 indien path following).
     * WP 8.3: Visualizatie tijd racing.
     * WP 8.4: Update speedometer + boost (TODO Gaan we dit uberhaupt nog ondersteunen?).
     * WP 8.5: Visualizatie achterstand op eerste + achterstand op vorige racer bij passeren checkpoint (depends on WP 1.10).
