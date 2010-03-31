@@ -10,5 +10,15 @@
     * WP 1.5: Visualizatie alle deelnemers in plaats van enkel diegene die controle heeft over de.
     * WP 1.6: Implementatie staten binnen de race state (count down, racing, finished, ...). 
     * WP 1.7: Events triggeren naar clients als gevolg van de staten (tonen nummers bij count down, tonen ranking bij finish, ...).
- 
 
+  * WP 2 (Tobias + PJ): Integratie physics voor alle types entiteiten.
+    * WP 2.1: Implementatie generieke physics voor wereld (zwaartekracht, botsing, ...)
+    * WP 2.2: Implementatie physics voor custom entiteiten.
+     * WP 2.2.1: Implementatie physics boost a.d.h.v. strength/acceleratie.
+     * WP 2.2.2: Implementatie physics jump a.d.h.v. up force.
+
+  * WP 3 (Tobias + Nick): Controls
+    * WP 3.1: Implementatie interface om controls te mappen.
+    * WP 3.2: Visualizatie control mapping + bieden mogelijkheden om controls aan te passen en op te slaan voor volgende keer.
+
+ 
