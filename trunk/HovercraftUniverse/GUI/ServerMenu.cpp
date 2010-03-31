@@ -3,6 +3,11 @@
 
 namespace HovUni {
 	ServerMenu::ServerMenu(ServerMenuListener* listener, const Hikari::FlashDelegate& onBack) : mListener(listener) {
+		//Show the background
+		mBackground = new BasicOverlay("Background_SM", "background.swf", GUIManager::getSingletonPtr()->getResolutionWidth(), GUIManager::getSingletonPtr()->getResolutionHeight(), Hikari::Center, 1);
+		mBackground->setExactFit(true);
+		addOverlay("Background__SM", mBackground);
+		
 		//Create the buttons
 		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(222, 160, 445, 320);
 		int width = size.first;

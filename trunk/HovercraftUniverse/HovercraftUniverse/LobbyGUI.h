@@ -16,6 +16,9 @@ namespace HovUni {
 	 */
 	class LobbyGUI : public OverlayContainer, public ChatListener {
 		private:
+			/** The background overlay */
+			BasicOverlay* mBackground;
+
 			/** The actual lobby overlay */
 			LobbyOverlay* mLobbyOverlay;
 

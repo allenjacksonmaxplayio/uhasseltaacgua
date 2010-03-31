@@ -42,7 +42,11 @@ namespace HovUni {
 		customActionBeforeActivate();
 
 		mFlashControl = GUIManager::getSingletonPtr()->createOverlay(mName, mFileName, mWidth, mHeight, mPosition, mZOrder);
-		mFlashControl->setScaleMode(Hikari::SM_SHOWALL);
+		if (mExactFit) {
+			mFlashControl->setScaleMode(Hikari::SM_EXACTFIT);
+		} else {
+			mFlashControl->setScaleMode(Hikari::SM_SHOWALL);
+		}
 
 		if (mParameters_B[TRANSPARANCY]) {
 			mFlashControl->setTransparent(mParameters_B[TRANSPARANCY], mParameters_B[ALPHAHACK]);
@@ -104,5 +108,9 @@ namespace HovUni {
 		if (mFlashControl) {
 			mFlashControl->focus();
 		}
+	}
+
+	void BasicOverlay::setExactFit(bool val) {
+		mExactFit = val;
 	}
 }
