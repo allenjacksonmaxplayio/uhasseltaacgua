@@ -201,10 +201,14 @@ void Entity::setupReplication() {
 void Entity::setAnnouncementData(ZCom_BitStream* stream) {
 	
 	stream->addInt(mName.length(),sizeof(int) * 8);
-	stream->addString(mName.c_str());
+	if ( mName.length() != 0 ){
+		stream->addString(mName.c_str());
+	}
 
 	stream->addInt(mOgreEntity.length(),sizeof(int) * 8);
-	stream->addString(mOgreEntity.c_str());
+	if ( mOgreEntity.length() != 0 ){
+		stream->addString(mOgreEntity.c_str());
+	}
 
 	stream->addFloat(mProcessInterval,10);
 	
