@@ -17,9 +17,9 @@ Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, 
 
 		//fill some defaults for testing
 		mSpeed = 0;
-		mMaximumSpeed = 250;
-		mAcceleration = 100;
-		mMass = 30;
+		mMaximumSpeed = 50000;
+		mAcceleration = 1000;
+		mMass = 50;
 }
 
 Hovercraft::Hovercraft( ZCom_BitStream* announcedata ):
