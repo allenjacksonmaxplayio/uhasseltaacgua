@@ -32,6 +32,8 @@
 #include "PowerupSpawn.h"
 #include "ResetSpawn.h"
 
+#include <OgreLogManager.h>
+
 namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
@@ -96,6 +98,9 @@ void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 ne
 void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	// Receive and create the entity
 	Ogre::String name("");
+
+	// Debug output
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Creating object of type " << mIDManager->getName(requested_class);
 
 	//Lobby
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
