@@ -1,0 +1,9 @@
+#summary Document representing the final report of our game for evaluation.
+
+= Hoe pagina aanpassen en uitbreiden =
+
+Deze Wiki is bedoeld zodat iedereen als ie er zin in heeft al een stuk kan schrijven van het eindverslag. In het begin mag iedereen dus gewoon informatie toevoegen als hij vindt dat dit belangrijk genoeg is om in het verslag te komen. Je mag uitwijden zoveel je wilt over een bepaald onderwerp, het knippen is voor op het einde uit te voeren wanneer we deze Wiki omvormen tot een mooi PDF bestandje.
+
+= Eerste onderwerp =
+
+Begin maar :P.
