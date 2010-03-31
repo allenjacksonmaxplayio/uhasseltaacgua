@@ -7,7 +7,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
 = Tasks =
 
   * WP 1 (Nick + Olivier): Ontwikkeling race state.
-    * WP 1.1: Hernoemen Player naar PlayerSettings
+    * WP 1.1: *(DONE)* Hernoemen Player naar PlayerSettings
     * WP 1.2: Ontwikkeling RaceState object dat gesynchronizeerd wordt over alle deelnemers binnen een lobby. 
     * WP 1.3: Implementatie RacePlayer object met PlayerSettings (ontvangen door Lobby) en Positie. 
     * WP 1.4: RaceState creeert voor alle deelnemers in de Lobby een RacePlayer object, wat wordt gesynchronizeerd over alle deelnemers. 
@@ -24,7 +24,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
      * 
 
   * WP 3 (Tobias + Nick): Controls
-    * WP 3.1: Implementatie interface om controls te mappen.
+    * WP 3.1: *(DONE)* Implementatie interface om controls te mappen.
     * WP 3.2: Visualizatie control mapping + bieden mogelijkheden om controls aan te passen en op te slaan voor volgende keer.
 
   * WP 4 (Kristof): Toevoegen eigenschappen aan entiteiten.
