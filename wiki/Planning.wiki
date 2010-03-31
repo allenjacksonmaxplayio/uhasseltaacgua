@@ -1,27 +1,39 @@
 #summary The planning for the project.
 
+= Lezen WPs =
+
+Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enkele beslissingen:
+
+  * Sub WP's die elkaar opvolgen (WP 1.1, WP 1.2, ...) worden verondersteld sequentieel uit te voeren en impliciet bestaat er dus een depends on binding van WP 1.2 op WP 1.1. 
+  * Er zijn depends on regels die - jaja - onderlinge afhankelijkheden definieren. Het ene kan niet ontwikkeld worden als het andere niet af is.
+  * Tussen WP's onderling (WP 1, WP 2) bestaat er geen dependency regels, tenzij wanneer expliciet gedefinieerd.
+
 = TODO Planning =
 
 Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat de deadlines en dependencies duidelijk worden. Verder ga ik initiele functies toevoegen waarop kan aangeduid worden waaraan gewerkt wordt en wat klaar is. Dit gaat steeds in de Gantt-chart geupdatete worden. Andere developers mogen de planning uitbreiden, maar let op dat de dependencies correct blijven.
 
 = Tasks =
 
-  * WP 1 (Nick + Olivier): Ontwikkeling race state.
+  * WP 1 (Nick + Olivier + in aan later stadium andere mensen): Ontwikkeling race state en general gameplay.
     * WP 1.1: *(DONE)* Hernoemen Player naar PlayerSettings
     * WP 1.2: Ontwikkeling RaceState object dat gesynchronizeerd wordt over alle deelnemers binnen een lobby. 
     * WP 1.3: Implementatie RacePlayer object met PlayerSettings (ontvangen door Lobby) en Positie. 
     * WP 1.4: RaceState creeert voor alle deelnemers in de Lobby een RacePlayer object, wat wordt gesynchronizeerd over alle deelnemers. 
-    * WP 1.5: Visualizatie alle deelnemers in plaats van enkel diegene die controle heeft over de.
+    * WP 1.5: Visualizatie alle deelnemers in plaats van enkel diegene die controle heeft over het keyboard. Hierbij hoort het inlezen van de starting posities van de wereldbeschrijving en het plaatsen van de hovercrafts op hun posities (depends on 5.3.3 voor minstens 1 map).
     * WP 1.6: Implementatie staten binnen de race state (count down, racing, finished, ...). 
     * WP 1.7: Events triggeren naar clients als gevolg van de staten (tonen nummers bij count down, tonen ranking bij finish, ...).
     * WP 1.8: Player specific events (voorbijsteken, bereiken finish, bereiken checkpoint, ...) triggeren en koppelen aan GamePlayer.
+    * WP 1.9: Uitbreiden speler met emotional state en agressiveness behaviour.
+    * WP 1.10: Uitbreiden racestate met informatie over de checkpoints en over welke players welke checkpoints reeds hebben bereikt (depends on WP 2.3).
+    * WP 1.11: Uitbreiden lobby zodat na het eindigen van een race de lobby opnieuw geopend wordt en dat bij het starten van een race nadien de posities van het eindigen van een spel voordien behouden blijft.
+   * WP 1.12: Implementatie reset functie (bij drukken op reset knop of bij vallen in put). Deze brengt je terug onder laatst bereikte checkpoint. 
 
   * WP 2 (Tobias + PJ): Integratie physics voor alle types entiteiten.
     * WP 2.1: Implementatie generieke physics voor wereld (zwaartekracht, botsing, ...)
-    * WP 2.2: Implementatie physics voor custom entiteiten (depends on 4.).
+    * WP 2.2: Implementatie physics voor custom entiteiten (depends on WP 4).
      * WP 2.2.1: Implementatie physics boost a.d.h.v. strength/acceleratie.
      * WP 2.2.2: Implementatie physics jump a.d.h.v. up force.
-     * 
+    * WP 2.3: Toelaten dat Havok events kan sturen ivm checkpoints naar de race state.
 
   * WP 3 (Tobias + Nick): Controls
     * WP 3.1: *(DONE)* Implementatie interface om controls te mappen.
@@ -42,20 +54,35 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
      * WP 5.2.3: Toekennen animaties aan models.
      * WP 5.2.4: Koppelen animaties aan events (depends on WP 1.8).
     * WP 5.3: Design single asteroids/planeten.
-     * WP 5.4.1: Modeling planets.
-     * WP 5.4.2: Materialen mappen op planets.
-     * WP 5.4.3: Planets compliant maken zodat ze ingelezen kunnen worden door engine.
-     * WP 5.4.4: Koppelen eigenschappen planeet aan mesh.
+     * WP 5.3.1: Modeling planets.
+     * WP 5.3.2: Materialen mappen op planets.
+     * WP 5.3.3: Planets compliant maken zodat ze ingelezen kunnen worden door engine.
+     * WP 5.3.4: Koppelen eigenschappen planeet aan mesh.
     * WP 5.4: Design maps (depends on WP1, WP2).
       * WP 5.4.1: Implementatie pauze functie die huidige positie in x, y, z weergeeft zodat plaatsing nieuwe planeten waarnaar gejumpt moet worden gemakkelijker kan.
       * WP 5.4.2: Plaatsing planeten om een hele map te verkrijgen.
       * WP 5.4.3: Toelaten dat race state map laadt.
+   
+   * WP 6 (Dirk): artificial intelligence
+    * WP 6.1: Implementatie path finding algoritmen in generieke context via AIControllers.
+    * WP 6.2: Volgen path gedefinieerd door map path (depends on WP 5.3.4 voor minstens 1 map).
+    * WP 6.3: Implementatie aanwezigheid bots in server met meerdere characters (depends on  WP 1.5).
+    * WP 6.4: Ontvangen Havok events die potentiele collisions aangeeft, waardoor collision avoidance kan uitgevoerd worden.
+    * WP 6.5: Bijkomend op collision avoidance, implementatie path planning die meer op voorhand gaat plannen dan voor collision avoidance (optioneel).
+    * WP 6.6: Gebruik maken van kennis entiteiten (boost, jump, ...) om nog optimalere resultaten te behalen (optioneel) (depends on WP 5.3.4 voor minstens 1 map).
+    * WP 6.7: Agressiveness of emotional state gebruiken om AI meer random en spelafhankelijk gedrag te geven (depends on WP 1.9).
 
-   * WP 6: Finalizing
-    * WP 6.1: Code review 
-    * WP 6.2: Gameplay testing
-    * WP 6.3: Verpakking + installer.
-    * WP 6.4: TODO
+   * WP 7 (Kristof + PJ): Rendering
+     * WP 7.1: Implementation shaders.
+     * WP 7.2: General improvement in graphics engine when needed.
+
+   * 
+
+   * WP 10: Finalizing
+    * WP 10.1: Code review 
+    * WP 10.2: Gameplay testing
+    * WP 10.3: Verpakking + installer.
+    * WP 10.4: TODO
 
   
  
