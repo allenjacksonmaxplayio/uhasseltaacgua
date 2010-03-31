@@ -168,7 +168,7 @@ public:
 
 	//OVERWRITEN FROM NetworkEntity
 
-	virtual void parseEvents(ZCom_BitStream* stream, float timeSince);
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince);
 
 	virtual void setupReplication();
 

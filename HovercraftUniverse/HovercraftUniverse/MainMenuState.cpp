@@ -15,6 +15,13 @@ namespace HovUni {
 		//TODO: Parse IP and Port?
 		HUClient* mClient = new HUClient(address.c_str());
 
+		try {
+			mClient->connect(0,true);
+		} catch ( NetworkException ex ){
+			//TODO NICK SHOW ERROR BOX
+			return false;
+		}
+
 		LobbyState* newState = new LobbyState(mClient, mClient->getLobby());
 		mManager->addGameState(GameStateManager::LOBBY, newState);
 

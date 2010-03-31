@@ -51,13 +51,15 @@ void NetworkEntity::processEvents(float timeSince) {
 
 		ZCom_BitStream* data = mNode->getNextEvent(&type, &remote_role, &conn_id);
 
+		parseEvents(type, remote_role, conn_id, data, timeSince);
+
 		/*if (remote_role == eZCom_RoleAuthority && type == eZCom_EventRemoved) {
 			mDeleteMe = true;
 		} else*/
-		if (type == eZCom_EventUser) {
+		/*if (type == eZCom_EventUser) {
 			// Delegate to the user events callback
-			parseEvents(data, timeSince);
-		}
+			parseEvents(tydata, timeSince);
+		}*/
 	}
 }
 

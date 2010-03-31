@@ -35,6 +35,12 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 	length = announcementdata->getInt(sizeof(int) * 8);
 	if ( length != 0 ){
 		mName = Ogre::String(announcementdata->getString());
+
+		/*char * buffer = new char[length + 1];
+		announcementdata->getString(buffer,length+1);
+		buffer[length] = '\0';
+		mName = Ogre::String(buffer);
+		delete [] buffer;*/
 	}
 	else {
 		mName = "";
@@ -43,6 +49,12 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 	length = announcementdata->getInt(sizeof(int) * 8);
 	if ( length != 0 ){
 		mOgreEntity = Ogre::String(announcementdata->getString());
+
+		/*char * buffer = new char[length + 1];
+		announcementdata->getString(buffer,length);
+		buffer[length] = '\0';
+		mOgreEntity = Ogre::String(buffer);
+		delete [] buffer;*/
 	}
 	else {
 		mOgreEntity = "";
@@ -147,11 +159,14 @@ Ogre::Quaternion Entity::getQuaternion() const {
 	return mOrientation;
 }
 
-void Entity::parseEvents(ZCom_BitStream* stream, float timeSince) {
-	ControllerEventParser p;
-	ControllerEvent* event = p.parse(stream);
-	processControllerEvents(event);
-	delete event;
+void Entity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
+	//If user event
+	if ( type == eZCom_EventUser ){	
+		ControllerEventParser p;
+		ControllerEvent* event = p.parse(stream);
+		processControllerEvents(event);
+		delete event;
+	}
 }
 
 void Entity::processController(float timeSince) {

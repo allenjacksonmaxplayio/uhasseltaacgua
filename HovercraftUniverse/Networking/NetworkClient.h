@@ -2,6 +2,7 @@
 #define NETWORKCLIENT_H_
 
 #include <zoidcom/zoidcom.h>
+#include "Exception.h"
 
 namespace HovUni {
 
@@ -13,6 +14,10 @@ namespace HovUni {
  */
 class NetworkClient : public ZCom_Control {
 private:
+
+	/** The debug name **/
+	const char* mDebugName;
+
 	/** The name of the server */
 	const char* mServerName;
 	
@@ -25,6 +30,7 @@ public:
 	 *
 	 * @param name the name of the server
 	 * @param port the port of the server
+	 * @param request the optional request data send to server
 	 * @param debugname the debug name used for this client (default is NetworkClient)
 	 */
 	NetworkClient(const char* name, const unsigned port, const char* debugname = "NetworkClient");
@@ -33,6 +39,7 @@ public:
 	 * Constructor for local connection
 	 *
 	 * @param port the port of the server
+	 * @param request the optional request data send to server
 	 * @param debugname the debug name used for this client (default is NetworkClient)
 	 */
 	NetworkClient(const unsigned port, const char* debugname = "NetworkClient");
@@ -41,6 +48,14 @@ public:
 	 * Destructor
 	 */
 	virtual ~NetworkClient();
+
+	/**
+	 * Connect
+	 *
+	 * @param request the optional request data send to server, will be deleted
+	 * @param remote whether it is a remote or local connection
+	 */
+	void connect(ZCom_BitStream * request, bool remote) throw(NetworkException);
 
 	/**
 	 * Process incoming and outgoing packets
@@ -54,14 +69,6 @@ private:
 	 * Hide the copy constructor
 	 */
 	NetworkClient(const NetworkClient&) : mServerName(""), mConnectPort(0) { }
-
-	/**
-	 * Initialize the client
-	 *
-	 * @param debugname the debug name used for this client
-	 * @param remote whether it is a remote or local connection
-	 */
-	void initialize(const char* debugname, bool remote);
 
 //
 // ZCom_Control callbacks
