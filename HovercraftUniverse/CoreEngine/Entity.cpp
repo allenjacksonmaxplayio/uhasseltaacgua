@@ -29,8 +29,24 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 	NetworkEntity(replicators + 3), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO)
 {
 	//name and entity
-	mName = Ogre::String(announcementdata->getString());
-	mOgreEntity = Ogre::String(announcementdata->getString());
+
+	int length;
+	
+	length = announcementdata->getInt(sizeof(int) * 8);
+	if ( length != 0 ){
+		mName = Ogre::String(announcementdata->getString());
+	}
+	else {
+		mName = "";
+	}
+
+	length = announcementdata->getInt(sizeof(int) * 8);
+	if ( length != 0 ){
+		mOgreEntity = Ogre::String(announcementdata->getString());
+	}
+	else {
+		mOgreEntity = "";
+	}
 
 	//process info
 	mProcessInterval = announcementdata->getFloat(10);
@@ -183,8 +199,13 @@ void Entity::setupReplication() {
 }
 
 void Entity::setAnnouncementData(ZCom_BitStream* stream) {
+	
+	stream->addInt(mName.length(),sizeof(int) * 8);
 	stream->addString(mName.c_str());
+
+	stream->addInt(mOgreEntity.length(),sizeof(int) * 8);
 	stream->addString(mOgreEntity.c_str());
+
 	stream->addFloat(mProcessInterval,10);
 	
 	stream->addFloat(mPosition[0],10);
