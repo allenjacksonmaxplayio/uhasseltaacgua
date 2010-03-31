@@ -104,12 +104,16 @@ private:
 	 * would first parse the stream to an event and then process
 	 * the event.
 	 *
+	 * @param type off event
+	 * @param role of remote
+	 * @param connection id of remote
 	 * @param stream the bitstream containing the event
 	 * @param timeSince the time since the last processing of the events
 	 */
-	virtual void parseEvents(ZCom_BitStream* stream, float timeSince) = 0;
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) = 0;
 
 protected:
+
 
 	/**
 	 * A callback that should be implemented so the replicators for this

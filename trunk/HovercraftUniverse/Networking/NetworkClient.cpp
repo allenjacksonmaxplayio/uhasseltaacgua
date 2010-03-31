@@ -4,21 +4,18 @@
 
 namespace HovUni {
 
-NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) : mServerName(name), mConnectPort(port) {
-	initialize(debugname, true);
+NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) : mServerName(name), mConnectPort(port), mDebugName(debugname) {
 }
 
-NetworkClient::NetworkClient(const unsigned port, const char* debugname) : mServerName(0), mConnectPort(port) {
-	initialize(debugname, false);
+NetworkClient::NetworkClient(const unsigned port, const char* debugname) : mServerName(0), mConnectPort(port), mDebugName(debugname) {
 }
 
 
 NetworkClient::~NetworkClient() {
-
 }
 
-void NetworkClient::initialize(const char* debugname, bool remote) {
-	ZCom_setDebugName(debugname);
+void NetworkClient::connect(ZCom_BitStream * request, bool remote) {
+	ZCom_setDebugName(mDebugName);
 
 	// Create and initialize network sockets (UDP, UDP port, internal socket port)
 	bool result = ZCom_initSockets(true, 0, (remote ? 0 : 1));
@@ -40,7 +37,7 @@ void NetworkClient::initialize(const char* debugname, bool remote) {
 			server_addr.setPort(mConnectPort);
 		}
 		// Connect
-		ZCom_ConnID connection_id = ZCom_Connect(server_addr, 0);
+		ZCom_ConnID connection_id = ZCom_Connect(server_addr, request);
 
 		if (connection_id == ZCom_Invalid_ID) {
 			THROW(NetworkException, "Connection failed");

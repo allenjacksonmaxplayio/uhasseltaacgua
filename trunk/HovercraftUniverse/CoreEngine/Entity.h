@@ -224,10 +224,11 @@ protected:
 	void setupReplication();
 
 private:
+
 	/**
-	 * @see NetworkEntity::parseEvents(ZCom_BitStream* stream, float timeSince)
+	 * @see NetworkEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince)
 	 */
-	void parseEvents(ZCom_BitStream* stream, float timeSince);
+	void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince);
 
 	/**
 	 * Polls the controller for its current state and processes actions accordingly.

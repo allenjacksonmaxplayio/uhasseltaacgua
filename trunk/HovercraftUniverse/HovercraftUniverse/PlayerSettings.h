@@ -8,8 +8,13 @@
 
 namespace HovUni {
 
+class Lobby;
+
 class PlayerSettings : public NetworkEntity {
 private:
+
+	//The lobby
+	Lobby * mLobby;
 
 	//connection id (const)
 	ZCom_ConnID mConnectionID;
@@ -29,13 +34,13 @@ public:
 	 * Constructor
 	 * @param mconnectionid
 	 */
-	PlayerSettings(ZCom_ConnID mConnectionID);
+	PlayerSettings( Lobby * lobby, ZCom_ConnID mConnectionID);
 
 	/**
 	 * Constructor
 	 * @param announcedata
 	 */
-	PlayerSettings(ZCom_BitStream* announcedata);
+	PlayerSettings( Lobby * lobby, ZCom_BitStream* announcedata);
 
 	~PlayerSettings(void);
 
@@ -103,8 +108,8 @@ public:
 		return mConnectionID;
 	}
 
-	virtual void parseEvents(ZCom_BitStream* stream, float timeSince){
-	}
+
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince);
 
 protected:
 

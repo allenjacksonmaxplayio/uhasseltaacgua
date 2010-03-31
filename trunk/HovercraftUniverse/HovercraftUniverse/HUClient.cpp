@@ -40,27 +40,28 @@ HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, po
 	//Initialize the chat client
 	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"), name);
 
-	initialize();
-}
-
-HUClient::HUClient() : NetworkClient(2376), mEntityManager(0), mIDManager(0), mLobby(0) {
-	//Initialize the chat client
-	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
-	
-	initialize();
-}
-
-HUClient::~HUClient() {
-	delete mChatClient;
-}
-
-void HUClient::initialize() {
 	// Create and store entity manager
 	mEntityManager = EntityManager::getClientSingletonPtr();
 	mIDManager = new NetworkIDManager(this);
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
 }
+
+HUClient::HUClient() : NetworkClient(2376, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
+	//Initialize the chat client
+	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
+
+	// Create and store entity manager
+	mEntityManager = EntityManager::getClientSingletonPtr();
+	mIDManager = new NetworkIDManager(this);
+	EntityRegister::registerAll(*mIDManager);	
+	ZCom_setUpstreamLimit(0, 0);
+}
+
+HUClient::~HUClient() {
+	delete mChatClient;
+}
+
 
 void HUClient::process() {
 	NetworkClient::process();
@@ -112,7 +113,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 	} 
 	else if ( requested_class == mIDManager->getID(PlayerSettings::getClassName()) ){
 		// Player (TODO do something with it)
-		PlayerSettings * ent = new PlayerSettings(announcedata);
+		PlayerSettings * ent = new PlayerSettings(mLobby,announcedata);
 		ent->networkRegister(requested_class,this);
 	}	
 	//Entities

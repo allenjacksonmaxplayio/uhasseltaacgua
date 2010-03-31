@@ -39,6 +39,7 @@ public:
 	 *
 	 * @param name the name of the server
 	 * @param port the port of the server
+	 * @param playername
 	 */
 	HUClient(const char* name, unsigned int port = 2375);
 

@@ -33,19 +33,22 @@ void ChatEntity::sendNotification(const std::string& notif) {
 	}
 }
 
-void ChatEntity::parseEvents(ZCom_BitStream* stream, float timeSince) {
-	ChatEventParser p;
-	ChatEvent* event = p.parse(stream);
-	eZCom_NodeRole role = mNode->getRole();
-	switch(role) {
-		case eZCom_RoleAuthority:
-			processEventsServer(event);
-			break;
-		default:
-			processEventsClient(event);
-			break;
+void ChatEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
+	//if user event
+	if ( type == eZCom_EventUser ){	
+		ChatEventParser p;
+		ChatEvent* event = p.parse(stream);
+		eZCom_NodeRole role = mNode->getRole();
+		switch(role) {
+			case eZCom_RoleAuthority:
+				processEventsServer(event);
+				break;
+			default:
+				processEventsClient(event);
+				break;
+		}
+		delete event;
 	}
-	delete event;
 }
 
 void ChatEntity::processEventsServer(ChatEvent* event) {

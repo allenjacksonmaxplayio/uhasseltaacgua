@@ -91,7 +91,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	}
 
 	// Add player to map
-	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(id,new PlayerSettings(id)));
+	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(id,new PlayerSettings(this,id)));
 	mCurrentPlayers++;
 
 	//Send Event to players and self
@@ -159,47 +159,50 @@ void Lobby::onPlayerHovercraftChange(ZCom_ConnID id, const Ogre::String& hovercr
 	mPlayers[id]->setHovercraft(hovercraft);
 }
 
-void Lobby::parseEvents(ZCom_BitStream* stream, float timeSince) {
-	GameEventParser p;
-	GameEvent* event = p.parse(stream);
-	eZCom_NodeRole role = mNode->getRole();
-	switch(role) {
-		case eZCom_RoleAuthority:
-			processEventsServer(event);
-			break;
-		case eZCom_RoleOwner:
-			processEventsOwner(event);
-			break;
-		case eZCom_RoleProxy:
-			processEventsOther(event);
-			break;
-		default:
-			break;
-	}
-
-	//General events needed for all
-	switch ( event->getType() ){
-		case onJoin:
-		{
-			OnJoinEvent * joinevent = dynamic_cast<OnJoinEvent*>(event);
-			//propagate to listeners
-			for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
-				(*i)->onJoin(joinevent->getConnectionId());
-			}
-			break;
-		}		
-		case onLeave:
-		{
-			OnLeaveEvent * leaveevent = dynamic_cast<OnLeaveEvent*>(event);
-			//propagate to listeners
-			for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
-				(*i)->onLeave(leaveevent->getConnectionId());
-			}
-			break;
+void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
+	
+	if ( type == eZCom_EventUser ){	
+		GameEventParser p;
+		GameEvent* event = p.parse(stream);
+		eZCom_NodeRole role = mNode->getRole();
+		switch(role) {
+			case eZCom_RoleAuthority:
+				processEventsServer(event);
+				break;
+			case eZCom_RoleOwner:
+				processEventsOwner(event);
+				break;
+			case eZCom_RoleProxy:
+				processEventsOther(event);
+				break;
+			default:
+				break;
 		}
-	}
 
-	delete event;
+		//General events needed for all
+		switch ( event->getType() ){
+			case onJoin:
+			{
+				OnJoinEvent * joinevent = dynamic_cast<OnJoinEvent*>(event);
+				//propagate to listeners
+				for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
+					(*i)->onJoin(joinevent->getConnectionId());
+				}
+				break;
+			}		
+			case onLeave:
+			{
+				OnLeaveEvent * leaveevent = dynamic_cast<OnLeaveEvent*>(event);
+				//propagate to listeners
+				for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
+					(*i)->onLeave(leaveevent->getConnectionId());
+				}
+				break;
+			}
+		}
+
+		delete event;
+	}
 }
 
 void Lobby::processEventsServer(GameEvent* event) {
