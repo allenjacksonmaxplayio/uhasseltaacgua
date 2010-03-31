@@ -5,6 +5,12 @@
 #include "GameEventParser.h"
 #include "Loader.h"
 
+#include "LobbyListener.h"
+
+//Events
+#include "OnJoinEvent.h"
+#include "OnLeaveEvent.h"
+
 namespace HovUni {
 
 std::string Lobby::getClassName() { 
@@ -20,6 +26,35 @@ Lobby::Lobby(Loader * loader): NetworkEntity(4), mLoader(loader), mHasAdmin(fals
 Lobby::~Lobby(void) {
 	if ( mLoader )
 		delete mLoader;
+}
+
+void Lobby::removePlayer( ZCom_ConnID id ){
+	std::map<ZCom_ConnID,PlayerSettings*>::iterator i =  mPlayers.find(id);
+	delete i->second;
+	mPlayers.erase(i);
+	mCurrentPlayers--;
+}
+
+void Lobby::addPlayer(PlayerSettings * settings){	
+	std::map<ZCom_ConnID,PlayerSettings*>::iterator i = mPlayers.find(settings->getConnectionID());
+
+	if ( i != mPlayers.end() ){
+		removePlayer(settings->getConnectionID());
+	}
+
+	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(settings->getConnectionID(),settings));
+}
+
+void Lobby::removePlayer( PlayerSettings * settings ){
+	removePlayer(settings->getConnectionID());
+}
+
+void Lobby::addListener( LobbyListener* listener ){
+	mListeners.push_back(listener);
+}
+
+void Lobby::removeListener( LobbyListener* listener ){
+	mListeners.remove(listener);
 }
 
 void Lobby::start() {
@@ -58,16 +93,17 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	// Add player to map
 	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(id,new PlayerSettings(id)));
 	mCurrentPlayers++;
+
+	//Send Event to players and self
+	OnJoinEvent event(id);
+	sendEvent(event);
 }
 
 void Lobby::onDisconnect(ZCom_ConnID id) {
 	//TODO lock mutex
 
 	// Remove from map
-	std::map<ZCom_ConnID,PlayerSettings*>::iterator i =  mPlayers.find(id);
-	delete i->second;
-	mPlayers.erase(i);
-	mCurrentPlayers--;
+	this->removePlayer(id);
 
 	// Check if new admin is needed
 	if(mAdmin == id) {
@@ -83,6 +119,10 @@ void Lobby::onDisconnect(ZCom_ConnID id) {
 			getNetworkNode()->setOwner(mAdmin, true);
 		}
 	}
+
+	//Send Event to players and self
+	OnLeaveEvent event(id);
+	sendEvent(event);
 }
 
 void Lobby::onTrackChange(const Ogre::String& filename) {
@@ -136,6 +176,29 @@ void Lobby::parseEvents(ZCom_BitStream* stream, float timeSince) {
 		default:
 			break;
 	}
+
+	//General events needed for all
+	switch ( event->getType() ){
+		case onJoin:
+		{
+			OnJoinEvent * joinevent = dynamic_cast<OnJoinEvent*>(event);
+			//propagate to listeners
+			for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
+				(*i)->onJoin(joinevent->getConnectionId());
+			}
+			break;
+		}		
+		case onLeave:
+		{
+			OnLeaveEvent * leaveevent = dynamic_cast<OnLeaveEvent*>(event);
+			//propagate to listeners
+			for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
+				(*i)->onLeave(leaveevent->getConnectionId());
+			}
+			break;
+		}
+	}
+
 	delete event;
 }
 
@@ -152,7 +215,6 @@ void Lobby::processEventsOwner(GameEvent* event) {
 }
 
 void Lobby::processEventsOther(GameEvent* event) {
-
 }
 
 void Lobby::setupReplication() {

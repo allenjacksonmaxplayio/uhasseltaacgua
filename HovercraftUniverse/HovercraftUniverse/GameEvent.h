@@ -57,7 +57,6 @@ public:
  * Simple game events
  */
 HOVUNI_GAMEEVENT_DECLARE(StartTrackEvent, startTrack)
-
 }
 
 #endif

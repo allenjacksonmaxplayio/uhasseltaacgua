@@ -6,9 +6,11 @@
 #include "GameEvent.h"
 #include <map>
 #include <string>
+#include <list>
 
 namespace HovUni {
 
+class LobbyListener;
 class Loader;
 
 /**
@@ -26,6 +28,8 @@ public:
 private:
 
 	//TODO MUTEX PROTECT PLAYERS
+
+	std::list<LobbyListener*> mListeners;
 
 	/** Specific loader, will be different on client and server **/
 	Loader * mLoader;
@@ -51,6 +55,13 @@ private:
 	// TODO Remove
 	bool mStarted;
 
+protected:
+
+	/**
+	 * Remove player connection id
+	 */
+	void removePlayer( ZCom_ConnID id );	
+
 public:
 
 	/**
@@ -63,6 +74,24 @@ public:
 	 * Destructor
 	 */
 	~Lobby();
+
+
+	void addPlayer(PlayerSettings * settings);
+
+	void removePlayer( PlayerSettings * settings );
+
+
+	/**
+	 * Add a loby listener
+	 * @param listener
+	 */
+	void addListener( LobbyListener* listener );
+
+	/**
+	 * Remove a lobby listener
+	 * @param listener
+	 */
+	void removeListener( LobbyListener* listener );
 
 	/**
 	 * Start the track. Called by owner
@@ -82,8 +111,8 @@ public:
 		return mPlayers;
 	}
 
-
 	// Connect callback on authority
+	
 
 	/**
 	 * Called when player is about to connect

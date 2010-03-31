@@ -513,6 +513,14 @@
 					RelativePath=".\GameEventParser.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\OnJoinEvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\OnLeaveEvent.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -823,6 +831,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\LobbyListener.h"
+						>
+					</File>
+					<File
 						RelativePath=".\PlayerSettings.h"
 						>
 					</File>
@@ -881,6 +893,14 @@
 				</File>
 				<File
 					RelativePath=".\GameEventType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\OnJoinEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\OnLeaveEvent.h"
 					>
 				</File>
 			</Filter>
