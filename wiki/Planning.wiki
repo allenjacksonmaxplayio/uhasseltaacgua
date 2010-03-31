@@ -22,7 +22,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
     * WP 1.5: Visualizatie alle deelnemers in plaats van enkel diegene die controle heeft over het keyboard. Hierbij hoort het inlezen van de starting posities van de wereldbeschrijving en het plaatsen van de hovercrafts op hun posities (depends on 5.3.3 voor minstens 1 map).
     * WP 1.6: Implementatie staten binnen de race state (count down, racing, finished, ...). 
     * WP 1.7: Events triggeren naar clients als gevolg van de staten (tonen nummers bij count down, tonen ranking bij finish, ...).
-    * WP 1.8: Player specific events (voorbijsteken, bereiken finish, bereiken checkpoint, ...) triggeren en koppelen aan GamePlayer.
+    * WP 1.8: Player specific events (voorbijsteken, bereiken finish, bereiken checkpoint, ...) triggeren en koppelen aan GamePlayer, deze events ook visualizeren bij entities (juichen, ...).
     * WP 1.9: Uitbreiden speler met emotional state en agressiveness behaviour.
     * WP 1.10: Uitbreiden racestate met informatie over de checkpoints en over welke players welke checkpoints reeds hebben bereikt (depends on WP 2.3).
     * WP 1.11: Uitbreiden lobby zodat na het eindigen van een race de lobby opnieuw geopend wordt en dat bij het starten van een race nadien de posities van het eindigen van een spel voordien behouden blijft.
@@ -35,15 +35,11 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
      * WP 2.2.2: Implementatie physics jump a.d.h.v. up force.
     * WP 2.3: Toelaten dat Havok events kan sturen ivm checkpoints naar de race state.
 
-  * WP 3 (Tobias + Nick): Controls
-    * WP 3.1: *(DONE)* Implementatie interface om controls te mappen.
-    * WP 3.2: Visualizatie control mapping + bieden mogelijkheden om controls aan te passen en op te slaan voor volgende keer.
-
   * WP 4 (Kristof): Toevoegen eigenschappen aan entiteiten.
     * WP 4.1: Geef weight/max speed/acceleration/steering parameters aan hovercraft.
     * WP 4.2: Geef eigenschappen aan planeet (gravity, ...).
 
-  * WP 5 (Kristof + PJ): 3D art development
+  * WP 5 (Kristof + PJ): 3D art development + sound
     * WP 5.1: Design hovercrafts.
      * WP 5.1.1: Design meerdere hovercrafts (modeling).
      * WP 5.1.2: Mapping materials op hovercrafts.
@@ -62,6 +58,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
       * WP 5.4.1: Implementatie pauze functie die huidige positie in x, y, z weergeeft zodat plaatsing nieuwe planeten waarnaar gejumpt moet worden gemakkelijker kan.
       * WP 5.4.2: Plaatsing planeten om een hele map te verkrijgen.
       * WP 5.4.3: Toelaten dat race state map laadt.
+    * WP 5.5: Toekennen sounds aan events.
    
    * WP 6 (Dirk): artificial intelligence
     * WP 6.1: Implementatie path finding algoritmen in generieke context via AIControllers.
@@ -75,8 +72,16 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
    * WP 7 (Kristof + PJ): Rendering
      * WP 7.1: Implementation shaders.
      * WP 7.2: General improvement in graphics engine when needed.
+     * WP 7.3: Implementatie view ports die character al racend tonen.
 
-   * 
+   * WP 8 (Nick): Menu + HUD
+    * WP 8.1: Visualizatie control mapping + bieden mogelijkheden om controls aan te passen en op te slaan voor volgende keer.
+    * WP 8.2: Visualizatie pijl zodat die de path volgt (of volgende checkpoint) om zo de 
+richting waarin een Hovercraft zou moeten bewegen aan te duiden (depends on WP 6.1 indien path following).
+    * WP 8.3: Visualizatie tijd racing.
+    * WP 8.4: Update speedometer + boost (TODO Gaan we dit uberhaupt nog ondersteunen?).
+    * WP 8.5: Visualizatie achterstand op eerste + achterstand op vorige racer bij passeren checkpoint (depends on WP 1.10).
+    * WP 8.6: Visualizatie rankings voorgaande en volgende spelers als live 3D model (depends on WP 7.3, WP 1.7).
 
    * WP 10: Finalizing
     * WP 10.1: Code review 
