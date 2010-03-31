@@ -97,7 +97,6 @@ void HavokHovercraft::update(){
 	//Get the hovercraft and input
 	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
-	hkReal maxspeed = hovercraft->getMaximumSpeed();
 	hkReal speed = hovercraft->getSpeed();
 
 
@@ -108,12 +107,13 @@ void HavokHovercraft::update(){
 	if (status.moveForward()) {	
 
 		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 20;
-
+		
 		if (speed > hovercraft->getMaximumSpeed()) {
 			hovercraft->setSpeed(hovercraft->getMaximumSpeed());
 		} else {
 			hovercraft->setSpeed(speed);
-		}	
+		}
+		
 	}
 
 	//braking..
@@ -125,56 +125,62 @@ void HavokHovercraft::update(){
 		} else {
 			speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 10;
 		}
-
+		
 		if (speed < -1 * hovercraft->getMaximumSpeed()) {
 			hovercraft->setSpeed(-1 * hovercraft->getMaximumSpeed());
 		} else {
 			hovercraft->setSpeed(speed);
 		}
+		
 	}
 
 	// slow down when idle
 	if (!status.moveBackward() && !status.moveForward()) {
 		speed *= 0.95f;
+		if ((speed < 1.0f) || (speed > -1.0f)) {
+			speed = 0.0f;
+		}
 		hovercraft->setSpeed(speed);
 	}
-
+	
 	scaledspeed = speed / Hovercraft::MAXSPEED; 
 
 	
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
 		double delta = 0.1f;
+		if ((speed > 1.0f) || (speed < -1.0f)) {
+			float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
+			if (angle != 0.0f) {
+				hkVector4 axis = mUp;
+				hkVector4 crossProduct;
+				crossProduct.setCross(mUp, mSide);
 
-		float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
-		if (angle != 0.0f) {
-			hkVector4 axis = mUp;
-			hkVector4 crossProduct;
-			crossProduct.setCross(mUp, mSide);
-
-			if (crossProduct(1) < 0) {
-				angle = angle * -1;
+				if (crossProduct(1) < 0) {
+					angle = angle * -1;
+				}
 			}
-		}
 
-		if (status.moveLeft()) {
-			if (speed > 0.0f) {
-				angle = delta;
-			} else if (speed < 0.0f) {
-				angle = -delta;
+			if (status.moveLeft()) {
+				if (speed > 0.0f) {
+					angle = delta;
+				} else if (speed < 0.0f) {
+					angle = -delta;
+				}
 			}
-		}
-		if (status.moveRight()) {
-			if (speed > 0.0f) {
-				angle = -delta;
-			} else if (speed < 0.0f) {
-				angle = delta;
+			if (status.moveRight()) {
+				if (speed > 0.0f) {
+					angle = -delta;
+				} else if (speed < 0.0f) {
+					angle = delta;
+				}
 			}
-		}
 
-		hkQuaternion q(mUp,angle);
-		mSide.setRotatedDir(q, mSide);
-		mSide.normalize3();
+
+			hkQuaternion q(mUp,angle);
+			mSide.setRotatedDir(q, mSide);
+			mSide.normalize3();
+		}
 	}
 
 	hkStepInfo stepInfo;
@@ -214,6 +220,7 @@ void HavokHovercraft::update(){
 		HK_TIMER_BEGIN("simulate character", HK_NULL);
 		// Set output velocity from state machine into character rigid body
 		mCharacterRigidBody->setLinearVelocity(output.m_velocity, Havok::getSingleton().getTimeStep());
+		//hovercraft->setSpeed(output.m_velocity);
 		HK_TIMER_END();
 	}
 
@@ -235,6 +242,8 @@ void HavokHovercraft::update(){
 	currentOrient.estimateAngleTo(desiredOrient, angle);
 	angularVelocity.setMul4(gain / Havok::getSingleton().getTimeStep(), angle);
 	mCharacterRigidBody->setAngularVelocity(angularVelocity);
+
+	//std::cout << speed << "  " << output.m_velocity.length3() << "  " << scaledspeed << std::endl;
 	
 	mWorld->unmarkForWrite();
 }
