@@ -1,5 +1,5 @@
 #labels Phase-Implementation
-Config file example:
+Config file voorbeeld:
 {{{
 [Paths]
 DataPath=..\..\data
@@ -23,9 +23,23 @@ Character=MyCharacter1
 Hovercraft=SuperCraft3
 }}}
 
-Gebruik in C++ om bv de playername te krijgen:
+In de client:
 
 {{{
 #include "Config.h"
-std::string myName = Config::getSingletonPtr()->getValue("Player", "PlayerName");
+#include "Application.h"
+std::string myName = Application::getConfig()->getValue("Player", "PlayerName");
+}}}
+
+Engine Settings CFG file:
+{{{
+[Havok]
+Framerate=30
+}}}
+
+Gebruik in de Server-componenten:
+{{{
+#include "Config.h"
+#include "DedicatedServer.h"
+int fps = DedicatedServer::getEngineSettings()->getIntValue("Havok", "Framerate");
 }}}
