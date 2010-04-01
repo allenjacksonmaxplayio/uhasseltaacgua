@@ -84,7 +84,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
 
    * WP 10 (iedereen): Finalizatie
     * WP 10.1: Code review 
-    * WP 10.2: Gameplay testing
+    * WP 10.2: Gameplay testing (depends on 1.10).
     * WP 10.3: Verpakking + installer.
     * WP 10.4: Schrijven eindverslag.
 
