@@ -7,7 +7,7 @@ namespace HovUni {
 RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneMgr), mID(ID), mCurrCamViewpoint(ThirdPerson) {
 	// Create camera for this game view
 	mCamera = mSceneMgr->createCamera("Camera" + mID);
-	mCamera->setNearClipDistance(0.1);
+	mCamera->setNearClipDistance(0.1f);
 
 	// Create 3rd person view camera
 	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode");

@@ -11,7 +11,7 @@ namespace HovUni {
 		mGUIManager = GUIManager::getSingletonPtr();
 		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onStart), Hikari::FlashDelegate(this, &LobbyState::onLeave));
 
-		mClient->getChatClient()->registerListener(mLobbyGUI);
+		mClient->setChatListener(mLobbyGUI);
 		mClient->process();
 	}
 

@@ -1,6 +1,7 @@
 #include "InGameState.h"
 
 #include "Hovercraft.h"
+#include "HUApplication.h"
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, TiXmlElement* HUDConfig) 
@@ -9,6 +10,9 @@ namespace HovUni {
 		mHud = new HUD(HUDConfig);
 		mEntityManager = EntityManager::getClientSingletonPtr();
 		mRepresentationManager = RepresentationManager::getSingletonPtr();
+
+		//load the world
+		HUApplication::msPreparationLoader->registerLoader(mHUClient->getLobby()->getTrackFilename());
 	}
 
 	void InGameState::activate() {

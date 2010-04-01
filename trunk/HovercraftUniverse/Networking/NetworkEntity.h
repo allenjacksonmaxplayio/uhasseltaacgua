@@ -63,6 +63,24 @@ public:
 	void networkRegister(NetworkIDManager* idmanager, std::string name, bool announce = false);
 
 	/**
+	 * Register a singleton object on the network.
+	 *
+	 * @param id the zoidcom class ID
+	 * @param control the zoidcom control
+	 * @param authority whether we are the authority of this object or not (server only)
+	 */
+	void networkRegisterUnique(ZCom_ClassID id, ZCom_Control* control, bool authority = false);
+
+	/**
+	 * Register a singleton object on the network.
+	 *
+	 * @param idmanager the network ID manager
+	 * @param name the registered class name
+	 * @param authority whether we are the authority of this object or not (server only)
+	 */
+	void networkRegisterUnique(NetworkIDManager* idmanager, std::string name, bool authority = false);
+
+	/**
 	 * Check whether the entity is registered for the network
 	 *
 	 * @return true if the entity is registered

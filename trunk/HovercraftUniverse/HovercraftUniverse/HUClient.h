@@ -6,6 +6,7 @@
 #include "NetworkIDManager.h"
 #include "Lobby.h"
 #include <ChatClient.h>
+#include <ChatListener.h>
 
 namespace HovUni {
 
@@ -13,11 +14,14 @@ namespace HovUni {
  * This class represents the core of the client. It holds the controls
  * for the networking etc.
  *
- * @author Olivier Berghmans
+ * @author Olivier Berghmans & Nick De Frangh
  */
 class HUClient: public NetworkClient
 {
 private:
+	/** The address to which this client is/was connecting */
+	Ogre::String mAddress;
+
 	/** The entity manager */
 	EntityManager * mEntityManager;
 
@@ -29,6 +33,9 @@ private:
 
 	/** The scene manager */
 	Ogre::SceneManager * mSceneMgr;
+
+	/** A chatlistener */
+	ChatListener* mChatListener;	
 
 	/** A chat client associated with this server */
 	ChatClient* mChatClient;
@@ -73,6 +80,14 @@ public:
 
 	//TODO remove
 	void start();
+
+	/**
+	 * Set a chatlistener on the client. This function will delay the registration
+	 * of the listener until the chat client is registered.
+	 *
+	 * @param listener The listener to register
+	 */
+	void setChatListener(ChatListener* listener);
 
 private:
 	/**

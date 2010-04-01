@@ -36,26 +36,28 @@
 
 namespace HovUni {
 
-HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
-	//Initialize the chat client
-	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"), name);
+HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mAddress(name) {
+	initialize();
+}
+
+HUClient::HUClient() : NetworkClient(2376, "HUClient"), mAddress("") {
+	initialize();
+}
+
+void HUClient::initialize() {
+	//Set chat variables to null
+	mChatListener = 0;
+	mChatClient = 0;
 
 	// Create and store entity manager
 	mEntityManager = EntityManager::getClientSingletonPtr();
 	mIDManager = new NetworkIDManager(this);
 	EntityRegister::registerAll(*mIDManager);
 	ZCom_setUpstreamLimit(0, 0);
-}
 
-HUClient::HUClient() : NetworkClient(2376, "HUClient"), mEntityManager(0), mIDManager(0), mLobby(0) {
-	//Initialize the chat client
-	mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
-
-	// Create and store entity manager
-	mEntityManager = EntityManager::getClientSingletonPtr();
-	mIDManager = new NetworkIDManager(this);
-	EntityRegister::registerAll(*mIDManager);	
-	ZCom_setUpstreamLimit(0, 0);
+	//Create the lobby object
+	mLobby = new Lobby(0);
+	mLobby->networkRegisterUnique(mIDManager, Lobby::getClassName());
 }
 
 HUClient::~HUClient() {
@@ -65,7 +67,10 @@ HUClient::~HUClient() {
 
 void HUClient::process() {
 	NetworkClient::process();
-	mChatClient->process();
+
+	if (mChatClient != 0) {
+		mChatClient->process();
+	}
 }
 
 void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
@@ -73,6 +78,19 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, 
 		// Connection accepted, so request zoid level
 		ZCom_requestDownstreamLimit(id, 60, 600);
 		ZCom_requestZoidMode(id, 1);
+
+		//Start the chat client
+		if (mAddress == "") {
+			mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
+		} else {
+			mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"), mAddress.c_str());
+		}
+		mChatClient->connect(0);
+
+		//Check if we already have a listener
+		if (mChatListener != 0) {
+			mChatClient->registerListener(mChatListener);
+		}
 	} else {
 		// Connection failed
 		THROW(NetworkException, "Connection failed");
@@ -197,6 +215,13 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 void HUClient::start() {
 	if (mLobby) {
 		mLobby->start();
+	}
+}
+
+void HUClient::setChatListener(ChatListener* listener) {
+	mChatListener = listener;
+	if (mChatClient != 0) {
+		mChatClient->registerListener(mChatListener);
 	}
 }
 
