@@ -26,7 +26,6 @@ Hovercraft=SuperCraft3
 In de client:
 
 {{{
-#include "Config.h"
 #include "Application.h"
 std::string myName = Application::getConfig()->getValue("Player", "PlayerName");
 }}}
@@ -39,7 +38,6 @@ Framerate=30
 
 Gebruik in de Server-componenten:
 {{{
-#include "Config.h"
 #include "DedicatedServer.h"
 int fps = DedicatedServer::getEngineSettings()->getIntValue("Havok", "Framerate");
 }}}
