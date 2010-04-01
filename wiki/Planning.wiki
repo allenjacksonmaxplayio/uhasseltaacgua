@@ -8,10 +8,6 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
   * Er zijn depends on regels die - jaja - onderlinge afhankelijkheden definieren. Het ene kan niet ontwikkeld worden als het andere niet af is.
   * Tussen WP's onderling (WP 1, WP 2) bestaat er geen dependency regels, tenzij wanneer expliciet gedefinieerd.
 
-= TODO Planning =
-
-Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat de deadlines en dependencies duidelijk worden. Verder ga ik initiele functies toevoegen waarop kan aangeduid worden waaraan gewerkt wordt en wat klaar is. Dit gaat steeds in de Gantt-chart geupdatete worden. Andere developers mogen de planning uitbreiden, maar let op dat de dependencies correct blijven.
-
 = Tasks =
 
   * WP 1 (Nick + Olivier + in aan later stadium andere mensen): Ontwikkeling race state en general gameplay.
@@ -88,5 +84,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
     * WP 10.3: Verpakking + installer.
     * WP 10.4: Schrijven eindverslag.
 
-  
+= Gantt chart =
+
+http://uhasseltaacgua.googlecode.com/files/gantt.jpg
  
