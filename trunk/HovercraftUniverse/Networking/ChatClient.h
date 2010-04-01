@@ -69,6 +69,13 @@ public:
 	virtual void process();
 
 	/**
+	 * Set a new username
+	 *
+	 * @param username the username
+	 */
+	void setUsername(const std::string& username);
+
+	/**
 	 * Send a text line
 	 *
 	 * @param line the text line
