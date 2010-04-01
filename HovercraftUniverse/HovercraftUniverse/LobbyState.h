@@ -30,8 +30,10 @@ namespace HovUni {
 		public:
 			/**
 			 * Constructor
+			 *
+			 * @param client The client to which the user is connected
 			 */
-			LobbyState(HUClient* client, Lobby* lobby);
+			LobbyState(HUClient* client);
 
 			/** Destructor */
 			virtual ~LobbyState();

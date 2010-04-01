@@ -1,13 +1,6 @@
 #ifndef GUIMANAGER_H
 #define GUIMANAGER_H
 
-/**
- * The GUIManager class will manage everything that is related to
- * the graphical user interface that users will see during the game.
- *
- * @author Nick De Frangh
- */
-
 //Include IOS but prevent double link errors!
 #define OIS_DYNAMIC_LIB
 #include <OIS.h>
@@ -24,6 +17,12 @@ namespace HovUni {
 	class BasicOverlay; //Forward declaration
 	class OverlayContainer;
 
+	/**
+	 * The GUIManager class will manage everything that is related to
+	 * the graphical user interface that users will see during the game.
+	 *
+	 * @author Nick De Frangh
+	 */
 	class GUIManager : public OIS::KeyListener, public OIS::MouseListener {
 		private:
 			/** The only instance of the GUIManager available */
