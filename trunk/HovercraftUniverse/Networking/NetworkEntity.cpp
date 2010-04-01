@@ -6,7 +6,7 @@
 
 namespace HovUni {
 
-NetworkEntity::NetworkEntity(unsigned short replicators) : mNode(0), mReplicatorNr(replicators), mRegistered(false) {
+NetworkEntity::NetworkEntity(unsigned short replicators) : mNode(0), mReplicatorNr(replicators), mRegistered(false), mDeleted(false) {
 	mNode = new ZCom_Node();
 }
 
@@ -43,6 +43,10 @@ bool NetworkEntity::isRegistered() const {
 	return mRegistered;
 }
 
+bool NetworkEntity::isDeleted() const {
+	return mDeleted;
+}
+
 void NetworkEntity::processEvents(float timeSince) {
 	while (mNode->checkEventWaiting()) {
 		eZCom_Event type;
@@ -51,15 +55,12 @@ void NetworkEntity::processEvents(float timeSince) {
 
 		ZCom_BitStream* data = mNode->getNextEvent(&type, &remote_role, &conn_id);
 
-		parseEvents(type, remote_role, conn_id, data, timeSince);
+		if (remote_role == eZCom_RoleAuthority && type == eZCom_EventRemoved) {
+			mDeleted = true;
+		}
 
-		/*if (remote_role == eZCom_RoleAuthority && type == eZCom_EventRemoved) {
-			mDeleteMe = true;
-		} else*/
-		/*if (type == eZCom_EventUser) {
-			// Delegate to the user events callback
-			parseEvents(tydata, timeSince);
-		}*/
+		// Callback to parse the events
+		parseEvents(type, remote_role, conn_id, data, timeSince);
 	}
 }
 

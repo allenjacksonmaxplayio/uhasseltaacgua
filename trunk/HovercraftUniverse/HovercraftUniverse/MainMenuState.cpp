@@ -16,7 +16,7 @@ namespace HovUni {
 		HUClient* mClient = new HUClient(address.c_str());
 
 		try {
-			mClient->connect(0,true);
+			mClient->connect(0);
 		} catch ( NetworkException ex ){
 			//TODO NICK SHOW ERROR BOX
 			return false;
