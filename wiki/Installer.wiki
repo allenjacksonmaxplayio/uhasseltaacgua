@@ -1,0 +1,13 @@
+#summary One-sentence summary of this page.
+
+= INNO Setup Script =
+
+Ik heb een INNO Setup Script gemaakt in de root van het project ("setup.iss"), zodat HovUni gemakkelijk te testen is op andere computers, zonder dat daarvoor heel het project moet worden gecheckout.
+
+En het is ook meteen handig voor het einde van het project, aangezien we al een installer hebben. 
+
+== Howto ==
+# Download en installer [http://www.jrsoftware.org/download.php/is.exe INNO Setup Compiler]
+# Rechtsklik op setup.iss en kies "Compile". De installer zal dan in bin/installer worden gezet.
+
+_NB_: Voor elke (nieuwe) file die nodig is voor het project moet er een entry staan in het script.
