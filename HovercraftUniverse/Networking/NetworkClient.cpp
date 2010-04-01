@@ -4,31 +4,34 @@
 
 namespace HovUni {
 
-NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) : mServerName(name), mConnectPort(port), mDebugName(debugname) {
+NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) : mServerName(name), mConnectPort(port), mDebugName(debugname), mRemote(true) {
+	initialize();
 }
 
-NetworkClient::NetworkClient(const unsigned port, const char* debugname) : mServerName(0), mConnectPort(port), mDebugName(debugname) {
+NetworkClient::NetworkClient(const unsigned port, const char* debugname) : mServerName(0), mConnectPort(port), mDebugName(debugname), mRemote(false) {
+	initialize();
 }
-
 
 NetworkClient::~NetworkClient() {
 }
 
-void NetworkClient::connect(ZCom_BitStream * request, bool remote) {
+void NetworkClient::initialize() {
 	ZCom_setDebugName(mDebugName);
 
 	// Create and initialize network sockets (UDP, UDP port, internal socket port)
-	bool result = ZCom_initSockets(true, 0, (remote ? 0 : 1));
+	bool result = ZCom_initSockets(true, 0, (mRemote ? 0 : 1));
 
 	if (!result) {
 		THROW(NetworkException, "Cannot initialize sockets");
 	}
+}
 
+void NetworkClient::connect(ZCom_BitStream * request) {
 	// New scope to assure server_addr gets out of scope before zcom could be deleted
 	{
 		// Construct server address
 		ZCom_Address server_addr;
-		if (remote) {
+		if (mRemote) {
 			std::stringstream ss;
 			ss << mServerName << ":" << mConnectPort;
 			server_addr.setAddress(eZCom_AddressUDP, 0, ss.str().c_str());

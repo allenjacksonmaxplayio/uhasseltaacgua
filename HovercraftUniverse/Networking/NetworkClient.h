@@ -24,6 +24,9 @@ private:
 	/** The port where the server is listening */
 	const unsigned mConnectPort;
 
+	/** Whether to connect local or remote */
+	const bool mRemote;
+
 public:
 	/**
 	 * Constructor for remote connection
@@ -53,9 +56,8 @@ public:
 	 * Connect
 	 *
 	 * @param request the optional request data send to server, will be deleted
-	 * @param remote whether it is a remote or local connection
 	 */
-	void connect(ZCom_BitStream * request, bool remote) throw(NetworkException);
+	void connect(ZCom_BitStream * request) throw(NetworkException);
 
 	/**
 	 * Process incoming and outgoing packets
@@ -68,7 +70,12 @@ private:
 	/**
 	 * Hide the copy constructor
 	 */
-	NetworkClient(const NetworkClient&) : mServerName(""), mConnectPort(0) { }
+	NetworkClient(const NetworkClient&) : mDebugName(""), mServerName(""), mConnectPort(0), mRemote(false) { }
+
+	/**		
+	 * Initialize the client		
+	 */		
+	void initialize();
 
 //
 // ZCom_Control callbacks

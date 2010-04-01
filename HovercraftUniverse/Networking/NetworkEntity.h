@@ -28,6 +28,9 @@ protected:
 	/** Whether the entity is registered to the network */
 	bool mRegistered;
 
+	/** Whether the entity is deleted on the network */
+	bool mDeleted;
+
 public:
 	/**
 	 * Constructor
@@ -65,6 +68,13 @@ public:
 	 * @return true if the entity is registered
 	 */
 	bool isRegistered() const;
+
+	/**
+	 * Check whether the entity is deleted on the network
+	 *
+	 * @return true if the entity was deleted
+	 */
+	bool isDeleted() const;
 
 	/**
 	 * Process the events waiting for this entity. This method
