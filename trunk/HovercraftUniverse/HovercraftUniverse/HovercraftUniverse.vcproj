@@ -501,6 +501,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="GameLogic"
+					>
+					<File
+						RelativePath=".\RaceState.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="GameEvents"
@@ -876,6 +884,14 @@
 					</File>
 					<File
 						RelativePath=".\LobbyGUI.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="GameLogic"
+					>
+					<File
+						RelativePath=".\RaceState.h"
 						>
 					</File>
 				</Filter>

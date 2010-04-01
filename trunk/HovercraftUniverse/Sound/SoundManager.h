@@ -11,6 +11,11 @@
 #include "Moveable3DEmitter.h"
 
 namespace HovUni {
+	/**
+	 * A manager class for everything related to sound in the game.
+	 *
+	 * @author Nick De Frangh
+	 */
 	class SoundManager {
 		friend class Moveable3DEmitter;
 

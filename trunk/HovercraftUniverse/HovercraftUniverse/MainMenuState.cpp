@@ -22,7 +22,7 @@ namespace HovUni {
 			return false;
 		}
 
-		LobbyState* newState = new LobbyState(mClient, mClient->getLobby());
+		LobbyState* newState = new LobbyState(mClient);
 		mManager->addGameState(GameStateManager::LOBBY, newState);
 
 		//Deactivate our overlay

@@ -7,7 +7,7 @@
 #include <OgreRoot.h>
 
 namespace HovUni {
-	LobbyState::LobbyState(HUClient* client, Lobby* lobby) : mClient(client), mLobby(lobby), mLastGUIUpdate(0), mLastClientUpdate(0) {
+	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
 		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onStart), Hikari::FlashDelegate(this, &LobbyState::onLeave));
 
