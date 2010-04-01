@@ -28,6 +28,13 @@ Lobby::~Lobby(void) {
 		delete mLoader;
 }
 
+void Lobby::process() {
+	processEvents(0.0f);
+	for (std::map<ZCom_ConnID,PlayerSettings*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
+		it->second->processEvents(0.0f);
+	}
+}
+
 void Lobby::removePlayer( ZCom_ConnID id ){
 	std::map<ZCom_ConnID,PlayerSettings*>::iterator i =  mPlayers.find(id);
 	delete i->second;
@@ -36,17 +43,17 @@ void Lobby::removePlayer( ZCom_ConnID id ){
 }
 
 void Lobby::addPlayer(PlayerSettings * settings){	
-	std::map<ZCom_ConnID,PlayerSettings*>::iterator i = mPlayers.find(settings->getConnectionID());
+	std::map<ZCom_ConnID,PlayerSettings*>::iterator i = mPlayers.find(settings->getID());
 
 	if ( i != mPlayers.end() ){
-		removePlayer(settings->getConnectionID());
+		removePlayer(settings->getID());
 	}
 
-	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(settings->getConnectionID(),settings));
+	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(settings->getID(),settings));
 }
 
 void Lobby::removePlayer( PlayerSettings * settings ){
-	removePlayer(settings->getConnectionID());
+	removePlayer(settings->getID());
 }
 
 void Lobby::addListener( LobbyListener* listener ){
@@ -91,7 +98,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	}
 
 	// Add player to map
-	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(id,new PlayerSettings(this,id)));
+	addPlayer(new PlayerSettings(this, id));
 	mCurrentPlayers++;
 
 	//Send Event to players and self

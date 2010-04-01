@@ -10,39 +10,53 @@ namespace HovUni {
 
 class Lobby;
 
+/**
+ * The settings of a player. This is distributed over all players so that
+ * they now what the settings are of each player
+ *
+ * @author Olivier Berghmans & Pieter-Jan Pintens
+ */
 class PlayerSettings : public NetworkEntity {
 private:
+	// The lobby
+	Lobby* mLobby;
 
-	//The lobby
-	Lobby * mLobby;
+	// The ID of the user
+	const unsigned int mUserID;
 
-	//connection id (const)
-	ZCom_ConnID mConnectionID;
-
-	//name
+	// The name of the user
 	Ogre::String mPlayerName;
 	
-	//hovercraft type
+	// The hovercraft type
 	Ogre::String mHovercraft;
 
-	//character type
+	// The character type
 	Ogre::String mCharacter;
 
 public:
 
 	/**
 	 * Constructor
-	 * @param mconnectionid
+	 *
+	 * @param lobby the lobby
+	 * @param userID the ID of the user
 	 */
-	PlayerSettings( Lobby * lobby, ZCom_ConnID mConnectionID);
+	PlayerSettings(Lobby * lobby, unsigned int userID);
 
 	/**
 	 * Constructor
-	 * @param announcedata
+	 *
+	 * @param lobby the lobby
+	 * @param announcedata the announce data
+	 * @param ID the class ID
+	 * @param control the network control
 	 */
-	PlayerSettings( Lobby * lobby, ZCom_BitStream* announcedata);
+	PlayerSettings(Lobby * lobby, ZCom_BitStream* announcedata, ZCom_ClassID id, ZCom_Control* control);
 
-	~PlayerSettings(void);
+	/**
+	 * Destructor
+	 */
+	~PlayerSettings();
 
 	/**
 	 * Get the class name for this class. This is used for registering
@@ -101,11 +115,12 @@ public:
 	}
 
 	/**
-	 * Get connection id
-	 * @return connection id
+	 * Get the ID of the user
+	 *
+	 * @return the ID of the user
 	 */
-	inline const ZCom_ConnID getConnectionID() const { 
-		return mConnectionID;
+	inline const unsigned int getID() const { 
+		return mUserID;
 	}
 
 

@@ -75,6 +75,11 @@ public:
 	 */
 	~Lobby();
 
+	/**
+	 * Process the lobby. This will process all events for the lobby and for all the
+	 * players in the lobby.
+	 */
+	void process();
 
 	void addPlayer(PlayerSettings * settings);
 

@@ -114,6 +114,16 @@ public:
 	bool sendEvent(const NetworkEvent<EventType, N>& event, bool secret = false) const;
 
 	/**
+	 * Send an event for this entity
+	 *
+	 * @param event the network event
+	 * @param id the ID to send to
+	 * @return result of the send operation
+	 */
+	template <typename EventType, int N>
+	bool sendEventDirect(const NetworkEvent<EventType, N>& event, ZCom_ConnID id) const;
+
+	/**
 	 * Get the network node. You should probably not be calling this.
 	 *
 	 * @return the network node
@@ -207,6 +217,13 @@ bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secr
 	}
 	// Proxy should not send events for this entity
 	return false;
+}
+
+template <typename EventType, int N>
+bool NetworkEntity::sendEventDirect(const NetworkEvent<EventType, N>& event, ZCom_ConnID id) const {
+	ZCom_BitStream* stream = new ZCom_BitStream();
+	event.serialize(stream);
+	return mNode->sendEventDirect(eZCom_ReliableOrdered, stream, id);
 }
 
 }

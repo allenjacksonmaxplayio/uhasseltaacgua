@@ -302,7 +302,7 @@ void ServerLoader::onHoverCraft( Hovercraft * hovercraft ) {
 
 	hkVector4& v = mHovercraftWorld->mStartPositions[mPosition];
 	hovercraft->changePosition( Ogre::Vector3(v(0),v(1),v(2)) );
-	hovercraft->getNetworkNode()->setOwner(mPlayer->getConnectionID(), true);	
+	hovercraft->getNetworkNode()->setOwner(mPlayer->getID(), true);	
 	hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(),true);
 }
 

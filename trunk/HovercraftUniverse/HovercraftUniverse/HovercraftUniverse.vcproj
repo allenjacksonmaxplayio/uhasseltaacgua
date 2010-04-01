@@ -522,6 +522,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\InitEvent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\OnJoinEvent.cpp"
 					>
 				</File>
@@ -913,6 +917,10 @@
 				</File>
 				<File
 					RelativePath=".\GameEventType.h"
+					>
+				</File>
+				<File
+					RelativePath=".\InitEvent.h"
 					>
 				</File>
 				<File
