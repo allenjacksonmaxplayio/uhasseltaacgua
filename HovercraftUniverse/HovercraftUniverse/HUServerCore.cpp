@@ -25,7 +25,7 @@ HUServerCore::~HUServerCore() {
 
 void HUServerCore::process() {
 	NetworkServer::process();
-	mLobby->processEvents(0.0f);
+	mLobby->process();
 }
 
 bool HUServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {

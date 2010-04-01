@@ -2,6 +2,7 @@
 
 #include "OnJoinEvent.h"
 #include "onLeaveEvent.h"
+#include "initEvent.h"
 
 namespace HovUni {
 
@@ -13,6 +14,8 @@ GameEvent* GameEventParser::parse(ZCom_BitStream* stream) {
 	GameEventType type = GameEvent::readType(stream);
 
 	switch (type) {
+		case init:
+			return InitEvent::parse(stream);
 		case startTrack:
 			return StartTrackEvent::parse(stream);
 		case onJoin:

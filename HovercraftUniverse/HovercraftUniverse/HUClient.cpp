@@ -67,6 +67,7 @@ HUClient::~HUClient() {
 
 void HUClient::process() {
 	NetworkClient::process();
+	mLobby->process();
 
 	if (mChatClient != 0) {
 		mChatClient->process();
@@ -131,8 +132,9 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 	} 
 	else if ( requested_class == mIDManager->getID(PlayerSettings::getClassName()) ){
 		// Player (TODO do something with it)
-		PlayerSettings * ent = new PlayerSettings(mLobby,announcedata);
-		ent->networkRegister(requested_class,this);
+		PlayerSettings * ent = new PlayerSettings(mLobby, announcedata, requested_class, this);
+		// Network register is done in constructor of player settings
+		mLobby->addPlayer(ent);
 	}	
 	//Entities
 	else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){

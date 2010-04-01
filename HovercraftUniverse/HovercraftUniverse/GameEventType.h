@@ -9,6 +9,7 @@ namespace HovUni {
  * @author Olivier Berghmans
  */
 enum GameEventType {
+	init,
 	startTrack,
 	onJoin,
 	onLeave
@@ -16,7 +17,7 @@ enum GameEventType {
 };
 
 /** The amount of event types, used for compressing in the network */
-static const unsigned GameEventTypeSize = 3;
+static const unsigned GameEventTypeSize = 4;
 
 }
 
