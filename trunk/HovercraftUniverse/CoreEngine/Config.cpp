@@ -45,35 +45,26 @@ namespace HovUni {
 	}
 
 	int Config::getIntValue(std::string section, std::string field) {
-		std::cout << mFilename << " :: Getting [" << section << "] " << field << std::endl;
 		std::string stringValue = getValue(section, field);
-		std::cout << mFilename << " :: value = " << stringValue <<std::endl;
 		std::istringstream buffer(stringValue);
 		int result;
 		buffer >> result;
-		std::cout << mFilename << " :: result = " << result << std::endl;
 		return result;
 	}
 
 	float Config::getFloatValue(std::string section, std::string field) {
-		std::cout << mFilename << " :: Getting [" << section << "] " << field << std::endl;
 		std::string stringValue = getValue(section, field);
-		std::cout << mFilename << " :: value = " << stringValue <<std::endl;
 		std::istringstream buffer(stringValue);
 		float result;
 		buffer >> result;
-		std::cout << mFilename << " :: result = " << result << std::endl;
 		return result;
 	}
 
 	double Config::getDoubleValue(std::string section, std::string field) {
-		std::cout << mFilename << " :: Getting [" << section << "] " << field << std::endl;
 		std::string stringValue = getValue(section, field);
-		std::cout << mFilename << " :: value = " << stringValue <<std::endl;
 		std::istringstream buffer(stringValue);
 		double result;
 		buffer >> result;
-		std::cout << mFilename << " :: result = " << result << std::endl;
 		return result;
 	}
 
