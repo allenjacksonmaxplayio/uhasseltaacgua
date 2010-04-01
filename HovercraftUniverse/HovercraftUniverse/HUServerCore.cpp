@@ -14,9 +14,8 @@ HUServerCore::HUServerCore() : NetworkServer(2375, 2376, "HUServer"), mEntityMan
 
 	// Create lobby
 	mLobby = new Lobby(new ServerLoader());
-
 	// Register lobby
-	mLobby->networkRegister(mIDManager->getID(Lobby::getClassName()), this);
+	mLobby->networkRegisterUnique(mIDManager->getID(Lobby::getClassName()), this, true);
 }
 
 HUServerCore::~HUServerCore() {

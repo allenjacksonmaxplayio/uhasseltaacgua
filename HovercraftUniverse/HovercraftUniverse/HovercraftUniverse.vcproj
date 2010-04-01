@@ -891,6 +891,10 @@
 					Name="GameLogic"
 					>
 					<File
+						RelativePath=".\RacePlayer.h"
+						>
+					</File>
+					<File
 						RelativePath=".\RaceState.h"
 						>
 					</File>

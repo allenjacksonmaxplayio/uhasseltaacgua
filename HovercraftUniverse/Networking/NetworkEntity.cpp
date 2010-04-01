@@ -39,6 +39,22 @@ void NetworkEntity::networkRegister(NetworkIDManager* idmanager, std::string nam
 	networkRegister(idmanager->getID(name), idmanager->getControl(), announce);
 }
 
+void NetworkEntity::networkRegisterUnique(ZCom_ClassID id, ZCom_Control* control, bool authority) {
+	// Set up replication
+	mNode->beginReplicationSetup(mReplicatorNr);
+	setupReplication();
+	mNode->endReplicationSetup();
+
+	// Register the object
+	eZCom_NodeRole role = (authority) ? eZCom_RoleAuthority : eZCom_RoleProxy;
+	mNode->registerNodeUnique(id, role, control);
+	mRegistered = true;
+}
+
+void NetworkEntity::networkRegisterUnique(NetworkIDManager* idmanager, std::string name, bool authority) {
+	networkRegisterUnique(idmanager->getID(name), idmanager->getControl());
+}
+
 bool NetworkEntity::isRegistered() const {
 	return mRegistered;
 }
