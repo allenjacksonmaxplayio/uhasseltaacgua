@@ -12,10 +12,20 @@ AppVersion=0.1
 AppID={{3F2DDF97-F798-426F-81C7-2C9D4A6EAB05}
 UninstallDisplayIcon={app}\HovercraftUniverse.exe
 AllowNoIcons=true
+VersionInfoCompany=UA
+VersionInfoDescription=Hovercraft Universe
+VersionInfoCopyright=Hovercraft Universe
+VersionInfoProductName=Hovercraft Universe
+AppPublisher=Hovercraft Universe
+AppPublisherURL=http://uhasseltaacgua.googlecode.com/
+AppSupportURL=http://uhasseltaacgua.googlecode.com/
+AppUpdatesURL=http://uhasseltaacgua.googlecode.com/
+OutputBaseFilename=HovercraftUniverse
 [Files]
 Source: bin\release\HovercraftUniverse.exe; DestDir: {app}
 Source: bin\installer\HovercraftUniverse.ini; DestDir: {app}
 Source: bin\release\lua5.1.dll; DestDir: {app}
+Source: bin\release\lua51.dll; DestDir: {app}
 Source: bin\release\fmodex.dll; DestDir: {app}
 Source: bin\release\Hikari.dll; DestDir: {app}
 Source: bin\release\fmod_event.dll; DestDir: {app}
@@ -23,6 +33,7 @@ Source: bin\release\OgreMain.dll; DestDir: {app}
 Source: bin\release\OIS.dll; DestDir: {app}
 Source: bin\release\zoidcom_vc.dll; DestDir: {app}
 Source: data\controls\Controls.ini; DestDir: {app}\data\controls
+Source: data\gui\background.swf; DestDir: {app}\data\gui
 Source: data\gui\chat.swf; DestDir: {app}\data\gui
 Source: data\gui\direction.swf; DestDir: {app}\data\gui
 Source: data\gui\GUIConfig.xml; DestDir: {app}\data\gui
