@@ -54,7 +54,7 @@ Ik ga deze planning nog sterk uitbreiden en een gantt-chart maken ervoor zodat d
      * WP 5.3.2: Materialen mappen op planets.
      * WP 5.3.3: Planets compliant maken zodat ze ingelezen kunnen worden door engine.
      * WP 5.3.4: Koppelen eigenschappen planeet aan mesh.
-    * WP 5.4: Design maps (depends on WP1, WP2).
+    * WP 5.4: Design maps (depends on WP1.10, WP2).
       * WP 5.4.1: Implementatie pauze functie die huidige positie in x, y, z weergeeft zodat plaatsing nieuwe planeten waarnaar gejumpt moet worden gemakkelijker kan.
       * WP 5.4.2: Plaatsing planeten om een hele map te verkrijgen.
       * WP 5.4.3: Toelaten dat race state map laadt.
