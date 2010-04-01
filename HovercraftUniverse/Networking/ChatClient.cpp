@@ -36,6 +36,10 @@ void ChatClient::process() {
 	}
 }
 
+void ChatClient::setUsername(const std::string& username) {
+	mUser = username;
+}
+
 void ChatClient::sendText(const std::string& line) {
 	if (mChat) {
 		mChat->sendLine(mUser, line);
