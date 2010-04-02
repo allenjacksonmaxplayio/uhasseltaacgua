@@ -79,6 +79,7 @@ public:
 	 * players in the lobby.
 	 */
 	void process();
+
 	/**
 	 * Add a player to the lobby
 	 */
