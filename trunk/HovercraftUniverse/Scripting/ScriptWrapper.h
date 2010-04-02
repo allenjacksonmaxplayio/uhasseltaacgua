@@ -17,9 +17,19 @@ namespace HovUni {
 	*/
 	class ScriptWrapper {
 	private:
-		lua_State *mLuaState;
+		/**
+		*	The Lua State.
+		*/
+		lua_State* mLuaState;
 	public:
+		/**
+		*	Constructor.
+		*/
 		ScriptWrapper();
+
+		/**
+		*	Destructor.
+		*/
 		~ScriptWrapper();
 
 		/**
