@@ -130,6 +130,13 @@ public:
 	 */
 	ZCom_Node* getNetworkNode();
 
+	/**
+	 * Add a replicator interceptor
+	 *
+	 * @param interceptor The interceptor to add
+	 */
+	void setReplicationInterceptor(ZCom_NodeReplicationInterceptor* interceptor);
+
 private:
 	/**
 	 * Hide the copy constructor

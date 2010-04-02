@@ -36,11 +36,12 @@
 
 namespace HovUni {
 
-HUClient::HUClient(const char* name, unsigned int port) : NetworkClient(name, port, "HUClient"), mAddress(name) {
+HUClient::HUClient(const char* name, unsigned int port) 
+		: NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0) {
 	initialize();
 }
 
-HUClient::HUClient() : NetworkClient(2376, "HUClient"), mAddress("") {
+HUClient::HUClient() : NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0) {
 	initialize();
 }
 
@@ -92,7 +93,13 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, 
 		if (mChatListener != 0) {
 			mChatClient->registerListener(mChatListener);
 		}
+
+		//We are done, notify our listeners
+		mSemaphore.post();
 	} else {
+		//Notify our listeners
+		mSemaphore.post();
+
 		// Connection failed
 		THROW(NetworkException, "Connection failed");
 		return;
@@ -134,6 +141,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		// Player (TODO do something with it)
 		PlayerSettings * ent = new PlayerSettings(mLobby, announcedata, requested_class, this);
 		// Network register is done in constructor of player settings
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: adding player to lobby";
 		mLobby->addPlayer(ent);
 	}	
 	//Entities
@@ -225,6 +233,10 @@ void HUClient::setChatListener(ChatListener* listener) {
 	if (mChatClient != 0) {
 		mChatClient->registerListener(mChatListener);
 	}
+}
+
+void HUClient::wait() {
+	mSemaphore.wait();
 }
 
 }

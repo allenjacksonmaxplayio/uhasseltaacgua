@@ -50,6 +50,11 @@ void Lobby::addPlayer(PlayerSettings * settings){
 	}
 
 	mPlayers.insert(std::pair<ZCom_ConnID,PlayerSettings*>(settings->getID(),settings));
+
+	//Notify our listeners
+	for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
+		(*i)->onJoin(settings);
+	}
 }
 
 void Lobby::removePlayer( PlayerSettings * settings ){
@@ -192,9 +197,9 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 			{
 				OnJoinEvent * joinevent = dynamic_cast<OnJoinEvent*>(event);
 				//propagate to listeners
-				for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
-					(*i)->onJoin(joinevent->getConnectionId());
-				}
+				//for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
+				//	(*i)->onJoin(joinevent->getConnectionId());
+				//}
 				break;
 			}		
 			case onLeave:

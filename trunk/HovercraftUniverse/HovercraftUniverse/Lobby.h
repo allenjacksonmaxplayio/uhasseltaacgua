@@ -28,7 +28,6 @@ public:
 private:
 
 	//TODO MUTEX PROTECT PLAYERS
-
 	std::list<LobbyListener*> mListeners;
 
 	/** Specific loader, will be different on client and server **/
@@ -80,11 +79,15 @@ public:
 	 * players in the lobby.
 	 */
 	void process();
-
+	/**
+	 * Add a player to the lobby
+	 */
 	void addPlayer(PlayerSettings * settings);
 
+	/**
+	 * Remove a player from the lobby
+	 */
 	void removePlayer( PlayerSettings * settings );
-
 
 	/**
 	 * Add a loby listener

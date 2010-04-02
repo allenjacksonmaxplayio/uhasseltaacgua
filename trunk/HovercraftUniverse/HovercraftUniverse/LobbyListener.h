@@ -2,6 +2,7 @@
 #define LOBBY_LISTENER_H
 
 #include "zoidcom/zoidcom.h"
+#include "PlayerSettings.h"
 
 namespace HovUni {
 
@@ -11,7 +12,7 @@ public:
 
 	virtual void onLeave(ZCom_ConnID id) = 0;
 
-	virtual void onJoin(ZCom_ConnID id) = 0;
+	virtual void onJoin(PlayerSettings * settings) = 0;
 
 	virtual void onCharacterChange() = 0;
 

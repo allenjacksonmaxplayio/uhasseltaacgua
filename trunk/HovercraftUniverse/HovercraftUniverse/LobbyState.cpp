@@ -12,16 +12,21 @@ namespace HovUni {
 		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onStart), Hikari::FlashDelegate(this, &LobbyState::onLeave));
 
 		mClient->setChatListener(mLobbyGUI);
-		mClient->process();
+		//mClient->process();
 	}
 
 	LobbyState::~LobbyState() {
 		delete mLobbyGUI;
+
+		for (map<int, PlayerSettingsInterceptor*>::iterator it = mPlayerInterceptors.begin(); it != mPlayerInterceptors.end(); ++it) {
+			//Delete the interceptor
+			delete (*it).second;
+		}
 	}
 
 	Hikari::FlashValue LobbyState::onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mClient->getChatClient()->sendText(args.at(0).getString());
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "LobbyState :: " << "Sending chat message: " << args.at(0).getString();
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
 		return "success";
 	}
 
@@ -45,6 +50,49 @@ namespace HovUni {
 		return "success";
 	}
 
+	////////////////////////////////////////
+	//	PlayerSettingsListener functions
+	////////////////////////////////////////
+
+	void LobbyState::onPlayerUpdate(int id, const std::string& username, const std::string& character, const std::string& car) {
+		//Player has been updated, propagate changes
+		mLobbyGUI->editUser(id, username, character, car);
+	}
+
+	////////////////////////////////////////
+	//	LobbyListener functions
+	////////////////////////////////////////
+
+	void LobbyState::onLeave(ZCom_ConnID id) {
+		
+	}
+
+	void LobbyState::onJoin(PlayerSettings * settings) {
+		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[LobbyState]: onJoin was called! " << settings->getPlayerName() << " (" << settings->getID() << ")";
+		//Player has joined, add empty player to the visualisation
+		mLobbyGUI->addUser(settings->getID(), "", "", "");
+		//Create a new playersettingsinterceptor
+		PlayerSettingsInterceptor* intercept = new PlayerSettingsInterceptor(settings, this);
+		//Store te interceptor
+		mPlayerInterceptors.insert(std::pair<int, PlayerSettingsInterceptor*>(settings->getID(), intercept));
+	}
+
+	void LobbyState::onCharacterChange() {
+		
+	}
+
+	void LobbyState::onHovercraftChange() {
+		
+	}
+
+	void LobbyState::onTrackChange() {
+		
+	}
+
+	////////////////////////////////////////
+	//	BasicGameState functions
+	////////////////////////////////////////
+
 	void LobbyState::activate() {
 		//We don't want any crazy input keys
 		mInputManager->getKeyManager()->setInactive();
@@ -56,11 +104,30 @@ namespace HovUni {
 		mLobbyGUI->activate();
 
 		//Show ourselves in the lobby!
-		Config* conf = Application::getConfig();
-		mLobbyGUI->addUser(1, conf->getValue("Player", "PlayerName"), conf->getValue("Player", "Character"), conf->getValue("Player", "Hovercraft"));
+		//Get all the playerconfigs and show them in the lobby
+		const Lobby::playermap players = mLobby->getPlayers();
+		for (Lobby::playermap::const_iterator i = players.begin(); i != players.end(); ++i) {
+			PlayerSettings* player = (*i).second;
+			mLobbyGUI->addUser(player->getID(), player->getPlayerName(), player->getCharacter(), player->getHovercraft());
+		}
+
+		//Activate all possible interception listeners
+		for (map<int, PlayerSettingsInterceptor*>::iterator it = mPlayerInterceptors.begin(); it != mPlayerInterceptors.end(); ++it) {
+			//make the interceptor inactive
+			(*it).second->setStatus(true);
+		}
+
+		//Config* conf = Application::getConfig();
+		//mLobbyGUI->addUser(1, conf->getValue("Player", "PlayerName"), conf->getValue("Player", "Character"), conf->getValue("Player", "Hovercraft"));
 	}
 
 	void LobbyState::disable() {
+		//Disable all the interception listeners
+		for (map<int, PlayerSettingsInterceptor*>::iterator it = mPlayerInterceptors.begin(); it != mPlayerInterceptors.end(); ++it) {
+			//make the interceptor inactive
+			(*it).second->setStatus(false);
+		}
+
 		//Deactivate the menu overlay
 		mLobbyGUI->deactivate();
 	}

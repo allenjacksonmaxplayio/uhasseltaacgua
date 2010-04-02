@@ -5,8 +5,11 @@
 #include "EntityManager.h"
 #include "NetworkIDManager.h"
 #include "Lobby.h"
+#include "LobbyListener.h"
 #include <ChatClient.h>
 #include <ChatListener.h>
+
+#include <boost/interprocess/sync/interprocess_semaphore.hpp>
 
 namespace HovUni {
 
@@ -39,6 +42,9 @@ private:
 
 	/** A chat client associated with this server */
 	ChatClient* mChatClient;
+
+	/** A Semaphore to make it possible to wait for complete connection */
+	boost::interprocess::interprocess_semaphore mSemaphore;
 
 public:
 	/**
@@ -88,6 +94,11 @@ public:
 	 * @param listener The listener to register
 	 */
 	void setChatListener(ChatListener* listener);
+
+	/**
+	 * Wait for the client to fully connect to the server
+	 */
+	void wait();
 
 private:
 	/**
