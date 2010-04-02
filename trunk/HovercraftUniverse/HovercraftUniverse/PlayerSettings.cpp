@@ -21,6 +21,7 @@ PlayerSettings::PlayerSettings( Lobby * lobby, unsigned int userID) :
 	//some default values
 	// TODO Nickman, you have removed this in your commit, but I needed it or otherwise it would crash. So I put it back for a second (Kristof)
 	mHovercraft = "hover1";
+	mPlayerName = "Playorlol";
 }
 
 PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control):
@@ -89,13 +90,13 @@ void PlayerSettings::setupReplication(){
 
 
 	//replicate name
-	replicateString(&mPlayerName, ZCOM_REPRULE_AUTH_2_ALL|ZCOM_REPRULE_OWNER_2_AUTH);
+	replicateString(&mPlayerName, ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY);
 
 	//replicate hovercraft
-	replicateString(&mHovercraft, ZCOM_REPRULE_AUTH_2_ALL|ZCOM_REPRULE_OWNER_2_AUTH);
+	replicateString(&mHovercraft, ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY);
 
 	//replicate character
-	replicateString(&mCharacter, ZCOM_REPRULE_AUTH_2_ALL|ZCOM_REPRULE_OWNER_2_AUTH);
+	replicateString(&mCharacter, ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY);
 }
 
 }

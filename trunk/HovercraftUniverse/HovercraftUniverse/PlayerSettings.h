@@ -75,7 +75,7 @@ public:
 	 * @param name
 	 */
 	inline void setPlayerName(const Ogre::String& name) {
-		mPlayerName = name;
+		mPlayerName.assign(name);
 		mTMP = mTMP + 1;
 	}
 
@@ -92,7 +92,7 @@ public:
 	 * @param character
 	 */
 	inline void setCharacter(const Ogre::String& character){
-		mCharacter = character;
+		mCharacter.assign(character);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public:
 	 * @param hovercraft
 	 */
 	inline void setHovercraft(const Ogre::String& hov){
-		mHovercraft = hov;
+		mHovercraft.assign(hov);
 	}
 
 	/**

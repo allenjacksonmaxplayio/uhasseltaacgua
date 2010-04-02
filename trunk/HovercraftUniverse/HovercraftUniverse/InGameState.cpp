@@ -106,7 +106,7 @@ namespace HovUni {
 				if (keyboard->isKeyDown(OIS::KC_ESCAPE) || 
 					(keyboard->isKeyDown(OIS::KC_LMENU) && keyboard->isKeyDown(OIS::KC_RMENU) && keyboard->isKeyDown(OIS::KC_F4))) {
 					// Stop rendering
-					mContinue = false;			
+					mContinue = false;
 				}
 
 				break;

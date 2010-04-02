@@ -1,4 +1,5 @@
 #include "PlayerSettingsInterceptor.h"
+#include "Ogre.h"
 
 namespace HovUni {
 	PlayerSettingsInterceptor::PlayerSettingsInterceptor(PlayerSettings* playerSettings, PlayerSettingsListener* listener) 
@@ -12,6 +13,7 @@ namespace HovUni {
 	}
 
 	bool PlayerSettingsInterceptor::inPreUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role) {
+		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[PlayerSettingsInterceptor]: " << "We intercepted replication, old values: " << mPlayerSettings->getPlayerName() << " " << mPlayerSettings->getCharacter() << " " << mPlayerSettings->getHovercraft();
 		return true;
 	}
 
@@ -24,6 +26,7 @@ namespace HovUni {
 		//We don't really care about the parameters for now, just notify our listener
 		if (mStatus) {
 			if (mListener) {
+				//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[PlayerSettingsInterceptor]: " << "We intercepted replication, new values: " << mPlayerSettings->getPlayerName() << " " << mPlayerSettings->getCharacter() << " " << mPlayerSettings->getHovercraft();
 				mListener->onPlayerUpdate(mPlayerSettings->getID(), mPlayerSettings->getPlayerName(), mPlayerSettings->getCharacter(), mPlayerSettings->getHovercraft());
 			}
 		}
