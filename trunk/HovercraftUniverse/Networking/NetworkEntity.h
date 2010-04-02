@@ -180,29 +180,41 @@ protected:
 	 * Add a float to the replicated variabels
 	 *
 	 * @param value The float to replicate
+	 * @param rules The rules for the replicator, this indicates whether the
+	 *				variable is replicated from the server only, or whether the
+	 *				owner can change the value too
 	 */
-	void replicateFloat(float* value, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zS16 minDelay = 0, zS16 maxDelay = 10);
+	void replicateFloat(float* value, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = 0, zS16 maxDelay = 10);
 	
 	/**
 	 * Add a vector to the replicated variabels
 	 *
 	 * @param vector The vector to replicate
+	 * @param rules The rules for the replicator, this indicates whether the
+	 *				variable is replicated from the server only, or whether the
+	 *				owner can change the value too
 	 */
-	void replicateOgreVector3(Ogre::Vector3* vector, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+	void replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
 
 	/**
 	 * Add a quaternion to the replicated variabels
 	 *
 	 * @param qut the quaternion to replicate
+	 * @param rules The rules for the replicator, this indicates whether the
+	 *				variable is replicated from the server only, or whether the
+	 *				owner can change the value too
 	 */
-	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
 
 	/**
 	 * Add a string to the replicated variabels
 	 *
 	 * @param str the string to replicate
+	 * @param rules The rules for the replicator, this indicates whether the
+	 *				variable is replicated from the server only, or whether the
+	 *				owner can change the value too
 	 */
-	void replicateString(Ogre::String * str, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 rules = ZCOM_REPRULE_AUTH_2_ALL, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+	void replicateString(Ogre::String * str, zU8 rules, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
 
 
 };

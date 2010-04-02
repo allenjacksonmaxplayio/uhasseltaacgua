@@ -24,6 +24,8 @@ private:
 	// The ID of the user
 	const unsigned int mUserID;
 
+	int mTMP;
+
 	// The name of the user
 	Ogre::String mPlayerName;
 	
@@ -66,12 +68,15 @@ public:
 	 */
 	static std::string getClassName();
 
+	int getTMP();
+
 	/**
 	 * Set player name
 	 * @param name
 	 */
-	inline void setPlayerName(const Ogre::String& name){
+	inline void setPlayerName(const Ogre::String& name) {
 		mPlayerName = name;
+		mTMP = mTMP + 1;
 	}
 
 	/**

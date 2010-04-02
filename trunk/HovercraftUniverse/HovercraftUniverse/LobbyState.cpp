@@ -27,6 +27,13 @@ namespace HovUni {
 	Hikari::FlashValue LobbyState::onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mClient->getChatClient()->sendText(args.at(0).getString());
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
+
+		// TODO Remove
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Current playername: " << mLobby->getPlayers().begin()->second->getPlayerName();
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Setting playername: " << args.at(0).getString();
+		mLobby->getPlayers().begin()->second->setPlayerName(args.at(0).getString());
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "New playername: " << mLobby->getPlayers().begin()->second->getPlayerName();
+
 		return "success";
 	}
 

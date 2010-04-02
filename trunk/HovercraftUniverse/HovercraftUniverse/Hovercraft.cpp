@@ -131,7 +131,7 @@ void Hovercraft::setupReplication(){
 	Entity::setupReplication();
 
 	//name
-	replicateString(&mDisplayName);
+	replicateString(&mDisplayName, ZCOM_REPRULE_AUTH_2_ALL);
 
 	//mDescription
 	mNode->addReplicator(

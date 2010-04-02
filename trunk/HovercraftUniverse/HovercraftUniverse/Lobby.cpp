@@ -11,6 +11,8 @@
 #include "OnJoinEvent.h"
 #include "OnLeaveEvent.h"
 
+#include <OgreLogManager.h>
+
 namespace HovUni {
 
 std::string Lobby::getClassName() { 
@@ -31,7 +33,9 @@ Lobby::~Lobby(void) {
 void Lobby::process() {
 	processEvents(0.0f);
 	for (std::map<ZCom_ConnID,PlayerSettings*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
+		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "-" << it->first << ": " << it->second->getTMP();
 		it->second->processEvents(0.0f);
+		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "|" << it->first << " : " << it->second->getTMP();
 	}
 }
 

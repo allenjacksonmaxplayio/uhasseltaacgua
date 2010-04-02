@@ -208,9 +208,9 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 
 void Entity::setupReplication() {
 	//TODO: min and max delay should be defined, not magic number...
-	replicateOgreVector3(&mPosition);
-	replicateOgreQuaternion(&mOrientation);
-	replicateOgreVector3(&mVelocity);
+	replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL);
+	replicateOgreQuaternion(&mOrientation, ZCOM_REPRULE_AUTH_2_ALL);
+	replicateOgreVector3(&mVelocity, ZCOM_REPRULE_AUTH_2_ALL);
 }
 
 void Entity::setAnnouncementData(ZCom_BitStream* stream) {
