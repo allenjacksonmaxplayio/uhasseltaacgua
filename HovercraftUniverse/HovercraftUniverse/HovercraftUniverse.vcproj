@@ -425,6 +425,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\HovercraftLoader.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Loader.cpp"
 						>
 					</File>
@@ -808,6 +812,10 @@
 					</File>
 					<File
 						RelativePath=".\ClientPreparationLoader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HovercraftLoader.h"
 						>
 					</File>
 					<File

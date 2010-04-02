@@ -10,12 +10,14 @@
 namespace HovUni {
 
 /**
- * @author PJ
+ * The hovercraft entity.
+ *
+ * @author PJ, Kristof Overdulve
  */ 
 class Hovercraft : public Entity{
 private:
 
-	/**
+	/** 
 	 * The moving status 
 	 */
 	BasicEntityEvent mMovingStatus;
@@ -54,6 +56,11 @@ private:
 	 * The base acceleration without powerups
 	 */
 	Ogre::Real mAcceleration;
+
+	/**
+	 * The steering force
+	 */
+	Ogre::Real mSteering;
 
 public:
 
@@ -193,6 +200,24 @@ public:
 	}
 
 	/**
+	 * Get the steering.
+	 *
+	 * @return the steering
+	 */
+	inline Ogre::Real getSteering() const {
+		return mSteering;
+	}
+
+	/**
+	 * Set the steering.
+	 *
+	 * @param steering the steering
+	 */
+	inline void setSteering(Ogre::Real steering) {
+		mSteering = steering;
+	}
+
+	/**
 	 * Callback to process this entity. This allows to do entity specific processing
 	 *(e.g. intermediate actions).
 	 *
@@ -241,6 +266,11 @@ public:
 	 * @return the class name
 	 */
 	static std::string getClassName();
+
+	/**
+	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)
+	 */
+	void setAnnouncementData(ZCom_BitStream* stream);
 };
 
 }
