@@ -1,5 +1,7 @@
 #include "String_Replicator.h"
 
+#include "Ogre.h"
+
 namespace HovUni {
 
 	String_Replicator::String_Replicator(Ogre::String *data, ZCom_ReplicatorSetup *_setup) 
@@ -33,6 +35,7 @@ namespace HovUni {
 		bool same = ((*mData) == mCompare);
 		// if changed, update the comparison
 		if (!same) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[String_Replicator]: String has been changed \"" << mCompare << "\" <--> \"" << *mData << "\"";
 			mCompare = (*mData);
 		}
 		// return result
@@ -50,6 +53,8 @@ namespace HovUni {
 	void String_Replicator::unpackData(ZCom_BitStream *_stream, bool _store, zU32 _estimated_time_sent) {
 		// shall we store
 		if (_store) {
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[String_Replicator]: Unpacking data \"" << mCompare << "\" <--> \"" << *mData << "\"";
+
 			zU32 bytes = _stream->getInt(sizeof(zU16)*8);
 
 			if ( bytes == 0 ){
