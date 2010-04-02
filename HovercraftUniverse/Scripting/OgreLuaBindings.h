@@ -46,22 +46,22 @@ namespace HovUni {
 		void OgreLuaBindings::bindVector3();
 
 		/**
-		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*	Add class binding for Ogre::ColourValue to the Lua State.
 		*/
 		void OgreLuaBindings::bindColourValue();
 
 		/**
-		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*	Add class binding for Ogre::Entity to the Lua State.
 		*/
 		void OgreLuaBindings::bindEntity();
 
 		/**
-		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*	Add class binding for Ogre::SceneNode to the Lua State.
 		*/
 		void OgreLuaBindings::bindSceneNode();
 
 		/**
-		*	Add class binding for Ogre::Vector3 to the Lua State.
+		*	Add class binding for Ogre::Camera to the Lua State.
 		*/
 		void OgreLuaBindings::bindCamera();
 
