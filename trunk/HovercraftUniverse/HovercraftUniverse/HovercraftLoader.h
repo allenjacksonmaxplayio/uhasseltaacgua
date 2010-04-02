@@ -17,6 +17,9 @@ private:
 	/** The scene manager */
 	Ogre::SceneManager * mSceneMgr;
 
+	/** The current entity */
+	EntityRepresentation * mCurrEntity;
+
 	/** The current node */
 	Ogre::SceneNode * mCurrNode;
 
@@ -26,7 +29,9 @@ private:
 public:
 	HovercraftLoader(Ogre::SceneManager * sceneMgr, Ogre::String hovName);
 
-	~HovercraftLoader(void);
+	virtual ~HovercraftLoader(void);
+
+	virtual void FinishedLoad( bool success );
 
 	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
 

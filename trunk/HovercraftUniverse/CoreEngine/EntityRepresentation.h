@@ -42,9 +42,10 @@ public:
 	 * @param entity the entity that this representation visualizes
 	 * @param mesh the mesh that this entity must draw
 	 * @param sceneMgr the Ogre scene manager
+	 * @param the scene node to attach to
 	 */
 	EntityRepresentation(Entity * entity, Ogre::String meshFile, Ogre::SceneManager * sceneMgr, Ogre::String resourceGroupName, bool visible, bool castShadows, 
-		Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials);
+		Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials, Ogre::SceneNode * node = 0);
 
 	/**
 	 * Destructor.

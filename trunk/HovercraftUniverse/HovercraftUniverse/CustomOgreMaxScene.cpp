@@ -793,8 +793,7 @@ void CustomOgreMaxScene::LoadNode(const TiXmlElement* objectElement, OgreMax::Ty
 		if (this->callback != 0) {
 			this->callback->onNode(parameters, 0, parent);
 		}
-	}
-	else {
+	} else {
 		std::vector<OgreMax::Types::NodeAnimation> animations = LoadNodeAnimations(animationElement);
 		//Notify callback
 		if (this->callback != 0) {

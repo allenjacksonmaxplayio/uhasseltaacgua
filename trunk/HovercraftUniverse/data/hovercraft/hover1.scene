@@ -12,8 +12,8 @@
         </node>
         <node name="hover1">
             <position x="4.43386e-006" y="0" z="0" />
-            <scale x="0.999997" y="1" z="1" />
-            <rotation qx="-7.07805e-007" qy="5.47149e-008" qz="-4.65764e-009" qw="1" />
+            <scale x="1" y="1" z="0.999997" />
+            <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
             <entity name="hover1" castShadows="true" receiveShadows="true" meshFile="hover1.mesh">
                 <userData>
                     <![CDATA[<Hovercraft><Name>hover1</Name><Description>Nonw</Description><OgreEntity>hover1</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>100</Speed><Mass>50</Mass><Acceleration>10</Acceleration><Steering>100</Steering></Hovercraft>]]>
@@ -28,6 +28,45 @@
                     <subentity index="6" materialName="SteeringWheel" />
                 </subentities>
             </entity>
+            <animations>
+                <animation name="CogsRotation" enable="true" loop="true" interpolationMode="spline" rotationInterpolationMode="spherical" length="1.33333">
+                    <keyframe time="0">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                    <keyframe time="0.221875">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                    <keyframe time="0.443958">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                    <keyframe time="0.666042">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                    <keyframe time="0.888125">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                    <keyframe time="1.11021">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                    <keyframe time="1.33333">
+                        <translation x="4.43386e-006" y="0" z="0" />
+                        <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
+                        <scale x="1" y="1" z="0.999997" />
+                    </keyframe>
+                </animation>
+            </animations>
         </node>
     </nodes>
 </scene>
