@@ -245,6 +245,10 @@
 					Name="entity"
 					>
 					<File
+						RelativePath=".\AdvancedCollisionPrevention.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\EntityCollisionPrevention.cpp"
 						>
 					</File>
@@ -614,6 +618,10 @@
 				<Filter
 					Name="entity"
 					>
+					<File
+						RelativePath=".\AdvancedCollisionPrevention.h"
+						>
+					</File>
 					<File
 						RelativePath=".\EntityCollisionPrevention.h"
 						>

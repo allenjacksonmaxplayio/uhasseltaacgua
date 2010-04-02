@@ -254,6 +254,18 @@ void HavokHovercraft::update(){
 	//hovercraft->setSpeed(speedSize);
 	//std::cout << scaledspeed << "  " << speed << "  " << speedSize << std::endl;
 	
+
+
+	//if some boost left
+	float boostvalue = mEntity->getBoost();
+	if ( fabs(boostvalue) > 10e-3 ){
+		hkVector4 boost = mForward;
+		boost.mul4(-1*boostvalue);
+		getRigidBody()->applyLinearImpulse(boost);
+		boostvalue -= boostvalue/10.0f;
+		mEntity->setBoost(boostvalue);
+	}
+
 	mWorld->unmarkForWrite();
 }
 
