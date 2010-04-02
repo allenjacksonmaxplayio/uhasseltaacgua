@@ -12,8 +12,7 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 const Ogre::Real Hovercraft::MAXSPEED(100.0);
 
 Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,6), mTilt(0.0f)
-	{
+	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,6), mTilt(0.0f) {
 
 		//fill some defaults for testing
 		mSpeed = 0;
@@ -22,9 +21,15 @@ Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, 
 		mMass = 50;
 }
 
-Hovercraft::Hovercraft( ZCom_BitStream* announcedata ):
-	Entity(announcedata,CATEGORY,6)
-{
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,6) {
+	// Display name
+	int length = announcedata->getInt(sizeof(int) * 8);
+	if (length != 0) {
+		mDisplayName = Ogre::String(announcedata->getString());
+	} else {
+		mDisplayName = "";
+	}
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Hovercraft :: onCLientSIde: |" << mDisplayName << "|";
 }
 
 void Hovercraft::load(TiXmlElement * data) throw(ParseException){
@@ -82,6 +87,16 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
 		if(element){
 			mAcceleration = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+		}
+	}
+
+	//Read Steering
+	mSteering = 0.0f;
+	node = data->FirstChild("Steering");
+	if(node){
+		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
+		if(element){
+			mSteering = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}
 
@@ -159,6 +174,22 @@ void Hovercraft::setupReplication(){
 	ZCOM_REPFLAG_MOSTRECENT,
 	ZCOM_REPRULE_AUTH_2_ALL
 	);
+
+	//mSteering
+	mNode->addReplicationFloat(&mSteering,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
+}
+
+void Hovercraft::setAnnouncementData(ZCom_BitStream* stream) {
+	Entity::setAnnouncementData(stream);
+	
+	stream->addInt(mDisplayName.length(),sizeof(int) * 8);
+	if ( mDisplayName.length() != 0 ){
+		stream->addString(mDisplayName.c_str());
+	}
 }
 
 std::string Hovercraft::getClassName(){

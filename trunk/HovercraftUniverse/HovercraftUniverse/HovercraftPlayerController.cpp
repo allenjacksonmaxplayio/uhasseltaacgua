@@ -43,6 +43,7 @@ bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) {
 	int action = mInputManager->getKeyManager()->getAction(e.key);
 	switch (action) {
 		case ControllerActions::ACCELERATE:
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "ACCELERATING";
 			mMovingForward = true;
 			break;
 		case ControllerActions::BRAKE:

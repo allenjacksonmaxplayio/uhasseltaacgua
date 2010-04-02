@@ -223,7 +223,7 @@ protected:
 	 */
 	void setupReplication();
 
-private:
+protected:
 
 	/**
 	 * @see NetworkEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince)
@@ -248,7 +248,7 @@ private:
 	/**
 	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)
 	 */
-	void setAnnouncementData(ZCom_BitStream* stream);
+	virtual void setAnnouncementData(ZCom_BitStream* stream);
 };
 
 }

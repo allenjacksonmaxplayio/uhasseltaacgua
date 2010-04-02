@@ -15,6 +15,10 @@ PlayerSettings::PlayerSettings( Lobby * lobby, unsigned int userID) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(),getClassName(), true);
 	mNode->setEventNotification(true, false);
+
+	//some default values
+	// TODO Nickman, you have removed this in your commit, but I needed it or otherwise it would crash. So I put it back for a second (Kristof)
+	mHovercraft = "hover1";
 }
 
 PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control):

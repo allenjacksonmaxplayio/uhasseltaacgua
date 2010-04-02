@@ -6,6 +6,7 @@
 
 #include "HovercraftPlayerController.h"
 #include "HovercraftAIController.h"
+#include "HovercraftLoader.h"
 
 #include "Application.h"
 #include "Config.h"
@@ -214,16 +215,18 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			ai->initialize();	
 		}
 
-		
-		HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
-		RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
-
 		ent->networkRegister(requested_class,this);	
 		mEntityManager->registerEntity(ent);
 
 		if (role == eZCom_RoleOwner) {
 			mEntityManager->trackEntity(ent->getName());
 		}
+
+		// Visualize the hovercraft
+		HovercraftLoader hovLoader(HUApplication::msSceneMgr, ent->getName());
+		hovLoader.load(ent->getDisplayName() + ".scene");
+		//HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
+		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
 	}
 
 	if ( !name.empty() ){
