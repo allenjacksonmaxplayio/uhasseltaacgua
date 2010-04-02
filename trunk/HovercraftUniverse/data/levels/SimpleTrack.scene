@@ -28,6 +28,29 @@
                     <subentity index="0" materialName="01-Default" />
                 </subentities>
             </entity>
+            <node name="BoostGeom">
+                <position x="59.8477" y="13.7958" z="-22.2956" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
+                <entity name="BoostGeom" castShadows="true" receiveShadows="true" meshFile="BoostGeom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>Boost</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="02-Default" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="Omni03">
+                <position x="-67.4752" y="-62.1805" z="-4.84085" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+                <light name="Omni03" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="1" b="1" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
             <node name="StartGeom">
                 <position x="-74.4041" y="13.3091" z="-2.03577" />
                 <scale x="1" y="1" z="1" />
@@ -91,31 +114,26 @@
                 </entity>
             </node>
             <node name="Omni02">
-                <position x="-25.565" y="-84.9794" z="-4.84085" />
+                <position x="14.3777" y="-62.1805" z="-4.84085" />
                 <scale x="1" y="1" z="1" />
                 <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
                 <light name="Omni02" visible="true" type="point" castShadows="false" power="1">
-                    <colourDiffuse r="1" g="0.12549" b="0.12549" />
+                    <colourDiffuse r="1" g="1" b="1" />
                     <colourSpecular r="1" g="1" b="1" />
                     <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
                 </light>
             </node>
-            <node name="BoostGeom">
-                <position x="68.6671" y="16.5584" z="-24.2902" />
-                <scale x="0.752474" y="0.752474" z="0.752474" />
-                <rotation qx="0" qy="-0.300706" qz="1.31443e-008" qw="0.953717" />
-                <entity name="BoostGeom" castShadows="true" receiveShadows="true" meshFile="BoostGeom.mesh">
-                    <userData>
-                        <![CDATA[<OgreEntity><GameEntity>Boost</GameEntity></OgreEntity>]]>
-</userData>
-                    <subentities>
-                        <subentity index="0" materialName="03-Default" />
-                    </subentities>
-                </entity>
-            </node>
         </node>
     </nodes>
     <externals>
+        <item name="Boost">
+            <userData>
+                <![CDATA[<Boost><Boost>250</Boost><OgreEntity>BoostGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
+</userData>
+            <position x="59.8476" y="14.0112" z="-22.2955" />
+            <rotation qx="0" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
+            <scale x="1.80302" y="1.80303" z="1.80302" />
+        </item>
         <item name="StartPosition">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
@@ -155,14 +173,6 @@
             <position x="-94.4195" y="-53.1094" z="-1.34671" />
             <rotation qx="1.19209e-007" qy="4.37114e-008" qz="1" qw="-7.54979e-008" />
             <scale x="0.248662" y="1.67741" z="2.0673" />
-        </item>
-        <item name="Boost">
-            <userData>
-                <![CDATA[<Boost><Boost>5</Boost><ProcessInterval>-1</ProcessInterval><OgreEntity>BoostGeom</OgreEntity></Boost>]]>
-</userData>
-            <position x="68.6671" y="16.7738" z="-24.2902" />
-            <rotation qx="0" qy="-0.300706" qz="1.31443e-008" qw="0.953717" />
-            <scale x="1.45318" y="2.34003" z="1.82491" />
         </item>
         <item name="Planet">
             <userData>
