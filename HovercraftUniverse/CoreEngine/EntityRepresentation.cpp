@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "EntityRepresentation.h"
 #include <OgreMaxUtilities.hpp>
 #include <OgreSubEntity.h>
@@ -6,7 +7,8 @@
 namespace HovUni {
 
 EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFile, Ogre::SceneManager * sceneMgr, Ogre::String resourceGroupName, bool visible, bool castShadows, 
-										   Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials)  :  mEntity(entity), mSceneMgr(sceneMgr) {
+										   Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials, Ogre::SceneNode * node)  
+											:  mEntity(entity), mSceneMgr(sceneMgr) {
 	// Create entity 
 	mOgreEntity = mSceneMgr->createEntity(entity->getName(), meshFile, resourceGroupName);
 	OgreMax::OgreMaxUtilities::SetObjectVisibility(mOgreEntity, visible ? OgreMax::Types::OBJECT_VISIBLE : OgreMax::Types::OBJECT_HIDDEN);
@@ -22,9 +24,15 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 		subentity->setMaterialName(subMaterials[i]);
 	}
 
-	// Create node and attach entity to it
-	mOgreNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(entity->getName() + "Node");
-	mOgreNode->attachObject(mOgreEntity);
+	if (node) {
+		// There is a node, so just attach entity, but clear position
+		mOgreNode = node;
+		mOgreNode->attachObject(mOgreEntity);
+	} else {
+		// Create node and attach entity to it
+		mOgreNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(entity->getName() + "Node");
+		mOgreNode->attachObject(mOgreEntity);
+	}
 }
 
 EntityRepresentation::~EntityRepresentation() {
