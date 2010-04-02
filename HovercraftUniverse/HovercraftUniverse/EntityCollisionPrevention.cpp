@@ -12,24 +12,28 @@
 
 namespace HovUni {
 
-EntityCollisionBinder::EntityCollisionBinder( EntityCollisionPhantom * collisionPrevention ):
-	mCollisionPrevention(collisionPrevention){
-	mCollisionPrevention->addReference();
+EntityCollisionBinder::EntityCollisionBinder( hkpRigidBody* trackedBody, hkpAabbPhantom* phantomToUpdate , hkReal offset ):
+	hkpUnaryAction(trackedBody), mPhantom(phantomToUpdate), mOffset(-1.0f*offset) {
 }
 
 EntityCollisionBinder::~EntityCollisionBinder() {
-	mCollisionPrevention->removeReference();
-	mCollisionPrevention = HK_NULL;
 }
 
 void EntityCollisionBinder::applyAction( const hkStepInfo& stepInfo )
 {
 	// Find the new center to move to
-	const hkVector4& newCenter = mCollisionPrevention->mEntity->getPosition();
+	hkVector4 newCenter = getRigidBody()->getPosition();
+
+	hkRotation ro;
+	ro.set(getRigidBody()->getRotation());
+	hkVector4 forward = ro.getColumn(2);
+	forward.mul4(mOffset);
+
+	newCenter.add4(forward);
 
 	// Grab the halfextents of the phantom's AABB
 	hkVector4 halfExtents;
-	halfExtents.setSub4( mCollisionPrevention->getAabb().m_max, mCollisionPrevention->getAabb().m_min );
+	halfExtents.setSub4( mPhantom->getAabb().m_max, mPhantom->getAabb().m_min );
 	halfExtents.mul4( 0.5f );
 
 	// Create a new AABB for the phantom, of the same size
@@ -38,30 +42,18 @@ void EntityCollisionBinder::applyAction( const hkStepInfo& stepInfo )
 	newAabb.m_max.setAdd4( newCenter, halfExtents );
 
 	// Update the phantom's AABB so it encloses the rigid body
-	mCollisionPrevention->setAabb( newAabb );
+	mPhantom->setAabb( newAabb );
 }
 
 /////////////////
 
-
 EntityCollisionPhantom::EntityCollisionPhantom(const hkAabb& aabb, HavokEntity * entity):
 	hkpAabbPhantom( aabb, 0), mEntity(entity) {
-
-	//create binder
-	mBinder = new EntityCollisionBinder(this);
-
-	//Add binder action
-	Havok::getSingleton().getWorld()->addAction(mBinder);
 }
 
 EntityCollisionPhantom::~EntityCollisionPhantom(void){
-	//remove action
-	Havok::getSingleton().getWorld()->removeAction(mBinder);
-
-	//remove binder
-	mBinder->removeReference();
-	mBinder = HK_NULL;
 }
+
 
 void EntityCollisionPhantom::addOverlappingCollidable( hkpCollidable* handle ){
 	hkpRigidBody* rb = hkGetRigidBody(handle);

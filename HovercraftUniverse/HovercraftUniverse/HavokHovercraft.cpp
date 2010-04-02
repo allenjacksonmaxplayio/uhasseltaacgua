@@ -27,19 +27,16 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 }
 
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
-		HavokEntity(), mWorld(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
+		HavokEntity(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
 		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL),
 		mRotationDelta(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "TurnAngle")),
 		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping"))
 		
 {
-	mWorld->addReference();
 }
 
 HavokHovercraft::~HavokHovercraft(void)
 {
-	mWorld->removeReference();
-
 	mCharacterRigidBody->removeReference();
 	mCharacterRigidBody = HK_NULL;
 
@@ -72,7 +69,7 @@ Entity * HavokHovercraft::getEntity() {
 	return mEntity;
 }
 
-const hkpRigidBody * HavokHovercraft::getRigidBody() const {
+hkpRigidBody * HavokHovercraft::getRigidBody() const {
 	return mCharacterRigidBody->getRigidBody();
 }
 
@@ -337,6 +334,9 @@ void HavokHovercraft::load(const hkVector4& position){
 
 	//Remove some data
 	tmp->removeReference();
+
+	hkAabb aabb ( hkVector4(0,0,0),hkVector4(1,1,3));
+	addCollisionPrevention(aabb, 3);
 
 	mWorld->unmarkForWrite();
 }
