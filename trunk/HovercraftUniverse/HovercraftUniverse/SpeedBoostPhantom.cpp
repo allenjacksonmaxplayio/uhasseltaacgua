@@ -15,8 +15,8 @@
 
 namespace HovUni {
 
-SpeedBoostPhantom::SpeedBoostPhantom(const hkAabb& aabb, SpeedBoost * boost ):
-	hkpAabbPhantom( aabb, 0), mBoost(boost)
+SpeedBoostPhantom::SpeedBoostPhantom(const hkpShape *shape, const hkTransform &transform, SpeedBoost * boost ):
+	hkpSimpleShapePhantom( shape, transform, 0), mBoost(boost)
 {
 }
 
@@ -37,7 +37,7 @@ void SpeedBoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 		}
 	}
 
-	hkpAabbPhantom::addOverlappingCollidable( handle );
+	hkpSimpleShapePhantom::addOverlappingCollidable( handle );
 }
 
 void SpeedBoostPhantom::removeOverlappingCollidable( hkpCollidable* handle )
@@ -53,7 +53,7 @@ void SpeedBoostPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 		}
 	}
 
-	hkpAabbPhantom::removeOverlappingCollidable( handle );
+	hkpSimpleShapePhantom::removeOverlappingCollidable( handle );
 }
 
 }
