@@ -14,6 +14,8 @@ namespace HovUni {
 		///////////////////////////////////////////
 		//TODO: Parse IP and Port?
 		HUClient* mClient = new HUClient(address.c_str());
+		LobbyState* newState = new LobbyState(mClient);
+		mClient->getLobby()->addListener(newState);
 
 		try {
 			mClient->connect(0);
@@ -22,7 +24,6 @@ namespace HovUni {
 			return false;
 		}
 
-		LobbyState* newState = new LobbyState(mClient);
 		mManager->addGameState(GameStateManager::LOBBY, newState);
 
 		//Deactivate our overlay

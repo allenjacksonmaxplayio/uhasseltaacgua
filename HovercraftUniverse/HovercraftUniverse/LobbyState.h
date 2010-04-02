@@ -3,11 +3,15 @@
 
 #include <BasicGameState.h>
 #include "HUClient.h"
+#include "PlayerSettingsListener.h"
+#include "PlayerSettingsInterceptor.h"
 #include "Lobby.h"
 #include "LobbyGUI.h"
+#include "LobbyListener.h"
+#include <map>
 
 namespace HovUni {
-	class LobbyState : public BasicGameState {
+	class LobbyState : public BasicGameState, public LobbyListener, public PlayerSettingsListener {
 		private:
 			/** The client which represents our connection */
 			HUClient* mClient;
@@ -26,6 +30,9 @@ namespace HovUni {
 
 			/** Time since the last client update, in seconds */
 			Ogre::Real mLastClientUpdate;
+
+			/** Mapping of ID's to playersettingsinterceptors */
+			std::map<int, PlayerSettingsInterceptor*> mPlayerInterceptors;
 
 		public:
 			/**
@@ -52,6 +59,48 @@ namespace HovUni {
 			 * Function that will be calles when a user clicks on the leave button
 			 */
 			Hikari::FlashValue onLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
+			////////////////////////////////////////
+			//	PlayerSettingsListener functions
+			////////////////////////////////////////
+
+			/**
+			 * @inheritDoc
+			 */
+			void onPlayerUpdate(int id, const std::string& username, const std::string& character, const std::string& car);
+
+			////////////////////////////////////////
+			//	LobbyListener functions
+			////////////////////////////////////////
+
+			/**
+			 * @inheritDoc
+			 */
+			virtual void onLeave(ZCom_ConnID id);
+
+			/**
+			 * @inheritDoc
+			 */
+			virtual void onJoin(PlayerSettings * settings);
+
+			/**
+			 * @inheritDoc
+			 */
+			virtual void onCharacterChange();
+
+			/**
+			 * @inheritDoc
+			 */
+			virtual void onHovercraftChange();
+
+			/**
+			 * @inheritDoc
+			 */
+			virtual void onTrackChange();
+
+			////////////////////////////////////////
+			//	BasicGameState functions
+			////////////////////////////////////////
 
 			/**
 			 * Function called when the state gets activated

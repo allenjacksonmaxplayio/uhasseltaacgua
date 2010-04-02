@@ -464,6 +464,10 @@
 						RelativePath=".\PlayerSettings.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\PlayerSettingsInterceptor.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="State"
@@ -848,6 +852,14 @@
 					</File>
 					<File
 						RelativePath=".\PlayerSettings.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlayerSettingsInterceptor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlayerSettingsListener.h"
 						>
 					</File>
 				</Filter>

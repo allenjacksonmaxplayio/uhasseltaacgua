@@ -84,6 +84,11 @@ ZCom_Node* NetworkEntity::getNetworkNode() {
 	return mNode;
 }
 
+void NetworkEntity::setReplicationInterceptor(ZCom_NodeReplicationInterceptor* interceptor) {
+	mNode->setReplicationInterceptor(interceptor);
+	
+}
+
 void NetworkEntity::replicateFloat(float* value, zU8 mantissaBits, zU8 flags, zU8 rules, zS16 minDelay, zS16 maxDelay) {
 	mNode->addReplicationFloat(value, mantissaBits, flags, rules, minDelay, maxDelay);
 }
