@@ -183,8 +183,12 @@ protected:
 	 * @param rules The rules for the replicator, this indicates whether the
 	 *				variable is replicated from the server only, or whether the
 	 *				owner can change the value too
+	 * @param mantissaBits the number of mantissa bits to replicate, default is 23
+	 * @param flags flags to indicate how the value must be replicated, default is ZCOM_REPFLAG_MOSTRECENT
+	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
+	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
 	 */
-	void replicateFloat(float* value, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = 0, zS16 maxDelay = 10);
+	void replicateFloat(float* value, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = -1, zS16 maxDelay = -1);
 	
 	/**
 	 * Add a vector to the replicated variabels
@@ -193,8 +197,14 @@ protected:
 	 * @param rules The rules for the replicator, this indicates whether the
 	 *				variable is replicated from the server only, or whether the
 	 *				owner can change the value too
+	 * @param mantissaBits the number of mantissa bits to replicate, default is 23
+	 * @param flags flags to indicate how the value must be replicated, default is ZCOM_REPFLAG_MOSTRECENT
+	 * @param interceptID the ID for this replicated so it can be checked in the interceptor, default is 0
+	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
+	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
+	 * @param autodelete whether to autodelete, default is true
 	 */
-	void replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+	void replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
 
 	/**
 	 * Add a quaternion to the replicated variabels
@@ -203,8 +213,14 @@ protected:
 	 * @param rules The rules for the replicator, this indicates whether the
 	 *				variable is replicated from the server only, or whether the
 	 *				owner can change the value too
+	 * @param mantissaBits the number of mantissa bits to replicate, default is 23
+	 * @param flags flags to indicate how the value must be replicated, default is ZCOM_REPFLAG_MOSTRECENT
+	 * @param interceptID the ID for this replicated so it can be checked in the interceptor, default is 0
+	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
+	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
+	 * @param autodelete whether to autodelete, default is true
 	 */
-	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
 
 	/**
 	 * Add a string to the replicated variabels
@@ -213,8 +229,13 @@ protected:
 	 * @param rules The rules for the replicator, this indicates whether the
 	 *				variable is replicated from the server only, or whether the
 	 *				owner can change the value too
+	 * @param flags flags to indicate how the value must be replicated, default is ZCOM_REPFLAG_MOSTRECENT
+	 * @param interceptID the ID for this replicated so it can be checked in the interceptor, default is 0
+	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
+	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
+	 * @param autodelete whether to autodelete, default is true
 	 */
-	void replicateString(Ogre::String * str, zU8 rules, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = 0, zS16 maxDelay = 10, bool autoDelete = true);
+	void replicateString(Ogre::String * str, zU8 rules, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
 
 
 };

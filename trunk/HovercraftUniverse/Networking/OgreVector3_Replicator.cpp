@@ -34,8 +34,8 @@ namespace HovUni {
 		if (!same) {
 			mCompare = (*mData);
 		}
-		// return result
-		return same;
+		// return true if an update is needed
+		return !same;
 	}
 
 	void OgreVector3_Replicator::packData(ZCom_BitStream *_stream) {

@@ -31,4 +31,16 @@ namespace HovUni {
 			}
 		}
 	}
+
+	void PlayerSettingsInterceptor::outPostUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits) {
+		//Incoming data has updated the node.
+		//We don't really care about the parameters for now, just notify our listener
+		if (mStatus) {
+			if (mListener) {
+				//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[PlayerSettingsInterceptor]: " << "We intercepted replication, new values: " << mPlayerSettings->getPlayerName() << " " << mPlayerSettings->getCharacter() << " " << mPlayerSettings->getHovercraft();
+				mListener->onPlayerUpdate(mPlayerSettings->getID(), mPlayerSettings->getPlayerName(), mPlayerSettings->getCharacter(), mPlayerSettings->getHovercraft());
+			}
+		}
+	}
+
 }

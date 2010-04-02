@@ -32,13 +32,9 @@ Lobby::~Lobby(void) {
 
 void Lobby::process() {
 	processEvents(0.0f);
-	/*
 	for (std::map<ZCom_ConnID,PlayerSettings*>::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
-		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "-" << it->first << ": " << it->second->getTMP();
 		it->second->processEvents(0.0f);
-		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "|" << it->first << " : " << it->second->getTMP();
 	}
-	*/
 }
 
 void Lobby::removePlayer( ZCom_ConnID id ){
@@ -76,13 +72,8 @@ void Lobby::removeListener( LobbyListener* listener ){
 }
 
 void Lobby::start() {
-	// TODO
-	//if(mNode->getRole() == eZCom_RoleOwner) {
-		StartTrackEvent event;
-		sendEvent(event);
-	//} else {
-	//	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "send denied";
-	//}
+	StartTrackEvent event;
+	sendEvent(event);
 }
 
 bool Lobby::isAdmin() const {
@@ -111,6 +102,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	// Add player to map
 	addPlayer(new PlayerSettings(this, id));
 	mCurrentPlayers++;
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined";
 
 	//Send Event to players and self
 	OnJoinEvent event(id);
