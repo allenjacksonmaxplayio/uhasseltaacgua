@@ -1,7 +1,7 @@
 #ifndef SpeedBoostPhantom_H
 #define SpeedBoostPhantom_H
 
-#include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
+#include <Physics/Dynamics/Phantom/hkpSimpleShapePhantom.h>
 
 namespace HovUni {
 
@@ -12,7 +12,7 @@ class SpeedBoost;
  * When a player passes trough it should receive a boost or a slowdown.
  * @author Pieter-Jan Pintens
  */
-class SpeedBoostPhantom : public hkpAabbPhantom
+class SpeedBoostPhantom : public hkpSimpleShapePhantom
 {
 private:
 
@@ -25,7 +25,7 @@ public:
 	 * @param aabb, the bounding box
 	 * @param boost
 	 */
-	SpeedBoostPhantom(const hkAabb& aabb, SpeedBoost * boost);
+	SpeedBoostPhantom(const hkpShape *shape, const hkTransform &transform, SpeedBoost * boost);
 
 	~SpeedBoostPhantom(void);
 

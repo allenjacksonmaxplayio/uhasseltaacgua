@@ -38,12 +38,13 @@ SpeedBoost::~SpeedBoost(void){
 }
 
 void SpeedBoost::onEnter ( Hovercraft * hovercraft ){
+	hovercraft->setBoosted(true);	
 	hovercraft->setBoost(mBoost);
 }
 
 
 void SpeedBoost::onLeave( Hovercraft * hovercraft ){
-	//hovercraft->setBoost(0);
+	hovercraft->setBoosted(false);
 }
 
 void SpeedBoost::setupReplication(){

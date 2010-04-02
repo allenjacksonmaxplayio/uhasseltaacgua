@@ -263,6 +263,16 @@ void HavokHovercraft::update(){
 		boost.mul4(-1*boostvalue);
 		getRigidBody()->applyLinearImpulse(boost);
 		boostvalue -= boostvalue/10.0f;
+
+		if ( mEntity->isBoosted() ){
+			//if in boost GOOOOO
+			boostvalue += boostvalue/4.0f;
+		}
+		else {
+			//else slow down
+			boostvalue -= boostvalue/10.0f;
+		}
+
 		mEntity->setBoost(boostvalue);
 	}
 

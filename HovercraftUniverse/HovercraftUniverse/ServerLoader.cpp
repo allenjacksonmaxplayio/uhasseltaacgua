@@ -12,6 +12,8 @@
 // Physics
 #include "Havok.h"
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
+#include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
+
 #include <Common/Base/Math/Matrix/hkTransform.h>
 #include "HoverCraftUniverseWorld.h"
 #include "PlanetGravityPhantom.h"
@@ -24,6 +26,14 @@
 #include "PowerupPhantom.h"
 
 namespace {
+
+
+	hkpShape * setBox( const Ogre::Vector3& scale ){
+		hkVector4 halfex;
+		halfex.set(scale[0],scale[1],scale[2]);
+		halfex.mul4( 5.0f );		//10 base scale, divided by 2 for half extend => 5.0
+		return new hkpBoxShape( halfex);
+	}
 
 	void setBox ( hkAabb& aabb, const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale  ){
 		aabb.m_max.set(1,1,1);
@@ -331,11 +341,20 @@ void ServerLoader::onBoost( SpeedBoost * boost ) {
 	}
 
 	//Create a phantom that handles this
-	hkAabb aabb;
-	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
-	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( aabb, boost );	
+	hkpShape * shape = setBox( mExternalitem->scale );
+
+	hkQuaternion r;
+	r.set(mExternalitem->rotation.x,mExternalitem->rotation.y,mExternalitem->rotation.z,mExternalitem->rotation.w);
+
+	hkVector4 t;
+	t.set(mExternalitem->position[0],mExternalitem->position[1],mExternalitem->position[2]);
+
+	hkTransform tr(r, t);
+
+	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( shape, tr , boost );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
+	shape->removeReference();
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(boost);

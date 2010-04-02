@@ -265,6 +265,10 @@
 					Name="phantom"
 					>
 					<File
+						RelativePath=".\BasePhantom.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\CheckpointPhantom.cpp"
 						>
 					</File>
@@ -638,6 +642,10 @@
 				<Filter
 					Name="phantom"
 					>
+					<File
+						RelativePath=".\BasePhantom.h"
+						>
+					</File>
 					<File
 						RelativePath=".\CheckpointPhantom.h"
 						>
