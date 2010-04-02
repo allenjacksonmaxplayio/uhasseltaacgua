@@ -25,8 +25,6 @@ private:
 
 	hkString mEntityName;
 
-	hkpWorld * mWorld;
-
 	Hovercraft * mEntity;
 	
  	hkpCharacterRigidBody* mCharacterRigidBody;
@@ -80,7 +78,7 @@ public:
 	 * Get the rigid body that is used for the entity
 	 * @return the rigid body used for the entity
 	 */
-	virtual const hkpRigidBody * getRigidBody() const;
+	virtual hkpRigidBody * getRigidBody() const;
 
 	/**
 	 * Get the entity

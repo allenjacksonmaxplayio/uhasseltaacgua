@@ -14,19 +14,23 @@ class EntityCollisionPhantom;
  */
 class EntityCollisionBinder : public hkpUnaryAction {
 
+private:
+
+	hkpAabbPhantom * mPhantom;
+
+	hkReal mOffset;
+
 public:
 
 	/**
 	 * Constructor
 	 * @param collisionPrevention
 	 */
-	EntityCollisionBinder( EntityCollisionPhantom * collisionPrevention );
+	EntityCollisionBinder( hkpRigidBody* trackedBody, hkpAabbPhantom* phantomToUpdate, hkReal offset );
 
 	~EntityCollisionBinder();
 
 private:
-
-	EntityCollisionPhantom * mCollisionPrevention;
 
 	virtual void applyAction( const hkStepInfo& stepInfo );
 
@@ -43,18 +47,16 @@ class EntityCollisionPhantom : public hkpAabbPhantom
 {
 private:
 
-	friend class EntityCollisionBinder;
-
 	//The entity
 	HavokEntity * mEntity;	
-
-	//The bind action, this action binds the phantom to the entity
-	EntityCollisionBinder * mBinder;
 
 public:
 
 	/**
-	 * Constructor
+	 * Constructor, creates a Collision phantom.
+	 * This will not add the phantom to the world and will not bind the phantom to the entity!
+	 * Use the bind method for this.
+	 *
 	 * @param aabb, the bounding box
 	 */
 	EntityCollisionPhantom(const hkAabb& aabb, HavokEntity * entity);
@@ -64,7 +66,6 @@ public:
 	virtual void addOverlappingCollidable( hkpCollidable* handle );
 
 	virtual void removeOverlappingCollidable( hkpCollidable* handle );
-
 
 };
 
