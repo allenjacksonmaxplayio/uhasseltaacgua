@@ -7,7 +7,7 @@
 #include "Exception.h"
 
 void process_zoidcom_log(const char *_log) {
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << _log;
+	//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << _log;
 }
 
 /**
