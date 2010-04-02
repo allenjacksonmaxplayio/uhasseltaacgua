@@ -14,7 +14,7 @@ class Lobby;
  * The settings of a player. This is distributed over all players so that
  * they now what the settings are of each player
  *
- * @author Olivier Berghmans & Pieter-Jan Pintens
+ * @author Olivier Berghmans & Pieter-Jan Pintens & Nick De Frangh
  */
 class PlayerSettings : public NetworkEntity {
 private:
@@ -51,7 +51,7 @@ public:
 	 * @param ID the class ID
 	 * @param control the network control
 	 */
-	PlayerSettings(Lobby * lobby, ZCom_BitStream* announcedata, ZCom_ClassID id, ZCom_Control* control);
+	PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control);
 
 	/**
 	 * Destructor

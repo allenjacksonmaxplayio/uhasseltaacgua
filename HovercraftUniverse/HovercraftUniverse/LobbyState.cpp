@@ -70,7 +70,7 @@ namespace HovUni {
 	void LobbyState::onJoin(PlayerSettings * settings) {
 		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[LobbyState]: onJoin was called! " << settings->getPlayerName() << " (" << settings->getID() << ")";
 		//Player has joined, add empty player to the visualisation
-		mLobbyGUI->addUser(settings->getID(), "", "", "");
+		mLobbyGUI->addUser(settings->getID(), settings->getPlayerName(), settings->getCharacter(), settings->getHovercraft());
 		//Create a new playersettingsinterceptor
 		PlayerSettingsInterceptor* intercept = new PlayerSettingsInterceptor(settings, this);
 		//Store te interceptor

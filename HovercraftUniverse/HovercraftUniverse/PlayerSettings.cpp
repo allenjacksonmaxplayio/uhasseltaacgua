@@ -15,14 +15,27 @@ PlayerSettings::PlayerSettings( Lobby * lobby, unsigned int userID) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(),getClassName(), true);
 	mNode->setEventNotification(true, false);
-
-	//some default values
-	mHovercraft = "hover1";
 }
 
-PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcedata, ZCom_ClassID id, ZCom_Control* control):
-	NetworkEntity(3), mLobby(lobby), mUserID(announcedata->getInt(32))
+PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control):
+	NetworkEntity(3), mLobby(lobby), mUserID(announcementdata->getInt(32)), mCharacter(""), mHovercraft(""), mPlayerName("")
 {
+	//Read the other settings out of the announcement data
+	int length = announcementdata->getInt(sizeof(int) * 8);
+	if (length != 0){
+		mCharacter = Ogre::String(announcementdata->getString());
+	}
+
+	length = announcementdata->getInt(sizeof(int) * 8);
+	if (length != 0){
+		mHovercraft = Ogre::String(announcementdata->getString());
+	}
+
+	length = announcementdata->getInt(sizeof(int) * 8);
+	if (length != 0){
+		mPlayerName = Ogre::String(announcementdata->getString());
+	}
+
 	networkRegister(id, control);
 	mNode->setEventNotification(true, false);
 }
@@ -36,10 +49,26 @@ std::string PlayerSettings::getClassName() {
 
 void PlayerSettings::setAnnouncementData(ZCom_BitStream* stream) {
 	stream->addInt(mUserID, 32);
+	
+	stream->addInt(mCharacter.length(),sizeof(int) * 8);
+	if ( mCharacter.length() != 0 ){
+		stream->addString(mCharacter.c_str());
+	}
+
+	stream->addInt(mHovercraft.length(),sizeof(int) * 8);
+	if ( mHovercraft.length() != 0 ){
+		stream->addString(mHovercraft.c_str());
+	}
+
+	stream->addInt(mPlayerName.length(),sizeof(int) * 8);
+	if ( mPlayerName.length() != 0 ){
+		stream->addString(mPlayerName.c_str());
+	}
 }
 
 void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
 	// User events
+	/*
 	if (type == eZCom_EventUser && mNode->getRole() != eZCom_RoleAuthority) {
 		GameEventParser p;
 		GameEvent* event = p.parse(stream);
@@ -51,7 +80,7 @@ void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, Z
 			mCharacter = state->getString();
 		}
 	}
-
+	*/
 	// Request to delete this object
 	if (type == eZCom_EventRemoved && remote_role == eZCom_RoleAuthority) {
 		//remove it from the lobby
@@ -59,6 +88,7 @@ void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, Z
 	}
 
 	// A new client received this object so send current state
+	/*
 	if (type == eZCom_EventInit && mNode->getRole() == eZCom_RoleAuthority) {
 		ZCom_BitStream* state = new ZCom_BitStream();
 		state->addString(mPlayerName.c_str());
@@ -66,6 +96,7 @@ void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, Z
 		state->addString(mCharacter.c_str());
 		sendEventDirect(InitEvent(state), conn_id);
 	}
+	*/
 }
 
 void PlayerSettings::setupReplication(){
