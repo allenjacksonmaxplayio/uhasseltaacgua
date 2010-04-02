@@ -335,8 +335,8 @@ void HavokHovercraft::load(const hkVector4& position){
 	//Remove some data
 	tmp->removeReference();
 
-	hkAabb aabb ( hkVector4(0,0,0),hkVector4(1,1,3));
-	addCollisionPrevention(aabb, 3);
+	hkAabb aabb ( hkVector4(0,0,0),hkVector4(5,5,5));
+	addCollisionPrevention(aabb, 20);
 
 	mWorld->unmarkForWrite();
 }
