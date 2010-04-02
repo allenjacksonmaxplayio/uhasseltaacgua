@@ -28,6 +28,19 @@
                     <subentity index="0" materialName="01-Default" />
                 </subentities>
             </entity>
+            <node name="JumpGeom">
+                <position x="-68.86" y="-61.4167" z="2.18317" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="4.37114e-008" qz="1" qw="-7.54979e-008" />
+                <entity name="JumpGeom" castShadows="true" receiveShadows="true" meshFile="JumpGeom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>Jump</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="Material#52" />
+                    </subentities>
+                </entity>
+            </node>
             <node name="BoostGeom">
                 <position x="59.8477" y="13.7958" z="-22.2956" />
                 <scale x="1" y="1" z="1" />
@@ -101,7 +114,7 @@
                 </entity>
             </node>
             <node name="FinishGeom">
-                <position x="-94.4195" y="-53.3248" z="-1.34672" />
+                <position x="-94.4195" y="-53.3248" z="31.971" />
                 <scale x="1" y="1" z="1" />
                 <rotation qx="1.19209e-007" qy="4.37114e-008" qz="1" qw="-7.54979e-008" />
                 <entity name="FinishGeom" castShadows="true" receiveShadows="true" meshFile="FinishGeom.mesh">
@@ -126,13 +139,21 @@
         </node>
     </nodes>
     <externals>
+        <item name="Jump">
+            <userData>
+                <![CDATA[<Boost><Boost>600</Boost><OgreEntity>JumpGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
+</userData>
+            <position x="-68.86" y="-61.2013" z="2.18318" />
+            <rotation qx="-0.169532" qy="0.0375844" qz="0.961464" qw="-0.213152" />
+            <scale x="3.60828" y="1" z="1" />
+        </item>
         <item name="Boost">
             <userData>
                 <![CDATA[<Boost><Boost>250</Boost><OgreEntity>BoostGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
 </userData>
             <position x="59.8476" y="14.0112" z="-22.2955" />
             <rotation qx="2.29878e-016" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
-            <scale x="7.23168" y="1.80303" z="1.80302" />
+            <scale x="3.13209" y="1.80303" z="1.80302" />
         </item>
         <item name="StartPosition">
             <userData>
@@ -170,7 +191,7 @@
             <userData>
                 <![CDATA[<Finish><ProcessInterval>-1</ProcessInterval><OgreEntity>FinishGeom</OgreEntity></Finish>]]>
 </userData>
-            <position x="-94.4195" y="-53.1094" z="-1.34671" />
+            <position x="-94.4195" y="-53.1094" z="31.971" />
             <rotation qx="1.19209e-007" qy="4.37114e-008" qz="1" qw="-7.54979e-008" />
             <scale x="0.248662" y="1.67741" z="2.0673" />
         </item>
