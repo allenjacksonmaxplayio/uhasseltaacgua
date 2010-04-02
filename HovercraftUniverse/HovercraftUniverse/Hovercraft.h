@@ -58,6 +58,11 @@ private:
 	Ogre::Real mAcceleration;
 
 	/**
+	 * Boost speed, is set if hovercraft is boosted
+	 */
+	float mBoost;
+
+	/**
 	 * The steering force
 	 */
 	Ogre::Real mSteering;
@@ -215,6 +220,23 @@ public:
 	 */
 	inline void setSteering(Ogre::Real steering) {
 		mSteering = steering;
+	}
+
+
+	/**
+	 * Set the boost
+	 * @param boost
+	 */
+	inline void setBoost(float boost) {
+		mBoost = boost;
+	}
+
+	/**
+	 * Get the boost
+	 * @return boost
+	 */
+	inline float getBoost() const {
+		return mBoost;
 	}
 
 	/**

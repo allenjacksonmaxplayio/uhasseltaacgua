@@ -32,7 +32,7 @@ void SpeedBoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ) {
 		HavokEntity * ch = reinterpret_cast<HavokEntity*>(rb->getUserData());
 		Entity * e = ch->getEntity();
-		if ( e->getCategory() == Hovercraft::CATEGORY ){
+		if ( e->getCategory() == Hovercraft::CATEGORY ){			
 			mBoost->onEnter(dynamic_cast<Hovercraft*>(e));
 		}
 	}

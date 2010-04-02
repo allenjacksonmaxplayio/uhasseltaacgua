@@ -12,16 +12,10 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 const Ogre::Real Hovercraft::MAXSPEED(100.0);
 
 Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,6), mTilt(0.0f) {
-
-		//fill some defaults for testing
-		mSpeed = 0;
-		mMaximumSpeed = 50000;
-		mAcceleration = 1000;
-		mMass = 50;
+Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,8), mTilt(0.0f), mBoost(0.0f) {
 }
 
-Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,6) {
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,8) {
 	// Display name
 	int length = announcedata->getInt(sizeof(int) * 8);
 	if (length != 0) {
@@ -174,8 +168,19 @@ void Hovercraft::setupReplication(){
 	ZCOM_REPFLAG_MOSTRECENT,
 	ZCOM_REPRULE_AUTH_2_ALL
 	);
-
 	//mSteering
+	mNode->addReplicationFloat(&mSteering,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
+
+	//mBoosted
+	mNode->addReplicationFloat(&mBoost,
+	4,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
 	mNode->addReplicationFloat(&mSteering,
 	4,
 	ZCOM_REPFLAG_MOSTRECENT,
