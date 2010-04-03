@@ -2,7 +2,6 @@
 #define LOBBY_H
 
 #include "NetworkEntity.h"
-#include "PlayerSettings.h"
 #include "GameEvent.h"
 #include <map>
 #include <string>
@@ -12,6 +11,8 @@ namespace HovUni {
 
 class LobbyListener;
 class Loader;
+class PlayerSettings;
+class RaceState;
 
 /**
  * The Lobby which holds the connected players, assigns an 
@@ -51,8 +52,8 @@ private:
 	/** The own player object, or 0 for the server */
 	PlayerSettings* mOwnPlayer;
 
-	// TODO Remove
-	bool mStarted;
+	/** The race state when a race is busy */
+	RaceState* mRaceState;
 
 public:
 
@@ -138,6 +139,20 @@ public:
 	inline Ogre::String getTrackFilename() {
 		return mTrackFilename;
 	}
+
+	/**
+	 * Set the race state
+	 *
+	 * @param state the new race state
+	 */
+	void setRaceState(RaceState* state);
+
+	/**
+	 * Get the race state
+	 *
+	 * @return the race state
+	 */
+	RaceState* getRaceState();
 
 	// Connect callback on authority
 

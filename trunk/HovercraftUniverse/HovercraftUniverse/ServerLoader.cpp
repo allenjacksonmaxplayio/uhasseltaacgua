@@ -6,6 +6,7 @@
 
 //Lobby
 #include "Lobby.h"
+#include "PlayerSettings.h"
 #include "NetworkIDManager.h"
 #include "EntityManager.h"
 
@@ -26,7 +27,6 @@
 #include "PowerupPhantom.h"
 
 namespace {
-
 
 	hkpShape * setBox( const Ogre::Vector3& scale ){
 		hkVector4 halfex;

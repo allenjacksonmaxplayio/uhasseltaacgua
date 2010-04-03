@@ -47,7 +47,7 @@ public:
 	 * Constructor
 	 *
 	 * @param lobby the lobby
-	 * @param announcedata the announce data
+	 * @param announcementdata the announce data
 	 * @param ID the class ID
 	 * @param control the network control
 	 */
