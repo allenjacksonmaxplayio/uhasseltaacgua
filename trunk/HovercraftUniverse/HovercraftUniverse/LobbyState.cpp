@@ -9,7 +9,7 @@
 namespace HovUni {
 	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
-		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onStart), Hikari::FlashDelegate(this, &LobbyState::onLeave));
+		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave));
 
 		mClient->setChatListener(mLobbyGUI);
 		//mClient->process();
@@ -31,7 +31,7 @@ namespace HovUni {
 		return "success";
 	}
 
-	Hikari::FlashValue LobbyState::onStart(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+	Hikari::FlashValue LobbyState::onPressStart(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mClient->start();
 
 		TiXmlDocument doc("gui/GUIConfig.xml");
@@ -43,7 +43,7 @@ namespace HovUni {
 		return "success";
 	}
 
-	Hikari::FlashValue LobbyState::onLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+	Hikari::FlashValue LobbyState::onPressLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mManager->switchState(GameStateManager::MAIN_MENU);
 		//Delete the client to save some resources
 		delete mClient;
@@ -78,16 +78,8 @@ namespace HovUni {
 		mPlayerInterceptors.insert(std::pair<int, PlayerSettingsInterceptor*>(settings->getID(), intercept));
 	}
 
-	void LobbyState::onCharacterChange() {
-		
-	}
-
-	void LobbyState::onHovercraftChange() {
-		
-	}
-
-	void LobbyState::onTrackChange() {
-		
+	void LobbyState::onStart() {
+		//We need to start loading
 	}
 
 	////////////////////////////////////////
@@ -140,6 +132,13 @@ namespace HovUni {
 		mLastClientUpdate += evt.timeSinceLastFrame;
 
 		if (mLastGUIUpdate > (1.0f / 25.0f) || mLastGUIUpdate < 0) {
+			//Check if we need to show the start button or not
+			if (mLobby->isAdmin()) {
+				mLobbyGUI->showStart(true);
+			} else {
+				mLobbyGUI->showStart(false);
+			}
+
 			//We are using a GUI, so update it
 			mGUIManager->update();
 			mLastGUIUpdate = 0.0f; //Reset

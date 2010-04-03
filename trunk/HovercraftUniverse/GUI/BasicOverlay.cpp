@@ -68,9 +68,13 @@ namespace HovUni {
 	}
 
 	void BasicOverlay::disable() {
+		customActionBeforeDeactivate();
+
 		GUIManager::getSingletonPtr()->removeOverlay(mName);
 		//Remove reference to the pointer since the object will be deleted in the next update
 		mFlashControl = 0;
+
+		customActionAfterDeactivate();
 	}
 
 	Hikari::FlashValue BasicOverlay::callFunction(const Ogre::DisplayString& name, const Hikari::Arguments& args) {

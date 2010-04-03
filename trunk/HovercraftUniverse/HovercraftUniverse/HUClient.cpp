@@ -149,12 +149,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		// Player
 		PlayerSettings * ent = new PlayerSettings(mLobby, announcedata, requested_class, this);
 		ent->processEvents(0.0f);
-
-		// Network register is done in constructor of player settings
-		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
-				<< "[HUClient]: adding player to lobby";
-		mLobby->addPlayer(ent, ent->getID() == id);
-
+		
 		// Let's check if this is our own PlayerSettings object
 		if (role == eZCom_RoleOwner) {
 			// Put our data in it
@@ -163,6 +158,11 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			ent->setCharacter(conf->getValue("Player", "Character"));
 			ent->setHovercraft(conf->getValue("Player", "Hovercraft"));
 		}
+
+		// Network register is done in constructor of player settings
+		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
+		//		<< "[HUClient]: adding player to lobby";
+		mLobby->addPlayer(ent, ent->getID() == id);
 	} else if (requested_class == mIDManager->getID(RaceState::getClassName())) {
 		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata,
 				requested_class, this);

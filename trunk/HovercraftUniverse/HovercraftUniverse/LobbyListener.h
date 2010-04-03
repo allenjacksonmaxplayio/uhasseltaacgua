@@ -20,16 +20,16 @@ public:
 	virtual void onLeave(ZCom_ConnID id) = 0;
 
 	/**
-	 * A player joined
+	 * Listeners will be notified of new players trough this function
 	 *
-	 * @param setting the settings of the player
+	 * @param settings The settings of the new player
 	 */
-	virtual void onJoin(PlayerSettings* settings) = 0;
+	virtual void onJoin(PlayerSettings * settings) = 0;
 
 	/**
-	 * The track was changed by the administrator
+	 * The admin has started the game and send out the start event
 	 */
-	virtual void onTrackChange() = 0;
+	virtual void onStart() = 0;
 };
 
 }
