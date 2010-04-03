@@ -9,6 +9,13 @@
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
+	/**
+	 * A class that represents the ingame state.
+	 * This state will take care of passing the right inputs to the right locations,
+	 * managing the hud, managing the rendering scene, ...
+	 *
+	 * @auhtor Nick De Frangh
+	 */
 	class InGameState : public BasicGameState {
 		private:
 			/** A reference to the created client core */

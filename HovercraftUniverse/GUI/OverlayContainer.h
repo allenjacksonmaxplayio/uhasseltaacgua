@@ -5,6 +5,12 @@
 #include <string>
 
 namespace HovUni{
+	/**
+	 * This class is container for BasicOverlay objects. This class will make it
+	 * easier to links multiple overlays to activate and deactivate at the same time.
+	 *
+	 * @author Nick De Frangh
+	 */
 	class OverlayContainer {
 		friend class GUIManager;
 
