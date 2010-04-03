@@ -4,6 +4,8 @@
 #include "Loader.h"
 #include "DedicatedServer.h"
 #include "Config.h"
+#include "Exception.h"
+#include <exception>
 
 namespace {
 
@@ -95,37 +97,45 @@ void HavokThread::StartHavokThread( const char * filename, Loader * loader ){
 }
 
 DWORD WINAPI runHavok( LPVOID lpParam ) {
+	try {
+		LoadParameter * params = (LoadParameter*) lpParam;
 
-	LoadParameter * params = (LoadParameter*) lpParam;
+		//THE HAVOK FRAMERATE IS NOW CONTROLLED THROUGH SCRIPT.
+		//change data/engine_settings.cfg to change this!
+		int fps = DedicatedServer::getEngineSettings()->getIntValue("Havok", "Framerate");
+		HoverCraftUniverseWorld world(1.0f/(float) fps);
+		//HoverCraftUniverseWorld world(1.0f/30.0f);
 
-	//THE HAVOK FRAMERATE IS NOW CONTROLLED THROUGH SCRIPT.
-	//change data/engine_settings.cfg to change this!
-	int fps = DedicatedServer::getEngineSettings()->getIntValue("Havok", "Framerate");
-	HoverCraftUniverseWorld world(1.0f/(float) fps);
-	//HoverCraftUniverseWorld world(1.0f/30.0f);
+		Havok::ms_world = &world;
 
-	Havok::ms_world = &world;
+		//load havok world should be done in THIS thread
+		CustomOgreMaxScene scene;
+		scene.Load(params->file,params->loader);
 
-	//load havok world should be done in THIS thread
-	CustomOgreMaxScene scene;
-	scene.Load(params->file,params->loader);
+		//notify that the world has loaded
+		SetEvent(HavokThread::startevent);
 
-	//notify that the world has loaded
-	SetEvent(HavokThread::startevent);
+		// A stopwatch for waiting until the real time has passed
+		hkStopwatch stopWatch;
+		stopWatch.start();
+		hkReal lastTime = stopWatch.getElapsedSeconds();
 
-	// A stopwatch for waiting until the real time has passed
-	hkStopwatch stopWatch;
-	stopWatch.start();
-	hkReal lastTime = stopWatch.getElapsedSeconds();
+		while ( HavokThread::run ) {
+			world.step();
 
-	while ( HavokThread::run ) {
-		world.step();
-
-		// Pause until the actual time has passed
-		while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
-			lastTime += world.getTimeStep();			
+			// Pause until the actual time has passed
+			while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
+				lastTime += world.getTimeStep();			
+		}
+	} catch (HovUni::Exception e) {
+		MessageBox(NULL, e.getMessage().c_str(), "HovUni Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+	} catch (Ogre::Exception& e) {
+		MessageBox(NULL, e.getFullDescription().c_str(), "Ogre Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+	} catch (std::exception e) {
+		MessageBox(NULL, e.what(), "Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+	}  catch (...) {
+		MessageBox(NULL, "An unknown exception occurred.", "Error in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 	}
-
 	return 0;
 }
 
