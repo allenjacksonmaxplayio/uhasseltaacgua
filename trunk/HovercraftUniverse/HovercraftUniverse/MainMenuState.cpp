@@ -20,6 +20,7 @@ namespace HovUni {
 
 		try {
 			mClient->connect(0);
+			mClient->process();
 
 			int retryCount = 0;
 
@@ -28,6 +29,7 @@ namespace HovUni {
 				mClient->timed_wait(boost::get_system_time() + boost::posix_time::seconds(1)); //Wait for one second
 				++retryCount;
 				Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Connection try " << retryCount;
+				mClient->process();
 			}
 	
 			if (!mClient->isConnected()) {

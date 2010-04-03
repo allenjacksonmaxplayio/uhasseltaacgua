@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="HovercraftUniverse"
 	ProjectGUID="{CCFF60E1-9306-493F-AD38-410877FB3177}"
 	RootNamespace="HovercraftUniverse"
