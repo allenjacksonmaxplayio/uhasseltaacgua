@@ -9,7 +9,11 @@ class hkpWorld;
 
 namespace HovUni {
 
-class EntityCollisionPhantom;
+//Simple version
+//class EntityCollisionPhantom;
+//advanced version
+class AdvancedEntityCollisionPhantom;
+
 class Entity;
 
 /**
@@ -19,7 +23,11 @@ class HavokEntity {
 
 protected:
 
-	EntityCollisionPhantom * mCollisionPreventionBox;
+	//Advanced version
+	AdvancedEntityCollisionPhantom * mCollisionPreventionBox;
+
+	//Simple version
+	//EntityCollisionPhantom * mCollisionPreventionBox;
 
 	hkpWorld * mWorld;
 

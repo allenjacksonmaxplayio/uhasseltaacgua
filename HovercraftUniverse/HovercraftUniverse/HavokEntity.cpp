@@ -32,16 +32,35 @@ HavokEntity::~HavokEntity() {
 }
 
 void HavokEntity::addCollisionPrevention(const hkAabb& aabb, hkReal offset){
+
+	//Advanced version
 	if ( mCollisionPreventionBox == HK_NULL ){
+		mWorld->markForWrite();	
+
+		hkpCapsuleShape * shape = new hkpCapsuleShape(hkVector4(0,0,0), hkVector4(0,0,5), 5);
+		hkTransform transform;
+		transform.setIdentity();
+
+		mCollisionPreventionBox = new  AdvancedEntityCollisionPhantom(shape,transform, this);
+		mWorld->addPhantom(mCollisionPreventionBox);
+		mWorld->addAction(new AdvancedEntityCollisionBinder(this->getRigidBody(),mCollisionPreventionBox,offset));
+
+		shape->removeReference();
+		mWorld->unmarkForWrite();
+	}
+
+	//Simple version
+	/*if ( mCollisionPreventionBox == HK_NULL ){
 		mWorld->markForWrite();	
 		mCollisionPreventionBox = new  EntityCollisionPhantom(aabb, this);
 		mWorld->addPhantom(mCollisionPreventionBox);
 		mWorld->addAction(new EntityCollisionBinder(this->getRigidBody(),mCollisionPreventionBox,offset));	
 		mWorld->unmarkForWrite();
-	}
+	}*/
 }
 
 void HavokEntity::removeCollisionPrevention(){
+	
 	if ( mCollisionPreventionBox != HK_NULL ){
 		mWorld->markForWrite();
 		mWorld->removePhantom(mCollisionPreventionBox);

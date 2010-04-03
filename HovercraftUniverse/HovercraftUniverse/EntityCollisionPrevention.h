@@ -3,6 +3,7 @@
 
 #include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
 #include <Physics/Dynamics/Action/hkpUnaryAction.h>
+#include <Physics/Dynamics/Phantom/hkpSimpleShapePhantom.h>
 
 namespace HovUni {
 
@@ -62,6 +63,63 @@ public:
 	EntityCollisionPhantom(const hkAabb& aabb, HavokEntity * entity);
 
 	~EntityCollisionPhantom(void);
+
+	virtual void addOverlappingCollidable( hkpCollidable* handle );
+
+	virtual void removeOverlappingCollidable( hkpCollidable* handle );
+
+};
+
+
+/**
+ * Class that binds an Entity Collision System to the entity
+ */
+class AdvancedEntityCollisionBinder : public hkpUnaryAction {
+
+private:
+
+	hkpSimpleShapePhantom * mPhantom;
+
+	hkReal mOffset;
+
+public:
+
+	/**
+	 * Constructor
+	 * @param collisionPrevention
+	 */
+	AdvancedEntityCollisionBinder( hkpRigidBody* trackedBody, hkpSimpleShapePhantom* phantomToUpdate, hkReal offset );
+
+	~AdvancedEntityCollisionBinder();
+
+private:
+
+	virtual void applyAction( const hkStepInfo& stepInfo );
+
+	virtual hkpAction* clone( const hkArray<hkpEntity*>& newEntities, const hkArray<hkpPhantom*>& newPhantoms ) const { 
+		return HK_NULL; 
+	}
+
+};
+
+/**
+ * Phantom used to detect incomming objects, must be placed in front of entity
+ */
+class AdvancedEntityCollisionPhantom : public hkpSimpleShapePhantom
+{
+private:
+
+	//The entity
+	HavokEntity * mEntity;	
+
+public:
+
+	/**
+	 * Constructor, creates a Collision phantom.
+	 */
+	AdvancedEntityCollisionPhantom(const hkpShape *shape, const hkTransform &transform, HavokEntity * entity);
+
+	~AdvancedEntityCollisionPhantom(void);
 
 	virtual void addOverlappingCollidable( hkpCollidable* handle );
 
