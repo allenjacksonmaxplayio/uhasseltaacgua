@@ -6,6 +6,8 @@
 #include "Loader.h"
 
 #include "LobbyListener.h"
+#include "PlayerSettings.h"
+#include "RaceState.h"
 
 //Events
 #include "OnJoinEvent.h"
@@ -21,7 +23,7 @@ std::string Lobby::getClassName() {
 
 Lobby::Lobby(Loader * loader) :
 	NetworkEntity(4), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"),
-			mMaximumPlayers(2), mStarted(false), mCurrentPlayers(0), mOwnPlayer(0) {
+			mMaximumPlayers(2), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0) {
 
 	if (loader) {
 		loader->setLobby(this);
@@ -38,6 +40,9 @@ void Lobby::process() {
 	for (std::map<ZCom_ConnID, PlayerSettings*>::iterator it = mPlayers.begin(); it
 			!= mPlayers.end(); ++it) {
 		it->second->processEvents(0.0f);
+	}
+	if (mRaceState) {
+		mRaceState->processEvents(0.0f);
 	}
 }
 
@@ -87,7 +92,18 @@ void Lobby::start() {
 }
 
 bool Lobby::isAdmin() const {
-	return (mNode->getRole() == eZCom_RoleOwner);
+	return (mOwnPlayer && mOwnPlayer->getID() == mAdmin);
+}
+
+void Lobby::setRaceState(RaceState* state) {
+	if (mRaceState) {
+		delete mRaceState;
+	}
+	mRaceState = state;
+}
+
+RaceState* Lobby::getRaceState() {
+	return mRaceState;
 }
 
 bool Lobby::onConnectAttempt(ZCom_ConnID id) {
@@ -145,18 +161,11 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 }
 
 void Lobby::onStart() {
-	// For now just create a dummy hovercraft for each player
-	// TODO Move somewhere else
-	if (!mStarted) {
-		// TODO This is only called on the server. The client should wait for entities before being able 
-		// to process them, so in fact the loader is only required at the server side of the lobby. 
-		// Therefore i would recommend to move this to a server specific class, so that lobby does not 
-		// need a loader anymore, but just the track name. For now, i will pass 0 as loader for the client 
-		// Lobby called when map should be loaded
-		mLoader->load(mTrackFilename);
-		mStarted = true;
+	if (!getRaceState()) {
+		RaceState* racestate = new RaceState(this, mLoader, mTrackFilename);
+		setRaceState(racestate);
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-				<< "Start event received and processed";
+				<< "[Lobby]: Racestate constructing and ready process events";
 	}
 }
 
