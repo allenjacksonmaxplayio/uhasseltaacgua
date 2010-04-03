@@ -132,8 +132,14 @@ namespace HovUni {
 			/** Function to execute custom actions before activation */
 			virtual void customActionBeforeActivate() {}
 
-			/** Function to execute custom actions after before activation */
+			/** Function to execute custom actions after activation */
 			virtual void customActionAfterActivate() {}
+
+			/** Function to execute custom actions before deactivation */
+			virtual void customActionBeforeDeactivate() {}
+
+			/** Function to execute custom actions after deactivation */
+			virtual void customActionAfterDeactivate() {}
 		
 		private:
 			/**

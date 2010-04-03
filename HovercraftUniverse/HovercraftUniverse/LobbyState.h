@@ -60,12 +60,12 @@ namespace HovUni {
 			/**
 			 * Function that will be called when a user clicks on the start button
 			 */
-			Hikari::FlashValue onStart(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+			Hikari::FlashValue onPressStart(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			/**
 			 * Function that will be calles when a user clicks on the leave button
 			 */
-			Hikari::FlashValue onLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+			Hikari::FlashValue onPressLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			////////////////////////////////////////
 			//	PlayerSettingsListener functions
@@ -86,24 +86,14 @@ namespace HovUni {
 			virtual void onLeave(ZCom_ConnID id);
 
 			/**
-			 * @inheritDoc
+			 *
 			 */
-			virtual void onJoin(PlayerSettings * settings);
+			virtual void LobbyState::onJoin(PlayerSettings * settings);
 
 			/**
 			 * @inheritDoc
 			 */
-			virtual void onCharacterChange();
-
-			/**
-			 * @inheritDoc
-			 */
-			virtual void onHovercraftChange();
-
-			/**
-			 * @inheritDoc
-			 */
-			virtual void onTrackChange();
+			virtual void onStart();
 
 			////////////////////////////////////////
 			//	BasicGameState functions

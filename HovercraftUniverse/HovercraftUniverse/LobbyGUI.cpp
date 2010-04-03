@@ -24,7 +24,7 @@ namespace HovUni {
 		addOverlay("pickCarBtn", mPickCar);
 		addOverlay("pickCharBtn", mPickChar);
 		addOverlay("leaveBtn", mLeave);
-		addOverlay("startBtn", mStart);
+		
 
 		int lobbyWidth = GUIManager::getSingletonPtr()->getResolutionWidth() - width; //The maximum width we have
 		scale = (lobbyWidth * 1.0f) / 1500.0f;
@@ -36,10 +36,20 @@ namespace HovUni {
 	}
 
 	LobbyGUI::~LobbyGUI() {
+		if (mStart->isActivated()) {
+			GUIManager::getSingletonPtr()->disableOverlay(mStart);
+		}
+
 		delete mPickCar;
 		delete mPickChar;
 		delete mLeave;
 		delete mStart;
+	}
+
+	void LobbyGUI::onDeactivate() {
+		if (mStart->isActivated()) {
+			GUIManager::getSingletonPtr()->disableOverlay(mStart);
+		}
 	}
 
 	void LobbyGUI::newMessage(const std::string& user, const std::string& line) {
@@ -60,5 +70,19 @@ namespace HovUni {
 
 	void LobbyGUI::deleteUser(int id) {
 		mLobbyOverlay->deleteUser(id);
+	}
+
+	void LobbyGUI::showStart(bool show) {
+		if (show) {
+			//Make sure the button is activated
+			if (!mStart->isActivated()) {
+				GUIManager::getSingletonPtr()->activateOverlay(mStart);
+			}
+		} else {
+			//Make sure the button is deactivated
+			if (mStart->isActivated()) {
+				GUIManager::getSingletonPtr()->disableOverlay(mStart);
+			}
+		}
 	}
 }

@@ -50,6 +50,12 @@ namespace HovUni {
 			virtual ~LobbyGUI();
 
 			/**
+			 * Function that will be called on deactivation.
+			 * We will make sure the start button is also deactivated.
+			 */
+			virtual void onDeactivate();
+
+			/**
 			 * Add a new chat message to the lobby chat
 			 *
 			 * @param user The name of the user that posted the message
@@ -91,6 +97,13 @@ namespace HovUni {
 			 * @param The id of the user you want to delete
 			 */
 			void deleteUser(int id);
+
+			/** 
+			 * Function to show or hide the start button
+			 *
+			 * @param show True if you want to show the button, false otherwise
+			 */
+			void showStart(bool show);
 	};
 }
 
