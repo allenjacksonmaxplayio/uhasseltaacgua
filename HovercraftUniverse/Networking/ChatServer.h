@@ -13,8 +13,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ChatServer: public NetworkServer
-{
+class ChatServer: public NetworkServer {
 private:
 	/** The chat entity **/
 	ChatEntity* mChat;
@@ -45,9 +44,9 @@ public:
 	 */
 	void sendNotification(const std::string& notification);
 
-//
-// ZCom_Control callbacks
-//
+	//
+	// ZCom_Control callbacks
+	//
 public:
 	/**
 	 * Connection has been closed and is about to be deleted (Server, Client).
@@ -56,7 +55,8 @@ public:
 	 * @param reason Reason code. If reason is eZCom_ClosedDisconnect, then reasondata might contain more info.
 	 * @param reasondata The reason of the disconnector.
 	 */
-	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata);
+	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
+			ZCom_BitStream& reasondata);
 
 	/**
 	 * Direct data has been received (Server, Client).
@@ -72,7 +72,7 @@ public:
 	 * @param id The connection's ID
 	 * @param request The request given by the requester
 	 * @param reply Data you want to transmit to the requester additionally to the yes/no reply
-	 * @param true to accept the connection, false otherwise.
+	 * @return true to accept the connection, false otherwise.
 	 */
 	bool ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply);
 
@@ -101,7 +101,8 @@ public:
 	 * @param new_level New ZoidLevel of the connection
 	 * @param reason Additional data passed by the server
 	 */
-	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason);
+	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
+			ZCom_BitStream& reason);
 };
 
 }

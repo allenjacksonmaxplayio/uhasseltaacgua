@@ -4,11 +4,13 @@
 
 namespace HovUni {
 
-NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) : mServerName(name), mConnectPort(port), mDebugName(debugname), mRemote(true) {
+NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) :
+	mServerName(name), mConnectPort(port), mDebugName(debugname), mRemote(true) {
 	initialize();
 }
 
-NetworkClient::NetworkClient(const unsigned port, const char* debugname) : mServerName(0), mConnectPort(port), mDebugName(debugname), mRemote(false) {
+NetworkClient::NetworkClient(const unsigned port, const char* debugname) :
+	mServerName(0), mConnectPort(port), mDebugName(debugname), mRemote(false) {
 	initialize();
 }
 
@@ -55,31 +57,37 @@ void NetworkClient::process() {
 	ZoidCom::Sleep(10);
 }
 
-void NetworkClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
+void NetworkClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
+		ZCom_BitStream& reply) {
 
 }
 
-void NetworkClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
+void NetworkClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
+		ZCom_BitStream& reasondata) {
 
 }
 
 void NetworkClient::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
 
-}  
+}
 
-void NetworkClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
+void NetworkClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
+		ZCom_BitStream& reason) {
 
 }
 
-void NetworkClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+void NetworkClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
+		ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 
 }
 
-void NetworkClient::ZCom_cbNodeRequest_Tag(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, zU32 tag) {
+void NetworkClient::ZCom_cbNodeRequest_Tag(ZCom_ConnID id, ZCom_ClassID requested_class,
+		ZCom_BitStream* announcedata, eZCom_NodeRole role, zU32 tag) {
 
 }
 
-bool NetworkClient::ZCom_cbDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request, ZCom_BitStream& reply) {
+bool NetworkClient::ZCom_cbDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request,
+		ZCom_BitStream& reply) {
 	return false;
 }
 
@@ -90,7 +98,8 @@ void NetworkClient::ZCom_cbDiscovered(const ZCom_Address& addr, ZCom_BitStream& 
 //
 // Server only callbacks
 //
-bool NetworkClient::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
+bool NetworkClient::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request,
+		ZCom_BitStream& reply) {
 	return false;
 }
 

@@ -2,11 +2,13 @@
 
 namespace HovUni {
 
-NotifyEvent::NotifyEvent(const std::string& notif) : ChatEvent(notifyLine, notif) {
+NotifyEvent::NotifyEvent(const std::string& notif) :
+	ChatEvent(notifyLine, notif) {
 
 }
 
-NotifyEvent::NotifyEvent() : ChatEvent(notifyLine, "") {
+NotifyEvent::NotifyEvent() :
+	ChatEvent(notifyLine, "") {
 
 }
 

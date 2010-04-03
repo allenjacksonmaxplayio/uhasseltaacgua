@@ -7,11 +7,12 @@
 
 namespace HovUni {
 
-std::string ChatEntity::getClassName() { 
+std::string ChatEntity::getClassName() {
 	return "ChatEntity";
 }
 
-ChatEntity::ChatEntity() : NetworkEntity(0) {
+ChatEntity::ChatEntity() :
+	NetworkEntity(0) {
 
 }
 
@@ -33,19 +34,20 @@ void ChatEntity::sendNotification(const std::string& notif) {
 	}
 }
 
-void ChatEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
+void ChatEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
+		ZCom_BitStream* stream, float timeSince) {
 	//if user event
-	if ( type == eZCom_EventUser ){	
+	if (type == eZCom_EventUser) {
 		ChatEventParser p;
 		ChatEvent* event = p.parse(stream);
 		eZCom_NodeRole role = mNode->getRole();
-		switch(role) {
-			case eZCom_RoleAuthority:
-				processEventsServer(event);
-				break;
-			default:
-				processEventsClient(event);
-				break;
+		switch (role) {
+		case eZCom_RoleAuthority:
+			processEventsServer(event);
+			break;
+		default:
+			processEventsClient(event);
+			break;
 		}
 		delete event;
 	}
@@ -53,7 +55,7 @@ void ChatEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_
 
 void ChatEntity::processEventsServer(ChatEvent* event) {
 	// A text line
-	TextEvent* text = dynamic_cast<TextEvent*>(event);
+	TextEvent* text = dynamic_cast<TextEvent*> (event);
 	if (text) {
 		// TODO Maybe some advanced checking for bad language?
 		sendEvent(*text);
@@ -65,7 +67,7 @@ void ChatEntity::processEventsServer(ChatEvent* event) {
 
 void ChatEntity::processEventsClient(ChatEvent* event) {
 	// A text line
-	TextEvent* text = dynamic_cast<TextEvent*>(event);
+	TextEvent* text = dynamic_cast<TextEvent*> (event);
 	if (text) {
 		// Update all the listeners
 		std::string user = text->getUser();
@@ -76,7 +78,7 @@ void ChatEntity::processEventsClient(ChatEvent* event) {
 	}
 
 	// A notification
-	NotifyEvent* notify = dynamic_cast<NotifyEvent*>(event);
+	NotifyEvent* notify = dynamic_cast<NotifyEvent*> (event);
 	if (notify) {
 		// Update all the listeners
 		std::string line = notify->getLine();

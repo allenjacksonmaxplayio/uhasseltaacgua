@@ -14,7 +14,8 @@ public:
 	/**
 	 * Destructor
 	 */
-	virtual ~ChatListener() { }
+	virtual ~ChatListener() {
+	}
 
 	/**
 	 * An incoming text message

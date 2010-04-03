@@ -9,7 +9,8 @@ NetworkIDManager* NetworkIDManager::msNetworkIDManager = 0;
 
 map<ZCom_ConnID, NetworkIDManager*> NetworkIDManager::msSingletons;
 
-NetworkIDManager::NetworkIDManager(ZCom_Control* control) : mControl(control) {
+NetworkIDManager::NetworkIDManager(ZCom_Control* control) :
+	mControl(control) {
 
 }
 
@@ -37,7 +38,7 @@ ZCom_ClassID NetworkIDManager::registerClass(const string& className, bool annou
 	} else {
 		classID = mControl->ZCom_registerClass(className.c_str());
 	}
-	mMap.insert(pair<string, ZCom_ClassID>(className,classID));
+	mMap.insert(pair<string, ZCom_ClassID> (className, classID));
 	return classID;
 }
 

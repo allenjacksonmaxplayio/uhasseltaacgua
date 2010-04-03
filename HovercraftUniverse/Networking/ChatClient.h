@@ -16,8 +16,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ChatClient: public NetworkClient
-{
+class ChatClient: public NetworkClient {
 private:
 	/** The chat entity **/
 	ChatEntity* mChat;
@@ -88,9 +87,9 @@ private:
 	 */
 	void initialize();
 
-//
-// ZCom_Control callbacks
-//
+	//
+	// ZCom_Control callbacks
+	//
 public:
 	/**
 	 * Connection process finished (Client).
@@ -108,7 +107,8 @@ public:
 	 * @param reason Reason code. If reason is eZCom_ClosedDisconnect, then reasondata might contain more info.
 	 * @param reasondata The reason of the disconnector.
 	 */
-	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata);
+	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
+			ZCom_BitStream& reasondata);
 
 	/**
 	 * Direct data has been received (Server, Client).
@@ -126,7 +126,8 @@ public:
 	 * @param new_level New ZoidLevel of the connection
 	 * @param reason Additional data passed by the server
 	 */
-	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason);
+	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
+			ZCom_BitStream& reason);
 
 	/**
 	 * Server requests to create a new node for a new dynamic object/node (Client).
@@ -137,7 +138,8 @@ public:
 	 * @param role Role the newly created node will posses
 	 * @param net_id The network ID of the requested node. Not needed directly here but may be useful.
 	 */
-	void ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id);
+	void ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
+			ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id);
 
 };
 

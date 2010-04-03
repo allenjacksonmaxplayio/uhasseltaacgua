@@ -10,9 +10,8 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-template <typename EventType, int N>
-class NetworkEventParser
-{
+template<typename EventType, int N>
+class NetworkEventParser {
 public:
 	/**
 	 * The parser that will be used for this entity
@@ -22,7 +21,8 @@ public:
 	/**
 	 * Destructor
 	 */
-	virtual ~NetworkEventParser() { }
+	virtual ~NetworkEventParser() {
+	}
 
 	/**
 	 * Parse a stream to the correct event

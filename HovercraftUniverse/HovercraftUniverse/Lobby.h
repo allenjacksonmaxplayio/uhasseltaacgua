@@ -17,16 +17,13 @@ class Loader;
  * The Lobby which holds the connected players, assigns an 
  * administrator and holds the map info. It also contains a custom loader that is used to load the initial world.
  *
- * @author Pieter-Jan Pintens & Olivier Berghmans
+ * @author Olivier Berghmans & Pieter-Jan Pintens
  */
-class Lobby : public NetworkEntity{
-
+class Lobby: public NetworkEntity {
 public:
-	
-	typedef std::map<ZCom_ConnID,PlayerSettings*> playermap;
+	typedef std::map<ZCom_ConnID, PlayerSettings*> playermap;
 
 private:
-
 	//TODO MUTEX PROTECT PLAYERS
 	std::list<LobbyListener*> mListeners;
 
@@ -51,23 +48,20 @@ private:
 	/** Map with all players */
 	playermap mPlayers;
 
+	/** The own player object, or 0 for the server */
+	PlayerSettings* mOwnPlayer;
+
 	// TODO Remove
 	bool mStarted;
-
-protected:
-
-	/**
-	 * Remove player connection id
-	 */
-	void removePlayer( ZCom_ConnID id );	
 
 public:
 
 	/**
 	 * Constructor
-	 * @param the loader for the loby, will be deleted by the lobby on destruction
+	 *
+	 * @param loader the loader for the loby, will be deleted by the lobby on destruction
 	 */
-	Lobby( Loader * loader );
+	Lobby(Loader* loader);
 
 	/**
 	 * Destructor
@@ -81,47 +75,71 @@ public:
 	void process();
 
 	/**
-	 * Add a player to the lobby
-	 */
-	void addPlayer(PlayerSettings * settings);
-
-	/**
-	 * Remove a player from the lobby
-	 */
-	void removePlayer( PlayerSettings * settings );
-
-	/**
-	 * Add a loby listener
-	 * @param listener
-	 */
-	void addListener( LobbyListener* listener );
-
-	/**
-	 * Remove a lobby listener
-	 * @param listener
-	 */
-	void removeListener( LobbyListener* listener );
-
-	/**
 	 * Start the track. Called by owner
 	 */
 	void start();
 
 	/**
-	 * Check if the client is the administrator
+	 * Check if the client is the administrator of the lobby.
 	 */
 	bool isAdmin() const;
 
 	/**
+	 * Add a player to the lobby
+	 *
+	 * @param settings the player settings
+	 * @param ownPlayer indicates whether it is the setting of the own player
+	 */
+	void addPlayer(PlayerSettings * settings, bool ownPlayer = false);
+
+	/**
+	 * Remove a player from the lobby
+	 *
+	 * @param settings the player settings
+	 */
+	void removePlayer(PlayerSettings* settings);
+
+	/**
+	 * Add a lobby listener
+	 *
+	 * @param listener the listener which will get called back upon events
+	 */
+	void addListener(LobbyListener* listener);
+
+	/**
+	 * Remove a lobby listener
+	 *
+	 * @param listener the listener
+	 */
+	void removeListener(LobbyListener* listener);
+
+	/**
+	 * Get the class name for this class. This is used for registering
+	 * the class with the network
+	 *
+	 * @return the class name
+	 */
+	static std::string getClassName();
+
+	/**
 	 * Get a map with all players mapped on their connection id
+	 *
 	 * @return player mapped on their connection id
 	 */
-	const playermap& getPlayers() const {
+	inline const playermap& getPlayers() const {
 		return mPlayers;
 	}
 
+	/**
+	 * Get the track filename
+	 *
+	 * @return the filename of the track
+	 */
+	inline Ogre::String getTrackFilename() {
+		return mTrackFilename;
+	}
+
 	// Connect callback on authority
-	
 
 	/**
 	 * Called when player is about to connect
@@ -144,8 +162,6 @@ public:
 	 * @param id the ID of the disconnected player
 	 */
 	virtual void onDisconnect(ZCom_ConnID id);
-
-	// Event callbacks on authority, issued by owner
 
 	/**
 	 * Called when admin sends start
@@ -175,12 +191,29 @@ public:
 	 */
 	virtual void onPlayerHovercraftChange(ZCom_ConnID id, const Ogre::String& hovercraft);
 
+protected:
+
+	/**
+	 * Remove player connection id
+	 */
+	void removePlayer(ZCom_ConnID id);
+
 	//OVERWRITEN FROM NetworkEntity
 
-	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince);
+	/*
+	 * @see NetworkEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince)
+	 */
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
+			ZCom_BitStream* stream, float timeSince);
 
+	/*
+	 * @see NetworkEntity::setupReplication()
+	 */
 	virtual void setupReplication();
 
+	/*
+	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)
+	 */
 	virtual void setAnnouncementData(ZCom_BitStream* stream);
 
 	/**
@@ -203,17 +236,6 @@ public:
 	 * @param event an event
 	 */
 	void processEventsOther(GameEvent* event);
-
-	/**
-	 * Get the class name for this class. This is used for registering
-	 * the class with the network
-	 *
-	 * @return the class name
-	 */
-	static std::string getClassName();
-
-	// Getters
-	Ogre::String getTrackFilename() { return mTrackFilename; }
 
 };
 

@@ -2,11 +2,13 @@
 
 namespace HovUni {
 
-TextEvent::TextEvent(const std::string& user, const std::string& line) : ChatEvent(textLine, line), mUser(user) {
+TextEvent::TextEvent(const std::string& user, const std::string& line) :
+	ChatEvent(textLine, line), mUser(user) {
 
 }
 
-TextEvent::TextEvent() : ChatEvent(textLine, ""), mUser("") {
+TextEvent::TextEvent() :
+	ChatEvent(textLine, ""), mUser("") {
 
 }
 
