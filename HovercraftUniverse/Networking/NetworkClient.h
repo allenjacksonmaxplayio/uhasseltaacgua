@@ -56,8 +56,9 @@ public:
 	 * Connect
 	 *
 	 * @param request the optional request data send to server, will be deleted
+	 * @throws NetworkException the connection request failed
 	 */
-	void connect(ZCom_BitStream * request) throw (NetworkException);
+	void connect(ZCom_BitStream * request);
 
 	/**
 	 * Process incoming and outgoing packets

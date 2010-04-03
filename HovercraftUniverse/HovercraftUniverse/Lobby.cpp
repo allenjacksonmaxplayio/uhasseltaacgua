@@ -113,7 +113,7 @@ RaceState* Lobby::getRaceState() {
 
 bool Lobby::onConnectAttempt(ZCom_ConnID id) {
 	//TODO lock mutex
-	return (mCurrentPlayers < mMaximumPlayers);
+	return (mCurrentPlayers < mMaximumPlayers) && !getRaceState();
 }
 
 void Lobby::onConnect(ZCom_ConnID id) {
@@ -221,14 +221,6 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 
 		//General events needed for all
 		switch (event->getType()) {
-		case onJoin: {
-			OnJoinEvent * joinevent = dynamic_cast<OnJoinEvent*> (event);
-			//propagate to listeners
-			//for ( std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++ ){
-			//	(*i)->onJoin(joinevent->getConnectionId());
-			//}
-			break;
-		}
 		case onLeave: {
 			OnLeaveEvent * leaveevent = dynamic_cast<OnLeaveEvent*> (event);
 			//propagate to listeners

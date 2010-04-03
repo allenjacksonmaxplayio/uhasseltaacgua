@@ -2,6 +2,7 @@
 #include "RaceState.h"
 #include "PlayerSettings.h"
 #include "Lobby.h"
+#include "RaceStateListener.h"
 
 namespace HovUni {
 
@@ -42,6 +43,10 @@ PlayerSettings* RacePlayer::getSettings() {
 
 void RacePlayer::setPosition(short position) {
 	mPlayerPosition = position;
+	std::list<RaceStateListener*> listeners = mRaceState->getListeners();
+	for (std::list<RaceStateListener*>::iterator i = listeners.begin(); i != listeners.end(); ++i) {
+		(*i)->onPositionChange(this);
+	}
 }
 
 short RacePlayer::getPosition() const {

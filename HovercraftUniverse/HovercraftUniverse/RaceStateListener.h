@@ -2,6 +2,7 @@
 #define RACESTATELISTENER_H
 
 #include "RacePlayer.h"
+#include "RaceState.h"
 
 namespace HovUni {
 
@@ -12,6 +13,13 @@ namespace HovUni {
  */
 class RaceStateListener {
 public:
+	/**
+	 * The state of the race changed
+	 *
+	 * @param state the new state
+	 */
+	virtual void onStateChange(RaceState::States state) = 0;
+
 	/**
 	 * The player changed position
 	 *
