@@ -1,13 +1,6 @@
 #ifndef BASICOVERLAY_H
 #define BASICOVERLAY_H
 
-/**
- * The BasicOverlay class will be a pure virtual class abstracting the notion of
- * a Hikari::FlashControl object and providing additional functionality.
- *
- * @author Nick De Frangh
- */
-
 //Include IOS but prevent double link errors!
 #define OIS_DYNAMIC_LIB
 #include "Ogre.h"
@@ -16,6 +9,12 @@
 #include <vector>
 
 namespace HovUni {
+	/**
+	 * The BasicOverlay class will be a pure virtual class abstracting the notion of
+	 * a Hikari::FlashControl object and providing additional functionality.
+	 *
+	 * @author Nick De Frangh
+	 */
 	class BasicOverlay : public OIS::KeyListener {
 		friend class GUIManager;
 

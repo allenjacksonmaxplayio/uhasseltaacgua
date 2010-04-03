@@ -53,14 +53,22 @@ protected:
 	/** The sound manager */
 	SoundManager * mSoundManager;
 
-	/** INI file values */
+	// INI file values
+	/** The path to the data folder */
 	std::string mDataPath;
+	/** The path to the log file */
 	std::string mLogPath;
+	/** The path to the ogre config file */
 	std::string mOgreConfig;
+	/** The path to the ogre plgins file */
 	std::string mOgrePlugins;
+	/** The path to the sound directory */
 	std::string mSoundPath;
+	/** The path to the sound file, relative from the sound directory */
 	std::string mSoundFile;
+	/** The path to the controls directory */
 	std::string mControlsPath;
+	/** The path to the controls file */
 	std::string mControlsFile;
 	
 public:

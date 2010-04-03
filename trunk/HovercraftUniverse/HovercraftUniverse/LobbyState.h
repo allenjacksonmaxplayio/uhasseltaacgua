@@ -11,6 +11,13 @@
 #include <map>
 
 namespace HovUni {
+	/**
+	 * This class represents the lobby state of the game. When a client
+	 * connects to a server and a game has not started, the client will
+	 * reside in this state.
+	 *
+	 * @author Nick De Frangh
+	 */
 	class LobbyState : public BasicGameState, public LobbyListener, public PlayerSettingsListener {
 		private:
 			/** The client which represents our connection */

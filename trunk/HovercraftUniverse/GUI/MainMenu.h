@@ -7,6 +7,11 @@
 #include "ServerMenuListener.h"
 
 namespace HovUni {
+	/**
+	 * An overlay that represents the main menu in the game
+	 *
+	 * @author Nick De Frangh
+	 */
 	class MainMenu : public OverlayContainer {
 		private:
 			/** The background overlay */

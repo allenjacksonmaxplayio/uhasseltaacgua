@@ -4,6 +4,12 @@
 #include "BasicOverlay.h"
 
 namespace HovUni {
+	/**
+	 * This overlay represents a lobby object.
+	 * This includes a user overview, a chat panel and basic game settings.
+	 *
+	 * @author Nick De Frangh
+	 */
 	class LobbyOverlay : public BasicOverlay {
 		public:
 			/**
