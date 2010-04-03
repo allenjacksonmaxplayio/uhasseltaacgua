@@ -3,6 +3,7 @@
 #include "LobbyState.h"
 #include "HUClient.h"
 #include <tinyxml/tinyxml.h>
+#include <boost/thread/thread_time.hpp>
 
 namespace HovUni {
 	MainMenuState::MainMenuState() : mMenu(0), mContinue(true), mLastGUIUpdate(-1) {
@@ -19,8 +20,32 @@ namespace HovUni {
 
 		try {
 			mClient->connect(0);
+
+			int retryCount = 0;
+
+			//Wait for our client to fully connect
+			while ( (!mClient->finishedConnecting()) && (retryCount < 10) ) {
+				mClient->timed_wait(boost::get_system_time() + boost::posix_time::seconds(1)); //Wait for one second
+				++retryCount;
+				Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Connection try " << retryCount;
+			}
+	
+			if (!mClient->isConnected()) {
+				//We are not connected, leave!
+				delete mClient;
+				delete newState;
+
+				Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Connection failed " << retryCount;
+
+				return false;
+			}
 		} catch ( NetworkException ex ){
 			//TODO NICK SHOW ERROR BOX
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Could not connect to server";
+			
+			delete mClient;
+			delete newState;
+			
 			return false;
 		}
 

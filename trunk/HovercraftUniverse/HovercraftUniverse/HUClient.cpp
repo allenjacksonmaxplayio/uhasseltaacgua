@@ -40,12 +40,12 @@
 namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) :
-	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0) {
+	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0), mConnected(false), mFinishedConnecting(false) {
 	initialize();
 }
 
 HUClient::HUClient() :
-	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0) {
+	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0), mConnected(false), mFinishedConnecting(false) {
 	initialize();
 }
 
@@ -100,9 +100,17 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
 			mChatClient->registerListener(mChatListener);
 		}
 
+		//Mark connected
+		mConnected = true;
+		mFinishedConnecting = true;
+
 		//We are done, notify our listeners
 		mSemaphore.post();
 	} else {
+		//Mark not connected
+		mConnected = false;
+		mFinishedConnecting = true;
+
 		//Notify our listeners
 		mSemaphore.post();
 
@@ -273,6 +281,10 @@ void HUClient::setChatListener(ChatListener* listener) {
 
 void HUClient::wait() {
 	mSemaphore.wait();
+}
+
+void HUClient::timed_wait(const boost::posix_time::ptime & abs_time) {
+	mSemaphore.timed_wait(abs_time);
 }
 
 }
