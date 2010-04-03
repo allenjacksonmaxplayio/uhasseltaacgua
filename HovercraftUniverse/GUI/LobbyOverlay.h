@@ -58,7 +58,7 @@ namespace HovUni {
 			/**
 			 * Delete the user from the list with the given ID.
 			 *
-			 * @param The id of the user you want to delete
+			 * @param id The id of the user you want to delete
 			 */
 			void deleteUser(int id);
 

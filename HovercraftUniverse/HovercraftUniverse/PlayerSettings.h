@@ -18,19 +18,19 @@ class Lobby;
  */
 class PlayerSettings: public NetworkEntity {
 private:
-	// The lobby
+	/** The lobby */
 	Lobby* mLobby;
 
-	// The ID of the user
+	/** The ID of the user */
 	const unsigned int mUserID;
 
-	// The name of the user
+	/** The name of the user */
 	Ogre::String mPlayerName;
 
-	// The hovercraft type
+	/** The hovercraft type */
 	Ogre::String mHovercraft;
 
-	// The character type
+	/* The character type */
 	Ogre::String mCharacter;
 
 public:

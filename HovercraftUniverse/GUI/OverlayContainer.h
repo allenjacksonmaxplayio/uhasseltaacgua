@@ -15,8 +15,10 @@ namespace HovUni{
 		friend class GUIManager;
 
 		private:
+			/** A map of all the contained overlays */
 			std::map<std::string, BasicOverlay *> mOverlays;
 
+			/** A boolean to check if this container is actived or not */
 			bool mIsActivated;
 
 		public:
@@ -66,6 +68,11 @@ namespace HovUni{
 			inline bool isActivated() { return mIsActivated; }
 
 		private:
+			/**
+			 * Get a map of all the overlays in this container
+			 *
+			 * @return A full map over overlays.
+			 */
 			std::map<std::string, BasicOverlay *>& getOverlays();
 	};
 }

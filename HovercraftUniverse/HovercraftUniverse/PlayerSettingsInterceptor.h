@@ -77,17 +77,13 @@ public:
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/*! @copydoc ZCom_NodeReplicationInterceptor::outPreUpdateItem(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,ZCom_Replicator*) */
 	bool outPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role,
 			ZCom_Replicator *_replicator) {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/*! @copydoc ZCom_NodeReplicationInterceptor::outPostUpdate(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,zU32,zU32,zU32) */
 	void outPostUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role,
 			zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits);
 

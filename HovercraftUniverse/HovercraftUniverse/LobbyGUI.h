@@ -39,6 +39,8 @@ namespace HovUni {
 			 * Constructor for the LobbyGUI
 			 *
 			 * @param onChat Function to be called when a user gives new chat input
+			 * @param onStat Function to be called when the start action if given
+			 * @param onLeave Function to be called when a user pushes the leave button
 			 */
 			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave);
 			
@@ -50,8 +52,8 @@ namespace HovUni {
 			/**
 			 * Add a new chat message to the lobby chat
 			 *
-			 * @param username The name of the user that posted the message
-			 * @param message The message the user has posted
+			 * @param user The name of the user that posted the message
+			 * @param line The message the user has posted
 			 */
 			virtual void newMessage(const std::string& user, const std::string& line);
 

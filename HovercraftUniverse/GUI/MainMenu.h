@@ -67,7 +67,7 @@ namespace HovUni {
 			 * Function that will be called when a user presses the singleplayer button
 			 *
 			 * @param caller The control that called this function (don't use unless you know how to!)
-			 * @param arg The arguments that were passed to this function (empty)
+			 * @param args The arguments that were passed to this function (empty)
 			 * @return A return value for the flash movie
 			 */
 			Hikari::FlashValue onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args);
@@ -76,7 +76,7 @@ namespace HovUni {
 			 * Function that will be called when a user presses the multiplayer button
 			 *
 			 * @param caller The control that called this function (don't use unless you know how to!)
-			 * @param arg The arguments that were passed to this function (empty)
+			 * @param args The arguments that were passed to this function (empty)
 			 * @return A return value for the flash movie
 			 */
 			Hikari::FlashValue onMultiplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args);
@@ -85,7 +85,7 @@ namespace HovUni {
 			 * Function that will be called when a user presses the options button
 			 *
 			 * @param caller The control that called this function (don't use unless you know how to!)
-			 * @param arg The arguments that were passed to this function (empty)
+			 * @param args The arguments that were passed to this function (empty)
 			 * @return A return value for the flash movie
 			 */
 			Hikari::FlashValue onOptions(Hikari::FlashControl* caller, const Hikari::Arguments& args);
@@ -94,7 +94,7 @@ namespace HovUni {
 			 * Function that will be called when a user presses the back button
 			 *
 			 * @param caller The control that called this function (don't use unless you know how to!)
-			 * @param arg The arguments that were passed to this function (empty)
+			 * @param args The arguments that were passed to this function (empty)
 			 * @return A return value for the flash movie
 			 */
 			Hikari::FlashValue onBack(Hikari::FlashControl* caller, const Hikari::Arguments& args);

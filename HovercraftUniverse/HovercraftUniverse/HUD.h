@@ -40,12 +40,19 @@ private:
 
 	/** Helper data structure */
 	struct ComponentData {
+		/** The name for the component */
 		Ogre::String mName;
+		/** The name of the file that has to be loaded */
 		Ogre::String mFilename;
+		/** The prosition to place the overlay */
 		Hikari::Position mPosition;
+		/** The width of the overlay */
 		int mWidth;
+		/** Boolean to check for percentage width */
 		bool mWidthP;
+		/** The height of the overlay */
 		int mHeight;
+		/** Boolean to check for percentage height */
 		bool mHeightP;
 	};
 
