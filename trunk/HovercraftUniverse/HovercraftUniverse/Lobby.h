@@ -198,7 +198,12 @@ public:
 	/**
 	 * Called when admin sends start
 	 */
-	virtual void onStart();
+	virtual void onStartServer();
+
+	/**
+	 * Called to notify the listeners of the start
+	 */
+	virtual void onStartClient();
 
 	/**
 	 * Called when admin changes the map
