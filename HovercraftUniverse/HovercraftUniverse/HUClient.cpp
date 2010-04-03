@@ -71,7 +71,10 @@ HUClient::~HUClient() {
 
 void HUClient::process() {
 	NetworkClient::process();
-	mLobby->process();
+
+	if (mLobby) {
+		mLobby->process();
+	}
 
 	if (mChatClient != 0) {
 		mChatClient->process();
