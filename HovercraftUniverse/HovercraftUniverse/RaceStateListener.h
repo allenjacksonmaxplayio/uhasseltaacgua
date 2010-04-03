@@ -5,6 +5,11 @@
 
 namespace HovUni {
 
+/**
+ * A listener for the race state
+ *
+ * @author Olivier Berghmans
+ */
 class RaceStateListener {
 public:
 	/**

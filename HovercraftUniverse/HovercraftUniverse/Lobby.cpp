@@ -38,8 +38,7 @@ Lobby::~Lobby() {
 
 void Lobby::process() {
 	processEvents(0.0f);
-	for (playermap::iterator it = mPlayers.begin(); it
-			!= mPlayers.end(); ++it) {
+	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
 		it->second->processEvents(0.0f);
 	}
 	if (mRaceState) {
@@ -166,20 +165,28 @@ void Lobby::onTrackChange(const Ogre::String& filename) {
 	mTrackFilename = filename;
 }
 
-void Lobby::onStart() {
+void Lobby::onStartServer() {
 	if (!getRaceState()) {
 		RaceState* racestate = new RaceState(this, mLoader, mTrackFilename);
 		setRaceState(racestate);
 
 		// Create race players
-		for (playermap::iterator it = mPlayers.begin(); it
-				!= mPlayers.end(); ++it) {
+		for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
 			RacePlayer* rplayer = new RacePlayer(mRaceState, it->second);
 			mRaceState->addPlayer(rplayer);
 		}
 
+		// Tell the clients to start
+		StartTrackEvent event;
+		sendEvent(event);
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
 				<< "[Lobby]: Racestate constructing and ready process events";
+	}
+}
+
+void Lobby::onStartClient() {
+	for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
+		(*i)->onStart();
 	}
 }
 
@@ -240,15 +247,24 @@ void Lobby::processEventsServer(GameEvent* event) {
 	// Save the new event in the moving status
 	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (event);
 	if (start) {
-		onStart();
+		onStartServer();
 	}
 }
 
 void Lobby::processEventsOwner(GameEvent* event) {
-
+	// Save the new event in the moving status
+	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (event);
+	if (start) {
+		onStartClient();
+	}
 }
 
 void Lobby::processEventsOther(GameEvent* event) {
+	// Save the new event in the moving status
+	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (event);
+	if (start) {
+		onStartClient();
+	}
 }
 
 void Lobby::setupReplication() {
