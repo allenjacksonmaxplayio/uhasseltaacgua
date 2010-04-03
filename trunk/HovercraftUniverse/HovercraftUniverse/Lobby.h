@@ -15,7 +15,7 @@ class PlayerSettings;
 class RaceState;
 
 /**
- * The Lobby which holds the connected players, assigns an 
+ * The Lobby which holds the settings of the connected players, assigns an
  * administrator and holds the map info. It also contains a custom loader that is used to load the initial world.
  *
  * @author Olivier Berghmans & Pieter-Jan Pintens
@@ -26,6 +26,8 @@ public:
 
 private:
 	//TODO MUTEX PROTECT PLAYERS
+
+	/** The listeners */
 	std::list<LobbyListener*> mListeners;
 
 	/** Specific loader, will be different on client and server **/
@@ -46,10 +48,10 @@ private:
 	/** The filename of the track */
 	Ogre::String mTrackFilename;
 
-	/** Map with all players */
+	/** Map with all player settings */
 	playermap mPlayers;
 
-	/** The own player object, or 0 for the server */
+	/** The own player settings object, or 0 for the server */
 	PlayerSettings* mOwnPlayer;
 
 	/** The race state when a race is busy */
@@ -86,7 +88,7 @@ public:
 	bool isAdmin() const;
 
 	/**
-	 * Add a player to the lobby
+	 * Add a player setting to the lobby
 	 *
 	 * @param settings the player settings
 	 * @param ownPlayer indicates whether it is the setting of the own player
@@ -94,7 +96,7 @@ public:
 	void addPlayer(PlayerSettings * settings, bool ownPlayer = false);
 
 	/**
-	 * Remove a player from the lobby
+	 * Remove a player setting from the lobby
 	 *
 	 * @param settings the player settings
 	 */
@@ -133,7 +135,7 @@ public:
 	/**
 	 * Get a map with all players mapped on their connection id
 	 *
-	 * @return player mapped on their connection id
+	 * @return player settings mapped on their connection id
 	 */
 	inline const playermap& getPlayers() const {
 		return mPlayers;

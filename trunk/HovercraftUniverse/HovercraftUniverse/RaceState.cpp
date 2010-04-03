@@ -4,6 +4,7 @@
 #include "ClientPreparationLoader.h"
 #include "RacePlayer.h"
 #include "PlayerSettings.h"
+#include "RaceStateListener.h"
 
 #include <OgreLogManager.h>
 
@@ -60,11 +61,6 @@ void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
 				<< "[RaceState]: Received own player object";
 	}
-//
-//	//Notify our listeners
-//	for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
-//		(*i)->onJoin(settings);
-//	}
 }
 
 void RaceState::removePlayer(RacePlayer* player) {
@@ -74,6 +70,25 @@ void RaceState::removePlayer(RacePlayer* player) {
 RacePlayer* RaceState::getPlayer(ZCom_ConnID id) {
 	playermap::iterator i = mPlayers.find(id);
 	return (i != mPlayers.end()) ? i->second : 0;
+}
+
+void RaceState::addListener(RaceStateListener* listener) {
+	mListeners.push_back(listener);
+}
+
+void RaceState::removeListener(RaceStateListener* listener) {
+	mListeners.remove(listener);
+}
+
+std::list<RaceStateListener*>& RaceState::getListeners() {
+	return mListeners;
+}
+
+void RaceState::setNewState(States state) {
+	mCurrentState = state;
+	for (std::list<RaceStateListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
+		(*i)->onStateChange(mCurrentState);
+	}
 }
 
 void RaceState::setAnnouncementData(ZCom_BitStream* stream) {

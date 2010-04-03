@@ -2,6 +2,7 @@
 #define RACESTATE_H
 
 #include "NetworkEntity.h"
+#include <list>
 
 namespace HovUni {
 
@@ -9,6 +10,7 @@ class Lobby;
 class Loader;
 class ClientPreparationLoader;
 class RacePlayer;
+class RaceStateListener;
 
 /**
  * RaceState will be the main controlling component during the game.
@@ -49,6 +51,9 @@ private:
 
 	/** The own player */
 	RacePlayer* mOwnPlayer;
+
+	/** The listeners */
+	std::list<RaceStateListener*> mListeners;
 
 public:
 	/**
@@ -109,6 +114,20 @@ public:
 	}
 
 	/**
+	 * Add a race state listener
+	 *
+	 * @param listener the listener which will get called back upon events
+	 */
+	void addListener(RaceStateListener* listener);
+
+	/**
+	 * Remove a race state listener
+	 *
+	 * @param listener the listener
+	 */
+	void removeListener(RaceStateListener* listener);
+
+	/**
 	 * Get the class name for this class. This is used for registering
 	 * the class with the network
 	 *
@@ -116,12 +135,26 @@ public:
 	 */
 	static std::string getClassName();
 
+	/**
+	 * Get the list of listeners
+	 *
+	 * @return the list
+	 */
+	std::list<RaceStateListener*>& getListeners();
+
 protected:
 
 	/**
 	 * Remove player connection id
 	 */
 	void removePlayer(ZCom_ConnID id);
+
+	/**
+	 * Set the new state for the race state
+	 *
+	 * @param state the new state
+	 */
+	void setNewState(States state);
 
 	/**
 	 * A callback that should be implemented in order to parse and process
