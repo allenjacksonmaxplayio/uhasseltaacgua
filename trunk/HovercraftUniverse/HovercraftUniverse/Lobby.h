@@ -101,6 +101,14 @@ public:
 	void removePlayer(PlayerSettings* settings);
 
 	/**
+	 * Get a player setting from the lobby
+	 *
+	 * @param id the id of the player
+	 * @return the settings
+	 */
+	PlayerSettings* getPlayer(ZCom_ConnID id);
+
+	/**
 	 * Add a lobby listener
 	 *
 	 * @param listener the listener which will get called back upon events
@@ -129,6 +137,15 @@ public:
 	 */
 	inline const playermap& getPlayers() const {
 		return mPlayers;
+	}
+
+	/**
+	 * Get the own player settings
+	 *
+	 * @return the own player settings
+	 */
+	inline PlayerSettings* getOwnPlayer() {
+		return mOwnPlayer;
 	}
 
 	/**

@@ -4,6 +4,7 @@
 #include "Lobby.h"
 #include "PlayerSettings.h"
 #include "RaceState.h"
+#include "RacePlayer.h"
 
 #include "Start.h"
 #include "Finish.h"
@@ -33,6 +34,7 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	manager.registerClass(Lobby::getClassName());
 	manager.registerClass(PlayerSettings::getClassName(), true);
 	manager.registerClass(RaceState::getClassName(), true);
+	manager.registerClass(RacePlayer::getClassName(), true);
 
 	//Entities
 	manager.registerClass(Asteroid::getClassName(),true);

@@ -8,6 +8,7 @@
 #include "LobbyListener.h"
 #include "PlayerSettings.h"
 #include "RaceState.h"
+#include "RacePlayer.h"
 
 //Events
 #include "OnJoinEvent.h"
@@ -37,7 +38,7 @@ Lobby::~Lobby() {
 
 void Lobby::process() {
 	processEvents(0.0f);
-	for (std::map<ZCom_ConnID, PlayerSettings*>::iterator it = mPlayers.begin(); it
+	for (playermap::iterator it = mPlayers.begin(); it
 			!= mPlayers.end(); ++it) {
 		it->second->processEvents(0.0f);
 	}
@@ -47,14 +48,14 @@ void Lobby::process() {
 }
 
 void Lobby::removePlayer(ZCom_ConnID id) {
-	std::map<ZCom_ConnID, PlayerSettings*>::iterator i = mPlayers.find(id);
+	playermap::iterator i = mPlayers.find(id);
 	delete i->second;
 	mPlayers.erase(i);
 	mCurrentPlayers--;
 }
 
 void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
-	std::map<ZCom_ConnID, PlayerSettings*>::iterator i = mPlayers.find(settings->getID());
+	playermap::iterator i = mPlayers.find(settings->getID());
 
 	if (i != mPlayers.end()) {
 		removePlayer(settings->getID());
@@ -76,6 +77,11 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 
 void Lobby::removePlayer(PlayerSettings * settings) {
 	removePlayer(settings->getID());
+}
+
+PlayerSettings* Lobby::getPlayer(ZCom_ConnID id) {
+	playermap::iterator i = mPlayers.find(id);
+	return (i != mPlayers.end()) ? i->second : 0;
 }
 
 void Lobby::addListener(LobbyListener* listener) {
@@ -164,6 +170,14 @@ void Lobby::onStart() {
 	if (!getRaceState()) {
 		RaceState* racestate = new RaceState(this, mLoader, mTrackFilename);
 		setRaceState(racestate);
+
+		// Create race players
+		for (playermap::iterator it = mPlayers.begin(); it
+				!= mPlayers.end(); ++it) {
+			RacePlayer* rplayer = new RacePlayer(mRaceState, it->second);
+			mRaceState->addPlayer(rplayer);
+		}
+
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
 				<< "[Lobby]: Racestate constructing and ready process events";
 	}

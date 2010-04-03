@@ -1,5 +1,5 @@
-#ifndef _RACESTATE_H
-#define _RACESTATE_H
+#ifndef RACESTATE_H
+#define RACESTATE_H
 
 #include "NetworkEntity.h"
 
@@ -7,6 +7,8 @@ namespace HovUni {
 
 class Lobby;
 class Loader;
+class ClientPreparationLoader;
+class RacePlayer;
 
 /**
  * RaceState will be the main controlling component during the game.
@@ -17,6 +19,8 @@ class Loader;
  */
 class RaceState: public NetworkEntity {
 public:
+	typedef std::map<ZCom_ConnID, RacePlayer*> playermap;
+
 	/** All the possible stated during the race */
 	static const enum States {
 		INITIALIZING = 0, /** Pre-race state, show intro */
@@ -40,6 +44,12 @@ private:
 	/** The track file name for this race */
 	const Ogre::String mTrackFilename;
 
+	/** The list of race players */
+	playermap mPlayers;
+
+	/** The own player */
+	RacePlayer* mOwnPlayer;
+
 public:
 	/**
 	 * Constructor
@@ -58,13 +68,45 @@ public:
 	 * @param ID the class ID
 	 * @param control the network control
 	 */
-	RaceState(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,
+	RaceState(Lobby * lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 			ZCom_Control* control);
 
 	/**
 	 * Destructor
 	 */
 	virtual ~RaceState();
+
+	/**
+	 * Add a player to the race state
+	 *
+	 * @param player the player settings
+	 * @param ownPlayer indicates whether it is the setting of the own player
+	 */
+	void addPlayer(RacePlayer* player, bool ownPlayer = false);
+
+	/**
+	 * Remove a player from the race state
+	 *
+	 * @param player the player settings
+	 */
+	void removePlayer(RacePlayer* player);
+
+	/**
+	 * Get a player from the lobby
+	 *
+	 * @param id the id of the player
+	 * @return the settings
+	 */
+	RacePlayer* getPlayer(ZCom_ConnID id);
+
+	/**
+	 * Get the own player
+	 *
+	 * @return the own player settings
+	 */
+	inline RacePlayer* getOwnPlayer() {
+		return mOwnPlayer;
+	}
 
 	/**
 	 * Get the class name for this class. This is used for registering
@@ -75,6 +117,11 @@ public:
 	static std::string getClassName();
 
 protected:
+
+	/**
+	 * Remove player connection id
+	 */
+	void removePlayer(ZCom_ConnID id);
 
 	/**
 	 * A callback that should be implemented in order to parse and process

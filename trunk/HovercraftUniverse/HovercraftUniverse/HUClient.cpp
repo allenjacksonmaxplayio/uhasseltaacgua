@@ -13,6 +13,7 @@
 #include "Lobby.h"
 #include "PlayerSettings.h"
 #include "RaceState.h"
+#include "RacePlayer.h"
 
 #include "AsteroidRepresentation.h"
 #include "BoostRepresentation.h"
@@ -60,7 +61,7 @@ void HUClient::initialize() {
 	ZCom_setUpstreamLimit(0, 0);
 
 	//Create the lobby object
-	mLobby = new Lobby(0);
+	mLobby = new Lobby(HUApplication::msPreparationLoader);
 	mLobby->networkRegisterUnique(mIDManager, Lobby::getClassName());
 }
 
@@ -163,8 +164,18 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			ent->setHovercraft(conf->getValue("Player", "Hovercraft"));
 		}
 	} else if (requested_class == mIDManager->getID(RaceState::getClassName())) {
-		RaceState* ent = new RaceState(mLobby, announcedata, requested_class, this);
+		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata,
+				requested_class, this);
 		mLobby->setRaceState(ent);
+	} else if (requested_class == mIDManager->getID(RacePlayer::getClassName())) {
+		if (!mLobby->getRaceState()) {
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
+					<< "[HUClient]: Error - no race state";
+			THROW(NetworkException, "RaceState not received yet");
+		}
+		RacePlayer* ent = new RacePlayer(mLobby, announcedata, requested_class, this);
+		mLobby->getRaceState()->addPlayer(ent, ent->getSettings()->getID()
+				== mLobby->getOwnPlayer()->getID());
 	}
 
 	//Entities
