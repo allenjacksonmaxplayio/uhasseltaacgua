@@ -46,6 +46,12 @@ private:
 	/** A Semaphore to make it possible to wait for complete connection */
 	boost::interprocess::interprocess_semaphore mSemaphore;
 
+	/** Boolean to check if the client is connected */
+	bool mConnected;
+
+	/** Boolean to check if the client has finished connection, either good or bad */
+	bool mFinishedConnecting;
+
 public:
 	/**
 	 * Constructor for a client using a remote connection
@@ -99,6 +105,20 @@ public:
 	 * Wait for the client to fully connect to the server
 	 */
 	void wait();
+
+	/**
+	 * Wati for the client to fully connect to the server, with
+	 * a specific timeout
+	 *
+	 * @param abs_time The time on which you want to unlock
+	 */
+	void timed_wait(const boost::posix_time::ptime & abs_time);
+
+	/** Check if the client is connected */
+	bool isConnected() { return mConnected; }
+
+	/** Check if the client has finished connecting */
+	bool finishedConnecting() { return mFinishedConnecting; }
 
 private:
 	/**

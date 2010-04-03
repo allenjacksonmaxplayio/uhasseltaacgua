@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "MessageBox.h"
 #include "GUIManager.h"
 
 namespace HovUni {
@@ -73,7 +74,11 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue MainMenu::onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		mListener->onConnect("localhost");
+		if (!mListener->onConnect("localhost")) {
+			//Show a messagebox
+			HovUni::MessageBox* msg = new MessageBox("Could not connect to local server", "connectionmessage");
+			GUIManager::getSingletonPtr()->activateOverlay(msg);
+		}
 
 		return "success";
 	}
