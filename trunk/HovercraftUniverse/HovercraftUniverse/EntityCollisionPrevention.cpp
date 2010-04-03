@@ -12,6 +12,8 @@
 
 namespace HovUni {
 
+///////////////// SIMPLE VERSION //////////////////////
+
 EntityCollisionBinder::EntityCollisionBinder( hkpRigidBody* trackedBody, hkpAabbPhantom* phantomToUpdate , hkReal offset ):
 	hkpUnaryAction(trackedBody), mPhantom(phantomToUpdate), mOffset(-1.0f*offset) {
 }
@@ -45,15 +47,12 @@ void EntityCollisionBinder::applyAction( const hkStepInfo& stepInfo )
 	mPhantom->setAabb( newAabb );
 }
 
-/////////////////
-
 EntityCollisionPhantom::EntityCollisionPhantom(const hkAabb& aabb, HavokEntity * entity):
 	hkpAabbPhantom( aabb, 0), mEntity(entity) {
 }
 
 EntityCollisionPhantom::~EntityCollisionPhantom(void){
 }
-
 
 void EntityCollisionPhantom::addOverlappingCollidable( hkpCollidable* handle ){
 	hkpRigidBody* rb = hkGetRigidBody(handle);
@@ -66,6 +65,61 @@ void EntityCollisionPhantom::addOverlappingCollidable( hkpCollidable* handle ){
 }
 
 void EntityCollisionPhantom::removeOverlappingCollidable( hkpCollidable* handle ){
+	hkpRigidBody* rb = hkGetRigidBody(handle);
+
+	//if something leaves bounding box that is't the planet
+	if ( (rb != HK_NULL) && !HavokEntityType::isEntityType(rb,HavokEntityType::PLANET ) ) {
+		//TODO send event
+		std::cout << "PHEW" << std::endl;
+	}
+}
+
+////////////////   ADVANCED VERSION   //////////////////
+
+
+AdvancedEntityCollisionBinder::AdvancedEntityCollisionBinder( hkpRigidBody* trackedBody, hkpSimpleShapePhantom* phantomToUpdate , hkReal offset ):
+	hkpUnaryAction(trackedBody), mPhantom(phantomToUpdate), mOffset(-1.0f*offset) {
+}
+
+AdvancedEntityCollisionBinder::~AdvancedEntityCollisionBinder() {
+}
+
+void AdvancedEntityCollisionBinder::applyAction( const hkStepInfo& stepInfo ) {
+	// Find the new center to move to
+	const hkQuaternion& r = getRigidBody()->getRotation();
+
+	hkRotation rot;
+	rot.set(r);
+
+	hkVector4 offset = rot.getColumn(2);
+	offset.mul4(mOffset);
+	offset.add4(getRigidBody()->getPosition());
+
+	hkTransform t(r,offset);
+	mPhantom->setTransform(t);
+}
+
+
+
+AdvancedEntityCollisionPhantom::AdvancedEntityCollisionPhantom(const hkpShape *shape, const hkTransform &transform, HavokEntity * entity) :
+	hkpSimpleShapePhantom( shape, transform, 0), mEntity(entity) {
+}
+
+AdvancedEntityCollisionPhantom::~AdvancedEntityCollisionPhantom(void){
+}
+
+
+void AdvancedEntityCollisionPhantom::addOverlappingCollidable( hkpCollidable* handle ){
+	hkpRigidBody* rb = hkGetRigidBody(handle);
+
+	//if something enters bounding box that is't the planet
+	if ( (rb != HK_NULL) && !HavokEntityType::isEntityType(rb,HavokEntityType::PLANET ) ) {
+		//TODO send event
+		std::cout << "WATCH OUT" << std::endl;
+	}
+}
+
+void AdvancedEntityCollisionPhantom::removeOverlappingCollidable( hkpCollidable* handle ){
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
 	//if something leaves bounding box that is't the planet
