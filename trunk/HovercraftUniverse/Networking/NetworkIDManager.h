@@ -23,7 +23,7 @@ public:
 	 *
 	 * @return the singleton pointer
 	 */
-    static NetworkIDManager* getServerSingletonPtr();
+	static NetworkIDManager* getServerSingletonPtr();
 
 	/**
 	 * Returns the id manager singleton for a client.
@@ -31,7 +31,7 @@ public:
 	 * @param id the clients connection ID
 	 * @return the singleton pointer
 	 */
-    static NetworkIDManager* getClientSingletonPtr(ZCom_ConnID id);
+	static NetworkIDManager* getClientSingletonPtr(ZCom_ConnID id);
 
 private:
 	/** The server singleton */
@@ -116,11 +116,11 @@ private:
 	 */
 	NetworkIDManager();
 
-
 	/**
 	 * Hide the copy constructor
 	 */
-	NetworkIDManager(const NetworkIDManager&) { }
+	NetworkIDManager(const NetworkIDManager&) {
+	}
 
 };
 

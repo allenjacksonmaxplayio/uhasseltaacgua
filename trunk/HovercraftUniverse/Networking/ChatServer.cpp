@@ -2,7 +2,8 @@
 
 namespace HovUni {
 
-ChatServer::ChatServer() : NetworkServer(2377, 2378, "ChatServer"), mChat(0), mIDManager(0) {
+ChatServer::ChatServer() :
+	NetworkServer(2377, 2378, "ChatServer"), mChat(0), mIDManager(0) {
 	// Create and store entity manager
 	mIDManager = new NetworkIDManager(this);
 	mIDManager->registerClass(ChatEntity::getClassName());
@@ -31,7 +32,8 @@ void ChatServer::sendNotification(const std::string& notification) {
 	}
 }
 
-bool ChatServer::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
+bool ChatServer::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request,
+		ZCom_BitStream& reply) {
 	return true;
 }
 
@@ -39,7 +41,8 @@ void ChatServer::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 	mChat->getNetworkNode()->setOwner(id, true);
 }
 
-void ChatServer::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
+void ChatServer::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
+		ZCom_BitStream& reasondata) {
 	mChat->getNetworkNode()->setOwner(id, false);
 }
 
@@ -56,7 +59,8 @@ bool ChatServer::ZCom_cbZoidRequest(ZCom_ConnID id, zU8 requested_level, ZCom_Bi
 	}
 }
 
-void ChatServer::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
+void ChatServer::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
+		ZCom_BitStream& reason) {
 	// Result of zoid request
 }
 

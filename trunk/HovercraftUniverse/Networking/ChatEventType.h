@@ -15,7 +15,7 @@ enum ChatEventType {
 };
 
 /** The amount of event types, used for compressing in the network */
-static const unsigned ChatEventTypeSize = 1;
+static const unsigned ChatEventTypeSize = 2;
 
 }
 

@@ -16,8 +16,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class NetworkEntity
-{
+class NetworkEntity {
 protected:
 	/** The network node */
 	ZCom_Node* mNode;
@@ -78,7 +77,8 @@ public:
 	 * @param name the registered class name
 	 * @param authority whether we are the authority of this object or not (server only)
 	 */
-	void networkRegisterUnique(NetworkIDManager* idmanager, std::string name, bool authority = false);
+	void networkRegisterUnique(NetworkIDManager* idmanager, std::string name, bool authority =
+			false);
 
 	/**
 	 * Check whether the entity is registered for the network
@@ -110,7 +110,7 @@ public:
 	 * @param secret false if the data may be send to all proxies
 	 * @return result of the send operation
 	 */
-	template <typename EventType, int N>
+	template<typename EventType, int N>
 	bool sendEvent(const NetworkEvent<EventType, N>& event, bool secret = false) const;
 
 	/**
@@ -120,7 +120,7 @@ public:
 	 * @param id the ID to send to
 	 * @return result of the send operation
 	 */
-	template <typename EventType, int N>
+	template<typename EventType, int N>
 	bool sendEventDirect(const NetworkEvent<EventType, N>& event, ZCom_ConnID id) const;
 
 	/**
@@ -141,7 +141,9 @@ private:
 	/**
 	 * Hide the copy constructor
 	 */
-	NetworkEntity(const NetworkEntity&) : mNode(0), mRegistered(false) { }
+	NetworkEntity(const NetworkEntity&) :
+		mNode(0), mRegistered(false) {
+	}
 
 	/**
 	 * A callback that should be implemented so that events for
@@ -155,10 +157,10 @@ private:
 	 * @param stream the bitstream containing the event
 	 * @param timeSince the time since the last processing of the events
 	 */
-	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) = 0;
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
+			ZCom_BitStream* stream, float timeSince) = 0;
 
 protected:
-
 
 	/**
 	 * A callback that should be implemented so the replicators for this
@@ -175,7 +177,6 @@ protected:
 	 */
 	virtual void setAnnouncementData(ZCom_BitStream* stream) = 0;
 
-
 	/**
 	 * Add a float to the replicated variabels
 	 *
@@ -188,8 +189,9 @@ protected:
 	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
 	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
 	 */
-	void replicateFloat(float* value, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = -1, zS16 maxDelay = -1);
-	
+	void replicateFloat(float* value, zU8 rules, zU8 mantissaBits = 23, zU8 flags =
+			ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = -1, zS16 maxDelay = -1);
+
 	/**
 	 * Add a vector to the replicated variabels
 	 *
@@ -204,7 +206,9 @@ protected:
 	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
 	 * @param autodelete whether to autodelete, default is true
 	 */
-	void replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
+	void replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits = 23, zU8 flags =
+			ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1,
+			bool autoDelete = true);
 
 	/**
 	 * Add a quaternion to the replicated variabels
@@ -220,7 +224,9 @@ protected:
 	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
 	 * @param autodelete whether to autodelete, default is true
 	 */
-	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits = 23, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
+	void replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits = 23,
+			zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1,
+			zS16 maxDelay = -1, bool autoDelete = true);
 
 	/**
 	 * Add a string to the replicated variabels
@@ -235,12 +241,12 @@ protected:
 	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
 	 * @param autodelete whether to autodelete, default is true
 	 */
-	void replicateString(Ogre::String * str, zU8 rules, zU8 flags = ZCOM_REPFLAG_MOSTRECENT, zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
-
+	void replicateString(Ogre::String * str, zU8 rules, zU8 flags = ZCOM_REPFLAG_MOSTRECENT,
+			zU8 interceptID = 0, zS16 minDelay = -1, zS16 maxDelay = -1, bool autoDelete = true);
 
 };
 
-template <typename EventType, int N>
+template<typename EventType, int N>
 bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secret) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
 	event.serialize(stream);
@@ -259,7 +265,7 @@ bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secr
 	return false;
 }
 
-template <typename EventType, int N>
+template<typename EventType, int N>
 bool NetworkEntity::sendEventDirect(const NetworkEvent<EventType, N>& event, ZCom_ConnID id) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
 	event.serialize(stream);

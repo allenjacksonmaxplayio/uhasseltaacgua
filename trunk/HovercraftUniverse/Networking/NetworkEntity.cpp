@@ -6,7 +6,8 @@
 
 namespace HovUni {
 
-NetworkEntity::NetworkEntity(unsigned short replicators) : mNode(0), mReplicatorNr(replicators), mRegistered(false), mDeleted(false) {
+NetworkEntity::NetworkEntity(unsigned short replicators) :
+	mNode(0), mReplicatorNr(replicators), mRegistered(false), mDeleted(false) {
 	mNode = new ZCom_Node();
 }
 
@@ -51,7 +52,8 @@ void NetworkEntity::networkRegisterUnique(ZCom_ClassID id, ZCom_Control* control
 	mRegistered = true;
 }
 
-void NetworkEntity::networkRegisterUnique(NetworkIDManager* idmanager, std::string name, bool authority) {
+void NetworkEntity::networkRegisterUnique(NetworkIDManager* idmanager, std::string name,
+		bool authority) {
 	networkRegisterUnique(idmanager->getID(name), idmanager->getControl());
 }
 
@@ -86,23 +88,30 @@ ZCom_Node* NetworkEntity::getNetworkNode() {
 
 void NetworkEntity::setReplicationInterceptor(ZCom_NodeReplicationInterceptor* interceptor) {
 	mNode->setReplicationInterceptor(interceptor);
-	
+
 }
 
-void NetworkEntity::replicateFloat(float* value, zU8 rules, zU8 mantissaBits, zU8 flags, zS16 minDelay, zS16 maxDelay) {
+void NetworkEntity::replicateFloat(float* value, zU8 rules, zU8 mantissaBits, zU8 flags,
+		zS16 minDelay, zS16 maxDelay) {
 	mNode->addReplicationFloat(value, mantissaBits, flags, rules, minDelay, maxDelay);
 }
 
-void NetworkEntity::replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits, zU8 flags, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
-	mNode->addReplicator(new OgreVector3_Replicator(vector, mantissaBits, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
+void NetworkEntity::replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits,
+		zU8 flags, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
+	mNode->addReplicator(new OgreVector3_Replicator(vector, mantissaBits, flags, rules,
+			interceptID, minDelay, maxDelay), autoDelete);
 }
 
-void NetworkEntity::replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits, zU8 flags, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
-	mNode->addReplicator(new OgreQuaternion_Replicator(quat, mantissaBits, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
+void NetworkEntity::replicateOgreQuaternion(Ogre::Quaternion* quat, zU8 rules, zU8 mantissaBits,
+		zU8 flags, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
+	mNode->addReplicator(new OgreQuaternion_Replicator(quat, mantissaBits, flags, rules,
+			interceptID, minDelay, maxDelay), autoDelete);
 }
 
-void NetworkEntity::replicateString(Ogre::String * str, zU8 rules, zU8 flags, zU8 interceptID, zS16 minDelay, zS16 maxDelay, bool autoDelete) {
-	mNode->addReplicator(new String_Replicator(str, flags, rules, interceptID, minDelay, maxDelay), autoDelete);
+void NetworkEntity::replicateString(Ogre::String * str, zU8 rules, zU8 flags, zU8 interceptID,
+		zS16 minDelay, zS16 maxDelay, bool autoDelete) {
+	mNode->addReplicator(new String_Replicator(str, flags, rules, interceptID, minDelay, maxDelay),
+			autoDelete);
 }
 
 }

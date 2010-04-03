@@ -11,9 +11,8 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-template <typename EventType, unsigned N>
-class NetworkEvent
-{
+template<typename EventType, unsigned N>
+class NetworkEvent {
 private:
 	/** The type of the event */
 	EventType mType;

@@ -16,7 +16,7 @@ class Lobby;
  *
  * @author Olivier Berghmans & Pieter-Jan Pintens & Nick De Frangh
  */
-class PlayerSettings : public NetworkEntity {
+class PlayerSettings: public NetworkEntity {
 private:
 	// The lobby
 	Lobby* mLobby;
@@ -26,7 +26,7 @@ private:
 
 	// The name of the user
 	Ogre::String mPlayerName;
-	
+
 	// The hovercraft type
 	Ogre::String mHovercraft;
 
@@ -51,7 +51,8 @@ public:
 	 * @param ID the class ID
 	 * @param control the network control
 	 */
-	PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control);
+	PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,
+			ZCom_Control* control);
 
 	/**
 	 * Destructor
@@ -68,7 +69,8 @@ public:
 
 	/**
 	 * Set player name
-	 * @param name
+	 *
+	 * @param name the name of the player
 	 */
 	inline void setPlayerName(const Ogre::String& name) {
 		mPlayerName.assign(name);
@@ -76,41 +78,46 @@ public:
 
 	/**
 	 * Get player name
-	 * @return name
+	 *
+	 * @return name the name of the player
 	 */
-	inline const Ogre::String& getPlayerName() const { 
+	inline const Ogre::String& getPlayerName() const {
 		return mPlayerName;
 	}
 
 	/**
 	 * Set character
-	 * @param character
+	 *
+	 * @param character the character
 	 */
-	inline void setCharacter(const Ogre::String& character){
+	inline void setCharacter(const Ogre::String& character) {
 		mCharacter.assign(character);
 	}
 
 	/**
 	 * Get character
-	 * @return character
+	 *
+	 * @return character the character
 	 */
-	inline const Ogre::String& getCharacter() const { 
+	inline const Ogre::String& getCharacter() const {
 		return mCharacter;
 	}
 
 	/**
 	 * Set hovercraft
-	 * @param hovercraft
+	 *
+	 * @param hovercraft the hovercraft
 	 */
-	inline void setHovercraft(const Ogre::String& hov){
+	inline void setHovercraft(const Ogre::String& hov) {
 		mHovercraft.assign(hov);
 	}
 
 	/**
 	 * Get hovercraft
-	 * @return hovercraft
+	 *
+	 * @return hovercraft the hovercraft
 	 */
-	inline const Ogre::String& getHovercraft() const { 
+	inline const Ogre::String& getHovercraft() const {
 		return mHovercraft;
 	}
 
@@ -119,14 +126,18 @@ public:
 	 *
 	 * @return the ID of the user
 	 */
-	inline const unsigned int getID() const { 
+	inline const unsigned int getID() const {
 		return mUserID;
 	}
 
-
-	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince);
-
 protected:
+
+	/**
+	 * A callback that should be implemented in order to parse and process
+	 * incoming events.
+	 */
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
+			ZCom_BitStream* stream, float timeSince);
 
 	/**
 	 * A callback that should be implemented so the replicators for this
@@ -134,7 +145,7 @@ protected:
 	 * constructor is zero, this callback can be implemented as empty.
 	 */
 	virtual void setupReplication();
-	
+
 	/**
 	 * A callback that should be implemented so the announcement data for this
 	 * entity can be set.

@@ -1,11 +1,13 @@
 #include "RaceState.h"
 
 namespace HovUni {
-	RaceState::RaceState() {
 
-	}
+RaceState::RaceState() :
+	NetworkEntity(0) {
 
-	RaceState::~RaceState() {
+}
 
-	}
+RaceState::~RaceState() {
+
+}
 }

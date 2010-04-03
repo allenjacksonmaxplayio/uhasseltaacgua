@@ -37,12 +37,13 @@
 
 namespace HovUni {
 
-HUClient::HUClient(const char* name, unsigned int port) 
-		: NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0) {
+HUClient::HUClient(const char* name, unsigned int port) :
+	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0) {
 	initialize();
 }
 
-HUClient::HUClient() : NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0) {
+HUClient::HUClient() :
+	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0) {
 	initialize();
 }
 
@@ -66,7 +67,6 @@ HUClient::~HUClient() {
 	delete mChatClient;
 }
 
-
 void HUClient::process() {
 	NetworkClient::process();
 	mLobby->process();
@@ -76,7 +76,8 @@ void HUClient::process() {
 	}
 }
 
-void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply) {
+void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
+		ZCom_BitStream& reply) {
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
 		ZCom_requestDownstreamLimit(id, 60, 600);
@@ -84,9 +85,11 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, 
 
 		//Start the chat client
 		if (mAddress == "") {
-			mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
+			mChatClient
+					= new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
 		} else {
-			mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"), mAddress.c_str());
+			mChatClient = new ChatClient(
+					Application::getConfig()->getValue("Player", "PlayerName"), mAddress.c_str());
 		}
 		mChatClient->connect(0);
 
@@ -107,15 +110,17 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, 
 	}
 }
 
-void HUClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
+void HUClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
+		ZCom_BitStream& reasondata) {
 	// Connection closed
 }
 
 void HUClient::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
 	// Data received
-}  
+}
 
-void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
+void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
+		ZCom_BitStream& reason) {
 	if (result == eZCom_ZoidEnabled) {
 		// Requested zoid level was confirmed
 	} else {
@@ -123,13 +128,15 @@ void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 ne
 	}
 }
 
-void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
+		ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	// Receive and create the entity
 	Ogre::String name("");
 
 	// Debug output
 	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << mIDManager->info();
-	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Creating object of type " << mIDManager->getName(requested_class);
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Creating object of type "
+			<< mIDManager->getName(requested_class);
 
 	//Lobby
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
@@ -137,85 +144,86 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		mLobby = new Lobby(0);
 		mLobby->networkRegister(requested_class, this);
 		HUApplication::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
-	} 
-	else if ( requested_class == mIDManager->getID(PlayerSettings::getClassName()) ){
-		// Player (TODO do something with it)
+	} else if (requested_class == mIDManager->getID(PlayerSettings::getClassName())) {
+		// Player
 		PlayerSettings * ent = new PlayerSettings(mLobby, announcedata, requested_class, this);
 		ent->processEvents(0.0f);
 
 		// Network register is done in constructor of player settings
-		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: adding player to lobby";
-		mLobby->addPlayer(ent);
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
+				<< "[HUClient]: adding player to lobby";
+		mLobby->addPlayer(ent, ent->getID() == id);
 
-		//Let's check if this is our own playersettings object
+		// Let's check if this is our own PlayerSettings object
 		if (role == eZCom_RoleOwner) {
-			//Put our data in it
+			// Put our data in it
 			Config* conf = Application::getConfig();
 			ent->setPlayerName(conf->getValue("Player", "PlayerName"));
 			ent->setCharacter(conf->getValue("Player", "Character"));
 			ent->setHovercraft(conf->getValue("Player", "Hovercraft"));
 		}
-	}	
+	}
+
 	//Entities
-	else if ( requested_class == mIDManager->getID(Asteroid::getClassName()) ){
+	else if (requested_class == mIDManager->getID(Asteroid::getClassName())) {
 		Asteroid * ent = new Asteroid(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(CheckPoint::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(CheckPoint::getClassName())) {
 		CheckPoint * ent = new CheckPoint(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(Start::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(Start::getClassName())) {
 		Start * ent = new Start(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(StartPosition::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(StartPosition::getClassName())) {
 		StartPosition * ent = new StartPosition(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(Finish::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(Finish::getClassName())) {
 		Finish * ent = new Finish(announcedata);
-		ent->networkRegister(requested_class,this);	
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(ResetSpawn::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(ResetSpawn::getClassName())) {
 		ResetSpawn * ent = new ResetSpawn(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(PowerupSpawn::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(PowerupSpawn::getClassName())) {
 		PowerupSpawn * ent = new PowerupSpawn(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(SpeedBoost::getClassName()) ){	
+	} else if (requested_class == mIDManager->getID(SpeedBoost::getClassName())) {
 		SpeedBoost * ent = new SpeedBoost(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(Portal::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(Portal::getClassName())) {
 		Portal * ent = new Portal(announcedata);
-		ent->networkRegister(requested_class,this);
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
-	} else if ( requested_class == mIDManager->getID(Hovercraft::getClassName()) ){
+	} else if (requested_class == mIDManager->getID(Hovercraft::getClassName())) {
 		Hovercraft * ent = 0;
-		
+
 		if (role == eZCom_RoleOwner) {
 			ent = new Hovercraft(announcedata);
 			ent->setController(new HovercraftPlayerController());
-		}else {
+		} else {
 			ent = new Hovercraft(announcedata);
 			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 			ent->setController(ai);
-			ai->initialize();	
+			ai->initialize();
 		}
 
-		ent->networkRegister(requested_class,this);	
+		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 
 		if (role == eZCom_RoleOwner) {
@@ -229,7 +237,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
 	}
 
-	if ( !name.empty() ){
+	if (!name.empty()) {
 		// Now that we have created the entity, notify the client preparation loader of the arrival
 		HUApplication::msPreparationLoader->update(name);
 	}

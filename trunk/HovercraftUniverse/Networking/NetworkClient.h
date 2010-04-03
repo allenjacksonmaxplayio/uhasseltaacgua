@@ -12,7 +12,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class NetworkClient : public ZCom_Control {
+class NetworkClient: public ZCom_Control {
 private:
 
 	/** The debug name **/
@@ -20,7 +20,7 @@ private:
 
 	/** The name of the server */
 	const char* mServerName;
-	
+
 	/** The port where the server is listening */
 	const unsigned mConnectPort;
 
@@ -57,7 +57,7 @@ public:
 	 *
 	 * @param request the optional request data send to server, will be deleted
 	 */
-	void connect(ZCom_BitStream * request) throw(NetworkException);
+	void connect(ZCom_BitStream * request) throw (NetworkException);
 
 	/**
 	 * Process incoming and outgoing packets
@@ -70,16 +70,18 @@ private:
 	/**
 	 * Hide the copy constructor
 	 */
-	NetworkClient(const NetworkClient&) : mDebugName(""), mServerName(""), mConnectPort(0), mRemote(false) { }
+	NetworkClient(const NetworkClient&) :
+		mDebugName(""), mServerName(""), mConnectPort(0), mRemote(false) {
+	}
 
 	/**		
 	 * Initialize the client		
-	 */		
+	 */
 	void initialize();
 
-//
-// ZCom_Control callbacks
-//
+	//
+	// ZCom_Control callbacks
+	//
 public:
 	/**
 	 * Connection process finished (Client).
@@ -97,7 +99,8 @@ public:
 	 * @param reason Reason code. If reason is eZCom_ClosedDisconnect, then reasondata might contain more info.
 	 * @param reasondata The reason of the disconnector.
 	 */
-	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata);
+	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
+			ZCom_BitStream& reasondata);
 
 	/**
 	 * Direct data has been received (Server, Client).
@@ -115,7 +118,8 @@ public:
 	 * @param new_level New ZoidLevel of the connection
 	 * @param reason Additional data passed by the server
 	 */
-	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason);
+	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
+			ZCom_BitStream& reason);
 
 	/**
 	 * Server requests to create a new node for a new dynamic object/node (Client).
@@ -126,7 +130,8 @@ public:
 	 * @param role Role the newly created node will posses
 	 * @param net_id The network ID of the requested node. Not needed directly here but may be useful.
 	 */
-	void ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id);
+	void ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
+			ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id);
 
 	/**
 	 * Server requests to create a new local node for a remote tagnode (Client).
@@ -137,7 +142,8 @@ public:
 	 * @param role Role the newly created node will posses
 	 * @param tag The tag that was specified when the node was created on server
 	 */
-	void ZCom_cbNodeRequest_Tag(ZCom_ConnID id, ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, zU32 tag);
+	void ZCom_cbNodeRequest_Tag(ZCom_ConnID id, ZCom_ClassID requested_class,
+			ZCom_BitStream* announcedata, eZCom_NodeRole role, zU32 tag);
 
 	/**
 	 * Another ZCom_Control has sent a discover request (Server, Client).
@@ -147,7 +153,8 @@ public:
 	 * @param reply Additional data the application wants to transmit to the discoverer
 	 * @return True if you want to reply, false otherwise.
 	 */
-	bool ZCom_cbDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request, ZCom_BitStream& reply);
+	bool ZCom_cbDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request,
+			ZCom_BitStream& reply);
 
 	/**
 	 * Another ZCom_Control responded to our discover request (Server, Client).
@@ -164,7 +171,7 @@ private:
 	 * @param id The connection's ID
 	 * @param request The request given by the requester
 	 * @param reply Data you want to transmit to the requester additionally to the yes/no reply
-	 * @param true to accept the connection, false otherwise.
+	 * @return true to accept the connection, false otherwise.
 	 */
 	bool ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply);
 
