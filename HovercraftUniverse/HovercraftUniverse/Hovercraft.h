@@ -68,6 +68,12 @@ private:
 	 */
 	Ogre::Real mSteering;
 
+	/** 
+	*	Collision state flag. 
+	*	If set, the hovercraft is "about to collide" with something. 
+	*/
+	bool mCollisionState;
+
 public:
 
 	/**
@@ -253,6 +259,22 @@ public:
 	 */
 	inline float getBoost() const {
 		return mBoost;
+	}
+
+	/**
+	 * Set the Collision flag
+	 * @param	flag	the Collision flag
+	 */
+	inline void setCollisionState(bool flag) {
+		mCollisionState = flag;
+	}
+
+	/**
+	 * Check the Collision flag
+	 * @return the Collision flag
+	 */
+	inline bool isInCollisionState() const {
+		return mCollisionState;
 	}
 
 	/**

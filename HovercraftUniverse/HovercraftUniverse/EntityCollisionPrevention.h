@@ -125,14 +125,17 @@ class AdvancedEntityCollisionPhantom;
 
 /**
  * The advanced implementation of the collision system
- * @author Pieter-Jan Pintens
+ * @author Pieter-Jan Pintens & Dirk Delahaye
  */
 class AdvancedEntityCollision : public EntityCollision {
 
-private:
+protected:
 
 	//The world
 	hkpWorld * mWorld;
+
+	/** Havok entity to track */
+	HavokEntity * mEntity;
 
 	//The binder
 	AdvancedEntityCollisionBinder * mBinder;

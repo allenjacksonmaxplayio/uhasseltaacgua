@@ -1,4 +1,6 @@
 #include "HovercraftController.h"
+#include "Hovercraft.h"
+
 namespace HovUni {
 
 HovercraftController::HovercraftController() : mLast(false, false, false, false) {

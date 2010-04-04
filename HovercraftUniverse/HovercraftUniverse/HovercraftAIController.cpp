@@ -92,17 +92,7 @@ namespace HovUni {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Runtime Error: " << e.what();
 			THROW(ScriptingException, e.what());
 		}
-
-
-
-		std::vector<ControllerEvent*> events;
-		BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight());
-		// Only send an event when there is a change
-		if (!(current == mLast)) {
-			events.push_back(new BasicEntityEvent(current));
-			mLast = current;
-		}
-		return events;
+		return HovercraftController::getEvents();
 	}
 
 	void HovercraftAIController::bindEntity(lua_State* L) {

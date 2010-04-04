@@ -247,13 +247,11 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
 	} else if (requested_class == mIDManager->getID(Hovercraft::getClassName())) {
-		Hovercraft * ent = 0;
+		Hovercraft * ent = new Hovercraft(announcedata);
 
 		if (role == eZCom_RoleOwner) {
-			ent = new Hovercraft(announcedata);
 			ent->setController(new HovercraftPlayerController());
 		} else {
-			ent = new Hovercraft(announcedata);
 			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 			ent->setController(ai);
 			ai->initialize();

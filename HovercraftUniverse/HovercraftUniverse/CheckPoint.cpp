@@ -68,17 +68,18 @@ void CheckPoint::setupReplication(){
 	//mName
 	mNode->addReplicator(
 		new String_Replicator(&mDisplayName,
-		ZCOM_REPFLAG_MOSTRECENT,
-		ZCOM_REPRULE_AUTH_2_ALL
-	), 
-	true);
+			ZCOM_REPFLAG_MOSTRECENT,
+			ZCOM_REPRULE_AUTH_2_ALL), 
+		true
+	);
 
 	//mNumber
-	mNode->addReplicationInt(&mNumber,				// pointer to the variable
-	sizeof(Ogre::int32),									// amount of bits(up to 16 types)
-    false,											// unsigned
-    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
-    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
+	mNode->addReplicationInt(
+		&mNumber,				// pointer to the variable
+		sizeof(Ogre::int32),									// amount of bits(up to 16 types)
+		false,											// unsigned
+		ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
+		ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
 	);
 }
 

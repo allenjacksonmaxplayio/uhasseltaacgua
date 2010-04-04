@@ -272,7 +272,7 @@ public:
 
 
 AdvancedEntityCollision::AdvancedEntityCollision ( hkpWorld * world, HavokEntity * entity, hkReal offset, const hkpShape *shape ):
-	mWorld(world)
+	mWorld(world), mEntity(entity)
 {
 	mWorld->markForWrite();	
 
