@@ -30,8 +30,8 @@ end
 -- @param	point	Vector3	The point
 -- @param	p1		Vector3 The start of the line segment
 -- @param	p2		Vector3 The end of the line segment
--- @return			Vector3	The point, colinear with and situated 
-							inside p1 and p2 (endpoints inclusive), 
+-- @return			Vector3	The point, colinear with and situated
+							inside p1 and p2 (endpoints inclusive),
 							with the closest distance to point.
 --]]
 function project(point, p1, p2)
@@ -48,3 +48,17 @@ function project(point, p1, p2)
     local t = dot1/dot2;
     return p1 + (dir * t);
 end
+
+--lerp functions
+function normalize(value, minimum, maximum)
+	return (value - minimum) / (maximum - minimum);
+end
+
+function interpolate(normValue, minimum, maximum)
+	return minimum + (maximum - minimum) * normValue;
+end
+
+function map(value, min1, max1, min2, max2)
+	return interpolate(normalize(value, min1, max1), min2, max2);
+end
+

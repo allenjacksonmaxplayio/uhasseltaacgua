@@ -4,7 +4,6 @@
 --
 -- TODO:
 -- (24/03/2010): Implement "arrival" behaviour.
--- (24/03/2010): flatten function: project against a plane in the orientation of our entity, instead of just projcting against (X, Z)
 --]]
 AI_NAME = "PathAI"; --Not too long, this appears in every logline
 dofile("scripts/AI/Utils.lua");
@@ -28,8 +27,6 @@ ST_MOVING 	=	1;
 -----------------------------
 mCurrentState = 0;
 mEntity = 0
-mInitialPosition = 0
---HovercraftAIController game
 
 
 
@@ -54,9 +51,6 @@ function println(msg)
 end
 
 function setEntity(entity)
-	if (mEntity == 0) then
-		mInitialPosition = entity:getPosition();
-	end
 	mEntity = entity;
 end
 
@@ -80,25 +74,36 @@ end
 function decide()
 	local position = mEntity:getPosition();--Vector3
 	local velocity = mEntity:getVelocity();
-	position.y = 0;
-	velocity.y = 0;
 	--println("Position: " .. toString(position));
 	--println("Velocity: " .. toString(velocity));
+
+	--############################### COLLISION AVOIDANCE
+	if (mEntity:isInCollisionState()) then
+		local speed = mEntity:getSpeed();
+		if (speed < 0) then
+			--...
+		else
+			--Positive speed
+			game:setAction(ACCELERATE, false);
+			game:setAction(BRAKE, true);
+			game:setAction(TURNLEFT, false);
+			game:setAction(TURNRIGHT, true);
+		end
+		return 0;
+	end
+	--############################### END COLLISION AVOIDANCE
 
 
 	--############################### PATH FINDING
 	local probe = position + (velocity * PATH_PROBELENGTH);
 	--println("Probe: " .. toString(probe));
-	--LUA TABLES START AT INDEX 1
 	local distanceToPath = math.huge; --math.huge = +infinity
 	local pathIndex = 0;
 	for key,value in pairs(mPath) do
 		if (key ~= 1) then
 			--they are Entities.
-			local p0 = mPath[key-1]:getPosition();
-			local p1 = mPath[key]:getPosition();
-			p0.y = 0;
-			p1.y = 0;
+			local p0 = mPath[key-1];
+			local p1 = mPath[key];
 			local project = project(probe, p0, p1);
 			if (position:distance(project) < distanceToPath) then
 				distanceToPath = position:distance(project);
@@ -107,10 +112,8 @@ function decide()
 		end
 	end
 
-	local p0 = mPath[pathIndex-1]:getPosition();
-	local p1 = mPath[pathIndex]:getPosition();
-	p0.y = 0;
-	p1.y = 0;
+	local p0 = mPath[pathIndex-1];
+	local p1 = mPath[pathIndex];
 	local project = project(probe, p0, p1);
 	distanceToPath = probe:distance(project);
 	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));

@@ -5,6 +5,7 @@
 
 #include "EntityManager.h"
 #include "Entity.h"
+#include "Hovercraft.h"
 #include "Start.h"
 #include "CheckPoint.h"
 #include "Finish.h"
@@ -57,24 +58,24 @@ namespace HovUni {
 			luabind::object table = luabind::newtable(luaState);
 			std::vector<Entity*> checkpoints = EntityManager::getClientSingletonPtr()->getEntities(CheckPoint::CATEGORY);
 			int index = 1; // Lua tables start at 1.
-			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Start::CATEGORY);
+			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Start::CATEGORY)->getPosition();
 			index++;
 			for(unsigned int i = 0; i < checkpoints.size(); i++) {
 				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path[" << index << "] to checkpoints[" << i << "].";
-				table[index] = checkpoints[i];
+				table[index] = checkpoints[i]->getPosition();
 				index++;
 			}
-			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY);
+			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY)->getPosition();
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
 			luabind::call_function<void>(luaState,"setPath", table);
 		} catch (const luabind::error &er) {
 			std::stringstream ss;
 			ss << er.what() << " :: " << lua_tostring(mScript->getLuaState(), lua_gettop(mScript->getLuaState()));
 			std::string error = ss.str();
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error: " << error;
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua Error during AI initialisation: " << error;
 			THROW(ScriptingException, error);
 		} catch (const std::runtime_error &e) {
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Runtime Error: " << e.what();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Runtime Error during AI initialisation: " << e.what();
 			THROW(ScriptingException, e.what());
 		}
 	}
@@ -98,12 +99,16 @@ namespace HovUni {
 	void HovercraftAIController::bindEntity(lua_State* L) {
 		luabind::module(L)
 		[
-			luabind::class_<Entity>("GameEntity") //"Entity" bestaat al in Lua (Ogre::Entity)
-				.def("getName",			&Entity::getName)
-				.def("getOrientation",	&Entity::getOrientation)
-				.def("getPosition",		&Entity::getPosition)
-				.def("getVelocity",		&Entity::getVelocity)
-				.def("getUpVector",		&Entity::getUpVector)
+			luabind::class_<Entity>("GameEntity") //"Entity" bestaat al in onze Lua scope (Ogre::Entity)
+				.def("getName",				&Entity::getName)
+				.def("getOrientation",		&Entity::getOrientation)
+				.def("getPosition",			&Entity::getPosition)
+				.def("getVelocity",			&Entity::getVelocity)
+				.def("getUpVector",			&Entity::getUpVector),
+			luabind::class_<Hovercraft, Entity>("Hovercraft")
+				.def("isInCollisionState",	&Hovercraft::isInCollisionState)
+				.def("getSpeed",			&Hovercraft::getSpeed)
+				.def("getMaximumSpeed",		&Hovercraft::getMaximumSpeed)
 		];
 	}
 
