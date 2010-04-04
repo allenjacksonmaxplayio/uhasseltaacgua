@@ -44,7 +44,7 @@ namespace HovUni {
 		mTitle->setBParameter(BasicOverlay::ALPHAHACK, true);
 		addOverlay("title", mTitle);
 
-		mServerMenu = new ServerMenu(serverListener, Hikari::FlashDelegate(this, &MainMenu::onBack));
+		mServerMenu = new ServerMenu(serverListener, Hikari::FlashDelegate(this, &MainMenu::onBack), this);
 	}
 
 	MainMenu::~MainMenu() {
@@ -74,11 +74,9 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue MainMenu::onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		if (!mListener->onConnect("localhost")) {
-			//Show a messagebox
-			HovUni::MessageBox* msg = new MessageBox("Could not connect to local server", "connectionmessage");
-			GUIManager::getSingletonPtr()->activateOverlay(msg);
-		}
+		mListener->onConnect("localhost", this);
+		
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
 
 		return "success";
 	}
@@ -106,5 +104,19 @@ namespace HovUni {
 		this->activate();
 
 		return "success";
+	}
+
+	void MainMenu::onConnectFinish(bool success) {
+		if (success) {
+			//Deactivate ourselves
+			mServerMenu->deactivate();
+
+			//Notify the listener to finish the connection
+			mListener->finishConnect();
+		} else {
+			//Show a messagebox
+			HovUni::MessageBox* msg = new MessageBox("Could not connect to server", "connectionmessage");
+			GUIManager::getSingletonPtr()->activateOverlay(msg);
+		}
 	}
 }

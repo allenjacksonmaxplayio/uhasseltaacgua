@@ -3,6 +3,8 @@
 
 #include "BasicGameState.h"
 
+#include "ClientConnectThread.h"
+#include "ConnectListener.h"
 #include "MainMenu.h"
 #include "ServerMenuListener.h"
 
@@ -12,7 +14,7 @@ namespace HovUni {
 	 *
 	 * @author Nick De Frangh
 	 */
-	class MainMenuState : public BasicGameState, public ServerMenuListener {
+	class MainMenuState : public BasicGameState, public ServerMenuListener, public ConnectListener {
 		private:
 			/** The Overlay for the Main menu */
 			MainMenu* mMenu;
@@ -23,6 +25,18 @@ namespace HovUni {
 			/** Boolean to check if we want to stop or not */
 			bool mContinue;
 	
+			/** A reference to the connection thread that was used */
+			ClientConnectThread* mConnectionThread;
+
+			/** A connect listener if someone was listening for connections */
+			ConnectListener* mConnectListener;
+
+			/** Bool to check if a connection has finished */
+			bool mConnectionFinished;
+
+			/** the result of the connection attempt */
+			bool mConnectionResult;
+
 		public:
 			/**
 			 * Constructor for the Main menu state
@@ -30,16 +44,34 @@ namespace HovUni {
 			MainMenuState();
 
 			/**
+			 * Destructor
+			 */
+			~MainMenuState();
+
+			/**
 			 * this function gets calles when we want to connect to a certain IP
 			 *
 			 * @param address The adress to connect to <IP:port> or <IP>
+			 * @param listener The listener to notify the end of the connection to
 			 */
-			virtual bool onConnect(const Ogre::String& address);
+			virtual void onConnect(const Ogre::String& address, ConnectListener* listener);
+
+			/**
+			 * This function will be called when the client connection thread has finished
+			 *
+			 * @param success True when the connection was successfull, false otherwise
+			 */
+			virtual void onConnectFinish(bool success);
 
 			/**
 			 * Called when we need to create a multiplayer game
 			 */
 			virtual void onCreate();
+
+			/**
+			 * Function that has to be called when the connection was succesfull.
+			 */
+			virtual void finishConnect();
 
 			/**
 			 * Function that will be called when we want to quit the game

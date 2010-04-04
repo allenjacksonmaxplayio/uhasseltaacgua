@@ -39,6 +39,9 @@ namespace HovUni {
 
 			/** A visualisation of the mouse */
 			MouseVisualisation mMouseVisual;
+
+			/** Overlays that are queued for activation */
+			std::vector<BasicOverlay*> mQueuedOverlays;
 			
 		protected:
 			/**

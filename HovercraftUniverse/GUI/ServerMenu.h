@@ -2,7 +2,7 @@
 #define _SERVERMENU_H
 
 #include "OverlayContainer.h"
-
+#include "ConnectListener.h"
 #include "ConnectWindow.h"
 #include "MenuButton.h"
 #include "ServerMenuListener.h"
@@ -33,6 +33,9 @@ namespace HovUni {
 			/** The listener who wants our callbacks */
 			ServerMenuListener* mListener;
 
+			/** A Listener that will listen for connection results */
+			ConnectListener *mConnectListener;
+
 		public:
 			/**
 			 * Basic constructor.
@@ -40,7 +43,7 @@ namespace HovUni {
 			 * @param listener The listener who wants callbacks from the user
 			 * @param onBack A function to call when the back button has been pressed
 			 */
-			ServerMenu(ServerMenuListener* listener, const Hikari::FlashDelegate& onBack);
+			ServerMenu(ServerMenuListener* listener, const Hikari::FlashDelegate& onBack, ConnectListener* connectListener);
 
 			/**
 			 * Destructor

@@ -2,7 +2,8 @@
 #include "GUIManager.h"
 
 namespace HovUni {
-	ServerMenu::ServerMenu(ServerMenuListener* listener, const Hikari::FlashDelegate& onBack) : mListener(listener) {
+	ServerMenu::ServerMenu(ServerMenuListener* listener, const Hikari::FlashDelegate& onBack, ConnectListener* connectListener) 
+			: mListener(listener), mConnectListener(connectListener) {
 		//Show the background
 		mBackground = new BasicOverlay("Background_SM", "background.swf", GUIManager::getSingletonPtr()->getResolutionWidth(), GUIManager::getSingletonPtr()->getResolutionHeight(), Hikari::Center, 1);
 		mBackground->setExactFit(true);
@@ -49,14 +50,10 @@ namespace HovUni {
 	Hikari::FlashValue ServerMenu::onOk(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		Ogre::String address = args.at(0).getString();
 
-		if (mListener->onConnect(address)) {
-			//We don't want the input box anymore
-			GUIManager::getSingletonPtr()->disableOverlay(mConnectWindow);
-			//And the menu isn't needed
-			this->deactivate();
-		}
+		mListener->onConnect(address, mConnectListener);
 
-		//TODO, show message
+		//Disable the input window
+		GUIManager::getSingletonPtr()->disableOverlay(mConnectWindow);
 
 		return "success";
 	}

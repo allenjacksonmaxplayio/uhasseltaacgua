@@ -190,6 +190,10 @@
 				Name="Network"
 				>
 				<File
+					RelativePath=".\ClientConnectThread.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\EntityRegister.cpp"
 					>
 				</File>
@@ -575,6 +579,10 @@
 			<Filter
 				Name="Network"
 				>
+				<File
+					RelativePath=".\ClientConnectThread.h"
+					>
+				</File>
 				<File
 					RelativePath=".\EntityRegister.h"
 					>

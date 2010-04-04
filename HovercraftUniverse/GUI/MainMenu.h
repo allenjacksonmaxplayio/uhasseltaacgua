@@ -1,6 +1,7 @@
 #ifndef _MAINMENU_H
 #define _MAINMENU_H
 
+#include "ConnectListener.h"
 #include "MenuButton.h"
 #include "OverlayContainer.h"
 #include "ServerMenu.h"
@@ -12,7 +13,7 @@ namespace HovUni {
 	 *
 	 * @author Nick De Frangh
 	 */
-	class MainMenu : public OverlayContainer {
+	class MainMenu : public OverlayContainer, public ConnectListener {
 		private:
 			/** The background overlay */
 			BasicOverlay* mBackground;
@@ -98,6 +99,13 @@ namespace HovUni {
 			 * @return A return value for the flash movie
 			 */
 			Hikari::FlashValue onBack(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
+			/**
+			 * This function will be called when connecting to the server is finished.
+			 *
+			 * @param success Will be true when we have a succesfull connection, false otherwise.
+			 */
+			void onConnectFinish(bool success);
 	};
 }
 

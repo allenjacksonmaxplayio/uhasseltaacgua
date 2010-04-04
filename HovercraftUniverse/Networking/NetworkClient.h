@@ -3,6 +3,7 @@
 
 #include <zoidcom/zoidcom.h>
 #include "Exception.h"
+#include <string>
 
 namespace HovUni {
 
@@ -19,7 +20,7 @@ private:
 	const char* mDebugName;
 
 	/** The name of the server */
-	const char* mServerName;
+	std::string mServerName;
 
 	/** The port where the server is listening */
 	const unsigned mConnectPort;
