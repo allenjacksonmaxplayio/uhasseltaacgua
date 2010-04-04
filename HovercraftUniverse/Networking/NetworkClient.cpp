@@ -2,8 +2,6 @@
 #include "NetworkClient.h"
 #include <sstream>
 
-#include <OgreLogManager.h>
-
 namespace HovUni {
 
 NetworkClient::NetworkClient(const char* name, const unsigned port, const char* debugname) :
@@ -130,9 +128,6 @@ void NetworkClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, z
 
 void NetworkClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
 		ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "NetworkClient" << mConnID
-			<< " >-< " << id;
-
 	onNodeDynamic(requested_class, announcedata, role, net_id);
 }
 

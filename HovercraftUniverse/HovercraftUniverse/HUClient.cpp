@@ -237,10 +237,9 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 
 		if (role == eZCom_RoleOwner) {
 			ent->setController(new HovercraftPlayerController());
-		} else {
-			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
-			ent->setController(ai);
-			ai->initialize();
+//			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
+//			ent->setController(ai);
+//			ai->initialize();
 		}
 
 		ent->networkRegister(requested_class, this);

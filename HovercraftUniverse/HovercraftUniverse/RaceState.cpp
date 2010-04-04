@@ -43,8 +43,17 @@ std::string RaceState::getClassName() {
 
 void RaceState::process() {
 	processEvents(0.0f);
-	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
-		it->second->processEvents(0.0f);
+
+	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
+		RacePlayer* player = it->second;
+
+		// Check if this settings wasn't deleted in the mean time
+		if (player->isDeleted()) {
+			it = mPlayers.erase(it);
+		} else {
+			player->processEvents(0.0f);
+			++it;
+		}
 	}
 }
 
