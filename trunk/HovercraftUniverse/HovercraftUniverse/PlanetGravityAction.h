@@ -39,9 +39,9 @@ class PlanetGravityAction: public hkpUnaryAction
 		const float mHoveringHeight;
 
 		/**
-		 * The magnitude of the hovering
+		 * The magnitude of the gravity force on the character
 		 */
-		const float mHoveringMagnitude;
+		const float mCharacterGravity;
 
 	public:
 

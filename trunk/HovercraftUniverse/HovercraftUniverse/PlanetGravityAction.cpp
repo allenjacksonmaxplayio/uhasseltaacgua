@@ -12,7 +12,8 @@ namespace HovUni {
 
 PlanetGravityAction::PlanetGravityAction(hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration):
 			hkpUnaryAction(satellite), mPlanetBody(planetBody), mHullCollidable(hullCollidable), mPhantomId(phantomId), mGravityForce(maxAcceleration),
-			mHoveringHeight(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Height")), mHoveringMagnitude(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Magnitude")){
+			mHoveringHeight(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Height")),
+			mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity")) {
 	setUserData(HK_SPHERE_ACTION_ID);
 }
 
@@ -71,18 +72,22 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 			hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
 			float distanceSquared = difference.lengthSquared3();
 			float distance = difference.length3();
-			if (distance > 0.01f && distance < mHoveringHeight) {
-				hkVector4 direction(difference);
-				direction.normalize3();
-				direction.zeroElement(3);
-				float magnitude = (1.0f / distanceSquared) * 200.0f;
-				if (magnitude > 2000.0f) {
-					magnitude = 2000.0f;
-				}
-
-				hover.setMul4(rb->getMass() * magnitude, newUp);
-				rb->applyForce(stepInfo.m_deltaTime, hover);
+			float magnitude = 0.0f;
+			if (distance > 0.01f && distance <= mHoveringHeight) {
+				
+				magnitude = (1.0f / distance) * (mCharacterGravity + mGravityForce) * mHoveringHeight;
+				//magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight;
+				
+			} else if (distance > mHoveringHeight) {
+				magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight * 0.95f;
 			}
+			
+			//std::cout << magnitude << "  " << distance << std::endl;
+			//difference(1) = 0;
+			//std::cout << difference.length3() << " - " << difference(0) << ", " << difference(1) << ", " << difference(2) << std::endl;
+
+			hover.setMul4(rb->getMass() * magnitude, newUp);
+			rb->applyForce(stepInfo.m_deltaTime, hover);
 
 			
 		}

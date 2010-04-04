@@ -115,14 +115,20 @@ bool RaceCamera::keyReleased(const OIS::KeyEvent & e) {
 }
 
 void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
+	Ogre::Vector3 oldPosition;
+	Ogre::Vector3 newPosition;
 	Ogre::Vector3 positionCam;
 	Ogre::Quaternion back;
 
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
+		oldPosition = mActiveViewpointNode->getPosition();
 		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
-		
+		newPosition = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
+
+		positionCam = oldPosition + (newPosition - oldPosition);// * 0.90;
+		//std::cout << oldPosition << "   " << newPosition << "   " << positionCam << std::endl;
+
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
 		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
@@ -137,6 +143,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		// Set position and direction to look at
 		mActiveViewpointNode->setPosition(positionCam);
 		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
+		mActiveViewpointNode->pitch(Ogre::Degree(-5.0f), Ogre::Node::TS_LOCAL);
 
 		break;
 	case RearView:

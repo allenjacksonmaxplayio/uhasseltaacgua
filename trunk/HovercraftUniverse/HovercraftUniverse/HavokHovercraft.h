@@ -38,6 +38,7 @@ private:
 
 	const float mRotationDelta;
 	const float mSpeedDamping;
+	const float mCharacterGravity;
 
 public:
 
