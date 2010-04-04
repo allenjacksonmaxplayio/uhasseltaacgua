@@ -12,6 +12,7 @@
 
 #include <Exception.h>
 #include "MouseVisualisation.h"
+#include <boost/signals2/mutex.hpp>
 
 namespace HovUni {
 	class BasicOverlay; //Forward declaration
@@ -43,6 +44,18 @@ namespace HovUni {
 			/** Overlays that are queued for activation */
 			std::vector<BasicOverlay*> mQueuedOverlays;
 			
+			/** The resulting mouse state to trigger */
+			OIS::MouseState mMouseState;
+
+			/** A pointer to the mouse object */
+			OIS::Object *mMouse;
+
+			/** Boolean to check if the mouse has moved */
+			bool mMouseMoved;
+
+			/** Mutex for mouse movements */
+			boost::signals2::mutex mMouseMutex;
+
 		protected:
 			/**
 			 * Basic constructor for the GUI manager.

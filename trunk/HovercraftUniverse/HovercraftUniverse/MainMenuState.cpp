@@ -104,7 +104,8 @@ namespace HovUni {
 
 		mLastGUIUpdate += evt.timeSinceLastFrame;
 
-		if (mLastGUIUpdate > (1.0f / 25.0f) || mLastGUIUpdate < 0) {
+		//50 FPS
+		if (mLastGUIUpdate > (1.0f / 50.0f) || mLastGUIUpdate < 0) {
 			//We are using a GUI, so update it
 			mGUIManager->update();
 			mLastGUIUpdate = 0.0f; //Reset

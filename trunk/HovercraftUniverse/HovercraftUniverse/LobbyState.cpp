@@ -38,6 +38,11 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue LobbyState::onPressLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		//Disconnect
+		ZCom_BitStream * reason = new ZCom_BitStream();
+		reason->addString("Leaving");
+		mClient->disconnect(reason);
+
 		mManager->switchState(GameStateManager::MAIN_MENU);
 		//Delete the client to save some resources
 		delete mClient;
@@ -59,7 +64,7 @@ namespace HovUni {
 	////////////////////////////////////////
 
 	void LobbyState::onLeave(ZCom_ConnID id) {
-		
+		mLobbyGUI->deleteUser(id);
 	}
 
 	void LobbyState::onJoin(PlayerSettings * settings) {
@@ -130,7 +135,8 @@ namespace HovUni {
 		mLastGUIUpdate += evt.timeSinceLastFrame;
 		mLastClientUpdate += evt.timeSinceLastFrame;
 
-		if (mLastGUIUpdate > (1.0f / 25.0f) || mLastGUIUpdate < 0) {
+		//50 FPS
+		if (mLastGUIUpdate > (1.0f / 50.0f) || mLastGUIUpdate < 0) {
 			//Check if we need to show the start button or not
 			if (mLobby->isAdmin()) {
 				mLobbyGUI->showStart(true);
