@@ -54,6 +54,8 @@ void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 		removePlayer(player->getSettings()->getID());
 	}
 	mPlayers.insert(std::pair<ZCom_ConnID, RacePlayer*>(player->getSettings()->getID(), player));
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+			<< "[RaceState]: Inserting new RacePlayer";
 
 	// Set own player
 	if (ownPlayer) {

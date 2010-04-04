@@ -27,11 +27,11 @@ private:
 	/** The name of the user */
 	Ogre::String mPlayerName;
 
-	/** The hovercraft type */
-	Ogre::String mHovercraft;
+	/** The hovercraft type (only 4 bits are used = 16 possibilities) */
+	unsigned short mHovercraft;
 
-	/* The character type */
-	Ogre::String mCharacter;
+	/* The character type (only 4 bits are used = 16 possibilities) */
+	unsigned short mCharacter;
 
 public:
 
@@ -72,63 +72,49 @@ public:
 	 *
 	 * @param name the name of the player
 	 */
-	inline void setPlayerName(const Ogre::String& name) {
-		mPlayerName.assign(name);
-	}
+	void setPlayerName(const Ogre::String& name);
 
 	/**
 	 * Get player name
 	 *
 	 * @return name the name of the player
 	 */
-	inline const Ogre::String& getPlayerName() const {
-		return mPlayerName;
-	}
+	const Ogre::String& getPlayerName() const;
 
 	/**
 	 * Set character
 	 *
 	 * @param character the character
 	 */
-	inline void setCharacter(const Ogre::String& character) {
-		mCharacter.assign(character);
-	}
+	void setCharacter(unsigned short character);
 
 	/**
 	 * Get character
 	 *
 	 * @return character the character
 	 */
-	inline const Ogre::String& getCharacter() const {
-		return mCharacter;
-	}
+	const Ogre::String getCharacter() const;
 
 	/**
 	 * Set hovercraft
 	 *
 	 * @param hovercraft the hovercraft
 	 */
-	inline void setHovercraft(const Ogre::String& hov) {
-		mHovercraft.assign(hov);
-	}
+	void setHovercraft(unsigned short hov);
 
 	/**
 	 * Get hovercraft
 	 *
 	 * @return hovercraft the hovercraft
 	 */
-	inline const Ogre::String& getHovercraft() const {
-		return mHovercraft;
-	}
+	const Ogre::String getHovercraft() const;
 
 	/**
 	 * Get the ID of the user
 	 *
 	 * @return the ID of the user
 	 */
-	inline const unsigned int getID() const {
-		return mUserID;
-	}
+	const unsigned int getID() const;
 
 protected:
 

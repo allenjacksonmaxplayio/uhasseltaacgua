@@ -24,7 +24,7 @@ std::string Lobby::getClassName() {
 
 Lobby::Lobby(Loader * loader) :
 	NetworkEntity(4), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"),
-			mMaximumPlayers(2), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0) {
+			mMaximumPlayers(12), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0) {
 
 	if (loader) {
 		loader->setLobby(this);
@@ -66,6 +66,9 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 		mOwnPlayer = settings;
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
 				<< "[Lobby]: Received own player object";
+	} else {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+				<< "[Lobby]: Inserting PlayerSettings of other player";
 	}
 
 	//Notify our listeners
@@ -188,14 +191,6 @@ void Lobby::onStartClient() {
 	for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
 		(*i)->onStart();
 	}
-}
-
-void Lobby::onPlayerCharacterChange(ZCom_ConnID id, const Ogre::String& character) {
-	mPlayers[id]->setCharacter(character);
-}
-
-void Lobby::onPlayerHovercraftChange(ZCom_ConnID id, const Ogre::String& hovercraft) {
-	mPlayers[id]->setHovercraft(hovercraft);
 }
 
 void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,

@@ -214,22 +214,6 @@ public:
 	 */
 	virtual void onTrackChange(const Ogre::String& filename);
 
-	/**
-	 * Called when player changes character
-	 * 
-	 * @param id the ID of the player
-	 * @param character the character of the player
-	 */
-	virtual void onPlayerCharacterChange(ZCom_ConnID id, const Ogre::String& character);
-
-	/**
-	 * Called when player changes hovercraft
-	 *
-	 * @param id the ID of the player
-	 * @param hovercraft the hovercraft of the player
-	 */
-	virtual void onPlayerHovercraftChange(ZCom_ConnID id, const Ogre::String& hovercraft);
-
 protected:
 
 	/**

@@ -166,8 +166,8 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 			// Put our data in it
 			Config* conf = Application::getConfig();
 			ent->setPlayerName(conf->getValue("Player", "PlayerName"));
-			ent->setCharacter(conf->getValue("Player", "Character"));
-			ent->setHovercraft(conf->getValue("Player", "Hovercraft"));
+			ent->setCharacter(conf->getIntValue("Player", "Character"));
+			ent->setHovercraft(conf->getIntValue("Player", "Hovercraft"));
 		}
 
 		// Network register is done in constructor of player settings
