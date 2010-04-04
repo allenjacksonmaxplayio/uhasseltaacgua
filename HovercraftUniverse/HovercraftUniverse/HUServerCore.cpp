@@ -30,6 +30,7 @@ void HUServerCore::process() {
 
 bool HUServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
 	// Accept a connection if lobby isn't full
+	reply.addInt(id, sizeof(ZCom_ConnID) * 8);
 	return mLobby->onConnectAttempt(id);
 }
 

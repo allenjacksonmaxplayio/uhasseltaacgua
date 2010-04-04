@@ -25,6 +25,9 @@ private:
 	/** The address to which this client is/was connecting */
 	Ogre::String mAddress;
 
+	/** The unique ID of the client */
+	ZCom_ConnID mID;
+
 	/** The entity manager */
 	EntityManager * mEntityManager;
 
@@ -79,6 +82,13 @@ public:
 	 * Process incoming and outgoing packets
 	 */
 	virtual void process();
+
+	/**
+	 * Get the unique ID for the client
+	 *
+	 * @return the unique ID
+	 */
+	unsigned int getID() const;
 
 	/**
 	 * Request the current chat client

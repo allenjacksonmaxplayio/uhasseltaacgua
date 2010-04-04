@@ -23,7 +23,7 @@ std::string Lobby::getClassName() {
 }
 
 Lobby::Lobby(Loader * loader) :
-	NetworkEntity(4), mLoader(loader), mHasAdmin(false), mTrackFilename("SimpleTrack.scene"),
+	NetworkEntity(4), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"),
 			mMaximumPlayers(12), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0) {
 
 	if (loader) {
@@ -132,7 +132,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	// Add player to map
 	addPlayer(new PlayerSettings(this, id));
 	mCurrentPlayers++;
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined";
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined with id " << id;
 
 	//Send Event to players and self
 	OnJoinEvent event(id);
