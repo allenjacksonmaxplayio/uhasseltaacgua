@@ -30,7 +30,8 @@ HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hk
 		HavokEntity(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
 		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL),
 		mRotationDelta(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "TurnAngle")),
-		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping"))
+		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping")),
+		mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity"))
 		
 {
 }
@@ -207,7 +208,7 @@ void HavokHovercraft::update(){
 		input.m_up = mUp;
 		input.m_forward = mForward;
 		input.m_stepInfo = stepInfo;
-		input.m_characterGravity.setMul4(-20.0f, mUp);
+		input.m_characterGravity.setMul4(-mCharacterGravity, mUp);
 		input.m_velocity = mCharacterRigidBody->getRigidBody()->getLinearVelocity();
 		input.m_position = mCharacterRigidBody->getRigidBody()->getPosition();
 		mCharacterRigidBody->checkSupport(stepInfo, input.m_surfaceInfo);
