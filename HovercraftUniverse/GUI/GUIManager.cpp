@@ -8,7 +8,7 @@ namespace HovUni {
 	GUIManager* GUIManager::msSingleton = 0;
 
 	GUIManager::GUIManager(const Ogre::String& mediaPath, Ogre::Viewport* viewport) 
-			: mViewport(viewport), mMouseVisual() {
+			: mViewport(viewport), mMouseVisual(), mMouse(0), mMouseMoved(false) {
 		mHikariMgr = new Hikari::HikariManager(mediaPath.c_str());
 
 		//Fix the overlays going on top
@@ -52,6 +52,12 @@ namespace HovUni {
 	}
 
 	void GUIManager::update() {
+		//activate the queued overlays
+		while (!mQueuedOverlays.empty()) {
+			mQueuedOverlays.back()->activate();
+			mQueuedOverlays.pop_back();
+		}
+
 		try {
 			mHikariMgr->update();
 		} catch (...) {
@@ -59,23 +65,26 @@ namespace HovUni {
 				<< "[GUIManager]: Exception occured ";
 		}
 
-		//activate the queued overlays
-		while (!mQueuedOverlays.empty()) {
-			mQueuedOverlays.back()->activate();
-			mQueuedOverlays.pop_back();
+		//Execute queued mouse events, inserted after update to prevent crashes
+		mMouseMutex.lock();
+		if (mMouseMoved) {
+			mMouseMoved = false;
+			OIS::MouseEvent evt(mMouse, mMouseState);
+			mMouseVisual.updatePosition(evt.state.X.abs, evt.state.Y.abs);
+			mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs);
+			mHikariMgr->injectMouseWheel(evt.state.Z.rel);
 		}
+		mMouseMutex.unlock();
 	}
 
 	bool GUIManager::mouseMoved(const OIS::MouseEvent &evt) {
-		//Update the mouse cursor
-		mMouseVisual.updatePosition(evt.state.X.abs, evt.state.Y.abs);
-
-		try {
-			mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
-		} catch (...) {
-			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
-				<< "[GUIManager]: Exception occured while injecting mouse moves";
+		mMouseMutex.lock();
+		mMouseState = evt.state;
+		if (mMouse == 0) {
+			mMouse = const_cast<OIS::Object *> (evt.device);
 		}
+		mMouseMoved = true;
+		mMouseMutex.unlock();
 
 		return true;
 	}
