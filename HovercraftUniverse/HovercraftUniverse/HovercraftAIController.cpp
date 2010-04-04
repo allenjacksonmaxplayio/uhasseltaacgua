@@ -6,9 +6,6 @@
 #include "EntityManager.h"
 #include "Entity.h"
 #include "Hovercraft.h"
-#include "Start.h"
-#include "CheckPoint.h"
-#include "Finish.h"
 
 namespace HovUni {
 	HovercraftAIController::HovercraftAIController(std::string scriptname) {
@@ -56,16 +53,15 @@ namespace HovUni {
 			//Temporary Path! 
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";
 			luabind::object table = luabind::newtable(luaState);
-			std::vector<Entity*> checkpoints = EntityManager::getClientSingletonPtr()->getEntities(CheckPoint::CATEGORY);
-			int index = 1; // Lua tables start at 1.
-			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Start::CATEGORY)->getPosition();
-			index++;
-			for(unsigned int i = 0; i < checkpoints.size(); i++) {
-				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path[" << index << "] to checkpoints[" << i << "].";
-				table[index] = checkpoints[i]->getPosition();
-				index++;
-			}
-			table[index] = EntityManager::getClientSingletonPtr()->getEntity(Finish::CATEGORY)->getPosition();
+			table[1] = Ogre::Vector3(-69.6f, 5, -4.9f);
+			table[2] = Ogre::Vector3(92, 5, 4.9f);
+			table[3] = Ogre::Vector3(120, 4, -6);
+			table[4] = Ogre::Vector3(120, -20, -9);
+			table[5] = Ogre::Vector3(106, -40, -10);
+			table[6] = Ogre::Vector3(80, -50, -10);
+			table[7] = Ogre::Vector3(-20, -46, 11);
+			table[8] = Ogre::Vector3(-90, -45, 29);
+
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
 			luabind::call_function<void>(luaState,"setPath", table);
 		} catch (const luabind::error &er) {
