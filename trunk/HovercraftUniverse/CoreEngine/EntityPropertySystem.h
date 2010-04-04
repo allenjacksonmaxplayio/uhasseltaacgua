@@ -1,6 +1,7 @@
 #ifndef EntityProperty_H_
 #define EntityProperty_H_
 
+#include <zoidcom/zoidcom.h>
 #include <OgreString.h>
 #include <map>
 
@@ -26,6 +27,11 @@ private:
 	 * The actual map
 	 */
 	std::map<Ogre::String,EntityProperty*> mMap;
+
+	/**
+	 * The current version
+	 */
+	int mUpdate;
 
 public:
 	typedef std::pair<Ogre::String,EntityProperty*> Property;
@@ -97,6 +103,10 @@ public:
 	 */
 	EntityProperty * removeProperty ( EntityProperty * property );
 
+	/**
+	 * Call this method when there is an update that needs to be propagated over network
+	 */
+	void update();
 };
 
 
@@ -116,12 +126,17 @@ protected:
 	/**
 	 * The type
 	 */
-	const Ogre::String mType;	
+	Ogre::String mType;	
 
 	/**
 	 * The entity the property belongs to
 	 */
 	Entity * mEntity;
+
+	/**
+	 * The version of the property
+	 */
+	int mVersion;
 
 public:
 
@@ -149,6 +164,89 @@ public:
 	 * @return the property type
 	 */
 	const Ogre::String& getProperyType() const;
+
+	/**
+	 * Write this property to bitstream
+	 * This method must be overwriten and the parent must be called
+	 *
+	 * @param bitstream
+	 */
+	void write(ZCom_BitStream * bitstream);
+
+	/**
+	 * Read this property to bitstream
+	 * This method must be overwriten and the parent must be called
+	 *
+	 * @param bitstream
+	 */
+	void read(ZCom_BitStream * bitstream);
+
+	/**
+	 * Call this method when there is an update that needs to be propagated over network
+	 */
+	void update();
+
+};
+
+/**
+ * Replicator for the property map
+ */
+class EntityPropertyMapReplicator : public ZCom_ReplicatorBasic {
+
+private:
+
+	/**
+	 * Data
+	 */
+	EntityPropertyMap& mData;
+
+public:
+
+	EntityPropertyMapReplicator (EntityPropertyMap& data, ZCom_ReplicatorSetup * setup);
+
+	EntityPropertyMapReplicator(EntityPropertyMap& data, zU8 _flags, zU8 _rules, zU8 _intercept_id = 0, zS16 _mindelay = -1, zS16 _maxdelay = -1);
+
+	/**
+	 * Check the state of the variable to replicate
+	 *
+	 * @return true if there needs to be an update
+	 */
+	bool checkState();
+
+	/**
+	 * Pack the data in the stream in order to send an update
+	 *
+	 * @param _stream the stream
+	 */
+	void packData(ZCom_BitStream *_stream);
+
+	/**
+	 * Unpack the data from a stream after receiving an update
+	 *
+	 * @param _stream the stream
+	 * @param _store whether to store the new data
+	 * @param _estimated_time_sent indicator of when the data was approximately sent
+	 */
+	void unpackData(ZCom_BitStream *_stream, bool _store, zU32 _estimated_time_sent);
+
+	/**
+	 * Peek at the data without actually unpacking it
+	 */
+	void* peekData();
+
+	/**
+	 * Clear data used when peeking at data
+	 */
+	void clearPeekData();
+
+	/**
+	 * Process
+	 *
+	 * @param _localrole the local node role
+	 * @param _simulation_time_passed the time passed in the simulation
+	 */
+	void Process(eZCom_NodeRole _localrole, zU32 _simulation_time_passed);
+
 };
 
 }
