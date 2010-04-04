@@ -29,7 +29,8 @@ public:
 		COUNTDOWN, /** The race will start, show countdown */
 		RACING, /** The race has started */
 		FINISHING, /** Someone has finished, wait for everyone to finish */
-		ROUNDUP	/** Everyone has finished, show some stats and return to lobby */
+		ROUNDUP
+	/** Everyone has finished, show some stats and return to lobby */
 	};
 
 private:
@@ -72,13 +73,18 @@ public:
 	 * @param ID the class ID
 	 * @param control the network control
 	 */
-	RaceState(Lobby * lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
-			ZCom_Control* control);
+	RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata,
+			ZCom_ClassID id, ZCom_Control* control);
 
 	/**
 	 * Destructor
 	 */
 	virtual ~RaceState();
+
+	/**
+	 * Process the race state
+	 */
+	void process();
 
 	/**
 	 * Add a player to the race state

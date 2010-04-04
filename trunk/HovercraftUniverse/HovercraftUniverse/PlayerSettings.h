@@ -28,10 +28,10 @@ private:
 	Ogre::String mPlayerName;
 
 	/** The hovercraft type (only 4 bits are used = 16 possibilities) */
-	unsigned short mHovercraft;
+	unsigned int mHovercraft;
 
 	/* The character type (only 4 bits are used = 16 possibilities) */
-	unsigned short mCharacter;
+	unsigned int mCharacter;
 
 public:
 
@@ -86,7 +86,7 @@ public:
 	 *
 	 * @param character the character
 	 */
-	void setCharacter(unsigned short character);
+	void setCharacter(unsigned int character);
 
 	/**
 	 * Get character
@@ -100,7 +100,7 @@ public:
 	 *
 	 * @param hovercraft the hovercraft
 	 */
-	void setHovercraft(unsigned short hov);
+	void setHovercraft(unsigned int hov);
 
 	/**
 	 * Get hovercraft

@@ -4,6 +4,8 @@
 #include "GameEventParser.h"
 #include "InitEvent.h"
 
+#include <OgreLogManager.h>
+
 namespace HovUni {
 
 PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
@@ -43,7 +45,7 @@ const Ogre::String& PlayerSettings::getPlayerName() const {
 	return mPlayerName;
 }
 
-void PlayerSettings::setCharacter(unsigned short character) {
+void PlayerSettings::setCharacter(unsigned int character) {
 	mCharacter = character;
 }
 
@@ -56,7 +58,7 @@ const Ogre::String PlayerSettings::getCharacter() const {
 	}
 }
 
-void PlayerSettings::setHovercraft(unsigned short hov) {
+void PlayerSettings::setHovercraft(unsigned int hov) {
 	mHovercraft = hov;
 }
 
@@ -82,7 +84,9 @@ void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, Z
 	// Request to delete this object
 	if (type == eZCom_EventRemoved && remote_role == eZCom_RoleAuthority) {
 		//remove it from the lobby
-		mLobby->removePlayer(this);
+		//		mLobby->removePlayer(this);
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[PlayerSettings]: Deleted "
+				<< (isDeleted() ? "OK" : "ERROR");
 	}
 }
 

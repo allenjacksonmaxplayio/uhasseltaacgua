@@ -41,6 +41,13 @@ std::string RaceState::getClassName() {
 	return "RaceState";
 }
 
+void RaceState::process() {
+	processEvents(0.0f);
+	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
+		it->second->processEvents(0.0f);
+	}
+}
+
 void RaceState::removePlayer(ZCom_ConnID id) {
 	playermap::iterator i = mPlayers.find(id);
 	delete i->second;
