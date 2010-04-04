@@ -181,12 +181,6 @@ void Lobby::onStartServer() {
 		RaceState* racestate = new RaceState(this, mLoader, mTrackFilename);
 		setRaceState(racestate);
 
-		// Create race players
-		for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
-			RacePlayer* rplayer = new RacePlayer(mRaceState, it->second);
-			mRaceState->addPlayer(rplayer);
-		}
-
 		// Tell the clients to start
 		StartTrackEvent event;
 		sendEvent(event);

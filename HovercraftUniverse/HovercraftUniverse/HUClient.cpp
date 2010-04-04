@@ -236,6 +236,8 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		Hovercraft * ent = new Hovercraft(announcedata);
 
 		if (role == eZCom_RoleOwner) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+					<< "[HUClient]: Received own hovercraft";
 			ent->setController(new HovercraftPlayerController());
 //			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
 //			ent->setController(ai);

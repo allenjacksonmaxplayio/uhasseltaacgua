@@ -17,6 +17,14 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 
+	// Create race players
+	const Lobby::playermap& playersettings = lobby->getPlayers();
+
+	for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end(); ++it) {
+		RacePlayer* rplayer = new RacePlayer(this, it->second);
+		addPlayer(rplayer);
+	}
+
 	// Load the track on the server
 	mLoader->load(mTrackFilename);
 }
