@@ -178,7 +178,22 @@ protected:
 	virtual void setAnnouncementData(ZCom_BitStream* stream) = 0;
 
 	/**
-	 * Add a float to the replicated variabels
+	 * Add a int to the replicated variables
+	 *
+	 * @param value The int to replicate
+	 * @param rules The rules for the replicator, this indicates whether the
+	 *				variable is replicated from the server only, or whether the
+	 *				owner can change the value too
+	 * @param mantissaBits the number of mantissa bits to replicate, default is 23
+	 * @param flags flags to indicate how the value must be replicated, default is ZCOM_REPFLAG_MOSTRECENT
+	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
+	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
+	 */
+	void replicateUnsignedInt(int* value, zU8 rules, zU8 mantissaBits = 23, zU8 flags =
+			ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = -1, zS16 maxDelay = -1);
+
+	/**
+	 * Add a float to the replicated variables
 	 *
 	 * @param value The float to replicate
 	 * @param rules The rules for the replicator, this indicates whether the
@@ -193,7 +208,7 @@ protected:
 			ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = -1, zS16 maxDelay = -1);
 
 	/**
-	 * Add a vector to the replicated variabels
+	 * Add a vector to the replicated variables
 	 *
 	 * @param vector The vector to replicate
 	 * @param rules The rules for the replicator, this indicates whether the
@@ -211,7 +226,7 @@ protected:
 			bool autoDelete = true);
 
 	/**
-	 * Add a quaternion to the replicated variabels
+	 * Add a quaternion to the replicated variables
 	 *
 	 * @param qut the quaternion to replicate
 	 * @param rules The rules for the replicator, this indicates whether the
@@ -229,7 +244,7 @@ protected:
 			zS16 maxDelay = -1, bool autoDelete = true);
 
 	/**
-	 * Add a string to the replicated variabels
+	 * Add a string to the replicated variables
 	 *
 	 * @param str the string to replicate
 	 * @param rules The rules for the replicator, this indicates whether the

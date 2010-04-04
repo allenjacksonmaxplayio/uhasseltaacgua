@@ -91,6 +91,11 @@ void NetworkEntity::setReplicationInterceptor(ZCom_NodeReplicationInterceptor* i
 
 }
 
+void NetworkEntity::replicateUnsignedInt(int* value, zU8 rules, zU8 mantissaBits, zU8 flags,
+		zS16 minDelay, zS16 maxDelay) {
+	mNode->addReplicationInt(value, mantissaBits, false, flags, rules, minDelay, maxDelay);
+}
+
 void NetworkEntity::replicateFloat(float* value, zU8 rules, zU8 mantissaBits, zU8 flags,
 		zS16 minDelay, zS16 maxDelay) {
 	mNode->addReplicationFloat(value, mantissaBits, flags, rules, minDelay, maxDelay);

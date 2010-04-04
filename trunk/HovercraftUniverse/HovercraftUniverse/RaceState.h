@@ -29,8 +29,7 @@ public:
 		COUNTDOWN, /** The race will start, show countdown */
 		RACING, /** The race has started */
 		FINISHING, /** Someone has finished, wait for everyone to finish */
-		ROUNDUP
-	/** Everyone has finished, show some stats and return to lobby */
+		ROUNDUP	/** Everyone has finished, show some stats and return to lobby */
 	};
 
 private:
