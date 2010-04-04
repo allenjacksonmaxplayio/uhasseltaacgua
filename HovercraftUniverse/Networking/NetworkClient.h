@@ -28,6 +28,13 @@ private:
 	/** Whether to connect local or remote */
 	const bool mRemote;
 
+protected:
+	/** The connection ID received for the connection */
+	ZCom_ConnID mConnID;
+
+	/** Indicator that the client is connected */
+	bool mConnected;
+
 public:
 	/**
 	 * Constructor for remote connection
@@ -62,11 +69,97 @@ public:
 	void connect(ZCom_BitStream * request);
 
 	/**
+	 * Disconnect
+	 *
+	 * @param reason additional data to send with the disconnection, or null
+	 */
+	void disconnect(ZCom_BitStream * reason);
+
+	/**
 	 * Process incoming and outgoing packets
 	 *
 	 * @param timeSinceLastProcess the time that elapsed since the last process
 	 */
 	virtual void process();
+
+protected:
+
+	/**
+	 * Callback for the connection result. This can be implemented in subclasses.
+	 *
+	 * @param result the result of the connection request
+	 * @param extra information about the reply
+	 */
+	virtual void onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra);
+
+	/**
+	 * Callback for the connection closure. This can be implemented in subclasses.
+	 *
+	 * @param reason the close reason
+	 * @param extra more information about the reason
+	 */
+	virtual void onDisconnect(eZCom_CloseReason reason, ZCom_BitStream& extra);
+
+	/**
+	 * Callback for when data is received. This can be implemented in subclasses.
+	 *
+	 * @param data the incoming data
+	 */
+	virtual void onDataReceived(ZCom_BitStream& data);
+
+	/**
+	 * Callback for when the result of a zoid request is received. This can be implemented
+	 * in subclasses.
+	 *
+	 * @param result the result of the request
+	 * @param new_level the new zoid level
+	 * @param reason the reason of this result
+	 */
+	virtual void onZoidResult(eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason);
+
+	/**
+	 * Callback for when the server requests for creating of a dynamic node. This must be
+	 * implemented in subclasses.
+	 *
+	 * @param requested_class the class requested
+	 * @param announcedata extra data to create the class, this must be fully read
+	 * @param role the role for this class
+	 * @param net_id the network id of this new node
+	 */
+	virtual void onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
+			eZCom_NodeRole role, ZCom_NodeID net_id);
+
+	/**
+	 * Callback for when the server requests for creating a tagged node. This can be
+	 * implemented in subclasses.
+	 *
+	 * @param requested_class the class requested
+	 * @param announcedata extra data to create the class, this must be fully read
+	 * @param role the role for this class
+	 * @param tag the tag for this new node
+	 */
+	virtual void onNodeTag(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
+			eZCom_NodeRole role, zU32 tag);
+
+	/**
+	 * Callback for when a discover request comes in. This can be implemented in subclasses,
+	 * otherwise requests are ignored.
+	 *
+	 * @param addr the address of the incoming request
+	 * @param request information about the request
+	 * @param reply the reply
+	 */
+	virtual bool onDiscoverRequest(const ZCom_Address& addr, ZCom_BitStream& request,
+			ZCom_BitStream& reply);
+
+	/**
+	 * Callback for when someone is discovered after sending a request. This can be implemented
+	 * in subclasses.
+	 *
+	 * @param addr the address of the remote party
+	 * @param reply a reply to send to the remote party
+	 */
+	virtual void onDiscovered(const ZCom_Address& addr, ZCom_BitStream& reply);
 
 private:
 	/**
@@ -84,7 +177,7 @@ private:
 	//
 	// ZCom_Control callbacks
 	//
-public:
+private:
 	/**
 	 * Connection process finished (Client).
 	 *
@@ -166,7 +259,10 @@ public:
 	 */
 	void ZCom_cbDiscovered(const ZCom_Address& addr, ZCom_BitStream& reply);
 
-private:
+	//
+	// Server callbacks (not needed but need to be implemented)
+	//
+
 	/**
 	 * Incoming connection (Server).
 	 *

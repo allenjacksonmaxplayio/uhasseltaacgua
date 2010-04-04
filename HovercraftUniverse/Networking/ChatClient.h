@@ -90,56 +90,51 @@ private:
 	//
 	// ZCom_Control callbacks
 	//
-public:
+protected:
 	/**
-	 * Connection process finished (Client).
+	 * Callback for the connection result. This can be implemented in subclasses.
 	 *
-	 * @param id The connection's ID
-	 * @param result The result of the connection process
-	 * @param reply The reply given by the destination
+	 * @param result the result of the connection request
+	 * @param extra information about the reply
 	 */
-	void ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result, ZCom_BitStream& reply);
+	virtual void onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra);
 
 	/**
-	 * Connection has been closed and is about to be deleted (Server, Client).
+	 * Callback for the connection closure. This can be implemented in subclasses.
 	 *
-	 * @param id The connection's ID
-	 * @param reason Reason code. If reason is eZCom_ClosedDisconnect, then reasondata might contain more info.
-	 * @param reasondata The reason of the disconnector.
+	 * @param reason the close reason
+	 * @param extra more information about the reason
 	 */
-	void ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
-			ZCom_BitStream& reasondata);
+	virtual void onDisconnect(eZCom_CloseReason reason, ZCom_BitStream& extra);
 
 	/**
-	 * Direct data has been received (Server, Client).
+	 * Callback for when data is received. This can be implemented in subclasses.
 	 *
-	 * @param id The connection's ID
-	 * @param data The data received
+	 * @param data the incoming data
 	 */
-	void ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data);
+	virtual void onDataReceived(ZCom_BitStream& data);
 
 	/**
-	 * ZoidLevel migration process finished (Server, Client).
+	 * Callback for when the result of a zoid request is received. This can be implemented
+	 * in subclasses.
 	 *
-	 * @param id The connection's ID
-	 * @param result Result of the migration process
-	 * @param new_level New ZoidLevel of the connection
-	 * @param reason Additional data passed by the server
+	 * @param result the result of the request
+	 * @param new_level the new zoid level
+	 * @param reason the reason of this result
 	 */
-	void ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
-			ZCom_BitStream& reason);
+	virtual void onZoidResult(eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason);
 
 	/**
-	 * Server requests to create a new node for a new dynamic object/node (Client).
+	 * Callback for when the server requests for creating of a dynamic node. This must be
+	 * implemented in subclasses.
 	 *
-	 * @param id The connection's ID
-	 * @param requested_class Class ID of the requested node
-	 * @param announcedata Data set by the server
-	 * @param role Role the newly created node will posses
-	 * @param net_id The network ID of the requested node. Not needed directly here but may be useful.
+	 * @param requested_class the class requested
+	 * @param announcedata extra data to create the class, this must be fully read
+	 * @param role the role for this class
+	 * @param net_id the network id of this new node
 	 */
-	void ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
-			ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id);
+	virtual void onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
+			eZCom_NodeRole role, ZCom_NodeID net_id);
 
 };
 

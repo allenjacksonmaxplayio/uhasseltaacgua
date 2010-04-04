@@ -88,7 +88,7 @@ namespace HovUni {
 			/**
 			 *
 			 */
-			virtual void LobbyState::onJoin(PlayerSettings * settings);
+			virtual void onJoin(PlayerSettings * settings);
 
 			/**
 			 * @inheritDoc

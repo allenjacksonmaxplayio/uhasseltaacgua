@@ -40,14 +40,13 @@
 namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) :
-	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0), mConnected(false),
+	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0),
 			mFinishedConnecting(false) {
 	initialize();
 }
 
 HUClient::HUClient() :
-	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0), mConnected(false),
-			mFinishedConnecting(false) {
+	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0), mFinishedConnecting(false) {
 	initialize();
 }
 
@@ -87,18 +86,18 @@ unsigned int HUClient::getID() const {
 	return mID;
 }
 
-void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
-		ZCom_BitStream& reply) {
+void HUClient::onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra) {
 
-	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: received connection result";
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
+			<< "[HUClient]: received connection result";
 
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
-		ZCom_requestDownstreamLimit(id, 60, 600);
-		ZCom_requestZoidMode(id, 1);
+		ZCom_requestDownstreamLimit(mConnID, 60, 600);
+		ZCom_requestZoidMode(mConnID, 1);
 
 		// Get the unique ID
-		mID = reply.getInt(sizeof(ZCom_ConnID) * 8);
+		mID = extra.getInt(sizeof(ZCom_ConnID) * 8);
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID
 				<< "]: My unique ID is " << mID;
 
@@ -116,12 +115,6 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
 		if (mChatListener != 0) {
 			mChatClient->registerListener(mChatListener);
 		}
-
-		//Mark connected
-		mConnected = true;
-	} else {
-		//Mark not connected
-		mConnected = false;
 	}
 
 	mFinishedConnecting = true;
@@ -129,17 +122,15 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
 	mSemaphore.post();
 }
 
-void HUClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
-		ZCom_BitStream& reasondata) {
+void HUClient::onDisconnect(eZCom_CloseReason reason, ZCom_BitStream& extra) {
 	// Connection closed
 }
 
-void HUClient::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
+void HUClient::onDataReceived(ZCom_BitStream& data) {
 	// Data received
 }
 
-void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
-		ZCom_BitStream& reason) {
+void HUClient::onZoidResult(eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
 	if (result == eZCom_ZoidEnabled) {
 		// Requested zoid level was confirmed
 	} else {
@@ -147,8 +138,8 @@ void HUClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 ne
 	}
 }
 
-void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
-		ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
+		eZCom_NodeRole role, ZCom_NodeID net_id) {
 	// Receive and create the entity
 	Ogre::String name("");
 
