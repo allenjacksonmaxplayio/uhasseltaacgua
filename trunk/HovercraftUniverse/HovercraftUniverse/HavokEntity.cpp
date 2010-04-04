@@ -18,7 +18,7 @@ const hkVector4 HavokEntity::UP(0,1,0);
 const hkVector4 HavokEntity::FORWARD(1,0,0);
 
 HavokEntity::HavokEntity( hkpWorld * world ):
-	mCollisionPreventionBox(HK_NULL), mWorld(world)
+	mWorld(world)
 {
 	mWorld->addReference();
 }
@@ -26,48 +26,6 @@ HavokEntity::HavokEntity( hkpWorld * world ):
 HavokEntity::~HavokEntity() {
 	//remove world
 	mWorld->removeReference();
-
-	//remove collision prevention if set
-	removeCollisionPrevention();
-}
-
-void HavokEntity::addCollisionPrevention(const hkAabb& aabb, hkReal offset){
-
-	//Advanced version
-	if ( mCollisionPreventionBox == HK_NULL ){
-		mWorld->markForWrite();	
-
-		hkpCapsuleShape * shape = new hkpCapsuleShape(hkVector4(0,0,0), hkVector4(0,0,5), 5);
-		hkTransform transform;
-		transform.setIdentity();
-
-		mCollisionPreventionBox = new  AdvancedEntityCollisionPhantom(shape,transform, this);
-		mWorld->addPhantom(mCollisionPreventionBox);
-		mWorld->addAction(new AdvancedEntityCollisionBinder(this->getRigidBody(),mCollisionPreventionBox,offset));
-
-		shape->removeReference();
-		mWorld->unmarkForWrite();
-	}
-
-	//Simple version
-	/*if ( mCollisionPreventionBox == HK_NULL ){
-		mWorld->markForWrite();	
-		mCollisionPreventionBox = new  EntityCollisionPhantom(aabb, this);
-		mWorld->addPhantom(mCollisionPreventionBox);
-		mWorld->addAction(new EntityCollisionBinder(this->getRigidBody(),mCollisionPreventionBox,offset));	
-		mWorld->unmarkForWrite();
-	}*/
-}
-
-void HavokEntity::removeCollisionPrevention(){
-	
-	if ( mCollisionPreventionBox != HK_NULL ){
-		mWorld->markForWrite();
-		mWorld->removePhantom(mCollisionPreventionBox);
-		mCollisionPreventionBox->removeReference();
-		mCollisionPreventionBox = HK_NULL;
-		mWorld->unmarkForWrite();
-	}
 }
 	
 }

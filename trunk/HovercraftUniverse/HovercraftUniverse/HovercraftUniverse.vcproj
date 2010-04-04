@@ -245,14 +245,6 @@
 					Name="entity"
 					>
 					<File
-						RelativePath=".\AdvancedCollisionPrevention.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\EntityCollisionPrevention.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\HavokEntity.cpp"
 						>
 					</File>
@@ -277,6 +269,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\PlanetGravityPhantom.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\PortalPhantom.cpp"
 						>
 					</File>
@@ -294,14 +290,22 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="planet"
+					Name="ai"
 					>
 					<File
-						RelativePath=".\PlanetGravityAction.cpp"
+						RelativePath=".\EntityCollisionPrevention.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="action"
+					>
+					<File
+						RelativePath=".\BoostAction.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\PlanetGravityPhantom.cpp"
+						RelativePath=".\PlanetGravityAction.cpp"
 						>
 					</File>
 				</Filter>
@@ -627,14 +631,6 @@
 					Name="entity"
 					>
 					<File
-						RelativePath=".\AdvancedCollisionPrevention.h"
-						>
-					</File>
-					<File
-						RelativePath=".\EntityCollisionPrevention.h"
-						>
-					</File>
-					<File
 						RelativePath=".\HavokEntity.h"
 						>
 					</File>
@@ -659,6 +655,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\PlanetGravityPhantom.h"
+						>
+					</File>
+					<File
 						RelativePath=".\PortalPhantom.h"
 						>
 					</File>
@@ -676,20 +676,28 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="planet"
+					Name="ai"
 					>
 					<File
-						RelativePath=".\PlanetGravityAction.h"
-						>
-					</File>
-					<File
-						RelativePath=".\PlanetGravityPhantom.h"
+						RelativePath=".\EntityCollisionPrevention.h"
 						>
 					</File>
 				</Filter>
 				<Filter
 					Name="powerup"
 					>
+				</Filter>
+				<Filter
+					Name="action"
+					>
+					<File
+						RelativePath=".\BoostAction.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlanetGravityAction.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

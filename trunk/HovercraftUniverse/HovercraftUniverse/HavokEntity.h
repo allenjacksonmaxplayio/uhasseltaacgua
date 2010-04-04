@@ -9,11 +9,6 @@ class hkpWorld;
 
 namespace HovUni {
 
-//Simple version
-//class EntityCollisionPhantom;
-//advanced version
-class AdvancedEntityCollisionPhantom;
-
 class Entity;
 
 /**
@@ -22,12 +17,6 @@ class Entity;
 class HavokEntity {
 
 protected:
-
-	//Advanced version
-	AdvancedEntityCollisionPhantom * mCollisionPreventionBox;
-
-	//Simple version
-	//EntityCollisionPhantom * mCollisionPreventionBox;
 
 	hkpWorld * mWorld;
 
@@ -47,18 +36,6 @@ public:
 	 * Destructor
 	 */
 	virtual ~HavokEntity();
-
-	/**
-	 * Add a collision prevention box
-	 * @param aabb the box for collision checks
-	 * @param offset the offset from rigidbody center in forward direction (where should the box begin)
-	 */
-	virtual void addCollisionPrevention(const hkAabb& aabb, hkReal offset);
-
-	/**
-	 * Remove the collision prevention box
-	 */
-	virtual void removeCollisionPrevention();
 
 	/**
 	 * Load the character, must be called before the character is used

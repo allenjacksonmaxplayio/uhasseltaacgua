@@ -14,7 +14,7 @@ namespace HovUni {
  *
  * @author PJ, Kristof Overdulve
  */ 
-class Hovercraft : public Entity{
+class Hovercraft : public Entity {
 private:
 
 	/** 
@@ -60,7 +60,7 @@ private:
 	/**
 	 * Boost speed and flag, is set if hovercraft is boosted
 	 */
-	float mBoost;
+	Ogre::Real mBoost;
 	bool mBoosted;
 
 	/**

@@ -1,130 +1,173 @@
 #ifndef ENTITY_COLLISION_PREVENTION_H
 #define ENTITY_COLLISION_PREVENTION_H
 
-#include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
-#include <Physics/Dynamics/Action/hkpUnaryAction.h>
-#include <Physics/Dynamics/Phantom/hkpSimpleShapePhantom.h>
+class hkpWorld;
+class hkpShape;
 
 namespace HovUni {
 
 class HavokEntity;
-class EntityCollisionPhantom;
 
 /**
- * Class that binds an Entity Collision System to the entity
+ * Interface that should be used for collision detection.
  */
-class EntityCollisionBinder : public hkpUnaryAction {
+class EntityCollision {
+
+public:
+
+	EntityCollision(){
+	}
+
+	virtual ~EntityCollision(){
+	}
+
+	/**
+	 * Called when an object overlap detected with the phantom shape
+	 *
+	 * @param ??
+	 */
+	virtual void onOverlapEnter( ) = 0;
+
+	/**
+	 * Called when an object overlap is removed with the phantom shape
+	 *
+	 * @param ??
+	 */
+	virtual void onOverlapLeave( ) = 0;	
+};
+
+////////////////////////////////////////////////////////////
+// There are two systems that implement this interface, a simple one and an advanced one:
+//
+//	SIMPLE
+//	The simple system uses an axis aligned bounding box that is positioned far ahead of the car.
+//	This shape will follow only the movement of the car allowing detection of objects that
+//	are positioned (far) in front of the car.
+//
+//	#####				-------
+//	#CAR#				|SHAPE|
+//	#####				-------
+//
+//	ADVANCED
+//	The advanced system uses a shape instead of an axis aligned bounding box.
+//	This shape will follow the movement AND rotation of the car allowing detection of objects that
+//	are positioned right in front of the car (far aswell close).
+//
+//	#####  -------------------
+//	#CAR#  |	  SHAPE		 |
+//	#####  -------------------
+//
+//	The shapes can be seen in the visual debugger, use it if not clear!
+//
+////////////////////////////////////////////////////////////
+
+/**
+ * Forward declaration of internal classes
+ */
+class SimpleEntityCollisionBinder;
+class SimpleEntityCollisionPhantom;
+
+/**
+ * The simple implementation of the collision system
+ * @author Pieter-Jan Pintens
+ */
+class SimpleEntityCollision : public EntityCollision {
 
 private:
 
-	hkpAabbPhantom * mPhantom;
+	//The world
+	hkpWorld * mWorld;
 
-	hkReal mOffset;
+	//The binder
+	SimpleEntityCollisionBinder * mBinder;
+
+	//The phantom
+	SimpleEntityCollisionPhantom * mPhantom;
 
 public:
 
 	/**
 	 * Constructor
-	 * @param collisionPrevention
-	 */
-	EntityCollisionBinder( hkpRigidBody* trackedBody, hkpAabbPhantom* phantomToUpdate, hkReal offset );
-
-	~EntityCollisionBinder();
-
-private:
-
-	virtual void applyAction( const hkStepInfo& stepInfo );
-
-	virtual hkpAction* clone( const hkArray<hkpEntity*>& newEntities, const hkArray<hkpPhantom*>& newPhantoms ) const { 
-		return HK_NULL; 
-	}
-
-};
-
-/**
- * Phantom used to detect incomming objects, must be placed in front of entity
- */
-class EntityCollisionPhantom : public hkpAabbPhantom
-{
-private:
-
-	//The entity
-	HavokEntity * mEntity;	
-
-public:
-
-	/**
-	 * Constructor, creates a Collision phantom.
-	 * This will not add the phantom to the world and will not bind the phantom to the entity!
-	 * Use the bind method for this.
 	 *
+	 * @param world, the physics world
+	 * @param entity, the entity the detection system should bind to
+	 * @param offset, the distance from center of the entity
 	 * @param aabb, the bounding box
 	 */
-	EntityCollisionPhantom(const hkAabb& aabb, HavokEntity * entity);
+	SimpleEntityCollision ( hkpWorld * world, HavokEntity * entity, hkReal offset, const hkAabb& aabb );
 
-	~EntityCollisionPhantom(void);
+	/**
+	 * Destructor
+	 */
+	~SimpleEntityCollision();
 
-	virtual void addOverlappingCollidable( hkpCollidable* handle );
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapEnter( ){
+	}
 
-	virtual void removeOverlappingCollidable( hkpCollidable* handle );
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapLeave( ){
+	}
 
 };
 
 
+
 /**
- * Class that binds an Entity Collision System to the entity
+ * Forward declaration of internal classes
  */
-class AdvancedEntityCollisionBinder : public hkpUnaryAction {
+class AdvancedEntityCollisionBinder;
+class AdvancedEntityCollisionPhantom;
+
+/**
+ * The advanced implementation of the collision system
+ * @author Pieter-Jan Pintens
+ */
+class AdvancedEntityCollision : public EntityCollision {
 
 private:
 
-	hkpSimpleShapePhantom * mPhantom;
+	//The world
+	hkpWorld * mWorld;
 
-	hkReal mOffset;
+	//The binder
+	AdvancedEntityCollisionBinder * mBinder;
+
+	//The phantom
+	AdvancedEntityCollisionPhantom * mPhantom;
 
 public:
 
 	/**
 	 * Constructor
-	 * @param collisionPrevention
+	 *
+	 * @param world, the physics world
+	 * @param entity, the entity the detection system should bind to
+	 * @param shape, the shape for the phantom
+	 * @param transform, the initial transform
 	 */
-	AdvancedEntityCollisionBinder( hkpRigidBody* trackedBody, hkpSimpleShapePhantom* phantomToUpdate, hkReal offset );
-
-	~AdvancedEntityCollisionBinder();
-
-private:
-
-	virtual void applyAction( const hkStepInfo& stepInfo );
-
-	virtual hkpAction* clone( const hkArray<hkpEntity*>& newEntities, const hkArray<hkpPhantom*>& newPhantoms ) const { 
-		return HK_NULL; 
-	}
-
-};
-
-/**
- * Phantom used to detect incomming objects, must be placed in front of entity
- */
-class AdvancedEntityCollisionPhantom : public hkpSimpleShapePhantom
-{
-private:
-
-	//The entity
-	HavokEntity * mEntity;	
-
-public:
+	AdvancedEntityCollision ( hkpWorld * world, HavokEntity * entity, hkReal offset, const hkpShape *shape );
 
 	/**
-	 * Constructor, creates a Collision phantom.
+	 * Destructor
 	 */
-	AdvancedEntityCollisionPhantom(const hkpShape *shape, const hkTransform &transform, HavokEntity * entity);
+	~AdvancedEntityCollision();
 
-	~AdvancedEntityCollisionPhantom(void);
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapEnter( ){
+	}
 
-	virtual void addOverlappingCollidable( hkpCollidable* handle );
-
-	virtual void removeOverlappingCollidable( hkpCollidable* handle );
-
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapLeave( ){
+	}
 };
 
 }
