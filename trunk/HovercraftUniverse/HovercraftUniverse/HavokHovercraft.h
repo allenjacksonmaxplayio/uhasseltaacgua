@@ -87,6 +87,9 @@ private:
 	const float mSpeedDamping;
 	const float mCharacterGravity;
 
+	/** Counter of the current amount of active collision events */
+	int mCollisionCounter;
+
 public:
 
 	/**
@@ -144,7 +147,11 @@ public:
 	 * @param up vector
 	 */
 	virtual void updateUp( const hkVector4& newUp);
-
+	
+	/** Increases the active collision state counter by 1. */
+	void increaseCollisionCounter();
+	/** Decreases the active collision state counter by 1. */
+	void decreaseCollisionCounter();
 };
 
 }

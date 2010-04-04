@@ -48,9 +48,6 @@ Source: data\hovercraft\materials\scripts\hover1.material; DestDir: {app}\data\h
 Source: data\hovercraft\models\hover1.mesh; DestDir: {app}\data\hovercraft\models
 Source: data\hovercraft\hover1.hkx; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\hover1.scene; DestDir: {app}\data\hovercraft
-Source: data\levels\materials\programs\AlphaSplatTerrain.cg; DestDir: {app}\data\levels\materials\programs
-Source: data\levels\materials\scripts\AlphaSplatTerrain.progam; DestDir: {app}\data\levels\materials\scripts
-Source: data\levels\materials\scripts\AplhaSplatMaterial.material; DestDir: {app}\data\levels\materials\scripts
 Source: data\levels\materials\scripts\SimpleTrack.material; DestDir: {app}\data\levels\materials\scripts
 Source: data\levels\materials\textures\brick_wall.jpg; DestDir: {app}\data\levels\materials\textures
 Source: data\levels\materials\textures\concrete.jpg; DestDir: {app}\data\levels\materials\textures
@@ -91,7 +88,6 @@ Source: data\user\types.userdatatypes.xml; DestDir: {app}\data\user
 Source: data\cg.dll; DestDir: {app}\data\
 Source: data\Flash.ocx; DestDir: {app}\data\; Attribs: readonly
 Source: data\hkVisualDebugger.exe; DestDir: {app}\data\
-Source: data\ogre.cfg; DestDir: {app}\data\
 Source: data\plugins_release.cfg; DestDir: {app}\data\
 Source: data\resources.cfg; DestDir: {app}\data\
 Source: data\engine_settings.cfg; DestDir: {app}\data\

@@ -23,27 +23,31 @@
 namespace HovUni {
 
 SimpleTest::SimpleTest( hkpWorld * world, HavokHovercraft * hover ):
-  SimpleEntityCollision(world,hover, 15, hkAabb(hkVector4(-2,-2,-2),hkVector4(2,2,2))){
+	SimpleEntityCollision(world,hover, 15, hkAabb(hkVector4(-2,-2,-2),hkVector4(2,2,2))){
 }
 
 void SimpleTest::onOverlapEnter( ){
-	std::cout << "WATCH OUT" << std::endl;
+	std::cout << "SimpleEntityCollision ENTER" << std::endl;
 }
 
 void SimpleTest::onOverlapLeave( ){
-	std::cout << "PHEW" << std::endl;
+	std::cout << "SimpleEntityCollision LEAVE" << std::endl;
 }
 
 AdvancedTest::AdvancedTest( hkpWorld * world, HavokHovercraft * hover ):
-  AdvancedEntityCollision(world,hover,2, new hkpCapsuleShape( hkVector4(0,0,0),hkVector4(0,0,-10),4) ) {
+	AdvancedEntityCollision(world,hover,2, new hkpCapsuleShape( hkVector4(0,0,0),hkVector4(0,0,-10),4) ) {
 }
 
 void AdvancedTest::onOverlapEnter( ){
-	std::cout << "WATCH OUT" << std::endl;
+	//std::cout << "AdvancedEntityCollision ENTER" << std::endl;
+	HavokHovercraft* havokHovercraft = dynamic_cast<HavokHovercraft*>(mEntity);
+	havokHovercraft->increaseCollisionCounter();
 }
 
 void AdvancedTest::onOverlapLeave( ){
-	std::cout << "PHEW" << std::endl;
+	//std::cout << "AdvancedEntityCollision LEAVE" << std::endl;
+	HavokHovercraft* havokHovercraft = dynamic_cast<HavokHovercraft*>(mEntity);
+	havokHovercraft->decreaseCollisionCounter();
 }
 
 std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
@@ -51,7 +55,7 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 }
 
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
-		HavokEntity(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL),
+		HavokEntity(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL), mCollisionCounter(0),
 		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL),
 		mRotationDelta(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "TurnAngle")),
 		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping")),
@@ -72,8 +76,9 @@ HavokHovercraft::~HavokHovercraft(void)
 	mPhysicsData->removeReference();
 	mPhysicsData = HK_NULL;
 
-	if ( mCollisionTest != 0 )
+	if (mCollisionTest != 0) {
 		delete mCollisionTest;
+	}
 	
 	//TODO look at this memory leak thing
 	mLoadedData->disableDestructors();
@@ -125,6 +130,17 @@ void HavokHovercraft::update(){
 
 	//Get the hovercraft and input
 	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mEntity);
+
+	//##Collision state update
+	//TODO (Dirk) ik heb hier de collision update gezet, = goed?
+	//TODO set the '1's to '0' - but first collision detection needs a fix - the hovercraft thinks it's colliding with the asteroid.
+	if ((mCollisionCounter > 1) && (!hovercraft->isInCollisionState())) {
+		hovercraft->setCollisionState(true);
+	} else if ((mCollisionCounter <= 1) && (hovercraft->isInCollisionState())) {
+		hovercraft->setCollisionState(false);
+	}
+	//##End collision update
+
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
 	hkReal speed = hovercraft->getSpeed();
 
@@ -371,6 +387,14 @@ void HavokHovercraft::load(const hkVector4& position){
 
 
 	mWorld->unmarkForWrite();
+}
+
+void HavokHovercraft::decreaseCollisionCounter() {
+	mCollisionCounter--;
+}
+
+void HavokHovercraft::increaseCollisionCounter() {
+	mCollisionCounter++;
 }
 
 }
