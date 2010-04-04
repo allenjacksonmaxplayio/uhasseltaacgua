@@ -44,7 +44,10 @@ void ChatServer::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 void ChatServer::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
 		ZCom_BitStream& reasondata) {
 	mChat->getNetworkNode()->setOwner(id, false);
-	sendNotification(reasondata.getString());
+	if (reason == eZCom_ClosedDisconnect) {
+		std::string str = reasondata.getString();
+		sendNotification(str);
+	}
 }
 
 void ChatServer::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
