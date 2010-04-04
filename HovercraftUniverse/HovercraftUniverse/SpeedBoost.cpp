@@ -32,9 +32,24 @@ void SpeedBoost::load(TiXmlElement * data) throw(ParseException){
 			mBoost = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
 		}
 	}
+
+	//Read Gain
+	mGain = 0.0f;
+	node = data->FirstChild("Gain");
+	if(node){
+		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
+		if(element){
+			mGain = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+		}
+	}
 }
 
 SpeedBoost::~SpeedBoost(void){
+}
+
+Ogre::Vector3 SpeedBoost::getBoostDirection() const {
+	Ogre::Quaternion quat = this->getQuaternion();
+	return quat.xAxis().normalisedCopy();
 }
 
 void SpeedBoost::onEnter ( Hovercraft * hovercraft ){

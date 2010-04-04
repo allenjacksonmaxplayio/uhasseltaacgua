@@ -19,9 +19,14 @@ class SpeedBoost : public Entity{
 private:
 
 	/**
-	 * The BoostData
+	 * The Boost
 	 */
 	Ogre::Real mBoost;
+
+	/**
+	 * The Boost gain
+	 */
+	Ogre::Real mGain;
 
 public:
 
@@ -74,6 +79,12 @@ public:
 	void setBoost(Ogre::Real boost) {
 		mBoost = boost;
 	}
+
+	/**
+	 * Get the Boost direction, this vector is normalised
+	 * @return BoostData
+	 */
+	Ogre::Vector3 getBoostDirection() const;
 
 	/**
 	 * Called when given hovercraft enters the portal bounding box

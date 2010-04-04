@@ -2,17 +2,64 @@
 #define HAVOKHOVERCRAFT_H
 
 #include "HavokEntity.h"
+#include "EntityCollisionPrevention.h"
+
 #include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
 #include <Physics/Utilities/Serialize/hkpHavokSnapshot.h>
+#include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 
 namespace HovUni {
 
 class Hovercraft;
+class HavokHovercraft;
+
+
+/**
+ * Tests for the simple collision prevention for the hovercraft
+ */
+
+class SimpleTest : public SimpleEntityCollision {
+
+public:
+
+	SimpleTest( hkpWorld * world, HavokHovercraft * hover );
+
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapEnter( );
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapLeave( );
+};
+
+
+class AdvancedTest : public AdvancedEntityCollision {
+
+public:
+
+	AdvancedTest( hkpWorld * world, HavokHovercraft * hover );
+
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapEnter( );
+
+	/**
+	 * @see HovUni::EntityCollision
+	 */
+	virtual void onOverlapLeave( );
+};
+
 
 class HavokHovercraft : public HavokEntity
 {
 private:
+
+	EntityCollision * mCollisionTest;
+
 
 	hkPackfileReader::AllocatedData* mLoadedData;
 
@@ -99,8 +146,6 @@ public:
 	virtual void updateUp( const hkVector4& newUp);
 
 };
-
-
 
 }
 

@@ -22,6 +22,30 @@
 
 namespace HovUni {
 
+SimpleTest::SimpleTest( hkpWorld * world, HavokHovercraft * hover ):
+  SimpleEntityCollision(world,hover, 15, hkAabb(hkVector4(-2,-2,-2),hkVector4(2,2,2))){
+}
+
+void SimpleTest::onOverlapEnter( ){
+	std::cout << "WATCH OUT" << std::endl;
+}
+
+void SimpleTest::onOverlapLeave( ){
+	std::cout << "PHEW" << std::endl;
+}
+
+AdvancedTest::AdvancedTest( hkpWorld * world, HavokHovercraft * hover ):
+  AdvancedEntityCollision(world,hover,2, new hkpCapsuleShape( hkVector4(0,0,0),hkVector4(0,0,-10),4) ) {
+}
+
+void AdvancedTest::onOverlapEnter( ){
+	std::cout << "WATCH OUT" << std::endl;
+}
+
+void AdvancedTest::onOverlapLeave( ){
+	std::cout << "PHEW" << std::endl;
+}
+
 std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 	return stream << "hkVector4(" << v.getSimdAt(0) << ", " << v.getSimdAt(1) << ", " << v.getSimdAt(2) << ", " << "w=" << v.getSimdAt(3) << ")";
 }
@@ -34,6 +58,7 @@ HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hk
 		mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity"))
 		
 {
+	mCollisionTest = 0;
 }
 
 HavokHovercraft::~HavokHovercraft(void)
@@ -46,6 +71,9 @@ HavokHovercraft::~HavokHovercraft(void)
 
 	mPhysicsData->removeReference();
 	mPhysicsData = HK_NULL;
+
+	if ( mCollisionTest != 0 )
+		delete mCollisionTest;
 	
 	//TODO look at this memory leak thing
 	mLoadedData->disableDestructors();
@@ -255,28 +283,6 @@ void HavokHovercraft::update(){
 	//hovercraft->setSpeed(speedSize);
 	//std::cout << scaledspeed << "  " << speed << "  " << speedSize << std::endl;
 	
-
-
-	//if some boost left
-	float boostvalue = mEntity->getBoost();
-	if ( fabs(boostvalue) > 10e-3 ){
-		hkVector4 boost = mForward;
-		boost.mul4(-1*boostvalue);
-		getRigidBody()->applyLinearImpulse(boost);
-		boostvalue -= boostvalue/10.0f;
-
-		if ( mEntity->isBoosted() ){
-			//if in boost GOOOOO
-			boostvalue += boostvalue/4.0f;
-		}
-		else {
-			//else slow down
-			boostvalue -= boostvalue/10.0f;
-		}
-
-		mEntity->setBoost(boostvalue);
-	}
-
 	mWorld->unmarkForWrite();
 }
 
@@ -358,8 +364,11 @@ void HavokHovercraft::load(const hkVector4& position){
 	//Remove some data
 	tmp->removeReference();
 
-	hkAabb aabb ( hkVector4(0,0,0),hkVector4(5,5,5));
-	addCollisionPrevention(aabb, 20);
+
+	//collision prevention test
+	//mCollisionTest = new SimpleTest(mWorld,this);
+	mCollisionTest = new AdvancedTest(mWorld,this);
+
 
 	mWorld->unmarkForWrite();
 }

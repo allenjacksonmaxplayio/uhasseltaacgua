@@ -199,21 +199,28 @@ void ServerLoader::onAsteroid( Asteroid * asteroid ) {
 	//add gravity field PULL
 	{
 		hkAabb currentAabb;
+
 		const hkpCollidable* hullCollidable = HK_NULL;
-		planetRigidBody->getCollidable()->getShape()->getAabb( planetRigidBody->getTransform(), 0.0f, currentAabb );
 
-		// Scale up the planet's gravity field's AABB so it goes beyond the planet
-		hkVector4 extents;
-		extents.setSub4( currentAabb.m_max, currentAabb.m_min );
-		hkInt32 majorAxis = extents.getMajorAxis();
-		hkReal maxExtent = extents( majorAxis );
-		maxExtent *= 0.4f;
+		if ( mExternalitem == 0 ){			
+			planetRigidBody->getCollidable()->getShape()->getAabb( planetRigidBody->getTransform(), 0.0f, currentAabb );
 
-		// Scale the AABB's extents
-		hkVector4 extension;
-		extension.setAll( maxExtent );
-		currentAabb.m_max.add4( extension );
-		currentAabb.m_min.sub4( extension );
+			// Scale up the planet's gravity field's AABB so it goes beyond the planet
+			hkVector4 extents;
+			extents.setSub4( currentAabb.m_max, currentAabb.m_min );
+			hkInt32 majorAxis = extents.getMajorAxis();
+			hkReal maxExtent = extents( majorAxis );
+			maxExtent *= 0.4f;
+
+			// Scale the AABB's extents
+			hkVector4 extension;
+			extension.setAll( maxExtent );
+			currentAabb.m_max.add4( extension );
+			currentAabb.m_min.sub4( extension );
+		}
+		else {
+			setBox(currentAabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale );
+		}
 
 		// Attach a gravity phantom to the planet so it can catch objects which come close
 		PlanetGravityPhantom* gravityphantom = new PlanetGravityPhantom( planetRigidBody, currentAabb, hullCollidable );

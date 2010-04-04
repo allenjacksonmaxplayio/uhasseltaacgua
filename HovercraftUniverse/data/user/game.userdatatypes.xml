@@ -120,6 +120,7 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   -->
   <class name="Boost" super="GameEntity" usage="object">
     <data name="Boost" displayName="Boost" groupName="Info" default="0.0" minValue="-5000" maxValue="5000" type="float"/>
+    <data name="Gain" displayName="Gain" groupName="Info" default="0.0" minValue="-5000" maxValue="5000" type="float"/>  
   </class>
 
   <!-- 
