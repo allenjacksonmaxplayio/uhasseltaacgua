@@ -35,7 +35,7 @@ mEntity = 0
 -- Pathfinding Constants
 -----------------------------
 PATH_PROBELENGTH = 1;
-PATH_RADIUS = 5;
+PATH_RADIUS = 1;
 -----------------------------
 
 
@@ -47,7 +47,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	game:luaLog(AI_NAME .. " :: " .. msg);
+	--game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
@@ -61,6 +61,7 @@ end
 --]]
 function setPath(path)
 	mPath = path;
+	mPathSize = table.getn(mPath);
 end
 
 function toString(v)
@@ -80,6 +81,7 @@ function decide()
 	--############################### COLLISION AVOIDANCE
 	if (mEntity:isInCollisionState()) then
 		local speed = mEntity:getSpeed();
+		--println("Collision Avoidance! Braking and turning right! Speed is " .. speed);
 		if (speed < 0) then
 			--...
 		else
@@ -95,6 +97,7 @@ function decide()
 
 
 	--############################### PATH FINDING
+	game:setAction(BRAKE, false);
 	local probe = position + (velocity * PATH_PROBELENGTH);
 	--println("Probe: " .. toString(probe));
 	local distanceToPath = math.huge; --math.huge = +infinity
@@ -111,11 +114,11 @@ function decide()
 			end
 		end
 	end
-
 	local p0 = mPath[pathIndex-1];
 	local p1 = mPath[pathIndex];
 	local project = project(probe, p0, p1);
 	distanceToPath = probe:distance(project);
+	println("At path " .. (pathIndex-1) .. " of " .. mPathSize);
 	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
 	--println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
 	--println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
@@ -123,13 +126,14 @@ function decide()
 	local distanceThreshold = 2;
 	if (distanceToPath > PATH_RADIUS) then
 		--Probe is too far away, steer towards path.
-		targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
+		--targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
+		targetPosition = project;
 	else
 		--No corrective steering required.
-		--println("No corrective steering required.");
+		println("No corrective steering required.");
 		game:setAction(TURNRIGHT, false);
 		game:setAction(TURNLEFT, false);
-		if (position:distance(p1) > distanceThreshold) then
+		if (position:distance(mPath[mPathSize]) > distanceThreshold) then
 			game:setAction(ACCELERATE, true);
 		else
 			game:setAction(ACCELERATE, false);
@@ -137,9 +141,16 @@ function decide()
 		return 0;
 	end
 
-	--################################## END PATH FINDING
 
-	--println("Target: " .. toString(targetPosition));
+
+
+
+
+
+
+
+
+	println("Corrective steering required. Target: " .. toString(targetPosition));
 	targetOrientation = targetPosition - position;
 	targetOrientation:normalise();
 	local myOrientation = mEntity:getOrientation();
@@ -149,7 +160,7 @@ function decide()
 
 
 	epsilon = 0.01; --epsilon for avoiding steering oscillations
-	if (position:distance(targetPosition) > distanceThreshold) then
+	if (position:distance(mPath[mPathSize]) > distanceThreshold) then
 		game:setAction(ACCELERATE, true);
 		if (side > epsilon) then
 			--println("Turning Right");
@@ -165,6 +176,7 @@ function decide()
 			game:setAction(TURNLEFT, false);
 		end
 	else
+		--todo arrival behaviour
 		game:setAction(ACCELERATE, false);
 		game:setAction(TURNRIGHT, false);
 		game:setAction(TURNLEFT, false);
