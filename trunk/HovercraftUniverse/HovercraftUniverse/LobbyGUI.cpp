@@ -52,12 +52,30 @@ namespace HovUni {
 		}
 	}
 
+	std::string LobbyGUI::stripString(const std::string& value) {
+		std::string strippedValue = value;
+
+		int position = strippedValue.find( "<" );
+		while ( position != std::string::npos )  {
+			strippedValue.replace( position, 1, "" );
+			position = strippedValue.find( "<", position + 1 );
+		}
+
+		position = strippedValue.find( ">" );
+		while ( position != std::string::npos )  {
+			strippedValue.replace( position, 1, "" );
+			position = strippedValue.find( ">", position + 1 );
+		}
+
+		return strippedValue;
+	}
+
 	void LobbyGUI::newMessage(const std::string& user, const std::string& line) {
-		mLobbyOverlay->addText(user, line);
+		mLobbyOverlay->addText( stripString(user), stripString(line) );
 	}
 
 	void LobbyGUI::newNotification(const std::string& notif) {
-		mLobbyOverlay->addAction(notif);
+		mLobbyOverlay->addAction( stripString(notif) );
 	}
 
 	void LobbyGUI::addUser(int id, const std::string& username, const std::string& character, const std::string& car) {
