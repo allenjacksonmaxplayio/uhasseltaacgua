@@ -38,8 +38,20 @@ Lobby::~Lobby() {
 
 void Lobby::process() {
 	processEvents(0.0f);
-	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
-		it->second->processEvents(0.0f);
+	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
+		PlayerSettings* settings = it->second;
+
+		// Check if this settings wasn't deleted in the mean time
+		if (settings->isDeleted()) {
+			//Notify our listeners
+			for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
+				(*i)->onLeave(settings->getID());
+			}
+			it = mPlayers.erase(it);
+		} else {
+			it->second->processEvents(0.0f);
+			++it;
+		}
 	}
 	if (mRaceState) {
 		mRaceState->processEvents(0.0f);
@@ -75,10 +87,6 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 	for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
 		(*i)->onJoin(settings);
 	}
-}
-
-void Lobby::removePlayer(PlayerSettings * settings) {
-	removePlayer(settings->getID());
 }
 
 PlayerSettings* Lobby::getPlayer(ZCom_ConnID id) {

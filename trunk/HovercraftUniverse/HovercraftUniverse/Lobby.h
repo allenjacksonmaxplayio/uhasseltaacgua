@@ -96,13 +96,6 @@ public:
 	void addPlayer(PlayerSettings * settings, bool ownPlayer = false);
 
 	/**
-	 * Remove a player setting from the lobby
-	 *
-	 * @param settings the player settings
-	 */
-	void removePlayer(PlayerSettings* settings);
-
-	/**
 	 * Get a player setting from the lobby
 	 *
 	 * @param id the id of the player

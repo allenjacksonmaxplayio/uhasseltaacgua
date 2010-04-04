@@ -48,11 +48,10 @@ void ChatClient::sendText(const std::string& line) {
 	}
 }
 
-void ChatClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
-		ZCom_BitStream& reply) {
+void ChatClient::onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra) {
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
-		ZCom_requestZoidMode(id, 1);
+		ZCom_requestZoidMode(mConnID, 1);
 	} else {
 		// Connection failed
 		THROW(NetworkException, "Connection failed");
@@ -60,17 +59,15 @@ void ChatClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result
 	}
 }
 
-void ChatClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,
-		ZCom_BitStream& reasondata) {
+void ChatClient::onDisconnect(eZCom_CloseReason reason, ZCom_BitStream& extra) {
 	// Connection closed
 }
 
-void ChatClient::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {
+void ChatClient::onDataReceived(ZCom_BitStream& data) {
 	// Data received
 }
 
-void ChatClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 new_level,
-		ZCom_BitStream& reason) {
+void ChatClient::onZoidResult(eZCom_ZoidResult result, zU8 new_level, ZCom_BitStream& reason) {
 	if (result == eZCom_ZoidEnabled) {
 		// Requested zoid level was confirmed
 	} else {
@@ -78,8 +75,8 @@ void ChatClient::ZCom_cbZoidResult(ZCom_ConnID id, eZCom_ZoidResult result, zU8 
 	}
 }
 
-void ChatClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested_class,
-		ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
+void ChatClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
+		eZCom_NodeRole role, ZCom_NodeID net_id) {
 	if (requested_class == mIDManager->getID(ChatEntity::getClassName())) {
 		// Lobby received (upon connect)
 		mChat = new ChatEntity();

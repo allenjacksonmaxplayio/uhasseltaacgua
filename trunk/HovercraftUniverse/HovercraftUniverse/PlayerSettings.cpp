@@ -81,13 +81,7 @@ void PlayerSettings::setAnnouncementData(ZCom_BitStream* stream) {
 
 void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
 		ZCom_BitStream* stream, float timeSince) {
-	// Request to delete this object
-	if (type == eZCom_EventRemoved && remote_role == eZCom_RoleAuthority) {
-		//remove it from the lobby
-		//		mLobby->removePlayer(this);
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[PlayerSettings]: Deleted "
-				<< (isDeleted() ? "OK" : "ERROR");
-	}
+
 }
 
 void PlayerSettings::setupReplication() {
