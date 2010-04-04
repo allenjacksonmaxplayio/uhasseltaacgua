@@ -226,6 +226,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\EntityPropertySystem.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\EntityRepresentation.cpp"
 					>
 				</File>
@@ -345,6 +349,10 @@
 				</File>
 				<File
 					RelativePath=".\EntityManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EntityPropertySystem.h"
 					>
 				</File>
 				<File
