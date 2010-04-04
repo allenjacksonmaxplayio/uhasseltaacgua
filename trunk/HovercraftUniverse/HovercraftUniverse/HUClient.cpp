@@ -40,12 +40,14 @@
 namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) :
-	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0), mConnected(false), mFinishedConnecting(false) {
+	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0), mConnected(false),
+			mFinishedConnecting(false) {
 	initialize();
 }
 
 HUClient::HUClient() :
-	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0), mConnected(false), mFinishedConnecting(false) {
+	NetworkClient(2376, "HUClient"), mAddress(""), mSemaphore(0), mConnected(false),
+			mFinishedConnecting(false) {
 	initialize();
 }
 
@@ -81,12 +83,21 @@ void HUClient::process() {
 	}
 }
 
+unsigned int HUClient::getID() const {
+	return mID;
+}
+
 void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
 		ZCom_BitStream& reply) {
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
 		ZCom_requestDownstreamLimit(id, 60, 600);
 		ZCom_requestZoidMode(id, 1);
+
+		// Get the unique ID
+		mID = reply.getInt(sizeof(ZCom_ConnID) * 8);
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID
+				<< "]: My unique ID is " << mID;
 
 		//Start the chat client
 		if (mAddress == "") {
@@ -147,8 +158,8 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 	Ogre::String name("");
 
 	// Debug output
-	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
-			<< "[HUClient]: Creating object of type " << mIDManager->getName(requested_class);
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID
+			<< "]: Creating object of type " << mIDManager->getName(requested_class);
 
 	//Lobby
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
@@ -160,7 +171,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		// Player
 		PlayerSettings * ent = new PlayerSettings(mLobby, announcedata, requested_class, this);
 		ent->processEvents(0.0f);
-		
+
 		// Let's check if this is our own PlayerSettings object
 		if (role == eZCom_RoleOwner) {
 			// Put our data in it
@@ -173,7 +184,7 @@ void HUClient::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID id, ZCom_ClassID requested
 		// Network register is done in constructor of player settings
 		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
 		//		<< "[HUClient]: adding player to lobby";
-		mLobby->addPlayer(ent, ent->getID() == id);
+		mLobby->addPlayer(ent, ent->getID() == mID);
 	} else if (requested_class == mIDManager->getID(RaceState::getClassName())) {
 		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata,
 				requested_class, this);
