@@ -71,9 +71,9 @@ public:
 	/**
 	 * Disconnect
 	 *
-	 * @param reason additional data to send with the disconnection, or null
+	 * @param reason the reason of the disconnect
 	 */
-	void disconnect(ZCom_BitStream * reason);
+	void disconnect(const std::string& reason);
 
 	/**
 	 * Process incoming and outgoing packets

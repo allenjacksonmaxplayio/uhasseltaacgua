@@ -52,11 +52,13 @@ void NetworkClient::connect(ZCom_BitStream * request) {
 	}
 }
 
-void NetworkClient::disconnect(ZCom_BitStream * reason) {
+void NetworkClient::disconnect(const std::string& reason) {
 	if (mConnected) {
-		ZCom_Disconnect(mConnID, reason);
+		ZCom_BitStream* stream = new ZCom_BitStream();
+		stream->addString(reason.c_str());
+		ZCom_Disconnect(mConnID, stream);
 
-		while (!mConnected) {
+		while (mConnected) {
 			process();
 		}
 	}

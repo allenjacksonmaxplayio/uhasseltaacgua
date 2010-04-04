@@ -43,7 +43,8 @@ void HUServerCore::ZCom_cbConnectionSpawned(ZCom_ConnID id) {
 
 void HUServerCore::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason, ZCom_BitStream& reasondata) {
 	// Connection closed
-	mLobby->onDisconnect(id);
+	std::string reasonStr = reasondata.getString();
+	mLobby->onDisconnect(id, reasonStr);
 }
 
 void HUServerCore::ZCom_cbDataReceived(ZCom_ConnID id, ZCom_BitStream& data) {

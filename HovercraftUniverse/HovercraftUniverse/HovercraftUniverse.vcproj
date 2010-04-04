@@ -561,6 +561,10 @@
 					RelativePath=".\OnLeaveEvent.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\StateEvent.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -989,6 +993,10 @@
 				</File>
 				<File
 					RelativePath=".\OnLeaveEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\StateEvent.h"
 					>
 				</File>
 			</Filter>

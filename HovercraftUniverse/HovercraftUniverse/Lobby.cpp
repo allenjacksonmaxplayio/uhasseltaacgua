@@ -147,7 +147,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	sendEvent(event);
 }
 
-void Lobby::onDisconnect(ZCom_ConnID id) {
+void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 	//TODO lock mutex
 
 	// Remove from map
