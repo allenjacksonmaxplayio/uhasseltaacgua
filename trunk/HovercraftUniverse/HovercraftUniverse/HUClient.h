@@ -81,6 +81,13 @@ public:
 	virtual void process();
 
 	/**
+	 * Disconnect
+	 *
+	 * @param reason the reason of the disconnect
+	 */
+	void disconnect(const std::string& reason);
+
+	/**
 	 * Get the unique ID for the client
 	 *
 	 * @return the unique ID

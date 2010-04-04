@@ -1,47 +1,47 @@
-#ifndef INITEVENT_H
-#define INITEVENT_H
+#ifndef STATEEVENT_H
+#define STATEEVENT_H
 
 #include "GameEvent.h"
 
 namespace HovUni {
 
 /**
- * A generic event that can be sent on an EventInit of Zoidcom
+ * An event that can be sent on a state change
  *
  * @author Olivier Berghmans
  */
-class InitEvent : public GameEvent
+class StateEvent : public GameEvent
 {
 private:
-	// The bit stream
-	ZCom_BitStream* mStream;
+	// The state
+	unsigned int mState;
 
 public:
 
 	/**
 	 * Constructor
 	 *
-	 * @param stream the init stream
+	 * @param state the state
 	 */
-	InitEvent(ZCom_BitStream* stream);
+	StateEvent(unsigned int state);
 
 	/**
 	 * Default constructor for event construction
 	 */
-	InitEvent();
+	StateEvent();
 
 	/**
 	 * Destructor
 	 */
-	virtual ~InitEvent();
+	virtual ~StateEvent();
 
 	/**
 	 * Get the stream
 	 *
 	 * @return the stream
 	 */
-	ZCom_BitStream* getStream() {
-		return mStream;
+	unsigned int getState() const {
+		return mState;
 	}
 
 	//Network functionality
@@ -66,7 +66,7 @@ public:
 	 * @param stream the stream to parse from
 	 * @param the event
 	 */
-	static InitEvent * parse(ZCom_BitStream* stream);
+	static StateEvent* parse(ZCom_BitStream* stream);
 };
 
 }

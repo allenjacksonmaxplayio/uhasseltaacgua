@@ -39,9 +39,7 @@ namespace HovUni {
 
 	Hikari::FlashValue LobbyState::onPressLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		//Disconnect
-		ZCom_BitStream * reason = new ZCom_BitStream();
-		reason->addString("Leaving");
-		mClient->disconnect(reason);
+		mClient->disconnect("... is leaving");
 
 		mManager->switchState(GameStateManager::MAIN_MENU);
 		//Delete the client to save some resources

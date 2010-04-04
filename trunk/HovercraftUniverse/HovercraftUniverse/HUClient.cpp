@@ -77,8 +77,15 @@ void HUClient::process() {
 		mLobby->process();
 	}
 
-	if (mChatClient != 0) {
+	if (mChatClient) {
 		mChatClient->process();
+	}
+}
+
+void HUClient::disconnect(const std::string& reason) {
+	NetworkClient::disconnect(reason);
+	if (mChatClient) {
+		mChatClient->disconnect(reason);
 	}
 }
 

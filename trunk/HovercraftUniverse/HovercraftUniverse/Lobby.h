@@ -187,8 +187,9 @@ public:
 	 * Called when player disconnects
 	 * 
 	 * @param id the ID of the disconnected player
+	 * @param reason the reason
 	 */
-	virtual void onDisconnect(ZCom_ConnID id);
+	virtual void onDisconnect(ZCom_ConnID id, const std::string& reason);
 
 	/**
 	 * Called when admin sends start
