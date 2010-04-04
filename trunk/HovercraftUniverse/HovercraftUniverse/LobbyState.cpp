@@ -34,12 +34,6 @@ namespace HovUni {
 	Hikari::FlashValue LobbyState::onPressStart(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mClient->start();
 
-		TiXmlDocument doc("gui/GUIConfig.xml");
-		doc.LoadFile();
-		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
-		mManager->addGameState(GameStateManager::IN_GAME, newState);
-		mManager->switchState(GameStateManager::IN_GAME);
-
 		return "success";
 	}
 
@@ -80,6 +74,11 @@ namespace HovUni {
 
 	void LobbyState::onStart() {
 		//We need to start loading
+		TiXmlDocument doc("gui/GUIConfig.xml");
+		doc.LoadFile();
+		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
+		mManager->addGameState(GameStateManager::IN_GAME, newState);
+		mManager->switchState(GameStateManager::IN_GAME);
 	}
 
 	////////////////////////////////////////

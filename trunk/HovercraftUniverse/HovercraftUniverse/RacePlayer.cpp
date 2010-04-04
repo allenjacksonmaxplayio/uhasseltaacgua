@@ -11,6 +11,7 @@ RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
+	mNode->dependsOn(state->getNetworkNode());
 
 	// Set owner
 	mNode->setOwner(mPlayerSettings->getID(), true);
