@@ -39,8 +39,8 @@ public:
 
 == Simple == 
 
-TODO uitleg + VDB screen
+http://delahaye.it/uploader/files/collision_prevention_simple.jpg
 
 == Advanced ==
 
-TODO uitleg + VDB screen
+http://delahaye.it/uploader/files/collision_prevention_advanced.jpg
