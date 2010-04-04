@@ -58,13 +58,24 @@ namespace HovUni {
 			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
 				<< "[GUIManager]: Exception occured ";
 		}
+
+		//activate the queued overlays
+		while (!mQueuedOverlays.empty()) {
+			mQueuedOverlays.back()->activate();
+			mQueuedOverlays.pop_back();
+		}
 	}
 
 	bool GUIManager::mouseMoved(const OIS::MouseEvent &evt) {
 		//Update the mouse cursor
 		mMouseVisual.updatePosition(evt.state.X.abs, evt.state.Y.abs);
 
-		mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
+		try {
+			mHikariMgr->injectMouseMove(evt.state.X.abs, evt.state.Y.abs) || mHikariMgr->injectMouseWheel(evt.state.Z.rel);
+		} catch (...) {
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
+				<< "[GUIManager]: Exception occured while injecting mouse moves";
+		}
 
 		return true;
 	}
@@ -125,7 +136,8 @@ namespace HovUni {
 	}
 
 	void GUIManager::activateOverlay(BasicOverlay* overlay) {
-		overlay->activate();
+		mQueuedOverlays.push_back(overlay);
+		//overlay->activate();
 	}
 
 	void GUIManager::disableOverlay(BasicOverlay* overlay) {

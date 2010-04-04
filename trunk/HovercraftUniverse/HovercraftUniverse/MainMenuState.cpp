@@ -6,11 +6,16 @@
 #include <boost/thread/thread_time.hpp>
 
 namespace HovUni {
-	MainMenuState::MainMenuState() : mMenu(0), mContinue(true), mLastGUIUpdate(-1) {
+	MainMenuState::MainMenuState() : mMenu(0), mContinue(true), mLastGUIUpdate(-1), mConnectionThread(0), mConnectionFinished(false) {
 	}
 
-	bool MainMenuState::onConnect(const Ogre::String& address) {
-		//Connect to the give address
+	MainMenuState::~MainMenuState() {
+		delete mConnectionThread;
+		delete mMenu;
+	}
+
+	void MainMenuState::onConnect(const Ogre::String& address, ConnectListener* listener) {
+		//Connect to the given address
 		///////////////////////////////////////////
 		///////////////////////////////////////////
 		//TODO: Parse IP and Port?
@@ -18,62 +23,39 @@ namespace HovUni {
 		LobbyState* newState = new LobbyState(mClient);
 		mClient->getLobby()->addListener(newState);
 
-		try {
-			mClient->connect(0);
-			mClient->process();
-
-			int retryCount = 0;
-
-			//Wait for our client to fully connect
-			while ( (!mClient->finishedConnecting()) && (retryCount < 10) ) {
-				mClient->timed_wait(boost::get_system_time() + boost::posix_time::seconds(1)); //Wait for one second
-				++retryCount;
-				Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Connection try " << retryCount;
-				mClient->process();
-			}
-	
-			if (!mClient->isConnected()) {
-				//We are not connected, leave!
-				delete mClient;
-				delete newState;
-
-				Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Connection failed " << retryCount;
-
-				return false;
-			}
-		} catch ( NetworkException ex ){
-			//TODO NICK SHOW ERROR BOX
-			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenuState]: Could not connect to server";
-			
-			delete mClient;
-			delete newState;
-			
-			return false;
-		}
-
+		//Store the new state
 		mManager->addGameState(GameStateManager::LOBBY, newState);
 
-		//Deactivate our overlay
-		mMenu->deactivate();
+		//Store the listener
+		mConnectionFinished = false;
+		mConnectListener = listener;
 
-		mManager->switchState(GameStateManager::LOBBY);
+		//Try connecting
+		delete mConnectionThread;
+		mConnectionThread = new ClientConnectThread(mClient, this);
+		mConnectionThread->start();
 
-		/*
-		TiXmlDocument doc("gui/GUIConfig.xml");
-		doc.LoadFile();
-		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
-		mManager->addGameState(GameStateManager::IN_GAME, newState);
-		mManager->switchState(GameStateManager::IN_GAME);
-		*/
-		///////////////////////////////////////////
-		///////////////////////////////////////////
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: Connection thread created.";
+	}
 
-		//should check if connection was successfull
-		return true;
+	void MainMenuState::onConnectFinish(bool success) {
+		//Store this result
+		mConnectionResult = success;
+		mConnectionFinished = true;
 	}
 
 	void MainMenuState::onCreate() {
 		//Create a new game
+	}
+
+	void MainMenuState::finishConnect() {
+		//Delete the connection thread
+		delete mConnectionThread;
+		mConnectionThread = 0;
+
+		//Deactivate our overlay
+		mMenu->deactivate();
+		mManager->switchState(GameStateManager::LOBBY);
 	}
 
 	Hikari::FlashValue MainMenuState::onQuit(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
@@ -111,6 +93,13 @@ namespace HovUni {
 	}
 
 	bool MainMenuState::frameStarted(const Ogre::FrameEvent & evt) {
+		//Check if we have a connection result
+		if (mConnectionFinished) {
+			mConnectListener->onConnectFinish(mConnectionResult);
+			mConnectListener = 0;
+			mConnectionFinished = false;
+		}
+
 		bool result = true;
 
 		mLastGUIUpdate += evt.timeSinceLastFrame;

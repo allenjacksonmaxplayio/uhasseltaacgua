@@ -89,6 +89,9 @@ unsigned int HUClient::getID() const {
 
 void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
 		ZCom_BitStream& reply) {
+
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: received connection result";
+
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
 		ZCom_requestDownstreamLimit(id, 60, 600);
@@ -116,22 +119,14 @@ void HUClient::ZCom_cbConnectResult(ZCom_ConnID id, eZCom_ConnectResult result,
 
 		//Mark connected
 		mConnected = true;
-		mFinishedConnecting = true;
-
-		//We are done, notify our listeners
-		mSemaphore.post();
 	} else {
 		//Mark not connected
 		mConnected = false;
-		mFinishedConnecting = true;
-
-		//Notify our listeners
-		mSemaphore.post();
-
-		// Connection failed
-		THROW(NetworkException, "Connection failed");
-		return;
 	}
+
+	mFinishedConnecting = true;
+	//Notify our listeners
+	mSemaphore.post();
 }
 
 void HUClient::ZCom_cbConnectionClosed(ZCom_ConnID id, eZCom_CloseReason reason,

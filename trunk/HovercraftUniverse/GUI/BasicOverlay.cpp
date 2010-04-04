@@ -5,7 +5,7 @@
 
 namespace HovUni {
 	BasicOverlay::BasicOverlay(const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position &position, Ogre::ushort zOrder) 
-		: mName(name), mFileName(fileName), mWidth(width), mHeight(height), mPosition(position), mZOrder(zOrder), mIgnoreInputs(false) {
+		: mName(name), mFileName(fileName), mWidth(width), mHeight(height), mPosition(position), mZOrder(zOrder), mFlashControl(0), mIgnoreInputs(false) {
 		//Set default values for parameters
 		mParameters_B[TRANSPARANCY] = true;
 		mParameters_B[ALPHAHACK] = false;
