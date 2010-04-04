@@ -49,7 +49,7 @@ void Lobby::process() {
 			}
 			it = mPlayers.erase(it);
 		} else {
-			it->second->processEvents(0.0f);
+			settings->processEvents(0.0f);
 			++it;
 		}
 	}
