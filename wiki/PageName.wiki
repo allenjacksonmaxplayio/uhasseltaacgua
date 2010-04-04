@@ -1,26 +1,47 @@
-#summary Alle refactorings worden hierin gezet
+#summary Collision prevention system.
+#labels Phase-Implementation
 
-= Refactorings =
+= Introduction =
 
-== Uitleg ==
+Het collision prevention system gebruikt havok om mogelijke botsingen te voorspellen.
+Er is één interface namelijk EntityCollision. Voor deze interface zijn twee implementaties
+beide laten toe om objecten te detecteren de eerste eenvoudige variant is minder resource intensief maar ook wel minder krachtig, de tweede is nog altijd heel cheap kwa rekentijd maar kan wel veel juister detecties doen.
 
-Alle refactorings die nog niet gedaan zijn staan in normale tekst, de refactorings die aan de gang zijn, staan in het _italic_, de refactorings die compleet EN gecommit zijn staan in *bold* vermeld. Als alles in bold staat, wordt deze wiki verwijderd.
+= Details =
 
-== Vooruitgang == 
+== Interface ==
 
-  * *Exceptions: alle exceptions komen hierin*
-  * *!CoreEngine: moet in apart project komen met generieke Application klasse die overgeerfd moet worden door bv HovercraftApplication in het Hovercraft Universe project.*
-  * *!BasicEntityEvent moet bij Entity komen.*
-  * *!ControllerActionType: refactor and make generic for all types of controls (FPS, race, ...) and must be used by HU specific class that contains race controls for our game.*
-  * *!EntityRegister: Moet in !HovercraftUniverse project komen bij networking (niet core-networking).*
-  * *!RaceCamera: generiek maken*
-  * !GameView: indirectie verwijderen
-  * !EntityManager & !RepresentationManager: moet pointers deleten en alles kunnen clearen.
-  * *!CoreNetwork->Chat: in networking project*
-  * *!CoreNetwork->!ClientCore/!ServerCore: behouden en hernoemen naar HUClient en HUServer of dergelijke.*
-  * *!CoreNetwork->Server+!ServerThread: in HU behouden.*
-  * !CustomOgreMaxScene: in !CoreEngine
-  * *GUI uit HU in GUI project*
-  * Havok (generic) in core engine en game specifieke functionaliteit in HU.
-  * *INI in core engine.*
-  * *Delete !TiXml*
+{{{
+class EntityCollision {
+
+public:
+
+	EntityCollision(){
+	}
+
+	virtual ~EntityCollision(){
+	}
+
+	/**
+	 * Called when an object overlap detected with the phantom shape
+	 *
+	 * @param ??
+	 */
+	virtual void onOverlapEnter( ) = 0;
+
+	/**
+	 * Called when an object overlap is removed with the phantom shape
+	 *
+	 * @param ??
+	 */
+	virtual void onOverlapLeave( ) = 0;	
+};
+}}}
+
+== Simple == 
+
+TODO uitleg + VDB screen
+
+== Advanced ==
+
+TODO uitleg + VDB screen
