@@ -2,6 +2,7 @@
 
 #include "BasicOverlay.h"
 #include "OverlayContainer.h"
+#include "Ogre.h"
 
 namespace HovUni {
 	GUIManager* GUIManager::msSingleton = 0;
@@ -9,6 +10,9 @@ namespace HovUni {
 	GUIManager::GUIManager(const Ogre::String& mediaPath, Ogre::Viewport* viewport) 
 			: mViewport(viewport), mMouseVisual() {
 		mHikariMgr = new Hikari::HikariManager(mediaPath.c_str());
+
+		//Fix the overlays going on top
+		setBringTotTop(false);
 
 		mMouseVisual.setImage("cursor.png");
 		mMouseVisual.setWindowDimensions(getResolutionWidth(), getResolutionHeight());
@@ -48,7 +52,12 @@ namespace HovUni {
 	}
 
 	void GUIManager::update() {
-		mHikariMgr->update();
+		try {
+			mHikariMgr->update();
+		} catch (...) {
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
+				<< "[GUIManager]: Exception occured ";
+		}
 	}
 
 	bool GUIManager::mouseMoved(const OIS::MouseEvent &evt) {
@@ -173,5 +182,9 @@ namespace HovUni {
 		int height = (int) (minHeight + scale * (maxHeight - minHeight));
 
 		return std::pair<int, int>(width, height);
+	}
+
+	void GUIManager::setBringTotTop(bool val) {
+		mHikariMgr->toggleBringToTop(val);
 	}
 }

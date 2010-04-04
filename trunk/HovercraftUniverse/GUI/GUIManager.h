@@ -225,6 +225,13 @@ namespace HovUni {
 			 * Scale a given width and height to the current resolution
 			 */
 			std::pair<int, int> scale(int minWidth, int minHeight, int maxWidth, int maxHeight, int minResWidth = 800, int minResHeight = 600, int maxResWidth = 1680, int maxResHeight = 1050);
+
+			/**
+			 * Set if we want to bring elements to the top when focussed.
+			 *
+			 * @param val True when you want to bring overlays to the top, false otherwise.
+			 */
+			void setBringTotTop(bool val);
 	};
 }
 
