@@ -39,6 +39,7 @@ Lobby::~Lobby() {
 void Lobby::process() {
 	processEvents(0.0f);
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
+		ZCom_ConnID id = it->first;
 		PlayerSettings* settings = it->second;
 
 		// Check if this settings wasn't deleted in the mean time
@@ -47,7 +48,7 @@ void Lobby::process() {
 			for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
 				(*i)->onLeave(settings->getID());
 			}
-			it = mPlayers.erase(it);
+			it = removePlayer(it);
 		} else {
 			settings->processEvents(0.0f);
 			++it;
@@ -60,9 +61,13 @@ void Lobby::process() {
 
 void Lobby::removePlayer(ZCom_ConnID id) {
 	playermap::iterator i = mPlayers.find(id);
+	removePlayer(i);
+}
+
+Lobby::playermap::iterator Lobby::removePlayer(playermap::iterator i) {
 	delete i->second;
-	mPlayers.erase(i);
 	mCurrentPlayers--;
+	return mPlayers.erase(i);
 }
 
 void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
@@ -140,7 +145,8 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	// Add player to map
 	addPlayer(new PlayerSettings(this, id));
 	mCurrentPlayers++;
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined with id " << id;
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+			<< "[Lobby]: New player joined with id " << id;
 
 	//Send Event to players and self
 	OnJoinEvent event(id);
