@@ -53,11 +53,12 @@ void RaceState::process() {
 	processEvents(0.0f);
 
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
+		ZCom_ConnID id = it->first;
 		RacePlayer* player = it->second;
 
 		// Check if this settings wasn't deleted in the mean time
 		if (player->isDeleted()) {
-			it = mPlayers.erase(it);
+			it = removePlayer(it);
 		} else {
 			player->processEvents(0.0f);
 			++it;
@@ -67,8 +68,12 @@ void RaceState::process() {
 
 void RaceState::removePlayer(ZCom_ConnID id) {
 	playermap::iterator i = mPlayers.find(id);
+	removePlayer(i);
+}
+
+RaceState::playermap::iterator RaceState::removePlayer(playermap::iterator i) {
 	delete i->second;
-	mPlayers.erase(i);
+	return mPlayers.erase(i);
 }
 
 void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
@@ -87,10 +92,6 @@ void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
 				<< "[RaceState]: Received own player object";
 	}
-}
-
-void RaceState::removePlayer(RacePlayer* player) {
-	removePlayer(player->getSettings()->getID());
 }
 
 RacePlayer* RaceState::getPlayer(ZCom_ConnID id) {

@@ -212,8 +212,17 @@ protected:
 
 	/**
 	 * Remove player connection id
+	 *
+	 * @param id the ID of the player
 	 */
 	void removePlayer(ZCom_ConnID id);
+
+	/**
+	 * Remove player
+	 *
+	 * @param i the iterator pointing to the player
+	 */
+	playermap::iterator removePlayer(playermap::iterator i);
 
 	//OVERWRITEN FROM NetworkEntity
 

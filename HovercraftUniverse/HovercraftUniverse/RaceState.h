@@ -95,13 +95,6 @@ public:
 	void addPlayer(RacePlayer* player, bool ownPlayer = false);
 
 	/**
-	 * Remove a player from the race state
-	 *
-	 * @param player the player settings
-	 */
-	void removePlayer(RacePlayer* player);
-
-	/**
 	 * Get a player from the lobby
 	 *
 	 * @param id the id of the player
@@ -151,8 +144,17 @@ protected:
 
 	/**
 	 * Remove player connection id
+	 *
+	 * @param id the ID of the player
 	 */
 	void removePlayer(ZCom_ConnID id);
+
+	/**
+	 * Remove player
+	 *
+	 * @param i the iterator pointing to the player
+	 */
+	playermap::iterator removePlayer(playermap::iterator i);
 
 	/**
 	 * Set the new state for the race state
