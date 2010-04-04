@@ -25,7 +25,9 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue LobbyState::onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		mClient->getChatClient()->sendText(args.at(0).getString());
+		//Check for a command
+		Ogre::String chatText = args.at(0).getString();
+		mClient->getChatClient()->sendText(chatText);
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
 
 		return "success";
@@ -53,6 +55,18 @@ namespace HovUni {
 	////////////////////////////////////////
 
 	void LobbyState::onPlayerUpdate(int id, const std::string& username, const std::string& character, const std::string& car) {
+		//check if this user has already been announced
+		std::vector<unsigned int>::const_iterator it = mDelayedUsers.begin();
+		while( it != mDelayedUsers.end() ) {
+			if ( (*it) == id ) {
+				//Add the user, and delete it from the vector
+				mLobbyGUI->addUser(id, username, character, car);
+				mDelayedUsers.erase(it);
+				return;
+			}
+			++it;
+		}
+
 		//Player has been updated, propagate changes
 		mLobbyGUI->editUser(id, username, character, car);
 	}
@@ -68,7 +82,11 @@ namespace HovUni {
 	void LobbyState::onJoin(PlayerSettings * settings) {
 		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[LobbyState]: onJoin was called! " << settings->getPlayerName() << " (" << settings->getID() << ")";
 		//Player has joined, add empty player to the visualisation
-		mLobbyGUI->addUser(settings->getID(), settings->getPlayerName(), settings->getCharacter(), settings->getHovercraft());
+		if (settings->getPlayerName() != "") {
+			mLobbyGUI->addUser(settings->getID(), settings->getPlayerName(), settings->getCharacter(), settings->getHovercraft());
+		} else {
+			mDelayedUsers.push_back(settings->getID());
+		}
 		//Create a new playersettingsinterceptor
 		PlayerSettingsInterceptor* intercept = new PlayerSettingsInterceptor(settings, this);
 		//Store te interceptor

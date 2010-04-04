@@ -56,6 +56,14 @@ namespace HovUni {
 			virtual void onDeactivate();
 
 			/**
+			 * Strip a string of unwanted characters
+			 *
+			 * @param value The string to strip
+			 * @return The stripped string
+			 */
+			std::string stripString(const std::string& value);
+
+			/**
 			 * Add a new chat message to the lobby chat
 			 *
 			 * @param user The name of the user that posted the message

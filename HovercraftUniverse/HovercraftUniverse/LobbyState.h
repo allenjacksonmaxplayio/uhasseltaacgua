@@ -9,6 +9,7 @@
 #include "LobbyGUI.h"
 #include "LobbyListener.h"
 #include <map>
+#include <vector>
 
 namespace HovUni {
 	/**
@@ -40,6 +41,9 @@ namespace HovUni {
 
 			/** Mapping of ID's to playersettingsinterceptors */
 			std::map<int, PlayerSettingsInterceptor*> mPlayerInterceptors;
+
+			/** The ID's of users that have not yet been registered with the gui */
+			std::vector<unsigned int> mDelayedUsers;
 
 		public:
 			/**
