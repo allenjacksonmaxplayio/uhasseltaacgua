@@ -37,6 +37,13 @@ public:
 	 * @param listener The listener
 	 */
 	void registerListener(ChatListener* listener);
+	
+	/**
+	 * Remove a listener
+	 *
+	 * @param listener The listener to remove
+	 */
+	void removeListener(ChatListener* listener);
 
 	/**
 	 * Send a chat line

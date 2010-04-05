@@ -285,6 +285,15 @@ void HUClient::setChatListener(ChatListener* listener) {
 	}
 }
 
+void HUClient::removeChatListener(ChatListener* listener) {
+	if (mChatListener == listener) {
+		mChatListener = 0;
+	}
+	if (mChatClient != 0) {
+		mChatClient->removeListener(listener);
+	}
+}
+
 void HUClient::wait() {
 	mSemaphore.wait();
 }

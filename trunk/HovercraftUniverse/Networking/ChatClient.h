@@ -63,6 +63,13 @@ public:
 	void registerListener(ChatListener* listener);
 
 	/**
+	 * Remove a listener
+	 *
+	 * @param listener The listener to remove
+	 */
+	void removeListener(ChatListener* listener);
+
+	/**
 	 * Process incoming and outgoing packets
 	 */
 	virtual void process();

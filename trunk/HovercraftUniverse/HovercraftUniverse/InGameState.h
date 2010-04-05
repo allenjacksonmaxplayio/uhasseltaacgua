@@ -43,6 +43,11 @@ namespace HovUni {
 			InGameState(HUClient* client, TiXmlElement* HUDConfig);
 
 			/**
+			 * Function that will handle new Chat Input
+			 */
+			Hikari::FlashValue onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
+			/**
 			 * Function called when the state gets activated
 			 */
 			virtual void activate();

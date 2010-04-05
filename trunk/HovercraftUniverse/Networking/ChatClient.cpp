@@ -31,6 +31,22 @@ void ChatClient::registerListener(ChatListener* listener) {
 	}
 }
 
+void ChatClient::removeListener(ChatListener* listener) {
+	if (mChat) {
+		mChat->removeListener(listener);
+	} else {
+		std::vector<ChatListener*>::const_iterator it = mListeners.begin();
+
+		while (it != mListeners.end()) {
+			if ((*it) == listener) {
+				mListeners.erase(it);
+				return;
+			}
+			++it;
+		}
+	}
+}
+
 void ChatClient::process() {
 	NetworkClient::process();
 	if (mChat) {
