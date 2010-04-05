@@ -298,7 +298,6 @@ void HavokHovercraft::update(){
 	hkSimdReal speedSize = -newSpeed.dot3(mForward)/mForward.dot3(mForward);
 	//hovercraft->setSpeed(speedSize);
 	//std::cout << scaledspeed << "  " << speed << "  " << speedSize << std::endl;
-	
 	mWorld->unmarkForWrite();
 }
 

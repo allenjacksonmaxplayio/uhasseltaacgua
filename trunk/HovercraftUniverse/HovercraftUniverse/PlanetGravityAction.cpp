@@ -88,6 +88,30 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 
 			hover.setMul4(rb->getMass() * magnitude, newUp);
 			rb->applyForce(stepInfo.m_deltaTime, hover);
+			
+			/*
+			// bobbing force
+			{
+				float wobble_x = (sin(1.1f) + sin(3.05f) + sin(10.0f)) * 2.0f;
+				float wobble_y = (sin(2.1f) + sin(4.05f) + sin(11.0f)) * 2.0f;
+				float wobble_z = (sin(3.1f) + sin(5.05f) + sin(12.0f)) * 2.0f;
+				
+				hkVector4 wobble = hkVector4(wobble_x, wobble_y, wobble_z);
+				//std::cout << wobble(0) << "  " << wobble(1) << "  " << wobble(2) << std::endl;
+				rb->applyForce(stepInfo.m_deltaTime, wobble);
+			}
+			
+			// bobbing torque
+			{
+				float wobble_x = (sin(10.1f) + sin(22.05f) + sin(1.0f)) * 1.5f;
+				float wobble_y = (sin(5.09f) + sin(16.045f) + sin(1.0f)) * 1.5f;
+				float wobble_z = (sin(4.11f) + sin(9.055f) + sin(1.0f)) * 1.5f;
+
+				hkVector4 torque = hkVector4(wobble_x, wobble_y, wobble_z);
+				//std::cout << torque(0) << "  " << torque(1) << "  " << torque(2) << std::endl;
+				rb->applyTorque(stepInfo.m_deltaTime, torque);
+			}
+			*/
 
 			
 		}
