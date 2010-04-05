@@ -131,9 +131,13 @@ namespace HovUni {
 				//Focus the chat
 				if (!mHud->isChatFocused()) {
 					mHud->focusChat();
+					//We don't want any crazy input keys
+					mInputManager->getKeyManager()->setInactive();
 				} else {
 					//Defocus the chat
 					mHud->defocusChat();
+					//We don't want any crazy input keys
+					mInputManager->getKeyManager()->setActive();
 				}
 				break;
 			default:
