@@ -12,13 +12,6 @@ material Asteroid
 			fragment_program_ref asteroidPS
 			{
 			}
-
-			texture_unit alphaMap0
-			{
-				texture_alias alphaMap0
-				texture PlanetGeomDiffuseMap.png
-				filtering linear linear linear
-			}
 			
 			texture_unit Layer0
             {
@@ -40,6 +33,13 @@ material Asteroid
 				texture dirt.jpg
 				filtering linear linear linear
             }
+			
+			texture_unit alphaMap0
+			{
+				texture_alias alphaMap0
+				texture PlanetGeomDiffuseMap.png
+				filtering linear linear linear
+			}
 		}
 
 	}
