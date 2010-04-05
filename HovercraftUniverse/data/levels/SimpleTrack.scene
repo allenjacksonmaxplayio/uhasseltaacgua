@@ -1,6 +1,6 @@
 <scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <userData>
-        <![CDATA[<Track><Name>SimpleTrack</Name><MinimumPlayers>1</MinimumPlayers><PhysicsFileName>SimpleTrack.hkx</PhysicsFileName><MaximumPlayers>2</MaximumPlayers><PathFileName></PathFileName></Track>]]>
+        <![CDATA[<Track><Name>SimpleTrack</Name><MinimumPlayers>1</MinimumPlayers><PhysicsFileName>SimpleTrack.hkx</PhysicsFileName><MaximumPlayers>6</MaximumPlayers><PathFileName></PathFileName></Track>]]>
 </userData>
     <environment>
         <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
@@ -28,6 +28,46 @@
                     <subentity index="0" materialName="Asteroid" />
                 </subentities>
             </entity>
+            <node name="Omni04">
+                <position x="65.1612" y="39.1919" z="-2.31157e-006" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
+                <light name="Omni04" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="1" b="1" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
+            <node name="Omni03">
+                <position x="65.1612" y="-83.7983" z="-2.31157e-006" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
+                <light name="Omni03" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="1" b="1" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
+            <node name="Omni02">
+                <position x="-56.5677" y="-83.7983" z="-2.31157e-006" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
+                <light name="Omni02" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="1" b="1" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
+            <node name="Omni01">
+                <position x="-41.8543" y="38.6962" z="-7.61998e-006" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
+                <light name="Omni01" visible="true" type="point" castShadows="false" power="1">
+                    <colourDiffuse r="1" g="1" b="1" />
+                    <colourSpecular r="1" g="1" b="1" />
+                    <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+                </light>
+            </node>
             <node name="BoostGeom">
                 <position x="59.8477" y="13.7958" z="-22.2956" />
                 <scale x="1" y="1" z="1" />
@@ -94,48 +134,48 @@
                 </entity>
             </node>
         </node>
-        <node name="Omni01">
-            <position x="-41.8543" y="38.9116" z="0" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
-            <light name="Omni01" visible="true" type="point" castShadows="false" power="1">
-                <colourDiffuse r="1" g="1" b="1" />
-                <colourSpecular r="1" g="1" b="1" />
-                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
-            </light>
-        </node>
-        <node name="Omni02">
-            <position x="-56.5677" y="-83.5829" z="5.30841e-006" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
-            <light name="Omni02" visible="true" type="point" castShadows="false" power="1">
-                <colourDiffuse r="1" g="1" b="1" />
-                <colourSpecular r="1" g="1" b="1" />
-                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
-            </light>
-        </node>
-        <node name="Omni03">
-            <position x="65.1611" y="-83.5829" z="5.30841e-006" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
-            <light name="Omni03" visible="true" type="point" castShadows="false" power="1">
-                <colourDiffuse r="1" g="1" b="1" />
-                <colourSpecular r="1" g="1" b="1" />
-                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
-            </light>
-        </node>
-        <node name="Omni04">
-            <position x="65.1611" y="39.4073" z="5.30841e-006" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="-1" qy="-0" qz="-0" qw="-4.37114e-008" />
-            <light name="Omni04" visible="true" type="point" castShadows="false" power="1">
-                <colourDiffuse r="1" g="1" b="1" />
-                <colourSpecular r="1" g="1" b="1" />
-                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
-            </light>
-        </node>
     </nodes>
     <externals>
+        <item name="StartPosition06">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
+</userData>
+            <position x="-114.326" y="9.69677" z="4.37725" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition05">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
+</userData>
+            <position x="-114.577" y="9.69677" z="-11.6689" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition04">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
+</userData>
+            <position x="-102.409" y="9.69677" z="4.27853" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition03">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
+</userData>
+            <position x="-102.012" y="9.69677" z="-11.7678" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition02">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
+</userData>
+            <position x="-86.8805" y="9.69677" z="4.39006" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
         <item name="Boost">
             <userData>
                 <![CDATA[<Boost><Boost>250</Boost><OgreEntity>BoostGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
