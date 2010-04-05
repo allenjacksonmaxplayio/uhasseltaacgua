@@ -116,6 +116,13 @@ public:
 	void setChatListener(ChatListener* listener);
 
 	/**
+	 * Remove a chatlistener from the chat client.
+	 *
+	 * @param listener The listener to remove
+	 */
+	void removeChatListener(ChatListener* listener);
+
+	/**
 	 * Wait for the client to fully connect to the server
 	 */
 	void wait();

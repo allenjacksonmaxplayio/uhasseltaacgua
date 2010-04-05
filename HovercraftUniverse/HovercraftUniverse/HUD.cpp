@@ -39,7 +39,8 @@ bool equals(Hikari::Position pos1, Hikari::Position pos2) {
 
 namespace HovUni {
 
-	HUD::HUD(TiXmlElement* HUDConfig) : mIsActivated(false) {
+	HUD::HUD(TiXmlElement* HUDConfig, const Hikari::FlashDelegate& chatInput) 
+			: mIsActivated(false), mSpeedometer(0), mDirection(0), mPosition(0), mChat(0), mTimer(0), mChatIsActivated(false) {
 		std::vector<ComponentData*> components;
 		std::vector<ComponentData*> percentageComponents;
 
@@ -73,22 +74,26 @@ namespace HovUni {
 				mSpeedometer = new Speedometer(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mSpeedometer->setBParameter(BasicOverlay::ALPHAHACK, true);
 				this->addOverlay(data->mName, mSpeedometer);
+				mSpeedometer->ignoreInputs(true);
 			} else if (!strcmp(data->mName.c_str(), "position")) {
 				mPosition = new Position(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mPosition->setBParameter(BasicOverlay::ALPHAHACK, true);
 				this->addOverlay(data->mName, mPosition);
+				mPosition->ignoreInputs(true);
 			} else if (!strcmp(data->mName.c_str(), "positionBar")) {
 
 			} else if (!strcmp(data->mName.c_str(), "timer")) {
 				mTimer = new Timer(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mTimer->setBParameter(BasicOverlay::ALPHAHACK, true);
 				this->addOverlay(data->mName, mTimer);
+				mTimer->ignoreInputs(true);
 			} else if (!strcmp(data->mName.c_str(), "direction")) {
 				mDirection = new Direction(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mDirection->setBParameter(BasicOverlay::ALPHAHACK, true);
 				this->addOverlay(data->mName, mDirection);
+				mDirection->ignoreInputs(true);
 			} else if (!strcmp(data->mName.c_str(), "chat")) {
-				mChat = new Chat(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
+				mChat = new Chat(chatInput, data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mChat->setBParameter(BasicOverlay::ALPHAHACK, true);
 				this->addOverlay(data->mName, mChat);
 			} else if (!strcmp(data->mName.c_str(), "timeBehind")) {
@@ -152,6 +157,53 @@ namespace HovUni {
 	void HUD::setLapTimer(int minutes, int seconds, int hundreds) {
 		if (mTimer) {
 			mTimer->setTime(minutes, seconds, hundreds);
+		}
+	}
+
+	std::string HUD::stripString(const std::string& value) {
+		std::string strippedValue = value;
+
+		int position = strippedValue.find( "<" );
+		while ( position != std::string::npos )  {
+			strippedValue.replace( position, 1, "" );
+			position = strippedValue.find( "<", position + 1 );
+		}
+
+		position = strippedValue.find( ">" );
+		while ( position != std::string::npos )  {
+			strippedValue.replace( position, 1, "" );
+			position = strippedValue.find( ">", position + 1 );
+		}
+
+		return strippedValue;
+	}
+
+	void HUD::newMessage(const std::string& user, const std::string& line) {
+		if (mChat) {
+			mChat->addText( stripString(user), stripString(line) );
+		}
+	}
+
+	void HUD::newNotification(const std::string& notif) {
+		if (mChat) {
+			mChat->addAction( stripString(notif) );
+		}
+	}
+
+	void HUD::focusChat() {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+					<< "[HUD]: Focussing chat";
+
+		if (mChat) {
+			mChatIsActivated = true;
+			mChat->focusChat();
+		}
+	}
+
+	void HUD::defocusChat() {
+		if (mChat) {
+			mChatIsActivated = false;
+			mChat->defocusChat();
 		}
 	}
 

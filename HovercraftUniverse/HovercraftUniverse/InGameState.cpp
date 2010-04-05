@@ -6,12 +6,26 @@ namespace HovUni {
 	InGameState::InGameState(HUClient* client, TiXmlElement* HUDConfig) 
 			: mHUClient(client), mTimeLapsed(0), mContinue(true) {
 
-		mHud = new HUD(HUDConfig);
+		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
 		mRepresentationManager = RepresentationManager::getSingletonPtr();
 	}
 
+	Hikari::FlashValue InGameState::onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		Ogre::String chatText = args.at(0).getString();
+
+		if (chatText != "") {
+			mHUClient->getChatClient()->sendText(chatText);
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
+		}
+
+		return "success";
+	}
+
 	void InGameState::activate() {
+		//Register for chat events
+		mHUClient->setChatListener(mHud);
+
 		//Make sure we activate all the key actions
 		mInputManager->getKeyManager()->setActive();
 
@@ -23,6 +37,9 @@ namespace HovUni {
 	}
 
 	void InGameState::disable() {
+		//Deregister for chatevents
+		mHUClient->removeChatListener(mHud);
+
 		//Remove the hud
 		mHud->deactivate();
 
@@ -51,6 +68,11 @@ namespace HovUni {
 
 		//Update the HUD
 		updateHud();
+		
+		//Make sure the chat is focussed when it has to be
+		//if (mHud->isChatFocused()) {
+		//	mHud->focusChat();
+		//}
 
 		//We are using a GUI, so update it
 		mGUIManager->update();
@@ -104,7 +126,15 @@ namespace HovUni {
 					// Stop rendering
 					mContinue = false;
 				}
-
+				break;
+			case OIS::KC_RETURN:
+				//Focus the chat
+				if (!mHud->isChatFocused()) {
+					mHud->focusChat();
+				} else {
+					//Defocus the chat
+					mHud->defocusChat();
+				}
 				break;
 			default:
 				// Do nothing

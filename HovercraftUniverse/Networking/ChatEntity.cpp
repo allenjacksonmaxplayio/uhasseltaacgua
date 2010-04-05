@@ -24,6 +24,18 @@ void ChatEntity::registerListener(ChatListener* listener) {
 	mListeners.push_back(listener);
 }
 
+void ChatEntity::removeListener(ChatListener* listener) {
+	std::vector<ChatListener*>::const_iterator it = mListeners.begin();
+
+	while (it != mListeners.end()) {
+		if ((*it) == listener) {
+			mListeners.erase(it);
+			return;
+		}
+		++it;
+	}
+}
+
 void ChatEntity::sendLine(const string& user, const string& line) {
 	sendEvent(TextEvent(user, line));
 }

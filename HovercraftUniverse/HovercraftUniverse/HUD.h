@@ -4,6 +4,7 @@
 #include <OverlayContainer.h>
 
 #include "Chat.h"
+#include <ChatListener.h>
 #include "Direction.h"
 #include "Position.h"
 #include "Speedometer.h"
@@ -18,7 +19,7 @@ namespace HovUni {
  *
  * @author Nick De Frangh
  */
-class HUD : public OverlayContainer {
+class HUD : public OverlayContainer, public ChatListener {
 private:
 	/** The meter indicating the speed of the racer */
 	Speedometer* mSpeedometer;
@@ -37,6 +38,9 @@ private:
 
 	/** Indicates whether the HUD should be activated */
 	bool mIsActivated;
+
+	/** Boolean to check if the chat is activated */
+	bool mChatIsActivated;
 
 	/** Helper data structure */
 	struct ComponentData {
@@ -61,7 +65,7 @@ public:
 	/**
 	 * Constructor.
 	 */
-	HUD(TiXmlElement* HUDConfig);
+	HUD(TiXmlElement* HUDConfig, const Hikari::FlashDelegate& chatInput);
 
 	/**
 	 * Destructor.
@@ -110,6 +114,42 @@ public:
 	 * @param hundreds The hundreds value
 	 */
 	void setLapTimer(int minutes, int seconds, int hundreds);
+	
+	/**
+	 * Strip a string of unwanted characters
+	 *
+	 * @param value The string to strip
+	 * @return The stripped string
+	 */
+	std::string stripString(const std::string& value);
+
+	/**
+	 * Add a new chat message to the lobby chat
+	 *
+	 * @param user The name of the user that posted the message
+	 * @param line The message the user has posted
+	 */
+	virtual void newMessage(const std::string& user, const std::string& line);
+
+	/**
+	 * An incoming notification from the server
+	 *
+	 * @param notif the notification
+	 */
+	virtual void newNotification(const std::string& notif);
+
+	/**
+	 * Focus the chat window
+	 */
+	void focusChat();
+
+	/**
+	 * Defocus the chat window
+	 */
+	void defocusChat();
+
+	/** Check if the chat is focused */
+	bool isChatFocused() { return mChatIsActivated; }
 
 private:
 	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents );

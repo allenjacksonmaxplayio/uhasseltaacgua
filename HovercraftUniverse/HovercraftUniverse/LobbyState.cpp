@@ -10,9 +10,6 @@ namespace HovUni {
 	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
 		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave));
-
-		mClient->setChatListener(mLobbyGUI);
-		//mClient->process();
 	}
 
 	LobbyState::~LobbyState() {
@@ -25,10 +22,12 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue LobbyState::onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		//Check for a command
 		Ogre::String chatText = args.at(0).getString();
-		mClient->getChatClient()->sendText(chatText);
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
+
+		if (chatText != "") {
+			mClient->getChatClient()->sendText(chatText);
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
+		}
 
 		return "success";
 	}
@@ -56,15 +55,17 @@ namespace HovUni {
 
 	void LobbyState::onPlayerUpdate(int id, const std::string& username, const std::string& character, const std::string& car) {
 		//check if this user has already been announced
-		std::vector<unsigned int>::const_iterator it = mDelayedUsers.begin();
-		while( it != mDelayedUsers.end() ) {
-			if ( (*it) == id ) {
-				//Add the user, and delete it from the vector
-				mLobbyGUI->addUser(id, username, character, car);
-				mDelayedUsers.erase(it);
-				return;
+		if (username != "") {
+			std::vector<unsigned int>::const_iterator it = mDelayedUsers.begin();
+			while( it != mDelayedUsers.end() ) {
+				if ( (*it) == id ) {
+					//Add the user, and delete it from the vector
+					mLobbyGUI->addUser(id, username, character, car);
+					mDelayedUsers.erase(it);
+					return;
+				}
+				++it;
 			}
-			++it;
 		}
 
 		//Player has been updated, propagate changes
@@ -107,6 +108,9 @@ namespace HovUni {
 	////////////////////////////////////////
 
 	void LobbyState::activate() {
+		//Register for chatevents
+		mClient->setChatListener(mLobbyGUI);
+
 		//We don't want any crazy input keys
 		mInputManager->getKeyManager()->setInactive();
 
@@ -135,6 +139,12 @@ namespace HovUni {
 	}
 
 	void LobbyState::disable() {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+					<< "[LobbyState]: Disabling lobby state";
+
+		//Remove us from the chat events
+		mClient->removeChatListener(mLobbyGUI);
+
 		//Disable all the interception listeners
 		for (map<int, PlayerSettingsInterceptor*>::iterator it = mPlayerInterceptors.begin(); it != mPlayerInterceptors.end(); ++it) {
 			//make the interceptor inactive
