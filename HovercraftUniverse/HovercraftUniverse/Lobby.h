@@ -5,7 +5,7 @@
 #include "GameEvent.h"
 #include <map>
 #include <string>
-#include <list>
+#include <vector>
 
 namespace HovUni {
 
@@ -28,7 +28,7 @@ private:
 	//TODO MUTEX PROTECT PLAYERS
 
 	/** The listeners */
-	std::list<LobbyListener*> mListeners;
+	std::vector<LobbyListener*> mListeners;
 
 	/** Specific loader, will be different on client and server **/
 	Loader * mLoader;

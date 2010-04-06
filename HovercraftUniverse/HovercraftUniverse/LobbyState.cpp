@@ -111,6 +111,9 @@ namespace HovUni {
 		//Register for chatevents
 		mClient->setChatListener(mLobbyGUI);
 
+		//Register for lobby events
+		mClient->getLobby()->addListener(this);
+
 		//We don't want any crazy input keys
 		mInputManager->getKeyManager()->setInactive();
 
@@ -139,9 +142,6 @@ namespace HovUni {
 	}
 
 	void LobbyState::disable() {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-					<< "[LobbyState]: Disabling lobby state";
-
 		//Remove us from the chat events
 		mClient->removeChatListener(mLobbyGUI);
 
@@ -153,6 +153,9 @@ namespace HovUni {
 
 		//Deactivate the menu overlay
 		mLobbyGUI->deactivate();
+
+		//Deregister for lobby events
+		mClient->getLobby()->removeListener(this);
 	}
 
 	bool LobbyState::frameStarted(const Ogre::FrameEvent & evt) {

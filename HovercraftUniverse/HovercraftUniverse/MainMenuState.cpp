@@ -21,7 +21,6 @@ namespace HovUni {
 		//TODO: Parse IP and Port?
 		HUClient* mClient = new HUClient(address.c_str());
 		LobbyState* newState = new LobbyState(mClient);
-		mClient->getLobby()->addListener(newState);
 
 		//Store the new state
 		mManager->addGameState(GameStateManager::LOBBY, newState);

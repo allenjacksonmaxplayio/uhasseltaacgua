@@ -45,7 +45,7 @@ void Lobby::process() {
 		// Check if this settings wasn't deleted in the mean time
 		if (settings->isDeleted()) {
 			//Notify our listeners
-			for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
+			for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
 				(*i)->onLeave(settings->getID());
 			}
 			it = removePlayer(it);
@@ -89,7 +89,7 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 	}
 
 	//Notify our listeners
-	for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
+	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
 		(*i)->onJoin(settings);
 	}
 }
@@ -104,7 +104,16 @@ void Lobby::addListener(LobbyListener* listener) {
 }
 
 void Lobby::removeListener(LobbyListener* listener) {
-	mListeners.remove(listener);
+	std::vector<LobbyListener*>::const_iterator it = mListeners.begin();
+
+	while (it != mListeners.end()) {
+		if ((*it) == listener) {
+			mListeners.erase(it);
+			return;
+		}
+
+		++it;
+	}
 }
 
 void Lobby::start() {
@@ -196,7 +205,19 @@ void Lobby::onStartServer() {
 }
 
 void Lobby::onStartClient() {
-	for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
+	int currSize = mListeners.size();
+
+	for (int i = 0; i < currSize; ++i) {
+		mListeners[i]->onStart();
+
+		//Listeners might have been removed
+		if (currSize != mListeners.size()) {
+			currSize = mListeners.size();
+			--i;
+		}
+	}
+
+	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
 		(*i)->onStart();
 	}
 }
@@ -227,7 +248,7 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 		case onLeave: {
 			OnLeaveEvent * leaveevent = dynamic_cast<OnLeaveEvent*> (event);
 			//propagate to listeners
-			for (std::list<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
+			for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
 				(*i)->onLeave(leaveevent->getConnectionId());
 			}
 			break;
