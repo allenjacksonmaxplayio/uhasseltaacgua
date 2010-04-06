@@ -52,15 +52,16 @@ namespace HovUni {
 			bindEntity(luaState);
 			luabind::call_function<void>(luaState,"setEntity", getEntity());
 			
-			
 			//Temporary Path! 
-			//TODO make this... not hardcoded
+			//TODO HERE is where we should read the *.path file... but not hardcoded
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Parsing Path file.";
 			std::vector<std::vector<float>> path = PathReader::parsePath("levels/DummyPath.path");
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";		
 			luabind::object table = luabind::newtable(luaState);
 			for (unsigned int i = 0; i < path.size(); i++) {
-				table[i+1] = Ogre::Vector4(path[i][0], path[i][1], path[i][2], path[i][3]);
+				Ogre::Vector4 pathpoint = Ogre::Vector4(path[i][0], path[i][1], path[i][2], path[i][3]);
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Pathpoint " <<i << pathpoint.x << " " << pathpoint.y << " " << pathpoint.z << " w=" << pathpoint.w;
+				table[i+1] = pathpoint;
 			}
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
 			luabind::call_function<void>(luaState,"setPath", table);
