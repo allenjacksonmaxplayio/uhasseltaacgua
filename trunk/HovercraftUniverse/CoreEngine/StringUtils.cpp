@@ -4,10 +4,10 @@
 namespace HovUni {
 	std::string StringUtils::htmlSpecialChars(const std::string& subject) {
 		std::string result = subject;
-		const int size = 5;
-		char characters[size] = {'<', '>', '\"', '\'', '&'};
+		const int size = 4;
+		char characters[size] = {'<', '>', '\"', '\''};
 		//char[5] characters = "<>\"\'&";
-		std::string replaceVals[size] = {"&lt;", "&gt;", "&quot;", "&#039;", "&amp;"};
+		std::string replaceVals[size] = {"&lt;", "&gt;", "&quot;", "&#039;"};
 
 		for (int i = 0; i < size; i++) {
 			int position = result.find(characters[i]);
