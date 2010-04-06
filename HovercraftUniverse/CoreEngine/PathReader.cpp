@@ -1,8 +1,22 @@
 #include "PathReader.h"
 #include <sstream>
 #include <fstream>
+#include <iostream>
+#include <OgreLogManager.h>
 
 namespace HovUni {
+	Ogre::Log::Stream& operator<<(Ogre::Log::Stream& stream, const std::vector<float>& v) {
+		stream << "[";
+		for (unsigned int i = 0; i < v.size(); i++) {
+			stream << v[i];
+			if (i != v.size()-1) {
+				stream << ", ";
+			}
+		}
+		stream << "]";
+		return stream;
+	}
+
 	std::vector<std::vector<float>> PathReader::parsePath(const std::string& filename) {
 		std::ifstream ifs(filename.c_str());
 		//Count nr of lines
@@ -27,6 +41,7 @@ namespace HovUni {
 			iss >> result[index][1]; //y
 			iss >> result[index][2]; //z
 			iss >> result[index][3]; //radius
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Input at line " << index << " is " << result[index];
 			index++;
 		}
 

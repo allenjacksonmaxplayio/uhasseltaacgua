@@ -35,6 +35,7 @@ mEntity = 0
 -- Pathfinding Constants
 -----------------------------
 PATH_PROBELENGTH = 1;
+EPSILON = 0.01; -- for avoiding steering oscillations
 -----------------------------
 
 
@@ -46,11 +47,15 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	game:luaLog(AI_NAME .. " :: " .. msg);
+	--game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
 	mEntity = entity;
+end
+
+function toString(v)
+	return "(" .. v.x .. ", " .. v.y .. ", " .. v.z .. ")";
 end
 
 --[[
@@ -63,13 +68,6 @@ function setPath(path)
 	mPathSize = table.getn(mPath);
 end
 
-function toString(v)
-	if (type(v) == "Vector3") then
-		return "(" .. v.x .. ", " .. v.y .. ", " .. v.z .. ")";
-	elseif (type(v) == "Vector4") then
-		return "(" .. v.x .. ", " .. v.y .. ", " .. v.z .. "w=" .. v.w .. ")";
-	end
-end
 
 --[[
 --	Main function
@@ -113,6 +111,9 @@ function decide()
 
 			local p0 = Vector3(p0Vector4.x, p0Vector4.y, p0Vector4.z);
 			local p1 = Vector3(p1Vector4.x, p1Vector4.y, p1Vector4.z);
+
+			println("Path[" .. key .. "]:" .. "p0V4=" .. toString(p0Vector4) .. "p1V4=" .. toString(p1Vector4) .. "p0=" .. toString(p0) .. "p1=" .. toString(p1) );
+
 			local project = project(probe, p0, p1);
 			if (position:distance(project) < distanceToPath) then
 				distanceToPath = position:distance(project);
@@ -133,6 +134,11 @@ function decide()
 	--println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
 	local targetPosition;
 	local distanceThreshold = 2;
+
+	local lastV4 = mPath[mPathSize];
+	local finish = Vector3(lastV4.x, lastV4.y, lastV4.z);
+
+
 	if (distanceToPath > p0Vector4.w) then
 		--Probe is too far away, steer towards path.
 		--targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
@@ -143,7 +149,7 @@ function decide()
 		println("No corrective steering required.");
 		game:setAction(TURNRIGHT, false);
 		game:setAction(TURNLEFT, false);
-		if (position:distance(mPath[mPathSize]) > distanceThreshold) then
+		if (position:distance(finish) > distanceThreshold) then
 			game:setAction(ACCELERATE, true);
 		else
 			game:setAction(ACCELERATE, false);
@@ -167,16 +173,13 @@ function decide()
 	local side = myOrientation:crossProduct(mEntity:getUpVector());
 	side = side:dotProduct(targetOrientation);
 
-
-
-	epsilon = 0.01; --epsilon for avoiding steering oscillations
-	if (position:distance(mPath[mPathSize]) > distanceThreshold) then
+	if (position:distance(finish) > distanceThreshold) then --Arrival behaviour
 		game:setAction(ACCELERATE, true);
-		if (side > epsilon) then
+		if (side > EPSILON) then
 			--println("Turning Right");
 			game:setAction(TURNLEFT, false);
 			game:setAction(TURNRIGHT, true);
-		elseif (side < -epsilon) then
+		elseif (side < -EPSILON) then
 			--println("Turning Left");
 			game:setAction(TURNRIGHT, false);
 			game:setAction(TURNLEFT, true);
