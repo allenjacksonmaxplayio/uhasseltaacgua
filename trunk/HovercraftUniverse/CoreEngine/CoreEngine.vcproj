@@ -254,6 +254,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Utilities"
+				>
+				<File
+					RelativePath=".\StringUtils.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -381,6 +389,14 @@
 				</File>
 				<File
 					RelativePath=".\GameView.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Utilities"
+				>
+				<File
+					RelativePath=".\StringUtils.h"
 					>
 				</File>
 			</Filter>

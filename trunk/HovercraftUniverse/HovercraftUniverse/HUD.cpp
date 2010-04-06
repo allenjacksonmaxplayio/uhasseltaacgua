@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "GUIManager.h"
+#include "StringUtils.h"
 #include <map>
 #include <OgreRoot.h>
 #include <sstream>
@@ -161,21 +162,7 @@ namespace HovUni {
 	}
 
 	std::string HUD::stripString(const std::string& value) {
-		std::string strippedValue = value;
-
-		int position = strippedValue.find( "<" );
-		while ( position != std::string::npos )  {
-			strippedValue.replace( position, 1, "" );
-			position = strippedValue.find( "<", position + 1 );
-		}
-
-		position = strippedValue.find( ">" );
-		while ( position != std::string::npos )  {
-			strippedValue.replace( position, 1, "" );
-			position = strippedValue.find( ">", position + 1 );
-		}
-
-		return strippedValue;
+		return StringUtils::htmlSpecialChars(value);
 	}
 
 	void HUD::newMessage(const std::string& user, const std::string& line) {

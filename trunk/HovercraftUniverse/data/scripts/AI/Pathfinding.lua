@@ -35,7 +35,7 @@ mEntity = 0
 -- Pathfinding Constants
 -----------------------------
 PATH_PROBELENGTH = 1;
-PATH_RADIUS = 1;
+PATH_RADIUS = 2;
 -----------------------------
 
 
@@ -79,7 +79,8 @@ function decide()
 	--println("Velocity: " .. toString(velocity));
 
 	--############################### COLLISION AVOIDANCE
-	if (mEntity:isInCollisionState()) then
+	--if (mEntity:isInCollisionState()) then
+	if (false) then
 		local speed = mEntity:getSpeed();
 		--println("Collision Avoidance! Braking and turning right! Speed is " .. speed);
 		if (speed < 0) then
@@ -127,6 +128,7 @@ function decide()
 	if (distanceToPath > PATH_RADIUS) then
 		--Probe is too far away, steer towards path.
 		--targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
+		println("Steering towards path!");
 		targetPosition = project;
 	else
 		--No corrective steering required.
