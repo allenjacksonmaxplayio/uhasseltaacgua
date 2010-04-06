@@ -41,8 +41,9 @@ namespace HovUni {
 			 * @param onChat Function to be called when a user gives new chat input
 			 * @param onStat Function to be called when the start action if given
 			 * @param onLeave Function to be called when a user pushes the leave button
+			 * @param botsValue The function that will be called when the admin toggles the checkbox for bots
 			 */
-			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave);
+			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue);
 			
 			/**
 			 * Destructor
@@ -105,6 +106,21 @@ namespace HovUni {
 			 * @param The id of the user you want to delete
 			 */
 			void deleteUser(int id);
+
+			/**
+			 * Mark us as admin or client.
+			 *
+			 * @param admin True when you want to display admin settings, false if you
+			 *		want the client display.
+			 */
+			void setAdmin(bool admin);
+
+			/**
+			 * Set the fill with bots value.
+			 *
+			 * @param fill True when you want to fill with bots, false otherwise
+			 */
+			void setFillBots(bool fill);
 
 			/** 
 			 * Function to show or hide the start button

@@ -30,6 +30,20 @@ public:
 	 * The admin has started the game and send out the start event
 	 */
 	virtual void onStart() = 0;
+
+	/**
+	 * Called when the admin state of the lobby has changed
+	 *
+	 * @param isAdmin True when we are admin, false otherwise
+	 */
+	virtual void onAdminChange(bool isAdmin) = 0;
+
+	/**
+	 * Called when the fill with bots state has changed.
+	 *
+	 * @param fillWithBots True when this setting was enabled
+	 */
+	virtual void onBotsChange(bool fillWithBots) = 0;
 };
 
 }

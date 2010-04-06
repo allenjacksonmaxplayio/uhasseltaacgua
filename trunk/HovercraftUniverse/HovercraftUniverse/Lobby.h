@@ -20,7 +20,7 @@ class RaceState;
  *
  * @author Olivier Berghmans & Pieter-Jan Pintens
  */
-class Lobby: public NetworkEntity {
+class Lobby: public NetworkEntity, public ZCom_NodeReplicationInterceptor {
 public:
 	typedef std::map<ZCom_ConnID, PlayerSettings*> playermap;
 
@@ -56,6 +56,9 @@ private:
 
 	/** The race state when a race is busy */
 	RaceState* mRaceState;
+
+	/** Value to check if we should fill the server with bots */
+	bool mFillWithBots;
 
 public:
 
@@ -208,6 +211,19 @@ public:
 	 */
 	virtual void onTrackChange(const Ogre::String& filename);
 
+	/**
+	 * Mark the lobby to fill the server with bots or not.
+	 * @param val True when you want to fill with bots, false otherwise
+	 */
+	void setFillWithBots(bool val) { mFillWithBots = val; }
+
+	/**
+	 * Check if we want to fill with bots or not
+	 *
+	 * @return True when we want to fill, false otherwise
+	 */
+	bool isFillWithBots() { return mFillWithBots; }
+
 protected:
 
 	/**
@@ -262,6 +278,56 @@ protected:
 	 * @param event an event
 	 */
 	void processEventsOther(GameEvent* event);
+	
+	///////////////////////////
+	// INTERCEPTOR FUNCTIONS //
+	///////////////////////////
+public:
+		/**
+	 * @inheritDoc
+	 */
+	bool inPreUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role) { return true; }
+
+	/**
+	 * @inheritDoc
+	 */
+	bool inPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role,
+		ZCom_Replicator *_replicator, zU32 _estimated_time_sent) { return true; }
+
+	/**
+	 * @inheritDoc
+	 */
+	void inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role,
+			zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits);
+
+	/**
+	 * @inheritDoc
+	 */
+	void outPreReplicateNode(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role) {
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	void outPreDereplicateNode(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role) {
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	bool outPreUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role) {
+		return true;
+	}
+
+	/*! @copydoc ZCom_NodeReplicationInterceptor::outPreUpdateItem(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,ZCom_Replicator*) */
+	bool outPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role,
+			ZCom_Replicator *_replicator) {
+		return true;
+	}
+
+	/*! @copydoc ZCom_NodeReplicationInterceptor::outPostUpdate(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,zU32,zU32,zU32) */
+	void outPostUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role,
+		zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits) {}
 
 };
 

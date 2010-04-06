@@ -1,9 +1,10 @@
 #include "LobbyOverlay.h"
 
 namespace HovUni {
-	LobbyOverlay::LobbyOverlay(const Hikari::FlashDelegate& chatInput, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) 
+	LobbyOverlay::LobbyOverlay(const Hikari::FlashDelegate& chatInput, const Hikari::FlashDelegate& botsValue, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) 
 			: BasicOverlay(name, fileName, width, height, position, zOrder) {
 		this->bind("chatInput", chatInput);
+		this->bind("botsValue", botsValue);
 		setBParameter(BasicOverlay::ALPHAHACK, true);
 	}
 
@@ -25,6 +26,14 @@ namespace HovUni {
 
 	void LobbyOverlay::deleteUser(int id) {
 		this->callFunction("deleteUser", Hikari::Args(id));
+	}
+
+	void LobbyOverlay::setAdmin(bool admin) {
+		this->callFunction("setAdmin", Hikari::Args(admin));
+	}
+
+	void LobbyOverlay::setFillBots(bool fill) {
+		this->callFunction("setFillBots", Hikari::Args(fill));
 	}
 
 	void LobbyOverlay::customActionAfterActivate() {

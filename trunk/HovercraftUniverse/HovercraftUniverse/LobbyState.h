@@ -58,18 +58,44 @@ namespace HovUni {
 
 			/**
 			 * Function that will handle new Chat Input
+			 *
+			 * @param caller A Reference to the caller, should be ignored unles syou know what you are doing!
+			 * @param arg The arguments of the called function (string)
+			 * @return Should return the return value that is axcpected by the flash file or something random
+			 *		if void.
 			 */
 			Hikari::FlashValue onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			/**
 			 * Function that will be called when a user clicks on the start button
+			 *
+			 * @param caller A Reference to the caller, should be ignored unles syou know what you are doing!
+			 * @param arg The arguments of the called function (empty)
+			 * @return Should return the return value that is axcpected by the flash file or something random
+			 *		if void.
 			 */
 			Hikari::FlashValue onPressStart(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
 			/**
-			 * Function that will be calles when a user clicks on the leave button
+			 * Function that will be called when a user clicks on the leave button
+			 *
+			 * @param caller A Reference to the caller, should be ignored unles syou know what you are doing!
+			 * @param arg The arguments of the called function (empty)
+			 * @return Should return the return value that is axcpected by the flash file or something random
+			 *		if void.
 			 */
 			Hikari::FlashValue onPressLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
+			/**
+			 * Function that will be called when the "fill with bots" value of the lobby is changed by the admin.
+			 *
+			 * @param caller A Reference to the caller, should be ignored unles syou know what you are doing!
+			 * @param arg The arguments of the called function (bool)
+			 * @return Should return the return value that is axcpected by the flash file or something random
+			 *		if void.
+			 */
+			Hikari::FlashValue botsValue(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+			
 
 			////////////////////////////////////////
 			//	PlayerSettingsListener functions
@@ -98,6 +124,20 @@ namespace HovUni {
 			 * @inheritDoc
 			 */
 			virtual void onStart();
+
+			/**
+			 * Called when the admin state of the lobby has changed
+			 *
+			 * @param isAdmin True when we are admin, false otherwise
+			 */
+			virtual void onAdminChange(bool isAdmin);
+
+			/**
+			 * Called when the fill with bots state has changed.
+			 *
+			 * @param fillWithBots True when this setting was enabled
+			 */
+			virtual void onBotsChange(bool fillWithBots);
 
 			////////////////////////////////////////
 			//	BasicGameState functions

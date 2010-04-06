@@ -9,7 +9,7 @@
 namespace HovUni {
 	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
-		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave));
+		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue));
 	}
 
 	LobbyState::~LobbyState() {
@@ -45,6 +45,14 @@ namespace HovUni {
 		mManager->switchState(GameStateManager::MAIN_MENU);
 		//Delete the client to save some resources
 		delete mClient;
+
+		return "success";
+	}
+
+	Hikari::FlashValue LobbyState::botsValue(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		bool fillWithBots = args.at(0).getBool();
+
+		mLobby->setFillWithBots(fillWithBots);
 
 		return "success";
 	}
@@ -103,6 +111,15 @@ namespace HovUni {
 		mManager->switchState(GameStateManager::IN_GAME);
 	}
 
+	void LobbyState::onAdminChange(bool isAdmin) {
+		mLobbyGUI->showStart(isAdmin);
+		mLobbyGUI->setAdmin(isAdmin);
+	}
+	
+	void LobbyState::onBotsChange(bool fillWithBots) {
+		mLobbyGUI->setFillBots(fillWithBots);
+	}
+
 	////////////////////////////////////////
 	//	BasicGameState functions
 	////////////////////////////////////////
@@ -136,9 +153,10 @@ namespace HovUni {
 			//make the interceptor inactive
 			(*it).second->setStatus(true);
 		}
-
-		//Config* conf = Application::getConfig();
-		//mLobbyGUI->addUser(1, conf->getValue("Player", "PlayerName"), conf->getValue("Player", "Character"), conf->getValue("Player", "Hovercraft"));
+		
+		//Set some initial gui values
+		onAdminChange(mLobby->isAdmin());
+		onBotsChange(mLobby->isFillWithBots());
 	}
 
 	void LobbyState::disable() {
@@ -166,13 +184,8 @@ namespace HovUni {
 
 		//50 FPS
 		if (mLastGUIUpdate > (1.0f / 50.0f) || mLastGUIUpdate < 0) {
-			//Check if we need to show the start button or not
-			if (mLobby->isAdmin()) {
-				mLobbyGUI->showStart(true);
-			} else {
-				mLobbyGUI->showStart(false);
-			}
-
+			onAdminChange(mLobby->isAdmin());
+			
 			//We are using a GUI, so update it
 			mGUIManager->update();
 			mLastGUIUpdate = 0.0f; //Reset
