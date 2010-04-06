@@ -16,8 +16,9 @@ namespace HovUni {
 			 * Basic constructor, see BasicOverlay for info about the parameters
 			 * @param chatInput The callback function that will be called when someone
 			 *			posts a new chat message
+			 * @param botsValue The function that will be called when the admin toggles the checkbox for bots
 			 */
-			LobbyOverlay(const Hikari::FlashDelegate& chatInput, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+			LobbyOverlay(const Hikari::FlashDelegate& chatInput, const Hikari::FlashDelegate& botsValue, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
 			/**
 			 * Add a new chat message to the lobby chat
@@ -61,6 +62,21 @@ namespace HovUni {
 			 * @param id The id of the user you want to delete
 			 */
 			void deleteUser(int id);
+
+			/**
+			 * Mark us as admin or client.
+			 *
+			 * @param admin True when you want to display admin settings, false if you
+			 *		want the client display.
+			 */
+			void setAdmin(bool admin);
+
+			/**
+			 * Set the fill with bots value.
+			 *
+			 * @param fill True when you want to fill with bots, false otherwise
+			 */
+			void setFillBots(bool fill);
 
 			/**
 			 * This will be called after the overlay has been activated.

@@ -23,12 +23,14 @@ std::string Lobby::getClassName() {
 }
 
 Lobby::Lobby(Loader * loader) :
-	NetworkEntity(4), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"),
-			mMaximumPlayers(12), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0) {
+	NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"),
+			mMaximumPlayers(12), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0), mFillWithBots(false) {
 
 	if (loader) {
 		loader->setLobby(this);
 	}
+
+	this->setReplicationInterceptor(this);
 }
 
 Lobby::~Lobby() {
@@ -311,10 +313,28 @@ void Lobby::setupReplication() {
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
 			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
 	);
+
+	//Replicate the setting for filling with bots
+	mNode->addReplicationBool(&mFillWithBots, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY);
 }
 
 void Lobby::setAnnouncementData(ZCom_BitStream* stream) {
 
+}
+
+void Lobby::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role,
+				  zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits) {
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+				<< "[Lobby]: Lobby update";
+	if (this->isAdmin()) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+				<< "[Lobby]: Lobby ADMIN";
+	}
+	//Something has changed in the lobby, inform our listeners
+	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
+		(*i)->onAdminChange(this->isAdmin());
+		(*i)->onBotsChange(this->isFillWithBots());
+	}
 }
 
 }
