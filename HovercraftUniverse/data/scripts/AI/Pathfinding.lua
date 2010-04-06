@@ -35,7 +35,6 @@ mEntity = 0
 -- Pathfinding Constants
 -----------------------------
 PATH_PROBELENGTH = 1;
-PATH_RADIUS = 2;
 -----------------------------
 
 
@@ -47,7 +46,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	--game:luaLog(AI_NAME .. " :: " .. msg);
+	game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
@@ -65,7 +64,11 @@ function setPath(path)
 end
 
 function toString(v)
-	return "(" .. v.x .. ", " .. v.y .. ", " .. v.z .. ")";
+	if (type(v) == "Vector3") then
+		return "(" .. v.x .. ", " .. v.y .. ", " .. v.z .. ")";
+	elseif (type(v) == "Vector4") then
+		return "(" .. v.x .. ", " .. v.y .. ", " .. v.z .. "w=" .. v.w .. ")";
+	end
 end
 
 --[[
@@ -105,9 +108,11 @@ function decide()
 	local pathIndex = 0;
 	for key,value in pairs(mPath) do
 		if (key ~= 1) then
-			--they are Entities.
-			local p0 = mPath[key-1];
-			local p1 = mPath[key];
+			local p0Vector4 = mPath[key-1];
+			local p1Vector4 = mPath[key];
+
+			local p0 = Vector3(p0Vector4.x, p0Vector4.y, p0Vector4.z);
+			local p1 = Vector3(p1Vector4.x, p1Vector4.y, p1Vector4.z);
 			local project = project(probe, p0, p1);
 			if (position:distance(project) < distanceToPath) then
 				distanceToPath = position:distance(project);
@@ -115,8 +120,11 @@ function decide()
 			end
 		end
 	end
-	local p0 = mPath[pathIndex-1];
-	local p1 = mPath[pathIndex];
+	local p0Vector4 = mPath[pathIndex-1];
+	local p1Vector4 = mPath[pathIndex];
+
+	local p0 = Vector3(p0Vector4.x, p0Vector4.y, p0Vector4.z);
+	local p1 = Vector3(p1Vector4.x, p1Vector4.y, p1Vector4.z);
 	local project = project(probe, p0, p1);
 	distanceToPath = probe:distance(project);
 	println("At path " .. (pathIndex-1) .. " of " .. mPathSize);
@@ -125,7 +133,7 @@ function decide()
 	--println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
 	local targetPosition;
 	local distanceThreshold = 2;
-	if (distanceToPath > PATH_RADIUS) then
+	if (distanceToPath > p0Vector4.w) then
 		--Probe is too far away, steer towards path.
 		--targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
 		println("Steering towards path!");

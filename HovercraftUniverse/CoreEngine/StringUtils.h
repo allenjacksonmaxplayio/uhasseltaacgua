@@ -1,3 +1,6 @@
+#ifndef STRINGUTILS_H_
+#define STRINGUTILS_H_
+
 #include <string>
 
 namespace HovUni {
@@ -23,3 +26,4 @@ namespace HovUni {
 		static std::string htmlSpecialChars(const std::string& subject);
 	};
 }
+#endif //STRINGUTILS_H_

@@ -81,6 +81,25 @@ namespace HovUni {
 		LUA_CONST_END;
 	}
 
+	void OgreLuaBindings::bindVector4()	{
+		lua_State* L = mLuaState;
+		module(L)
+		[
+			class_<Vector4>("Vector4")
+			.def(tostring(self))
+			.def_readwrite("w", &Vector4::w)
+			.def_readwrite("x", &Vector4::x)
+			.def_readwrite("y", &Vector4::y)
+			.def_readwrite("z", &Vector4::z)
+			.def(constructor<>())
+			.def(constructor<Vector4&>())
+			.def(constructor<Real, Real, Real, Real>())
+			.def(self + other<Vector4>())
+			.def(self - other<Vector4>())
+			.def(self * other<Vector4>())
+		];
+	}
+
 	void OgreLuaBindings::bindColourValue()	{
 		lua_State* L = mLuaState;
 		module(L)
@@ -143,6 +162,7 @@ namespace HovUni {
 
 	void OgreLuaBindings::bindLua() {
 		bindVector3();
+		bindVector4();
 		bindColourValue();
 		bindEntity();
 		bindCamera();

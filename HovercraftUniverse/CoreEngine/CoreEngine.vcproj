@@ -262,6 +262,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Path"
+				>
+				<File
+					RelativePath=".\PathReader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -397,6 +405,14 @@
 				>
 				<File
 					RelativePath=".\StringUtils.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Path"
+				>
+				<File
+					RelativePath=".\PathReader.h"
 					>
 				</File>
 			</Filter>

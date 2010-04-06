@@ -6,6 +6,8 @@
 #include "EntityManager.h"
 #include "Entity.h"
 #include "Hovercraft.h"
+#include "PathReader.h"
+#include <OgreVector4.h>
 
 namespace HovUni {
 	HovercraftAIController::HovercraftAIController(std::string scriptname) {
@@ -20,6 +22,7 @@ namespace HovUni {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Binding Ogre Classes.";
 			OgreLuaBindings ogrebindings(luaState);
 			ogrebindings.bindVector3();
+			ogrebindings.bindVector4();
 			luabind::module(luaState) [
 				luabind::class_<HovercraftAIController>("AIController")
 					.def("setAction", &HovercraftAIController::setAction)
@@ -51,17 +54,14 @@ namespace HovUni {
 			
 			
 			//Temporary Path! 
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";
+			//TODO make this... not hardcoded
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Parsing Path file.";
+			std::vector<std::vector<float>> path = PathReader::parsePath("levels/DummyPath.path");
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";		
 			luabind::object table = luabind::newtable(luaState);
-			table[1] = Ogre::Vector3(-69.6f, 5, -4.9f);
-			table[2] = Ogre::Vector3(92, 5, 4.9f);
-			table[3] = Ogre::Vector3(120, 4, -6);
-			table[4] = Ogre::Vector3(120, -20, -9);
-			table[5] = Ogre::Vector3(106, -40, -10);
-			table[6] = Ogre::Vector3(80, -50, -10);
-			table[7] = Ogre::Vector3(-20, -46, 11);
-			table[8] = Ogre::Vector3(-90, -45, 29);
-
+			for (unsigned int i = 0; i < path.size(); i++) {
+				table[i+1] = Ogre::Vector4(path[i][0], path[i][1], path[i][2], path[i][3]);
+			}
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
 			luabind::call_function<void>(luaState,"setPath", table);
 		} catch (const luabind::error &er) {
