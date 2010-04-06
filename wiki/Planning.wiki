@@ -58,7 +58,7 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
    
    * WP 6 (Dirk): artificial intelligence
     * WP 6.1: *(DONE)* Implementatie path finding algoritmen in generieke context via AIControllers.
-    * WP 6.2: Volgen path gedefinieerd door map path (depends on WP 5.3.4 voor minstens 1 map).
+    * WP 6.2: *(DONE)* Volgen path gedefinieerd door map path (depends on WP 5.3.4 voor minstens 1 map).
     * WP 6.3: Implementatie aanwezigheid bots in server met meerdere characters (depends on  WP 1.5).
     * WP 6.4: *(DONE)* Ontvangen Havok events die potentiele collisions aangeeft, waardoor collision avoidance kan uitgevoerd worden.
     * WP 6.5: Bijkomend op collision avoidance, implementatie path planning die meer op voorhand gaat plannen dan voor collision avoidance (optioneel).
