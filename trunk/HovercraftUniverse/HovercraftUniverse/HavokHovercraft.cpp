@@ -135,7 +135,7 @@ void HavokHovercraft::update(){
 
 	//##Collision state update
 	//TODO (Dirk) ik heb hier de collision update gezet, = goed?
-	//TODO set the '1's to '0' - but first collision detection needs a fix - the hovercraft thinks it's colliding with the asteroid.
+	//TODO set the '1's to '0' - but first collision detection needs a fix - the hovercraft thinks it's colliding with something it's not.
 	if ((mCollisionCounter > 1) && (!hovercraft->isInCollisionState())) {
 		hovercraft->setCollisionState(true);
 	} else if ((mCollisionCounter <= 1) && (hovercraft->isInCollisionState())) {

@@ -62,3 +62,21 @@ function map(value, min1, max1, min2, max2)
 	return interpolate(normalize(value, min1, max1), min2, max2);
 end
 
+--[[
+--	Clamp a value within an inclusive range.
+--	Ogre::Math::Clamp (without the assert)
+--]]
+function clamp(val, minval, maxval)
+	return math.max(math.min(val, maxval), minval);
+end
+
+--Function for Ogre::Vector3
+--@return the angle between the vectors, in degrees, not radians.
+function angleBetween(this, dest)
+	local lenProduct = this:length() * dest:length();
+	local f = this:dotProduct(dest) / lenProduct;
+	f = clamp(f, -1.0, 1.0);
+	local result = math.acos(f);
+	--Convert to degrees
+	return result * (180.0 / math.pi);
+end
