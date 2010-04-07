@@ -33,7 +33,7 @@ public:
 	 * @param state the race state
 	 * @param playerSettings The general settings for this player
 	 */
-	RacePlayer(RaceState* state, PlayerSettings* playerSettings);
+	RacePlayer(RaceState* state, PlayerSettings* playerSettings, bool serverOwner = false);
 
 	/**
 	 * Constructor

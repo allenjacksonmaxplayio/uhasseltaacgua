@@ -25,6 +25,25 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 		addPlayer(rplayer);
 	}
 
+	/*
+	//Code to add bots to the game, unfinished!
+	if (lobby->isFillWithBots()) {
+		//This 5 should be replaced by the real maximum number of players
+		int botsNeeded = 5 - lobby->getNumberOfPlayers();
+
+		//Add bots to the game
+		for (int i = 1; i <= botsNeeded; ++i) {
+			//Create the playersettings
+			PlayerSettings* settings = new PlayerSettings(lobby, (short)-i, true);
+			lobby->addPlayer(settings);
+			settings->setCharacter(0);
+			settings->setHovercraft(0);
+			settings->setPlayerName("BOT");
+			RacePlayer* rplayer = new RacePlayer(this, settings, true);
+			addPlayer(rplayer);
+		}
+	}
+	*/
 	// Load the track on the server
 	mLoader->load(mTrackFilename);
 }

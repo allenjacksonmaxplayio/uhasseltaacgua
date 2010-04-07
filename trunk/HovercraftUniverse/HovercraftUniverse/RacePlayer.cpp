@@ -6,15 +6,17 @@
 
 namespace HovUni {
 
-RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
+RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings, bool serverOwner) :
 	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(-1) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->dependsOn(state->getNetworkNode());
 
-	// Set owner
-	mNode->setOwner(mPlayerSettings->getID(), true);
+	if (!serverOwner) {
+		// Set owner
+		mNode->setOwner(mPlayerSettings->getID(), true);
+	}
 }
 
 RacePlayer::RacePlayer(Lobby* lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,

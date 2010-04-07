@@ -8,7 +8,7 @@
 
 namespace HovUni {
 
-PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
+PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID, bool serverOwner) :
 	NetworkEntity(3), mUserID(userID), mCharacter(0), mHovercraft(0), mPlayerName(""),
 			mLobby(lobby) {
 
@@ -16,8 +16,10 @@ PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->setEventNotification(true, false);
 
-	// Set owner
-	mNode->setOwner(userID, true);
+	if (!serverOwner) {
+		// Set owner
+		mNode->setOwner(userID, true);
+	}
 
 	// No default values, they can be set in the ini file
 }

@@ -41,7 +41,7 @@ public:
 	 * @param lobby the lobby
 	 * @param userID the ID of the user
 	 */
-	PlayerSettings(Lobby * lobby, unsigned int userID);
+	PlayerSettings(Lobby * lobby, unsigned int userID, bool serverOwner = false);
 
 	/**
 	 * Constructor

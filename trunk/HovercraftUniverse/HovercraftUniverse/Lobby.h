@@ -224,6 +224,20 @@ public:
 	 */
 	bool isFillWithBots() { return mFillWithBots; }
 
+	/**
+	 * Request the maximum number of players allowed
+	 *
+	 * @return The maximum number of players allowed
+	 */
+	int getMaxNmbrPlayers() { return mMaximumPlayers; }
+
+	/**
+	 * Request the number of connected palyers
+	 *
+	 * @return The number of real players
+	 */
+	int getNumberOfPlayers() { return mCurrentPlayers; }
+
 protected:
 
 	/**
