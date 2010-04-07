@@ -1,9 +1,11 @@
 --[[
---	Pathfinding AI
+--	Pathfollowing AI
 --	@author Dirk Delahaye, 23/03/2010
 --
 -- TODO:
 -- (24/03/2010): Implement "arrival" behaviour.
+-- DONE:
+-- (07/04/2010): Abstracted throttle control
 --]]
 AI_NAME = "PathAI"; --Not too long, this appears in every logline
 dofile("scripts/AI/Utils.lua");
@@ -47,7 +49,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	--game:luaLog(AI_NAME .. " :: " .. msg);
+	game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
@@ -68,6 +70,53 @@ function setPath(path)
 	mPathSize = table.getn(mPath);
 end
 
+--[[
+--	Controls the throttle.
+--	@param	percent	The w
+--]]
+function speedTo(percent)
+	local curSpeed = getMySpeed();
+	--for now, just accelerate or do nothing
+	game:setAction(BRAKE, false);
+	if (curSpeed > percent) then
+		game:setAction(ACCELERATE, false);
+	else
+		game:setAction(ACCELERATE, true);
+	end
+end
+
+function getMySpeed()
+	return mEntity:getSpeed() / mEntity:getMaximumSpeed();
+end
+
+function slowDown()
+	if (getMySpeed() < 0.1) then --Do not go slower than 10%!
+		speedUp();
+	else
+		game:setAction(BRAKE, false);
+		game:setAction(ACCELERATE, false);
+	end
+end
+
+function speedUp()
+	game:setAction(BRAKE, false);
+	game:setAction(ACCELERATE, true);
+end
+
+function turnLeft()
+	game:setAction(TURNLEFT, true);
+	game:setAction(TURNRIGHT, false);
+end
+
+function turnRight()
+	game:setAction(TURNLEFT, false);
+	game:setAction(TURNRIGHT, true);
+end
+
+function goStraight()
+	game:setAction(TURNLEFT, false);
+	game:setAction(TURNRIGHT, false);
+end
 
 --[[
 --	Main function
@@ -84,22 +133,21 @@ function decide()
 	if (false) then
 		local speed = mEntity:getSpeed();
 		--println("Collision Avoidance! Braking and turning right! Speed is " .. speed);
+		--TODO steer the opposite way
 		if (speed < 0) then
 			--...
 		else
-			--Positive speed
+			--Brake!!!!
 			game:setAction(ACCELERATE, false);
 			game:setAction(BRAKE, true);
-			game:setAction(TURNLEFT, false);
-			game:setAction(TURNRIGHT, true);
+			turnRight();
 		end
 		return 0;
 	end
 	--############################### END COLLISION AVOIDANCE
 
 
-	--############################### PATH FINDING
-	game:setAction(BRAKE, false);
+	--############################### PATH FOLLOWING
 	local probe = position + (velocity * PATH_PROBELENGTH);
 	--println("Probe: " .. toString(probe));
 	local distanceToPath = math.huge; --math.huge = +infinity
@@ -112,7 +160,6 @@ function decide()
 			local p0 = Vector3(p0Vector4.x, p0Vector4.y, p0Vector4.z);
 			local p1 = Vector3(p1Vector4.x, p1Vector4.y, p1Vector4.z);
 
-			println("Path[" .. key .. "]:" .. "p0V4=" .. toString(p0Vector4) .. "p1V4=" .. toString(p1Vector4) .. "p0=" .. toString(p0) .. "p1=" .. toString(p1) );
 
 			local project = project(probe, p0, p1);
 			if (position:distance(project) < distanceToPath) then
@@ -147,12 +194,11 @@ function decide()
 	else
 		--No corrective steering required.
 		println("No corrective steering required.");
-		game:setAction(TURNRIGHT, false);
-		game:setAction(TURNLEFT, false);
+		goStraight();
 		if (position:distance(finish) > distanceThreshold) then
-			game:setAction(ACCELERATE, true);
+			speedUp();
 		else
-			game:setAction(ACCELERATE, false);
+			slowDown();
 		end
 		return 0;
 	end
@@ -163,7 +209,7 @@ function decide()
 
 
 
-
+	--######################################## STEERING
 
 
 	println("Corrective steering required. Target: " .. toString(targetPosition));
@@ -171,28 +217,28 @@ function decide()
 	targetOrientation:normalise();
 	local myOrientation = mEntity:getOrientation();
 	local side = myOrientation:crossProduct(mEntity:getUpVector());
+	local angle = angleBetween(myOrientation, targetPosition);
+	println("Angle is " .. angle);
 	side = side:dotProduct(targetOrientation);
 
 	if (position:distance(finish) > distanceThreshold) then --Arrival behaviour
-		game:setAction(ACCELERATE, true);
-		if (side > EPSILON) then
-			--println("Turning Right");
-			game:setAction(TURNLEFT, false);
-			game:setAction(TURNRIGHT, true);
-		elseif (side < -EPSILON) then
-			--println("Turning Left");
-			game:setAction(TURNRIGHT, false);
-			game:setAction(TURNLEFT, true);
+		local angleThreshold = 130;
+		if (angle > angleThreshold) then
+			slowDown();
 		else
-			--println("Going Straight");
-			game:setAction(TURNRIGHT, false);
-			game:setAction(TURNLEFT, false);
+			speedUp();
+		end
+		if (side > EPSILON) then
+			turnRight();
+		elseif (side < -EPSILON) then
+			turnLeft();
+		else
+			goStraight();
 		end
 	else
 		--todo arrival behaviour
-		game:setAction(ACCELERATE, false);
-		game:setAction(TURNRIGHT, false);
-		game:setAction(TURNLEFT, false);
+		slowDown();
+		goStraight();
 	end
 
 	return 0;
