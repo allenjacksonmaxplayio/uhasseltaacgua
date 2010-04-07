@@ -3,6 +3,7 @@
 #include "ControllerEventParser.h"
 #include <cassert>
 #include <OgreLogManager.h>
+#include "EntityPropertySystem.h"
 
 namespace HovUni {
 
@@ -15,6 +16,8 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 	changePosition(position);
 	changeOrientation(Ogre::Vector3::UNIT_Y.getRotationTo(upvector));
 	changeOrientation(Ogre::Vector3::NEGATIVE_UNIT_Z.getRotationTo(orientation));
+
+	mProperties = new EntityPropertyMap(this);
 }
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
@@ -23,6 +26,8 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 	// Update data
 	changePosition(position);
 	changeOrientation(orientation);
+
+	mProperties = new EntityPropertyMap(this);
 }
 
 Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators ): 
@@ -74,11 +79,14 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 	mOrientation[1] = announcementdata->getFloat(10);
 	mOrientation[2] = announcementdata->getFloat(10);
 	mOrientation[3] = announcementdata->getFloat(10);
+
+	mProperties = new EntityPropertyMap(this);
 }
 
 
 Entity::~Entity() {
 	// Empty
+	delete mProperties;
 }
 
 void Entity::changePosition(const Ogre::Vector3& newPosition) {
@@ -159,6 +167,10 @@ Ogre::Quaternion Entity::getQuaternion() const {
 	return mOrientation;
 }
 
+EntityPropertyMap * Entity::getPropertyMap() {
+	return mProperties;
+}
+
 void Entity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
 	//If user event
 	if ( type == eZCom_EventUser ){	
@@ -211,6 +223,8 @@ void Entity::setupReplication() {
 	replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
 	replicateOgreQuaternion(&mOrientation, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
 	replicateOgreVector3(&mVelocity, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
+
+	mNode->addReplicator(new EntityPropertyMapReplicator(*mProperties,ZCOM_REPRULE_AUTH_2_ALL,ZCOM_REPFLAG_MOSTRECENT),true);
 }
 
 void Entity::setAnnouncementData(ZCom_BitStream* stream) {

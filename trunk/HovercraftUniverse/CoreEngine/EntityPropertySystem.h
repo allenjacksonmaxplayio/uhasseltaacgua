@@ -1,7 +1,8 @@
-#ifndef EntityProperty_H_
-#define EntityProperty_H_
+#ifndef ENTITYPROPERTYSYSTEM_H_
+#define ENTITYPROPERTYSYSTEM_H_
 
 #include <zoidcom/zoidcom.h>
+#include <boost/thread/mutex.hpp>
 #include <map>
 
 namespace HovUni {
@@ -10,13 +11,19 @@ class Entity;
 class EntityProperty;
 class EntityPropertyMapReplicator;
 
+typedef std::pair<int,EntityProperty*> Property;
+typedef std::map<int,EntityProperty*> PropertyMap;
+
 /**
- * The container for properties, it is a wrapper arround a map
+ * The container for properties, it is a wrapper arround a map.
+ * This class is thread safe.
  * @author Pieter-Jan Pintens
  */
 class EntityPropertyMap {
 
 private:
+
+	boost::mutex mMutex;
 
 	/**
 	 * The replicator is our friend
@@ -38,9 +45,12 @@ private:
 	 */
 	signed char mUpdate;
 
+	/**
+	 * Call this method when there is an update that needs to be propagated over network
+	 */
+	void update();
+
 public:
-	typedef std::pair<int,EntityProperty*> Property;
-	typedef std::map<int,EntityProperty*> PropertyMap;
 
 	/**
 	 * Constructor
@@ -107,13 +117,76 @@ public:
 	 * @return the property removed from the map, null if no such property found
 	 */
 	EntityProperty * removeProperty ( EntityProperty * property );
-
-	/**
-	 * Call this method when there is an update that needs to be propagated over network
-	 */
-	void update();
 };
 
+/**
+ * Factory for all properties. This class is thread safe.
+ * @author Pieter-Jan Pintens
+ */
+class EntityPropertyFactory {
+
+private:
+
+	/**
+	 * Mutex
+	 */
+	static boost::mutex mMutex;
+
+	/**
+	 * The factory map used for creation of new Properties
+	 */
+	static std::map<int,EntityProperty*(*)()> * mFactory;
+
+public:
+
+	/**
+	 * Add a property to the factory, if the factory map is not created it will be created here
+	 *
+	 * @param id
+	 * @param creation function
+	 */
+	static void add(int id,EntityProperty*(*r)());
+
+	/**
+	 * Remove a property to the factory, if the factory map is emtpy after this remove it will be destroyed
+	 *
+	 * @param id
+	 */
+	static void remove(int id);
+
+	/**
+	 * Create a EntityPropery with given id
+	 *
+	 * @param id
+	 */
+	static EntityProperty* create(int id);
+};
+
+/**
+ * A tagging interface, user properties should add this as a static member!
+ * This interface will register the property under given ID which should be unique.
+ * @author Pieter-Jan Pintens
+ */
+template<typename T, int ID>
+class EntityPropertyTag{
+public:
+
+	EntityPropertyTag(){
+		EntityPropertyFactory::add(ID,&EntityPropertyTag::create);
+	}
+
+	~EntityPropertyTag(){
+		EntityPropertyFactory::remove(ID);
+	}
+
+	static EntityProperty * create(){
+		return new T(ID);
+	}
+
+	int getID(){
+		return ID;
+	}
+};
 
 /**
  * The base class for properties that can be attached to an entity
@@ -127,11 +200,7 @@ protected:
 	 * The map is our friend so it can set entity
 	 */
 	friend class EntityPropertyMap;
-
-	/**
-	 * The type
-	 */
-	int mType;	
+	friend class EntityPropertyMapReplicator;
 
 	/**
 	 * The entity the property belongs to
@@ -143,15 +212,19 @@ protected:
 	 */
 	signed char mVersion;
 
+	/**
+	 * The key for the property, this should be unique
+	 */
+	const int mKey;
+
 public:
 
 	/**
 	 * Constructor
 	 *
-	 * @param type
-	 * @param entity
+	 * @param id
 	 */
-	EntityProperty( int type );
+	EntityProperty( int id );
 
 	/**
 	 * Destructor
@@ -168,21 +241,21 @@ public:
 	 * Get the property type
 	 * @return the property type
 	 */
-	int getProperyType() const;
+	int getKey() const;
 
 	/**
 	 * Write this property to bitstream
 	 *
 	 * @param bitstream
 	 */
-	virtual void write(ZCom_BitStream * bitstream) = 0;
+	virtual void write(ZCom_BitStream& bitstream) const = 0;
 
 	/**
 	 * Read this property to bitstream
 	 *
 	 * @param bitstream
 	 */
-	virtual void read(ZCom_BitStream * bitstream) const = 0;
+	virtual void read(ZCom_BitStream& bitstream) = 0;
 
 	/**
 	 * Call this method when there is an update that needs to be propagated over network
@@ -196,6 +269,11 @@ public:
 class EntityPropertyMapReplicator : public ZCom_ReplicatorAdvanced {
 
 private:
+
+	/**
+	 * Every 3 seconds a forced update is send
+	 */
+	static const unsigned int DEFAULT_TIMEOUT = 20L;	
 
 	enum TYPE {
 		ADD = 0x0,
@@ -213,7 +291,32 @@ private:
 	 */
 	unsigned char mUpdate;
 
-	//keep copy of the authority
+	/**
+	 * Copy of the Map to find changes
+	 */
+	std::map<int,int> mCopy;	
+
+	/**
+	 * Connection id of the server
+	 */
+	ZCom_ConnID mAuthority;
+
+	/**
+	 * Timeout before some forced update is send 
+	 */
+	unsigned int mTimeout;
+
+private:
+
+	//Update the map with info on the stream
+	void updateMap(ZCom_BitStream &_stream);
+
+	//check for and send updates of the map
+	void storeAdd(EntityProperty * property, ZCom_BitStream &_stream);
+
+	void storeRemove(int propertykey, ZCom_BitStream &_stream);
+
+	void storeUpdate(EntityProperty * property, ZCom_BitStream &_stream);
 
 public:
 
@@ -249,6 +352,13 @@ public:
 
 	virtual void Process (eZCom_NodeRole _localrole, zU32 _simulation_time_passed);
  	//Do any kind of processing. 
+
+
+	virtual void* peekData(){ return 0; }
+	virtual void clearPeekData(){}
+	virtual void onDataAcked(ZCom_ConnID _cid, zU32 _reference_id, ZCom_BitStream *_data){}
+	virtual void onDataLost(ZCom_ConnID _cid, zU32 _reference_id, ZCom_BitStream *_data) {}
+
 
 };
 

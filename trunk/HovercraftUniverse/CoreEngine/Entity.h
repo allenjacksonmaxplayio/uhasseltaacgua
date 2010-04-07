@@ -9,6 +9,8 @@
 
 namespace HovUni {
 
+class EntityPropertyMap;
+
 /**
  * An entity is an object in the game world that has a game state. This state can be modified by the 
  * interaction of players with the game.
@@ -17,6 +19,11 @@ namespace HovUni {
  */
 class Entity: public NetworkEntity {
 protected:
+
+	/**
+	 * Map with all properties for the entity
+	 */
+	EntityPropertyMap * mProperties;
 	
 	/** The unique name of the entity */
 	Ogre::String mName;
@@ -182,6 +189,13 @@ public:
 	 * @return the orientation
 	 */
 	Ogre::Quaternion getQuaternion() const;
+
+	/**
+	 * Get the map with all properties of this entity
+	 * 
+	 * @return map with all properties of this entity
+	 */
+	EntityPropertyMap * getPropertyMap();
 
 protected:
 	/**
