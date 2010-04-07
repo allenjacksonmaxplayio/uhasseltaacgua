@@ -537,6 +537,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="EntityProperty"
+					>
+					<File
+						RelativePath=".\BoostProperty.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="GameEvents"
@@ -964,6 +972,14 @@
 					</File>
 					<File
 						RelativePath=".\RaceStateListener.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="EntityProperties"
+					>
+					<File
+						RelativePath=".\BoostProperty.h"
 						>
 					</File>
 				</Filter>

@@ -1,39 +1,91 @@
 #include "EntityPropertySystem.h"
 #include "Entity.h"
 
+#include <list>
+
 namespace HovUni {
 
-EntityPropertyMap::EntityPropertyMap( Entity * entity ):
+//// MAP FACT ///
+
+boost::mutex EntityPropertyFactory::mMutex;
+std::map<int,EntityProperty*(*)()> * EntityPropertyFactory::mFactory = 0;
+
+void EntityPropertyFactory::add(int id,EntityProperty*(*r)()){
+	boost::mutex::scoped_lock lock(mMutex);
+
+	if (!mFactory){
+		mFactory = new std::map<int,EntityProperty*(*)()>();
+	}
+	
+	mFactory->insert(std::pair<int,EntityProperty*(*)()>(id,r));
+}
+
+void EntityPropertyFactory::remove(int id){
+	boost::mutex::scoped_lock lock(mMutex);
+
+	if (mFactory){
+		mFactory->erase(id);
+
+		if (mFactory->empty()){
+			delete mFactory;
+			mFactory = 0;
+		}
+	}
+}
+
+EntityProperty* EntityPropertyFactory::create(int id){
+	boost::mutex::scoped_lock lock(mMutex);
+
+	if (mFactory){
+		std::map<int,EntityProperty*(*)()>::iterator i = mFactory->find(id);
+		if ( i == mFactory->end() )
+			return 0;
+		else
+			return i->second();
+	}
+	else {
+		return 0;
+	}
+}
+
+
+//// MAP ///
+
+EntityPropertyMap::EntityPropertyMap(Entity * entity):
 	mEntity(entity), mUpdate(0) {
 }
 
 EntityPropertyMap::~EntityPropertyMap(){
 	
 	//destroy all properties
-	for ( PropertyMap::iterator i = mMap.begin(); i != mMap.end(); i++ ){
+	for (PropertyMap::iterator i = mMap.begin(); i != mMap.end(); i++){
 		delete i->second;
 		i->second = 0;
 	}
 	mMap.clear();
 }
 
-bool EntityPropertyMap::addProperty( EntityProperty * property  ){	
+bool EntityPropertyMap::addProperty(EntityProperty * property ){	
+	boost::mutex::scoped_lock lock(mMutex);
+
 	property->mEntity = mEntity;
 	
-	std::pair<PropertyMap::iterator,bool> r = mMap.insert(Property(property->getProperyType(),property));
+	std::pair<PropertyMap::iterator,bool> r = mMap.insert(Property(property->getKey(),property));
 	
 	update();
 
 	return r.second;
 }
 
-bool EntityPropertyMap::hasProperty( int key ) const {
+bool EntityPropertyMap::hasProperty(int key) const {
 	return mMap.find(key) != mMap.end();
 }
 
-EntityProperty * EntityPropertyMap::getProperty( int key ){
+EntityProperty * EntityPropertyMap::getProperty(int key){
+	boost::mutex::scoped_lock lock(mMutex);
+
 	PropertyMap::iterator i = mMap.find(key);
-	if ( i == mMap.end() ){
+	if (i == mMap.end()){
 		return 0;
 	}	
 	else {
@@ -41,17 +93,20 @@ EntityProperty * EntityPropertyMap::getProperty( int key ){
 	}
 }
 
-bool EntityPropertyMap::removeProperty ( int key, bool del ){
+bool EntityPropertyMap::removeProperty (int key, bool del){
+	boost::mutex::scoped_lock lock(mMutex);
 
 	PropertyMap::iterator i = mMap.find(key);
-	if ( i == mMap.end() ){
+	if (i == mMap.end()){
 		return false;
 	}	
 	else {
-		mMap.erase(i);
-
-		if ( del )
+		if (del){
 			delete i->second;
+			i->second = 0;
+		}
+
+		mMap.erase(i);
 
 		update();
 
@@ -59,13 +114,15 @@ bool EntityPropertyMap::removeProperty ( int key, bool del ){
 	}
 }
 
-bool EntityPropertyMap::removeProperty ( EntityProperty * property, bool del ){
-	return removeProperty(property->getProperyType(),del);
+bool EntityPropertyMap::removeProperty (EntityProperty * property, bool del){
+	return removeProperty(property->getKey(),del);
 }
 
-EntityProperty * EntityPropertyMap::removeProperty ( int key ){
+EntityProperty * EntityPropertyMap::removeProperty (int key){
+	boost::mutex::scoped_lock lock(mMutex);
+
 	PropertyMap::iterator i = mMap.find(key);
-	if ( i == mMap.end() ){
+	if (i == mMap.end()){
 		return 0;
 	}	
 	else {
@@ -78,9 +135,11 @@ EntityProperty * EntityPropertyMap::removeProperty ( int key ){
 	}
 }
 
-EntityProperty * EntityPropertyMap::removeProperty ( EntityProperty * property ){
-	PropertyMap::iterator i = mMap.find(property->getProperyType());
-	if ( i == mMap.end() ){
+EntityProperty * EntityPropertyMap::removeProperty (EntityProperty * property){
+	boost::mutex::scoped_lock lock(mMutex);
+
+	PropertyMap::iterator i = mMap.find(property->getKey());
+	if (i == mMap.end()){
 		return 0;
 	}	
 	else {
@@ -96,33 +155,47 @@ void EntityPropertyMap::update(){
 	mUpdate++;
 }
 
+// PROPERTY //
 
-EntityProperty::EntityProperty(int type):
-	mType(type), mEntity(0), mVersion(0)
-{
+EntityProperty::EntityProperty( int id ):
+	mEntity(0), mVersion(0), mKey(id){
 }
 
-EntityProperty::~EntityProperty(void)
-{
+EntityProperty::~EntityProperty(void){
 }
 
 Entity * EntityProperty::getEntity(){
 	return mEntity;
 }
 
-int EntityProperty::getProperyType() const {
-	return mType;
+void EntityProperty::update(){
+	mVersion++;
 }
 
+int EntityProperty::getKey() const{
+	return mKey;
+}
+
+// REPLICATOR //
 
 EntityPropertyMapReplicator::EntityPropertyMapReplicator (EntityPropertyMap& data, ZCom_ReplicatorSetup * setup):
-	ZCom_ReplicatorAdvanced(setup), mData(data) {
+	ZCom_ReplicatorAdvanced(setup), mData(data), mTimeout(0), mUpdate(data.mUpdate) {
+
+	for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+		mCopy.insert(std::pair<int,int>(i->first,i->second->mVersion));
+	}
 
 	m_flags |= ZCOM_REPLICATOR_INITIALIZED;
+	m_flags |= ZCOM_REPLICATOR_CALLPROCESS;
 }
 
 EntityPropertyMapReplicator::EntityPropertyMapReplicator(EntityPropertyMap& data, zU8 _flags, zU8 _rules, zU8 _intercept_id, zS16 _mindelay, zS16 _maxdelay):
-	ZCom_ReplicatorAdvanced(NULL), mData(data) {
+	ZCom_ReplicatorAdvanced(NULL), mData(data), mTimeout(0), mUpdate(data.mUpdate) {
+	
+	for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+		mCopy.insert(std::pair<int,int>(i->first,i->second->mVersion));
+	}
+		
 	// make sure m_setup will be deleted when the replicator is deleted
 	_flags |= ZCOM_REPFLAG_SETUPAUTODELETE;
 
@@ -135,122 +208,249 @@ EntityPropertyMapReplicator::EntityPropertyMapReplicator(EntityPropertyMap& data
 	}
 
 	m_flags |= ZCOM_REPLICATOR_INITIALIZED;
+	m_flags |= ZCOM_REPLICATOR_CALLPROCESS;
+}
+
+void EntityPropertyMapReplicator::updateMap(ZCom_BitStream &_stream){
+	//parse the info and update the map	
+	zU8 records = _stream.getInt(sizeof(zU8)*8);
+
+	//check the type of the records and apply the updates
+	for (zU8 i = 0; i < records; i++){
+		zU8 type = _stream.getInt(sizeof(zU8)*2);	//2BITS
+		int proptype = _stream.getSignedInt(sizeof(int)*8);
+
+		switch (type){
+			case UPDATE:					
+				{
+					//read new fields
+					EntityProperty * property = mData.getProperty(proptype);
+					assert(property); //THIS MUST EXISTS ON THE CLIENT TOO!!
+					property->read(_stream);
+					std::cout << "UPDATE " << property->getKey() << std::endl;
+					break;
+				}
+			case ADD:
+				{
+					
+					//lookup AND add				
+					EntityProperty * property = EntityPropertyFactory::create(proptype);
+					assert(property);	//THIS MUST EXISTS ON THE CLIENT TOO!!
+					property->read(_stream);
+					mData.addProperty(property);
+					std::cout << "ADD " << property->getKey() << std::endl;
+					break;
+				}
+			case REMOVE:
+				{
+					//kill it
+					bool success = mData.removeProperty(proptype,true);
+					std::cout << "REMOVED " << proptype << std::endl;
+					//assert(success);
+					break;
+				}
+		};
+	}
+}
+
+void EntityPropertyMapReplicator::storeAdd(EntityProperty * property, ZCom_BitStream &stream){
+	//WRITE ACTION	
+	stream.addInt(ADD,sizeof(zU8)*2);
+	//write the type
+	stream.addSignedInt(property->getKey(),sizeof(int)*8);
+	//write the object
+	property->write(stream);		
+}
+
+void EntityPropertyMapReplicator::storeRemove(int propertykey, ZCom_BitStream &stream){
+	//WRITE ACTION
+	stream.addInt(REMOVE,sizeof(zU8)*2);
+	//write the type
+	stream.addSignedInt(propertykey,sizeof(int)*8);
+}
+
+void EntityPropertyMapReplicator::storeUpdate(EntityProperty * property, ZCom_BitStream &stream){
+	//WRITE ACTION	
+	stream.addInt(UPDATE,sizeof(zU8)*2);
+	//write the type
+	stream.addSignedInt(property->getKey(),sizeof(int)*8);
+	//write the object
+	property->write(stream);
 }
 
 void EntityPropertyMapReplicator::onConnectionAdded (ZCom_ConnID _cid, eZCom_NodeRole _remoterole){
 
-	//if i'm the server send the entire map info to the new guy
-	if ( getNode()->getRole() == eZCom_RoleAuthority ){
+	/*//if i'm the server send the entire map info to the new guy
+	if (getNode()->getRole() == eZCom_RoleAuthority){
 
 		//for every entry in my property map send an ADD command to the new client
-		
-		ZCom_BitStream stream;
+		ZCom_BitStream * stream = new ZCom_BitStream();
 
 		//version 
-		stream.addSignedInt(mData.mUpdate,sizeof(zS8)*8);
-		stream.addInt(mData.mMap.size(),sizeof(zU8)*8);
+		stream->addSignedInt(mData.mUpdate,sizeof(zS8)*8);
+		
+		//number of records
+		stream->addInt(mData.mMap.size(),sizeof(zU8)*8);
 
 		//an add command for all
-		for ( EntityPropertyMap::PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++ ){
-			stream.addInt(ADD,sizeof(zU8)*2);
-
-			//write the type
-			stream.addSignedInt(i->second->getProperyType(),sizeof(int)*8);
-
-			//write the object
-			i->second->write(&stream);		
+		for (PropertyMap::iterator i = mCopy.begin(); i != mCopy.end(); i++){
+			storeAdd(i->second,*stream);
 		}
 
-		sendDataDirect(eZCom_ReliableOrdered,_cid,&stream,0);
-	}
+		sendDataDirect(eZCom_ReliableUnordered,_cid,stream);
+	}*/
+
+	//TODO 
 }
 
 void EntityPropertyMapReplicator::onDataReceived (ZCom_ConnID _cid, eZCom_NodeRole _remoterole, ZCom_BitStream &_stream, bool _store, zU32 _estimated_time_sent){
 	//Data from server is cool
-	if ( _remoterole == eZCom_RoleAuthority ){
+	if (_remoterole == eZCom_RoleAuthority){
 
-		//TODO versie check
-
-		//parse the info and update the map	
+		//version
 		zS8 version = _stream.getSignedInt(sizeof(zS8)*8);
-		zU8 records = _stream.getInt(sizeof(zU8)*8);
 
-		//check the type of the records and apply the updates
-		for ( zU8 i = 0; i < records; i++ ){
-			zU8 type = _stream.getInt(sizeof(zU8)*2);	//2BITS
-			int proptype = _stream.getSignedInt(sizeof(int)*8);
+		//std::cout << "RECEIVED version=" << (int)version << std::endl;
 
-			switch ( type ){
-				case UPDATE:
-					{
-					EntityProperty * property = mData.getProperty(proptype);
-					property->read(&_stream);
-					break;
-					}
-				case ADD:
-					//TODO LOOKUP AND RESTORE??
-					break;
-				case REMOVE:
-					{
-					//kill it
-					mData.removeProperty(proptype,true);
-					break;
-					}
-			};
-		}
+		updateMap(_stream);
 	}
-	else if ( _remoterole == eZCom_RoleOwner && getNode()->getRole() == eZCom_RoleAuthority ){
-		//TODO FIX SOME SYSTEM THAT DOES PERMISSIONS??
+
+
+	//Server that receives data from owner might be cool too
+	/*else if (_remoterole == eZCom_RoleOwner && getNode()->getRole() == eZCom_RoleAuthority){
+
 		zS8 version = _stream.getSignedInt(sizeof(zS8)*8);
-		zU8 records = _stream.getInt(sizeof(zU8)*8);
 
-		//check the type of the records and apply the updates
-		for ( zU8 i = 0; i < records; i++ ){
-			zU8 type = _stream.getInt(sizeof(zU8)*2);	//2BITS
-			
-			switch ( type ){
-				case UPDATE:
-					{
-					EntityProperty * property = mData.getProperty(type);
-					property->read(&_stream);
-					break;
-					}
-				case ADD:
-					break;
-				case REMOVE:
-					{
-					mData.removeProperty(type,true);
-					break;
-					}
-			};
+		if (!_store){
+			updateMap(_stream,false);
 		}
+		else {
+			//TODO FIX SOME SYSTEM THAT DOES PERMISSIONS??
+			//TODO versie check
+			bool newupdate = true;
 
-		//TODO fix version number
-
+			if (newupdate){
+				updateMap(_stream,true);
+			}
+			else{
+				updateMap(_stream,false);
+			}
+		}
 		//SYNC WITH OTHER CLIENTS (happens next update..)
-	}
+	}*/
 }
 
 void EntityPropertyMapReplicator::Process (eZCom_NodeRole _localrole, zU32 _simulation_time_passed){
-	if ( _localrole == eZCom_RoleAuthority || _localrole == eZCom_RoleOwner ){
+	if (_localrole == eZCom_RoleAuthority ){
 		//check for updates and send them
 
-		if ( mData.mUpdate != mUpdate ){
-/*
-			BitStream bs;
-		
-			//if i'm owner i propagate data to server, he will propagete to others!
-			if ( _localrole == eZCom_RoleOwner ){
-				sendDataDirect(eZCom_SendMode::eZCom_ReliableOrdered, AUTH, &bs);
-			}
-			else {
-				sendData(eZCom_SendMode::eZCom_ReliableOrdered, &bs);
-			}
+		//lock properties
+		mData.mMutex.lock();
 
-			mUpdate = mData.mUpdate;*/
+		//list with updated properties
+		std::list<EntityProperty*> updatedProperties;	
+
+		//list with new properties
+		std::list<EntityProperty*> newProperties;
+
+		//list with ids that are removed
+		std::list<int> removedProperties;		
+	
+		/*if ( !newCopy.empty() ){
+			std::cout << "newCopy" << std::endl;
+			for (std::map<int,int>::iterator i = newCopy.begin(); i != newCopy.end(); i++){
+				std::cout << i->first << std::endl;	
+			}
 		}
 
+		if ( !mCopy.empty() ){
+			std::cout << "mCopy" << std::endl;
+			for (std::map<int,int>::iterator i = mCopy.begin(); i != mCopy.end(); i++){
+				std::cout << i->first << std::endl;	
+			}	
+		}*/
 
+		//quick check if versions have changed
+		if ( mUpdate != mData.mUpdate ){
+
+			//element added or removed
+
+			//find removed elements
+			for (std::map<int,int>::iterator i = mCopy.begin(); i != mCopy.end(); i++){
+				if (mData.mMap.find(i->first) == mData.mMap.end()){
+					removedProperties.push_back(i->first);
+				}
+			}
+
+			//find new elements
+			for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+				if (mCopy.find(i->first) == mCopy.end()){
+					newProperties.push_back(i->second);
+				}
+			}
+		}
+
+		//find updated elements
+		for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+			std::map<int,int>::iterator j = mCopy.find(i->first);
+			if ((j != mCopy.end()) && (i->second->mVersion != j->second)){
+				updatedProperties.push_back(i->second);
+			}
+		}
+
+		mTimeout += _simulation_time_passed;
+
+		int changes = updatedProperties.size() + newProperties.size() + removedProperties.size();
+
+		if ( changes != 0 /*|| mTimeout > DEFAULT_TIMEOUT*/ ){
+
+			mTimeout = 0;
+
+			//std::cout << "UPDATE: version=" << mData.mUpdate << " changes=" << changes << std::endl;
+
+			ZCom_BitStream * bs = new ZCom_BitStream();
+
+			//add newUpdate
+			bs->addSignedInt(mData.mUpdate,sizeof(zS8)*8);
+
+			//add number of entries
+			bs->addInt(changes,sizeof(zU8)*8);
+
+			//Send updates
+			for (std::list<EntityProperty*>::iterator i = updatedProperties.begin(); i != updatedProperties.end(); i++) {
+				//send update
+				//std::cout << "U: " << (*i)->getKey() << std::endl;				
+				storeUpdate(*i,*bs);
+			}
+
+			//Send adds
+			for (std::list<EntityProperty*>::iterator i = newProperties.begin(); i != newProperties.end(); i++) {
+				//send add
+				//std::cout << "A: " << (*i)->getKey() << std::endl;
+				storeAdd(*i,*bs);
+			}
+
+			//Send removes
+			for (std::list<int>::iterator i = removedProperties.begin(); i != removedProperties.end(); i++) {
+				//send remove
+				//std::cout << "R: " << *i << std::endl;
+				storeRemove(*i,*bs);
+			}
+
+			//send the data
+			sendData(eZCom_ReliableUnordered,bs);
+		}
+
+		//Store the current status
+		mCopy.clear();
+		for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+			mCopy.insert(std::pair<int,int>(i->first,i->second->mVersion));
+		}
+
+		mUpdate = mData.mUpdate;
+
+		//unlock
+		mData.mMutex.unlock();
 	}
 }
 

@@ -2,6 +2,8 @@
 #include <OgreStringConverter.h>
 #include "Hovercraft.h"
 
+#include "BoostProperty.h"
+
 namespace HovUni {
 
 const Ogre::String SpeedBoost::CATEGORY("Boost");
@@ -55,10 +57,15 @@ Ogre::Vector3 SpeedBoost::getBoostDirection() const {
 void SpeedBoost::onEnter ( Hovercraft * hovercraft ){
 	hovercraft->setBoosted(true);	
 	hovercraft->setBoost(mBoost);
+
+	hovercraft->getPropertyMap()->addProperty( new BoostProperty());
 }
 
 
 void SpeedBoost::onLeave( Hovercraft * hovercraft ){
+
+	hovercraft->getPropertyMap()->removeProperty( 1, true );
+
 	hovercraft->setBoosted(false);
 }
 
