@@ -28,25 +28,34 @@ SimpleTest::SimpleTest( hkpWorld * world, HavokHovercraft * hover ):
 	SimpleEntityCollision(world,hover, 15, hkAabb(hkVector4(-2,-2,-2),hkVector4(2,2,2))){
 }
 
-void SimpleTest::onOverlapEnter( ){
+void SimpleTest::onOverlapEnter() {
 	std::cout << "SimpleEntityCollision ENTER" << std::endl;
 }
 
-void SimpleTest::onOverlapLeave( ){
+void SimpleTest::onOverlapLeave() {
 	std::cout << "SimpleEntityCollision LEAVE" << std::endl;
 }
 
-AdvancedTest::AdvancedTest( hkpWorld * world, HavokHovercraft * hover ):
-	AdvancedEntityCollision(world,hover,2, new hkpCapsuleShape( hkVector4(0,0,0),hkVector4(0,0,-10),4) ) {
+AdvancedTest::AdvancedTest(hkpWorld * world, HavokHovercraft * hover):
+	AdvancedEntityCollision(
+		world,
+		hover,
+		2, 
+		new hkpCapsuleShape(
+			hkVector4(0,0,0),
+			hkVector4(0,0,DedicatedServer::getEngineSettings()->getFloatValue("Collision", "ProbeLength")*(-1)),
+			DedicatedServer::getEngineSettings()->getFloatValue("Collision", "ProbeRadius")
+		)
+	) {
 }
 
-void AdvancedTest::onOverlapEnter( ){
+void AdvancedTest::onOverlapEnter() {
 	//std::cout << "AdvancedEntityCollision ENTER" << std::endl;
 	HavokHovercraft* havokHovercraft = dynamic_cast<HavokHovercraft*>(mEntity);
 	havokHovercraft->increaseCollisionCounter();
 }
 
-void AdvancedTest::onOverlapLeave( ){
+void AdvancedTest::onOverlapLeave() {
 	//std::cout << "AdvancedEntityCollision LEAVE" << std::endl;
 	HavokHovercraft* havokHovercraft = dynamic_cast<HavokHovercraft*>(mEntity);
 	havokHovercraft->decreaseCollisionCounter();
