@@ -65,9 +65,11 @@ void PlayerSettings::setHovercraft(unsigned int hov) {
 }
 
 const Ogre::String PlayerSettings::getHovercraft() const {
-	// TODO Mapping?
+	// TODO Mapping? Must be performed in an INI to which the main INI refers. At the moment it is rather lame ..
 	if (mHovercraft == 0) {
 		return "hover1";
+	} else if (mHovercraft == 1) {
+		return "HippyCraft";
 	} else {
 		return "";
 	}
