@@ -16,7 +16,7 @@
             <rotation qx="-7.15256e-007" qy="6.61545e-009" qz="-3.72566e-009" qw="1" />
             <entity name="hover1" castShadows="true" receiveShadows="true" meshFile="hover1.mesh">
                 <userData>
-                    <![CDATA[<Hovercraft><Name>hover1</Name><Description>Nonw</Description><OgreEntity>hover1</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>1000</Speed><Mass>50</Mass><Acceleration>200</Acceleration><Steering>100</Steering></Hovercraft>]]>
+                    <![CDATA[<Hovercraft><Name>hover1</Name><Description>Nonw</Description><OgreEntity>hover1</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>100</Speed><Mass>50</Mass><Acceleration>5</Acceleration><Steering>100</Steering></Hovercraft>]]>
 </userData>
                 <subentities>
                     <subentity index="0" materialName="HoverBodyMap" />
