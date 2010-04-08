@@ -36,27 +36,6 @@ material Asteroid
 				texture PlanetGeomDiffuseMap.png
 				filtering linear linear linear
 			}
-			
-			texture_unit Layer0
-			{
-				texture_alias Layer0
-				texture dirt.jpg
-				filtering linear linear linear
-			}
-
-			texture_unit Layer1
-			{
-				texture_alias Layer1
-				texture grass.jpg
-				filtering linear linear linear
-			}	
-
-			texture_unit Layer2
-			{
-				texture_alias Layer2
-				texture sand.jpg
-				filtering linear linear linear
-			}	
 		}
 
 	}
