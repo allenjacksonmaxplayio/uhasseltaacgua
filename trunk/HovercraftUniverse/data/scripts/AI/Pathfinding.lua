@@ -222,7 +222,7 @@ function decide()
 	side = side:dotProduct(targetOrientation);
 
 	if (position:distance(finish) > distanceThreshold) then --Arrival behaviour
-		local angleThreshold = 130;
+		local angleThreshold = 90;
 		if (angle > angleThreshold) then
 			slowDown();
 		else
