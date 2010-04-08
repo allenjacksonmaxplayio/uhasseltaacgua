@@ -8,12 +8,14 @@
 #include "HavokEntity.h"
 #include "Entity.h"
 #include "Hovercraft.h"
+#include "BoostProperty.h"
 
 namespace HovUni {
 
-BoostAction::BoostAction(const hkVector4& boost, hkReal gain, HavokEntity * entity):
-	hkpUnaryAction(entity->getRigidBody()), mBoost(boost), mGain(gain)
+BoostAction::BoostAction(HavokEntity * entity, hkLong PhantomId):
+	hkpUnaryAction(entity->getRigidBody()), mEntity(entity), mPhantomId(PhantomId)
 {
+	this->setUserData(HK_BOOSTACTION_ID);
 }
 
 BoostAction::~BoostAction(void)
@@ -21,20 +23,20 @@ BoostAction::~BoostAction(void)
 }
 
 void BoostAction::applyAction( const hkStepInfo& stepInfo ){
-	//if some boost left
-	if ( mBoost.lengthSquared3() > 10e-3 ){
-/*
-		getRigidBody()->applyForce(stepInfo.m_deltaTime,mBoost);
-		//getRigidBody()->applyLinearImpulse(mBoost);
 
-		if ( mEntity->isBoosted() ){
-			//if in boost GOOOOO
-			boostvalue += boostvalue/4.0f;
-		}
-		else {
-			//else slow down
-			boostvalue -= boostvalue/10.0f;
-		}*/
+	Entity* ent = mEntity->getEntity();
+	EntityProperty * prop = ent->getPropertyMap()->getProperty(BoostProperty::KEY);
+
+	BoostProperty * boost = dynamic_cast<BoostProperty *>(prop);
+
+	if( boost ){
+		const Ogre::Vector3& boostdir = boost->getDirection();
+		hkVector4 force;
+		force.set(boostdir.x,boostdir.y,boostdir.z);
+		hkReal newboost = boost->getBoost() + boost->getGain();				
+		force.mul4(newboost);
+		getRigidBody()->applyLinearImpulse(force);
+		boost->setBoost(newboost);
 	}
 }
 

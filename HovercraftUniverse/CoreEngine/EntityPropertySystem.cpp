@@ -176,13 +176,17 @@ int EntityProperty::getKey() const{
 	return mKey;
 }
 
+signed char EntityProperty::getVersion() const{
+	return mVersion;
+}
+
 // REPLICATOR //
 
 EntityPropertyMapReplicator::EntityPropertyMapReplicator (EntityPropertyMap& data, ZCom_ReplicatorSetup * setup):
 	ZCom_ReplicatorAdvanced(setup), mData(data), mTimeout(0), mUpdate(data.mUpdate) {
 
 	for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
-		mCopy.insert(std::pair<int,int>(i->first,i->second->mVersion));
+		mCopy.insert(std::pair<int,int>(i->first,i->second->getVersion()));
 	}
 
 	m_flags |= ZCOM_REPLICATOR_INITIALIZED;
@@ -193,7 +197,7 @@ EntityPropertyMapReplicator::EntityPropertyMapReplicator(EntityPropertyMap& data
 	ZCom_ReplicatorAdvanced(NULL), mData(data), mTimeout(0), mUpdate(data.mUpdate) {
 	
 	for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
-		mCopy.insert(std::pair<int,int>(i->first,i->second->mVersion));
+		mCopy.insert(std::pair<int,int>(i->first,i->second->getVersion()));
 	}
 		
 	// make sure m_setup will be deleted when the replicator is deleted
@@ -213,16 +217,21 @@ EntityPropertyMapReplicator::EntityPropertyMapReplicator(EntityPropertyMap& data
 
 void EntityPropertyMapReplicator::updateMap(ZCom_BitStream &_stream){
 	//parse the info and update the map	
+
+	//get the number of records (ADD, UPDATE , REMOVE)
 	zU8 records = _stream.getInt(sizeof(zU8)*8);
 
-	//check the type of the records and apply the updates
 	for (zU8 i = 0; i < records; i++){
+
+		//Get the type of the record
 		zU8 type = _stream.getInt(sizeof(zU8)*2);	//2BITS
-		int proptype = _stream.getSignedInt(sizeof(int)*8);
 
 		switch (type){
-			case UPDATE:					
+			case UPDATE:	
 				{
+					//Get the property the action works on
+					int proptype = _stream.getSignedInt(sizeof(int)*8);
+
 					//read new fields
 					EntityProperty * property = mData.getProperty(proptype);
 					assert(property); //THIS MUST EXISTS ON THE CLIENT TOO!!
@@ -231,8 +240,10 @@ void EntityPropertyMapReplicator::updateMap(ZCom_BitStream &_stream){
 					break;
 				}
 			case ADD:
-				{
-					
+				{		
+					//Get the property the action works on
+					int proptype = _stream.getSignedInt(sizeof(int)*8);
+
 					//lookup AND add				
 					EntityProperty * property = EntityPropertyFactory::create(proptype);
 					assert(property);	//THIS MUST EXISTS ON THE CLIENT TOO!!
@@ -243,10 +254,34 @@ void EntityPropertyMapReplicator::updateMap(ZCom_BitStream &_stream){
 				}
 			case REMOVE:
 				{
+					//Get the property the action works on
+					int proptype = _stream.getSignedInt(sizeof(int)*8);
+
 					//kill it
 					bool success = mData.removeProperty(proptype,true);
 					std::cout << "REMOVED " << proptype << std::endl;
 					//assert(success);
+					break;
+				}
+			case RESET:
+				{
+					PropertyMap newmap;
+
+					int mapentries = _stream.getInt(sizeof(int)*8);
+					for ( int i = 0; i < mapentries; i++ ){
+						int propkey = _stream.getSignedInt(sizeof(int)*8);
+						EntityProperty * property = EntityPropertyFactory::create(propkey);
+						property->read(_stream);	
+						newmap.insert(Property(propkey,property));
+					}
+
+					//overwrite the map
+					mData.mMutex.lock();
+					mData.mMap = newmap;	
+					mData.mMutex.unlock();
+
+					std::cout << "RESET" << std::endl;
+
 					break;
 				}
 		};
@@ -254,7 +289,7 @@ void EntityPropertyMapReplicator::updateMap(ZCom_BitStream &_stream){
 }
 
 void EntityPropertyMapReplicator::storeAdd(EntityProperty * property, ZCom_BitStream &stream){
-	//WRITE ACTION	
+	//write action	
 	stream.addInt(ADD,sizeof(zU8)*2);
 	//write the type
 	stream.addSignedInt(property->getKey(),sizeof(int)*8);
@@ -263,14 +298,14 @@ void EntityPropertyMapReplicator::storeAdd(EntityProperty * property, ZCom_BitSt
 }
 
 void EntityPropertyMapReplicator::storeRemove(int propertykey, ZCom_BitStream &stream){
-	//WRITE ACTION
+	//write action	
 	stream.addInt(REMOVE,sizeof(zU8)*2);
 	//write the type
 	stream.addSignedInt(propertykey,sizeof(int)*8);
 }
 
 void EntityPropertyMapReplicator::storeUpdate(EntityProperty * property, ZCom_BitStream &stream){
-	//WRITE ACTION	
+	//write action	
 	stream.addInt(UPDATE,sizeof(zU8)*2);
 	//write the type
 	stream.addSignedInt(property->getKey(),sizeof(int)*8);
@@ -341,72 +376,17 @@ void EntityPropertyMapReplicator::onDataReceived (ZCom_ConnID _cid, eZCom_NodeRo
 }
 
 void EntityPropertyMapReplicator::Process (eZCom_NodeRole _localrole, zU32 _simulation_time_passed){
+	
+	//if server check for updates and send them to clients
 	if (_localrole == eZCom_RoleAuthority ){
-		//check for updates and send them
-
 		//lock properties
 		mData.mMutex.lock();
 
-		//list with updated properties
-		std::list<EntityProperty*> updatedProperties;	
-
-		//list with new properties
-		std::list<EntityProperty*> newProperties;
-
-		//list with ids that are removed
-		std::list<int> removedProperties;		
-	
-		/*if ( !newCopy.empty() ){
-			std::cout << "newCopy" << std::endl;
-			for (std::map<int,int>::iterator i = newCopy.begin(); i != newCopy.end(); i++){
-				std::cout << i->first << std::endl;	
-			}
-		}
-
-		if ( !mCopy.empty() ){
-			std::cout << "mCopy" << std::endl;
-			for (std::map<int,int>::iterator i = mCopy.begin(); i != mCopy.end(); i++){
-				std::cout << i->first << std::endl;	
-			}	
-		}*/
-
-		//quick check if versions have changed
-		if ( mUpdate != mData.mUpdate ){
-
-			//element added or removed
-
-			//find removed elements
-			for (std::map<int,int>::iterator i = mCopy.begin(); i != mCopy.end(); i++){
-				if (mData.mMap.find(i->first) == mData.mMap.end()){
-					removedProperties.push_back(i->first);
-				}
-			}
-
-			//find new elements
-			for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
-				if (mCopy.find(i->first) == mCopy.end()){
-					newProperties.push_back(i->second);
-				}
-			}
-		}
-
-		//find updated elements
-		for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
-			std::map<int,int>::iterator j = mCopy.find(i->first);
-			if ((j != mCopy.end()) && (i->second->mVersion != j->second)){
-				updatedProperties.push_back(i->second);
-			}
-		}
-
 		mTimeout += _simulation_time_passed;
-
-		int changes = updatedProperties.size() + newProperties.size() + removedProperties.size();
-
-		if ( changes != 0 /*|| mTimeout > DEFAULT_TIMEOUT*/ ){
-
+		if ( mTimeout > DEFAULT_TIMEOUT ){
 			mTimeout = 0;
-
-			//std::cout << "UPDATE: version=" << mData.mUpdate << " changes=" << changes << std::endl;
+	
+			//send entire map in case if someone missed something
 
 			ZCom_BitStream * bs = new ZCom_BitStream();
 
@@ -414,37 +394,118 @@ void EntityPropertyMapReplicator::Process (eZCom_NodeRole _localrole, zU32 _simu
 			bs->addSignedInt(mData.mUpdate,sizeof(zS8)*8);
 
 			//add number of entries
-			bs->addInt(changes,sizeof(zU8)*8);
+			bs->addInt(1,sizeof(zU8)*8);
 
-			//Send updates
-			for (std::list<EntityProperty*>::iterator i = updatedProperties.begin(); i != updatedProperties.end(); i++) {
-				//send update
-				//std::cout << "U: " << (*i)->getKey() << std::endl;				
-				storeUpdate(*i,*bs);
-			}
+			//write action
+			bs->addInt(RESET,sizeof(zU8)*2);
 
-			//Send adds
-			for (std::list<EntityProperty*>::iterator i = newProperties.begin(); i != newProperties.end(); i++) {
-				//send add
-				//std::cout << "A: " << (*i)->getKey() << std::endl;
-				storeAdd(*i,*bs);
-			}
-
-			//Send removes
-			for (std::list<int>::iterator i = removedProperties.begin(); i != removedProperties.end(); i++) {
-				//send remove
-				//std::cout << "R: " << *i << std::endl;
-				storeRemove(*i,*bs);
+			//write map
+			bs->addInt(mData.mMap.size(),sizeof(int)*8);
+			for ( PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+				bs->addSignedInt(i->first,sizeof(int)*8);
+				i->second->write(*bs);
 			}
 
 			//send the data
-			sendData(eZCom_ReliableUnordered,bs);
+			sendData(eZCom_ReliableUnordered,bs);			
+		}
+		else {
+			//list with updated properties
+			std::list<EntityProperty*> updatedProperties;	
+
+			//list with new properties
+			std::list<EntityProperty*> newProperties;
+
+			//list with ids that are removed
+			std::list<int> removedProperties;		
+		
+			/*if ( !newCopy.empty() ){
+				std::cout << "newCopy" << std::endl;
+				for (std::map<int,int>::iterator i = newCopy.begin(); i != newCopy.end(); i++){
+					std::cout << i->first << std::endl;	
+				}
+			}
+
+			if ( !mCopy.empty() ){
+				std::cout << "mCopy" << std::endl;
+				for (std::map<int,int>::iterator i = mCopy.begin(); i != mCopy.end(); i++){
+					std::cout << i->first << std::endl;	
+				}	
+			}*/
+
+			//quick check if versions have changed
+			if ( mUpdate != mData.mUpdate ){
+
+				//different version means element added or removed
+
+				//find removed elements
+				for (std::map<int,int>::iterator i = mCopy.begin(); i != mCopy.end(); i++){
+					if (mData.mMap.find(i->first) == mData.mMap.end()){
+						removedProperties.push_back(i->first);
+					}
+				}
+
+				//find new elements
+				for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+					if (mCopy.find(i->first) == mCopy.end()){
+						newProperties.push_back(i->second);
+					}
+				}
+			}
+
+			//find updated elements
+			for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
+				std::map<int,int>::iterator j = mCopy.find(i->first);
+				if ((j != mCopy.end()) && (i->second->getVersion() != j->second)){
+					updatedProperties.push_back(i->second);
+				}
+			}
+
+			//changes is number of adds, removes and updates
+			int changes = updatedProperties.size() + newProperties.size() + removedProperties.size();
+
+			if (changes != 0){
+
+				//std::cout << "UPDATE: version=" << mData.mUpdate << " changes=" << changes << std::endl;
+
+				ZCom_BitStream * bs = new ZCom_BitStream();
+
+				//add newUpdate
+				bs->addSignedInt(mData.mUpdate,sizeof(zS8)*8);
+
+				//add number of entries
+				bs->addInt(changes,sizeof(zU8)*8);
+
+				//Send updates
+				for (std::list<EntityProperty*>::iterator i = updatedProperties.begin(); i != updatedProperties.end(); i++) {
+					//send update
+					//std::cout << "U: " << (*i)->getKey() << std::endl;				
+					storeUpdate(*i,*bs);
+				}
+
+				//Send adds
+				for (std::list<EntityProperty*>::iterator i = newProperties.begin(); i != newProperties.end(); i++) {
+					//send add
+					//std::cout << "A: " << (*i)->getKey() << std::endl;
+					storeAdd(*i,*bs);
+				}
+
+				//Send removes
+				for (std::list<int>::iterator i = removedProperties.begin(); i != removedProperties.end(); i++) {
+					//send remove
+					//std::cout << "R: " << *i << std::endl;
+					storeRemove(*i,*bs);
+				}
+
+				//send the data
+				sendData(eZCom_ReliableUnordered,bs);
+			}
 		}
 
 		//Store the current status
 		mCopy.clear();
 		for (PropertyMap::iterator i = mData.mMap.begin(); i != mData.mMap.end(); i++){
-			mCopy.insert(std::pair<int,int>(i->first,i->second->mVersion));
+			mCopy.insert(std::pair<int,int>(i->first,i->second->getVersion()));
 		}
 
 		mUpdate = mData.mUpdate;

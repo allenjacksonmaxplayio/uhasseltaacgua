@@ -183,7 +183,11 @@ public:
 		return new T(ID);
 	}
 
-	int getID(){
+	operator int (){
+		return ID;
+	}
+
+	int operator() (){
 		return ID;
 	}
 };
@@ -200,7 +204,7 @@ protected:
 	 * The map is our friend so it can set entity
 	 */
 	friend class EntityPropertyMap;
-	friend class EntityPropertyMapReplicator;
+	//friend class EntityPropertyMapReplicator;
 
 	/**
 	 * The entity the property belongs to
@@ -261,6 +265,13 @@ public:
 	 * Call this method when there is an update that needs to be propagated over network
 	 */
 	void update();
+
+	/**
+	 * Get the current version of the property
+	 *
+	 * @return the current version
+	 */
+	signed char getVersion() const;
 };
 
 /**
@@ -273,12 +284,13 @@ private:
 	/**
 	 * Every 3 seconds a forced update is send
 	 */
-	static const unsigned int DEFAULT_TIMEOUT = 20L;	
+	static const unsigned int DEFAULT_TIMEOUT = 200L;	
 
 	enum TYPE {
 		ADD = 0x0,
 		UPDATE = 0x1,
-		REMOVE = 0x2
+		REMOVE = 0x2,
+		RESET = 0x3
 	};
 
 	/**
@@ -317,6 +329,8 @@ private:
 	void storeRemove(int propertykey, ZCom_BitStream &_stream);
 
 	void storeUpdate(EntityProperty * property, ZCom_BitStream &_stream);
+
+	void storeReset(ZCom_BitStream &_stream);
 
 public:
 

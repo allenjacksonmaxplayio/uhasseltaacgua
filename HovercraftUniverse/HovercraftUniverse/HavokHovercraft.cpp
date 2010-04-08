@@ -310,11 +310,6 @@ void HavokHovercraft::update(){
 	//hovercraft->setSpeed(speedSize);
 	//std::cout << scaledspeed << "  " << speed << "  " << speedSize << std::endl;
 	mWorld->unmarkForWrite();
-
-	BoostProperty * p = (BoostProperty*) hovercraft->getPropertyMap()->getProperty(1);
-	if ( p ) {
-		p->setBoost(10);
-	}
 }
 
 

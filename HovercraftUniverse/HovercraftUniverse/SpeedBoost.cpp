@@ -54,19 +54,14 @@ Ogre::Vector3 SpeedBoost::getBoostDirection() const {
 	return quat.xAxis().normalisedCopy();
 }
 
-void SpeedBoost::onEnter ( Hovercraft * hovercraft ){
-	hovercraft->setBoosted(true);	
-	hovercraft->setBoost(mBoost);
-
-	hovercraft->getPropertyMap()->addProperty( new BoostProperty());
+bool SpeedBoost::onEnter ( Entity * e ){
+	e->getPropertyMap()->addProperty( new BoostProperty(mBoost,mGain,getBoostDirection()));
+	return true;
 }
 
 
-void SpeedBoost::onLeave( Hovercraft * hovercraft ){
-
-	hovercraft->getPropertyMap()->removeProperty( 1, true );
-
-	hovercraft->setBoosted(false);
+void SpeedBoost::onLeave( Entity * e ){
+	e->getPropertyMap()->removeProperty( 1, true );
 }
 
 void SpeedBoost::setupReplication(){

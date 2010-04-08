@@ -358,7 +358,7 @@ void ServerLoader::onBoost( SpeedBoost * boost ) {
 
 	hkTransform tr(r, t);
 
-	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( shape, tr , boost );	
+	SpeedBoostPhantom * phantom = new SpeedBoostPhantom( shape, tr, boost );	
 	mHovercraftWorld->mPhysicsWorld->addPhantom( phantom );
 	phantom->removeReference();
 	shape->removeReference();

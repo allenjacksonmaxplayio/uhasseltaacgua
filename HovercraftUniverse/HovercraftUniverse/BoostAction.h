@@ -11,37 +11,41 @@ class HavokEntity;
  * This action will be triggered when boost is triggered.
  * @author Pieter-Jan Pintens
  */
-class BoostAction : hkpUnaryAction
+class BoostAction : public hkpUnaryAction
 {
 private:
-
-	/**
-	 * The current boost
-	 */
-	hkVector4 mBoost;
-
-	/**
-	 * The boost gain for each update
-	 */
-	hkReal mGain;
 
 	/**
 	 * The entity this boost works on
 	 */
 	HavokEntity * mEntity;
 
+	/**
+	 * The phantom ID
+	 */
+	hkUlong mPhantomId;
+
 public:
+
+	static const hkUlong HK_BOOSTACTION_ID = 0x28024500;
 
 	/**
 	 * Constructor
 	 *
-	 * @param boost, the initial boost vector
-	 * @param gain, the boost gain for each update 
 	 * @param entity, the entity on which the boost works
+	 * @param phantomid, the phantom that trigered the boost
 	 */
-	BoostAction( const hkVector4& boost, hkReal gain, HavokEntity * entity );
+	BoostAction( HavokEntity * entity, hkLong phantomid );
 
 	~BoostAction(void);
+
+	/**
+	 * Get the phantom ID
+	 * @return phantom ID
+	 */
+	inline hkUlong& getPhantomId() {
+		return mPhantomId;
+	}
 
 private:
 
