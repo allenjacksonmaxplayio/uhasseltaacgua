@@ -159,7 +159,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case FreeRoam:
 		// Get input from free roaming controller and apply
-		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 10), Ogre::Node::TS_LOCAL);
+		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 100), Ogre::Node::TS_LOCAL);
 		mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw(), Ogre::Node::TS_WORLD);
 		mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch(), Ogre::Node::TS_LOCAL);
 		break;

@@ -152,6 +152,9 @@ void HavokHovercraft::update(){
 	}
 	//##End collision update
 
+	//get current speed
+	float currentspeed = mEntity->getSpeed();
+	
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
 
 	//Speed on a scale [0-1]
@@ -160,15 +163,35 @@ void HavokHovercraft::update(){
 	//speeding
 	if (status.moveForward()) {	
 		scaledspeed = 1;
+		/*
+		currentspeed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
+
+		if (currentspeed > hovercraft->getMaximumSpeed()) {
+			currentspeed = hovercraft->getMaximumSpeed();
+		}*/
 	}
 
 	//braking..
 	if (status.moveBackward()) {
-		scaledspeed = -1;		
-	}
+		scaledspeed = -1;	
+		/*
+		currentspeed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
 
-	//get current speed
-	float currentspeed = mEntity->getSpeed();
+		if (currentspeed < -1 * hovercraft->getMaximumSpeed()) {
+			currentspeed = -1 * hovercraft->getMaximumSpeed();
+		}
+		*/
+	}
+/*
+	// damping
+	if (!status.moveBackward() && !status.moveForward()) {
+		currentspeed *= mSpeedDamping;
+		if ((currentspeed < 1.0f) && (currentspeed > -1.0f)) {
+			currentspeed = 0.0f;
+		}
+	}
+*/
+	
 
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
@@ -208,6 +231,13 @@ void HavokHovercraft::update(){
 		}
 	}
 
+	hkRotation newOrientation;
+	newOrientation.getColumn(0) = mSide;
+	newOrientation.getColumn(1) = mUp;
+	newOrientation.getColumn(2).setCross(mSide, mUp);
+	newOrientation.renormalize();
+
+
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
 	stepInfo.m_invDeltaTime = 1.0f / Havok::getSingleton().getTimeStep();
@@ -223,7 +253,7 @@ void HavokHovercraft::update(){
 		input.m_wantJump = false;
 
 		input.m_up = mUp;
-		input.m_forward = mForward;
+		input.m_forward = newOrientation.getColumn(2);
 		input.m_stepInfo = stepInfo;
 		input.m_characterGravity.setMul4(-mCharacterGravity, mUp);
 		input.m_velocity = mCharacterRigidBody->getRigidBody()->getLinearVelocity();
@@ -248,19 +278,29 @@ void HavokHovercraft::update(){
 		HK_TIMER_END();
 	}
 
-	float actualspeed = mCharacterRigidBody->getRigidBody()->getMotion()->getLinearVelocity().length3();
-
-	std::cout << "ACTUAL SPEED :" << actualspeed << std::endl;
+	hkVector4 newSpeed = mCharacterRigidBody->getRigidBody()->getMotion()->getLinearVelocity();
+	float actualSpeed = newSpeed.length3();
+	// limit speed
+	if (actualSpeed > hovercraft->getMaximumSpeed()) {
+		newSpeed.normalize3();
+		newSpeed.mul4(hovercraft->getMaximumSpeed());
+		actualSpeed = newSpeed.length3();
+	}
+	
+	//std::cout << "ACTUAL SPEED: " << actualSpeed << std::endl;
 
 	//set new speed
-	mEntity->setSpeed(actualspeed);
+	mEntity->setSpeed(actualSpeed);
+	
 
 	//POST STEP
+	/*
 	hkRotation newOrientation;
 	newOrientation.getColumn(0) = mSide;
 	newOrientation.getColumn(1) = mUp;
 	newOrientation.getColumn(2).setCross(mSide, mUp);
 	newOrientation.renormalize();
+	*/
 	HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE);
 	HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mUp, hkColor::RED);
 
@@ -274,8 +314,6 @@ void HavokHovercraft::update(){
 	angularVelocity.setMul4(gain / Havok::getSingleton().getTimeStep(), angle);
 	mCharacterRigidBody->setAngularVelocity(angularVelocity);
 
-	hkVector4 newSpeed = output.m_velocity;
-	hkSimdReal speedSize = -newSpeed.dot3(mForward)/mForward.dot3(mForward);
 	mWorld->unmarkForWrite();
 }
 
@@ -348,6 +386,7 @@ void HavokHovercraft::load(const hkVector4& position){
 
 	mCharacterContext = new hkpCharacterContext( manager, HK_CHARACTER_IN_AIR );
 	mCharacterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
+	mCharacterContext->setFilterEnable(false);
 
 	//Create a character rigid body
 	mCharacterRigidBody = new hkpCharacterRigidBody( info );
