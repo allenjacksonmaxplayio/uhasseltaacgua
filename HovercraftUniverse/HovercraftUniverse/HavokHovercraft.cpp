@@ -153,55 +153,28 @@ void HavokHovercraft::update(){
 	//##End collision update
 
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
-	hkReal speed = hovercraft->getSpeed();
-
 
 	//Speed on a scale [0-1]
 	float scaledspeed = 0.f;
 
 	//speeding
 	if (status.moveForward()) {	
-
-		speed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 20;
-		
-		if (speed > hovercraft->getMaximumSpeed()) {
-			speed = hovercraft->getMaximumSpeed();
-		}
-		
+		scaledspeed = 1;
 	}
 
 	//braking..
 	if (status.moveBackward()) {
-		
-		if (speed > 0.0f) {
-			// braking should be harder than moving backwards
-			speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 20;
-		} else {
-			speed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep() * 10;
-		}
-		
-		if (speed < -1 * hovercraft->getMaximumSpeed()) {
-			speed = -1 * hovercraft->getMaximumSpeed();
-		}
-		
+		scaledspeed = -1;		
 	}
 
-	// slow down when idle
-	if (!status.moveBackward() && !status.moveForward()) {
-		speed *= mSpeedDamping;
-		if ((speed < 1.0f) && (speed > -1.0f)) {
-			speed = 0.0f;
-		}
-	}
+	//get current speed
+	float currentspeed = mEntity->getSpeed();
 
-	hovercraft->setSpeed(speed);
-
-	
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
 
 		// we can only turn while we're moving
-		if ((hovercraft->getSpeed() > 1.0f) || (hovercraft->getSpeed() < -1.0f)) {
+		if ((currentspeed > 1.0f) || (currentspeed < -1.0f)) {
 			float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 			if (angle != 0.0f) {
 				hkVector4 axis = mUp;
@@ -214,16 +187,16 @@ void HavokHovercraft::update(){
 			}
 
 			if (status.moveLeft()) {
-				if (speed > 0.0f) {
+				if (currentspeed > 0.0f) {
 					angle = mRotationDelta;
-				} else if (speed < 0.0f) {
+				} else if (currentspeed < 0.0f) {
 					angle = -mRotationDelta;
 				}
 			}
 			if (status.moveRight()) {
-				if (speed > 0.0f) {
+				if (currentspeed > 0.0f) {
 					angle = -mRotationDelta;
-				} else if (speed < 0.0f) {
+				} else if (currentspeed < 0.0f) {
 					angle = mRotationDelta;
 				}
 			}
@@ -234,17 +207,6 @@ void HavokHovercraft::update(){
 			mSide.normalize3();
 		}
 	}
-
-	scaledspeed = speed / Hovercraft::MAXSPEED; 
-	/*
-	if (status.moveForward()) {
-		scaledspeed = 1000.0f;
-	} else if (status.moveBackward()) {
-		scaledspeed = -1000.0f;
-	} else {
-		scaledspeed = 0.0f;
-	}
-	*/
 
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = Havok::getSingleton().getTimeStep();
@@ -286,6 +248,13 @@ void HavokHovercraft::update(){
 		HK_TIMER_END();
 	}
 
+	float actualspeed = mCharacterRigidBody->getRigidBody()->getMotion()->getLinearVelocity().length3();
+
+	std::cout << "ACTUAL SPEED :" << actualspeed << std::endl;
+
+	//set new speed
+	mEntity->setSpeed(actualspeed);
+
 	//POST STEP
 	hkRotation newOrientation;
 	newOrientation.getColumn(0) = mSide;
@@ -307,8 +276,6 @@ void HavokHovercraft::update(){
 
 	hkVector4 newSpeed = output.m_velocity;
 	hkSimdReal speedSize = -newSpeed.dot3(mForward)/mForward.dot3(mForward);
-	//hovercraft->setSpeed(speedSize);
-	//std::cout << scaledspeed << "  " << speed << "  " << speedSize << std::endl;
 	mWorld->unmarkForWrite();
 }
 
@@ -343,30 +310,41 @@ void HavokHovercraft::load(const hkVector4& position){
 	hkpCharacterRigidBodyCinfo info;
 	info.m_mass = hovercraft->getMass();
 	info.m_shape = tmp;
-	info.m_maxLinearVelocity = Hovercraft::MAXSPEED;
-	info.m_maxForce = 1000.0f;
+	info.m_maxForce = 2000.0f;
 	info.m_position = position;
+	info.m_maxLinearVelocity = Hovercraft::MAXSPEED;
+	info.m_maxSpeedForSimplexSolver = Hovercraft::MAXSPEED;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
 	info.m_friction = 0.1f;
 	info.m_rotation = hkQuaternion::getIdentity();
-	
+
 	//set up the actions
-	hkpCharacterState* state;
 	hkpCharacterStateManager* manager = new hkpCharacterStateManager();
 
-	state = new hkpCharacterStateOnGround();
-	manager->registerState( state,	HK_CHARACTER_ON_GROUND );
+	{
+		hkpCharacterStateOnGround *state = new hkpCharacterStateOnGround();
+		manager->registerState( state,	HK_CHARACTER_ON_GROUND );
+		state->setDisableHorizontalProjection( true );
+		state->setSpeed(hovercraft->getMaximumSpeed());
+		state->setGain(5);
+		state->setMaxLinearAcceleration(hovercraft->getAcceleration());
+		state->removeReference();
+	}
 
-	static_cast<hkpCharacterStateOnGround*>( manager->getState( HK_CHARACTER_ON_GROUND ) )->setDisableHorizontalProjection( true );
-	state->removeReference();
+	{
+		hkpCharacterStateInAir * state = new hkpCharacterStateInAir();
+		manager->registerState( state,	HK_CHARACTER_IN_AIR );
+		state->setMaxLinearAcceleration(hovercraft->getAcceleration());
+		state->setGain(5);
+		state->setSpeed(hovercraft->getMaximumSpeed());
+		state->removeReference();
+	}
 
-	state = new hkpCharacterStateInAir();
-	manager->registerState( state,	HK_CHARACTER_IN_AIR );
-	state->removeReference();
-
-	state = new hkpCharacterStateJumping();
-	manager->registerState( state,	HK_CHARACTER_JUMPING );
-	state->removeReference();
+	{
+		hkpCharacterStateJumping * state = new hkpCharacterStateJumping();
+		manager->registerState( state,	HK_CHARACTER_JUMPING );
+		state->removeReference();
+	}
 
 	mCharacterContext = new hkpCharacterContext( manager, HK_CHARACTER_IN_AIR );
 	mCharacterContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
