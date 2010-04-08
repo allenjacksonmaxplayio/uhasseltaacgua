@@ -175,6 +175,46 @@
         </node>
     </nodes>
     <externals>
+        <item name="StartPosition06">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-111.835" y="9.48137" z="-10.813" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition05">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-111.697" y="9.48137" z="1.84398" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition04">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-100.11" y="9.48137" z="1.84398" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition03">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-100.248" y="9.48137" z="-10.813" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition02">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-87.0182" y="9.48137" z="1.84398" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
         <item name="Boost02">
             <userData>
                 <![CDATA[<Boost><Boost>500</Boost><Gain>100</Gain><OgreEntity>JumpGeo</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
@@ -191,7 +231,7 @@
             <rotation qx="2.29878e-016" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
             <scale x="3.13209" y="1.80303" z="1.80302" />
         </item>
-        <item name="StartPosition">
+        <item name="StartPosition01">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber><ProcessInterval>-1</ProcessInterval></StartPosition>]]>
 </userData>
