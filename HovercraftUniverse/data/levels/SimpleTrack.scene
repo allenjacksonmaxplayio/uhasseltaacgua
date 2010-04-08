@@ -159,6 +159,19 @@
                     <subentity index="0" materialName="Asteroid" />
                 </subentities>
             </entity>
+            <node name="JumpGeo01">
+                <position x="-130.239" y="-70.8872" z="8.01056" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.258819" qy="0.965926" qz="-8.05988e-008" qw="-5.74065e-008" />
+                <entity name="JumpGeo01" castShadows="true" receiveShadows="true" meshFile="JumpGeo01.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>Boost03</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="Material#28" />
+                    </subentities>
+                </entity>
+            </node>
         </node>
     </nodes>
     <externals>
@@ -225,6 +238,14 @@
             <position x="0" y="3.33491e-013" z="7.62939e-006" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="28.3886" y="16.5484" z="19.8434" />
+        </item>
+        <item name="Boost03">
+            <userData>
+                <![CDATA[<Boost><Boost>1000</Boost><Gain>200</Gain><OgreEntity>JumpGeo01</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
+</userData>
+            <position x="209.761" y="-71.1026" z="8.01057" />
+            <rotation qx="-0.258819" qy="0.965926" qz="-1.15878e-007" qw="-1.07706e-007" />
+            <scale x="7.81663" y="1.80303" z="3.46448" />
         </item>
         <item name="Planet02">
             <userData>
