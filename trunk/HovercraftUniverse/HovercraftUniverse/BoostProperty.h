@@ -11,9 +11,11 @@ namespace HovUni {
  */
 class BoostProperty: public EntityProperty
 {
-private:
+public:
 
-	static EntityPropertyTag<BoostProperty,1> tag;
+	static EntityPropertyTag<BoostProperty,1> KEY;
+
+private:	
 
 	Ogre::Real mBoost;
 
@@ -23,11 +25,29 @@ private:
 
 public:
 
-	BoostProperty();
+	BoostProperty( Ogre::Real boost, Ogre::Real gain, const Ogre::Vector3& direction );
 
 	BoostProperty(int id);
 
 	virtual ~BoostProperty(void);
+
+	/**
+	 * Get the direction
+	 *
+	 * @return direction
+	 */
+	const Ogre::Vector3& getDirection() const {
+		return mDirection;
+	}
+
+	/**
+	 * Get the boost
+	 *
+	 * @return boost
+	 */
+	Ogre::Real getBoost() const {
+		return mBoost;
+	}
 
 	/**
 	 * Set the boost
@@ -37,6 +57,15 @@ public:
 	void setBoost( Ogre::Real boost ){
 		mBoost = boost;
 		update();
+	}
+
+	/**
+	 * Get the gain
+	 *
+	 * @return gain
+	 */
+	Ogre::Real getGain() const {
+		return mGain;
 	}
 
 	/**

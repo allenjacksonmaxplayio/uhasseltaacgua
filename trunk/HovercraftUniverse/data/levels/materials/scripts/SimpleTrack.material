@@ -1,4 +1,21 @@
 
+material Material#28
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 1
+			diffuse 0.588 0.588 0.588 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
 material Asteroid
 {
 	technique Shader
@@ -12,34 +29,34 @@ material Asteroid
 			fragment_program_ref asteroidPS
 			{
 			}
-			
-			texture_unit Layer0
-            {
-				texture_alias Layer0
-				texture sand.jpg
-				filtering linear linear linear
-            }
-			
-			texture_unit Layer1
-            {
-				texture_alias Layer1
-				texture ice.jpg
-				filtering linear linear linear
-            }
-			
-			texture_unit Layer2
-            {
-				texture_alias Layer2
-				texture dirt.jpg
-				filtering linear linear linear
-            }
-			
+
 			texture_unit alphaMap0
 			{
 				texture_alias alphaMap0
 				texture PlanetGeomDiffuseMap.png
 				filtering linear linear linear
 			}
+			
+			texture_unit Layer0
+			{
+				texture_alias Layer0
+				texture dirt.jpg
+				filtering linear linear linear
+			}
+
+			texture_unit Layer1
+			{
+				texture_alias Layer1
+				texture grass.jpg
+				filtering linear linear linear
+			}	
+
+			texture_unit Layer2
+			{
+				texture_alias Layer2
+				texture sand.jpg
+				filtering linear linear linear
+			}	
 		}
 
 	}

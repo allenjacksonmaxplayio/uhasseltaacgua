@@ -8,6 +8,7 @@
 //Havok Framework
 #include "HavokEntity.h"
 #include "HavokEntityType.h"
+#include "BoostAction.h"
 
 //Entities Used
 #include "Hovercraft.h"
@@ -28,12 +29,35 @@ void SpeedBoostPhantom::addOverlappingCollidable( hkpCollidable* handle )
 {	
 	hkpRigidBody* rb = hkGetRigidBody(handle);
 
-	//if hovercraft send envent to checkpoint
+	bool actionfound = false;
+
 	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ) {
 		HavokEntity * ch = reinterpret_cast<HavokEntity*>(rb->getUserData());
 		Entity * e = ch->getEntity();
-		if ( e->getCategory() == Hovercraft::CATEGORY ){			
-			mBoost->onEnter(dynamic_cast<Hovercraft*>(e));
+		
+		if ( mBoost->onEnter(e) ){
+
+			//add the action if it doesn't exists
+			hkBool actionFound = false;
+
+			for( int i = 0; i < rb->getNumActions(); i++ )
+			{
+				if( rb->getAction(i)->getUserData() == BoostAction::HK_BOOSTACTION_ID )
+				{
+					if( static_cast<BoostAction*>( rb->getAction(i) )->getPhantomId() == reinterpret_cast<hkUlong>( this ) ){
+						actionFound = true;
+						break;
+					}
+				}
+			}
+
+			if( !actionFound )
+			{
+				// Add an action
+				BoostAction * boost = new BoostAction(ch, reinterpret_cast<hkUlong>(this));
+				rb->getWorld()->addAction( boost );
+				boost->removeReference();
+			}
 		}
 	}
 
@@ -48,8 +72,18 @@ void SpeedBoostPhantom::removeOverlappingCollidable( hkpCollidable* handle )
 	if ( (rb != HK_NULL) && HavokEntityType::isEntityType(rb,HavokEntityType::CHARACTER ) ) {
 		HavokEntity * ch = reinterpret_cast<HavokEntity*>(rb->getUserData());
 		Entity * e = ch->getEntity();
-		if ( e->getCategory() == Hovercraft::CATEGORY ){
-			mBoost->onLeave(dynamic_cast<Hovercraft*>(e));
+		mBoost->onLeave(e);
+
+		//remove the action
+		for( int i = 0; i < rb->getNumActions(); i++ )
+		{
+			if( rb->getAction(i)->getUserData() == BoostAction::HK_BOOSTACTION_ID )
+			{
+				if( static_cast<BoostAction*>( rb->getAction(i) )->getPhantomId() == reinterpret_cast<hkUlong>( this ) )
+				{
+					rb->getWorld()->removeAction( rb->getAction(i) );
+				}
+			}
 		}
 	}
 

@@ -87,16 +87,19 @@ public:
 	Ogre::Vector3 getBoostDirection() const;
 
 	/**
-	 * Called when given hovercraft enters the portal bounding box
-	 * @param hovercraft
+	 * Called when given entity enters the boost
+	 *
+	 * @param e
+	 * @return true if the entity should receive a boost, false if it should be ignored
 	 */
-	void onEnter ( Hovercraft * hovercraft );
+	bool onEnter ( Entity * e );
 
 	/**
-	 * Called when given hovercraft leaves the portal bounding box
-	 * @param hovercraft
+	 * Called when given entity leaves the boost
+	 *
+	 * @param e
 	 */
-	void onLeave( Hovercraft * hovercraft );
+	void onLeave( Entity * e );
 
 
 	/**

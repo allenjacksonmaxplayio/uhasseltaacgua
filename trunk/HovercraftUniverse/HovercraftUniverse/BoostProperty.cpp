@@ -2,10 +2,10 @@
 
 namespace HovUni {
 
-EntityPropertyTag<BoostProperty,1> BoostProperty::tag;
+EntityPropertyTag<BoostProperty,1> BoostProperty::KEY;
 
-BoostProperty::BoostProperty():
-	EntityProperty(tag.getID()){
+BoostProperty::BoostProperty(Ogre::Real boost, Ogre::Real gain, const Ogre::Vector3& direction):
+	EntityProperty(KEY), mBoost(boost), mGain(gain), mDirection(direction) {
 }
 
 BoostProperty::BoostProperty(int id):
