@@ -76,6 +76,24 @@ public:
 	void disconnect(const std::string& reason);
 
 	/**
+	 * Check if the client is connected
+	 *
+	 * @return true if the client is connected, false otherwise
+	 */
+	inline bool isConnected() const {
+		return mConnected;
+	}
+
+	/**
+	 * Get the connection ID
+	 *
+	 * @return the connection ID
+	 */
+	inline ZCom_ConnID getConnectionID() const {
+		return mConnID;
+	}
+
+	/**
 	 * Process incoming and outgoing packets
 	 *
 	 * @param timeSinceLastProcess the time that elapsed since the last process

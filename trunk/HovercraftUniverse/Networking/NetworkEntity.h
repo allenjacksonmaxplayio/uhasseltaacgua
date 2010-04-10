@@ -276,7 +276,6 @@ bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secr
 	} else if (role == eZCom_RoleOwner) {
 		return mNode->sendEvent(eZCom_ReliableOrdered, ZCOM_REPRULE_OWNER_2_AUTH, stream);
 	}
-	// Proxy should not send events for this entity
 	return false;
 }
 

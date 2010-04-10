@@ -14,7 +14,7 @@ class ServerCore;
  * Loader for the server
  * @author Pieter-Jan Pintens
  */
-class ServerLoader : public UserDataCallback, public Loader {
+class ServerLoader: public UserDataCallback, public Loader {
 private:
 
 	/**
@@ -35,7 +35,7 @@ private:
 	/**
 	 * Current player
 	 */
-	PlayerSettings * mPlayer;
+	RacePlayer* mPlayer;
 
 	Ogre::String mCurrentHovercraft;
 
@@ -49,41 +49,41 @@ public:
 
 	~ServerLoader();
 
-	virtual void load ( const Ogre::String& filename );
+	virtual void load(const Ogre::String& filename);
 
 	//Callbacks that need implementations
 
 	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData);
 
-	virtual void onExternal( OgreMax::Types::ExternalItem& externalitem);
+	virtual void onExternal(OgreMax::Types::ExternalItem& externalitem);
 
-	virtual void FinishedLoad( bool success );
+	virtual void FinishedLoad(bool success);
 
-	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
+	virtual void onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent);
 
 	//Custom objects
 
-	virtual void onAsteroid( Asteroid * asteroid );
+	virtual void onAsteroid(Asteroid * asteroid);
 
-	virtual void onStart( Start * start );
+	virtual void onStart(Start * start);
 
-	virtual void onStartPosition( StartPosition * startposition );
+	virtual void onStartPosition(StartPosition * startposition);
 
-	virtual void onCheckPoint( CheckPoint * checkpoint );
+	virtual void onCheckPoint(CheckPoint * checkpoint);
 
-	virtual void onFinish( Finish * finish );
+	virtual void onFinish(Finish * finish);
 
-	virtual void onHoverCraft( Hovercraft * hovercraft );
+	virtual void onHoverCraft(Hovercraft * hovercraft);
 
-	virtual void onTrack( Track * track );
+	virtual void onTrack(Track * track);
 
-	virtual void onPortal( Portal * portal );
+	virtual void onPortal(Portal * portal);
 
-	virtual void onBoost( SpeedBoost * boost );
+	virtual void onBoost(SpeedBoost * boost);
 
-	virtual void onPowerupSpawn( PowerupSpawn * powerupspawn );
+	virtual void onPowerupSpawn(PowerupSpawn * powerupspawn);
 
-	virtual void onResetSpawn( ResetSpawn * spawn );
+	virtual void onResetSpawn(ResetSpawn * spawn);
 };
 
 }

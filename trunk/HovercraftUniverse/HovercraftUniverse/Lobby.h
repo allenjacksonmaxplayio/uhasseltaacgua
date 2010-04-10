@@ -57,8 +57,8 @@ private:
 	/** The race state when a race is busy */
 	RaceState* mRaceState;
 
-	/** Value to check if we should fill the server with bots */
-	bool mFillWithBots;
+	/** Whether the lobby has bots or not */
+	bool mBots;
 
 public:
 
@@ -76,22 +76,22 @@ public:
 
 	/**
 	 * Process the lobby. This will process all events for the lobby and for all the
-	 * players in the lobby.
+	 * players in the lobby. (Server + Client)
 	 */
 	void process();
 
 	/**
-	 * Start the track. Called by owner
+	 * Start the track. (Client: Owner)
 	 */
 	void start();
 
 	/**
-	 * Check if the client is the administrator of the lobby.
+	 * Check if the client is the administrator of the lobby. (Client)
 	 */
 	bool isAdmin() const;
 
 	/**
-	 * Add a player setting to the lobby
+	 * Add a player setting to the lobby. (Server + Client)
 	 *
 	 * @param settings the player settings
 	 * @param ownPlayer indicates whether it is the setting of the own player
@@ -99,7 +99,7 @@ public:
 	void addPlayer(PlayerSettings * settings, bool ownPlayer = false);
 
 	/**
-	 * Get a player setting from the lobby
+	 * Get a player setting from the lobby. (Server + Client)
 	 *
 	 * @param id the id of the player
 	 * @return the settings
@@ -107,14 +107,14 @@ public:
 	PlayerSettings* getPlayer(ZCom_ConnID id);
 
 	/**
-	 * Add a lobby listener
+	 * Add a lobby listener (Client)
 	 *
 	 * @param listener the listener which will get called back upon events
 	 */
 	void addListener(LobbyListener* listener);
 
 	/**
-	 * Remove a lobby listener
+	 * Remove a lobby listener (Client)
 	 *
 	 * @param listener the listener
 	 */
@@ -129,7 +129,7 @@ public:
 	static std::string getClassName();
 
 	/**
-	 * Get a map with all players mapped on their connection id
+	 * Get a map with all players mapped on their connection id (Server + Client)
 	 *
 	 * @return player settings mapped on their connection id
 	 */
@@ -138,7 +138,7 @@ public:
 	}
 
 	/**
-	 * Get the own player settings
+	 * Get the own player settings (Client)
 	 *
 	 * @return the own player settings
 	 */
@@ -147,32 +147,30 @@ public:
 	}
 
 	/**
-	 * Get the track filename
+	 * Get the track filename (Server + Client)
 	 *
 	 * @return the filename of the track
 	 */
-	inline Ogre::String getTrackFilename() {
+	inline Ogre::String getTrackFilename() const {
 		return mTrackFilename;
 	}
 
 	/**
-	 * Set the race state
+	 * Set the race state. The state will be deleted by the lobby itself. (Server + Client)
 	 *
 	 * @param state the new race state
 	 */
 	void setRaceState(RaceState* state);
 
 	/**
-	 * Get the race state
+	 * Get the race state. (Server + Client)
 	 *
 	 * @return the race state
 	 */
 	RaceState* getRaceState();
 
-	// Connect callback on authority
-
 	/**
-	 * Called when player is about to connect
+	 * Called when player is about to connect. (Server)
 	 *
 	 * @param id the ID of the new connected player
 	 * @return true when there is room for a player, false if Lobby is full
@@ -180,14 +178,14 @@ public:
 	bool onConnectAttempt(ZCom_ConnID id);
 
 	/**
-	 * Called when player connects
+	 * Called when player connects. (Server)
 	 *
 	 * @param id the ID of the new connected player
 	 */
 	virtual void onConnect(ZCom_ConnID id);
 
 	/**
-	 * Called when player disconnects
+	 * Called when player disconnects. (Server)
 	 * 
 	 * @param id the ID of the disconnected player
 	 * @param reason the reason
@@ -195,60 +193,78 @@ public:
 	virtual void onDisconnect(ZCom_ConnID id, const std::string& reason);
 
 	/**
-	 * Called when admin sends start
+	 * Called when admin sends start. (Server)
 	 */
 	virtual void onStartServer();
 
 	/**
-	 * Called to notify the listeners of the start
+	 * Called to notify the listeners of the start. (Client)
 	 */
 	virtual void onStartClient();
 
 	/**
-	 * Called when admin changes the map
+	 * Called when admin changes the map. (Client: Owner)
 
 	 * @param filename the new filename of the map
 	 */
 	virtual void onTrackChange(const Ogre::String& filename);
 
 	/**
-	 * Mark the lobby to fill the server with bots or not.
+	 * Mark the lobby to fill the server with bots or not. (Client: Owner)
+	 *
 	 * @param val True when you want to fill with bots, false otherwise
 	 */
-	void setFillWithBots(bool val) { mFillWithBots = val; }
+	inline void setBots(bool val) {
+		mBots = val;
+	}
 
 	/**
-	 * Check if we want to fill with bots or not
+	 * Check if we want to fill with bots or not (Server + Client)
 	 *
 	 * @return True when we want to fill, false otherwise
 	 */
-	bool isFillWithBots() { return mFillWithBots; }
+	inline bool hasBots() const {
+		return mBots;
+	}
 
 	/**
-	 * Request the maximum number of players allowed
+	 * Set the maximum number of players allowed in the lobby. (Client: Owner)
+	 *
+	 * @param max The maximum number of players allowed
+	 */
+	inline void setMaxPlayers(int max) {
+		mMaximumPlayers = max;
+	}
+
+	/**
+	 * Request the maximum number of players allowed. (Server + Client)
 	 *
 	 * @return The maximum number of players allowed
 	 */
-	int getMaxNmbrPlayers() { return mMaximumPlayers; }
+	inline int getMaxPlayers() const {
+		return mMaximumPlayers;
+	}
 
 	/**
-	 * Request the number of connected palyers
+	 * Request the number of connected players. (Server + Client)
 	 *
 	 * @return The number of real players
 	 */
-	int getNumberOfPlayers() { return mCurrentPlayers; }
+	inline int getNumberOfPlayers() const {
+		return mCurrentPlayers;
+	}
 
 protected:
 
 	/**
-	 * Remove player connection id
+	 * Remove player connection id. (Server + Client)
 	 *
 	 * @param id the ID of the player
 	 */
 	void removePlayer(ZCom_ConnID id);
 
 	/**
-	 * Remove player
+	 * Remove player. (Server + Client)
 	 *
 	 * @param i the iterator pointing to the player
 	 */
@@ -259,8 +275,8 @@ protected:
 	/*
 	 * @see NetworkEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince)
 	 */
-	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
-			ZCom_BitStream* stream, float timeSince);
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream,
+			float timeSince);
 
 	/*
 	 * @see NetworkEntity::setupReplication()
@@ -273,46 +289,50 @@ protected:
 	virtual void setAnnouncementData(ZCom_BitStream* stream);
 
 	/**
-	 * Process a game event at the server
+	 * Process a game event at the server. (Server)
 	 *
 	 * @param event an event
 	 */
 	void processEventsServer(GameEvent* event);
 
 	/**
-	 * Process a game event at the owner
+	 * Process a game event at the owner. (Client: Owner)
 	 *
 	 * @param event an event
 	 */
 	void processEventsOwner(GameEvent* event);
 
 	/**
-	 * Process a game event at other clients
+	 * Process a game event at other clients. (Client: Others)
 	 *
 	 * @param event an event
 	 */
 	void processEventsOther(GameEvent* event);
-	
+
 	///////////////////////////
 	// INTERCEPTOR FUNCTIONS //
 	///////////////////////////
 public:
-		/**
+	/**
 	 * @inheritDoc
 	 */
-	bool inPreUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role) { return true; }
+	bool inPreUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role) {
+		return true;
+	}
 
 	/**
 	 * @inheritDoc
 	 */
-	bool inPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role,
-		ZCom_Replicator *_replicator, zU32 _estimated_time_sent) { return true; }
+	bool inPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, ZCom_Replicator *_replicator,
+			zU32 _estimated_time_sent) {
+		return true;
+	}
 
 	/**
 	 * @inheritDoc
 	 */
-	void inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role,
-			zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits);
+	void inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
+			zU32 _meta_bits);
 
 	/**
 	 * @inheritDoc
@@ -334,14 +354,14 @@ public:
 	}
 
 	/*! @copydoc ZCom_NodeReplicationInterceptor::outPreUpdateItem(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,ZCom_Replicator*) */
-	bool outPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role,
-			ZCom_Replicator *_replicator) {
+	bool outPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role, ZCom_Replicator *_replicator) {
 		return true;
 	}
 
 	/*! @copydoc ZCom_NodeReplicationInterceptor::outPostUpdate(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,zU32,zU32,zU32) */
-	void outPostUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role,
-		zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits) {}
+	void outPostUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
+			zU32 _meta_bits) {
+	}
 
 };
 

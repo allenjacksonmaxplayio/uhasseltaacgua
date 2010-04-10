@@ -33,7 +33,7 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue LobbyState::onPressStart(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		mClient->start();
+		mLobby->start();
 
 		return "success";
 	}
@@ -52,7 +52,7 @@ namespace HovUni {
 	Hikari::FlashValue LobbyState::botsValue(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		bool fillWithBots = args.at(0).getBool();
 
-		mLobby->setFillWithBots(fillWithBots);
+		mLobby->setBots(fillWithBots);
 
 		return "success";
 	}
@@ -156,7 +156,7 @@ namespace HovUni {
 		
 		//Set some initial gui values
 		onAdminChange(mLobby->isAdmin());
-		onBotsChange(mLobby->isFillWithBots());
+		onBotsChange(mLobby->hasBots());
 	}
 
 	void LobbyState::disable() {

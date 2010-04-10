@@ -11,6 +11,7 @@ namespace HovUni {
 HUServerThread::HUServerThread() : mServerCore(0), mStop(false) {
 	mServerCore = new HUServerCore();
 	mChatServer = new ChatServer();
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Server]: Ready for incoming connections";
 }
 
 HUServerThread::~HUServerThread() {

@@ -2,7 +2,9 @@
 #define RACESTATE_H
 
 #include "NetworkEntity.h"
-#include <list>
+#include <iostream>
+#include <vector>
+#include <set>
 
 namespace HovUni {
 
@@ -23,19 +25,28 @@ class RaceState: public NetworkEntity {
 public:
 	typedef std::map<ZCom_ConnID, RacePlayer*> playermap;
 
-	/** All the possible stated during the race */
+	/** All the possible states during the race */
 	static const enum States {
 		INITIALIZING = 0, /** Pre-race state, show intro */
+		LOADING, /** Server and clients load the world */
 		COUNTDOWN, /** The race will start, show countdown */
 		RACING, /** The race has started */
 		FINISHING, /** Someone has finished, wait for everyone to finish */
-		ROUNDUP
+		CLEANUP
 	/** Everyone has finished, show some stats and return to lobby */
 	};
 
+	/** All the possible events the client can send to the server during the race */
+	static const enum Events {
+		INITIALIZED = 0, LOADED
+	};
+
 private:
-	/** the current state of the race */
+	/** The current state of the race */
 	States mCurrentState;
+
+	/** Whether this is the server object or not */
+	bool mServer;
 
 	/** The reference to the lobby */
 	Lobby* const mLobby;
@@ -53,7 +64,13 @@ private:
 	RacePlayer* mOwnPlayer;
 
 	/** The listeners */
-	std::list<RaceStateListener*> mListeners;
+	std::vector<RaceStateListener*> mListeners;
+
+	/** List of player IDs where the server is currently waiting on (Server) */
+	std::set<unsigned int> mWaitingList;
+
+	/** Whether the initialized event should be send (Client) */
+	bool mInitialized;
 
 public:
 	/**
@@ -73,8 +90,8 @@ public:
 	 * @param ID the class ID
 	 * @param control the network control
 	 */
-	RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata,
-			ZCom_ClassID id, ZCom_Control* control);
+	RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
+			ZCom_Control* control);
 
 	/**
 	 * Destructor
@@ -85,6 +102,15 @@ public:
 	 * Process the race state
 	 */
 	void process();
+
+	/**
+	 * Get the track filename (Server + Client)
+	 *
+	 * @return the filename of the track
+	 */
+	inline Ogre::String getTrackFilename() const {
+		return mTrackFilename;
+	}
 
 	/**
 	 * Add a player to the race state
@@ -101,6 +127,15 @@ public:
 	 * @return the settings
 	 */
 	RacePlayer* getPlayer(ZCom_ConnID id);
+
+	/**
+	 * Get a map with all players mapped on their connection id (Server + Client)
+	 *
+	 * @return player settings mapped on their connection id
+	 */
+	inline const playermap& getPlayers() const {
+		return mPlayers;
+	}
 
 	/**
 	 * Get the own player
@@ -138,7 +173,12 @@ public:
 	 *
 	 * @return the list
 	 */
-	std::list<RaceStateListener*>& getListeners();
+	std::vector<RaceStateListener*>& getListeners();
+
+	/**
+	 * Indicate that the loading is done. (Client)
+	 */
+	void onLoaded();
 
 protected:
 
@@ -157,18 +197,43 @@ protected:
 	playermap::iterator removePlayer(playermap::iterator i);
 
 	/**
-	 * Set the new state for the race state
+	 * Callback for when the race state has gone into loading state. (Server + Client)
+	 */
+	void onLoading();
+
+	/**
+	 * Set the new state for the race state. (Server + Client)
 	 *
 	 * @param state the new state
 	 */
 	void setNewState(States state);
 
 	/**
+	 * A new event came in. (Server)
+	 *
+	 * @param event the event
+	 * @param id the ID of the player
+	 */
+	void gotNewEvent(Events event, ZCom_ConnID id);
+
+	/**
+	 * Send an event to the server. (Client)
+	 *
+	 * @param event the event
+	 */
+	void sendRaceStateEvent(Events event);
+
+	/**
+	 * Fill the waiting list with the current players. (Server)
+	 */
+	void setWaitingList();
+
+	/**
 	 * A callback that should be implemented in order to parse and process
 	 * incoming events.
 	 */
-	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
-			ZCom_BitStream* stream, float timeSince);
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream,
+			float timeSince);
 
 	/**
 	 * A callback that should be implemented so the replicators for this
@@ -186,6 +251,25 @@ protected:
 	virtual void setAnnouncementData(ZCom_BitStream* stream);
 
 };
+
+/**
+ * Output operator for the race state
+ *
+ * @param os the output stream
+ * @param state the race state
+ * @return the updated output stream
+ */
+std::ostream& operator<<(std::ostream& os, const RaceState::States& state);
+
+/**
+ * Output operator for the race state event
+ *
+ * @param os the output stream
+ * @param state the race state event
+ * @return the updated output stream
+ */
+std::ostream& operator<<(std::ostream& os, const RaceState::Events& event);
+
 }
 
 #endif //_RACESTATE_H
