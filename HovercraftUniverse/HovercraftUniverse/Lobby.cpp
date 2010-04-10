@@ -11,6 +11,7 @@
 #include "RacePlayer.h"
 
 //Events
+#include "InitEvent.h"
 #include "OnJoinEvent.h"
 #include "OnLeaveEvent.h"
 
@@ -30,8 +31,16 @@ Lobby::Lobby(Loader * loader) :
 }
 
 Lobby::~Lobby() {
-	if (mLoader)
-		delete mLoader;
+	// Delete the loader
+	delete mLoader;
+
+	// Delete the race state
+	delete mRaceState;
+
+	// Delete all the players
+	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
+		it = removePlayer(it);
+	}
 }
 
 void Lobby::process() {
@@ -151,10 +160,6 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	addPlayer(new PlayerSettings(this, id));
 	mCurrentPlayers++;
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined with id " << id;
-
-	//Send Event to players and self
-	OnJoinEvent event(id);
-	sendEvent(event);
 }
 
 void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
@@ -176,10 +181,6 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 			getNetworkNode()->setOwner(mAdmin, true);
 		}
 	}
-
-	//Send Event to players and self
-	OnLeaveEvent event(id);
-	sendEvent(event);
 }
 
 void Lobby::onTrackChange(const Ogre::String& filename) {
@@ -221,8 +222,21 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 	if (type == eZCom_EventUser) {
 		GameEventParser p;
 		GameEvent* event = p.parse(stream);
-		eZCom_NodeRole role = mNode->getRole();
 
+		// Check for an init event if this object is just created
+		InitEvent* init = dynamic_cast<InitEvent*> (event);
+		if (init) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Received initial lobby information";
+			ZCom_BitStream* state = init->getStream();
+			mAdmin = state->getInt(sizeof(ZCom_ConnID) * 8);
+			mMaximumPlayers = state->getInt(8);
+			mCurrentPlayers = state->getInt(8);
+			mTrackFilename = state->getString();
+			mBots = state->getBool();
+		}
+
+		// Process the events
+		eZCom_NodeRole role = mNode->getRole();
 		switch (role) {
 		case eZCom_RoleAuthority:
 			processEventsServer(event);
@@ -237,20 +251,21 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 			break;
 		}
 
-		//General events needed for all
-		switch (event->getType()) {
-		case onLeave: {
-			OnLeaveEvent * leaveevent = dynamic_cast<OnLeaveEvent*> (event);
-			//propagate to listeners
-			for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
-				(*i)->onLeave(leaveevent->getConnectionId());
-			}
-			break;
-		}
-		}
-
 		delete event;
 	}
+
+	// A new client received this object so send current state
+	if (type == eZCom_EventInit && mNode->getRole() == eZCom_RoleAuthority) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New client requested Lobby";
+		ZCom_BitStream* state = new ZCom_BitStream();
+		state->addInt(mAdmin, sizeof(ZCom_ConnID) * 8);
+		state->addInt(mMaximumPlayers, 8);
+		state->addInt(mCurrentPlayers, 8);
+		state->addString(mTrackFilename.c_str());
+		state->addBool(mBots);
+		sendEventDirect(InitEvent(state), conn_id);
+	}
+
 }
 
 void Lobby::processEventsServer(GameEvent* event) {

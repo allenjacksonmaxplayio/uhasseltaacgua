@@ -41,33 +41,44 @@ public:
 		INITIALIZED = 0, LOADED
 	};
 
+	/*
+	 * Not replicated fields
+	 */
 private:
 	/** The finite state machine for this race state */
 	class SystemState;
 
-	/** The current state of the race */
-	SystemState* mState;
+	/** The current state of the race (Server + Client) */
+	SystemState* mState; // Replicated through events not replicators
 
-	/** Whether this is the server object or not */
+	/** Whether this is the server object or not (Server + Client) */
 	bool mServer;
 
-	/** The reference to the lobby */
+	/** The reference to the lobby (Server + Client) */
 	Lobby* const mLobby;
 
-	/** The loader */
+	/** The loader (Server + Client) */
 	Loader* const mLoader;
+
+	/** The list of race players (Server + Client) */
+	playermap mPlayers;
+
+	/** The own player (Client) */
+	RacePlayer* mOwnPlayer;
+
+	/** The listeners (Client) */
+	std::vector<RaceStateListener*> mListeners;
+
+	/*
+	 * Replicated fields
+	 */
+private:
+	// Adding a replicated field: set up replication (in setupReplication) + init event (in parseEvents)
+	// Const fields should be in announce data and not as replicator
 
 	/** The track file name for this race */
 	const Ogre::String mTrackFilename;
 
-	/** The list of race players */
-	playermap mPlayers;
-
-	/** The own player */
-	RacePlayer* mOwnPlayer;
-
-	/** The listeners */
-	std::vector<RaceStateListener*> mListeners;
 
 public:
 	/**
