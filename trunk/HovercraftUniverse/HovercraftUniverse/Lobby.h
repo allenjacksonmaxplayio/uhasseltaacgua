@@ -24,6 +24,9 @@ class Lobby: public NetworkEntity, public ZCom_NodeReplicationInterceptor {
 public:
 	typedef std::map<ZCom_ConnID, PlayerSettings*> playermap;
 
+	/*
+	 * Not replicated fields
+	 */
 private:
 	//TODO MUTEX PROTECT PLAYERS
 
@@ -36,6 +39,21 @@ private:
 	/** Indicator of whether there is an administrator */
 	bool mHasAdmin;
 
+	/** Map with all player settings */
+	playermap mPlayers;
+
+	/** The own player settings object, or 0 for the server */
+	PlayerSettings* mOwnPlayer;
+
+	/** The race state when a race is busy */
+	RaceState* mRaceState;
+
+	/*
+	 * Replicated fields
+	 */
+private:
+	// Adding a replicated field: set up replication (in setupReplication) + init event (in parseEvents)
+
 	/** The ID of the administrator */
 	ZCom_ConnID mAdmin;
 
@@ -47,15 +65,6 @@ private:
 
 	/** The filename of the track */
 	Ogre::String mTrackFilename;
-
-	/** Map with all player settings */
-	playermap mPlayers;
-
-	/** The own player settings object, or 0 for the server */
-	PlayerSettings* mOwnPlayer;
-
-	/** The race state when a race is busy */
-	RaceState* mRaceState;
 
 	/** Whether the lobby has bots or not */
 	bool mBots;

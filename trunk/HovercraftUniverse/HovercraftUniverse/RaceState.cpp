@@ -67,7 +67,13 @@ RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStre
 }
 
 RaceState::~RaceState() {
+	// Delete the system state
 	delete mState;
+
+	// Delete all the players
+	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
+		it = removePlayer(it);
+	}
 }
 
 std::string RaceState::getClassName() {
@@ -183,6 +189,7 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 }
 
 void RaceState::setupReplication() {
+
 }
 
 RaceState::SystemState::SystemState(RaceState* racestate) :
