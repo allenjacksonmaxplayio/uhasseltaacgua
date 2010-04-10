@@ -127,11 +127,11 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 			while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
 				lastTime += world.getTimeStep();			
 		}
-	} catch (HovUni::Exception e) {
+	} catch (HovUni::Exception & e) {
 		MessageBox(NULL, e.getMessage().c_str(), "HovUni Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
-	} catch (Ogre::Exception& e) {
+	} catch (Ogre::Exception & e) {
 		MessageBox(NULL, e.getFullDescription().c_str(), "Ogre Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
-	} catch (std::exception e) {
+	} catch (std::exception & e) {
 		MessageBox(NULL, e.what(), "Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 	}  catch (...) {
 		MessageBox(NULL, "An unknown exception occurred.", "Error in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

@@ -4,6 +4,8 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <sstream>
 
+#include <OgreLogManager.h>
+
 namespace HovUni {
 
 	Config::Config() {

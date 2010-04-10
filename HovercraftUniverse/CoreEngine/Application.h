@@ -70,6 +70,10 @@ protected:
 	std::string mControlsPath;
 	/** The path to the controls file */
 	std::string mControlsFile;
+	/** The path to the entities path */
+	std::string mEntitiesPath;
+	/** The path to the entities file */
+	std::string mEntitiesFile;
 	
 public:
 

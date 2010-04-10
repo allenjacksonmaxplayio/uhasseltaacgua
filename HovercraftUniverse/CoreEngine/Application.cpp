@@ -53,6 +53,11 @@ void Application::parseIni() {
 	mSoundFile = mConfig->getValue("Sound", "File");//, "Sound.fev");
 	mControlsPath = mConfig->getValue("Controls", "Path");//, "controls\\");
 	mControlsFile = mConfig->getValue("Controls", "File");//, "Controls.ini");
+	mEntitiesPath = mConfig->getValue("Entities", "Path");
+	mEntitiesFile = mConfig->getValue("Entities", "File");
+
+	// Set file to entity manager 
+	EntityManager::setEntityMappingFile(mEntitiesPath + mEntitiesFile);
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;
