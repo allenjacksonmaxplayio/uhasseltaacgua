@@ -149,12 +149,7 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 			<< mIDManager->getName(requested_class);
 
 	//Lobby
-	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
-		// Lobby received (upon connect)
-		mLobby = new Lobby(0);
-		mLobby->networkRegister(requested_class, this);
-		HUApplication::msPreparationLoader->registerLoader(mLobby->getTrackFilename());
-	} else if (requested_class == mIDManager->getID(PlayerSettings::getClassName())) {
+	if (requested_class == mIDManager->getID(PlayerSettings::getClassName())) {
 		// Player
 		PlayerSettings * ent = new PlayerSettings(mLobby, announcedata, requested_class, this);
 		ent->processEvents(0.0f);
