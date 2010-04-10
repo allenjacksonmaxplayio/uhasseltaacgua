@@ -10,7 +10,7 @@ namespace HovUni {
 class EntityManager;
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Vector3& orientation, const Ogre::Vector3& upvector, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkEntity(replicators + 3), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+		NetworkEntity(replicators + 4), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
 			mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY) {
 	// Update data
 	changePosition(position);
@@ -21,7 +21,7 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 }
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkEntity(replicators + 3), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval), 
+		NetworkEntity(replicators + 4), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
 		mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY) {
 	// Update data
 	changePosition(position);
@@ -31,7 +31,7 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 }
 
 Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators ): 
-	NetworkEntity(replicators + 3), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO)
+	NetworkEntity(replicators + 4), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO)
 {
 	//name and entity
 

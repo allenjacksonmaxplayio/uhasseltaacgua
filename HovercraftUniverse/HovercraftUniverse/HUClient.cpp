@@ -40,8 +40,7 @@
 namespace HovUni {
 
 HUClient::HUClient(const char* name, unsigned int port) :
-	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0),
-			mFinishedConnecting(false) {
+	NetworkClient(name, port, "HUClient"), mAddress(name), mSemaphore(0), mFinishedConnecting(false) {
 	initialize();
 }
 
@@ -95,8 +94,7 @@ unsigned int HUClient::getID() const {
 
 void HUClient::onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra) {
 
-	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
-			<< "[HUClient]: received connection result";
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: received connection result";
 
 	if (result == eZCom_ConnAccepted) {
 		// Connection accepted, so request zoid level
@@ -105,16 +103,13 @@ void HUClient::onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra
 
 		// Get the unique ID
 		mID = extra.getInt(sizeof(ZCom_ConnID) * 8);
-		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID
-				<< "]: My unique ID is " << mID;
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID << "]: My unique ID is " << mID;
 
 		//Start the chat client
 		if (mAddress == "") {
-			mChatClient
-					= new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
+			mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"));
 		} else {
-			mChatClient = new ChatClient(
-					Application::getConfig()->getValue("Player", "PlayerName"), mAddress.c_str());
+			mChatClient = new ChatClient(Application::getConfig()->getValue("Player", "PlayerName"), mAddress.c_str());
 		}
 		mChatClient->connect(0);
 
@@ -145,14 +140,13 @@ void HUClient::onZoidResult(eZCom_ZoidResult result, zU8 new_level, ZCom_BitStre
 	}
 }
 
-void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
-		eZCom_NodeRole role, ZCom_NodeID net_id) {
+void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role, ZCom_NodeID net_id) {
 	// Receive and create the entity
 	Ogre::String name("");
 
 	// Debug output
-	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID
-			<< "]: Creating object of type " << mIDManager->getName(requested_class);
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID << "]: Creating object of type "
+			<< mIDManager->getName(requested_class);
 
 	//Lobby
 	if (requested_class == mIDManager->getID(Lobby::getClassName())) {
@@ -179,18 +173,15 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		//		<< "[HUClient]: adding player to lobby";
 		mLobby->addPlayer(ent, ent->getID() == mID);
 	} else if (requested_class == mIDManager->getID(RaceState::getClassName())) {
-		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata,
-				requested_class, this);
+		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata, requested_class, this);
 		mLobby->setRaceState(ent);
 	} else if (requested_class == mIDManager->getID(RacePlayer::getClassName())) {
 		if (!mLobby->getRaceState()) {
-			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
-					<< "[HUClient]: Error - no race state";
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: Error - no race state";
 			THROW(NetworkException, "RaceState not received yet");
 		}
 		RacePlayer* ent = new RacePlayer(mLobby, announcedata, requested_class, this);
-		mLobby->getRaceState()->addPlayer(ent, ent->getSettings()->getID()
-				== mLobby->getOwnPlayer()->getID());
+		mLobby->getRaceState()->addPlayer(ent, ent->getSettings()->getID() == mLobby->getOwnPlayer()->getID());
 	}
 
 	//Entities
@@ -243,12 +234,11 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		Hovercraft * ent = new Hovercraft(announcedata);
 
 		if (role == eZCom_RoleOwner) {
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-					<< "[HUClient]: Received own hovercraft";
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[HUClient]: Received own hovercraft";
 			ent->setController(new HovercraftPlayerController());
-//			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
-//			ent->setController(ai);
-//			ai->initialize();
+			//			HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
+			//			ent->setController(ai);
+			//			ai->initialize();
 		}
 
 		ent->networkRegister(requested_class, this);
@@ -270,12 +260,6 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		HUApplication::msPreparationLoader->update(name);
 	}
 
-}
-
-void HUClient::start() {
-	if (mLobby) {
-		mLobby->start();
-	}
 }
 
 void HUClient::setChatListener(ChatListener* listener) {

@@ -19,8 +19,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans & Nick De Frangh
  */
-class HUClient: public NetworkClient
-{
+class HUClient: public NetworkClient {
 private:
 	/** The address to which this client is/was connecting */
 	Ogre::String mAddress;
@@ -41,7 +40,7 @@ private:
 	Ogre::SceneManager * mSceneMgr;
 
 	/** A chatlistener */
-	ChatListener* mChatListener;	
+	ChatListener* mChatListener;
 
 	/** A chat client associated with this server */
 	ChatClient* mChatClient;
@@ -97,15 +96,16 @@ public:
 	/**
 	 * Request the current chat client
 	 */
-	ChatClient* getChatClient() { return mChatClient; }
+	ChatClient* getChatClient() {
+		return mChatClient;
+	}
 
 	/**
 	 * Request the lobby object
 	 */
-	Lobby* getLobby() { return mLobby; }
-
-	//TODO remove
-	void start();
+	Lobby* getLobby() {
+		return mLobby;
+	}
 
 	/**
 	 * Set a chatlistener on the client. This function will delay the registration
@@ -135,11 +135,14 @@ public:
 	 */
 	void timed_wait(const boost::posix_time::ptime & abs_time);
 
-	/** Check if the client is connected */
-	bool isConnected() { return mConnected; }
-
-	/** Check if the client has finished connecting */
-	bool finishedConnecting() { return mFinishedConnecting; }
+	/**
+	 * Check if the client has finished connecting
+	 *
+	 * @return true if it has finished
+	 */
+	inline bool finishedConnecting() const {
+		return mFinishedConnecting;
+	}
 
 private:
 	/**
@@ -147,9 +150,9 @@ private:
 	 */
 	void initialize();
 
-//
-// ZCom_Control callbacks
-//
+	//
+	// ZCom_Control callbacks
+	//
 protected:
 	/**
 	 * Callback for the connection result. This can be implemented in subclasses.
@@ -193,8 +196,8 @@ protected:
 	 * @param role the role for this class
 	 * @param net_id the network id of this new node
 	 */
-	virtual void onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata,
-			eZCom_NodeRole role, ZCom_NodeID net_id);
+	virtual void onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* announcedata, eZCom_NodeRole role,
+			ZCom_NodeID net_id);
 
 };
 

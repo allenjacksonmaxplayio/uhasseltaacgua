@@ -23,12 +23,8 @@ std::string Lobby::getClassName() {
 }
 
 Lobby::Lobby(Loader * loader) :
-	NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"),
-			mMaximumPlayers(12), mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0), mFillWithBots(false) {
-
-	if (loader) {
-		loader->setLobby(this);
-	}
+	NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(12),
+			mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0), mBots(false) {
 
 	this->setReplicationInterceptor(this);
 }
@@ -57,7 +53,7 @@ void Lobby::process() {
 		}
 	}
 	if (mRaceState) {
-		mRaceState->processEvents(0.0f);
+		mRaceState->process();
 	}
 }
 
@@ -83,11 +79,9 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 	// Set own player
 	if (ownPlayer) {
 		mOwnPlayer = settings;
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-				<< "[Lobby]: Received own player object";
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Received own player object";
 	} else {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-				<< "[Lobby]: Inserting PlayerSettings of other player";
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Inserting PlayerSettings of other player";
 	}
 
 	//Notify our listeners
@@ -156,8 +150,7 @@ void Lobby::onConnect(ZCom_ConnID id) {
 	// Add player to map
 	addPlayer(new PlayerSettings(this, id));
 	mCurrentPlayers++;
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-			<< "[Lobby]: New player joined with id " << id;
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined with id " << id;
 
 	//Send Event to players and self
 	OnJoinEvent event(id);
@@ -201,8 +194,7 @@ void Lobby::onStartServer() {
 		// Tell the clients to start
 		StartTrackEvent event;
 		sendEvent(event);
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-				<< "[Lobby]: Racestate constructing and ready process events";
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Racestate constructing and ready process events";
 	}
 }
 
@@ -224,8 +216,8 @@ void Lobby::onStartClient() {
 	}
 }
 
-void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
-		ZCom_BitStream* stream, float timeSince) {
+void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream,
+		float timeSince) {
 	if (type == eZCom_EventUser) {
 		GameEventParser p;
 		GameEvent* event = p.parse(stream);
@@ -315,25 +307,23 @@ void Lobby::setupReplication() {
 	);
 
 	//Replicate the setting for filling with bots
-	mNode->addReplicationBool(&mFillWithBots, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY);
+	mNode->addReplicationBool(&mBots, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY);
 }
 
 void Lobby::setAnnouncementData(ZCom_BitStream* stream) {
 
 }
 
-void Lobby::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role,
-				  zU32 _rep_bits, zU32 _event_bits, zU32 _meta_bits) {
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-				<< "[Lobby]: Lobby update";
+void Lobby::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
+		zU32 _meta_bits) {
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Lobby update";
 	if (this->isAdmin()) {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream()
-				<< "[Lobby]: Lobby ADMIN";
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Lobby ADMIN";
 	}
 	//Something has changed in the lobby, inform our listeners
 	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
 		(*i)->onAdminChange(this->isAdmin());
-		(*i)->onBotsChange(this->isFillWithBots());
+		(*i)->onBotsChange(this->hasBots());
 	}
 }
 

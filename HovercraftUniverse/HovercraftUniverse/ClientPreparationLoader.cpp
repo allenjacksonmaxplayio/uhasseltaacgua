@@ -14,7 +14,8 @@
 
 namespace HovUni {
 
-ClientPreparationLoader::ClientPreparationLoader() : mCurrFilename("") {
+ClientPreparationLoader::ClientPreparationLoader() :
+	mCurrFilename("") {
 	// Create a loader
 	mLoader = new ClientLoader(Application::msSceneMgr);
 }
@@ -30,16 +31,20 @@ ClientPreparationLoader::~ClientPreparationLoader(void) {
 void ClientPreparationLoader::FinishedLoad(bool success) {
 	if (success) {
 		// The filename should be loadable
-		assert (!mCurrFilename.empty());
+		assert(!mCurrFilename.empty());
 		mPreparationEntries.push_back(ClientPreparationEntry(mLoader, mCurrEntitiesFound, mCurrFilename));
 	}
 
 	// Clean up for next file
 	mCurrEntitiesFound.clear();
 	mCurrFilename = "";
+
+	// Notify race state that the loading finished
+	getRaceState()->onLoaded();
 }
 
-void ClientPreparationLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent) {
+void ClientPreparationLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters,
+		const OgreMax::Types::Attachable * parent) {
 	Ogre::String userData = entityparameters.extraData->userData;
 
 	if (!userData.empty()) {
@@ -51,7 +56,7 @@ void ClientPreparationLoader::onEntity(OgreMax::Types::EntityParameters& entityp
 		// If correct xml, read it
 		if (root) {
 			// Read and set the entity type
-			TiXmlElement * gameEntityElm = dynamic_cast<TiXmlElement *>(root->FirstChild());
+			TiXmlElement * gameEntityElm = dynamic_cast<TiXmlElement *> (root->FirstChild());
 			Ogre::String entityName = Ogre::String(gameEntityElm->GetText());
 
 			if (!entityName.empty()) {
@@ -87,7 +92,9 @@ void ClientPreparationLoader::update(Ogre::String entityName) {
 	}
 }
 
-ClientPreparationEntry::ClientPreparationEntry(ClientLoader * loader, std::vector<Ogre::String> entitiesToFind, Ogre::String filename) : mLoader(loader), mEntitiesToFind(entitiesToFind), mFilename(filename) {
+ClientPreparationEntry::ClientPreparationEntry(ClientLoader * loader, std::vector<Ogre::String> entitiesToFind,
+		Ogre::String filename) :
+	mLoader(loader), mEntitiesToFind(entitiesToFind), mFilename(filename) {
 	// All was initialized
 }
 
@@ -103,7 +110,7 @@ bool ClientPreparationEntry::entityFound(Ogre::String entityName) {
 }
 
 void ClientPreparationEntry::activateLoader() {
-	assert (mEntitiesToFind.empty());
+	assert(mEntitiesToFind.empty());
 	mLoader->load(mFilename);
 }
 
