@@ -14,6 +14,7 @@ namespace HovUni {
  */
 class EntityManager {
 protected:
+
 	/** The entities that have been registered at the manager */
 	std::vector<Entity *> mEntities;
 
@@ -31,6 +32,9 @@ protected:
 
 	/** The singleton object for the client */
     static EntityManager * mEntityManagerClient;
+
+	/** The file where the mapping of entity codes on entity values is defined */
+	static std::string mEntityMappingFile;
 
 public:
 	
@@ -145,6 +149,24 @@ public:
 	 * @return the singleton pointer
 	 */
     static EntityManager * getClientSingletonPtr(void);
+
+	/**
+	 * Sets the entity mapping file.
+	 *
+	 * @param entityMappingFile the entity mapping
+	 */
+	static void setEntityMappingFile(std::string entityMappingFile) {
+		mEntityMappingFile = entityMappingFile;
+	}
+
+	/**
+	 * Returns the file that performs the mapping of codes on values.
+	 *
+	 * @return the mapping
+	 */
+	static std::string getEntityMappingFile() {
+		return mEntityMappingFile;
+	}
 };
 
 }

@@ -1,3 +1,5 @@
+#include "Config.h"
+#include "EntityManager.h"
 #include "PlayerSettings.h"
 #include "Lobby.h"
 #include "GameEvent.h"
@@ -52,12 +54,14 @@ void PlayerSettings::setCharacter(unsigned int character) {
 }
 
 const Ogre::String PlayerSettings::getCharacter() const {
-	// TODO Mapping?
-	if (mCharacter == 0) {
-		return "NoMappingYet";
-	} else {
-		return "";
-	}
+	// Read ini as specified in the entity manager
+	Config * config = new Config();
+	config->loadFile(EntityManager::getEntityMappingFile());
+
+	// Return the associated value
+	std::stringstream ss;
+	ss << mCharacter;
+	return config->getValue("Character", ss.str());
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -65,14 +69,14 @@ void PlayerSettings::setHovercraft(unsigned int hov) {
 }
 
 const Ogre::String PlayerSettings::getHovercraft() const {
-	// TODO Mapping? Must be performed in an INI to which the main INI refers. At the moment it is rather lame ..
-	if (mHovercraft == 0) {
-		return "hover1";
-	} else if (mHovercraft == 1) {
-		return "HippyCraft";
-	} else {
-		return "";
-	}
+	// Read ini as specified in the entity manager
+	Config * config = new Config();
+	config->loadFile(EntityManager::getEntityMappingFile());
+
+	// Return the associated value
+	std::stringstream ss;
+	ss << mHovercraft;
+	return config->getValue("Hovercraft", ss.str());
 }
 
 const unsigned int PlayerSettings::getID() const {
