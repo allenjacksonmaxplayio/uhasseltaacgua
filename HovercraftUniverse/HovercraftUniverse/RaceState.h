@@ -42,8 +42,11 @@ public:
 	};
 
 private:
+	/** The finite state machine for this race state */
+	class SystemState;
+
 	/** The current state of the race */
-	States mCurrentState;
+	SystemState* mState;
 
 	/** Whether this is the server object or not */
 	bool mServer;
@@ -65,12 +68,6 @@ private:
 
 	/** The listeners */
 	std::vector<RaceStateListener*> mListeners;
-
-	/** List of player IDs where the server is currently waiting on (Server) */
-	std::set<unsigned int> mWaitingList;
-
-	/** Whether the initialized event should be send (Client) */
-	bool mInitialized;
 
 public:
 	/**
@@ -197,38 +194,6 @@ protected:
 	playermap::iterator removePlayer(playermap::iterator i);
 
 	/**
-	 * Callback for when the race state has gone into loading state. (Server + Client)
-	 */
-	void onLoading();
-
-	/**
-	 * Set the new state for the race state. (Server + Client)
-	 *
-	 * @param state the new state
-	 */
-	void setNewState(States state);
-
-	/**
-	 * A new event came in. (Server)
-	 *
-	 * @param event the event
-	 * @param id the ID of the player
-	 */
-	void gotNewEvent(Events event, ZCom_ConnID id);
-
-	/**
-	 * Send an event to the server. (Client)
-	 *
-	 * @param event the event
-	 */
-	void sendRaceStateEvent(Events event);
-
-	/**
-	 * Fill the waiting list with the current players. (Server)
-	 */
-	void setWaitingList();
-
-	/**
 	 * A callback that should be implemented in order to parse and process
 	 * incoming events.
 	 */
@@ -250,6 +215,85 @@ protected:
 	 */
 	virtual void setAnnouncementData(ZCom_BitStream* stream);
 
+private:
+	/**
+	 * This sub-class represents the finite state machine of the race state.
+	 *
+	 * @author Olivier Berghmans
+	 */
+	class SystemState {
+	private:
+		/** Reference to the race state */
+		RaceState* const mRaceState;
+
+		/** The current state of the race state */
+		States mCurrentState;
+
+		/** List of player IDs where the server is currently waiting on (Server) */
+		std::set<unsigned int> mWaitingList;
+
+		/** Whether the initialized event should be send (Client) */
+		bool mInitialized;
+
+	public:
+		/**
+		 * Constructor
+		 *
+		 * @param racestate the race state
+		 */
+		SystemState(RaceState* racestate);
+
+		/**
+		 * Update the system state
+		 */
+		void update();
+
+		/**
+		 * Get the current state
+		 */
+		States getState() const;
+
+		/**
+		 * Set the new state for the race state. (Server + Client)
+		 *
+		 * @param state the new state
+		 */
+		void newState(States state);
+
+		/**
+		 * A new event has arrived. (Server)
+		 *
+		 * @param event the event
+		 * @param id the ID of the player who sent the vent
+		 */
+		void newEvent(Events event, ZCom_ConnID id);
+
+		/**
+		 * Send an event to the server. (Client)
+		 *
+		 * @param event the event
+		 */
+		void sendEvent(Events event);
+
+		/**
+		 * Callback for when the race state has gone into loading state. (Server + Client)
+		 */
+		void onLoading();
+
+		/**
+		 * Fill the waiting list with the current players. (Server)
+		 */
+		void setWaitingList();
+
+		/**
+		 * Remove an ID from the waiting list and if the list becomes empty, do the correct
+		 * action.
+		 *
+		 * @param id the ID to remove
+		 */
+		void eraseFromList(ZCom_ConnID id);
+
+	};
 };
 
 /**
