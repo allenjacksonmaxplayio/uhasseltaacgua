@@ -3,9 +3,9 @@
 
 #include "NetworkEntity.h"
 #include "GameEvent.h"
+#include "Listenable.h"
 #include <map>
 #include <string>
-#include <vector>
 
 namespace HovUni {
 
@@ -20,7 +20,7 @@ class RaceState;
  *
  * @author Olivier Berghmans & Pieter-Jan Pintens
  */
-class Lobby: public NetworkEntity, public ZCom_NodeReplicationInterceptor {
+class Lobby: public NetworkEntity, public Listenable<LobbyListener>, public ZCom_NodeReplicationInterceptor {
 public:
 	typedef std::map<ZCom_ConnID, PlayerSettings*> playermap;
 
@@ -29,9 +29,6 @@ public:
 	 */
 private:
 	//TODO MUTEX PROTECT PLAYERS
-
-	/** The listeners */
-	std::vector<LobbyListener*> mListeners;
 
 	/** Specific loader, will be different on client and server **/
 	Loader * mLoader;
@@ -114,20 +111,6 @@ public:
 	 * @return the settings
 	 */
 	PlayerSettings* getPlayer(ZCom_ConnID id);
-
-	/**
-	 * Add a lobby listener (Client)
-	 *
-	 * @param listener the listener which will get called back upon events
-	 */
-	void addListener(LobbyListener* listener);
-
-	/**
-	 * Remove a lobby listener (Client)
-	 *
-	 * @param listener the listener
-	 */
-	void removeListener(LobbyListener* listener);
 
 	/**
 	 * Get the class name for this class. This is used for registering

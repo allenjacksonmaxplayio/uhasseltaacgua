@@ -23,11 +23,11 @@ void ChatClient::initialize() {
 	ZCom_setUpstreamLimit(0, 0);
 }
 
-void ChatClient::registerListener(ChatListener* listener) {
+void ChatClient::addListener(ChatListener* listener) {
 	if (mChat) {
-		mChat->registerListener(listener);
+		mChat->addListener(listener);
 	} else {
-		mListeners.push_back(listener);
+		Listenable<ChatListener>::addListener(listener);
 	}
 }
 
@@ -35,15 +35,7 @@ void ChatClient::removeListener(ChatListener* listener) {
 	if (mChat) {
 		mChat->removeListener(listener);
 	} else {
-		std::vector<ChatListener*>::const_iterator it = mListeners.begin();
-
-		while (it != mListeners.end()) {
-			if ((*it) == listener) {
-				mListeners.erase(it);
-				return;
-			}
-			++it;
-		}
+		Listenable<ChatListener>::removeListener(listener);
 	}
 }
 
@@ -98,10 +90,10 @@ void ChatClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* ann
 		mChat = new ChatEntity();
 		mChat->networkRegister(requested_class, this);
 
-		for (std::vector<ChatListener*>::iterator it = mListeners.begin(); it != mListeners.end(); ++it) {
-			mChat->registerListener(*it);
+		for (listener_iterator it = listenersBegin(); it != listenersEnd(); ++it) {
+			mChat->addListener(*it);
 		}
-		mListeners.clear();
+		listenersClear();
 	}
 }
 

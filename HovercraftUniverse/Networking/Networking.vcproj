@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\Utils&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

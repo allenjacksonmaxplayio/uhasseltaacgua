@@ -3,6 +3,7 @@
 
 #include "NetworkEntity.h"
 #include "ChatEvent.h"
+#include "Listenable.h"
 #include "ChatListener.h"
 #include <string>
 #include <vector>
@@ -14,11 +15,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ChatEntity: public NetworkEntity {
-private:
-	/** List of listeners to update upon incoming message */
-	std::vector<ChatListener*> mListeners;
-
+class ChatEntity: public NetworkEntity, public Listenable<ChatListener> {
 public:
 
 	/**
@@ -30,20 +27,6 @@ public:
 	 * Destructor
 	 */
 	~ChatEntity();
-
-	/**
-	 * Register a listener
-	 *
-	 * @param listener The listener
-	 */
-	void registerListener(ChatListener* listener);
-	
-	/**
-	 * Remove a listener
-	 *
-	 * @param listener The listener to remove
-	 */
-	void removeListener(ChatListener* listener);
 
 	/**
 	 * Send a chat line
