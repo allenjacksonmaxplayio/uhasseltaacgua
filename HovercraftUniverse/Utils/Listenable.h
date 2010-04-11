@@ -17,15 +17,18 @@ public:
 	/** The type of the listeners */
 	typedef ListenerType value_type;
 
-	/** The iterator for the listeners */
-	typedef typename std::vector<ListenerType *>::iterator listener_iterator;
+	/** The type of the listeners */
+	typedef typename std::vector<ListenerType *> list_type;
 
 	/** The iterator for the listeners */
-	typedef typename std::vector<ListenerType *>::const_iterator listener_const_iterator;
+	typedef typename list_type::iterator listener_iterator;
+
+	/** The iterator for the listeners */
+	typedef typename list_type::const_iterator listener_const_iterator;
 
 protected:
 	/** The listeners */
-	std::vector<ListenerType*> mListeners;
+	list_type mListeners;
 
 public:
 	/**

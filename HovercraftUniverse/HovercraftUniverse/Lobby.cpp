@@ -69,6 +69,11 @@ void Lobby::process() {
 void Lobby::removePlayer(ZCom_ConnID id) {
 	playermap::iterator i = mPlayers.find(id);
 	removePlayer(i);
+
+	// If there is a race state, also delete the race player
+	if (mRaceState) {
+		mRaceState->removePlayer(id);
+	}
 }
 
 Lobby::playermap::iterator Lobby::removePlayer(playermap::iterator i) {
