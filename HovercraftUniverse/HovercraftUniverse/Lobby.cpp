@@ -151,6 +151,13 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 		if (mPlayers.getPlayers().empty()) {
 			// Set admin to false if no player remain
 			mHasAdmin = false;
+
+			// There are no players so we can remove the race state if there is one
+			if (mRaceState) {
+				delete mRaceState;
+				mRaceState = 0;
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Closed race and ready to allow new players";
+			}
 		} else {
 			// Set new admin
 			mAdmin = mPlayers.begin()->first;
