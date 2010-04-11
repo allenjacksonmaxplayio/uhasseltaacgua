@@ -2,8 +2,8 @@
 #define RACESTATE_H
 
 #include "NetworkEntity.h"
+#include "Listenable.h"
 #include <iostream>
-#include <vector>
 #include <set>
 
 namespace HovUni {
@@ -21,7 +21,7 @@ class RaceStateListener;
  *
  * @author Olivier Berghmans & Nick De Frangh
  */
-class RaceState: public NetworkEntity {
+class RaceState: public NetworkEntity, public Listenable<RaceStateListener> {
 public:
 	typedef std::map<ZCom_ConnID, RacePlayer*> playermap;
 
@@ -65,9 +65,6 @@ private:
 
 	/** The own player (Client) */
 	RacePlayer* mOwnPlayer;
-
-	/** The listeners (Client) */
-	std::vector<RaceStateListener*> mListeners;
 
 	/*
 	 * Replicated fields
@@ -129,6 +126,13 @@ public:
 	void addPlayer(RacePlayer* player, bool ownPlayer = false);
 
 	/**
+	 * Remove player connection id
+	 *
+	 * @param id the ID of the player
+	 */
+	void removePlayer(ZCom_ConnID id);
+
+	/**
 	 * Get a player from the lobby
 	 *
 	 * @param id the id of the player
@@ -155,20 +159,6 @@ public:
 	}
 
 	/**
-	 * Add a race state listener
-	 *
-	 * @param listener the listener which will get called back upon events
-	 */
-	void addListener(RaceStateListener* listener);
-
-	/**
-	 * Remove a race state listener
-	 *
-	 * @param listener the listener
-	 */
-	void removeListener(RaceStateListener* listener);
-
-	/**
 	 * Get the class name for this class. This is used for registering
 	 * the class with the network
 	 *
@@ -181,7 +171,7 @@ public:
 	 *
 	 * @return the list
 	 */
-	std::vector<RaceStateListener*>& getListeners();
+	Listenable<RaceStateListener>::list_type& getListeners();
 
 	/**
 	 * Indicate that the loading is done. (Client)
@@ -189,13 +179,6 @@ public:
 	void onLoaded();
 
 protected:
-
-	/**
-	 * Remove player connection id
-	 *
-	 * @param id the ID of the player
-	 */
-	void removePlayer(ZCom_ConnID id);
 
 	/**
 	 * Remove player

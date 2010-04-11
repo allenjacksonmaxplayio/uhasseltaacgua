@@ -135,24 +135,7 @@ RacePlayer* RaceState::getPlayer(ZCom_ConnID id) {
 	return (i != mPlayers.end()) ? i->second : 0;
 }
 
-void RaceState::addListener(RaceStateListener* listener) {
-	mListeners.push_back(listener);
-}
-
-void RaceState::removeListener(RaceStateListener* listener) {
-	std::vector<RaceStateListener*>::const_iterator it = mListeners.begin();
-
-	while (it != mListeners.end()) {
-		if ((*it) == listener) {
-			mListeners.erase(it);
-			return;
-		}
-
-		++it;
-	}
-}
-
-std::vector<RaceStateListener*>& RaceState::getListeners() {
+Listenable<RaceStateListener>::list_type& RaceState::getListeners() {
 	return mListeners;
 }
 
@@ -234,7 +217,7 @@ void RaceState::SystemState::newState(States state) {
 		mRaceState->sendEvent(newState);
 	} else {
 		// Notify the listeners
-		for (std::vector<RaceStateListener*>::iterator i = mRaceState->mListeners.begin(); i != mRaceState->mListeners.end(); ++i) {
+		for (listener_iterator i = mRaceState->listenersBegin(); i != mRaceState->listenersEnd(); ++i) {
 			(*i)->onStateChange(mCurrentState);
 		}
 	}
