@@ -304,11 +304,11 @@ void Lobby::setupReplication() {
 			8, // amount of bits(up to 255 players)
 			false, // unsigned
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
-			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
+			ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients, but owner can send to server
 	);
 
 	//Replicate the setting for filling with bots
-	mNode->addReplicationBool(&mBots, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY);
+	mNode->addReplicationBool(&mBots, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_ALL);
 }
 
 void Lobby::setAnnouncementData(ZCom_BitStream* stream) {
@@ -325,6 +325,7 @@ void Lobby::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _re
 	for (listener_iterator i = listenersBegin(); i != listenersEnd(); i++) {
 		(*i)->onAdminChange(this->isAdmin());
 		(*i)->onBotsChange(this->hasBots());
+		(*i)->onMaxPlayersChange(this->getMaxPlayers());
 	}
 }
 

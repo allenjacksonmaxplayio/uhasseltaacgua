@@ -3,7 +3,7 @@
 #include "StringUtils.h"
 
 namespace HovUni {
-	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue) {
+	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax) {
 		//Show the background
 		mBackground = new BasicOverlay("Background_LB", "background.swf", GUIManager::getSingletonPtr()->getResolutionWidth(), GUIManager::getSingletonPtr()->getResolutionHeight(), Hikari::Center, 1);
 		mBackground->setExactFit(true);
@@ -32,7 +32,7 @@ namespace HovUni {
 		int lobbyHeight = (int) (scale * 1000);
 
 		//Now show the lobby itself
-		mLobbyOverlay = new LobbyOverlay(onChat, botsValue, "lobbyVisual", "lobby.swf", lobbyWidth, lobbyHeight, Hikari::BottomLeft);
+		mLobbyOverlay = new LobbyOverlay(onChat, botsValue, playerMax, "lobbyVisual", "lobby.swf", lobbyWidth, lobbyHeight, Hikari::BottomLeft);
 		addOverlay("lobbyVisual", mLobbyOverlay);
 	}
 
@@ -83,6 +83,10 @@ namespace HovUni {
 
 	void LobbyGUI::setFillBots(bool fill) {
 		mLobbyOverlay->setFillBots(fill);
+	}
+
+	void LobbyGUI::setPlayerMax(int value) {
+		mLobbyOverlay->setPlayerMax(value);
 	}
 
 	void LobbyGUI::showStart(bool show) {

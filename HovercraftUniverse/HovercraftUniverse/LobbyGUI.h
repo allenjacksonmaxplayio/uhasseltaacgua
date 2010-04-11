@@ -43,7 +43,7 @@ namespace HovUni {
 			 * @param onLeave Function to be called when a user pushes the leave button
 			 * @param botsValue The function that will be called when the admin toggles the checkbox for bots
 			 */
-			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue);
+			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax);
 			
 			/**
 			 * Destructor
@@ -121,6 +121,13 @@ namespace HovUni {
 			 * @param fill True when you want to fill with bots, false otherwise
 			 */
 			void setFillBots(bool fill);
+
+			/**
+			 * Set the current player maximum to a certain value.
+			 *
+			 * @param value The value to set into the playermax field
+			 */
+			void setPlayerMax(int value);
 
 			/** 
 			 * Function to show or hide the start button
