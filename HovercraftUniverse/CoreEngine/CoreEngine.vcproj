@@ -253,6 +253,10 @@
 					RelativePath=".\GameView.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\OgreWindowListener.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Utilities"
@@ -397,6 +401,10 @@
 				</File>
 				<File
 					RelativePath=".\GameView.h"
+					>
+				</File>
+				<File
+					RelativePath=".\OgreWindowListener.h"
 					>
 				</File>
 			</Filter>
