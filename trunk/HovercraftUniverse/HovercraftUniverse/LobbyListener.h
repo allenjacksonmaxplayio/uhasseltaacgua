@@ -44,6 +44,13 @@ public:
 	 * @param fillWithBots True when this setting was enabled
 	 */
 	virtual void onBotsChange(bool fillWithBots) = 0;
+
+	/**
+	 * Called when the maximum number of allowed players has changed.
+	 *
+	 * @param players The new maximum number of players
+	 */
+	virtual void onMaxPlayersChange(int players) = 0;
 };
 
 }

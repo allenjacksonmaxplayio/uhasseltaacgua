@@ -9,7 +9,7 @@
 namespace HovUni {
 	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
-		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue));
+		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue), Hikari::FlashDelegate(this, &LobbyState::playerMax));
 	}
 
 	LobbyState::~LobbyState() {
@@ -53,6 +53,14 @@ namespace HovUni {
 		bool fillWithBots = args.at(0).getBool();
 
 		mLobby->setBots(fillWithBots);
+
+		return "success";
+	}
+
+	Hikari::FlashValue LobbyState::playerMax(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		int maxPlayers = (int)args.at(0).getNumber();
+		
+		mLobby->setMaxPlayers(maxPlayers);
 
 		return "success";
 	}
@@ -120,6 +128,10 @@ namespace HovUni {
 		mLobbyGUI->setFillBots(fillWithBots);
 	}
 
+	void LobbyState::onMaxPlayersChange(int players) {
+		mLobbyGUI->setPlayerMax(players);
+	}
+
 	////////////////////////////////////////
 	//	BasicGameState functions
 	////////////////////////////////////////
@@ -157,6 +169,7 @@ namespace HovUni {
 		//Set some initial gui values
 		onAdminChange(mLobby->isAdmin());
 		onBotsChange(mLobby->hasBots());
+		onMaxPlayersChange(mLobby->getMaxPlayers());
 	}
 
 	void LobbyState::disable() {
@@ -184,7 +197,7 @@ namespace HovUni {
 
 		//50 FPS
 		if (mLastGUIUpdate > (1.0f / 50.0f) || mLastGUIUpdate < 0) {
-			onAdminChange(mLobby->isAdmin());
+			//onAdminChange(mLobby->isAdmin());
 			
 			//We are using a GUI, so update it
 			mGUIManager->update();
