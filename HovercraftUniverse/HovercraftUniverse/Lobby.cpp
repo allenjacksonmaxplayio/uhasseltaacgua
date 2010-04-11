@@ -25,7 +25,7 @@ std::string Lobby::getClassName() {
 
 Lobby::Lobby(Loader * loader) :
 	NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(12),
-			mCurrentPlayers(0), mOwnPlayer(0), mRaceState(0), mBots(false) {
+			mCurrentPlayers(0), mRaceState(0), mBots(false) {
 
 	this->setReplicationInterceptor(this);
 }
@@ -61,52 +61,40 @@ void Lobby::process() {
 			++it;
 		}
 	}
+
 	if (mRaceState) {
 		mRaceState->process();
 	}
 }
 
 void Lobby::removePlayer(ZCom_ConnID id) {
-	playermap::iterator i = mPlayers.find(id);
-	removePlayer(i);
-
-	// If there is a race state, also delete the race player
-	if (mRaceState) {
-		mRaceState->removePlayer(id);
-	}
+	removePlayer(mPlayers.find(id));
 }
 
 Lobby::playermap::iterator Lobby::removePlayer(playermap::iterator i) {
-	delete i->second;
-	mCurrentPlayers--;
-	return mPlayers.erase(i);
+	--mCurrentPlayers;
+
+	// If there is a race state, also delete the race player
+	if (mRaceState) {
+		mRaceState->removePlayer(i->first);
+	}
+
+	return mPlayers.removePlayerByIterator(i);
 }
 
 void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
-	playermap::iterator i = mPlayers.find(settings->getID());
-
-	if (i != mPlayers.end()) {
-		removePlayer(settings->getID());
-	}
-	mPlayers.insert(std::pair<ZCom_ConnID, PlayerSettings*>(settings->getID(), settings));
-
-	// Set own player
-	if (ownPlayer) {
-		mOwnPlayer = settings;
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Received own player object";
-	} else {
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Inserting PlayerSettings of other player";
-	}
+	mPlayers.addPlayer(settings->getID(), settings, ownPlayer);
 
 	//Notify our listeners
 	for (listener_iterator i = listenersBegin(); i != listenersEnd(); ++i) {
 		(*i)->onJoin(settings);
 	}
-}
 
-PlayerSettings* Lobby::getPlayer(ZCom_ConnID id) {
-	playermap::iterator i = mPlayers.find(id);
-	return (i != mPlayers.end()) ? i->second : 0;
+	if (ownPlayer) {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Received own player object";
+	} else {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Inserting PlayerSettings of other player";
+	}
 }
 
 void Lobby::start() {
@@ -115,7 +103,7 @@ void Lobby::start() {
 }
 
 bool Lobby::isAdmin() const {
-	return (mOwnPlayer && mOwnPlayer->getID() == mAdmin);
+	return (mPlayers.getOwnPlayer() && mPlayers.getOwnPlayer()->getID() == mAdmin);
 }
 
 void Lobby::setRaceState(RaceState* state) {
@@ -160,7 +148,7 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 	if (mAdmin == id) {
 
 		// Check if players remain
-		if (mPlayers.empty()) {
+		if (mPlayers.getPlayers().empty()) {
 			// Set admin to false if no player remain
 			mHasAdmin = false;
 		} else {

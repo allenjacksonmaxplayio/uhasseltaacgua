@@ -4,6 +4,7 @@
 #include "NetworkEntity.h"
 #include "GameEvent.h"
 #include "Listenable.h"
+#include "PlayerMap.h"
 #include <map>
 #include <string>
 
@@ -20,9 +21,13 @@ class RaceState;
  *
  * @author Olivier Berghmans & Pieter-Jan Pintens
  */
-class Lobby: public NetworkEntity, public Listenable<LobbyListener>, public ZCom_NodeReplicationInterceptor {
+class Lobby: public NetworkEntity,
+		public Listenable<LobbyListener> ,
+		public ZCom_NodeReplicationInterceptor {
 public:
-	typedef std::map<ZCom_ConnID, PlayerSettings*> playermap;
+	/** The player map type */
+	typedef PlayerMap<ZCom_ConnID, PlayerSettings, false> playermap;
+
 
 	/*
 	 * Not replicated fields
@@ -30,17 +35,14 @@ public:
 private:
 	//TODO MUTEX PROTECT PLAYERS
 
+	/** The player map */
+	playermap mPlayers;
+
 	/** Specific loader, will be different on client and server **/
 	Loader * mLoader;
 
 	/** Indicator of whether there is an administrator */
 	bool mHasAdmin;
-
-	/** Map with all player settings */
-	playermap mPlayers;
-
-	/** The own player settings object, or 0 for the server */
-	PlayerSettings* mOwnPlayer;
 
 	/** The race state when a race is busy */
 	RaceState* mRaceState;
@@ -110,7 +112,9 @@ public:
 	 * @param id the id of the player
 	 * @return the settings
 	 */
-	PlayerSettings* getPlayer(ZCom_ConnID id);
+	inline PlayerSettings* getPlayer(ZCom_ConnID id) {
+		return mPlayers.getPlayer(id);
+	}
 
 	/**
 	 * Get the class name for this class. This is used for registering
@@ -125,8 +129,8 @@ public:
 	 *
 	 * @return player settings mapped on their connection id
 	 */
-	inline const playermap& getPlayers() const {
-		return mPlayers;
+	inline const playermap::list_type& getPlayers() const {
+		return mPlayers.getPlayers();
 	}
 
 	/**
@@ -134,8 +138,8 @@ public:
 	 *
 	 * @return the own player settings
 	 */
-	inline PlayerSettings* getOwnPlayer() {
-		return mOwnPlayer;
+	inline PlayerSettings* getOwnPlayer() const {
+		return mPlayers.getOwnPlayer();
 	}
 
 	/**

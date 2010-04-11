@@ -10,26 +10,29 @@
 
 namespace HovUni {
 
-PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID, bool serverOwner) :
-	NetworkEntity(3), mUserID(userID), mCharacter(0), mHovercraft(0), mPlayerName(""),
-			mLobby(lobby) {
+PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
+	NetworkEntity(3), mUserID(userID), mCharacter(0), mHovercraft(0), mPlayerName(""), mLobby(lobby) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->setEventNotification(true, false);
 
-	if (!serverOwner) {
-		// Set owner
-		mNode->setOwner(userID, true);
-	}
-
-	// No default values, they can be set in the ini file
+	// Set owner
+	mNode->setOwner(userID, true);
 }
 
-PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,
-		ZCom_Control* control) :
-	NetworkEntity(3), mLobby(lobby), mUserID(announcementdata->getInt(32)), mCharacter(0),
-			mHovercraft(0), mPlayerName("") {
+PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
+	NetworkEntity(3), mUserID(0), mCharacter(0), mHovercraft(0), mPlayerName(name), mLobby(lobby) {
+
+	// Add as network entity
+	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
+	mNode->setEventNotification(true, false);
+}
+
+PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control) :
+	NetworkEntity(3), mLobby(lobby), mUserID(announcementdata->getInt(32)), mCharacter(0), mHovercraft(0), mPlayerName("") {
+
+	// Add as network entity
 	networkRegister(id, control);
 	mNode->setEventNotification(true, false);
 }
@@ -87,9 +90,32 @@ void PlayerSettings::setAnnouncementData(ZCom_BitStream* stream) {
 	stream->addInt(mUserID, 32);
 }
 
-void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,
-		ZCom_BitStream* stream, float timeSince) {
+void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream,
+		float timeSince) {
+	if (type == eZCom_EventUser) {
+		GameEventParser p;
+		GameEvent* event = p.parse(stream);
 
+		// Check for an init event if this object is just created
+		InitEvent* init = dynamic_cast<InitEvent*> (event);
+		if (init) {
+			ZCom_BitStream* state = init->getStream();
+			mPlayerName = state->getString();
+			mHovercraft = state->getInt(4);
+			mCharacter = state->getInt(4);
+		}
+
+		delete event;
+	}
+
+	// A new client received this object so send current state
+	if (type == eZCom_EventInit && mNode->getRole() == eZCom_RoleAuthority) {
+		ZCom_BitStream* state = new ZCom_BitStream();
+		state->addString(mPlayerName.c_str());
+		state->addInt(mHovercraft, 4);
+		state->addInt(mCharacter, 4);
+		sendEventDirect(InitEvent(state), conn_id);
+	}
 }
 
 void PlayerSettings::setupReplication() {
@@ -97,12 +123,10 @@ void PlayerSettings::setupReplication() {
 	replicateString(&mPlayerName, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY);
 
 	//replicate hovercraft
-	replicateUnsignedInt((int*) &mHovercraft,
-			ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY, 4);
+	replicateUnsignedInt((int*) &mHovercraft, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY, 4);
 
 	//replicate character
-	replicateUnsignedInt((int*) &mCharacter, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY,
-			4);
+	replicateUnsignedInt((int*) &mCharacter, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY, 4);
 }
 
 }
