@@ -17,7 +17,7 @@ namespace HovUni {
 		/**
 		*	The INI File object.
 		*/
-		CIniFile mReader;
+		CIniFileA mReader;
 
 		/**
 		*	The default filename to save to
@@ -61,44 +61,48 @@ namespace HovUni {
 
 		/**
 		*	Returns the value for the given (section, field, value) tuple.
-		*	@param	section	The section name
-		*	@param	field	The key, or field name.
+		*	@param	section			The section name
+		*	@param	field			The key, or field name.
+		*	@param	defaultValue	If no value / empty value was found, this value will be returned
 		*	@return	The value, as a string. NOTE! This string is whitespace-trimmed.
 		*/
-		std::string getValue(std::string section, std::string field);
+		std::string getValue(const std::string& section, const std::string& field, const std::string& defaultValue) const;
 
 		/**
 		*	Returns the value for the given section and field, but converted to
 		*	an integer.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.
+		*	@param	defaultValue	If no value / empty value was found, this value will be returned
 		*	@return	The value, as an int.
 		*/
-		int Config::getIntValue(std::string section, std::string field);
+		int Config::getIntValue(const std::string& section, const std::string& field, const int defaultValue) const;
 
 		/**
 		*	Returns the value for the given section and field, but converted to
 		*	a float.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.
+		*	@param	defaultValue	If no value / empty value was found, this value will be returned
 		*	@return	The value, as a float.
 		*/
-		float Config::getFloatValue(std::string section, std::string field);
+		float Config::getFloatValue(const std::string& section, const std::string& field, const float defaultValue) const;
 
 		/**
 		*	Returns the value for the given section and field, but converted to
 		*	a double.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.
+		*	@param	defaultValue	If no value / empty value was found, this value will be returned
 		*	@return	The value, as a double.
 		*/
-		double Config::getDoubleValue(std::string section, std::string field);
+		double Config::getDoubleValue(const std::string& section, const std::string& field, const double defaultValue) const;
 
 		/**
 		*	Put the value in the config as a (section, field, value) tuple.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.
-		*	@param	value	The value, as a string. NOTE! This string will bewhitespace-trimmed.
+		*	@param	value	The value, as a string. NOTE! This string will be whitespace-trimmed.
 		*/
 		void putValue(std::string section, std::string field, std::string value);
 	};

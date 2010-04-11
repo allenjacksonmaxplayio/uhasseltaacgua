@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -150,6 +151,26 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<Filter
+				Name="Config"
+				>
+				<File
+					RelativePath=".\Config.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\inifile.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="String"
+				>
+				<File
+					RelativePath=".\StringUtils.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -164,6 +185,30 @@
 				RelativePath=".\ListenableImpl.h"
 				>
 			</File>
+			<Filter
+				Name="Config"
+				>
+				<File
+					RelativePath=".\Config.h"
+					>
+				</File>
+				<File
+					RelativePath=".\inifile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tstdlibs.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="String"
+				>
+				<File
+					RelativePath=".\StringUtils.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

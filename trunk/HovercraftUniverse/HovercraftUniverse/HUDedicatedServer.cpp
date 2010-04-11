@@ -9,14 +9,14 @@
 
 namespace HovUni {
 	void HUDedicatedServer::run() {
-
-		Ogre::Root* ogreRoot = new Ogre::Root(mConfig->getValue("Ogre", "Plugins").c_str(), "ogre.cfg", "Server.log");
+		//TODO Dirk retrieve these values from server ini
+		Ogre::Root* ogreRoot = new Ogre::Root(mConfig->getValue("Ogre", "Plugins", "plugins.cfg").c_str(), "ogre.cfg", "Server.log");
 		//Ogre::LogManager::getSingleton().createLog("Server.log", true);
 
 // HACK IN OGRE FILE THINGY
 
 		Ogre::ConfigFile cf;
-		cf.load(mConfig->getValue("Ogre", "Resources").c_str());
+		cf.load(mConfig->getValue("Ogre", "Resources", "resources.cfg").c_str());
 		// Iterate over config
 		Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
 		while (seci.hasMoreElements()) {

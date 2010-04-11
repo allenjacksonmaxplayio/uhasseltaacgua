@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib GUI_d.lib Hikari_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib fmod_event.lib fmodex_vc.lib Sound_d.lib zoidcom_vcd.lib Exceptions_d.lib Scripting_d.lib lua.debug.lib luabind.debug.lib"
+				AdditionalDependencies="OgreMax_d.lib OgreMain_d.lib OIS_d.lib GUI_d.lib Hikari_d.lib hkaAnimation.lib hkaInternal.lib hkaRagdoll.lib hkBase.lib hkCompat.lib hkGeometryUtilities.lib hkInternal.lib hkpCollide.lib hkpConstraintSolver.lib hkpDynamics.lib hkpInternal.lib hkpUtilities.lib hkpVehicle.lib hkSceneData.lib hksCommon.lib hkSerialize.lib hksXAudio2.lib hkVisualize.lib fmod_event.lib fmodex_vc.lib Sound_d.lib zoidcom_vcd.lib Exceptions_d.lib Scripting_d.lib lua.debug.lib luabind.debug.lib Utils_d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\lib\Debug&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Lib\win32_net_9-0\debug_multithreaded_dll&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\debug&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\lib&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\lib&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\lib\debug&quot;;&quot;$(ProjectDir)..\dependencies\luabind\msvc-9.0-sp1\lib-x86&quot;;&quot;$(ProjectDir)..\dependencies\boost\lib\debug&quot;;&quot;$(ProjectDir)..\dependencies\lua\msvc-9.0-sp1\lib-x86&quot;"
 				GenerateDebugInformation="true"

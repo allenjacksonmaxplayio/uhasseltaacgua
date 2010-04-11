@@ -30,7 +30,7 @@ namespace HovUni {
 		mConfig = new Config();
 		mConfig->loadFile("HovercraftUniverse.ini");
 		//Get(section, name, defaultValue)
-		std::string mDataPath = mConfig->getValue("Paths", "DataPath");
+		std::string mDataPath = mConfig->getValue("Paths", "DataPath", "data");
 		DWORD  retval=0;
 		TCHAR  buffer[MAX_PATH]=TEXT(""); 
 		TCHAR** lppPart={NULL};

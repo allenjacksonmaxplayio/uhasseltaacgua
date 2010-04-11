@@ -4,8 +4,6 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <sstream>
 
-#include <OgreLogManager.h>
-
 namespace HovUni {
 
 	Config::Config() {
@@ -40,30 +38,42 @@ namespace HovUni {
 		}
 	}
 
-	std::string Config::getValue(std::string section, std::string field) {
+	std::string Config::getValue(const std::string& section, const std::string& field, const std::string& defaultValue) const {
 		std::string value = mReader.GetKeyValue(section, field);
 		boost::algorithm::trim(value);
+		if (value == "") {
+			value = defaultValue;
+		}
 		return value;
 	}
 
-	int Config::getIntValue(std::string section, std::string field) {
-		std::string stringValue = getValue(section, field);
+	int Config::getIntValue(const std::string& section, const std::string& field, const int defaultValue) const {
+		std::ostringstream ss;
+		ss << defaultValue;
+		std::string defaultStringValue = ss.str();
+		std::string stringValue = getValue(section, field, defaultStringValue);
 		std::istringstream buffer(stringValue);
 		int result;
 		buffer >> result;
 		return result;
 	}
 
-	float Config::getFloatValue(std::string section, std::string field) {
-		std::string stringValue = getValue(section, field);
+	float Config::getFloatValue(const std::string& section, const std::string& field, const float defaultValue) const {
+		std::ostringstream ss;
+		ss << defaultValue;
+		std::string defaultStringValue = ss.str();
+		std::string stringValue = getValue(section, field, defaultStringValue);
 		std::istringstream buffer(stringValue);
 		float result;
 		buffer >> result;
 		return result;
 	}
 
-	double Config::getDoubleValue(std::string section, std::string field) {
-		std::string stringValue = getValue(section, field);
+	double Config::getDoubleValue(const std::string& section, const std::string& field, const double defaultValue) const {
+		std::ostringstream ss;
+		ss << defaultValue;
+		std::string defaultStringValue = ss.str();
+		std::string stringValue = getValue(section, field, defaultStringValue);
 		std::istringstream buffer(stringValue);
 		double result;
 		buffer >> result;
