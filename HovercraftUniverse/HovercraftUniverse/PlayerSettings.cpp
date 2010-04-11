@@ -61,7 +61,7 @@ const Ogre::String PlayerSettings::getCharacter() const {
 	// Return the associated value
 	std::stringstream ss;
 	ss << mCharacter;
-	return config->getValue("Character", ss.str());
+	return config->getValue("Character", ss.str(), "");
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -76,7 +76,7 @@ const Ogre::String PlayerSettings::getHovercraft() const {
 	// Return the associated value
 	std::stringstream ss;
 	ss << mHovercraft;
-	return config->getValue("Hovercraft", ss.str());
+	return config->getValue("Hovercraft", ss.str(), "");
 }
 
 const unsigned int PlayerSettings::getID() const {

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Data\sound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\Scripting&quot;;&quot;$(ProjectDir)..\dependencies\lua\include&quot;;&quot;$(ProjectDir)..\dependencies\luabind\include&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\OgreMax&quot;;&quot;$(ProjectDir)..\dependencies\Havoc\Source&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OIS&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include\OGRE&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\include&quot;;&quot;$(ProjectDir)..\GUI&quot;;&quot;$(ProjectDir)..\dependencies\Hikari\includes&quot;;&quot;$(ProjectDir)..\dependencies\FMOD\includes&quot;;&quot;$(ProjectDir)..\Sound&quot;;&quot;$(ProjectDir)..\Networking&quot;;&quot;$(ProjectDir)..\dependencies\zoidcom\include&quot;;&quot;$(ProjectDir)..\Data\sound&quot;;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\Scripting&quot;;&quot;$(ProjectDir)..\Utils&quot;;&quot;$(ProjectDir)..\dependencies\lua\include&quot;;&quot;$(ProjectDir)..\dependencies\luabind\include&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -151,18 +151,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<Filter
-				Name="INI"
-				>
-				<File
-					RelativePath=".\Config.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\inifile.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Camera"
 				>
 				<File
@@ -259,14 +247,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Utilities"
-				>
-				<File
-					RelativePath=".\StringUtils.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Path"
 				>
 				<File
@@ -280,22 +260,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<Filter
-				Name="INI"
-				>
-				<File
-					RelativePath=".\Config.h"
-					>
-				</File>
-				<File
-					RelativePath=".\inifile.h"
-					>
-				</File>
-				<File
-					RelativePath=".\tstdlibs.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Camera"
 				>
@@ -405,14 +369,6 @@
 				</File>
 				<File
 					RelativePath=".\OgreWindowListener.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Utilities"
-				>
-				<File
-					RelativePath=".\StringUtils.h"
 					>
 				</File>
 			</Filter>

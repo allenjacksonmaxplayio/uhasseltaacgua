@@ -43,8 +43,8 @@ AdvancedTest::AdvancedTest(hkpWorld * world, HavokHovercraft * hover):
 		2, 
 		new hkpCapsuleShape(
 			hkVector4(0,0,0),
-			hkVector4(0,0,DedicatedServer::getEngineSettings()->getFloatValue("Collision", "ProbeLength")*(-1)),
-			DedicatedServer::getEngineSettings()->getFloatValue("Collision", "ProbeRadius")
+			hkVector4(0,0,DedicatedServer::getEngineSettings()->getFloatValue("Collision", "ProbeLength", 10.0f)*(-1)),
+			DedicatedServer::getEngineSettings()->getFloatValue("Collision", "ProbeRadius", 4.0f)
 		)
 	) {
 }
@@ -68,9 +68,9 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
 		HavokEntity(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL), mCollisionCounter(0),
 		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL),
-		mRotationDelta(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "TurnAngle")),
-		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping")),
-		mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity"))
+		mRotationDelta(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "TurnAngle", 0.0f)),
+		mSpeedDamping(DedicatedServer::getEngineSettings()->getFloatValue("Movement", "Damping", 0.0f)),
+		mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity", 0.0f))
 		
 {
 	mCollisionTest = 0;

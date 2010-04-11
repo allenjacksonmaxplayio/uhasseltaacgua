@@ -12,8 +12,8 @@ namespace HovUni {
 
 PlanetGravityAction::PlanetGravityAction(hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration):
 			hkpUnaryAction(satellite), mPlanetBody(planetBody), mHullCollidable(hullCollidable), mPhantomId(phantomId), mGravityForce(maxAcceleration),
-			mHoveringHeight(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Height")),
-			mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity")) {
+			mHoveringHeight(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Height", 2.5f)),
+			mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity", 20.0f)) {
 	setUserData(HK_SPHERE_ACTION_ID);
 }
 
