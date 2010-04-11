@@ -128,7 +128,7 @@ void ServerLoader::FinishedLoad(bool success) {
 
 	if (success) {
 		//add players
-		const RaceState::playermap& map = mRaceState->getPlayers();
+		const RaceState::playermap::list_type& map = mRaceState->getPlayers();
 
 		mLoadingHovercrafts = true;
 

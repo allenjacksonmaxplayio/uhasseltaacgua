@@ -3,6 +3,7 @@
 
 #include "NetworkEntity.h"
 #include "Listenable.h"
+#include "PlayerMap.h"
 #include <iostream>
 #include <set>
 
@@ -23,7 +24,8 @@ class RaceStateListener;
  */
 class RaceState: public NetworkEntity, public Listenable<RaceStateListener> {
 public:
-	typedef std::map<ZCom_ConnID, RacePlayer*> playermap;
+	/** The player map type */
+	typedef PlayerMap<ZCom_ConnID, RacePlayer, false> playermap;
 
 	/** All the possible states during the race */
 	static const enum States {
@@ -48,6 +50,9 @@ private:
 	/** The finite state machine for this race state */
 	class SystemState;
 
+	/** The player map */
+	playermap mPlayers;
+
 	/** The current state of the race (Server + Client) */
 	SystemState* mState; // Replicated through events not replicators
 
@@ -60,12 +65,6 @@ private:
 	/** The loader (Server + Client) */
 	Loader* const mLoader;
 
-	/** The list of race players (Server + Client) */
-	playermap mPlayers;
-
-	/** The own player (Client) */
-	RacePlayer* mOwnPlayer;
-
 	/*
 	 * Replicated fields
 	 */
@@ -75,7 +74,6 @@ private:
 
 	/** The track file name for this race */
 	const Ogre::String mTrackFilename;
-
 
 public:
 	/**
@@ -138,15 +136,17 @@ public:
 	 * @param id the id of the player
 	 * @return the settings
 	 */
-	RacePlayer* getPlayer(ZCom_ConnID id);
+	inline RacePlayer* getPlayer(ZCom_ConnID id) const {
+		return mPlayers.getPlayer(id);
+	}
 
 	/**
 	 * Get a map with all players mapped on their connection id (Server + Client)
 	 *
 	 * @return player settings mapped on their connection id
 	 */
-	inline const playermap& getPlayers() const {
-		return mPlayers;
+	inline const playermap::list_type& getPlayers() const {
+		return mPlayers.getPlayers();
 	}
 
 	/**
@@ -155,7 +155,7 @@ public:
 	 * @return the own player settings
 	 */
 	inline RacePlayer* getOwnPlayer() {
-		return mOwnPlayer;
+		return mPlayers.getOwnPlayer();
 	}
 
 	/**

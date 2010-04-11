@@ -154,7 +154,7 @@ namespace HovUni {
 
 		//Show ourselves in the lobby!
 		//Get all the playerconfigs and show them in the lobby
-		const Lobby::playermap players = mLobby->getPlayers();
+		const Lobby::playermap::list_type players = mLobby->getPlayers();
 		for (Lobby::playermap::const_iterator i = players.begin(); i != players.end(); ++i) {
 			PlayerSettings* player = (*i).second;
 			mLobbyGUI->addUser(player->getID(), player->getPlayerName(), player->getCharacter(), player->getHovercraft());

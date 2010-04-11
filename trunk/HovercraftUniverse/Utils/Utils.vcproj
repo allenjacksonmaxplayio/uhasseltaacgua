@@ -185,6 +185,14 @@
 				RelativePath=".\ListenableImpl.h"
 				>
 			</File>
+			<File
+				RelativePath=".\PlayerMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerMapImpl.h"
+				>
+			</File>
 			<Filter
 				Name="Config"
 				>

@@ -26,7 +26,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 
 	// Create race players
-	const Lobby::playermap& playersettings = lobby->getPlayers();
+	const Lobby::playermap::list_type& playersettings = lobby->getPlayers();
 
 	for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end(); ++it) {
 		RacePlayer* rplayer = new RacePlayer(this, it->second);
@@ -99,40 +99,23 @@ void RaceState::process() {
 	}
 }
 
-void RaceState::removePlayer(ZCom_ConnID id) {
-	playermap::iterator i = mPlayers.find(id);
-	removePlayer(i);
-}
-
 RaceState::playermap::iterator RaceState::removePlayer(playermap::iterator i) {
-	// Delete the player self
-	delete i->second;
-
 	// Remove the ID from the waiting list
 	mState->eraseFromList(i->first);
 
-	return mPlayers.erase(i);
+	return mPlayers.removePlayerByIterator(i);
 }
 
 void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
-	playermap::iterator i = mPlayers.find(player->getSettings()->getID());
-
-	if (i != mPlayers.end()) {
-		removePlayer(player->getSettings()->getID());
-	}
-	mPlayers.insert(std::pair<ZCom_ConnID, RacePlayer*>(player->getSettings()->getID(), player));
+	mPlayers.addPlayer(player->getSettings()->getID(), player, ownPlayer);
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Inserting new RacePlayer";
-
-	// Set own player
 	if (ownPlayer) {
-		mOwnPlayer = player;
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Received own player object";
 	}
 }
 
-RacePlayer* RaceState::getPlayer(ZCom_ConnID id) {
-	playermap::iterator i = mPlayers.find(id);
-	return (i != mPlayers.end()) ? i->second : 0;
+void RaceState::removePlayer(ZCom_ConnID id) {
+	removePlayer(mPlayers.find(id));
 }
 
 Listenable<RaceStateListener>::list_type& RaceState::getListeners() {

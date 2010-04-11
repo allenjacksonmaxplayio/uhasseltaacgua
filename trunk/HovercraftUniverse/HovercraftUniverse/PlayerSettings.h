@@ -17,9 +17,19 @@ class Lobby;
  * @author Olivier Berghmans & Pieter-Jan Pintens & Nick De Frangh
  */
 class PlayerSettings: public NetworkEntity {
+	/*
+	 * Not replicated fields
+	 */
 private:
 	/** The lobby */
 	Lobby* mLobby;
+
+	/*
+	 * Replicated fields
+	 */
+private:
+	// Adding a replicated field: set up replication (in setupReplication) + init event (in parseEvents)
+	// Const fields should be in announce data and not as replicator
 
 	/** The ID of the user */
 	const unsigned int mUserID;
@@ -36,12 +46,20 @@ private:
 public:
 
 	/**
-	 * Constructor
+	 * Constructor for settings for a certain player
 	 *
 	 * @param lobby the lobby
-	 * @param userID the ID of the user
+	 * @param userID the ID of the player
 	 */
-	PlayerSettings(Lobby * lobby, unsigned int userID, bool serverOwner = false);
+	PlayerSettings(Lobby * lobby, unsigned int userID);
+
+	/**
+	 * Constructor for settings of an AI or something
+	 *
+	 * @param lobby the lobby
+	 * @param name the name this AI will use
+	 */
+	PlayerSettings(Lobby* lobby, const Ogre::String& name);
 
 	/**
 	 * Constructor
