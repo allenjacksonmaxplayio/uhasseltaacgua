@@ -115,7 +115,7 @@ void HUClient::onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra
 
 		//Check if we already have a listener
 		if (mChatListener != 0) {
-			mChatClient->registerListener(mChatListener);
+			mChatClient->addListener(mChatListener);
 		}
 	}
 
@@ -260,7 +260,7 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 void HUClient::setChatListener(ChatListener* listener) {
 	mChatListener = listener;
 	if (mChatClient != 0) {
-		mChatClient->registerListener(mChatListener);
+		mChatClient->addListener(mChatListener);
 	}
 }
 

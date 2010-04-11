@@ -52,7 +52,7 @@ void Lobby::process() {
 		// Check if this settings wasn't deleted in the mean time
 		if (settings->isDeleted()) {
 			//Notify our listeners
-			for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
+			for (listener_iterator i = listenersBegin(); i != listenersEnd(); ++i) {
 				(*i)->onLeave(settings->getID());
 			}
 			it = removePlayer(it);
@@ -94,7 +94,7 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 	}
 
 	//Notify our listeners
-	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); ++i) {
+	for (listener_iterator i = listenersBegin(); i != listenersEnd(); ++i) {
 		(*i)->onJoin(settings);
 	}
 }
@@ -102,23 +102,6 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 PlayerSettings* Lobby::getPlayer(ZCom_ConnID id) {
 	playermap::iterator i = mPlayers.find(id);
 	return (i != mPlayers.end()) ? i->second : 0;
-}
-
-void Lobby::addListener(LobbyListener* listener) {
-	mListeners.push_back(listener);
-}
-
-void Lobby::removeListener(LobbyListener* listener) {
-	std::vector<LobbyListener*>::const_iterator it = mListeners.begin();
-
-	while (it != mListeners.end()) {
-		if ((*it) == listener) {
-			mListeners.erase(it);
-			return;
-		}
-
-		++it;
-	}
 }
 
 void Lobby::start() {
@@ -200,6 +183,8 @@ void Lobby::onStartServer() {
 }
 
 void Lobby::onStartClient() {
+
+	// TODO Is this allowable Nick?
 	int currSize = mListeners.size();
 
 	for (int i = 0; i < currSize; ++i) {
@@ -210,10 +195,6 @@ void Lobby::onStartClient() {
 			currSize = mListeners.size();
 			--i;
 		}
-	}
-
-	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
-		(*i)->onStart();
 	}
 }
 
@@ -336,7 +317,7 @@ void Lobby::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _re
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Lobby ADMIN";
 	}
 	//Something has changed in the lobby, inform our listeners
-	for (std::vector<LobbyListener*>::iterator i = mListeners.begin(); i != mListeners.end(); i++) {
+	for (listener_iterator i = listenersBegin(); i != listenersEnd(); i++) {
 		(*i)->onAdminChange(this->isAdmin());
 		(*i)->onBotsChange(this->hasBots());
 	}

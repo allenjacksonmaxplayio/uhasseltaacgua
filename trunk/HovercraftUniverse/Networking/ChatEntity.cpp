@@ -20,22 +20,6 @@ ChatEntity::~ChatEntity() {
 
 }
 
-void ChatEntity::registerListener(ChatListener* listener) {
-	mListeners.push_back(listener);
-}
-
-void ChatEntity::removeListener(ChatListener* listener) {
-	std::vector<ChatListener*>::const_iterator it = mListeners.begin();
-
-	while (it != mListeners.end()) {
-		if ((*it) == listener) {
-			mListeners.erase(it);
-			return;
-		}
-		++it;
-	}
-}
-
 void ChatEntity::sendLine(const string& user, const string& line) {
 	sendEvent(TextEvent(user, line));
 }
@@ -84,7 +68,7 @@ void ChatEntity::processEventsClient(ChatEvent* event) {
 		// Update all the listeners
 		std::string user = text->getUser();
 		std::string line = text->getLine();
-		for (std::vector<ChatListener*>::iterator it = mListeners.begin(); it != mListeners.end(); ++it) {
+		for (listener_iterator it = listenersBegin(); it != listenersEnd(); ++it) {
 			(*it)->newMessage(user, line);
 		}
 	}
@@ -94,7 +78,7 @@ void ChatEntity::processEventsClient(ChatEvent* event) {
 	if (notify) {
 		// Update all the listeners
 		std::string line = notify->getLine();
-		for (std::vector<ChatListener*>::iterator it = mListeners.begin(); it != mListeners.end(); ++it) {
+		for (listener_iterator it = listenersBegin(); it != listenersEnd(); ++it) {
 			(*it)->newNotification(line);
 		}
 	}
