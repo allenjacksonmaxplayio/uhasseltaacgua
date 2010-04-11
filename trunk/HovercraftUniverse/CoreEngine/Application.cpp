@@ -3,9 +3,9 @@
 #include <tinyxml/tinyxml.h>
 #include <iostream>
 #include "Config.h"
+#include "OgreWindowListener.h"
 
 namespace HovUni {
-
 Ogre::SceneManager* Application::msSceneMgr = 0;
 Config* Application::mConfig = 0;
 
@@ -134,7 +134,8 @@ void Application::setupScene() {
 	msSceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
 
 	// Get created window
-	Ogre::RenderWindow * win = mOgreRoot->getAutoCreatedWindow();
+	Ogre::RenderWindow* win = mOgreRoot->getAutoCreatedWindow();
+	Ogre::WindowEventUtilities::addWindowEventListener(win, new OgreWindowListener());
 
 	// TODO Do the operations below belong here or as in separated methods
 	// Set ambient light

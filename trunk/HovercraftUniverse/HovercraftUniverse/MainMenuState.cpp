@@ -151,12 +151,11 @@ namespace HovUni {
 
 		switch (e.key) {
 			case OIS::KC_ESCAPE:
-			case OIS::KC_LMENU:
-			case OIS::KC_RMENU:
 			case OIS::KC_F4:
 				// Check whether right combinations are pressed concurrently
-				if (keyboard->isKeyDown(OIS::KC_ESCAPE) || 
-					(keyboard->isKeyDown(OIS::KC_LMENU) && keyboard->isKeyDown(OIS::KC_RMENU) && keyboard->isKeyDown(OIS::KC_F4))) {
+				if ((keyboard->isKeyDown(OIS::KC_ESCAPE)) || 
+					((keyboard->isKeyDown(OIS::KC_LMENU) || keyboard->isKeyDown(OIS::KC_RMENU)) && keyboard->isKeyDown(OIS::KC_F4))
+					) {
 					// Stop rendering
 					mContinue = false;			
 				}
