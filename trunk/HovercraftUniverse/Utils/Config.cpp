@@ -38,16 +38,17 @@ namespace HovUni {
 		}
 	}
 
-	std::string Config::getValue(const std::string& section, const std::string& field, const std::string& defaultValue) const {
+	std::string Config::getValue(const std::string& section, const std::string& field, const std::string& defaultValue) {
 		std::string value = mReader.GetKeyValue(section, field);
 		boost::algorithm::trim(value);
 		if (value == "") {
 			value = defaultValue;
+			mReader.SetKeyValue(section, field, defaultValue);
 		}
 		return value;
 	}
 
-	int Config::getIntValue(const std::string& section, const std::string& field, const int defaultValue) const {
+	int Config::getIntValue(const std::string& section, const std::string& field, const int defaultValue) {
 		std::ostringstream ss;
 		ss << defaultValue;
 		std::string defaultStringValue = ss.str();
@@ -58,7 +59,7 @@ namespace HovUni {
 		return result;
 	}
 
-	float Config::getFloatValue(const std::string& section, const std::string& field, const float defaultValue) const {
+	float Config::getFloatValue(const std::string& section, const std::string& field, const float defaultValue) {
 		std::ostringstream ss;
 		ss << defaultValue;
 		std::string defaultStringValue = ss.str();
@@ -69,7 +70,7 @@ namespace HovUni {
 		return result;
 	}
 
-	double Config::getDoubleValue(const std::string& section, const std::string& field, const double defaultValue) const {
+	double Config::getDoubleValue(const std::string& section, const std::string& field, const double defaultValue) {
 		std::ostringstream ss;
 		ss << defaultValue;
 		std::string defaultStringValue = ss.str();

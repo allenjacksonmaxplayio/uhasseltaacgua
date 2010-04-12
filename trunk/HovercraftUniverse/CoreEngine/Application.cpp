@@ -14,7 +14,9 @@ Application::Application(Ogre::String appName, Ogre::String configINI) : mAppNam
 }
 
 Application::~Application() {
-	// Empty
+	mConfig->saveFile();
+	delete mConfig;
+	mConfig = 0;
 }
 
 Config* Application::getConfig() {
@@ -42,8 +44,13 @@ void Application::go(const Ogre::String& host, unsigned int port) {
 }
 
 void Application::parseIni() {
+	TCHAR dirpath[MAX_PATH]=TEXT(""); 
+    TCHAR** filepath={NULL};
+	GetFullPathName(mConfigINI.c_str(), MAX_PATH, dirpath, filepath);
+	std::string fullConfigPath(dirpath);
+
 	mConfig = getConfig();
-	mConfig->loadFile(mConfigINI);
+	mConfig->loadFile(fullConfigPath);
 	//Get(section, name, defaultValue)
 	mDataPath = mConfig->getValue("Paths", "DataPath", "data");
 	mLogPath = mConfig->getValue("Ogre", "LogFile", "HovercraftUniverse.log");

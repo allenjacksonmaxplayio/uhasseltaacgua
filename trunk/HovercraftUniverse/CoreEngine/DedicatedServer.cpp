@@ -4,16 +4,18 @@
 #include "Config.h"
 
 namespace HovUni {
-	DedicatedServer::DedicatedServer() {
-
+	DedicatedServer::DedicatedServer(const std::string& configINI) {
+		mConfigFilename = configINI;
 	}
 
 	DedicatedServer::~DedicatedServer() {
+		mConfig->saveFile();
 		delete mConfig;
 		mConfig = 0;
 	}
 
 	Config* DedicatedServer::mEngineSettings = 0;
+	Config* DedicatedServer::mConfig = 0;
 
 	Config* DedicatedServer::getEngineSettings() {
 		if (!mEngineSettings) {
@@ -22,13 +24,25 @@ namespace HovUni {
 		return mEngineSettings;
 	}
 
+	Config* DedicatedServer::getConfig() {
+		if (!mConfig) {
+			mConfig = new Config();
+		}
+		return mConfig;
+	}
+
 	void DedicatedServer::init() {
 		parseIni();
 	}
 
 	void DedicatedServer::parseIni() {
-		mConfig = new Config();
-		mConfig->loadFile("HovercraftUniverse.ini");
+		TCHAR dirpath[MAX_PATH]=TEXT(""); 
+		TCHAR** filepath={NULL};
+		GetFullPathName(mConfigFilename.c_str(), MAX_PATH, dirpath, filepath);
+		std::string fullConfigPath(dirpath);
+
+		mConfig = getConfig();
+		mConfig->loadFile(fullConfigPath);
 		//Get(section, name, defaultValue)
 		std::string mDataPath = mConfig->getValue("Paths", "DataPath", "data");
 		DWORD  retval=0;
@@ -44,6 +58,6 @@ namespace HovUni {
 		}
 		//Parse Engine settings
 		mEngineSettings = getEngineSettings();
-		mEngineSettings->loadFile("engine_settings.cfg");
+		mEngineSettings->loadFile(mConfig->getValue("Server", "EngineSettings", "engine_settings.cfg"));
 	}
 }

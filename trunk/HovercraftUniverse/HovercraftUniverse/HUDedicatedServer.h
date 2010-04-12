@@ -10,6 +10,8 @@ namespace HovUni {
 	*/
 	class HUDedicatedServer : DedicatedServer {
 	public:
+		HUDedicatedServer(const std::string& configINI);
+
 		/**
 		*	See DedicatedServer::init()
 		*/

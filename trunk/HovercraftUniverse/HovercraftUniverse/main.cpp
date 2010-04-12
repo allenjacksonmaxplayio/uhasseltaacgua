@@ -49,7 +49,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 
 	if (server) {
 		HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
-		HovUni::HUDedicatedServer app;
+		HovUni::HUDedicatedServer app("Server.ini");
 		try {
 			app.init();
 			app.run();
@@ -67,7 +67,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT) {
 			HovUni::Console::createConsole("HovercraftUniverse Debug Console");
 		}
 
-		HovUni::HUApplication app;
+		HovUni::HUApplication app("HovercraftUniverse.ini");
 		
 		try {
 			app.init();

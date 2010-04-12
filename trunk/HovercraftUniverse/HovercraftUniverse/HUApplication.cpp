@@ -9,8 +9,8 @@ namespace HovUni {
 
 ClientPreparationLoader * HUApplication::msPreparationLoader = 0;
 
-HUApplication::HUApplication() :
-	Application("Hovercraft Universe", "HovercraftUniverse.ini") {
+HUApplication::HUApplication(const std::string& configINI) :
+	Application("Hovercraft Universe", configINI) {
 	// Empty
 }
 

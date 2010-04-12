@@ -49,7 +49,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	game:luaLog(AI_NAME .. " :: " .. msg);
+	--game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
@@ -223,11 +223,11 @@ function decide()
 
 	if (position:distance(finish) > distanceThreshold) then --Arrival behaviour
 		local angleThreshold = 90;
-		if (angle > angleThreshold) then
-			slowDown();
-		else
+		--if (angle > angleThreshold) then
+		--	slowDown();
+		--else
 			speedUp();
-		end
+		--end
 		if (side > EPSILON) then
 			turnRight();
 		elseif (side < -EPSILON) then

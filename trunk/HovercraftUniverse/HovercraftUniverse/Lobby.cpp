@@ -9,6 +9,7 @@
 #include "PlayerSettings.h"
 #include "RaceState.h"
 #include "RacePlayer.h"
+#include "DedicatedServer.h"
 
 //Events
 #include "InitEvent.h"
@@ -24,7 +25,7 @@ std::string Lobby::getClassName() {
 }
 
 Lobby::Lobby(Loader * loader) :
-	NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(12),
+NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(DedicatedServer::getConfig()->getIntValue("Server", "MaximumPlayers", 12)),
 			mCurrentPlayers(0), mRaceState(0), mBots(false) {
 
 	this->setReplicationInterceptor(this);
