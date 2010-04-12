@@ -83,13 +83,6 @@ public:
 	*/
 	static Config* getConfig();
 
-	/**
-	*	Returns a pointer to the singleton Config object.
-	*	@return	The Config object (singleton).
-	*/
-	static Config* getEngineSettings();
-
-
 	/** The scene manager */
 	static Ogre::SceneManager * msSceneMgr;
 
@@ -104,7 +97,7 @@ public:
 	/**
 	 * Destructor.
 	 */
-	virtual ~Application();
+	~Application();
 
 	/**
 	 * Initialize all things

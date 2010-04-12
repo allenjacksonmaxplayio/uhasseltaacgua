@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "ClientPreparationLoader.h"
+#include <string>
 
 namespace HovUni {
 
@@ -20,7 +21,7 @@ namespace HovUni {
 		/**
 		* Constructor.
 		*/
-		HUApplication();
+		HUApplication(const std::string& configINI);
 
 		/**
 		* Destructor.

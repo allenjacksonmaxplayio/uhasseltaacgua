@@ -8,10 +8,14 @@
 
 
 namespace HovUni {
+	HUDedicatedServer::HUDedicatedServer(const std::string& configINI) : 
+		DedicatedServer(configINI) {
+	}
+
 	void HUDedicatedServer::run() {
 		//TODO Dirk retrieve these values from server ini
-		Ogre::Root* ogreRoot = new Ogre::Root(mConfig->getValue("Ogre", "Plugins", "plugins.cfg").c_str(), "ogre.cfg", "Server.log");
-		//Ogre::LogManager::getSingleton().createLog("Server.log", true);
+		Ogre::Root ogreRoot(getConfig()->getValue("Ogre", "Plugins", "plugins.cfg"), getConfig()->getValue("Ogre", "ConfigFile", "ogre.cfg"), getConfig()->getValue("Ogre", "LogFile", "Server.log"));
+		//Ogre::LogManager::getSingleton().createLog(getConfig()->getValue("Server", "LogFile", "Server.log"), true);
 
 // HACK IN OGRE FILE THINGY
 
@@ -37,13 +41,13 @@ namespace HovUni {
 
 // HACK IN OGRE FILE THINGY
 
-		HovUni::HUServer* server = new HovUni::HUServer();
-		server->start();
-		server->join();
-		delete server;
-		server = 0;
-		delete ogreRoot;
-		ogreRoot = 0;
+		HovUni::HUServer server;
+		server.start();
+		server.join();
+//		delete server;
+//		server = 0;
+//		delete ogreRoot;
+//		ogreRoot = 0;
 	}
 
 	void HUDedicatedServer::init() {

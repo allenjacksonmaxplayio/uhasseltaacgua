@@ -22,9 +22,22 @@ namespace HovUni {
 		/**
 		*	The config pointer.
 		*/
-		Config* mConfig;
+		static Config* mConfig;
+
+		/**
+		*	Config File name
+		*/
+		std::string mConfigFilename;
 	public:
-		DedicatedServer();
+		/**
+		*	Constructor.
+		*	@param	configINI	The Config INI file name.
+		*/
+		DedicatedServer(const std::string& configINI);
+
+		/**
+		*	
+		*/
 		~DedicatedServer();
 
 		/**
@@ -47,6 +60,12 @@ namespace HovUni {
 		*	@return	The Config object (singleton).
 		*/
 		static Config* getEngineSettings();
+	
+		/**
+		*	Returns a pointer to the singleton Config object.
+		*	@return	The Config object (singleton).
+		*/
+		static Config* getConfig();
 	};
 
 }
