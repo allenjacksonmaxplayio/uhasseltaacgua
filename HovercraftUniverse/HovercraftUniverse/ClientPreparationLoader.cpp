@@ -38,9 +38,6 @@ void ClientPreparationLoader::FinishedLoad(bool success) {
 	// Clean up for next file
 	mCurrEntitiesFound.clear();
 	mCurrFilename = "";
-
-	// Notify race state that the loading finished
-	getRaceState()->onLoaded();
 }
 
 void ClientPreparationLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters,

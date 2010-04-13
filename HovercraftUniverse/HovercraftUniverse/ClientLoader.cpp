@@ -27,7 +27,8 @@ void ClientLoader::StartedLoad(){
 }
 
 void ClientLoader::FinishedLoad(bool success) {
-	//TODO notify server!!
+	// Notify race state that the loading finished
+	//getRaceState()->onLoaded();
 }
 
 void ClientLoader::UpdatedLoadProgress(Ogre::Real progress) {

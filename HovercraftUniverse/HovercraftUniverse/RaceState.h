@@ -11,6 +11,7 @@ namespace HovUni {
 
 class Lobby;
 class Loader;
+class ClientLoader;
 class ClientPreparationLoader;
 class RacePlayer;
 class RaceStateListener;

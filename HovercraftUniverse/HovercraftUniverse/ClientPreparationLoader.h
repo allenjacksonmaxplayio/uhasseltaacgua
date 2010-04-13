@@ -70,6 +70,15 @@ public:
 	 */
 	void update(Ogre::String entityName);
 
+	/**
+	 * Returns the actual loader for which this preparation is being made.
+	 *
+	 * @return the internal loader
+	 */
+	ClientLoader * getInternalLoader() {
+		return mLoader;
+	}
+
 };
 
 /**
