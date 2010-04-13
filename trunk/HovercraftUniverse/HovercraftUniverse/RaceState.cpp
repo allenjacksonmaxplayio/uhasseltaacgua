@@ -60,6 +60,7 @@ RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStre
 	mState = new SystemState(this);
 	if (mLoader) {
 		mLoader->setRaceState(this);
+		loader->getInternalLoader()->setRaceState(this);
 	}
 
 	// Add as network entity
@@ -174,7 +175,6 @@ void RaceState::SystemState::update() {
 		// Start waiting for loading the entities
 		((ClientPreparationLoader*) mRaceState->mLoader)->registerLoader(mRaceState->mTrackFilename);
 	}
-
 }
 
 RaceState::States RaceState::SystemState::getState() const {
