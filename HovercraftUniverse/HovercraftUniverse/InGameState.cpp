@@ -49,13 +49,13 @@ namespace HovUni {
 			case RaceState::COUNTDOWN: {
 				//Everyone is done loading, go ingame and start the countdown!
 				mGUIManager->disableOverlay(mLoader);
+				//Make sure the hud is activated
+				mHud->activate();
 
 				break;
 			}
 			case RaceState::RACING: {
 				//Countdown has finished, race has started!
-				//Make sure the hud is activated
-				mHud->activate();
 
 				break;
 			}
