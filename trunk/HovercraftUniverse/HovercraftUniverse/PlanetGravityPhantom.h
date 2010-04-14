@@ -5,30 +5,31 @@
 
 namespace HovUni {
 
+class Asteroid;
+
 class PlanetGravityPhantom : public hkpAabbPhantom
 {
 private:
+
+	/**
+	 * The asteroid
+	 */
+	Asteroid * mAsteroid;
 	
 	/**
 	 * Rigid body representing the planet
 	 */
 	hkpRigidBody* mPlanetBody;
 
-	/**
-	 * Collidable representing the gravitational field
-	 */
-	const hkpCollidable * mHullCollidable;
-
 public:
 
 	/**
 	 * Constructor
-	 * @param the planet
+	 * @param asteroid
+	 * @param the planet rb
 	 * @param aabb
-	 * @param hullCollidable
-	 * @param collisionFilterInfo
 	 */
-	PlanetGravityPhantom(hkpRigidBody* planet, const hkAabb& aabb, const hkpCollidable* hullCollidable, hkUint32 collisionFilterInfo = 0);
+	PlanetGravityPhantom(Asteroid * asteroid, hkpRigidBody* body, const hkAabb& aabb);
 
 	virtual ~PlanetGravityPhantom(void);
 

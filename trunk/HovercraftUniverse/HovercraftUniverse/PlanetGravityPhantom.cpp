@@ -4,11 +4,12 @@
 #include "HavokEntityType.h"
 #include "PlanetGravityPhantom.h"
 #include "PlanetGravityAction.h"
+#include "Asteroid.h"
 
 namespace HovUni {
 
-PlanetGravityPhantom::PlanetGravityPhantom( hkpRigidBody* body, const hkAabb& aabb, const hkpCollidable* hullCollidable, hkUint32 collisionFilterInfo )
-		: hkpAabbPhantom( aabb, collisionFilterInfo), mPlanetBody(body), mHullCollidable(hullCollidable) {
+PlanetGravityPhantom::PlanetGravityPhantom( Asteroid * asteroid, hkpRigidBody* body, const hkAabb& aabb )
+		: hkpAabbPhantom( aabb, 0), mAsteroid(asteroid), mPlanetBody(body) {
 }
 
 PlanetGravityPhantom::~PlanetGravityPhantom(void)
@@ -38,8 +39,9 @@ void PlanetGravityPhantom::addOverlappingCollidable( hkpCollidable* handle )
 
 		if( !actionFound )
 		{
+			std::cout << "GRAV ADDED " << mAsteroid->getGravity()<< std::endl;
 			// Add an action
-			PlanetGravityAction* newGravity = new PlanetGravityAction( mPlanetBody, theBody, mHullCollidable, reinterpret_cast<hkUlong>( this ) );
+			PlanetGravityAction* newGravity = new PlanetGravityAction( mPlanetBody, theBody, reinterpret_cast<hkUlong>( this ), mAsteroid->getGravity() );
 			theBody->getWorld()->addAction( newGravity );
 			newGravity->removeReference();
 		}

@@ -10,8 +10,8 @@
 
 namespace HovUni {
 
-PlanetGravityAction::PlanetGravityAction(hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration):
-			hkpUnaryAction(satellite), mPlanetBody(planetBody), mHullCollidable(hullCollidable), mPhantomId(phantomId), mGravityForce(maxAcceleration),
+PlanetGravityAction::PlanetGravityAction(hkpRigidBody* planetBody, hkpRigidBody* satellite, hkUlong phantomId, hkReal maxAcceleration):
+			hkpUnaryAction(satellite), mPlanetBody(planetBody), mPhantomId(phantomId), mGravityForce(maxAcceleration),
 			mHoveringHeight(DedicatedServer::getEngineSettings()->getFloatValue("Hovering", "Height", 2.5f)),
 			mCharacterGravity(DedicatedServer::getEngineSettings()->getFloatValue("Havok", "CharacterGravity", 20.0f)) {
 	setUserData(HK_SPHERE_ACTION_ID);
@@ -32,15 +32,15 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 	do {
 		// Use mHullCollidable for gravity calculations if available.
 		// GetClosestPoints() should provide a gravity vector
-		if (mHullCollidable == HK_NULL) {
+		/*if (mHullCollidable == HK_NULL) {*/
 			hkpShapeType b = mPlanetBody->getCollidable()->getShape()->getType();
 			hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints = getWorld()->getCollisionDispatcher()->getGetClosestPointsFunc(a, b);
 			getClosestPoints(*rb->getCollidable(), *mPlanetBody->getCollidable(), input, collector);
-		} else {
+		/*} else {
 			hkpShapeType b = mHullCollidable->getShape()->getType();
 			hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints = getWorld()->getCollisionDispatcher()->getGetClosestPointsFunc(a, b);
 			getClosestPoints(*rb->getCollidable(), *mHullCollidable, input, collector);	
-		}
+		}*/
 
 		// Grow the tolerance until we get a hit.
 		input.m_tolerance = input.m_tolerance * 2.0f;

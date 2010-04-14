@@ -115,16 +115,17 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 		SetEvent(HavokThread::startevent);
 
 		// A stopwatch for waiting until the real time has passed
-		hkStopwatch stopWatch;
-		stopWatch.start();
-		hkReal lastTime = stopWatch.getElapsedSeconds();
+		//hkStopwatch stopWatch;
+		//stopWatch.start();
+		//hkReal lastTime = stopWatch.getElapsedSeconds();
 
 		while ( HavokThread::run ) {
 			world.step();
 
+			Sleep( 50 );
 			// Pause until the actual time has passed
-			while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
-				lastTime += world.getTimeStep();			
+			//while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
+			//	lastTime += world.getTimeStep();			
 		}
 	} catch (HovUni::Exception & e) {
 		MessageBox(NULL, e.getMessage().c_str(), "HovUni Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

@@ -198,8 +198,6 @@ void ServerLoader::onAsteroid(Asteroid * asteroid) {
 	{
 		hkAabb currentAabb;
 
-		const hkpCollidable* hullCollidable = HK_NULL;
-
 		if (mExternalitem == 0) {
 			planetRigidBody->getCollidable()->getShape()->getAabb(planetRigidBody->getTransform(), 0.0f, currentAabb);
 
@@ -220,7 +218,7 @@ void ServerLoader::onAsteroid(Asteroid * asteroid) {
 		}
 
 		// Attach a gravity phantom to the planet so it can catch objects which come close
-		PlanetGravityPhantom* gravityphantom = new PlanetGravityPhantom(planetRigidBody, currentAabb, hullCollidable);
+		PlanetGravityPhantom* gravityphantom = new PlanetGravityPhantom(asteroid, planetRigidBody, currentAabb);
 		mHovercraftWorld->mPhysicsWorld->addPhantom(gravityphantom);
 		gravityphantom->removeReference();
 	}
