@@ -289,7 +289,7 @@
         </item>
         <item name="Planet02">
             <userData>
-                <![CDATA[<Asteroid><Name>Planet02</Name><Gravity>-20</Gravity><AsteroidType>2</AsteroidType><OgreEntity>PlanetGeom02</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+                <![CDATA[<Asteroid><Name>Planet02</Name><Gravity>20</Gravity><AsteroidType>2</AsteroidType><OgreEntity>PlanetGeom02</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
 </userData>
             <position x="340" y="-0.215397" z="7.63881e-006" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
