@@ -1,0 +1,14 @@
+#summary Possible features when there is time left
+#labels Phase-QA
+
+= Introduction =
+
+Plaats hier alle features die in je op komen die mogelijk in het spel terecht kunnen komen maar niet in de normale features thuis horen. Als je meer details over een feature wil geven, maar dan een nieuwe hoofding aan.
+
+= Features =
+  * Master server (Iedereen)
+  * Connect as observer --> mogelijkheid om eender wie te volgen (Nick)
+  * Find lan games (Olivier)
+
+== Observer ==
+Je kan dus als observer een spel joinen zodat je gewoon je camera achter eender wie kan plaatsen. Dit zou wel handig kunnen zijn voor de finale presentatie en lijkt met niet echt moeilijk?
