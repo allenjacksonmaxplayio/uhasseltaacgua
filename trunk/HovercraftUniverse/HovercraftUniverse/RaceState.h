@@ -30,7 +30,7 @@ public:
 
 	/** All the possible states during the race */
 	static const enum States {
-		INITIALIZING = 0, /** Pre-race state, show intro */
+		INITIALIZING = 0, /** Pre-race state, nothing has been loaded yet */
 		LOADING, /** Server and clients load the world */
 		COUNTDOWN, /** The race will start, show countdown */
 		RACING, /** The race has started */

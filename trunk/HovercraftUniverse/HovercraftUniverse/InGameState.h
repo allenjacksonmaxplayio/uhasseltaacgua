@@ -5,10 +5,14 @@
 #include "HUClient.h"
 #include "EntityManager.h"
 #include "HUD.h"
+#include "LoadingOverlay.h"
+#include "RaceStateListener.h"
 #include "RepresentationManager.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
+	class RaceState; //Forward declaration
+
 	/**
 	 * A class that represents the ingame state.
 	 * This state will take care of passing the right inputs to the right locations,
@@ -16,7 +20,7 @@ namespace HovUni {
 	 *
 	 * @auhtor Nick De Frangh
 	 */
-	class InGameState : public BasicGameState {
+	class InGameState : public BasicGameState, public RaceStateListener {
 		private:
 			/** A reference to the created client core */
 			HUClient* mHUClient;
@@ -36,16 +40,48 @@ namespace HovUni {
 			/** A boolean to mark when we want to quit */
 			bool mContinue;
 
+			/** The race state associated with this race */
+			RaceState* mRaceState;
+
+			/** The loading overlay we will be displaying */
+			LoadingOverlay* mLoader;
+
 		public:
 			/**
 			 * Constructor
+			 *
+			 * @param client The client to communicate with the server
+			 * @param raceState The racestate linked to this session
+			 * @param HUDConfig The XML element representing the HUD configuration
 			 */
-			InGameState(HUClient* client, TiXmlElement* HUDConfig);
+			InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig);
 
 			/**
 			 * Function that will handle new Chat Input
 			 */
 			Hikari::FlashValue onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
+			////////////////////////////////////////////
+			//			RaceStateListener functions	  //
+			////////////////////////////////////////////
+
+			/**
+			 * The state of the race changed
+			 *
+			 * @param state the new state
+			 */
+			virtual void onStateChange(RaceState::States state);
+
+			/**
+			 * The player changed position
+			 *
+			 * @param player the player
+			 */
+			virtual void onPositionChange(RacePlayer* player);
+
+			////////////////////////////////////////////
+			//			BasicGameState functions	  //
+			////////////////////////////////////////////
 
 			/**
 			 * Function called when the state gets activated

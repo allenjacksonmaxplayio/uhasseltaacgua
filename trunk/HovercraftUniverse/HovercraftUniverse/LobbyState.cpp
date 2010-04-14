@@ -114,7 +114,7 @@ namespace HovUni {
 		//We need to start loading
 		TiXmlDocument doc("gui/GUIConfig.xml");
 		doc.LoadFile();
-		InGameState* newState = new InGameState(mClient, doc.RootElement()->FirstChildElement("HUD"));
+		InGameState* newState = new InGameState(mClient, mLobby->getRaceState(), doc.RootElement()->FirstChildElement("HUD"));
 		mManager->addGameState(GameStateManager::IN_GAME, newState);
 		mManager->switchState(GameStateManager::IN_GAME);
 	}
