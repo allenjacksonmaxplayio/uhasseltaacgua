@@ -44,6 +44,12 @@ public:
 	virtual void load(const hkVector4& position) = 0;
 
 	/**
+	 * Get the up of the character
+	 * @return the up of the character
+	 */
+	virtual const hkVector4& getUp() const = 0;
+
+	/**
 	 * Get the position of the character
 	 * @return the position of the character
 	 */

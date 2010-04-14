@@ -9,7 +9,7 @@ namespace HovUni {
 //the ID for our property randomly chosen
 int HavokEntityType::ENITYTYPEPROPERTY = 15454;
 
-HavokEntityType::Type HavokEntityType::getEntityType( hkpWorldObject * object ){
+HavokEntityType::Type HavokEntityType::getEntityType( const hkpWorldObject * object ){
 	//mostly read only field, ignore the MT check
 	if ( object->hasProperty(ENITYTYPEPROPERTY) ){
 		hkpPropertyValue p = object->getProperty(ENITYTYPEPROPERTY);		
@@ -19,7 +19,7 @@ HavokEntityType::Type HavokEntityType::getEntityType( hkpWorldObject * object ){
 	}
 }
 
-bool HavokEntityType::isEntityType( hkpWorldObject * object, Type type ) {
+bool HavokEntityType::isEntityType( const hkpWorldObject * object, Type type ) {
 	if ( object->hasProperty(ENITYTYPEPROPERTY)){
 		hkpPropertyValue p = object->getProperty(ENITYTYPEPROPERTY);		
 		return (HavokEntityType::Type) p.getInt() == type;

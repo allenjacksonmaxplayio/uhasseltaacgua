@@ -309,6 +309,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\HoverAction.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\PlanetGravityAction.cpp"
 						>
 					</File>
@@ -712,6 +716,10 @@
 					>
 					<File
 						RelativePath=".\BoostAction.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HoverAction.h"
 						>
 					</File>
 					<File

@@ -28,7 +28,7 @@ public:
 	 * @param object
 	 * @return EntityType
 	 */
-	static Type getEntityType( hkpWorldObject * object );
+	static Type getEntityType( const hkpWorldObject * object );
 
 	/**
 	 * Update the entity type, this should be done only when propery already set
@@ -43,7 +43,7 @@ public:
 	 * @param type
 	 * @return true if object is of given type, false otherwise
 	 */
-	static bool isEntityType( hkpWorldObject * object, Type type );	
+	static bool isEntityType( const hkpWorldObject * object, Type type );	
 	
 	/**
 	 * Set the entity type, this should be done only once
