@@ -35,6 +35,7 @@
 #include "PowerupSpawn.h"
 #include "ResetSpawn.h"
 
+#include "ProgressMonitor.h"
 #include <OgreLogManager.h>
 
 namespace HovUni {
@@ -171,6 +172,10 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 	} else if (requested_class == mIDManager->getID(RaceState::getClassName())) {
 		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata, requested_class, this);
 		mLobby->setRaceState(ent);
+
+		// Monitor the loading of the hovercrafts
+		ProgressMonitor::addTask("Loading hovercraft entities.", ent->getPlayers().size());
+		ProgressMonitor::addTask("Loading hovercraft.", ent->getPlayers().size());
 	} else if (requested_class == mIDManager->getID(RacePlayer::getClassName())) {
 		if (!mLobby->getRaceState()) {
 			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: Error - no race state";
@@ -229,6 +234,9 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 	} else if (requested_class == mIDManager->getID(Hovercraft::getClassName())) {
 		Hovercraft * ent = new Hovercraft(announcedata);
 
+		// Monitor the loading of the hovercrafts
+		ProgressMonitor::updateTask("Loading hovercraft entities.");
+
 		if (role == eZCom_RoleOwner) {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[HUClient]: Received own hovercraft";
 			ent->setController(new HovercraftPlayerController());
@@ -247,8 +255,6 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		// Visualize the hovercraft
 		HovercraftLoader hovLoader(HUApplication::msSceneMgr, ent->getName());
 		hovLoader.load(ent->getDisplayName() + ".scene");
-		//HovercraftRepresentation * test = new HovercraftRepresentation(ent,HUApplication::msSceneMgr,"hover1.mesh","General",true,true,500,"hover1.material",std::vector<Ogre::String>());
-		//RepresentationManager::getSingletonPtr()->addEntityRepresentation(test);
 	}
 
 	if (!name.empty()) {

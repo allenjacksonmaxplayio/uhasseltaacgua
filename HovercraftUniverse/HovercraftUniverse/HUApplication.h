@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "ClientPreparationLoader.h"
+#include "ProgressMonitorListener.h"
 #include <string>
 
 namespace HovUni {
@@ -12,7 +13,7 @@ namespace HovUni {
 	*
 	* @author Kristof Overdulve, Dirk Delahaye
 	*/
-	class HUApplication : public Application {
+	class HUApplication : public Application, public IProgressMonitorListener {
 	public:
 
 		/** The client preparation loader that can be used to read and reread scenes to render */
@@ -47,6 +48,11 @@ namespace HovUni {
 		 * @see Application::init().
 		 */
 		void init();
+
+		/**
+		 * @see IProgressMonitorListener::updateProgress().
+		 */
+		void updateProgress(double progress);
 	};
 
 #endif

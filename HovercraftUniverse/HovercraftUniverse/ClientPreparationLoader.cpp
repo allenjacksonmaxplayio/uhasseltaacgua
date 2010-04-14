@@ -10,6 +10,7 @@
 #include "ClientPreparationLoader.h"
 #include "GameView.h"
 #include "RepresentationManager.h"
+#include "ProgressMonitor.h"
 #include <OgreSceneManager.h>
 
 namespace HovUni {
@@ -33,6 +34,10 @@ void ClientPreparationLoader::FinishedLoad(bool success) {
 		// The filename should be loadable
 		assert(!mCurrFilename.empty());
 		mPreparationEntries.push_back(ClientPreparationEntry(mLoader, mCurrEntitiesFound, mCurrFilename));
+
+		// Monitor the loading of the world 
+		ProgressMonitor::addTask("Loading world entities.", mCurrEntitiesFound.size());
+		ProgressMonitor::addTask("Loading world.", mCurrEntitiesFound.size());
 	}
 
 	// Clean up for next file
@@ -81,6 +86,9 @@ void ClientPreparationLoader::update(Ogre::String entityName) {
 			(*it).activateLoader();
 			it = mPreparationEntries.erase(it);
 
+			// Update the world load monitor
+			ProgressMonitor::addTask("Loading entities in the world.", mCurrEntitiesFound.size());
+
 			// Break out of loop
 			if (it == mPreparationEntries.end()) {
 				break;
@@ -98,6 +106,10 @@ ClientPreparationEntry::ClientPreparationEntry(ClientLoader * loader, std::vecto
 bool ClientPreparationEntry::entityFound(Ogre::String entityName) {
 	for (std::vector<Ogre::String>::const_iterator it = mEntitiesToFind.begin(); it != mEntitiesToFind.end(); it++) {
 		if ((*it) == entityName) {
+			// Update the task
+			ProgressMonitor::updateTask("Loading world entities.");
+
+			// Erase entity
 			mEntitiesToFind.erase(it);
 			break;
 		}

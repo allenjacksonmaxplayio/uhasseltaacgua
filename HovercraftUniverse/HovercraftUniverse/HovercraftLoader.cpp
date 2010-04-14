@@ -9,6 +9,7 @@
 #include "HovercraftLoader.h"
 #include "GameView.h"
 #include "RepresentationManager.h"
+#include "ProgressMonitor.h"
 #include <OgreSceneManager.h>
 
 namespace HovUni {
@@ -21,12 +22,16 @@ HovercraftLoader::HovercraftLoader(Ogre::SceneManager * sceneMgr, Ogre::String h
 HovercraftLoader::~HovercraftLoader(void) {
 	// Empty
 }
+	
+void HovercraftLoader::StartedLoad() {
+	// Empty
+}
+
 
 void HovercraftLoader::FinishedLoad( bool success ) {
-	if (success && mCurrEntity && mCurrNode) {
-		// Everything is ok, so load
-		
-		//mCurrEntity->setOgreSceneNode(mCurrNode);
+	if (success && mCurrEntity && mCurrNode) {		
+		// Update the loading of the hovercrafts
+		ProgressMonitor::updateTask("Loading hovercraft.");
 	}
 }
 

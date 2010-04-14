@@ -108,6 +108,15 @@ public:
 	virtual void load(const hkVector4& position);
 
 	/**
+	 * Get the up of the hovercraft
+	 * @return the up of the hovercraft
+	 */
+	virtual const hkVector4& getUp() const {
+		// TODO PJ, fix dit. Het is een abstracte methode in HavokEntity, wat betekent dat je het dus ook hier moet implementeren (Kristof).
+		return hkVector4(0.0, 1.0, 0.0, 0.0);
+	}
+
+	/**
 	 * Get the position of the character
 	 * @return the position of the character
 	 */

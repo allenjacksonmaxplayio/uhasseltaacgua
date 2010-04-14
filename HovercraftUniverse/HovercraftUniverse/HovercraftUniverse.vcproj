@@ -453,6 +453,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ProgressMonitor.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\ServerLoader.cpp"
 						>
 					</File>
@@ -876,6 +880,14 @@
 					</File>
 					<File
 						RelativePath=".\Loader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ProgressMonitor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ProgressMonitorListener.h"
 						>
 					</File>
 					<File
