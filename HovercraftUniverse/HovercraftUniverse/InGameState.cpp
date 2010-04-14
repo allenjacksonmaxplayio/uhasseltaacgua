@@ -32,14 +32,6 @@ namespace HovUni {
 			case RaceState::INITIALIZING:
 				//People are still creating the racestate, start showing the loading screen
 			case RaceState::LOADING: {
-				//Make sure the hud is deactivated
-				mHud->deactivate();
-
-				if (mLoader == 0) {
-					mLoader = new LoadingOverlay("Loader", "loader.swf", mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight(), Hikari::Center);
-					mGUIManager->activateOverlay(mLoader);
-				}
-
 				//We are actually loading, make sure we are monitoring everything
 				//TODO make it get real values
 				mLoader->setLoaded(50.0f, "Loading...");
@@ -51,6 +43,8 @@ namespace HovUni {
 				mGUIManager->disableOverlay(mLoader);
 				//Make sure the hud is activated
 				mHud->activate();
+				//Register for chat events
+				mHUClient->setChatListener(mHud);
 
 				break;
 			}
@@ -81,14 +75,20 @@ namespace HovUni {
 	////////////////////////////////////////////
 
 	void InGameState::activate() {
-		//Register for chat events
-		mHUClient->setChatListener(mHud);
-
 		//Make sure we activate all the key actions
 		mInputManager->getKeyManager()->setActive();
 
 		//Remove cursor
 		mGUIManager->showCursor(false);
+
+		//Make sure the hud is deactivated
+		mHud->deactivate();
+
+		if (mLoader == 0) {
+			mLoader = new LoadingOverlay("Loader", "loader.swf", mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight(), Hikari::Center);
+			mGUIManager->activateOverlay(mLoader);
+			mLoader->setLoaded(0.0f, "Initializing");
+		}
 	}
 
 	void InGameState::disable() {
