@@ -32,6 +32,11 @@ private:
 	 */
 	Ogre::Vector3 mEnd;
 
+	/**
+	 * Time before teleport is done
+	 */
+	Ogre::Real mTime;
+
 public:
 
 	/**

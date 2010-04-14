@@ -133,6 +133,7 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
     <data name="Name" displayName="Name" groupName="Info" type="String"/>
     <data name="Start" displayName="Start" groupName="Info" type="float3"/>
     <data name="End" displayName="End" groupName="Info" type="float3"/>
+    <data name="Time" displayName="Time before teleport is performed" groupName="Info" type="float" default="0.0" minValue="0.0"/>
   </class>
 
   <!-- 
