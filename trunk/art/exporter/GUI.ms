@@ -1,6 +1,7 @@
 shaderfx = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
 terrain_layer1_shader = shaderfx + "terrain1.fx"
 terrain_layer2_shader = shaderfx + "terrain2.fx"
+terrain_layers = #("","","","","","")
 
 print terrain_layer1_shader
 print terrain_layer2_shader
@@ -42,6 +43,11 @@ struct AsteroidInfo (
 		color_material_id = getUserProp obj "color"
 		ogre_material_id =  getUserProp obj "ogre"
 		viewport_material_id = getUserProp  obj "viewport"		
+		
+		/** Crete if nessessary **/
+		if color_material_id == undefined then (
+			createMaterials()
+		)
 	)
 	
 	,
@@ -86,11 +92,35 @@ struct AsteroidInfo (
 		print colormat
 		print color_material_id
 		
-		/** Create Ogre material TODO */
-		/*ogremat = material 
+		/** Create Ogre material */
+		ogremat = OgreMax_Material ()	
+		ogremat.Techniques[1] = OgreMax_Technique ()
+		ogremat.Techniques[1].Passes[1] = OgreMax_Pass()
+		
+		/*ogremat.Techniques[1].Passes[1] .PixelShader = TERRAINSHADER
+		ogremat.Techniques[1].Passes[1] .TextureUnits [1] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [1].Bitmap = openBitMap APLHA1
+		ogremat.Techniques[1].Passes[1] .TextureUnits [2] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [2].Bitmap = openBitMap LAYER1
+		ogremat.Techniques[1].Passes[1] .TextureUnits [3] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [3].Bitmap = openBitMap LAYER2
+		ogremat.Techniques[1].Passes[1] .TextureUnits [4] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [4].Bitmap = openBitMap LAYER3
+
+		ogremat.Techniques[1].Passes[1] .TextureUnits [5] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [5].Bitmap = openBitMap APLHA2
+		ogremat.Techniques[1].Passes[1] .TextureUnits [6] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [6].Bitmap = openBitMap LAYER4
+		ogremat.Techniques[1].Passes[1] .TextureUnits [7] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [7].Bitmap = openBitMap LAYER5
+		ogremat.Techniques[1].Passes[1] .TextureUnits [8] = OgreMax_Texture_Unit()
+		ogremat.Techniques[1].Passes[1] .TextureUnits [8].Bitmap = openBitMap LAYER6	*/
+		
+		
+		
+		
 		append currentMaterialLibrary ogremat
-		ogrematid = findItem currentMaterialLibrary ogremat*/
-		ogre_material_id = -1
+		ogre_material_id = findItem currentMaterialLibrary ogremat
 		
 		/** Create DirectX material (viewport) */
 		effectfile = terrain_layer1_shader
@@ -265,40 +295,28 @@ fn checkAsteroid =
 	)			
 )
 
-rollout HovermaxWorldExporter "World Exporter" width:184 height:464
-(
-	GroupBox grp1 "Asteroid Tool" pos:[8,8] width:168 height:448
-	button create_asteroid "Create" pos:[96,144] width:72 height:24
-	button check_asteroid "Check" pos:[16,144] width:72 height:24	
-	label lbl1 "Viewport" pos:[16,32] width:56 height:24
-	label lbl3 "Ogre" pos:[16,64] width:56 height:24
-	edittext size "512" pos:[80,104] width:88 height:24 text:"512"
-	label lbl4 "Size" pos:[16,104] width:56 height:24	
-	edittext view "Viewport" pos:[80,32] width:88 height:24 readOnly:true
-	edittext Ogre "Ogre" pos:[80,64] width:88 height:24 readOnly:true
-	button update_asteroid "Update" pos:[16,177] width:72 height:21
-	button color_asteroid "Show Color" pos:[16,288] width:72 height:24
-	button cpyogre "Copy Ogre" pos:[16,208] width:72 height:24
-	spinner OgreMat "" pos:[96,208] width:72 height:16 range:[1,24,1] type:#integer
-	button cpydx "Copy DX" pos:[16,240] width:72 height:24
-	spinner dxmat "" pos:[96,240] width:72 height:16 range:[1,24,1] type:#integer
-	button showOgre "Show Ogre" pos:[96,288] width:72 height:24
-	button showDX "Show DX" pos:[16,320] width:72 height:24
+rollout AsteroidTool "Asteroid Tool" width:184 height:464
+(	
+	GroupBox grp2 "Settings" pos:[8,8] width:168 height:200
+	edittext size "512" pos:[25,40] width:136 height:16 text:"512"
+	GroupBox Actions "GroupBox" pos:[8,216] width:168 height:136
+	button update_asteroid "Update" pos:[16,240] width:72 height:21
+	button cpyogre "Copy Ogre" pos:[16,272] width:72 height:24
+	spinner OgreMat "" pos:[96,272] width:72 height:16 range:[1,24,1] type:#integer
+	button cpydx "Copy DX" pos:[16,312] width:72 height:24
+	spinner dxmat "" pos:[96,312] width:72 height:16 range:[1,24,1] type:#integer
+	GroupBox grp3 "Visual" pos:[8,360] width:168 height:80
+	button color_asteroid "Show Color" pos:[24,376] width:64 height:24
+	button showOgre "Show Ogre" pos:[96,376] width:64 height:24
+	button showDX "Show DX" pos:[96,408] width:64 height:24
+		
+	mapButton layer1 "Layer1" pos:[16,72] width:72 height:32	
+	mapButton layer2 "Layer2" pos:[96,72] width:72 height:32
+	mapButton layer3 "Layer3" pos:[16,112] width:72 height:32
+	mapButton layer4 "Layer4" pos:[96,112] width:72 height:32
+	mapButton layer5 "Layer5" pos:[16,152] width:72 height:32	
+	mapButton layer6 "Layer6" pos:[96,152] width:72 height:32
 	
-	on create_asteroid pressed do
-	(
-		sel = getCurrentSelection()		
-		asteroid = AsteroidInfo()
-		asteroid.create (sel[1])		
-		asteroid.createMaterials ()
-	)
-	on check_asteroid pressed do
-	(
-		check = checkAsteroid( size.text as number )
-		if check  then (		
-			messageBox "Alright the create function will work!" title:"Success"
-		)		
-	)
 	on update_asteroid pressed do
 	(	
 		sel = getCurrentSelection()
@@ -316,7 +334,7 @@ rollout HovermaxWorldExporter "World Exporter" width:184 height:464
 		)	
 		
 	)
-
+	
 	on cpyogre pressed do
 	(
 		sel = getCurrentSelection()		
@@ -347,7 +365,6 @@ rollout HovermaxWorldExporter "World Exporter" width:184 height:464
 			messageBox "No material found, use create firts!" title:"Error"
 		)
 	)
-	
 	on color_asteroid pressed do
 	(
 		sel = getCurrentSelection()		
@@ -356,8 +373,7 @@ rollout HovermaxWorldExporter "World Exporter" width:184 height:464
 	
 		asteroid.showColor()
 	)
-	
-	on showOgre pressed  do
+	on showOgre pressed do
 	(
 		sel = getCurrentSelection()		
 		asteroid = AsteroidInfo()
@@ -365,8 +381,7 @@ rollout HovermaxWorldExporter "World Exporter" width:184 height:464
 	
 		asteroid.showOgre()
 	)
-	
-	on showDX pressed  do
+	on showDX pressed do
 	(
 		sel = getCurrentSelection()		
 		asteroid = AsteroidInfo()
@@ -374,9 +389,33 @@ rollout HovermaxWorldExporter "World Exporter" width:184 height:464
 	
 		asteroid.showViewport()
 	)
+	on layer1 picked texmap do
+	(
+		terrain_layers[1] = texmap.fileName
+	)
+	on layer2 picked texmap do
+	(
+		terrain_layers[2] = texmap.fileName
+	)
+	on layer3 picked texmap do
+	(
+		terrain_layers[3] = texmap.fileName
+	)
+	on layer4 picked texmap do
+	(
+		terrain_layers[4] = texmap.fileName
+	)
+	on layer5 picked texmap do
+	(
+		terrain_layers[5] = texmap.fileName
+	)
+	on layer6 picked texmap do
+	(
+		terrain_layers[6] = texmap.fileName
+	)
 )
 
-rof=newrolloutfloater "Exporter Utility" 200 400
-addrollout HovermaxWorldExporter rof
+rof=newrolloutfloater "Exporter Utilities" 200 500
+addrollout AsteroidTool rof
 
 
