@@ -66,6 +66,16 @@ void Portal::load(TiXmlElement * data) throw(ParseException){
 			}			
 		}
 	}
+
+	//Read Time
+	node = data->FirstChild("Time");
+	mTime = 0.0;
+	if(node){
+		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
+		if(element){
+			mTime = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+		}
+	}
 }
 
 Portal::~Portal(void){

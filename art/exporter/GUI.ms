@@ -19,128 +19,7 @@ struct AsteroidInfo (
 	/** The ids of the color, viewport and ogre materials */
 	color_material_id = undefined,	
 	ogre_material_id = undefined,
-	viewport_material_id = undefined,
-	
-	/** 
-	 * Initialise the Asteroid info struct 
-	 * @param obj, the asteroid object
-	 */
-	fn create obj = 
-	(
-		print "create"
-		
-		asteroid = obj
-		
-		/* check if one or two vertex paint layers */
-		for i = 1 to obj.modifiers.count do (
-			if obj.modifiers[i].name == "VertexPaint"  then (	
-				vertexpaintlayers += 1
-				vertexpaintidices[vertexpaintlayers] = i
-			)
-		)
-		
-		/** Read saved properties */
-		color_material_id = getUserProp obj "color"
-		ogre_material_id =  getUserProp obj "ogre"
-		viewport_material_id = getUserProp  obj "viewport"		
-		
-		/** Crete if nessessary **/
-		if color_material_id == undefined then (
-			createMaterials()
-		)
-	)
-	
-	,
-	
-	fn getDxMaterial = 
-	(
-		if viewport_material_id == undefined then (
-			return undefined			
-		)
-		else (
-			return currentMaterialLibrary[viewport_material_id]
-		)
-	)
-	
-	,
-	
-	fn getOgreMaterial = 
-	(
-		if ogre_material_id == undefined then (
-			return undefined
-		)
-		else (
-			return currentMaterialLibrary[ogre_material_id]
-		)
-	)
-	
-	,
-	
-	/**
-	 * Create an asteroid materials
-	 */
-	fn createMaterials = 
-	(
-		print "createMaterials"
-		
-		/** Create Global material */
-		vertexcolormap = VertexColor()
-		colormat = standardMaterial diffusemap: vertexcolormap
-		append currentMaterialLibrary colormat
-		color_material_id = findItem currentMaterialLibrary colormat
-		
-		print colormat
-		print color_material_id
-		
-		/** Create Ogre material */
-		ogremat = OgreMax_Material ()	
-		ogremat.Techniques[1] = OgreMax_Technique ()
-		ogremat.Techniques[1].Passes[1] = OgreMax_Pass()
-		
-		/*ogremat.Techniques[1].Passes[1] .PixelShader = TERRAINSHADER
-		ogremat.Techniques[1].Passes[1] .TextureUnits [1] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [1].Bitmap = openBitMap APLHA1
-		ogremat.Techniques[1].Passes[1] .TextureUnits [2] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [2].Bitmap = openBitMap LAYER1
-		ogremat.Techniques[1].Passes[1] .TextureUnits [3] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [3].Bitmap = openBitMap LAYER2
-		ogremat.Techniques[1].Passes[1] .TextureUnits [4] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [4].Bitmap = openBitMap LAYER3
-
-		ogremat.Techniques[1].Passes[1] .TextureUnits [5] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [5].Bitmap = openBitMap APLHA2
-		ogremat.Techniques[1].Passes[1] .TextureUnits [6] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [6].Bitmap = openBitMap LAYER4
-		ogremat.Techniques[1].Passes[1] .TextureUnits [7] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [7].Bitmap = openBitMap LAYER5
-		ogremat.Techniques[1].Passes[1] .TextureUnits [8] = OgreMax_Texture_Unit()
-		ogremat.Techniques[1].Passes[1] .TextureUnits [8].Bitmap = openBitMap LAYER6	*/
-		
-		
-		
-		
-		append currentMaterialLibrary ogremat
-		ogre_material_id = findItem currentMaterialLibrary ogremat
-		
-		/** Create DirectX material (viewport) */
-		effectfile = terrain_layer1_shader
-		if vertexpaintlayers == 2 then
-			effectfile = terrain_layer2_shader
-		
-		dxmat = DxMaterial effectfile:effectfile
-		append currentMaterialLibrary dxmat
-		viewport_material_id = findItem currentMaterialLibrary dxmat
-		
-		print dxmat
-		print viewport_material_id
-		
-		/** Save as properties */
-		setUserProp asteroid "color" color_material_id
-		setUserProp asteroid "viewport" viewport_material_id
-		setUserProp asteroid "ogre" ogre_material_id
-	)
-	
-	,
+	viewport_material_id = undefined,	
 	
 	fn createAlphaMap size outputfile = 
 	(
@@ -173,6 +52,124 @@ struct AsteroidInfo (
 			render rendertype:#bakeSelected vfb:off progressBar:true outputSize:[size,size]
 			
 			asteroid.material = currentMaterialLibrary[viewport_material_id]
+		)
+	)
+	
+	,	
+	
+	/**
+	 * Create an asteroid materials
+	 */
+	fn createMaterials = 
+	(
+		print "createMaterials"
+		
+		if color_material_id == undefined then (
+			/** Create Global material */
+			vertexcolormap = VertexColor()
+			colormat = standardMaterial diffusemap: vertexcolormap
+			append currentMaterialLibrary colormat
+			color_material_id = findItem currentMaterialLibrary colormat
+			setUserProp asteroid "color" color_material_id
+		)
+		
+		if ogre_material_id == undefined then (
+			/** Create Ogre material */
+			ogremat = OgreMax_Material ()	
+			ogremat.Techniques[1] = OgreMax_Technique ()
+			ogremat.Techniques[1].Passes[1] = OgreMax_Pass()
+			
+			/*ogremat.Techniques[1].Passes[1] .PixelShader = TERRAINSHADER
+			ogremat.Techniques[1].Passes[1] .TextureUnits [1] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [1].Bitmap = openBitMap APLHA1
+			ogremat.Techniques[1].Passes[1] .TextureUnits [2] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [2].Bitmap = openBitMap LAYER1
+			ogremat.Techniques[1].Passes[1] .TextureUnits [3] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [3].Bitmap = openBitMap LAYER2
+			ogremat.Techniques[1].Passes[1] .TextureUnits [4] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [4].Bitmap = openBitMap LAYER3
+
+			ogremat.Techniques[1].Passes[1] .TextureUnits [5] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [5].Bitmap = openBitMap APLHA2
+			ogremat.Techniques[1].Passes[1] .TextureUnits [6] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [6].Bitmap = openBitMap LAYER4
+			ogremat.Techniques[1].Passes[1] .TextureUnits [7] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [7].Bitmap = openBitMap LAYER5
+			ogremat.Techniques[1].Passes[1] .TextureUnits [8] = OgreMax_Texture_Unit()
+			ogremat.Techniques[1].Passes[1] .TextureUnits [8].Bitmap = openBitMap LAYER6	*/
+			
+			
+			
+			
+			append currentMaterialLibrary ogremat
+			ogre_material_id = findItem currentMaterialLibrary ogremat
+		
+			setUserProp asteroid "ogre" ogre_material_id
+		)
+		
+		if viewport_material_id == undefined then (
+			/** Create DirectX material (viewport) */
+			effectfile = terrain_layer1_shader
+			if vertexpaintlayers == 2 then
+				effectfile = terrain_layer2_shader
+			
+			dxmat = DxMaterial effectfile:effectfile
+			append currentMaterialLibrary dxmat
+			viewport_material_id = findItem currentMaterialLibrary dxmat
+			setUserProp asteroid "viewport" viewport_material_id
+		)		
+	)
+	
+	,
+		
+	/** 
+	 * Initialise the Asteroid info struct 
+	 * @param obj, the asteroid object
+	 */
+	fn create obj = 
+	(
+		print "create"
+		
+		asteroid = obj
+		
+		/* check if one or two vertex paint layers */
+		for i = 1 to obj.modifiers.count do (
+			if obj.modifiers[i].name == "VertexPaint"  then (	
+				vertexpaintlayers += 1
+				vertexpaintidices[vertexpaintlayers] = i
+			)
+		)
+		
+		/** Read saved properties */
+		color_material_id = getUserProp obj "color"
+		ogre_material_id =  getUserProp obj "ogre"
+		viewport_material_id = getUserProp  obj "viewport"		
+		
+		/** Crete if nessessary **/
+		createMaterials()
+	)
+	
+	,
+	
+	fn getDxMaterial = 
+	(
+		if viewport_material_id == undefined then (
+			return undefined			
+		)
+		else (
+			return currentMaterialLibrary[viewport_material_id]
+		)
+	)
+	
+	,
+	
+	fn getOgreMaterial = 
+	(
+		if ogre_material_id == undefined then (
+			return undefined
+		)
+		else (
+			return currentMaterialLibrary[ogre_material_id]
 		)
 	)
 	
@@ -295,6 +292,11 @@ fn checkAsteroid =
 	)			
 )
 
+rollout Teleport "Teleport" width:192 height:296
+(
+	groupBox grp4 "Teleport" pos:[8,8] width:176 height:64
+)
+
 rollout AsteroidTool "Asteroid Tool" width:184 height:464
 (	
 	GroupBox grp2 "Settings" pos:[8,8] width:168 height:200
@@ -320,24 +322,30 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 	on update_asteroid pressed do
 	(	
 		sel = getCurrentSelection()
-		
-		asteroid = AsteroidInfo()
-		asteroid.create (sel[1])		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"
+			return false
+		)
 		
 		sizenr = size.text as number
-		
-		/** size should be of power 2  128, 256, 512, 1024 or 2048*/
 		if sizenr != 128 and sizenr != 256 and  sizenr != 512 and sizenr != 1024 and sizenr != 2048 then (
 			messageBox "Size should be 128, 256, 512, 1024 or 2048" title:"Error"
-		) else (
-			asteroid.updateAsteroid (sizenr)
-		)	
+			return false
+		) 
 		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])			
+		asteroid.updateAsteroid (sizenr)
 	)
 	
 	on cpyogre pressed do
 	(
 		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)
+		
 		asteroid = AsteroidInfo()
 		asteroid.create (sel[1])	
 		
@@ -353,7 +361,12 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 	
 	on cpydx pressed do
 	(
-		sel = getCurrentSelection()		
+		sel = getCurrentSelection()	
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)
+		
 		asteroid = AsteroidInfo()
 		asteroid.create (sel[1])	
 		
@@ -368,25 +381,37 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 	on color_asteroid pressed do
 	(
 		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)
+		
 		asteroid = AsteroidInfo()
-		asteroid.create (sel[1])	
-	
+		asteroid.create (sel[1])		
 		asteroid.showColor()
 	)
 	on showOgre pressed do
 	(
 		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
 		asteroid = AsteroidInfo()
 		asteroid.create (sel[1])	
-	
 		asteroid.showOgre()
 	)
 	on showDX pressed do
 	(
 		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)
+		
 		asteroid = AsteroidInfo()
 		asteroid.create (sel[1])	
-	
 		asteroid.showViewport()
 	)
 	on layer1 picked texmap do
@@ -417,5 +442,6 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 
 rof=newrolloutfloater "Exporter Utilities" 200 500
 addrollout AsteroidTool rof
+addrollout Teleport rof
 
 

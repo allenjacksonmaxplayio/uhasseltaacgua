@@ -122,7 +122,7 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 		while ( HavokThread::run ) {
 			world.step();
 
-			Sleep( 50 );
+			Sleep( world.getTimeStep() * 1000 );
 			// Pause until the actual time has passed
 			//while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
 			//	lastTime += world.getTimeStep();			
