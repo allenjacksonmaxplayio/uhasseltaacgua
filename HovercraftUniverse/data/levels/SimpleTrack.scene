@@ -217,7 +217,7 @@
         </item>
         <item name="Boost02">
             <userData>
-                <![CDATA[<Boost><Boost>2000</Boost><Gain>100</Gain><OgreEntity>JumpGeo</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
+                <![CDATA[<Boost><Boost>100</Boost><Gain>2</Gain><OgreEntity>JumpGeo</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
 </userData>
             <position x="121.451" y="17.6325" z="8.01057" />
             <rotation qx="1.07165e-008" qy="6.80872e-008" qz="0.173648" qw="0.984808" />
@@ -225,7 +225,7 @@
         </item>
         <item name="Boost">
             <userData>
-                <![CDATA[<Boost><Boost>250</Boost><OgreEntity>BoostGeom</OgreEntity><ProcessInterval>-1</ProcessInterval><Gain>20</Gain></Boost>]]>
+                <![CDATA[<Boost><Boost>50</Boost><OgreEntity>BoostGeom</OgreEntity><ProcessInterval>-1</ProcessInterval><Gain>2</Gain></Boost>]]>
 </userData>
             <position x="59.8476" y="13.7958" z="-22.2955" />
             <rotation qx="2.29878e-016" qy="-0.258819" qz="1.13133e-008" qw="0.965926" />
@@ -273,7 +273,7 @@
         </item>
         <item name="Planet">
             <userData>
-                <![CDATA[<Asteroid><Name>Planet</Name><Gravity>9</Gravity><AsteroidType>0</AsteroidType><OgreEntity>PlanetGeom01</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+                <![CDATA[<Asteroid><Name>Planet</Name><Gravity>20</Gravity><AsteroidType>0</AsteroidType><OgreEntity>PlanetGeom01</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
 </userData>
             <position x="0" y="3.33491e-013" z="7.62939e-006" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
@@ -281,7 +281,7 @@
         </item>
         <item name="Boost03">
             <userData>
-                <![CDATA[<Boost><Boost>2000</Boost><Gain>200</Gain><OgreEntity>JumpGeo01</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
+                <![CDATA[<Boost><Boost>50</Boost><Gain>2</Gain><OgreEntity>JumpGeo01</OgreEntity><ProcessInterval>-1</ProcessInterval></Boost>]]>
 </userData>
             <position x="227.723" y="-61.2031" z="8.01057" />
             <rotation qx="-0.258819" qy="0.965926" qz="-1.15878e-007" qw="-1.07706e-007" />
@@ -289,11 +289,11 @@
         </item>
         <item name="Planet02">
             <userData>
-                <![CDATA[<Asteroid><Name>Planet02</Name><Gravity>9</Gravity><AsteroidType>2</AsteroidType><OgreEntity>PlanetGeom02</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+                <![CDATA[<Asteroid><Name>Planet02</Name><Gravity>-20</Gravity><AsteroidType>2</AsteroidType><OgreEntity>PlanetGeom02</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
 </userData>
             <position x="340" y="-0.215397" z="7.63881e-006" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="28.3886" y="16.5484" z="19.8434" />
+            <scale x="35" y="22" z="22" />
         </item>
     </externals>
 </scene>

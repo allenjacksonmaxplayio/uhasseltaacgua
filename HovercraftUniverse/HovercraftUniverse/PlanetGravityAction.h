@@ -18,11 +18,6 @@ class PlanetGravityAction: public hkpUnaryAction
 		hkpRigidBody* mPlanetBody;
 
 		/**
-		 * The collidable representing the gravitational field
-		 */
-		const hkpCollidable* mHullCollidable;
-
-		/**
 		 * Phantom ID, if a phantom has been associated with this action then we have this ID so that
 		 * we can search through a body's actions and update values as necessary
 		 */
@@ -51,11 +46,10 @@ class PlanetGravityAction: public hkpUnaryAction
 		 * Constructor
 		 * @param planetBody
 		 * @param satellite
-		 * @param hullCollidable
 		 * @param phantomId, 0 for no phantomID
 		 * @param maxAcceleration
 		 */
-		PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, const hkpCollidable* hullCollidable, hkUlong phantomId, hkReal maxAcceleration = 10.0f );
+		PlanetGravityAction( hkpRigidBody* planetBody, hkpRigidBody* satellite, hkUlong phantomId, hkReal maxAcceleration );
 
 		/**
 		 * Get the phantom ID
