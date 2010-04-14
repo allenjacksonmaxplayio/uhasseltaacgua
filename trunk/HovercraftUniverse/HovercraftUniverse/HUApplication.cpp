@@ -2,6 +2,7 @@
 #include "MainMenuState.h"
 #include "ControlsReader.h"
 #include <HovSound.h>
+#include "ProgressMonitor.h"
 
 #include <OgreLogManager.h>
 
@@ -10,8 +11,9 @@ namespace HovUni {
 ClientPreparationLoader * HUApplication::msPreparationLoader = 0;
 
 HUApplication::HUApplication(const std::string& configINI) :
-	Application("Hovercraft Universe", configINI) {
-	// Empty
+		Application("Hovercraft Universe", configINI) {
+	// Register listener
+	ProgressMonitor::addListener(this);
 }
 
 HUApplication::~HUApplication() {
@@ -41,6 +43,11 @@ void HUApplication::init() {
 	// read controls
 	ControlsReader * controls = new ControlsReader(mInputManager->getKeyManager());
 	controls->readControls();
+}
+
+void HUApplication::updateProgress(double progress) {
+	// TODO Put this in the GUI where it belongs
+	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "PROGRESS UPDATE " << progress;
 }
 
 }

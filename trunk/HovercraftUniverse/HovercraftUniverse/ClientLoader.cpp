@@ -8,6 +8,7 @@
 #include "TrackRepresentation.h"
 #include "ClientLoader.h"
 #include "GameView.h"
+#include "ProgressMonitor.h"
 #include "RepresentationManager.h"
 #include <OgreSceneManager.h>
 
@@ -114,6 +115,9 @@ void ClientLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 			// Get the entity to which the representation should refer
 			Entity * ent = EntityManager::getClientSingletonPtr()->getEntity(entityName);
 			if (ent) {
+				// Update task
+				ProgressMonitor::updateTask("Loading world.");
+
 				EntityRepresentation * entRep = 0;
 				bool visible = !(entityparameters.visibility == OgreMax::Types::OBJECT_HIDDEN);
 				if (ent->getCategory() == Asteroid::CATEGORY) {

@@ -31,6 +31,8 @@ public:
 
 	virtual ~HovercraftLoader(void);
 
+	virtual void StartedLoad();
+
 	virtual void FinishedLoad( bool success );
 
 	virtual void onEntity( OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent );
