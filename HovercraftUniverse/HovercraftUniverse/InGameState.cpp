@@ -3,12 +3,13 @@
 #include "Hovercraft.h"
 
 namespace HovUni {
-	InGameState::InGameState(HUClient* client, TiXmlElement* HUDConfig) 
-			: mHUClient(client), mTimeLapsed(0), mContinue(true) {
+	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
+			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
 		mRepresentationManager = RepresentationManager::getSingletonPtr();
+		mRaceState->addListener(this);
 	}
 
 	Hikari::FlashValue InGameState::onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
@@ -22,6 +23,63 @@ namespace HovUni {
 		return "success";
 	}
 
+	////////////////////////////////////////////
+	//			RaceStateListener functions	  //
+	////////////////////////////////////////////
+
+	void InGameState::onStateChange(RaceState::States state) {
+		switch (state) {
+			case RaceState::INITIALIZING:
+				//People are still creating the racestate, start showing the loading screen
+			case RaceState::LOADING: {
+				//Make sure the hud is deactivated
+				mHud->deactivate();
+
+				if (mLoader == 0) {
+					mLoader = new LoadingOverlay("Loader", "loader.swf", mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight(), Hikari::Center);
+					mGUIManager->activateOverlay(mLoader);
+				}
+
+				//We are actually loading, make sure we are monitoring everything
+				//TODO make it get real values
+				mLoader->setLoaded(50.0f, "Loading...");
+
+				break;
+			}
+			case RaceState::COUNTDOWN: {
+				//Everyone is done loading, go ingame and start the countdown!
+				mGUIManager->disableOverlay(mLoader);
+
+				break;
+			}
+			case RaceState::RACING: {
+				//Countdown has finished, race has started!
+				//Make sure the hud is activated
+				mHud->activate();
+
+				break;
+			}
+			case RaceState::FINISHING: {
+				//We have finished, go freestyle!
+				
+				break;
+			}
+			case RaceState::CLEANUP: {
+				//Cleaning up and going back to the lobby
+				
+				break;
+			}
+		}
+	}
+
+	void InGameState::onPositionChange(RacePlayer* player) {
+		
+	}
+
+	////////////////////////////////////////////
+	//			BasicGameState functions	  //
+	////////////////////////////////////////////
+
 	void InGameState::activate() {
 		//Register for chat events
 		mHUClient->setChatListener(mHud);
@@ -31,9 +89,6 @@ namespace HovUni {
 
 		//Remove cursor
 		mGUIManager->showCursor(false);
-
-		//Show the hud
-		mHud->activate();
 	}
 
 	void InGameState::disable() {
@@ -41,10 +96,19 @@ namespace HovUni {
 		mHUClient->removeChatListener(mHud);
 
 		//Remove the hud
-		mHud->deactivate();
+		if (mHud != 0) {
+			mHud->deactivate();
+		}
 
 		//Restore cursor
 		mGUIManager->showCursor(true);
+
+		if (mLoader != 0) {
+			mGUIManager->disableOverlay(mLoader);
+		}
+		delete mLoader;
+
+		mRaceState->removeListener(this);
 	}
 
 	bool InGameState::frameStarted(const Ogre::FrameEvent & evt) {
@@ -67,12 +131,9 @@ namespace HovUni {
 		mRepresentationManager->drawGameViews(evt.timeSinceLastFrame);
 
 		//Update the HUD
-		updateHud();
-		
-		//Make sure the chat is focussed when it has to be
-		//if (mHud->isChatFocused()) {
-		//	mHud->focusChat();
-		//}
+		if (mHud->isActivated()) {
+			updateHud();
+		}
 
 		//We are using a GUI, so update it
 		mGUIManager->update();

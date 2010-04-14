@@ -10,6 +10,13 @@ namespace HovUni {
 	 * @author Nick De Frangh
 	 */
 	class LoadingOverlay : public BasicOverlay {
+		private:
+			/** The current loaded value */
+			Ogre::Real mLoadedValue;
+
+			/** The current loaded message */
+			Ogre::String mLoadedMessage;
+
 		public:
 			/**
 			 * Basic constructor, see BasicOverlay for info about the parameters
@@ -20,8 +27,14 @@ namespace HovUni {
 			 * Set the loaded percentage [0 - 100]
 			 *
 			 * @param loaded the percentage to show [0 - 100]
+			 * @param message A Message to be displayed
 			 */
-			void setLoaded(Ogre::Real loaded);
+			void setLoaded(Ogre::Real loaded, const Ogre::String& message);
+
+			/**
+			 * Function that will be called when the overlay is activated
+			 */
+			virtual void customActionAfterActivate();
 	};
 }
 
