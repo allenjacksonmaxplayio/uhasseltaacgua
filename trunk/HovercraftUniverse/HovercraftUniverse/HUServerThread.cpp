@@ -44,7 +44,6 @@ void HUServerThread::operator()() {
 		mChatServer->process();
 
 		// Sleep
-		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Sleeping";
 		boost::xtime xt;
         boost::xtime_get(&xt, boost::TIME_UTC);
         xt.nsec += 1000000;

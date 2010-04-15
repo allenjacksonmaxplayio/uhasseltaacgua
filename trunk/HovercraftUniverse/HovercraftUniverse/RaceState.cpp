@@ -10,6 +10,7 @@
 #include "StateEvent.h"
 #include "InitEvent.h"
 #include "NetworkClient.h"
+#include "Timing.h"
 
 #include <OgreLogManager.h>
 
@@ -195,14 +196,34 @@ void RaceState::setupReplication() {
 }
 
 RaceState::SystemState::SystemState(RaceState* racestate) :
-	mRaceState(racestate), mCurrentState(INITIALIZING) {
+	mRaceState(racestate), mCurrentState(INITIALIZING), mStartOfState(false), mTimer(0) {
 	if (mRaceState->mServer) {
 		setWaitingList();
 	}
 }
 
 void RaceState::SystemState::update() {
-	// TODO Remove if this is still empty when the project is 'done'
+	if (mRaceState->mServer) {
+		switch (mCurrentState) {
+		case COUNTDOWN:
+			if (mTimer->elapsed() >= 5000) {
+				newState(RACING);
+			}
+			break;
+		case RACING:
+			if (mTimer->elapsed() >= 15000) {
+				newState(FINISHING);
+			}
+			break;
+		case FINISHING:
+			if (mTimer->elapsed() >= 3000) {
+				newState(CLEANUP);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 RaceState::States RaceState::SystemState::getState() const {
@@ -222,6 +243,15 @@ void RaceState::SystemState::newState(States state) {
 		switch (state) {
 		case LOADING:
 			mStartOfState = true;
+			break;
+		case COUNTDOWN:
+			mTimer = new Timing();
+			break;
+		case RACING:
+			mTimer->restart();
+			break;
+		case FINISHING:
+			mTimer->restart();
 			break;
 		default:
 			break;

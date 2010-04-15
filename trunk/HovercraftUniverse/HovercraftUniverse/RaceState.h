@@ -15,6 +15,7 @@ class ClientLoader;
 class ClientPreparationLoader;
 class RacePlayer;
 class RaceStateListener;
+class Timing;
 
 /**
  * RaceState will be the main controlling component during the game.
@@ -235,8 +236,11 @@ private:
 		/** List of player IDs where the server is currently waiting on (Server) */
 		std::set<unsigned int> mWaitingList;
 
-		/** Whether the server is waiting for the clients to renew their state */
+		/** Whether the server is waiting for the clients to renew their state (Server) */
 		bool mStartOfState;
+
+		/** The timer used for the countdown (Server) */
+		Timing* mTimer;
 
 	public:
 		/**
