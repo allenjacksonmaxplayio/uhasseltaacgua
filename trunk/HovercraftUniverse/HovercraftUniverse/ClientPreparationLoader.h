@@ -44,6 +44,13 @@ public:
 	~ClientPreparationLoader(void);
 
 	/**
+	 * Set the race state the loader belongs to
+	 *
+	 * @param state the race state
+	 */
+	virtual void setRaceState(RaceState * state);
+
+	/**
 	 * Callback when OgreMax has finished reading.
 	 *
 	 * @param success if successful

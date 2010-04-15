@@ -8,6 +8,7 @@
 #include "GameEvent.h"
 #include "GameEventParser.h"
 #include "StateEvent.h"
+#include "InitEvent.h"
 #include "NetworkClient.h"
 
 #include <OgreLogManager.h>
@@ -15,7 +16,7 @@
 namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
-	NetworkEntity(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track) {
+	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track) {
 	mState = new SystemState(this);
 
 	if (mLoader) {
@@ -56,11 +57,13 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
-	NetworkEntity(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(announcementdata->getString()) {
+	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
+			announcementdata->getString()) {
+
 	mState = new SystemState(this);
+
 	if (mLoader) {
 		mLoader->setRaceState(this);
-		loader->getInternalLoader()->setRaceState(this);
 	}
 
 	// Add as network entity
@@ -104,6 +107,9 @@ RaceState::playermap::iterator RaceState::removePlayer(playermap::iterator i) {
 	// Remove the ID from the waiting list
 	mState->eraseFromList(i->first);
 
+	// Decrease the number of players
+	--mNumberPlayers;
+
 	return mPlayers.removePlayerByIterator(i);
 }
 
@@ -112,6 +118,14 @@ void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Inserting new RacePlayer";
 	if (ownPlayer) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Received own player object";
+	}
+
+	if ((mState->getState() == INITIALIZING)) {
+		if (mServer) {
+			++mNumberPlayers;
+		} else {
+			onInitialized();
+		}
 	}
 }
 
@@ -123,10 +137,17 @@ Listenable<RaceStateListener>::list_type& RaceState::getListeners() {
 	return mListeners;
 }
 
+void RaceState::onInitialized() {
+	if ((mState->getState() == INITIALIZING) && (mPlayers.getPlayers().size() == mNumberPlayers)) {
+		mState->sendEvent(INITIALIZED);
+	}
+}
+
 void RaceState::onLoaded() {
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Sending loaded event";
-	// Send event to server indicating that the loading finished
-	mState->sendEvent(LOADED);
+	if (mState->getState() == LOADING) {
+		// Send event to server indicating that the loading finished
+		mState->sendEvent(LOADED);
+	}
 }
 
 void RaceState::setAnnouncementData(ZCom_BitStream* stream) {
@@ -139,6 +160,13 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 		GameEventParser p;
 		GameEvent* event = p.parse(stream);
 		eZCom_NodeRole role = mNode->getRole();
+
+		// Check for an init event if this object is just created
+		InitEvent* init = dynamic_cast<InitEvent*> (event);
+		if (init) {
+			ZCom_BitStream* state = init->getStream();
+			mNumberPlayers = state->getInt(8);
+		}
 
 		if (role == eZCom_RoleOwner || role == eZCom_RoleProxy) {
 			StateEvent* newState = dynamic_cast<StateEvent*> (event);
@@ -153,28 +181,28 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 		}
 		delete event;
 	}
+
+	// A new client received this object so send current state
+	if (type == eZCom_EventInit && mNode->getRole() == eZCom_RoleAuthority) {
+		ZCom_BitStream* state = new ZCom_BitStream();
+		state->addInt(mNumberPlayers, 8);
+		sendEventDirect(InitEvent(state), conn_id);
+	}
 }
 
 void RaceState::setupReplication() {
-
+	mNode->addReplicationInt(&mNumberPlayers, 8, false, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
 }
 
 RaceState::SystemState::SystemState(RaceState* racestate) :
-	mRaceState(racestate), mCurrentState(INITIALIZING), mInitialized(false) {
-		if (mRaceState->mServer) {
-			setWaitingList();
-		}
+	mRaceState(racestate), mCurrentState(INITIALIZING) {
+	if (mRaceState->mServer) {
+		setWaitingList();
+	}
 }
 
 void RaceState::SystemState::update() {
-	if (!mRaceState->mServer && !mInitialized && (mCurrentState == INITIALIZING)) {
-		// Send the event to indicate that the race state was initialized
-		sendEvent(INITIALIZED);
-		mInitialized = true;
-
-		// Start waiting for loading the entities
-		((ClientPreparationLoader*) mRaceState->mLoader)->registerLoader(mRaceState->mTrackFilename);
-	}
+	// TODO Remove if this is still empty when the project is 'done'
 }
 
 RaceState::States RaceState::SystemState::getState() const {
@@ -185,20 +213,31 @@ void RaceState::SystemState::newState(States state) {
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: New state is " << state;
 	mCurrentState = state;
 
-	// Do the appropriate action for this state
-	switch (state) {
-	case LOADING:
-		onLoading();
-		break;
-	default:
-		break;
-	}
-
 	if (mRaceState->mServer) {
 		// Send the event to the clients
 		StateEvent newState((unsigned int) state);
 		mRaceState->sendEvent(newState);
-	} else {
+
+		// Do the appropriate action for this state
+		switch (state) {
+		case LOADING:
+			mStartOfState = true;
+			break;
+		default:
+			break;
+		}
+	}
+	// Client
+	else {
+		// Do the appropriate action for this state
+		switch (state) {
+		case LOADING:
+			onLoading();
+			break;
+		default:
+			break;
+		}
+
 		// Notify the listeners
 		for (listener_iterator i = mRaceState->listenersBegin(); i != mRaceState->listenersEnd(); ++i) {
 			(*i)->onStateChange(mCurrentState);
@@ -211,7 +250,8 @@ void RaceState::SystemState::newEvent(Events event, ZCom_ConnID id) {
 	// Check if the event is correct for the current state
 	bool correct = false;
 
-	if (((mCurrentState == INITIALIZING) && (event == INITIALIZED)) || ((mCurrentState == LOADING) && (event == LOADED))) {
+	if (((mCurrentState == INITIALIZING) && (event == INITIALIZED)) || ((mCurrentState == LOADING) && (event == STATECHANGED))
+			|| ((mCurrentState == LOADING) && (event == LOADED))) {
 		correct = true;
 	}
 
@@ -227,6 +267,7 @@ void RaceState::SystemState::sendEvent(Events event) {
 	newState.serialize(stream);
 	ZCom_ConnID id = ((NetworkClient*) mRaceState->mNode->getControl())->getConnectionID();
 	mRaceState->mNode->sendEventDirect(eZCom_ReliableOrdered, stream, id);
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: sent " << event << " event";
 }
 
 void RaceState::SystemState::onLoading() {
@@ -234,7 +275,9 @@ void RaceState::SystemState::onLoading() {
 		// Load the track on the server
 		mRaceState->mLoader->load(mRaceState->mTrackFilename);
 	} else {
-		// The client track is already waiting for loading
+		sendEvent(STATECHANGED);
+		// Start waiting for loading the entities
+		((ClientPreparationLoader*) mRaceState->mLoader)->registerLoader(mRaceState->mTrackFilename);
 	}
 }
 
@@ -253,11 +296,17 @@ void RaceState::SystemState::eraseFromList(ZCom_ConnID id) {
 	if (mWaitingList.empty()) {
 		switch (mCurrentState) {
 		case INITIALIZING:
-			newState(LOADING);
 			setWaitingList();
+			newState(LOADING);
 			break;
 		case LOADING:
-			newState(COUNTDOWN);
+			if (mStartOfState) {
+				mStartOfState = false;
+				setWaitingList();
+				onLoading();
+			} else {
+				newState(COUNTDOWN);
+			}
 			break;
 		default:
 			break;
@@ -300,6 +349,9 @@ std::ostream& operator<<(std::ostream& os, const RaceState::Events& event) {
 		break;
 	case RaceState::LOADED:
 		os << "LOADED";
+		break;
+	case RaceState::STATECHANGED:
+		os << "STATECHANGED";
 		break;
 	default:
 		os << event;
