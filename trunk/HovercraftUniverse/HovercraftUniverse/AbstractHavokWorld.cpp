@@ -190,6 +190,10 @@ bool AbstractHavokWorld::load ( const char * filename ){
 	worldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
 	worldInfo.m_processActionsInSingleThread = true;
 
+	worldInfo.m_broadPhaseWorldAabb.m_max = hkVector4(10000,10000,10000);
+	worldInfo.m_broadPhaseWorldAabb.m_min = hkVector4(-10000,-10000,-10000);
+
+
 	// Flag objects that fall "out of the world" to be automatically removed - just necessary for this physics scene
 	worldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
 
