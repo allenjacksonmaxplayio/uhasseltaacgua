@@ -16,6 +16,9 @@
 #include <Common/Base/System/Io/IStream/hkIStream.h>
 
 
+#include "HoverAction.h"
+#include "HavokHovercraftCollisionEffect.h"
+
 #include "Hovercraft.h"
 #include "DedicatedServer.h"
 
@@ -78,6 +81,10 @@ HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hk
 
 HavokHovercraft::~HavokHovercraft(void)
 {
+	if (mCollisionTest != 0) {
+		delete mCollisionTest;
+	}
+
 	mCharacterRigidBody->removeReference();
 	mCharacterRigidBody = HK_NULL;
 
@@ -86,10 +93,6 @@ HavokHovercraft::~HavokHovercraft(void)
 
 	mPhysicsData->removeReference();
 	mPhysicsData = HK_NULL;
-
-	if (mCollisionTest != 0) {
-		delete mCollisionTest;
-	}
 	
 	//TODO look at this memory leak thing
 	mLoadedData->disableDestructors();
@@ -120,6 +123,10 @@ hkpRigidBody * HavokHovercraft::getRigidBody() const {
 
 void HavokHovercraft::updateUp( const hkVector4& newUp ) {
 	mUp = newUp;
+}
+
+const hkVector4& HavokHovercraft::getUp() const {
+	return mUp;
 }
 
 void HavokHovercraft::update(){
@@ -301,8 +308,9 @@ void HavokHovercraft::update(){
 	newOrientation.getColumn(2).setCross(mSide, mUp);
 	newOrientation.renormalize();
 	*/
-	HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE);
-	HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mUp, hkColor::RED);
+	
+	//HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE);
+	//HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mUp, hkColor::RED);
 
 	const hkReal gain = 0.25f;
 	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
@@ -348,7 +356,7 @@ void HavokHovercraft::load(const hkVector4& position){
 	hkpCharacterRigidBodyCinfo info;
 	info.m_mass = hovercraft->getMass();
 	info.m_shape = tmp;
-	info.m_maxForce = 2000.0f;
+	info.m_maxForce = 1000.0f;
 	info.m_position = position;
 	info.m_maxLinearVelocity = Hovercraft::MAXSPEED;
 	info.m_maxSpeedForSimplexSolver = Hovercraft::MAXSPEED;
@@ -364,16 +372,16 @@ void HavokHovercraft::load(const hkVector4& position){
 		manager->registerState( state,	HK_CHARACTER_ON_GROUND );
 		state->setDisableHorizontalProjection( true );
 		state->setSpeed(hovercraft->getMaximumSpeed());
-		state->setGain(5);
-		state->setMaxLinearAcceleration(hovercraft->getAcceleration());
+		state->setGain(hovercraft->getAcceleration());
+		state->setMaxLinearAcceleration(hovercraft->getAcceleration() * 10.0f);
 		state->removeReference();
 	}
 
 	{
 		hkpCharacterStateInAir * state = new hkpCharacterStateInAir();
 		manager->registerState( state,	HK_CHARACTER_IN_AIR );
-		state->setMaxLinearAcceleration(hovercraft->getAcceleration());
-		state->setGain(5);
+		state->setMaxLinearAcceleration(hovercraft->getAcceleration() * 10.0f);
+		state->setGain(hovercraft->getAcceleration());
 		state->setSpeed(hovercraft->getMaximumSpeed());
 		state->removeReference();
 	}
@@ -412,6 +420,14 @@ void HavokHovercraft::load(const hkVector4& position){
 	//mCollisionTest = new SimpleTest(mWorld,this);
 	mCollisionTest = new AdvancedTest(mWorld,this);
 
+	//Hover action
+	/*HoverAction * hoveraction = new HoverAction(this,mWorld);
+	mWorld->addAction(hoveraction);
+	hoveraction->removeReference();*/
+
+	hkpAction * collisionsystem = new HavokHovercraftCollisionEffect(this);
+	mWorld->addAction(collisionsystem);
+	collisionsystem->removeReference();	
 
 	mWorld->unmarkForWrite();
 }

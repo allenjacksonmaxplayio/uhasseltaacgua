@@ -5,6 +5,7 @@
 #include <Physics/Collide/Shape/Query/hkpShapeRayCastInput.h>
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>
 #include <Physics/Internal/Collide/BroadPhase/hkpBroadPhase.h>
+#include <Physics/Collide/Shape/Query/hkpRayHitCollector.h>
 
 #include <Common/Visualize/hkDebugDisplay.h>
 
@@ -14,6 +15,39 @@
 #include <iostream>
 
 namespace HovUni {
+
+class UserRayHitCollector: public hkpRayHitCollector {
+	private:
+		hkpWorldRayCastInput m_ray;
+
+	public:
+		UserRayHitCollector( hkpWorldRayCastInput& ray ): m_ray(ray) {;}
+
+	protected:
+
+		virtual void addRayHit( const hkpCdBody& cdBody, const hkpShapeRayCastCollectorOutput& hitInfo )
+  		{
+			hkpWorldObject *object = static_cast<hkpWorldObject*>( cdBody.getRootCollidable()->getOwner() );
+
+			if ( object->getName() )
+				std::cout << object->getName() << std::endl;
+			else
+				std::cout << "UNKNOWN" << std::endl;
+
+			if ( HavokEntityType::getEntityType(object) == HavokEntityType::PLANET ){
+			
+				std::cout << object->getName() << std::endl;
+
+				hkVector4 hitPoint;
+				hitPoint.setInterpolate4( m_ray.m_from, m_ray.m_to, hitInfo.m_hitFraction );
+
+				HK_DISPLAY_LINE(  m_ray.m_from, hitPoint, hkColor::RED);
+			}
+		}		
+};
+
+
+
 
 //The filter
 HoverAction::PlanetRayCastCallback::PlanetRayCastCallback( const hkpWorldRayCastInput& input, hkpWorldRayCastOutput* output ):
@@ -32,6 +66,9 @@ hkReal HoverAction::PlanetRayCastCallback::addBroadPhaseHandle( const hkpBroadPh
 			const hkpEntity* ent = static_cast<hkpEntity*>(col->getOwner());
 
 			if ( HavokEntityType::getEntityType(ent) == HavokEntityType::PLANET ){
+
+
+				std::cout << ent->getName() << std::endl;
 
 				hkpShapeRayCastInput sinput;
 				const hkTransform& trans = col->getTransform();
@@ -71,7 +108,6 @@ HoverAction::~HoverAction(void)
 
 void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 
-	//shoot a ray to negative UP (0,-1,0)
 	hkpWorldRayCastInput ray;
 	{
 		hkVector4 offset;
@@ -79,24 +115,26 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 		//position
 		ray.m_from = mHovercraft->getRigidBody()->getPosition();
 		offset = mHovercraft->getUp();
-		offset.mul4(0.1);	//dont start at very bottom  to prevent small penetrationt from stopping the hovering
+		//offset.mul4(0.1);	//dont start at very bottom  to prevent small penetrationt from stopping the hovering
 		ray.m_from.add4(offset);	
 
 		//position + inverse of up
 		ray.m_to = mHovercraft->getRigidBody()->getPosition();
 		offset = mHovercraft->getUp();
-		offset.mul4(-1);
+		offset.mul4(-2);
 		ray.m_to.add4(offset);
-
-		HK_DISPLAY_LINE( ray.m_from, ray.m_to, hkColor::WHITE);
 	}
 
-	hkpWorldRayCastOutput output;
+	UserRayHitCollector collector(ray);
+	mWorld->lock();
+	mWorld->castRay( ray, collector );
+	mWorld->unlock();
+
+	/*hkpWorldRayCastOutput output;
 	{
 		PlanetRayCastCallback rayCallback( ray, &output );
 
 		hkpBroadPhase* broadPhase = mWorld->getBroadPhase();
-
 		hkpBroadPhase::hkpCastRayInput rayInput;
 		rayInput.m_from = ray.m_from;
 		rayInput.m_toBase = &ray.m_to;
@@ -118,23 +156,11 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 		hkVector4 intersectionPointWorld;
 		intersectionPointWorld.setInterpolate4( ray.m_from, ray.m_to, output.m_hitFraction );
 		
+		std::cout << "YEEEEEE" << std::endl;
+
 		HK_DISPLAY_LINE( ray.m_from, intersectionPointWorld, hkColor::RED);
 		//HK_SET_OBJECT_COLOR((hkUlong)output.m_rootCollidable, hkColor::RED);
-	}
-
-	Hovercraft * hovercraft = dynamic_cast<Hovercraft *>(mHovercraft->getEntity());
-	hkReal speed = hovercraft->getSpeed();
-	hkReal maxspeed = hovercraft->getMaximumSpeed();
-
-	//scale hovering depending on the speed, the faster the less hovering
-	
-	hkVector4 hoverUp;
-	hoverUp.set(0,10,0);
-	//hoverUp.mul4( maxspeed / speed);
-
-	mHovercraft->getRigidBody()->applyLinearImpulse(hoverUp);
-	//mHovercraft->getRigidBody()->applyForce(stepInfo.m_deltaTime, hoverUp);
-
+	}*/
 
 
 /*
