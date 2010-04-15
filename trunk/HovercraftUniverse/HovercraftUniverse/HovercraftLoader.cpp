@@ -31,7 +31,7 @@ void HovercraftLoader::StartedLoad() {
 void HovercraftLoader::FinishedLoad( bool success ) {
 	if (success && mCurrEntity && mCurrNode) {		
 		// Update the loading of the hovercrafts
-		ProgressMonitor::updateTask("Loading hovercraft.");
+		ProgressMonitor::getSingletonPtr()->updateTask("Loading hovercraft.");
 	}
 }
 

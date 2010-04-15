@@ -116,7 +116,7 @@ void ClientLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 			Entity * ent = EntityManager::getClientSingletonPtr()->getEntity(entityName);
 			if (ent) {
 				// Update task
-				ProgressMonitor::updateTask("Loading world.");
+				ProgressMonitor::getSingletonPtr()->updateTask("Loading world.");
 
 				EntityRepresentation * entRep = 0;
 				bool visible = !(entityparameters.visibility == OgreMax::Types::OBJECT_HIDDEN);

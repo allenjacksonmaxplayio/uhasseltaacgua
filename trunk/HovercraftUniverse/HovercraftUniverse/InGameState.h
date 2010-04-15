@@ -6,6 +6,7 @@
 #include "EntityManager.h"
 #include "HUD.h"
 #include "LoadingOverlay.h"
+#include "ProgressMonitorListener.h"
 #include "RaceStateListener.h"
 #include "RepresentationManager.h"
 #include <tinyxml/tinyxml.h>
@@ -20,7 +21,7 @@ namespace HovUni {
 	 *
 	 * @auhtor Nick De Frangh
 	 */
-	class InGameState : public BasicGameState, public RaceStateListener {
+	class InGameState : public BasicGameState, public RaceStateListener, public IProgressMonitorListener {
 		private:
 			/** A reference to the created client core */
 			HUClient* mHUClient;
@@ -60,6 +61,17 @@ namespace HovUni {
 			 * Function that will handle new Chat Input
 			 */
 			Hikari::FlashValue onChat(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
+			////////////////////////////////////////////
+			//	 ProgressMonitorListener functions	  //
+			////////////////////////////////////////////
+
+			/**
+			 * This function will be called when the loading has changed value
+			 *
+			 * @param progress the current progress after the update
+			 */
+			virtual void updateProgress(double progress);
 
 			////////////////////////////////////////////
 			//			RaceStateListener functions	  //

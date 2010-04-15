@@ -13,7 +13,7 @@ ClientPreparationLoader * HUApplication::msPreparationLoader = 0;
 HUApplication::HUApplication(const std::string& configINI) :
 		Application("Hovercraft Universe", configINI) {
 	// Register listener
-	ProgressMonitor::addListener(this);
+	ProgressMonitor::getSingletonPtr()->addListener(this);
 }
 
 HUApplication::~HUApplication() {

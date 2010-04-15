@@ -3,11 +3,26 @@
 
 namespace HovUni {
 
-std::map<std::string, int> ProgressMonitor::mEntitiesToLoad = std::map<std::string, int>();
-std::map<std::string, int> ProgressMonitor::mEntitiesLoaded = std::map<std::string, int>();
-int ProgressMonitor::mTotalEntitiesToLoad = 0;
-int ProgressMonitor::mTotalEntitiesLoaded = 0;
-std::vector<IProgressMonitorListener *> ProgressMonitor::mListeners = std::vector<IProgressMonitorListener *>(); 
+ProgressMonitor* ProgressMonitor::msSingleton = 0;
+
+ProgressMonitor::ProgressMonitor() : mTotalEntitiesToLoad(0), mTotalEntitiesLoaded(0) {
+}
+
+ProgressMonitor& ProgressMonitor::getSingleton(void) {
+	if (!msSingleton) {
+		msSingleton = new ProgressMonitor();
+	}
+
+	return *msSingleton;
+}
+
+ProgressMonitor* ProgressMonitor::getSingletonPtr(void) {
+	if (!msSingleton) {
+		msSingleton = new ProgressMonitor();
+	}
+
+	return msSingleton;
+}
 
 void ProgressMonitor::addTask(std::string title, int noLoads) {
 	if (mEntitiesToLoad.size() == 0) {
@@ -26,8 +41,8 @@ void ProgressMonitor::updateTask(std::string title) {
 	mTotalEntitiesLoaded ++;
 
 	// Notify listeners
-	for (std::vector<IProgressMonitorListener *>::const_iterator it = mListeners.begin(); it != mListeners.end(); it++) {
-		(*it)->updateProgress(getProgress());
+	for (listener_iterator i = listenersBegin(); i != listenersEnd(); ++i) {
+		(*i)->updateProgress(getProgress());
 	}
 }
 

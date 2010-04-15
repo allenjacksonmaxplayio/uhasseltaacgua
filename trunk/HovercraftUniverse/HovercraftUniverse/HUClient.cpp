@@ -174,8 +174,8 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		mLobby->setRaceState(ent);
 
 		// Monitor the loading of the hovercrafts
-		ProgressMonitor::addTask("Loading hovercraft entities.", ent->getPlayers().size());
-		ProgressMonitor::addTask("Loading hovercraft.", ent->getPlayers().size());
+		ProgressMonitor::getSingletonPtr()->addTask("Loading hovercraft entities.", ent->getPlayers().size());
+		ProgressMonitor::getSingletonPtr()->addTask("Loading hovercraft.", ent->getPlayers().size());
 	} else if (requested_class == mIDManager->getID(RacePlayer::getClassName())) {
 		if (!mLobby->getRaceState()) {
 			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient]: Error - no race state";
@@ -235,7 +235,7 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		Hovercraft * ent = new Hovercraft(announcedata);
 
 		// Monitor the loading of the hovercrafts
-		ProgressMonitor::updateTask("Loading hovercraft entities.");
+		ProgressMonitor::getSingletonPtr()->updateTask("Loading hovercraft entities.");
 
 		if (role == eZCom_RoleOwner) {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[HUClient]: Received own hovercraft";
