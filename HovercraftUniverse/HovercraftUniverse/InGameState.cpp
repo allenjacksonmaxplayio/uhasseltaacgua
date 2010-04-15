@@ -1,6 +1,7 @@
 #include "InGameState.h"
 
 #include "Hovercraft.h"
+#include "ProgressMonitor.h"
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
@@ -17,10 +18,21 @@ namespace HovUni {
 
 		if (chatText != "") {
 			mHUClient->getChatClient()->sendText(chatText);
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[InGameState]: " << "Sending chat message: " << args.at(0).getString();
 		}
 
 		return "success";
+	}
+
+	////////////////////////////////////////////
+	//	 ProgressMonitorListener functions	  //
+	////////////////////////////////////////////
+
+	void InGameState::updateProgress(double progress) {
+		if (mLoader) {
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[InGameState]: OMFG? " << (float) (progress * 100.0f);
+			mLoader->setLoaded((float) (progress * 100.0f), "KeejOow! hier moet ge zijn!!!");
+		}
 	}
 
 	////////////////////////////////////////////
@@ -34,7 +46,7 @@ namespace HovUni {
 			case RaceState::LOADING: {
 				//We are actually loading, make sure we are monitoring everything
 				//TODO make it get real values
-				mLoader->setLoaded(50.0f, "Loading...");
+				//mLoader->setLoaded(50.0f, "Loading...");
 
 				break;
 			}
@@ -88,6 +100,7 @@ namespace HovUni {
 			mLoader = new LoadingOverlay("Loader", "loader.swf", mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight(), Hikari::Center);
 			mGUIManager->activateOverlay(mLoader);
 			mLoader->setLoaded(0.0f, "Initializing");
+			ProgressMonitor::getSingletonPtr()->addListener(this);
 		}
 	}
 
@@ -104,6 +117,7 @@ namespace HovUni {
 		mGUIManager->showCursor(true);
 
 		if (mLoader != 0) {
+			ProgressMonitor::getSingletonPtr()->removeListener(this);
 			mGUIManager->disableOverlay(mLoader);
 		}
 		delete mLoader;

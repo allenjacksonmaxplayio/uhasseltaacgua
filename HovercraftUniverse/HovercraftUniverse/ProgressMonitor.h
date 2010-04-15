@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <map>
+#include "Listenable.h"
 #include "ProgressMonitorListener.h"
 #include <string>
 
@@ -15,30 +16,42 @@ namespace HovUni {
  *
  * @author Kristof Overdulve
  */
-class ProgressMonitor
+	class ProgressMonitor : public Listenable<IProgressMonitorListener>
 {
 private:
+	/** The progressmonitor instance */
+	static ProgressMonitor* msSingleton;
 	
 	/** The entities to load */
-	static std::map<std::string, int> mEntitiesToLoad;
+	std::map<std::string, int> mEntitiesToLoad;
 
 	/** The entities loaded */
-	static std::map<std::string, int> mEntitiesLoaded;
+	std::map<std::string, int> mEntitiesLoaded;
 
 	/** The total number of entities to load */
-	static int mTotalEntitiesToLoad;
+	int mTotalEntitiesToLoad;
 
 	/** The total number of entities loaded */
-	static int mTotalEntitiesLoaded;
+	int mTotalEntitiesLoaded;
 
-	/** The listeners to notify upon an update */
-	static std::vector<IProgressMonitorListener *> mListeners; 
-
-	// Disallow object to be created
-	ProgressMonitor(void) {}
-	~ProgressMonitor(void) {}
+	/** Constructor */
+	ProgressMonitor(void);
 
 public:
+	/** Destructor */
+	virtual ~ProgressMonitor(void) {}
+
+	/**
+	 * Get a reference to the ProgressMonitor
+	 * @return reference to the ProgressMonitor
+	 */
+	static ProgressMonitor& getSingleton(void);
+
+	/**
+	 * Get a pointer to the ProgressMonitor
+	 * @return pointer to the ProgressMonitor
+	 */
+	static ProgressMonitor* getSingletonPtr(void);
 
 	/**
 	 * Includes the given task into the monitor.
@@ -46,32 +59,21 @@ public:
 	 * @param title the title of the new task to load
 	 * @param noLoads the number of elements that must be loaded
 	 */
-	static void addTask(std::string title, int noLoads);
+	void addTask(std::string title, int noLoads);
 
 	/**
 	 * Updates the given task in order to indicate that a new element has been loaded.
 	 *
 	 * @param title the title of the task that is updated
 	 */
-	static void updateTask(std::string title);
+	void updateTask(std::string title);
 
 	/**
 	 * Returns the ratio of number of elements loaded, compared to the total number of entities to load (e.g. return of 0.51 means 51%).
 	 *
 	 * @return the progress
 	 */
-	static double getProgress();
-
-	/**
-	 * Adds the given object to the listeners.
-	 *
-	 * @param listener is the new listener
-	 */
-	static void addListener(IProgressMonitorListener * listener) {
-		mListeners.push_back(listener);
-	}
-
-
+	double getProgress();
 };
 
 }
