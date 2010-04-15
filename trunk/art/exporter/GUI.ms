@@ -1,6 +1,6 @@
-shaderfx = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
-terrain_layer1_shader = shaderfx + "terrain1.fx"
-terrain_layer2_shader = shaderfx + "terrain2.fx"
+shaderfx_path = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
+terrain_layer1_shader = shaderfx_path  + "terrain1.fx"
+terrain_layer2_shader = shaderfx_path  + "terrain2.fx"
 terrain_layers = #("","","","","","")
 
 print terrain_layer1_shader

@@ -1,9 +1,25 @@
 
-/*** Generated through Lumonix shaderFX  by: Arutha in 3dsmax at: 12-4-2010 22:29:48  ***/ 
+/*** Generated through Lumonix shaderFX  by: Arutha in 3dsmax at: 15-4-2010 16:01:04  ***/ 
 
 // This FX shader was built to support 3ds Max's standard shader compiler. 
 
 
+int texcoord0 : Texcoord 
+<
+	int Texcoord = 0;
+	int MapChannel = 1;
+	string UIType = "None"; 
+>;
+
+float LAYER0_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER0_UV_SCALE";
+> = 1.0;
+ 
 texture Layer0_TS
 <
 	string Name = "grass.jpg";
@@ -38,6 +54,15 @@ sampler2D AlphaMap0_TSSampler = sampler_state
 	AddressV = WRAP;
 };
  
+float LAYER1_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER1_UV_SCALE";
+> = 1.0;
+ 
 texture Layer1_TS
 <
 	string Name = "sand.jpg";
@@ -54,6 +79,15 @@ sampler2D Layer1_TSSampler = sampler_state
 	AddressU = WRAP;
 	AddressV = WRAP;
 };
+ 
+float LAYER2_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER2_UV_SCALE";
+> = 1.0;
  
 texture Layer2_TS
 <
@@ -157,10 +191,13 @@ v2f av(a2v In, uniform float3 lightPos, uniform int lightType, uniform float3 li
 float4 af(v2f In, uniform float3 lightDir, uniform float4 lightColor, uniform float4 lightAttenuation, uniform float lightHotspot, uniform float lightFalloff, uniform int lightType, uniform int lightattenType, uniform int lightconeType, uniform bool lightCastShadows, uniform int shadowPassCount) : COLOR 
 { 
 
-	float4 Layer0_TU = tex2D(Layer0_TSSampler, In.texCoord.xy);
+	float2 LAYER0_UV = In.texCoord.xy; 
+	float4 Layer0_TU = tex2D(Layer0_TSSampler, (LAYER0_UV * LAYER0_UV_SCALE).xy);
 	float4 Alpha0_TU = tex2D(AlphaMap0_TSSampler, In.texCoord.xy);
-	float4 Layer1_TU = tex2D(Layer1_TSSampler, In.texCoord.xy);
-	float4 Layer2_TU = tex2D(Layer2_TSSampler, In.texCoord.xy);
+	float2 LAYER1_UV = In.texCoord.xy; 
+	float4 Layer1_TU = tex2D(Layer1_TSSampler, (LAYER1_UV * LAYER1_UV_SCALE).xy);
+	float2 LAYER2_UV = In.texCoord.xy; 
+	float4 Layer2_TU = tex2D(Layer2_TSSampler, (LAYER2_UV * LAYER2_UV_SCALE).xy);
 	float3 input1 = (((Layer0_TU.rgb * Alpha0_TU.r) + (Layer1_TU.rgb * Alpha0_TU.g)) + (Layer2_TU.rgb * Alpha0_TU.b)); 
 
 	float4 ret =  float4(input1, 1); 
