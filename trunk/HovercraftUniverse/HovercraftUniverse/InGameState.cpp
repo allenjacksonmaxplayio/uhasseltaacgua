@@ -62,11 +62,13 @@ namespace HovUni {
 			}
 			case RaceState::RACING: {
 				//Countdown has finished, race has started!
+				mHud->startLapTimer();
 
 				break;
 			}
 			case RaceState::FINISHING: {
 				//We have finished, go freestyle!
+				mHud->stopLapTimer();
 				
 				break;
 			}
