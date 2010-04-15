@@ -43,7 +43,7 @@ public:
 	 *
 	 * @param state the race state
 	 */
-	inline void setRaceState(RaceState * state) {
+	inline virtual void setRaceState(RaceState * state) {
 		mRaceState = state;
 	}
 
@@ -52,7 +52,7 @@ public:
 	 *
 	 * @return the race state
 	 */
-	inline RaceState* getRaceState() {
+	inline virtual RaceState* getRaceState() {
 		return mRaceState;
 	}
 

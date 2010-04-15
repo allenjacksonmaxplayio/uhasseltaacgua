@@ -41,7 +41,7 @@ public:
 
 	/** All the possible events the client can send to the server during the race */
 	static const enum Events {
-		INITIALIZED = 0, LOADED
+		INITIALIZED = 0, LOADED, STATECHANGED
 	};
 
 	/*
@@ -75,6 +75,9 @@ private:
 
 	/** The track file name for this race */
 	const Ogre::String mTrackFilename;
+
+	/** The number of players */
+	int mNumberPlayers;
 
 public:
 	/**
@@ -189,6 +192,11 @@ protected:
 	playermap::iterator removePlayer(playermap::iterator i);
 
 	/**
+	 * Indicate that the initialization is done. (Client)
+	 */
+	void onInitialized();
+
+	/**
 	 * A callback that should be implemented in order to parse and process
 	 * incoming events.
 	 */
@@ -227,8 +235,8 @@ private:
 		/** List of player IDs where the server is currently waiting on (Server) */
 		std::set<unsigned int> mWaitingList;
 
-		/** Whether the initialized event should be send (Client) */
-		bool mInitialized;
+		/** Whether the server is waiting for the clients to renew their state */
+		bool mStartOfState;
 
 	public:
 		/**

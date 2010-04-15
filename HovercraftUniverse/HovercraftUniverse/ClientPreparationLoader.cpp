@@ -29,6 +29,11 @@ ClientPreparationLoader::~ClientPreparationLoader(void) {
 	}
 }
 
+void ClientPreparationLoader::setRaceState(RaceState * state) {
+	Loader::setRaceState(state);
+	mLoader->setRaceState(state);
+}
+
 void ClientPreparationLoader::FinishedLoad(bool success) {
 	if (success) {
 		// The filename should be loadable
