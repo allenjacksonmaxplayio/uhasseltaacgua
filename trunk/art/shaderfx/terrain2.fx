@@ -1,9 +1,25 @@
 
-/*** Generated through Lumonix shaderFX  by: Arutha in 3dsmax at: 12-4-2010 22:30:15  ***/ 
+/*** Generated through Lumonix shaderFX  by: Arutha in 3dsmax at: 16-4-2010 11:55:33  ***/ 
 
 // This FX shader was built to support 3ds Max's standard shader compiler. 
 
 
+int texcoord0 : Texcoord 
+<
+	int Texcoord = 0;
+	int MapChannel = 1;
+	string UIType = "None"; 
+>;
+
+float LAYER0_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER0_UV_SCALE";
+> = 1.0;
+ 
 texture Layer0_TS
 <
 	string Name = "grass.jpg";
@@ -23,7 +39,7 @@ sampler2D Layer0_TSSampler = sampler_state
  
 texture AlphaMap0_TS : DiffuseMap
 <
-	string Name = "Sphere011_alpha.png";
+	string Name = "";
 	string UIName = "AlphaMap0_TS";
 	string ResourceType = "2D";
 >;
@@ -37,6 +53,15 @@ sampler2D AlphaMap0_TSSampler = sampler_state
 	AddressU = WRAP;
 	AddressV = WRAP;
 };
+ 
+float LAYER1_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER1_UV_SCALE";
+> = 1.0;
  
 texture Layer1_TS
 <
@@ -55,6 +80,15 @@ sampler2D Layer1_TSSampler = sampler_state
 	AddressV = WRAP;
 };
  
+float LAYER2_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER2_UV_SCALE";
+> = 1.0;
+ 
 texture Layer2_TS
 <
 	string Name = "dirt.jpg";
@@ -65,23 +99,6 @@ texture Layer2_TS
 sampler2D Layer2_TSSampler = sampler_state
 {
 	Texture = <Layer2_TS>;
-	MinFilter = LINEAR;
-	MagFilter = LINEAR;
-	MipFilter = LINEAR;
-	AddressU = WRAP;
-	AddressV = WRAP;
-};
- 
-texture TextureSampler_5611
-<
-	string Name = "grass.jpg";
-	string UIName = "Layer3_TS";
-	string ResourceType = "2D";
->;
- 
-sampler2D TextureSampler_5611Sampler = sampler_state
-{
-	Texture = <TextureSampler_5611>;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 	MipFilter = LINEAR;
@@ -106,16 +123,25 @@ sampler2D AlphaMap1_TSSampler = sampler_state
 	AddressV = WRAP;
 };
  
-texture TextureSampler_5339
+float LAYER3_UV_SCALE
 <
-	string Name = "sand.jpg";
-	string UIName = "Layer4_TS";
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER3_UV_SCALE";
+> = 1.0;
+ 
+texture Layer3_TS
+<
+	string Name = "grass.jpg";
+	string UIName = "Layer3_TS";
 	string ResourceType = "2D";
 >;
  
-sampler2D TextureSampler_5339Sampler = sampler_state
+sampler2D Layer3_TSSampler = sampler_state
 {
-	Texture = <TextureSampler_5339>;
+	Texture = <Layer3_TS>;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 	MipFilter = LINEAR;
@@ -123,16 +149,51 @@ sampler2D TextureSampler_5339Sampler = sampler_state
 	AddressV = WRAP;
 };
  
-texture TextureSampler_2594
+float LAYER4_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER4_UV_SCALE";
+> = 1.0;
+ 
+texture Layer4_TS
+<
+	string Name = "sand.jpg";
+	string UIName = "Layer4_TS";
+	string ResourceType = "2D";
+>;
+ 
+sampler2D Layer4_TSSampler = sampler_state
+{
+	Texture = <Layer4_TS>;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	MipFilter = LINEAR;
+	AddressU = WRAP;
+	AddressV = WRAP;
+};
+ 
+float LAYER5_UV_SCALE
+<
+	string UIType = "FloatSpinner";
+	float UIMin = -999.0;
+	float UIMax = 999.0;
+	float UIStep = 0.1;
+	string UIName = "LAYER5_UV_SCALE";
+> = 1.0;
+ 
+texture Layer5_TS
 <
 	string Name = "dirt.jpg";
 	string UIName = "Layer5_TS";
 	string ResourceType = "2D";
 >;
  
-sampler2D TextureSampler_2594Sampler = sampler_state
+sampler2D Layer5_TSSampler = sampler_state
 {
-	Texture = <TextureSampler_2594>;
+	Texture = <Layer5_TS>;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 	MipFilter = LINEAR;
@@ -216,6 +277,7 @@ v2f av(a2v In, uniform float3 lightPos, uniform int lightType, uniform float3 li
 	v2f Out = (v2f)0; 
 	Out.position = mul(In.position, wvp);				//transform vert position to homogeneous clip space 
 
+	In.texCoord += float2(0.0,1.0);		//this fixes Max's V texcoord which is off by one 
 	Out.texCoord = In.texCoord;						//pass through texture coordinates from channel 1 
 
 	return Out; 
@@ -225,15 +287,23 @@ v2f av(a2v In, uniform float3 lightPos, uniform int lightType, uniform float3 li
 float4 af(v2f In, uniform float3 lightDir, uniform float4 lightColor, uniform float4 lightAttenuation, uniform float lightHotspot, uniform float lightFalloff, uniform int lightType, uniform int lightattenType, uniform int lightconeType, uniform bool lightCastShadows, uniform int shadowPassCount) : COLOR 
 { 
 
-	float4 Layer0_TU = tex2D(Layer0_TSSampler, In.texCoord.xy);
+	float2 LAYER0_UV = In.texCoord.xy; 
+	float4 Layer0_TU = tex2D(Layer0_TSSampler, (LAYER0_UV * LAYER0_UV_SCALE).xy);
 	float4 Alpha0_TU = tex2D(AlphaMap0_TSSampler, In.texCoord.xy);
-	float4 Layer1_TU = tex2D(Layer1_TSSampler, In.texCoord.xy);
-	float4 Layer2_TU = tex2D(Layer2_TSSampler, In.texCoord.xy);
-	float4 TextureMap_4055 = tex2D(TextureSampler_5611Sampler, In.texCoord.xy);
-	float4 Alpha1_TU = tex2D(AlphaMap1_TSSampler, In.texCoord.xy);
-	float4 TextureMap_4640 = tex2D(TextureSampler_5339Sampler, In.texCoord.xy);
-	float4 TextureMap_342 = tex2D(TextureSampler_2594Sampler, In.texCoord.xy);
-	float3 input1 = ((((Layer0_TU.rgb * Alpha0_TU.r) + (Layer1_TU.rgb * Alpha0_TU.g)) + (Layer2_TU.rgb * Alpha0_TU.b)) + (((TextureMap_4055.rgb * Alpha1_TU.r) + (TextureMap_4640.rgb * Alpha1_TU.g)) + (TextureMap_342.rgb * Alpha1_TU.a))); 
+	float2 LAYER1_UV = In.texCoord.xy; 
+	float4 Layer1_TU = tex2D(Layer1_TSSampler, (LAYER1_UV * LAYER1_UV_SCALE).xy);
+	float2 LAYER2_UV = In.texCoord.xy; 
+	float4 Layer2_TU = tex2D(Layer2_TSSampler, (LAYER2_UV * LAYER2_UV_SCALE).xy);
+	float4 TextureMap_1338 = tex2D(AlphaMap1_TSSampler, In.texCoord.xy);
+	float MathLength_2758 = length(TextureMap_1338.rgb);		//Measure the length of the vector 
+	float MathMinMax_4102 = saturate(MathLength_2758); 
+	float2 LAYER3_UV = In.texCoord.xy; 
+	float4 Layer3_TU = tex2D(Layer3_TSSampler, (LAYER3_UV * LAYER3_UV_SCALE).xy);
+	float2 LAYER4_UV = In.texCoord.xy; 
+	float4 Layer4_TU = tex2D(Layer4_TSSampler, (LAYER4_UV * LAYER4_UV_SCALE).xy);
+	float2 LAYER5_UV = In.texCoord.xy; 
+	float4 Layer5_TU = tex2D(Layer5_TSSampler, (LAYER5_UV * LAYER5_UV_SCALE).xy);
+	float3 input1 = (((((Layer0_TU.rgb * Alpha0_TU.r) + (Layer1_TU.rgb * Alpha0_TU.g)) + (Layer2_TU.rgb * Alpha0_TU.b)) * (1.0 - MathMinMax_4102)) + (((Layer3_TU.rgb * TextureMap_1338.r) + (Layer4_TU.rgb * TextureMap_1338.g)) + (Layer5_TU.rgb * TextureMap_1338.b))); 
 
 	float4 ret =  float4(input1, 1); 
 	return ret; 
