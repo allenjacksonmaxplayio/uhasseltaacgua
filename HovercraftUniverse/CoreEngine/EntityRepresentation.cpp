@@ -18,6 +18,14 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 		mOgreEntity->setMaterialName(materialFile);
 	}
 
+	Ogre::SceneManager::CameraIterator it = mSceneMgr->getCameraIterator();
+	//while (it.hasMoreElements()) {
+		Ogre::Camera* cam = it.getNext();
+		mTextOverlay = new ObjectTextDisplay(mOgreEntity, cam);
+		mTextOverlay->enable(true);
+	//}
+
+
 	// Set subentity materials
 	for (unsigned int i = 0; i < subMaterials.size(); i++) {
 		Ogre::SubEntity * subentity = mOgreEntity->getSubEntity(i);
@@ -37,12 +45,16 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 
 EntityRepresentation::~EntityRepresentation() {
 	// Empty
+	delete mTextOverlay;
+	mTextOverlay = 0;
 }
 
 void EntityRepresentation::draw() {
 	// Update the settings
 	mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
+	//Text overlay
+	mTextOverlay->update();
 }
 
 }

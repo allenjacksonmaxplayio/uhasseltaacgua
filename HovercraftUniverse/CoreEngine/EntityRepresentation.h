@@ -2,6 +2,7 @@
 #define ENTITYREPRESENTATION_H_
 
 #include "Entity.h"
+#include "ObjectTextDisplay.h"
 #include <OgreEntity.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
@@ -17,7 +18,7 @@ class Entity;
  * effects. It manages 3D models, particles, decals, screen filters, sound, and so on.
  * It can look at, but cannot change the state of the entity.
  *
- * @author Kristof Overdulve
+ * @author Kristof Overdulve, Dirk Delahaye
  */
 class EntityRepresentation {
 protected:
@@ -33,6 +34,9 @@ protected:
 
 	/** The scene node to draw and update */
 	Ogre::SceneNode * mOgreNode;
+
+	/** Text overlay*/
+	ObjectTextDisplay* mTextOverlay;
 
 public:
 
