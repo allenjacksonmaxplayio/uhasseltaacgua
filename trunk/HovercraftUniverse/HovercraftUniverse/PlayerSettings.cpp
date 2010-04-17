@@ -22,7 +22,7 @@ PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
 }
 
 PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
-	NetworkEntity(3), mUserID(0), mCharacter(0), mHovercraft(0), mPlayerName(name), mLobby(lobby) {
+	NetworkEntity(3), mUserID(ZCom_Invalid_ID), mCharacter(0), mHovercraft(0), mPlayerName(name), mLobby(lobby) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);

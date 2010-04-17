@@ -134,6 +134,15 @@ public:
 	 */
 	const unsigned int getID() const;
 
+	/**
+	 * Check whether this is a bot
+	 *
+	 * @return true if it is a bot, false otherwise
+	 */
+	inline bool isBot() const {
+		return mUserID == ZCom_Invalid_ID;
+	}
+
 protected:
 
 	/**

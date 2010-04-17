@@ -68,6 +68,10 @@ private:
 	/** The loader (Server + Client) */
 	Loader* const mLoader;
 
+	/** The countdown interval */
+	const long mCountdownInterval;
+	const unsigned char mCountdownIntervalLog2;
+
 	/*
 	 * Replicated fields
 	 */
