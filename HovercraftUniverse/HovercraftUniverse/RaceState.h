@@ -153,11 +153,18 @@ public:
 	}
 
 	/**
+	 * Get the state of the race state
+	 *
+	 * @return the state
+	 */
+	States getState() const;
+
+	/**
 	 * Get the countdown timer which indicates the time left on the timer
 	 *
 	 * @return the remaining time in milliseconds, or -1 if there is no countdown (not in countdown state)
 	 */
-	int getCountdown() {
+	inline int getCountdown() {
 		return mCountdown;
 	}
 
