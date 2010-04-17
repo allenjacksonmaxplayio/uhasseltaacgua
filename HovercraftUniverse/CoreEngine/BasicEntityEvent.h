@@ -30,7 +30,7 @@ private:
 public:
 
 	/**
-	 * Default onstructor for parsing
+	 * Default constructor for parsing
 	 */
 	BasicEntityEvent();
 
@@ -91,6 +91,11 @@ public:
 	 * @return the event
 	 */
 	static BasicEntityEvent* parse(ZCom_BitStream* stream);
+
+	/**
+	 * Clears the event
+	 */
+	void clear();
 
 protected:
 

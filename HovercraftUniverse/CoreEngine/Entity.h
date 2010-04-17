@@ -52,6 +52,9 @@ protected:
 	/** The time since last process of the object */
 	float mProcessElapsed;
 
+	/** Should the controls be processed or not? */
+	static bool mControlsActive;
+
 public:
 
 
@@ -197,6 +200,22 @@ public:
 	 */
 	EntityPropertyMap * getPropertyMap();
 
+	/**
+	 * Make the controls for all entities active.
+	 */
+	static void setControlsActive();
+	
+	/**
+	 * Make the controls for all entities inactive.
+	 */
+	static void setControlsInactive();
+
+	/**
+	 * If the controls are inactive, make them active.
+	 * If the controls are active, make them inactive.
+	 */
+	static void toggleControlsActive();
+
 protected:
 	/**
 	 * Callback to process this entity. This allows to do entity specific processing
@@ -237,8 +256,6 @@ protected:
 	 * @see NetworkEntity::setReplication()
 	 */
 	void setupReplication();
-
-protected:
 
 	/**
 	 * @see NetworkEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince)
