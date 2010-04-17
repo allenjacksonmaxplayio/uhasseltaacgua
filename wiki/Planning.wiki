@@ -25,15 +25,15 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
    * WP 1.12: Implementatie reset functie (bij drukken op reset knop of bij vallen in put). Deze brengt je terug onder laatst bereikte checkpoint. 
 
   * WP 2 (Tobias + PJ): Integratie physics voor alle types entiteiten.
-    * WP 2.1: Implementatie generieke physics voor wereld (zwaartekracht, botsing, ...)
-    * WP 2.2: Implementatie physics voor custom entiteiten (depends on WP 4).
-     * WP 2.2.1: Implementatie physics boost a.d.h.v. strength/acceleratie.
-     * WP 2.2.2: Implementatie physics jump a.d.h.v. up force.
+    * WP 2.1: *(Done)* Implementatie generieke physics voor wereld (zwaartekracht, botsing, ...)
+    * WP 2.2: *(Done)* Implementatie physics voor custom entiteiten (depends on WP 4).
+     * WP 2.2.1: *(Done)* Implementatie physics boost a.d.h.v. strength/acceleratie.
+     * WP 2.2.2: *(Done)* Implementatie physics jump a.d.h.v. up force.
     * WP 2.3: Toelaten dat Havok events kan sturen ivm checkpoints naar de race state.
 
   * WP 4 (Kristof): Toevoegen eigenschappen aan entiteiten.
-    * WP 4.1: Geef weight/max speed/acceleration/steering parameters aan hovercraft.
-    * WP 4.2: Geef eigenschappen aan planeet (gravity, ...).
+    * WP 4.1: *(Done)* Geef weight/max speed/acceleration/steering parameters aan hovercraft.
+    * WP 4.2: *(Done)* Geef eigenschappen aan planeet (gravity, ...).
 
   * WP 5 (Kristof + PJ): 3D art development + sound
     * WP 5.1: Design hovercrafts.
