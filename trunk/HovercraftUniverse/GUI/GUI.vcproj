@@ -183,6 +183,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Countdown.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Direction.cpp"
 					>
 				</File>
@@ -266,6 +270,10 @@
 				</File>
 				<File
 					RelativePath=".\ConnectWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Countdown.h"
 					>
 				</File>
 				<File
