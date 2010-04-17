@@ -68,10 +68,16 @@ private:
 	Ogre::Real mSteering;
 
 	/** 
-	*	Collision state flag. 
-	*	If set, the hovercraft is "about to collide" with something. 
-	*/
+	 * Collision state flag. 
+	 * If set, the hovercraft is "about to collide" with something. 
+	 */
 	bool mCollisionState;
+
+	/**
+	 * Did this hovercraft finish?
+	 * Used to disable controls after finishing.
+	 */
+	bool mFinished;
 
 public:
 
@@ -274,6 +280,21 @@ public:
 	 */
 	inline bool isInCollisionState() const {
 		return mCollisionState;
+	}
+
+	/**
+	 * Check if this hovercraft has finished the race.
+	 * @return the finish flag.
+	 */
+	inline bool isFinished() const {
+		return mFinished;
+	}
+
+	/**
+	 * Set this hovercraft to finished.
+	 */
+	inline void finished() {
+		mFinished = true;
 	}
 
 	/**
