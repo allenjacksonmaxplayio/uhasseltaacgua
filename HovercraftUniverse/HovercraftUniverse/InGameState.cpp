@@ -5,7 +5,7 @@
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
-			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0) {
+			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
@@ -58,9 +58,14 @@ namespace HovUni {
 				//Register for chat events
 				mHUClient->setChatListener(mHud);
 
+				//Show the countdown
+				mGUIManager->activateOverlay(mCountdown);
+				mCountdown->start();
+
 				break;
 			}
 			case RaceState::RACING: {
+				mCountdownFadeout = 3;
 				//Countdown has finished, race has started!
 				mHud->startLapTimer();
 
@@ -104,6 +109,9 @@ namespace HovUni {
 			mLoader->setLoaded(0.0f, "Initializing");
 			ProgressMonitor::getSingletonPtr()->addListener(this);
 		}
+
+		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(200, 100, 400, 200);
+		mCountdown = new Countdown("Countdown", "countdown.swf", size.first, size.second, Hikari::Center);
 	}
 
 	void InGameState::disable() {
@@ -123,6 +131,10 @@ namespace HovUni {
 			mGUIManager->disableOverlay(mLoader);
 		}
 		delete mLoader;
+		mLoader = 0;
+
+		delete mCountdown;
+		mCountdown = 0;
 
 		mRaceState->removeListener(this);
 	}
@@ -141,6 +153,16 @@ namespace HovUni {
 			mHUClient->process();
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 			mTimeLapsed = 0.0f;
+		}
+
+		//Check if we need to remove the countdown overlay
+		if (mCountdownFadeout != -1) {
+			mCountdownFadeout -= evt.timeSinceLastFrame;
+
+			if (mCountdownFadeout <= 0) {
+				mGUIManager->disableOverlay(mCountdown);
+				mCountdownFadeout = -1;
+			}
 		}
 
 		// Update representation manager

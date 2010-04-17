@@ -2,6 +2,7 @@
 #define INGAMESTATE_H
 
 #include "BasicGameState.h"
+#include "Countdown.h"
 #include "HUClient.h"
 #include "EntityManager.h"
 #include "HUD.h"
@@ -46,6 +47,12 @@ namespace HovUni {
 
 			/** The loading overlay we will be displaying */
 			LoadingOverlay* mLoader;
+
+			/** A countdown overlay */
+			Countdown* mCountdown;
+
+			/** Value to keep the fadeout time for the countdown overlay */
+			Ogre::Real mCountdownFadeout;
 
 		public:
 			/**

@@ -17,15 +17,6 @@ namespace HovUni {
 			Chat(const Hikari::FlashDelegate& chatInput, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
 			/**
-				ExternalInterface.addCallback("addText", addText);
-				ExternalInterface.addCallback("addAction", addAction);
-				ExternalInterface.addCallback("giveFocus", giveFocus);
-				ExternalInterface.addCallback("removeFocus", removeFocus);
-
-				ExternalInterface.call("chatInput", stripped);
-			*/
-
-			/**
 			 * Add a new chat message to the lobby chat
 			 *
 			 * @param username The name of the user that posted the message
