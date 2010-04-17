@@ -43,6 +43,13 @@ bool BasicEntityEvent::moveRight() const {
 	return mRight;
 }
 
+void BasicEntityEvent::clear() {
+	mForward = false;
+	mBackward = false;
+	mLeft = false;
+	mRight = false;
+}
+
 void BasicEntityEvent::write(ZCom_BitStream* stream) const {
 	// Write information for controller event
 	ControllerEvent::write(stream);

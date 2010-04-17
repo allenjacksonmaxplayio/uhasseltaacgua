@@ -121,8 +121,12 @@ void Hovercraft::process(float timeSince){
 void Hovercraft::processEventsServer(ControllerEvent* event){
 	// Save the new event in the moving status
 	BasicEntityEvent* movestatus = dynamic_cast<BasicEntityEvent*>(event);
-	if (movestatus) {
+	if (mControlsActive) {
+		if (movestatus) {
 		mMovingStatus = *movestatus;
+		}
+	} else {
+		mMovingStatus.clear();
 	}
 }
 

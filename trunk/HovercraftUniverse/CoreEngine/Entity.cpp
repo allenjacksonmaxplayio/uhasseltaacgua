@@ -251,4 +251,18 @@ void Entity::setAnnouncementData(ZCom_BitStream* stream) {
 	stream->addFloat(mOrientation[3],10);
 }
 
+void Entity::setControlsActive() {
+	mControlsActive = true;
+}
+
+void Entity::setControlsInactive() {
+	mControlsActive = false;
+}
+
+void Entity::toggleControlsActive() {
+	mControlsActive = !mControlsActive;
+}
+
+bool Entity::mControlsActive = false;
+
 }

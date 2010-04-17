@@ -11,6 +11,7 @@
 #include "InitEvent.h"
 #include "NetworkClient.h"
 #include "Timing.h"
+#include "Entity.h"
 
 #include <OgreLogManager.h>
 
@@ -208,11 +209,13 @@ void RaceState::SystemState::update() {
 		case COUNTDOWN:
 			if (mTimer->elapsed() >= 5000) {
 				newState(RACING);
+				Entity::setControlsActive();
 			}
 			break;
 		case RACING:
 			if (mTimer->elapsed() >= 15000) {
 				newState(FINISHING);
+				Entity::setControlsInactive();
 			}
 			break;
 		case FINISHING:
