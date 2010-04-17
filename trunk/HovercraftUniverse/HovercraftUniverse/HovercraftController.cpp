@@ -16,9 +16,10 @@ std::vector<ControllerEvent*> HovercraftController::getEvents() {
 	BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight());
 
 	// Only send an event when there is a change
-	if (!(current == mLast)) {
+	if (!(current == mLast) || (mTimer.elapsed() >= 1000)) {
 		events.push_back(new BasicEntityEvent(current));
 		mLast = current;
+		mTimer.restart();
 	}
 	return events;
 }

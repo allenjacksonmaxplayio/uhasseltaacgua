@@ -10,6 +10,7 @@
 #include "PlayerSettings.h"
 #include "NetworkIDManager.h"
 #include "EntityManager.h"
+#include "HovercraftAIController.h"
 
 // Physics
 #include "Havok.h"
@@ -307,6 +308,13 @@ void ServerLoader::onFinish(Finish * finish) {
 void ServerLoader::onHoverCraft(Hovercraft * hovercraft) {
 	Ogre::String filename = ".\\hovercraft\\" + mPlayer->getSettings()->getHovercraft() + ".hkx";
 	hkString hovercraftname(filename.c_str());
+
+	// TODO Is this the correct place to add the AI controller?
+	if (mPlayer->isBot()) {
+		HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
+		hovercraft->setController(ai);
+		ai->initialize();
+	}
 
 	mHovercraftWorld->addHovercraft(hovercraft, hovercraftname, mCurrentHovercraft.c_str(), mPosition);
 	EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);

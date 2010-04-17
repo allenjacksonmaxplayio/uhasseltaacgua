@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include <OgreVector3.h>
 #include "BasicEntityEvent.h"
+#include "Timing.h"
 
 namespace HovUni {
 
@@ -16,6 +17,9 @@ class HovercraftController : public Controller {
 protected:
 	/** The last sent moving state */
 	BasicEntityEvent mLast;
+
+	/** A timer */
+	Timing mTimer;
 
 public:
 	/**
