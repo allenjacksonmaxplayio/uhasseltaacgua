@@ -141,6 +141,10 @@ Listenable<RaceStateListener>::list_type& RaceState::getListeners() {
 	return mListeners;
 }
 
+RaceState::States RaceState::getState() const {
+	return mState->getState();
+}
+
 void RaceState::onInitialized() {
 	if ((mState->getState() == INITIALIZING) && (mPlayers.getPlayers().size() == mNumberPlayers)) {
 		mState->sendEvent(INITIALIZED);
