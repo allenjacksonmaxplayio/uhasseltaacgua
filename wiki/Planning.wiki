@@ -21,7 +21,8 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
     * WP 1.8: Player specific events (voorbijsteken, bereiken finish, bereiken checkpoint, ...) triggeren en koppelen aan GamePlayer, deze events ook visualizeren bij entities (juichen, ...).
     * WP 1.9: Uitbreiden speler met emotional state en agressiveness behaviour.
     * WP 1.10: Uitbreiden racestate met informatie over de checkpoints en over welke players welke checkpoints reeds hebben bereikt (depends on WP 2.3).
-    * WP 1.11: Uitbreiden lobby zodat na het eindigen van een race de lobby opnieuw geopend wordt en dat bij het starten van een race nadien de posities van het eindigen van een spel voordien behouden blijft.
+    * WP 1.11.A: Toelaten dat er een unload plaatsvindt zodat entiteiten uit de client verwijderd kunnen worden.
+    * WP 1.11.B: Uitbreiden lobby zodat na het eindigen van een race de lobby opnieuw geopend wordt en dat bij het starten van een race nadien de posities van het eindigen van een spel voordien behouden blijft.
    * WP 1.12: Implementatie reset functie (bij drukken op reset knop of bij vallen in put). Deze brengt je terug onder laatst bereikte checkpoint. 
 
   * WP 2 (Tobias + PJ): Integratie physics voor alle types entiteiten.
