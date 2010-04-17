@@ -43,6 +43,8 @@ namespace HovUni {
 		switch (state) {
 			case RaceState::INITIALIZING:
 				//People are still creating the racestate, start showing the loading screen
+
+				break;
 			case RaceState::LOADING: {
 				//We are actually loading, make sure we are monitoring everything
 				//TODO make it get real values
@@ -50,9 +52,14 @@ namespace HovUni {
 
 				break;
 			}
-			case RaceState::COUNTDOWN: {
-				//Everyone is done loading, go ingame and start the countdown!
+			case RaceState::INTRO: {
+				//Everyone is done loading, go ingame and show the intro!
 				mGUIManager->disableOverlay(mLoader);
+
+				//TODO: Show cool intro?
+				break;
+			}
+			case RaceState::COUNTDOWN: {
 				//Make sure the hud is activated
 				mHud->activate();
 				//Register for chat events
@@ -60,7 +67,7 @@ namespace HovUni {
 
 				//Show the countdown
 				mGUIManager->activateOverlay(mCountdown);
-				mCountdown->start();
+				mCountdown->start(5000);
 
 				break;
 			}
@@ -153,6 +160,11 @@ namespace HovUni {
 			mHUClient->process();
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 			mTimeLapsed = 0.0f;
+		}
+
+		//Check if we need to synchronise the countdown
+		if (mRaceState->getState() == RaceState::COUNTDOWN) {
+			mCountdown->resync(mRaceState->getCountdown());
 		}
 
 		//Check if we need to remove the countdown overlay

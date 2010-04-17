@@ -14,6 +14,9 @@ namespace HovUni {
 			/** Boolean to mark if we should be running or not */
 			bool mStarted;
 
+			/** The total time the countdown should use */
+			long mTime;
+
 		public:
 			/**
 			 * Chat constructor, see BasicOverlay for parameter description
@@ -22,8 +25,17 @@ namespace HovUni {
 
 			/**
 			 * Start the countdown timer.
+			 *
+			 * @param milliseconds The number of milliseconds left to go (max 9000)
 			 */
-			void start();
+			void start(long milliseconds);
+
+			/**
+			 * Reqynchronise the countdown.
+			 *
+			 * @param milliseconds The number of milliseconds left to go (max 9000)
+			 */
+			void resync(long milliseconds);
 
 			/**
 			 * Function that will be called when the overlay is activated
