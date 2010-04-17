@@ -215,12 +215,12 @@ void RaceState::SystemState::update() {
 		case RACING:
 			if (mTimer->elapsed() >= 15000) {
 				newState(FINISHING);
-				Entity::setControlsInactive();
 			}
 			break;
 		case FINISHING:
 			if (mTimer->elapsed() >= 3000) {
 				newState(CLEANUP);
+				Entity::setControlsInactive();
 			}
 			break;
 		default:
