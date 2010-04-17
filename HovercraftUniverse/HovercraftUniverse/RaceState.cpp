@@ -12,13 +12,15 @@
 #include "NetworkClient.h"
 #include "Timing.h"
 #include "Entity.h"
+#include "DedicatedServer.h"
 
 #include <OgreLogManager.h>
 
 namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
-	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track) {
+	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track),
+			mCountdown(-1) {
 	mState = new SystemState(this);
 
 	if (mLoader) {
@@ -60,7 +62,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
-			announcementdata->getString()) {
+			announcementdata->getString()), mCountdown(-1) {
 
 	mState = new SystemState(this);
 
@@ -194,6 +196,7 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 
 void RaceState::setupReplication() {
 	mNode->addReplicationInt(&mNumberPlayers, 8, false, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+	mNode->addReplicationInt(&mCountdown, 13, false, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 250, 1000);
 }
 
 RaceState::SystemState::SystemState(RaceState* racestate) :
@@ -206,19 +209,25 @@ RaceState::SystemState::SystemState(RaceState* racestate) :
 void RaceState::SystemState::update() {
 	if (mRaceState->mServer) {
 		switch (mCurrentState) {
+		case INTRO:
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getIntValue("Server", "IntroTime", 1000)) {
+				newState(COUNTDOWN);
+			}
 		case COUNTDOWN:
 			if (mTimer->elapsed() >= 5000) {
 				newState(RACING);
 				Entity::setControlsActive();
+			} else {
+				mRaceState->mCountdown = 5000 - mTimer->elapsed();
 			}
 			break;
 		case RACING:
-			if (mTimer->elapsed() >= 15000) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getIntValue("Server", "PlayTime", 15000)) {
 				newState(FINISHING);
 			}
 			break;
 		case FINISHING:
-			if (mTimer->elapsed() >= 3000) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getIntValue("Server", "FinishTime", 5000)) {
 				newState(CLEANUP);
 				Entity::setControlsInactive();
 			}
@@ -247,8 +256,11 @@ void RaceState::SystemState::newState(States state) {
 		case LOADING:
 			mStartOfState = true;
 			break;
-		case COUNTDOWN:
+		case INTRO:
 			mTimer = new Timing();
+			break;
+		case COUNTDOWN:
+			mTimer->restart();
 			break;
 		case RACING:
 			mTimer->restart();
@@ -338,7 +350,7 @@ void RaceState::SystemState::eraseFromList(ZCom_ConnID id) {
 				setWaitingList();
 				onLoading();
 			} else {
-				newState(COUNTDOWN);
+				newState(INTRO);
 			}
 			break;
 		default:
@@ -355,6 +367,9 @@ std::ostream& operator<<(std::ostream& os, const RaceState::States& state) {
 		break;
 	case RaceState::LOADING:
 		os << "LOADING";
+		break;
+	case RaceState::INTRO:
+		os << "INTRO";
 		break;
 	case RaceState::COUNTDOWN:
 		os << "COUNTDOWN";
