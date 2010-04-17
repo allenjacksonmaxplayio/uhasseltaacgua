@@ -17,14 +17,20 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 	if (!materialFile.empty()) {
 		mOgreEntity->setMaterialName(materialFile);
 	}
+	mTextOverlay = 0;
+	if (mEntity->hasLabel()) {
 
-	Ogre::SceneManager::CameraIterator it = mSceneMgr->getCameraIterator();
-	//while (it.hasMoreElements()) {
+
+		Ogre::SceneManager::CameraIterator it = mSceneMgr->getCameraIterator();
+		//while (it.hasMoreElements()) {
 		Ogre::Camera* cam = it.getNext();
 		mTextOverlay = new ObjectTextDisplay(mOgreEntity, cam);
 		mTextOverlay->enable(true);
-	//}
-
+		mTextOverlay->setText(entity->getName());
+		//}
+	} else {
+		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[EntityRep] Entity " << mEntity->getName() << "(" << mEntity->getCategory() << ") has no label.";
+	}
 
 	// Set subentity materials
 	for (unsigned int i = 0; i < subMaterials.size(); i++) {
@@ -44,7 +50,6 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 }
 
 EntityRepresentation::~EntityRepresentation() {
-	// Empty
 	delete mTextOverlay;
 	mTextOverlay = 0;
 }
@@ -54,7 +59,9 @@ void EntityRepresentation::draw() {
 	mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
 	//Text overlay
-	mTextOverlay->update();
+	if (mTextOverlay != 0) {
+		mTextOverlay->update();
+	}
 }
 
 }

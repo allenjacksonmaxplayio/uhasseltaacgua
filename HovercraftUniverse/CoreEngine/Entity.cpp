@@ -11,7 +11,7 @@ class EntityManager;
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Vector3& orientation, const Ogre::Vector3& upvector, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 4), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
-			mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY) {
+			mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel("") {
 	// Update data
 	changePosition(position);
 	changeOrientation(Ogre::Vector3::UNIT_Y.getRotationTo(upvector));
@@ -22,7 +22,7 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 4), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
-		mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY) {
+		mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel("") {
 	// Update data
 	changePosition(position);
 	changeOrientation(orientation);
@@ -31,7 +31,7 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 }
 
 Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators ): 
-	NetworkEntity(replicators + 4), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO)
+	NetworkEntity(replicators + 4), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO), mLabel("")
 {
 	//name and entity
 
@@ -137,6 +137,14 @@ void Entity::update(float timeSince) {
 
 Ogre::String Entity::getName() const { 
 	return mName;
+}
+
+Ogre::String Entity::getLabel() const { 
+	return mLabel;
+}
+
+bool Entity::hasLabel() const {
+	return (getLabel() != "");
 }
 
 Ogre::String Entity::getCategory() const { 
