@@ -33,11 +33,12 @@ public:
 	static const enum States {
 		INITIALIZING = 0, /** Pre-race state, nothing has been loaded yet */
 		LOADING, /** Server and clients load the world */
+		INTRO, /** Intro for the race */
 		COUNTDOWN, /** The race will start, show countdown */
 		RACING, /** The race has started */
 		FINISHING, /** Someone has finished, wait for everyone to finish */
-		CLEANUP
-	/** Everyone has finished, show some stats and return to lobby */
+		OUTRO, /** Outro for the race to show rankings */
+		CLEANUP /** Clean up and return to lobby */
 	};
 
 	/** All the possible events the client can send to the server during the race */
@@ -80,6 +81,9 @@ private:
 	/** The number of players */
 	int mNumberPlayers;
 
+	/** The countdown variable */
+	int mCountdown;
+
 public:
 	/**
 	 * Constructor
@@ -121,21 +125,6 @@ public:
 	}
 
 	/**
-	 * Add a player to the race state
-	 *
-	 * @param player the player settings
-	 * @param ownPlayer indicates whether it is the setting of the own player
-	 */
-	void addPlayer(RacePlayer* player, bool ownPlayer = false);
-
-	/**
-	 * Remove player connection id
-	 *
-	 * @param id the ID of the player
-	 */
-	void removePlayer(ZCom_ConnID id);
-
-	/**
 	 * Get a player from the lobby
 	 *
 	 * @param id the id of the player
@@ -162,6 +151,30 @@ public:
 	inline RacePlayer* getOwnPlayer() {
 		return mPlayers.getOwnPlayer();
 	}
+
+	/**
+	 * Get the countdown timer which indicates the time left on the timer
+	 *
+	 * @return the remaining time in milliseconds, or -1 if there is no countdown (not in countdown state)
+	 */
+	int getCountdown() {
+		return mCountdown;
+	}
+
+	/**
+	 * Add a player to the race state
+	 *
+	 * @param player the player settings
+	 * @param ownPlayer indicates whether it is the setting of the own player
+	 */
+	void addPlayer(RacePlayer* player, bool ownPlayer = false);
+
+	/**
+	 * Remove player connection id
+	 *
+	 * @param id the ID of the player
+	 */
+	void removePlayer(ZCom_ConnID id);
 
 	/**
 	 * Get the class name for this class. This is used for registering
