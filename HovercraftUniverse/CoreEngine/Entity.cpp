@@ -189,11 +189,12 @@ void Entity::processController(float timeSince) {
 		// Send the events
 		for (std::vector<ControllerEvent*>::iterator it = events.begin(); it != events.end(); ++it) {
 			ControllerEvent* event = *it;
-			if (isRegistered()) {
+			if (isRegistered() && mNode->getRole() != eZCom_RoleAuthority) {
 				sendEvent(*event);
 			} else {
 				processControllerEvents(event);
 			}
+			delete event;
 		}
 	}
 }
