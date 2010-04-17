@@ -43,6 +43,9 @@ protected:
 	/** The name of the ogre entity that represents this entity, can be empty */
 	Ogre::String mOgreEntity;
 
+	/** Set this in case a label needs to be displayed by an Ogre overlay (Dirk) */
+	Ogre::String mLabel;
+
 	/** The controller that the entity polls to change state */
 	Controller * mController;
 
@@ -142,6 +145,18 @@ public:
 	 * @return the unique name
 	 */
 	Ogre::String getName() const;
+
+	/**
+	 * Returns the label (not guaranteed to be unique)
+	 * @return	The label
+	 */
+	Ogre::String getLabel() const;
+
+	/**
+	 *	Returns true iff the Entity has a label.
+	 *	@return	true iff the Entity has a label
+	 */
+	bool hasLabel() const;
 
 	/**
 	 * Returns the category to which this entity belongs.
