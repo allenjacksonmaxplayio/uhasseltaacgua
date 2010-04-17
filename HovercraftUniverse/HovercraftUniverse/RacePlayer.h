@@ -33,7 +33,7 @@ public:
 	 * @param state the race state
 	 * @param playerSettings The general settings for this player
 	 */
-	RacePlayer(RaceState* state, PlayerSettings* playerSettings, bool serverOwner = false);
+	RacePlayer(RaceState* state, PlayerSettings* playerSettings);
 
 	/**
 	 * Constructor
@@ -64,6 +64,13 @@ public:
 	 * @return the settings
 	 */
 	PlayerSettings* getSettings();
+
+	/**
+	 * Check whether this is a bot
+	 *
+	 * @return true if it is a bot, false otherwise
+	 */
+	bool isBot() const;
 
 	/**
 	 * Set the current position of the player

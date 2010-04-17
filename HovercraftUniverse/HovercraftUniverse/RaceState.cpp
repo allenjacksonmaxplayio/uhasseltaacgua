@@ -13,6 +13,7 @@
 #include "Timing.h"
 #include "Entity.h"
 #include "DedicatedServer.h"
+#include <math.h>
 
 #include <OgreLogManager.h>
 
@@ -20,7 +21,7 @@ namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track),
-			mCountdown(-1) {
+			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13) {
 	mState = new SystemState(this);
 
 	if (mLoader) {
@@ -35,34 +36,26 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 
 	for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end(); ++it) {
 		RacePlayer* rplayer = new RacePlayer(this, it->second);
+		rplayer->getNetworkNode()->setOwner(it->first, true);
 		addPlayer(rplayer);
 	}
 
-	/*
-	 //Code to add bots to the game, unfinished!
-	 if (lobby->isFillWithBots()) {
-	 //This 5 should be replaced by the real maximum number of players
-	 int botsNeeded = 5 - lobby->getNumberOfPlayers();
+	// Bots
+	if (mLobby->hasBots()) {
+		int bots = mLobby->getMaxPlayers() - mLobby->getNumberOfPlayers();
 
-	 //Add bots to the game
-	 for (int i = 1; i <= botsNeeded; ++i) {
-	 //Create the playersettings
-	 PlayerSettings* settings = new PlayerSettings(lobby, (short)-i, true);
-	 lobby->addPlayer(settings);
-	 settings->setCharacter(0);
-	 settings->setHovercraft(0);
-	 settings->setPlayerName("BOT");
-	 RacePlayer* rplayer = new RacePlayer(this, settings, true);
-	 addPlayer(rplayer);
-	 }
-	 }
-	 */
+		for (int i = 0; i < bots; ++i) {
+			PlayerSettings* settings = new PlayerSettings(mLobby, "Bot");
+			RacePlayer* rplayer = new RacePlayer(this, settings);
+			addPlayer(rplayer);
+		}
+	}
 }
 
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
-			announcementdata->getString()), mCountdown(-1) {
+			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13) {
 
 	mState = new SystemState(this);
 
@@ -200,7 +193,8 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 
 void RaceState::setupReplication() {
 	mNode->addReplicationInt(&mNumberPlayers, 8, false, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
-	mNode->addReplicationInt(&mCountdown, 13, false, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 250, 1000);
+	mNode->addReplicationInt(&mCountdown, mCountdownIntervalLog2, false, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 250,
+			1000);
 }
 
 RaceState::SystemState::SystemState(RaceState* racestate) :
@@ -218,11 +212,11 @@ void RaceState::SystemState::update() {
 				newState(COUNTDOWN);
 			}
 		case COUNTDOWN:
-			if (mTimer->elapsed() >= 5000) {
+			if (mTimer->elapsed() >= mRaceState->mCountdownInterval) {
 				newState(RACING);
 				Entity::setControlsActive();
 			} else {
-				mRaceState->mCountdown = 5000 - mTimer->elapsed();
+				mRaceState->mCountdown = mRaceState->mCountdownInterval - mTimer->elapsed();
 			}
 			break;
 		case RACING:
@@ -334,7 +328,9 @@ void RaceState::SystemState::setWaitingList() {
 	if (mRaceState->mServer) {
 		mWaitingList.clear();
 		for (playermap::const_iterator it = mRaceState->mPlayers.begin(); it != mRaceState->mPlayers.end(); ++it) {
-			mWaitingList.insert(it->first);
+			if (!it->second->isBot()) {
+				mWaitingList.insert(it->first);
+			}
 		}
 	}
 }
