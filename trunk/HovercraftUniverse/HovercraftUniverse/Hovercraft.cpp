@@ -13,7 +13,6 @@ const Ogre::Real Hovercraft::MAXSPEED(200.0);
 
 Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
 Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,10), mTilt(0.0f), mBoost(0.0f), mBoosted(false), mCollisionState(false), mFinished(false) {
-	mLabel = ogreentity;
 }
 
 Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,10) {
