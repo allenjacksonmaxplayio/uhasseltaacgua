@@ -54,6 +54,9 @@ namespace HovUni {
 			/** Value to keep the fadeout time for the countdown overlay */
 			Ogre::Real mCountdownFadeout;
 
+			/** Boolean to check if we should update the listener position or not */
+			bool mUpdateListener;
+
 		public:
 			/**
 			 * Constructor

@@ -1,11 +1,13 @@
 #include "InGameState.h"
 
 #include "Hovercraft.h"
+#include "HovercraftRepresentation.h"
 #include "ProgressMonitor.h"
+#include <HovSound.h>
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
-			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1) {
+			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
@@ -43,6 +45,8 @@ namespace HovUni {
 		switch (state) {
 			case RaceState::INITIALIZING:
 				//People are still creating the racestate, start showing the loading screen
+				//We don't want the listener position to be updated
+				mUpdateListener = false;
 
 				break;
 			case RaceState::LOADING: {
@@ -53,6 +57,9 @@ namespace HovUni {
 				break;
 			}
 			case RaceState::INTRO: {
+				HovercraftRepresentation* me = (HovercraftRepresentation*) mRepresentationManager->getTrackedEntityRepresentation();
+				me->setVolume(0.6f);
+
 				//Everyone is done loading, go ingame and show the intro!
 				mGUIManager->disableOverlay(mLoader);
 
@@ -68,6 +75,9 @@ namespace HovUni {
 				//Show the countdown
 				mGUIManager->activateOverlay(mCountdown);
 				mCountdown->start(5000);
+
+				//Start updating the sound listener
+				mUpdateListener = true;
 
 				break;
 			}
@@ -86,6 +96,9 @@ namespace HovUni {
 			}
 			case RaceState::CLEANUP: {
 				//Cleaning up and going back to the lobby
+
+				//Stop updating the sound listener
+				mUpdateListener = false;
 				
 				break;
 			}
@@ -119,6 +132,9 @@ namespace HovUni {
 
 		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(200, 100, 400, 200);
 		mCountdown = new Countdown("Countdown", "countdown.swf", size.first, size.second, Hikari::Center);
+
+		//Switch music
+		mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
 	}
 
 	void InGameState::disable() {
@@ -189,6 +205,11 @@ namespace HovUni {
 		mGUIManager->update();
 
 		//We have sound, update it
+		if (mUpdateListener) {
+			//Get current entity
+			Entity* currEntity = mEntityManager->getTrackedEntity();
+			mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
+		}
 		mSoundManager->update();
 
 		return (mContinue && result);

@@ -148,17 +148,17 @@ namespace HovUni {
 			upF.y = up->y;
 			upF.z = up->z;
 		}
-
+/*
 		if (position != 0) {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "Updating LISTENER position to: " << pos.x << ", " << pos.y << ", " << pos.z;
 		} else {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "got null for new LISTENER position vector";
 		}
-		
+*/		
 		ERRCHECK(mResult = mEventSystem->set3DListenerAttributes(0, position ? &pos : 0, velocity ? &vel : 0, forward ? &forw : 0, up ? &upF : 0));
 
 		mEventSystem->get3DListenerAttributes(0, &pos, &vel, &forw, &upF);
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "New LISTENER position is: " << pos.x << ", " << pos.y << ", " << pos.z;
+		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << msPrefix << "New LISTENER position is: " << pos.x << ", " << pos.y << ", " << pos.z;
 	}
 
 	void SoundManager::setEventParameter(const char* eventGUID, unsigned int parameterID, float value) {

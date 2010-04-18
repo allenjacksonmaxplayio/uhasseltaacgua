@@ -86,8 +86,8 @@ namespace HovUni {
 
 			// make 2D relative/normalized coords from the view-space vertex
 			// by dividing out the Z (depth) factor -- this is an approximation
-			float x = corner.x / corner.z + 0.5;
-			float y = corner.y / corner.z + 0.5;
+			float x = corner.x / corner.z + 0.5f;
+			float y = corner.y / corner.z + 0.5f;
 
 			if (x < min_x) {
 				min_x = x;
@@ -110,7 +110,7 @@ namespace HovUni {
 		// we need to center the text above the BB on the top edge. The line that defines
 		// this top edge is (min_x, min_y) to (max_x, min_y)
 		m_pContainer->setPosition(1-max_x, min_y);  // Edited by alberts: This code works for me
-		m_pContainer->setDimensions(max_x - min_x, 0.1); // 0.1, just "because"
+		m_pContainer->setDimensions(max_x - min_x, 0.1f); // 0.1, just "because"
 	}
 
 

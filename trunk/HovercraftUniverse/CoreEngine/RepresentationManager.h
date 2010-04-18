@@ -106,6 +106,13 @@ public:
 	 */
 	void drawGameViews(Ogre::Real timeSinceLastFrame);
 
+	/**
+	 * Request the representation of the tracked entity
+	 *
+	 * @return The representation of the tracked entity, 0 when it was not found
+	 */
+	EntityRepresentation* getTrackedEntityRepresentation();
+
 protected:
 
 	/**
