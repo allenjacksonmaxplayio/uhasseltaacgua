@@ -52,7 +52,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	game:luaLog(AI_NAME .. " :: " .. msg);
+	--game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
