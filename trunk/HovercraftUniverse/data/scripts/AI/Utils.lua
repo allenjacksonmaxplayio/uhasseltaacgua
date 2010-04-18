@@ -74,6 +74,9 @@ end
 --@return the angle between the vectors, in degrees, not radians.
 function angleBetween(this, dest)
 	local lenProduct = this:length() * dest:length();
+	if(lenProduct < 1e-6) then
+		lenProduct = 1e-6;
+	end
 	local f = this:dotProduct(dest) / lenProduct;
 	f = clamp(f, -1.0, 1.0);
 	local result = math.acos(f);

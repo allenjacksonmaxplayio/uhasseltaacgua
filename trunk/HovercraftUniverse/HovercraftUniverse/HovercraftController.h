@@ -21,6 +21,9 @@ protected:
 	/** A timer */
 	Timing mTimer;
 
+	//Temp
+	time_t mSeconds;
+
 public:
 	/**
 	 * Default constructor

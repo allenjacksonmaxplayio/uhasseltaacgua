@@ -32,7 +32,7 @@ void Start::onEnter ( Hovercraft * hovercraft ){
 void Start::onLeave( Hovercraft * hovercraft ){
 	std::cout << hovercraft->getName() << " leaves start " << getName() << std::endl;
 	// TODO: REMOVE THIS, ONLY FOR TESTING
-	hovercraft->finished();
+	//hovercraft->finished();
 }
 
 std::string Start::getClassName(){
