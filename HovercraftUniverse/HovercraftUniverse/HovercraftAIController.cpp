@@ -55,15 +55,15 @@ namespace HovUni {
 			//Temporary Path! 
 			//TODO HERE is where we should read the *.path file... but not hardcoded
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Parsing Path file.";
-			std::vector<std::vector<float>> path = PathReader::parsePath("levels/SimpleTrackManualPath.path");
+			std::vector<std::vector<float>> path = PathReader::parsePath("levels/SimpleTrackRecorded.path");
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";		
 			luabind::object table = luabind::newtable(luaState);
 			for (unsigned int i = 0; i < path.size(); i++) {
 				Ogre::Vector4 pathpoint = Ogre::Vector4(path[i][0], path[i][1], path[i][2], path[i][3]);
-				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Pathpoint " <<i << pathpoint.x << " " << pathpoint.y << " " << pathpoint.z << " w=" << pathpoint.w;
+				//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Pathpoint " <<i << pathpoint.x << " " << pathpoint.y << " " << pathpoint.z << " w=" << pathpoint.w;
 				table[i+1] = pathpoint;
 			}
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
+			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Path table filled. Calling setPath.";
 			luabind::call_function<void>(luaState,"setPath", table);
 		} catch (const luabind::error &er) {
 			std::stringstream ss;

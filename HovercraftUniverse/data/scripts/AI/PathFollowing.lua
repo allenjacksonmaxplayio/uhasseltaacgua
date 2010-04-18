@@ -36,7 +36,7 @@ mEntity = 0
 -----------------------------
 -- Path following AI Constants
 -----------------------------
-PATH_PROBELENGTH = 1;
+PATH_PROBELENGTH = 0.1;
 EPSILON = 0.01; -- for avoiding steering oscillations
 
 MINSPEED = 0.1; -- % of speed for accurate steering
@@ -52,7 +52,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	--game:luaLog(AI_NAME .. " :: " .. msg);
+	game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
@@ -132,8 +132,9 @@ end
 function decide()
 	local position = mEntity:getPosition();--Vector3
 	local velocity = mEntity:getVelocity();
-	--println("Position: " .. toString(position));
+	println("Position: " .. toString(position));
 	--println("Velocity: " .. toString(velocity));
+	println("Speed: " .. getMySpeed()*100 .. "%");
 
 	--############################### COLLISION AVOIDANCE
 	--if (mEntity:isInCollisionState()) then
@@ -156,7 +157,7 @@ function decide()
 
 	--############################### PATH FOLLOWING
 	local probe = position + (velocity * PATH_PROBELENGTH);
-	--println("Probe: " .. toString(probe));
+	println("Probe: " .. toString(probe));
 	local distanceToPath = math.huge; --math.huge = +infinity
 	local pathIndex = 0;
 	for key,value in pairs(mPath) do
@@ -169,8 +170,8 @@ function decide()
 
 
 			local project = project(probe, p0, p1);
-			if (position:distance(project) < distanceToPath) then
-				distanceToPath = position:distance(project);
+			if (probe:distance(project) < distanceToPath) then
+				distanceToPath = probe:distance(project);
 				pathIndex = key;
 			end
 		end
@@ -182,22 +183,23 @@ function decide()
 	local p1 = Vector3(p1Vector4.x, p1Vector4.y, p1Vector4.z);
 	local project = project(probe, p0, p1);
 	distanceToPath = probe:distance(project);
-	println("At path " .. (pathIndex-1) .. " of " .. mPathSize);
 	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
-	--println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
-	--println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", at " .. distanceToPath .. " units distance from PROBE.");
+	println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
+	println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", lies between " .. toString(p0) .. " and " .. toString(p1) .. ", at " .. distanceToPath .. " units distance from PROBE.");
 	local targetPosition;
 	local distanceThreshold = 2;
 
 	local lastV4 = mPath[mPathSize];
 	local finish = Vector3(lastV4.x, lastV4.y, lastV4.z);
 
+	local radius = p0Vector4.w;
 
-	if (distanceToPath > p0Vector4.w) then
+
+	if (distanceToPath > radius) then
 		--Probe is too far away, steer towards path.
-		--targetPosition = (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
-		println("Steering towards path!");
-		targetPosition = project;
+		--targetPosition = project;
+		targetPosition = project + (p1 - project); --project: predicted position on the path, p1 = endpoint of closest pathline
+		println("Steering towards path!" .. toString(targetPosition));
 	else
 		--No corrective steering required.
 		println("No corrective steering required.");
@@ -219,16 +221,20 @@ function decide()
 	--######################################## STEERING
 
 
-	println("Corrective steering required. Target: " .. toString(targetPosition));
+	--println("Corrective steering required. Target: " .. toString(targetPosition));
 	targetOrientation = targetPosition - position;
 	targetOrientation:normalise();
 	local myOrientation = mEntity:getOrientation();
 	local side = myOrientation:crossProduct(mEntity:getUpVector());
-	local angle = angleBetween(myOrientation, targetPosition);
-	println("Angle is " .. angle);
 	side = side:dotProduct(targetOrientation);
 
-	if (position:distance(finish) > distanceThreshold) then --Arrival behaviour
+
+	--println("MyOrientation: " .. toString(myOrientation) .. ", targetOrientation: " .. toString(targetOrientation));
+	local angle = angleBetween(myOrientation, targetOrientation);
+	--println("Angle is " .. angle);
+	println("Side is " .. side);
+
+	if (position:distance(finish) > distanceThreshold) then
 		local angleThreshold = 90;
 		if (angle > angleThreshold) then
 			slowDown();
