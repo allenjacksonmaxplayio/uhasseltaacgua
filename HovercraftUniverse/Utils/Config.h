@@ -82,6 +82,17 @@ namespace HovUni {
 
 		/**
 		*	Returns the value for the given section and field, but converted to
+		*	an integer.
+		*	@param	section	The section name
+		*	@param	field	The key, or field name.
+		*	@param	defaultValue	If no value / empty value was found, this value will be returned
+		*							Also, this default value will be SET into the config automatically.
+		*	@return	The value, as an int.
+		*/
+		int Config::getBoolValue(const std::string& section, const std::string& field, const bool defaultValue);
+
+		/**
+		*	Returns the value for the given section and field, but converted to
 		*	a float.
 		*	@param	section	The section name
 		*	@param	field	The key, or field name.
