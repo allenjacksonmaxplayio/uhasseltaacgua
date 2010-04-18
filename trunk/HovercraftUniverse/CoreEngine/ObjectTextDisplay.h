@@ -1,3 +1,6 @@
+#ifndef OBJECTTEXTDISPLAY_H_
+#define OBJECTTEXTDISPLAY_H_
+
 #include <OgreMovableObject.h>
 #include <OgreCamera.h>
 #include <OgreOverlayManager.h>
@@ -69,3 +72,5 @@ namespace HovUni {
 		void update();
 	};
 }
+
+#endif //OBJECTTEXTDISPLAY_H_
