@@ -55,7 +55,7 @@ namespace HovUni {
 			//Temporary Path! 
 			//TODO HERE is where we should read the *.path file... but not hardcoded
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Parsing Path file.";
-			std::vector<std::vector<float>> path = PathReader::parsePath("levels/DummyPath.path");
+			std::vector<std::vector<float>> path = PathReader::parsePath("levels/SimpleTrackManualPath.path");
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";		
 			luabind::object table = luabind::newtable(luaState);
 			for (unsigned int i = 0; i < path.size(); i++) {

@@ -1,7 +1,7 @@
 #include "CustomOgreMaxScene.h"
 #include "Exception.h"
 #include "EntityDescription.h"
-
+#include "DedicatedServer.h"
 #include "GameEntities.h"
 
 //Race state
@@ -311,7 +311,7 @@ void ServerLoader::onHoverCraft(Hovercraft * hovercraft) {
 
 	// TODO Is this the correct place to add the AI controller?
 	if (mPlayer->isBot()) {
-		HovercraftAIController* ai = new HovercraftAIController("scripts/AI/Pathfinding.lua");
+		HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue("Server", "BotAI", "scripts/AI/PathFollowing.lua"));
 		hovercraft->setController(ai);
 		ai->initialize();
 	}
