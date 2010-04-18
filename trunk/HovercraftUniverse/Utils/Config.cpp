@@ -59,6 +59,18 @@ namespace HovUni {
 		return result;
 	}
 
+
+	int Config::getBoolValue(const std::string& section, const std::string& field, const bool defaultValue) {
+		std::ostringstream ss;
+		ss << defaultValue;
+		std::string defaultStringValue = ss.str();
+		std::string stringValue = getValue(section, field, defaultStringValue);
+		std::istringstream buffer(stringValue);
+		bool result;
+		buffer >> result;
+		return result;
+	}
+
 	float Config::getFloatValue(const std::string& section, const std::string& field, const float defaultValue) {
 		std::ostringstream ss;
 		ss << defaultValue;

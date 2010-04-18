@@ -99,8 +99,12 @@ function slowDown()
 end
 
 function speedUp()
-	game:setAction(BRAKE, false);
-	game:setAction(ACCELERATE, true);
+	if (getMySpeed() > 0.3) then
+		slowDown();
+	else
+		game:setAction(BRAKE, false);
+		game:setAction(ACCELERATE, true);
+	end
 end
 
 function turnLeft()
