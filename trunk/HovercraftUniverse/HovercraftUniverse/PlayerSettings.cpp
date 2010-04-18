@@ -65,6 +65,9 @@ const Ogre::String PlayerSettings::getCharacter() const {
 	std::stringstream ss;
 	ss << mCharacter;
 	return config->getValue("Character", ss.str(), "");
+
+	//(Dirk) C++ has a nice 'delete' function. USE IT.
+	delete config;
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -80,6 +83,9 @@ const Ogre::String PlayerSettings::getHovercraft() const {
 	std::stringstream ss;
 	ss << mHovercraft;
 	return config->getValue("Hovercraft", ss.str(), "");
+
+	//(Dirk) C++ has a nice 'delete' function. USE IT.
+	delete config;
 }
 
 const unsigned int PlayerSettings::getID() const {

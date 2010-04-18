@@ -34,10 +34,13 @@ mEntity = 0
 
 
 -----------------------------
--- Pathfinding Constants
+-- Path following AI Constants
 -----------------------------
 PATH_PROBELENGTH = 1;
 EPSILON = 0.01; -- for avoiding steering oscillations
+
+MINSPEED = 0.1; -- % of speed for accurate steering
+MAXSPEED = 0.3; -- % of speed for going in a straight line
 -----------------------------
 
 
@@ -90,7 +93,7 @@ function getMySpeed()
 end
 
 function slowDown()
-	if (getMySpeed() < 0.1) then --Do not go slower than 10%!
+	if (getMySpeed() < MINSPEED) then --Do not go slower than 10%!
 		speedUp();
 	else
 		game:setAction(BRAKE, false);
@@ -99,7 +102,7 @@ function slowDown()
 end
 
 function speedUp()
-	if (getMySpeed() > 0.3) then
+	if (getMySpeed() > MAXSPEED) then
 		slowDown();
 	else
 		game:setAction(BRAKE, false);
@@ -227,11 +230,11 @@ function decide()
 
 	if (position:distance(finish) > distanceThreshold) then --Arrival behaviour
 		local angleThreshold = 90;
-		--if (angle > angleThreshold) then
-		--	slowDown();
-		--else
+		if (angle > angleThreshold) then
+			slowDown();
+		else
 			speedUp();
-		--end
+		end
 		if (side > EPSILON) then
 			turnRight();
 		elseif (side < -EPSILON) then
