@@ -94,6 +94,7 @@ namespace HovUni {
 			 */
 			void getEventParameterRange(unsigned int parameterID, float* min, float* max);
 
+		public:
 			/**
 			 * Start making some noise.
 			 */
@@ -103,6 +104,13 @@ namespace HovUni {
 			 * Stop making noise.
 			 */
 			void stopSound();
+
+			/**
+			 * Set the volume of the current emitter
+			 *
+			 * @param volume The colume value
+			 */
+			void setVolume(float volume);
 	};
 }
 

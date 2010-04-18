@@ -41,5 +41,6 @@ static const char *EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT = "{b35c1ac9-f834-4c7c-9
     Music cue ids
 */
 static const unsigned int MUSICCUE_HOVSOUND_BACKGROUND_NORMAL = 2;
+static const unsigned int MUSICCUE_HOVSOUND_MENU = 3;
 
 #endif /* HOVSOUND_H */

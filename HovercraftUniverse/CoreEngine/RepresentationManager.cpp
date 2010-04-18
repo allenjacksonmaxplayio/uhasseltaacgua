@@ -79,5 +79,19 @@ void RepresentationManager::drawGameViews(Ogre::Real timeSinceLastFrame) {
 	}
 }
 
+EntityRepresentation* RepresentationManager::getTrackedEntityRepresentation() {
+	Entity* trackedEntity = mEntityManager->getTrackedEntity();
+
+	for (std::vector<EntityRepresentation *>::const_iterator it = mEntityRepresentations.begin(); 
+			it != mEntityRepresentations.end(); it++) {
+		
+		if ((*it)->getEntity() == trackedEntity) {
+			return (*it);
+		}
+	}
+
+	return 0;
+}
+
 
 }

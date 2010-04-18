@@ -4,6 +4,7 @@
 #include "HUClient.h"
 #include <tinyxml/tinyxml.h>
 #include <boost/thread/thread_time.hpp>
+#include <HovSound.h>
 
 namespace HovUni {
 	MainMenuState::MainMenuState() : mMenu(0), mContinue(true), mLastGUIUpdate(-1), mConnectionThread(0), mConnectionFinished(false) {
@@ -81,6 +82,8 @@ namespace HovUni {
 
 		//Activate the menu overlay
 		mMenu->activate();
+
+		mSoundManager->startAmbient(MUSICCUE_HOVSOUND_MENU);
 	}
 
 	void MainMenuState::disable() {

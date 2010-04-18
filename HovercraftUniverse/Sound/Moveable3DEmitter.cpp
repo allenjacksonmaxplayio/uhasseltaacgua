@@ -123,4 +123,10 @@ namespace HovUni {
 			handleError(mEvent->stop(), STOP);
 		}
 	}
+
+	void Moveable3DEmitter::setVolume(float volume) {
+		if (mEvent != 0) {
+			mEvent->setVolume(volume);
+		}
+	}
 }

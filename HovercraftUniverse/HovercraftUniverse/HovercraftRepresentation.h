@@ -5,15 +5,22 @@
 #include "Hovercraft.h"
 #include <vector>
 
+#include <Moveable3DEmitter.h>
+
+
 namespace HovUni {
 
 	/**
 	 * Representation of a hovercraft entity.
 	 *
-	 * @author Kristof Overdulve
+	 * @author Kristof Overdulve & Nick De Frangh
 	 */
-	class HovercraftRepresentation : public EntityRepresentation
+	class HovercraftRepresentation : public EntityRepresentation, public Moveable3DEmitter
 	{
+	private:
+		static const float MAX_RPM;
+		static const float MIN_RPM;
+
 	public:
 		/**
 		 * Constructor.
@@ -25,6 +32,20 @@ namespace HovUni {
 		 * Destructor.
 		 */
 		~HovercraftRepresentation();
+
+		/**
+		 * This function will be called every cycle to get updates for the position,
+		 * velocity and orientation. This is needed to calculate the 3D sound in a
+		 * realistic way.
+		 *
+		 * @param position Position in 3D space of the event. Specifying 0 / null will ignore this parameter. 
+		 * @param velocity Velocity in 'distance units per second' in 3D space of the event. See remarks.
+		 *		Specifying 0 / null will ignore this parameter
+		 * @param orientation Orientation of the event sound cone.
+		 *		Only used if the event has a cone specified to determine cone detection, otherwise just 
+		 *		specify 0 / null. Specifying 0 / null will ignore this parameter.
+		 */
+		virtual void getUpdates(Ogre::Vector3 ** position, Ogre::Vector3 ** velocity, Ogre::Vector3 ** orientation);
 	};
 
 }
