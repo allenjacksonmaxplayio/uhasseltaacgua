@@ -19,8 +19,6 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 	}
 	mTextOverlay = 0;
 	if (mEntity->hasLabel()) {
-
-
 		Ogre::SceneManager::CameraIterator it = mSceneMgr->getCameraIterator();
 		//while (it.hasMoreElements()) {
 		Ogre::Camera* cam = it.getNext();
