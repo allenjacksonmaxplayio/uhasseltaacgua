@@ -247,7 +247,7 @@ protected:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsServer(ControllerEvent* event) = 0;
+	virtual void processEventsServer(ControllerEvent* cEvent) = 0;
 
 	/**
 	 * Callback to process a controller event at the owner that got processed by the 
@@ -256,7 +256,7 @@ protected:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOwner(ControllerEvent* event) = 0;
+	virtual void processEventsOwner(ControllerEvent* cEvent) = 0;
 
 	/**
 	 * Callback to process a controller event at other clients that got processed by the controller.  Must
@@ -265,7 +265,7 @@ protected:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOther(ControllerEvent* event) = 0;
+	virtual void processEventsOther(ControllerEvent* cEvent) = 0;
 
 	/**
 	 * @see NetworkEntity::setReplication()
@@ -290,7 +290,7 @@ protected:
 	 *
 	 * @param event a controller event
 	 */
-	void processControllerEvents(ControllerEvent* event);
+	void processControllerEvents(ControllerEvent* cEvent);
 
 	/**
 	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)

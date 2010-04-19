@@ -274,7 +274,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsServer(ControllerEvent* event);
+	virtual void processEventsServer(ControllerEvent* cEvent);
 
 	/**
 	 * Callback to process a controller event at the owner that got processed by the 
@@ -283,7 +283,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOwner(ControllerEvent* event){
+	virtual void processEventsOwner(ControllerEvent* cEvent){
 	}
 
 	/**
@@ -293,7 +293,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOther(ControllerEvent* event){
+	virtual void processEventsOther(ControllerEvent* cEvent){
 	}
 
 	/**

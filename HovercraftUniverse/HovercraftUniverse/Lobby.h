@@ -289,21 +289,21 @@ protected:
 	 *
 	 * @param event an event
 	 */
-	void processEventsServer(GameEvent* event);
+	void processEventsServer(GameEvent* gEvent);
 
 	/**
 	 * Process a game event at the owner. (Client: Owner)
 	 *
 	 * @param event an event
 	 */
-	void processEventsOwner(GameEvent* event);
+	void processEventsOwner(GameEvent* gEvent);
 
 	/**
 	 * Process a game event at other clients. (Client: Others)
 	 *
 	 * @param event an event
 	 */
-	void processEventsOther(GameEvent* event);
+	void processEventsOther(GameEvent* gEvent);
 
 	///////////////////////////
 	// INTERCEPTOR FUNCTIONS //

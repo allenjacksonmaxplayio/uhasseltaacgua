@@ -87,7 +87,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsServer(ControllerEvent* event){
+	virtual void processEventsServer(ControllerEvent* cEvent){
 	}
 
 	/**
@@ -97,7 +97,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOwner(ControllerEvent* event){
+	virtual void processEventsOwner(ControllerEvent* cEvent){
 	}
 
 	/**
@@ -107,7 +107,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOther(ControllerEvent* event){
+	virtual void processEventsOther(ControllerEvent* cEvent){
 	}
 
 	/**

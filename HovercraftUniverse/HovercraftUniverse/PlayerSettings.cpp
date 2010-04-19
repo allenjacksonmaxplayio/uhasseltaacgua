@@ -1,4 +1,3 @@
-#include "Config.h"
 #include "EntityManager.h"
 #include "PlayerSettings.h"
 #include "Lobby.h"
@@ -19,6 +18,9 @@ PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
 
 	// Set owner
 	mNode->setOwner(userID, true);
+
+	mEntitiesConfig = new Config();
+	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
@@ -27,6 +29,9 @@ PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->setEventNotification(true, false);
+
+	mEntitiesConfig = new Config();
+	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control) :
@@ -35,9 +40,13 @@ PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, 
 	// Add as network entity
 	networkRegister(id, control);
 	mNode->setEventNotification(true, false);
+
+	mEntitiesConfig = new Config();
+	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::~PlayerSettings() {
+	delete mEntitiesConfig;
 }
 
 std::string PlayerSettings::getClassName() {
@@ -57,17 +66,9 @@ void PlayerSettings::setCharacter(unsigned int character) {
 }
 
 const Ogre::String PlayerSettings::getCharacter() const {
-	// Read ini as specified in the entity manager
-	Config * config = new Config();
-	config->loadFile(EntityManager::getEntityMappingFile());
-
-	// Return the associated value
 	std::stringstream ss;
 	ss << mCharacter;
-	return config->getValue("Character", ss.str(), "");
-
-	//(Dirk) C++ has a nice 'delete' function. USE IT.
-	delete config;
+	return 	mEntitiesConfig->getValue("Character", ss.str(), "");
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -75,17 +76,9 @@ void PlayerSettings::setHovercraft(unsigned int hov) {
 }
 
 const Ogre::String PlayerSettings::getHovercraft() const {
-	// Read ini as specified in the entity manager
-	Config * config = new Config();
-	config->loadFile(EntityManager::getEntityMappingFile());
-
-	// Return the associated value
 	std::stringstream ss;
 	ss << mHovercraft;
-	return config->getValue("Hovercraft", ss.str(), "");
-
-	//(Dirk) C++ has a nice 'delete' function. USE IT.
-	delete config;
+	return mEntitiesConfig->getValue("Hovercraft", ss.str(), "");
 }
 
 const unsigned int PlayerSettings::getID() const {
@@ -100,10 +93,10 @@ void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, Z
 		float timeSince) {
 	if (type == eZCom_EventUser) {
 		GameEventParser p;
-		GameEvent* event = p.parse(stream);
+		GameEvent* gEvent = p.parse(stream);
 
 		// Check for an init event if this object is just created
-		InitEvent* init = dynamic_cast<InitEvent*> (event);
+		InitEvent* init = dynamic_cast<InitEvent*> (gEvent);
 		if (init) {
 			ZCom_BitStream* state = init->getStream();
 			mPlayerName = state->getString();
@@ -111,7 +104,7 @@ void PlayerSettings::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, Z
 			mCharacter = state->getInt(4);
 		}
 
-		delete event;
+		delete gEvent;
 	}
 
 	// A new client received this object so send current state

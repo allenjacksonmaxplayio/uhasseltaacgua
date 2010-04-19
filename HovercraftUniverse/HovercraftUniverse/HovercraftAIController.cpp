@@ -45,6 +45,12 @@ namespace HovUni {
 		}
 	}
 
+	HovercraftAIController::~HovercraftAIController() {
+		delete mScript;
+		mScript = 0;
+
+	}
+
 	void HovercraftAIController::initialize() {
 		try {
 			lua_State* luaState = mScript->getLuaState();

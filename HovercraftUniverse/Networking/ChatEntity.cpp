@@ -35,23 +35,23 @@ void ChatEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_
 	//if user event
 	if (type == eZCom_EventUser) {
 		ChatEventParser p;
-		ChatEvent* event = p.parse(stream);
+		ChatEvent* cEvent = p.parse(stream);
 		eZCom_NodeRole role = mNode->getRole();
 		switch (role) {
 		case eZCom_RoleAuthority:
-			processEventsServer(event);
+			processEventsServer(cEvent);
 			break;
 		default:
-			processEventsClient(event);
+			processEventsClient(cEvent);
 			break;
 		}
-		delete event;
+		delete cEvent;
 	}
 }
 
-void ChatEntity::processEventsServer(ChatEvent* event) {
+void ChatEntity::processEventsServer(ChatEvent* cEvent) {
 	// A text line
-	TextEvent* text = dynamic_cast<TextEvent*> (event);
+	TextEvent* text = dynamic_cast<TextEvent*> (cEvent);
 	if (text) {
 		// TODO Maybe some advanced checking for bad language?
 		sendEvent(*text);
@@ -61,9 +61,9 @@ void ChatEntity::processEventsServer(ChatEvent* event) {
 	// are sent by the server and should not pass this function
 }
 
-void ChatEntity::processEventsClient(ChatEvent* event) {
+void ChatEntity::processEventsClient(ChatEvent* cEvent) {
 	// A text line
-	TextEvent* text = dynamic_cast<TextEvent*> (event);
+	TextEvent* text = dynamic_cast<TextEvent*> (cEvent);
 	if (text) {
 		// Update all the listeners
 		std::string user = text->getUser();
@@ -74,7 +74,7 @@ void ChatEntity::processEventsClient(ChatEvent* event) {
 	}
 
 	// A notification
-	NotifyEvent* notify = dynamic_cast<NotifyEvent*> (event);
+	NotifyEvent* notify = dynamic_cast<NotifyEvent*> (cEvent);
 	if (notify) {
 		// Update all the listeners
 		std::string line = notify->getLine();

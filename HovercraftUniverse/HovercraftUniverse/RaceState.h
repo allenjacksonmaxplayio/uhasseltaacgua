@@ -297,14 +297,14 @@ private:
 		 * @param event the event
 		 * @param id the ID of the player who sent the vent
 		 */
-		void newEvent(Events event, ZCom_ConnID id);
+		void newEvent(Events events, ZCom_ConnID id);
 
 		/**
 		 * Send an event to the server. (Client)
 		 *
 		 * @param event the event
 		 */
-		void sendEvent(Events event);
+		void sendEvent(Events events);
 
 		/**
 		 * Callback for when the race state has gone into loading state. (Server + Client)
@@ -343,7 +343,7 @@ std::ostream& operator<<(std::ostream& os, const RaceState::States& state);
  * @param state the race state event
  * @return the updated output stream
  */
-std::ostream& operator<<(std::ostream& os, const RaceState::Events& event);
+std::ostream& operator<<(std::ostream& os, const RaceState::Events& events);
 
 }
 

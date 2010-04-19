@@ -99,8 +99,8 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 }
 
 void Lobby::start() {
-	StartTrackEvent event;
-	sendEvent(event);
+	StartTrackEvent startEvent;
+	sendEvent(startEvent);
 }
 
 bool Lobby::isAdmin() const {
@@ -177,8 +177,8 @@ void Lobby::onStartServer() {
 		setRaceState(racestate);
 
 		// Tell the clients to start
-		StartTrackEvent event;
-		sendEvent(event);
+		StartTrackEvent startEvent;
+		sendEvent(startEvent);
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Racestate constructing and ready process events";
 	}
 }
@@ -203,10 +203,10 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 		float timeSince) {
 	if (type == eZCom_EventUser) {
 		GameEventParser p;
-		GameEvent* event = p.parse(stream);
+		GameEvent* gEvent = p.parse(stream);
 
 		// Check for an init event if this object is just created
-		InitEvent* init = dynamic_cast<InitEvent*> (event);
+		InitEvent* init = dynamic_cast<InitEvent*> (gEvent);
 		if (init) {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Received initial lobby information";
 			ZCom_BitStream* state = init->getStream();
@@ -221,19 +221,19 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 		eZCom_NodeRole role = mNode->getRole();
 		switch (role) {
 		case eZCom_RoleAuthority:
-			processEventsServer(event);
+			processEventsServer(gEvent);
 			break;
 		case eZCom_RoleOwner:
-			processEventsOwner(event);
+			processEventsOwner(gEvent);
 			break;
 		case eZCom_RoleProxy:
-			processEventsOther(event);
+			processEventsOther(gEvent);
 			break;
 		default:
 			break;
 		}
 
-		delete event;
+		delete gEvent;
 	}
 
 	// A new client received this object so send current state
@@ -250,25 +250,25 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 
 }
 
-void Lobby::processEventsServer(GameEvent* event) {
+void Lobby::processEventsServer(GameEvent* gEvent) {
 	// Save the new event in the moving status
-	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (event);
+	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (gEvent);
 	if (start) {
 		onStartServer();
 	}
 }
 
-void Lobby::processEventsOwner(GameEvent* event) {
+void Lobby::processEventsOwner(GameEvent* gEvent) {
 	// Save the new event in the moving status
-	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (event);
+	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (gEvent);
 	if (start) {
 		onStartClient();
 	}
 }
 
-void Lobby::processEventsOther(GameEvent* event) {
+void Lobby::processEventsOther(GameEvent* gEvent) {
 	// Save the new event in the moving status
-	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (event);
+	StartTrackEvent* start = dynamic_cast<StartTrackEvent*> (gEvent);
 	if (start) {
 		onStartClient();
 	}
