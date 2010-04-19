@@ -35,11 +35,8 @@ public:
 
 	/**
 	 * Constructor.
-	 *
-	 * @param name The name of the track
-	 * @param processInterval The process interval
 	 */
-	Track(const Ogre::String& name);
+	Track();
 
 	/**
 	 * Constructor.

@@ -31,8 +31,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	}
 
 	// Load track info and check players
-	TrackInfoLoader trackInfoLoader;
-	trackInfoLoader.load(lobby->getTrackFilename());
+	TrackInfoLoader trackInfoLoader(lobby->getTrackFilename());
 	Track * trackEntity = trackInfoLoader.getTrack();
 	if (trackEntity) {
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Track " << trackEntity->getDisplayName() << " must have at least " << trackEntity->getMinimumPlayers() << 
