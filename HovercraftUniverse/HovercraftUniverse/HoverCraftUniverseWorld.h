@@ -15,57 +15,10 @@ class HoverCraftUniverseWorld : public AbstractHavokWorld
 {
 private:
 
-	friend class ServerLoader;
-
-	/**
-	 * Start phantom
-	 */
-	hkpPhantom * mStart;
-
-	/**
-	 * Finish phantom
-	 */
-	hkpPhantom * mFinish;
-
-	/**
-	 * An array with start positions
-	 */
-	hkArray<hkVector4> mStartPositions;
-
-	/**
-	 * An array with reset positions
-	 */
-	hkArray<hkVector4> mResetPositions;
-
-	/**
-	 * An array with start powerup positions
-	 */
-	hkArray<hkVector4> mPowerupPositions;
-
-	/**
-	 * Map with checkpoints mapped on their name
-	 */
-	hkStorageStringMap<hkpPhantom*> mCheckpoint;	
-
-	/**
-	 * Map with powerupspawns mapped on their name
-	 */
-	hkStorageStringMap<hkpPhantom*> mPowerupSpawn;
-
-	/**
-	 * Map with asteroids mapped on their name
-	 */
-	hkStorageStringMap<hkpRigidBody*> mAsteroidsMap;
-
 	/**
 	 * Map with characters mapped on their name
 	 */
 	hkStorageStringMap<HavokEntity*> mCharactersMap;
-
-	/**
-	 * Container for all types of characters we want
-	 */
-	CharacterContextContainer mCharacterContainer;
 
 public:
 
@@ -80,6 +33,48 @@ public:
 	virtual ~HoverCraftUniverseWorld(void);
 
 	/**
+	 * Create an asteroid given the extra data 
+	 * @param asteroid
+	 * @param externalitem
+	 */
+	void createAsteroid( Asteroid * asteroid, OgreMax::Types::ExternalItem * externalitem );
+
+	/**
+	 * Create a start given the extra data 
+	 * @param start
+	 * @param externalitem
+	 */
+	void createStart( Start * start, OgreMax::Types::ExternalItem * externalitem );
+
+	/**
+	 * Create a finish given the extra data 
+	 * @param finish
+	 * @param externalitem
+	 */
+	void createFinish( Finish * finish, OgreMax::Types::ExternalItem * externalitem );
+
+	/**
+	 * Create a checkpoint given the extra data 
+	 * @param checkpoint
+	 * @param externalitem
+	 */
+	void createCheckpoint( CheckPoint * checkpoint, OgreMax::Types::ExternalItem * externalitem );
+
+	/**
+	 * Create a portal given the extra data 
+	 * @param portal
+	 * @param externalitem
+	 */
+	void createPortal( Portal * portal, OgreMax::Types::ExternalItem * externalitem );
+
+	/**
+	 * Create a boost given the extra data 
+	 * @param boost
+	 * @param externalitem
+	 */
+	void createBoost( SpeedBoost * boost, OgreMax::Types::ExternalItem * externalitem );
+
+	/**
 	 * Get a character with given name
 	 * @param name
 	 * @return character, HK_NULL if not found
@@ -91,7 +86,7 @@ public:
 	 * @param name
 	 * @param pos
 	 */
-	void addHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, int pos );
+	void addHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, const hkVector4& pos );
 
 	/**
 	 * Pre simulation steps

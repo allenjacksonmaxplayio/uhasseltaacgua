@@ -93,9 +93,10 @@ public:
 
 	/**
 	 * Constructor
-	 * @paam world
-	 * @param entity
-	 * @param filename
+	 * @paam world, the physics world
+	 * @param entity, the hovercraft game entity
+	 * @param filename, the filename of the hovercraft
+	 * @param entityname, the name of the hovercraft
 	 */
 	HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname );
 
@@ -106,6 +107,10 @@ public:
 	 */
 	virtual void load(const hkVector4& position);
 
+	/**
+	 * Get the up vector of the hovercraft
+	 * @return the up vector
+	 */
 	virtual const hkVector4& getUp() const;
 
 	/**

@@ -14,71 +14,7 @@
 
 // Physics
 #include "Havok.h"
-#include <Physics/Dynamics/Entity/hkpRigidBody.h>
-#include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
-
-#include <Common/Base/Math/Matrix/hkTransform.h>
 #include "HoverCraftUniverseWorld.h"
-#include "PlanetGravityPhantom.h"
-#include "HavokEntityType.h"
-#include "CheckpointPhantom.h"
-#include "StartPhantom.h"
-#include "SpeedBoostPhantom.h"
-#include "FinishPhantom.h"
-#include "PortalPhantom.h"
-#include "PowerupPhantom.h"
-
-namespace {
-
-hkpShape * setBox(const Ogre::Vector3& scale) {
-	hkVector4 halfex;
-	halfex.set(scale[0], scale[1], scale[2]);
-	halfex.mul4(5.0f); //10 base scale, divided by 2 for half extend => 5.0
-	return new hkpBoxShape(halfex);
-}
-
-void setBox(hkAabb& aabb, const Ogre::Vector3& position, const Ogre::Quaternion& rotation, const Ogre::Vector3& scale) {
-	aabb.m_max.set(1, 1, 1);
-	aabb.m_max.set(-1, -1, -1);
-
-	hkVector4 t(position.x, position.y, position.z);
-	hkQuaternion q(rotation.x, rotation.y, rotation.z, rotation.w);
-
-	hkTransform tr(q, t);
-
-	hkVector4 pos1;
-	pos1.set(scale.x * 5, scale.y * 5, scale.z * 5);
-	pos1.setTransformedPos(tr, pos1);
-
-	hkVector4 pos2;
-	pos2.set(scale.x * -5, scale.y * -5, scale.z * -5);
-	pos2.setTransformedPos(tr, pos2);
-
-	if (pos1(0) > pos2(0)) {
-		aabb.m_max(0) = pos1(0);
-		aabb.m_min(0) = pos2(0);
-	} else {
-		aabb.m_max(0) = pos2(0);
-		aabb.m_min(0) = pos1(0);
-	}
-
-	if (pos1(1) > pos2(1)) {
-		aabb.m_max(1) = pos1(1);
-		aabb.m_min(1) = pos2(1);
-	} else {
-		aabb.m_max(1) = pos2(1);
-		aabb.m_min(1) = pos1(1);
-	}
-
-	if (pos1(2) > pos2(2)) {
-		aabb.m_max(2) = pos1(2);
-		aabb.m_min(2) = pos2(2);
-	} else {
-		aabb.m_max(2) = pos2(2);
-		aabb.m_min(2) = pos1(2);
-	}
-}
-}
 
 namespace HovUni {
 
@@ -153,9 +89,6 @@ void ServerLoader::FinishedLoad(bool success) {
 		mLoadingHovercrafts = false;
 	}
 
-	if (mHovercraftWorld->mPhysicsWorld != HK_NULL)
-		mHovercraftWorld->mPhysicsWorld->unmarkForWrite();
-
 	setLoading(false);
 }
 
@@ -167,67 +100,21 @@ void ServerLoader::onTrack(Track * track) {
 	mHovercraftWorld = Havok::getSingletonPtr();
 
 	const char * physicsfile = filename.c_str();
-	if (mHovercraftWorld->load(physicsfile)) {
-		//load our physics file
-		mHovercraftWorld->mPhysicsWorld->markForWrite();
-	} else {
+	if (!mHovercraftWorld->load(physicsfile)) {
 		//loading failed
 		THROW(ParseException, "Could not load our physics file.");
 	}
-
-	hkVector4 zero;
-	mHovercraftWorld->mStartPositions.setSize(track->getMaximumPlayers(), zero);
 
 	delete track;
 }
 
 void ServerLoader::onAsteroid(Asteroid * asteroid) {
-
 	if (mExternalitem == 0) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//Get the entity name of the asteroid
-	Ogre::String entityname = asteroid->getOgreEntity();
-
-	// Find the planet
-	hkpRigidBody* planetRigidBody = mHovercraftWorld->mPhysicsData->findRigidBodyByName(entityname.c_str());
-
-	if (planetRigidBody == HK_NULL) {
-		THROW(ParseException, "No such name found.");
-	}
-
-	//Set that it is a planet
-	HavokEntityType::setEntityType(planetRigidBody, HavokEntityType::PLANET);
-
-	//add gravity field PULL
-	{
-		hkAabb currentAabb;
-
-		if (mExternalitem == 0) {
-			planetRigidBody->getCollidable()->getShape()->getAabb(planetRigidBody->getTransform(), 0.0f, currentAabb);
-
-			// Scale up the planet's gravity field's AABB so it goes beyond the planet
-			hkVector4 extents;
-			extents.setSub4(currentAabb.m_max, currentAabb.m_min);
-			hkInt32 majorAxis = extents.getMajorAxis();
-			hkReal maxExtent = extents(majorAxis);
-			maxExtent *= 0.4f;
-
-			// Scale the AABB's extents
-			hkVector4 extension;
-			extension.setAll(maxExtent);
-			currentAabb.m_max.add4(extension);
-			currentAabb.m_min.sub4(extension);
-		} else {
-			setBox(currentAabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale);
-		}
-
-		// Attach a gravity phantom to the planet so it can catch objects which come close
-		PlanetGravityPhantom* gravityphantom = new PlanetGravityPhantom(asteroid, planetRigidBody, currentAabb);
-		mHovercraftWorld->mPhysicsWorld->addPhantom(gravityphantom);
-		gravityphantom->removeReference();
-	}
+	//create Physics
+	mHovercraftWorld->createAsteroid(asteroid,mExternalitem);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(asteroid);
@@ -241,12 +128,8 @@ void ServerLoader::onStart(Start * start) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//Create a phantom that handles this
-	hkAabb aabb;
-	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale);
-	StartPhantom * phantom = new StartPhantom(aabb, start);
-	mHovercraftWorld->mPhysicsWorld->addPhantom(phantom);
-	phantom->removeReference();
+	//create start
+	mHovercraftWorld->createStart(start, mExternalitem);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(start);
@@ -260,11 +143,6 @@ void ServerLoader::onStartPosition(StartPosition * startposition) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//add start position
-	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
-	int pos = startposition->getPlayerNumber();
-	mHovercraftWorld->mStartPositions[pos] = position;
-
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(startposition);
 
@@ -277,12 +155,8 @@ void ServerLoader::onCheckPoint(CheckPoint * checkpoint) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//Create a phantom that handles this
-	hkAabb aabb;
-	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale);
-	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(aabb, checkpoint);
-	mHovercraftWorld->mPhysicsWorld->addPhantom(checkpointphantom);
-	checkpointphantom->removeReference();
+	//create Physics
+	mHovercraftWorld->createCheckpoint(checkpoint,mExternalitem);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(checkpoint);
@@ -296,12 +170,7 @@ void ServerLoader::onFinish(Finish * finish) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//Create a phantom that handles this
-	hkAabb aabb;
-	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale);
-	FinishPhantom * phantom = new FinishPhantom(aabb, finish);
-	mHovercraftWorld->mPhysicsWorld->addPhantom(phantom);
-	phantom->removeReference();
+	mHovercraftWorld->createFinish(finish,mExternalitem);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(finish);
@@ -321,11 +190,17 @@ void ServerLoader::onHoverCraft(Hovercraft * hovercraft) {
 		ai->initialize();
 	}
 
-	mHovercraftWorld->addHovercraft(hovercraft, hovercraftname, mCurrentHovercraft.c_str(), mPosition);
+	//Get the start positions
+	std::vector<Entity*> startpositions = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
+	StartPosition * myposition = dynamic_cast<StartPosition *>(startpositions.at(mPosition));
+	Ogre::Vector3 ogre_position = myposition->getPosition();
+	hkVector4 havok_position;
+	havok_position.set(ogre_position[0],ogre_position[1],ogre_position[2]);
+
+	mHovercraftWorld->addHovercraft(hovercraft, hovercraftname, mCurrentHovercraft.c_str(), havok_position);
 	EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
 
-	hkVector4& v = mHovercraftWorld->mStartPositions[mPosition];
-	hovercraft->changePosition(Ogre::Vector3(v(0), v(1), v(2)));
+	hovercraft->changePosition(ogre_position);
 	hovercraft->getNetworkNode()->setOwner(mPlayer->getSettings()->getID(), true);
 	hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(), true);
 }
@@ -335,12 +210,7 @@ void ServerLoader::onPortal(Portal * portal) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//Create a phantom that handles this
-	hkAabb aabb;
-	setBox(aabb, mExternalitem->position, mExternalitem->rotation, mExternalitem->scale);
-	PortalPhantom * phantom = new PortalPhantom(aabb, portal);
-	mHovercraftWorld->mPhysicsWorld->addPhantom(phantom);
-	phantom->removeReference();
+	mHovercraftWorld->createPortal(portal,mExternalitem);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(portal);
@@ -354,21 +224,7 @@ void ServerLoader::onBoost(SpeedBoost * boost) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//Create a phantom that handles this
-	hkpShape * shape = setBox(mExternalitem->scale);
-
-	hkQuaternion r;
-	r.set(mExternalitem->rotation.x, mExternalitem->rotation.y, mExternalitem->rotation.z, mExternalitem->rotation.w);
-
-	hkVector4 t;
-	t.set(mExternalitem->position[0], mExternalitem->position[1], mExternalitem->position[2]);
-
-	hkTransform tr(r, t);
-
-	SpeedBoostPhantom * phantom = new SpeedBoostPhantom(shape, tr, boost);
-	mHovercraftWorld->mPhysicsWorld->addPhantom(phantom);
-	phantom->removeReference();
-	shape->removeReference();
+	mHovercraftWorld->createBoost(boost, mExternalitem);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(boost);
@@ -382,13 +238,6 @@ void ServerLoader::onPowerupSpawn(PowerupSpawn * powerupspawn) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
-	//add powerup spawn
-	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
-	if (mHovercraftWorld->mPowerupPositions.getSize() == mHovercraftWorld->mPowerupPositions.getCapacity()) {
-		mHovercraftWorld->mPowerupPositions.expandBy(32);
-	}
-	mHovercraftWorld->mPowerupPositions.pushBack(position);
-
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(powerupspawn);
 
@@ -400,13 +249,6 @@ void ServerLoader::onResetSpawn(ResetSpawn * spawn) {
 	if (!mExternalitem) {
 		THROW(ParseException, "This should be an external item.");
 	}
-
-	//add reset spawn
-	hkVector4 position(mExternalitem->position.x, mExternalitem->position.y, mExternalitem->position.z);
-	if (mHovercraftWorld->mResetPositions.getSize() == mHovercraftWorld->mResetPositions.getCapacity()) {
-		mHovercraftWorld->mResetPositions.expandBy(32);
-	}
-	mHovercraftWorld->mResetPositions.pushBack(position);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(spawn);
