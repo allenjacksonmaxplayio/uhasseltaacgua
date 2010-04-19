@@ -1,13 +1,16 @@
 #include "CustomOgreMaxScene.h"
 #include "TrackInfoLoader.h"
 #include "Track.h"
+#include <OgreLogManager.h>
 
 namespace HovUni {
 
 TrackInfoLoader::TrackInfoLoader() : mTrack(0) {
+	mUserDataFactory.addUserDataCallback(this);
 }
 
 TrackInfoLoader::~TrackInfoLoader(void) {
+	mUserDataFactory.removeUserDataCallback(this);
 }
 
 void TrackInfoLoader::StartedLoad() {
@@ -26,7 +29,7 @@ void TrackInfoLoader::onSceneUserData(const Ogre::String& userDataReference, con
 	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "TRACKINFOLOADER USERDATA";
 	if (!userData.empty()) {
 		EntityDescription desc("Track", Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-		UserDataFactory::getSingleton().parseUserData(userData, desc);
+		mUserDataFactory.parseUserData(userData, desc);
 	}
 }
 

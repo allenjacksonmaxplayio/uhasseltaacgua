@@ -19,37 +19,21 @@ namespace HovUni {
 class UserDataFactory{
 private:
 
-	static UserDataFactory * ms_Singleton;
-
 	std::list<UserDataCallback *> mUserDataCallback;
 
 	TiXmlDocument mDocument;
 
-protected:
+public:
 
 	/**
 	 * Constructor
 	 */
 	UserDataFactory(void);
 
-public:
-
 	/**
 	 * Destructor
 	 */
 	~UserDataFactory(void);	
-
-	/**
-	 * Get a reference to the factory
-	 * @return reference to the factory
-	 */
-    static UserDataFactory& getSingleton(void);
-
-	/**
-	 * Get a pointer to the factory
-	 * @return pointer to the factory
-	 */
-    static UserDataFactory* getSingletonPtr(void);
 
 	/**
 	 * Add a listener for load events

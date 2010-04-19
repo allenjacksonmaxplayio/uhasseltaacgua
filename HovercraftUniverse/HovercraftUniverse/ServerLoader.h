@@ -18,6 +18,11 @@ class ServerLoader: public UserDataCallback, public Loader {
 private:
 
 	/**
+	 * The local data factory
+	 */
+	UserDataFactory mUserDataFactory;
+
+	/**
 	 * Havok world
 	 */
 	HoverCraftUniverseWorld * mHovercraftWorld;

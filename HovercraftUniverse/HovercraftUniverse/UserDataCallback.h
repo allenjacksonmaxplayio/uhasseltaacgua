@@ -19,9 +19,8 @@ public:
 
 	/**
 	 * Constructor
-	 * @param flag, true if component should register itself with the UserDataFactory, false if the component should not
 	 */
-	UserDataCallback(bool register = true);
+	UserDataCallback();
 
 	/**
 	 * Indicates that the loading has started or stopped.

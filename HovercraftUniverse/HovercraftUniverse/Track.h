@@ -1,14 +1,14 @@
 #ifndef TRACK_H
 #define TRACK_H
 
-#include "Entity.h"
+#include "NetworkEntity.h"
 
 #include "Exception.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
 
-class Track : public Entity{
+class Track : public NetworkEntity {
 private:
 
 	/**
@@ -34,19 +34,12 @@ private:
 public:
 
 	/**
-	 * The category used for tracks
-	 */
-	static const Ogre::String CATEGORY;
-	
-	/**
 	 * Constructor.
 	 *
 	 * @param name The name of the track
-	 * @param position
-	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval);
+	Track(const Ogre::String& name);
 
 	/**
 	 * Constructor.
@@ -133,45 +126,6 @@ public:
 	}
 
 	/**
-	 * Callback to process this entity. This allows to do entity specific processing
-	 *(e.g. intermediate actions).
-	 *
-	 * @param timeSince the time since the last processing of the entity
-	 */
-	virtual void process(float timeSince){
-	}
-
-	/**
-	 * Callback to process a controller event at the server that got processed by the 
-	 * controller.  Must be overriden since this class in itself has no clue which 
-	 * controller properties there are.
-	 *
-	 * @param event a controller event
-	 */
-	virtual void processEventsServer(ControllerEvent* event){
-	}
-
-	/**
-	 * Callback to process a controller event at the owner that got processed by the 
-	 * controller.  Must be overriden since this class in itself has no clue which 
-	 * controller properties there are.
-	 *
-	 * @param event a controller event
-	 */
-	virtual void processEventsOwner(ControllerEvent* event){
-	}
-
-	/**
-	 * Callback to process a controller event at other clients that got processed by the controller.  Must
-	 * be overriden since this class in itself has no clue which controller properties 
-	 * there are.
-	 *
-	 * @param event a controller event
-	 */
-	virtual void processEventsOther(ControllerEvent* event){
-	}
-
-	/**
 	 * @see NetworkEntity::setReplication()
 	 */
 	void setupReplication();
@@ -183,6 +137,12 @@ public:
 	 * @return the class name
 	 */
 	static std::string getClassName();
+
+	virtual void setAnnouncementData(ZCom_BitStream* stream){
+	}
+
+	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,	ZCom_BitStream* stream, float timeSince){
+	}
 
 };
 

@@ -20,9 +20,11 @@ namespace HovUni {
 
 ServerLoader::ServerLoader() :
 	mHovercraftWorld(0), mLoadingHovercrafts(false) {
+	mUserDataFactory.addUserDataCallback(this);
 }
 
 ServerLoader::~ServerLoader(void) {
+	mUserDataFactory.removeUserDataCallback(this);
 }
 
 void ServerLoader::load(const Ogre::String& filename) {
@@ -32,7 +34,7 @@ void ServerLoader::load(const Ogre::String& filename) {
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	if (!userData.empty()) {
 		EntityDescription desc("Track", Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-		UserDataFactory::getSingleton().parseUserData(userData, desc);
+		mUserDataFactory.parseUserData(userData, desc);
 	}
 }
 
@@ -40,7 +42,7 @@ void ServerLoader::onExternal(OgreMax::Types::ExternalItem& externalitem) {
 	mExternalitem = &externalitem;
 	if (!externalitem.userData.empty()) {
 		EntityDescription desc(externalitem.name, externalitem.position, externalitem.rotation);
-		UserDataFactory::getSingleton().parseUserData(externalitem.userData, desc);
+		mUserDataFactory.parseUserData(externalitem.userData, desc);
 	}
 	mExternalitem = 0;
 }
@@ -52,7 +54,7 @@ void ServerLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 			mCurrentHovercraft = entityparameters.name;
 			Ogre::String name = mPlayer->getSettings()->getPlayerName() + "_" + Ogre::StringConverter::toString(mPosition);
 			EntityDescription desc(name, Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-			UserDataFactory::getSingleton().parseUserData(entityparameters.extraData->userData, desc);
+			mUserDataFactory.parseUserData(entityparameters.extraData->userData, desc);
 		}
 	}
 }
