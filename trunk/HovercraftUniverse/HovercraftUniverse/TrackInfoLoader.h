@@ -2,21 +2,21 @@
 #define TRACKINFOLOADER_H
 
 #include "Loader.h"
-#include "UserDataCallback.h"
-#include "UserDataFactory.h"
 
 namespace HovUni {
+
+class Track;
 
 /**
  * Loader for global track info.
  * 
  * @author Kristof Overdulve
  */
-class TrackInfoLoader : public Loader, public UserDataCallback {
+class TrackInfoLoader : public Loader {
 private:
 
-	/** The local factory */
-	UserDataFactory mUserDataFactory;
+	/** Filename **/
+	Ogre::String mFilename;
 
 	/** The track */
 	Track * mTrack;
@@ -24,27 +24,14 @@ private:
 public:
 	/**
 	 * Constructor.
+	 * @param filename
 	 */
-	TrackInfoLoader();
+	TrackInfoLoader( const Ogre::String& filename );
 
 	/**
 	 * Destructor.
 	 */ 
 	virtual ~TrackInfoLoader();
-
-	virtual void StartedLoad();
-
-	virtual void FinishedLoad(bool success);
-
-	/**
-	 * @see UserDataCallback::onTrack().
-	 */
-	virtual void onTrack(Track * track);
-
-	/**
-	 * @see Loader::onSceneUserData().
-	 */
-	void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData);
 
 	/**
 	 * Returns the track after the loading or 0 if no loading has occurred yet.
@@ -52,6 +39,11 @@ public:
 	 * @return the track
 	 */
 	Track * getTrack() { return mTrack; }
+
+	/**
+	 * @see Loader::onSceneUserData().
+	 */
+	void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData);
 
 };
 

@@ -4,7 +4,7 @@
 
 namespace HovUni {
 
-Track::Track(const Ogre::String& name):
+Track::Track():
 	NetworkEntity(3){
 }
 

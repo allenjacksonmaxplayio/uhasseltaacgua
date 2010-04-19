@@ -2,25 +2,19 @@
 #define SERVERLOADER_H
 
 #include "Loader.h"
-#include "UserDataCallback.h"
-#include "UserDataFactory.h"
+#include "EntityDescription.h"
+#include "GameEntityDeclarations.h"
 
 namespace HovUni {
 
 class HoverCraftUniverseWorld;
-class ServerCore;
 
 /**
  * Loader for the server
  * @author Pieter-Jan Pintens
  */
-class ServerLoader: public UserDataCallback, public Loader {
+class ServerLoader: public Loader {
 private:
-
-	/**
-	 * The local data factory
-	 */
-	UserDataFactory mUserDataFactory;
 
 	/**
 	 * Havok world
@@ -41,7 +35,6 @@ private:
 	 * Current player
 	 */
 	RacePlayer* mPlayer;
-
 	Ogre::String mCurrentHovercraft;
 
 	/**
@@ -50,35 +43,54 @@ private:
 	int mPosition;
 
 public:
+
 	ServerLoader();
 
 	~ServerLoader();
 
-	virtual void load(const Ogre::String& filename);
+	/**
+	 * Load given track
+	 * @param filename
+	 */
+	virtual void load(const Ogre::String& filename);	
 
 	//Callbacks that need implementations
 
-	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData);
-
-	virtual void onExternal(OgreMax::Types::ExternalItem& externalitem);
-
-	virtual void StartedLoad();
-
+	/**
+	 * Callback when track loading done, after this step, the hovercrafts will be loaded
+	 */
 	virtual void FinishedLoad(bool success);
 
+	/**
+	 * Needed for Track
+	 */
+	virtual void onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData);
+
+	/**
+	 * Needed for all other game items
+	 */
+	virtual void onExternal(OgreMax::Types::ExternalItem& externalitem);
+
+	/**
+	 * Needed to read hovercraft
+	 */
 	virtual void onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent);
+
+private:
 
 	//Custom objects
 
-	virtual void onAsteroid(Asteroid * asteroid);
+	void parseUserData(const Ogre::String& data, const EntityDescription& description);
 
-	virtual void onStart(Start * start);
+	virtual void onAsteroid(Asteroid * asteroid);
 
 	virtual void onStartPosition(StartPosition * startposition);
 
 	virtual void onCheckPoint(CheckPoint * checkpoint);
 
 	virtual void onFinish(Finish * finish);
+
+	virtual void onStart(Start * start);
 
 	virtual void onHoverCraft(Hovercraft * hovercraft);
 

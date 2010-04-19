@@ -20,11 +20,142 @@ namespace HovUni {
 
 ServerLoader::ServerLoader() :
 	mHovercraftWorld(0), mLoadingHovercrafts(false) {
-	mUserDataFactory.addUserDataCallback(this);
 }
 
 ServerLoader::~ServerLoader(void) {
-	mUserDataFactory.removeUserDataCallback(this);
+}
+
+void ServerLoader::parseUserData(const Ogre::String& data, const EntityDescription& description){
+	//parse XML that describes the user data
+	TiXmlDocument mDocument;
+	mDocument.Parse(data.c_str());
+	TiXmlElement * root = mDocument.RootElement();
+
+	//if correct xml, see if user data is known
+	if(root){
+
+		//Read some generic things of entities here
+		Ogre::String ogreentity = "";
+		Ogre::Real processtime = -1.0f;
+
+		TiXmlNode * current = root->FirstChild();
+		while ( current ){
+			TiXmlElement * element = dynamic_cast<TiXmlElement *>(current);			
+			if ( element ) {
+				if ( strcmp(element->Value(),"ProcessInterval") == 0 ){
+					processtime = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+				}
+				else if ( strcmp(element->Value(),"OgreEntity") == 0 ){
+					ogreentity = Ogre::String(element->GetText());
+				}
+			}
+			current = current->NextSibling();
+		}
+
+
+		//START
+		if(strcmp(root->Value(),"Start") == 0){
+			//create
+			Start * start(new Start(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			start->load(root);
+			//forward
+			onStart(start);
+		}
+		//STARTPOSITION
+		if(strcmp(root->Value(),"StartPosition") == 0){
+			//create
+			StartPosition * startp(new StartPosition(description.getName(),description.getPosition(), description.getOrientation(), processtime));
+			//load
+			startp->load(root);
+			//forward
+			onStartPosition(startp);
+		}
+		//FINISH
+		else if(strcmp(root->Value(),"Finish") == 0){
+			//create
+			Finish * finish(new Finish(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			finish->load(root);
+			//forward
+			onFinish(finish);
+		}
+		//CHECKPOINT
+		else if(strcmp(root->Value(),"CheckPoint") == 0){
+			//create
+			CheckPoint * checkpoint(new CheckPoint(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			checkpoint->load(root);
+			//forward
+			onCheckPoint(checkpoint);
+		}
+		//ASTEROID
+		else if(strcmp(root->Value(),"Asteroid") == 0){
+			//create
+			Asteroid * asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			asteroid->load(root);
+			//forward
+			onAsteroid(asteroid);
+		}
+		//HOVERCRAFT
+		else if(strcmp(root->Value(),"Hovercraft") == 0){
+			//create
+			Hovercraft * hovercraft(new Hovercraft(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			hovercraft->load(root);
+			//forward
+			onHoverCraft(hovercraft);
+		}
+		//BOOST
+		else if(strcmp(root->Value(),"Boost") == 0){
+			//create
+			SpeedBoost * boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			boost->load(root);
+			//forward
+			onBoost(boost);
+		}
+		//PORTAL
+		else if(strcmp(root->Value(),"Portal") == 0){
+			//create
+			Portal * portal(new Portal(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			portal->load(root);
+			//forward
+			onPortal(portal);
+		}
+		//POWERUPSPAWN
+		else if(strcmp(root->Value(),"PowerupSpawn") == 0){
+			//create
+			PowerupSpawn * spawn(new PowerupSpawn(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
+			//load
+			spawn->load(root);
+			//forward
+			onPowerupSpawn(spawn);
+		}
+		//RESETSPAWN
+		else if(strcmp(root->Value(),"ResetSpawn") == 0){
+			//create
+			ResetSpawn * spawn(new ResetSpawn(description.getName(),description.getPosition(), description.getOrientation(), processtime));
+			//load
+			spawn->load(root);
+			//forward
+			onResetSpawn(spawn);
+		}
+		//TRACK
+		else if(strcmp(root->Value(),"Track") == 0){
+			//create
+			Track * track(new Track());
+			//load
+			track->load(root);
+			//forward
+			onTrack(track);
+		}
+
+		//clear xml
+		mDocument.Clear();
+	}
 }
 
 void ServerLoader::load(const Ogre::String& filename) {
@@ -34,7 +165,7 @@ void ServerLoader::load(const Ogre::String& filename) {
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	if (!userData.empty()) {
 		EntityDescription desc("Track", Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-		mUserDataFactory.parseUserData(userData, desc);
+		parseUserData(userData, desc);
 	}
 }
 
@@ -42,7 +173,7 @@ void ServerLoader::onExternal(OgreMax::Types::ExternalItem& externalitem) {
 	mExternalitem = &externalitem;
 	if (!externalitem.userData.empty()) {
 		EntityDescription desc(externalitem.name, externalitem.position, externalitem.rotation);
-		mUserDataFactory.parseUserData(externalitem.userData, desc);
+		parseUserData(externalitem.userData, desc);
 	}
 	mExternalitem = 0;
 }
@@ -54,13 +185,9 @@ void ServerLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 			mCurrentHovercraft = entityparameters.name;
 			Ogre::String name = mPlayer->getSettings()->getPlayerName() + "_" + Ogre::StringConverter::toString(mPosition);
 			EntityDescription desc(name, Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-			mUserDataFactory.parseUserData(entityparameters.extraData->userData, desc);
+			parseUserData(entityparameters.extraData->userData, desc);
 		}
 	}
-}
-
-void ServerLoader::StartedLoad() {
-	setLoading(true);
 }
 
 void ServerLoader::FinishedLoad(bool success) {
@@ -90,8 +217,6 @@ void ServerLoader::FinishedLoad(bool success) {
 
 		mLoadingHovercrafts = false;
 	}
-
-	setLoading(false);
 }
 
 void ServerLoader::onTrack(Track * track) {

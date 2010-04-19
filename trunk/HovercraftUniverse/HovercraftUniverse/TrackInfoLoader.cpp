@@ -5,31 +5,36 @@
 
 namespace HovUni {
 
-TrackInfoLoader::TrackInfoLoader() : mTrack(0) {
-	mUserDataFactory.addUserDataCallback(this);
+TrackInfoLoader::TrackInfoLoader( const Ogre::String& filename) : mTrack(0), mFilename(filename) {
+	load(filename);
 }
 
 TrackInfoLoader::~TrackInfoLoader(void) {
-	mUserDataFactory.removeUserDataCallback(this);
-}
-
-void TrackInfoLoader::StartedLoad() {
-	setLoading(true);
-}
-
-void TrackInfoLoader::FinishedLoad(bool success) {
-	setLoading(false);
-}
-
-void TrackInfoLoader::onTrack(Track * track) {
-	mTrack = track;
+	if ( mTrack != 0 ){
+		delete mTrack;
+	}
 }
 
 void TrackInfoLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
 	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "TRACKINFOLOADER USERDATA";
 	if (!userData.empty()) {
-		EntityDescription desc("Track", Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-		mUserDataFactory.parseUserData(userData, desc);
+		TiXmlDocument mDocument;
+		mDocument.Parse(userData.c_str());
+		TiXmlElement * root = mDocument.RootElement();
+
+		if(root){
+		
+			if ( mTrack ){
+				delete mTrack;
+				mTrack = 0;
+			}
+
+			mTrack = new Track();
+			mTrack->load(root);
+		}
+
+		//clear xml
+		mDocument.Clear();		
 	}
 }
 
