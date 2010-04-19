@@ -11,8 +11,10 @@
 #include "InitEvent.h"
 #include "NetworkClient.h"
 #include "Timing.h"
+#include "Track.h"
 #include "Entity.h"
 #include "DedicatedServer.h"
+#include "TrackInfoLoader.h"
 #include <math.h>
 
 #include <OgreLogManager.h>
@@ -26,6 +28,15 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 
 	if (mLoader) {
 		mLoader->setRaceState(this);
+	}
+
+	// Load track info and check players
+	TrackInfoLoader trackInfoLoader;
+	trackInfoLoader.load(lobby->getTrackFilename());
+	Track * trackEntity = trackInfoLoader.getTrack();
+	if (trackEntity) {
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Track " << trackEntity->getDisplayName() << " must have at least " << trackEntity->getMinimumPlayers() << 
+			" players and at most " << trackEntity->getMaximumPlayers() << "!";
 	}
 
 	// Add as network entity

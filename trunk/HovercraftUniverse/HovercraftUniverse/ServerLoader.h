@@ -57,6 +57,8 @@ public:
 
 	virtual void onExternal(OgreMax::Types::ExternalItem& externalitem);
 
+	virtual void StartedLoad();
+
 	virtual void FinishedLoad(bool success);
 
 	virtual void onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent);

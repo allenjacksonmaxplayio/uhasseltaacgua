@@ -9,6 +9,7 @@ namespace HovUni {
 		if(reg){
 			UserDataFactory::getSingleton().addUserDataCallback(this);
 		}
+		mLoading = false;
 	}
 
 	UserDataCallback::~UserDataCallback(){
@@ -42,7 +43,6 @@ namespace HovUni {
 	void UserDataCallback::onTrack(Track * track) { 
 		delete track; 
 	}
-
 
 	void UserDataCallback::onPortal(Portal * portal) { 
 		delete portal; 
