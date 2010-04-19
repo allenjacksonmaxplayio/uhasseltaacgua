@@ -1,7 +1,7 @@
 shaderfx_path = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
 terrain_layer1_shader = shaderfx_path  + "terrain1.fx"
 terrain_layer2_shader = shaderfx_path  + "terrain2.fx"
-terrain_layers = #("","","","","","")
+colormapoutputpath = getDir #image
 
 print terrain_layer1_shader
 print terrain_layer2_shader
@@ -21,12 +21,14 @@ struct AsteroidInfo (
 	ogre_material_id = undefined,
 	viewport_material_id = undefined,	
 	
+	terrain_layers = #("","","","","",""),
+	
 	fn createAlphaMap size outputfile = 
 	(
 		print "createAlphaMap"
 		
-		if color_material_id == undefined or viewport_material_id == undefined then (
-			messageBox "No color material or viewport material found! Use create firts" title:"Error"			
+		if color_material_id == undefined then (
+			messageBox "No color material found! Use create firts" title:"Error"			
 		)
 		else (		
 			asteroid.material = currentMaterialLibrary[color_material_id]
@@ -50,20 +52,129 @@ struct AsteroidInfo (
 
 			--Call the renderer to bake both elements:   
 			render rendertype:#bakeSelected vfb:off progressBar:true outputSize:[size,size]
-			
-			asteroid.material = currentMaterialLibrary[viewport_material_id]
 		)
+	)
+	
+	,
+	
+	fn clean = 
+	(
+		/* clean materials */
+		if color_material_id != undefined and color_material_id <=  currentMaterialLibrary.count then (
+			currentMaterialLibrary[color_material_id] = standardMaterial ()
+		)
+		
+		if ogre_material_id != undefined and ogre_material_id <=  currentMaterialLibrary.count then (
+			currentMaterialLibrary[ogre_material_id] = standardMaterial ()
+		)
+		
+		if viewport_material_id != undefined and viewport_material_id <=  currentMaterialLibrary.count  then (
+			currentMaterialLibrary[viewport_material_id] = standardMaterial ()
+		)
+		
+		/* clean properties */
+		setUserPropBuffer asteroid ""		
+	)
+	
+	,
+	
+	fn setTerrainLayer index filename =
+	(
+		terrain_layers[index] = filename
+		
+		prop = "layer_" + (index as string)
+			
+		setUserProp asteroid  prop filename
 	)
 	
 	,	
 	
-	/**
-	 * Create an asteroid materials
-	 */
-	fn createMaterials = 
+	fn updateTextures = 
 	(
-		print "createMaterials"
+		if viewport_material_id != undefined then (
+			
+			dxmat = currentMaterialLibrary[viewport_material_id]
+			
+			if dxmat != undefined then (
+			
+				showProperties dxmat
+				
+				if vertexpaintlayers > 1 then (	
+					tmp = openBitMap (colormapoutputpath + "\\" + asteroid.name + "1_alpha.png")	
+			/*		if tmp != undefined then 
+						dxmat.AlphaMap0_TS = tmp	
+					
+					tmp = openBitMap terrain_layers[1]
+					if tmp != undefined then 
+						dxmat.Layer0_TS = tmp
+
+					tmp = openBitMap terrain_layers[2]
+					if tmp != undefined then 
+						dxmat.Layer1_TS = tmp
+							
+					tmp = openBitMap terrain_layers[3]
+					if tmp != undefined then 
+						dxmat.Layer2_TS = tmp	*/
+				)
+				
+				if vertexpaintlayers == 2 then (
+					tmp = openBitMap (colormapoutputpath + "\\" + asteroid.name + "2_alpha.png")
+			/*		if tmp != undefined then 
+						dxmat.AlphaMap1_TS = tmp
+					
+					tmp = openBitMap terrain_layers[4]
+					if tmp != undefined then 
+						dxmat.Layer4_TS = tmp	
+					
+					tmp = openBitMap terrain_layers[5]
+					if tmp != undefined then 
+						dxmat.Layer5_TS = tmp	
+									
+					tmp = openBitMap terrain_layers[6]
+					if tmp != undefined then 
+						dxmat.Layer5_TS = tmp	*/
+				)	
+			)
+		)
 		
+		if ogre_material_id == undefined then (
+		)
+	)
+	
+	,
+		
+	/** 
+	 * Initialise the Asteroid info struct 
+	 * @param obj, the asteroid object
+	 */
+	fn create obj = 
+	(
+		print "create"
+		
+		asteroid = obj
+		
+		/* check if one or two vertex paint layers */
+		for i = 1 to obj.modifiers.count do (
+			if obj.modifiers[i].name == "VertexPaint"  then (	
+				vertexpaintlayers += 1
+				vertexpaintidices[vertexpaintlayers] = i
+			)
+		)
+		
+		/** Read saved properties */
+		color_material_id = getUserProp obj "color"
+		ogre_material_id =  getUserProp obj "ogre"
+		viewport_material_id = getUserProp  obj "viewport"		
+		
+		for i = 1 to 6 do 
+		(			
+			prop = "layer_" + (i as string)			
+			filename = getUserProp asteroid  prop
+			if filename != undefined  then			
+				terrain_layers[i] = filename 			
+		)
+		
+		/** Crete if nessessary **/
 		if color_material_id == undefined then (
 			/** Create Global material */
 			vertexcolormap = VertexColor()
@@ -96,10 +207,7 @@ struct AsteroidInfo (
 			ogremat.Techniques[1].Passes[1] .TextureUnits [7] = OgreMax_Texture_Unit()
 			ogremat.Techniques[1].Passes[1] .TextureUnits [7].Bitmap = openBitMap LAYER5
 			ogremat.Techniques[1].Passes[1] .TextureUnits [8] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [8].Bitmap = openBitMap LAYER6	*/
-			
-			
-			
+			ogremat.Techniques[1].Passes[1] .TextureUnits [8].Bitmap = openBitMap LAYER6	*/			
 			
 			append currentMaterialLibrary ogremat
 			ogre_material_id = findItem currentMaterialLibrary ogremat
@@ -114,39 +222,11 @@ struct AsteroidInfo (
 				effectfile = terrain_layer2_shader
 			
 			dxmat = DxMaterial effectfile:effectfile
+
 			append currentMaterialLibrary dxmat
 			viewport_material_id = findItem currentMaterialLibrary dxmat
 			setUserProp asteroid "viewport" viewport_material_id
-		)		
-	)
-	
-	,
-		
-	/** 
-	 * Initialise the Asteroid info struct 
-	 * @param obj, the asteroid object
-	 */
-	fn create obj = 
-	(
-		print "create"
-		
-		asteroid = obj
-		
-		/* check if one or two vertex paint layers */
-		for i = 1 to obj.modifiers.count do (
-			if obj.modifiers[i].name == "VertexPaint"  then (	
-				vertexpaintlayers += 1
-				vertexpaintidices[vertexpaintlayers] = i
-			)
 		)
-		
-		/** Read saved properties */
-		color_material_id = getUserProp obj "color"
-		ogre_material_id =  getUserProp obj "ogre"
-		viewport_material_id = getUserProp  obj "viewport"		
-		
-		/** Crete if nessessary **/
-		createMaterials()
 	)
 	
 	,
@@ -211,13 +291,12 @@ struct AsteroidInfo (
 	
 	,
 	
-	/** Recreate the alpha maps **/
 	fn updateAsteroid size = 
 	(		
 		print "updateAsteroid"
 		
-		if color_material_id == undefined or viewport_material_id == undefined then (
-			messageBox "No color material or viewport material found! Use create firts" title:"Error"			
+		if color_material_id == undefined or viewport_material_id == undefined or ogre_material_id == undefined then (
+			messageBox "Not all required materials found! Use create firts" title:"Error"			
 		)
 		else (		
 			
@@ -225,7 +304,7 @@ struct AsteroidInfo (
 			
 			for i = 1 to vertexpaintlayers do (	
 				/** current filename **/
-				filename =  (getDir #image+"\\" + asteroid.name + (i as string) + "_alpha.png") 
+				filename =  (colormapoutputpath + "\\" + asteroid.name + (i as string) + "_alpha.png") 
 				
 				/** disable all but the current vertex color layer */
 				for j = 1 to vertexpaintlayers do (
@@ -240,57 +319,12 @@ struct AsteroidInfo (
 				createAlphaMap size filename
 			)
 			
-			/** reenable all vertex color layer */
-			for j = 1 to vertexpaintlayers do (
-				index = vertexpaintidices[j]
-				asteroid.modifiers[index].enabled = true
-			)
+			updateTextures()
 		)
 	)
 
 )
 
-fn checkAsteroid =
-(
-	sel = getCurrentSelection()
-	
-	/* Check if one object selected */
-	if  sel.count == 0 then (
-		messageBox "No object selected, select ONE object" title:"Error"
-		return false
-	)
-	else 
-	(
-		if sel.count != 1 then (
-			messageBox "To manny objects selected, select ONE object" title:"Error"
-			return false
-		)
-		else (
-	
-			/* save the object in obj */
-			obj = sel[1]
-			
-			vertexpaintlayers = 0
-			vertexpaintidices = #(0,0)
-			
-			/* check if one or two vertex paint layers */
-			for i = 1 to obj.modifiers.count do (
-				if obj.modifiers[i].name == "VertexPaint"  then (
-					vertexpaintlayers += 1
-					vertexpaintidices[vertexpaintlayers] = i
-				)
-			)
-	
-			if vertexpaintlayers == 0 OR vertexpaintlayers > 2 then(
-				messageBox "The selected object has no or to many vertex paint modifiers, it should have at least one, maximum two of these modifiers" title:"Error"
-				return false
-			)
-			else (
-				return true
-			)
-		)
-	)			
-)
 
 rollout Teleport "Teleport" width:192 height:296
 (
@@ -298,11 +332,12 @@ rollout Teleport "Teleport" width:192 height:296
 )
 
 rollout AsteroidTool "Asteroid Tool" width:184 height:464
-(	
+(
+	
 	GroupBox grp2 "Settings" pos:[8,8] width:168 height:200
-	edittext size "512" pos:[25,40] width:136 height:16 text:"512"
+	edittext size "size" pos:[24,32] width:136 height:16 text:"512"
 	GroupBox Actions "GroupBox" pos:[8,216] width:168 height:136
-	button update_asteroid "Update" pos:[16,240] width:72 height:21
+	button update_asteroid "Update" pos:[16,240] width:72 height:24
 	button cpyogre "Copy Ogre" pos:[16,272] width:72 height:24
 	spinner OgreMat "" pos:[96,272] width:72 height:16 range:[1,24,1] type:#integer
 	button cpydx "Copy DX" pos:[16,312] width:72 height:24
@@ -311,13 +346,14 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 	button color_asteroid "Show Color" pos:[24,376] width:64 height:24
 	button showOgre "Show Ogre" pos:[96,376] width:64 height:24
 	button showDX "Show DX" pos:[96,408] width:64 height:24
-		
-	mapButton layer1 "Layer1" pos:[16,72] width:72 height:32	
-	mapButton layer2 "Layer2" pos:[96,72] width:72 height:32
-	mapButton layer3 "Layer3" pos:[16,112] width:72 height:32
-	mapButton layer4 "Layer4" pos:[96,112] width:72 height:32
-	mapButton layer5 "Layer5" pos:[16,152] width:72 height:32	
-	mapButton layer6 "Layer6" pos:[96,152] width:72 height:32
+	mapButton layer1 "Layer1" pos:[16,88] width:72 height:32	
+	mapButton layer2 "Layer2" pos:[96,88] width:72 height:32
+	mapButton layer3 "Layer3" pos:[16,128] width:72 height:32
+	mapButton layer4 "Layer4" pos:[96,128] width:72 height:32
+	mapButton layer5 "Layer5" pos:[16,168] width:72 height:32	
+	mapButton layer6 "Layer6" pos:[96,168] width:72 height:32
+	button clean "Clean" pos:[96,240] width:72 height:24
+	editText output "output" pos:[24,56] width:136 height:16 text:colormapoutputpath
 	
 	on update_asteroid pressed do
 	(	
@@ -337,7 +373,6 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 		asteroid.create (sel[1])			
 		asteroid.updateAsteroid (sizenr)
 	)
-	
 	on cpyogre pressed do
 	(
 		sel = getCurrentSelection()		
@@ -358,7 +393,6 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 		)
 		
 	)
-	
 	on cpydx pressed do
 	(
 		sel = getCurrentSelection()	
@@ -416,29 +450,142 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 	)
 	on layer1 picked texmap do
 	(
-		terrain_layers[1] = texmap.fileName
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.setTerrainLayer 1 texmap.fileName
+		layer1.text=texmap.fileName
 	)
 	on layer2 picked texmap do
 	(
-		terrain_layers[2] = texmap.fileName
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.setTerrainLayer 2 texmap.fileName
+		layer2.text=texmap.fileName
 	)
 	on layer3 picked texmap do
 	(
-		terrain_layers[3] = texmap.fileName
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.setTerrainLayer 3 texmap.fileName
+		layer3.text=texmap.fileName
 	)
 	on layer4 picked texmap do
 	(
-		terrain_layers[4] = texmap.fileName
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.setTerrainLayer 4 texmap.fileName
+		layer4.text=texmap.fileName
 	)
 	on layer5 picked texmap do
 	(
-		terrain_layers[5] = texmap.fileName
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.setTerrainLayer 5 texmap.fileName
+		layer5.text=texmap.fileName
 	)
 	on layer6 picked texmap do
 	(
-		terrain_layers[6] = texmap.fileName
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.setTerrainLayer 6 texmap.fileName
+		layer6.text=texmap.fileName
+	)
+	on clean pressed do
+	(
+		sel = getCurrentSelection()		
+		if sel.count != 1 then (
+			messageBox "Select one object" title:"Error"	
+			return false
+		)		
+		
+		asteroid = AsteroidInfo()
+		asteroid.create (sel[1])	
+		asteroid.clean()
+	)
+	on output entered text do
+	(
+		colormapoutputpath = text
 	)
 )
+
+fn checkAsteroid =
+(
+	sel = getCurrentSelection()
+	
+	/* Check if one object selected */
+	if  sel.count == 0 then (
+		messageBox "No object selected, select ONE object" title:"Error"
+		return false
+	)
+	else 
+	(
+		if sel.count != 1 then (
+			messageBox "To manny objects selected, select ONE object" title:"Error"
+			return false
+		)
+		else (
+	
+			/* save the object in obj */
+			obj = sel[1]
+			
+			vertexpaintlayers = 0
+			vertexpaintidices = #(0,0)
+			
+			/* check if one or two vertex paint layers */
+			for i = 1 to obj.modifiers.count do (
+				if obj.modifiers[i].name == "VertexPaint"  then (
+					vertexpaintlayers += 1
+					vertexpaintidices[vertexpaintlayers] = i
+				)
+			)
+	
+			if vertexpaintlayers == 0 OR vertexpaintlayers > 2 then(
+				messageBox "The selected object has no or to many vertex paint modifiers, it should have at least one, maximum two of these modifiers" title:"Error"
+				return false
+			)
+			else (
+				return true
+			)
+		)
+	)			
+)
+
 
 rof=newrolloutfloater "Exporter Utilities" 200 500
 addrollout AsteroidTool rof
