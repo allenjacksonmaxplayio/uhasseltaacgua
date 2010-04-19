@@ -10,6 +10,11 @@ namespace HovUni {
  */
 class UserDataCallback {
 
+private:
+
+	/** Indicates that the entity to which this callback refers is actually loading */
+	bool mLoading;
+
 public:
 
 	/**
@@ -17,6 +22,20 @@ public:
 	 * @param flag, true if component should register itself with the UserDataFactory, false if the component should not
 	 */
 	UserDataCallback(bool register = true);
+
+	/**
+	 * Indicates that the loading has started or stopped.
+	 *
+	 * @param loading true if started, false if stopped
+	 */
+	void setLoading(bool loading) { mLoading = loading; }
+
+	/**
+	 * Returns whether the loading has started or stopped.
+	 *
+	 * @return whether the loading has started or stopped
+	 */
+	bool isLoading() { return mLoading; }
 
 	/**
 	 * Destructor

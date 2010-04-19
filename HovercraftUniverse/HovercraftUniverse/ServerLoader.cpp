@@ -121,6 +121,10 @@ void ServerLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 	}
 }
 
+void ServerLoader::StartedLoad() {
+	setLoading(true);
+}
+
 void ServerLoader::FinishedLoad(bool success) {
 
 	if (mLoadingHovercrafts) {
@@ -151,10 +155,11 @@ void ServerLoader::FinishedLoad(bool success) {
 
 	if (mHovercraftWorld->mPhysicsWorld != HK_NULL)
 		mHovercraftWorld->mPhysicsWorld->unmarkForWrite();
+
+	setLoading(false);
 }
 
 void ServerLoader::onTrack(Track * track) {
-
 	//TODO USE OGRE RESOURCES
 
 	Ogre::String filename = ".\\levels\\" + track->getPhysicsFileName();

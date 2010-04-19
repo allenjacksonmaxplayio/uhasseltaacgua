@@ -178,7 +178,10 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 			track->load(root);
 			//forward
 			for(std::list<UserDataCallback*>::iterator uc = mUserDataCallback.begin(); uc != mUserDataCallback.end(); uc++){
-				(*uc)->onTrack(track);
+				// TODO Is this a good solution? (Kristof)
+				if ((*uc)->isLoading()) {
+					(*uc)->onTrack(track);
+				}
 			}
 		}
 

@@ -464,6 +464,10 @@
 						RelativePath=".\ServerLoader.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\TrackInfoLoader.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Controller"
@@ -900,6 +904,10 @@
 					</File>
 					<File
 						RelativePath=".\ServerLoader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TrackInfoLoader.h"
 						>
 					</File>
 				</Filter>
