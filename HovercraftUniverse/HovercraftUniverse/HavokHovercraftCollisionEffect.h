@@ -9,6 +9,10 @@ namespace HovUni {
 class HavokHovercraft;
 class HavokHovercraftCollisionEffect;
 
+/**
+ * A collision listener for the hovercraft, this class is a helper for the collision bump action
+ * @author Pieter-Jan Pintens
+ */
 class HovercraftCollisionListener : public hkpCollisionListener {
 
 private:
@@ -17,6 +21,10 @@ private:
 
 public:
 
+	/**
+	 * Constructor
+	 * @param collsion effect action
+	 */ 
 	HovercraftCollisionListener(HavokHovercraftCollisionEffect * mCollisionEffect);
 
 	void  contactPointAddedCallback (hkpContactPointAddedEvent &e);
@@ -28,21 +36,42 @@ public:
 	void  contactProcessCallback (hkpContactProcessEvent &e);
 };
 
+/**
+ * The action the will cause the Hovercraft to bump on hits
+ * @author Pieter-Jan Pintens
+ */
 class HavokHovercraftCollisionEffect: public hkpUnaryAction
 {
 private:
 
 	friend class HovercraftCollisionListener;
 	
+	/**
+	 * The listener
+	 */
 	HovercraftCollisionListener * mListener;
 	
+	/**
+	 * The hovercraft
+	 */
 	HavokHovercraft * mHovercraft;
 
+	/**
+	 * Current bounce vector
+	 */
 	hkVector4 mBounceVector;
 
+	/** 
+	 * True if collision occured
+	 */
 	bool mHasCollision;
 
 public:
+
+	/**
+	 * Constructor
+	 * @param hovercraft
+	 */
 	HavokHovercraftCollisionEffect(HavokHovercraft * hovercraft);
 
 	~HavokHovercraftCollisionEffect(void);
