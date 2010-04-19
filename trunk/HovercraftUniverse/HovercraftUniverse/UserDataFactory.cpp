@@ -3,21 +3,6 @@
 
 namespace HovUni {
 
-//singleton
-
-UserDataFactory* UserDataFactory::ms_Singleton = new UserDataFactory();
-
-UserDataFactory* UserDataFactory::getSingletonPtr(void){
-    return ms_Singleton;
-}
-
-UserDataFactory& UserDataFactory::getSingleton(void){
-    assert(ms_Singleton);  
-	return(*ms_Singleton);
-}
-
-//code
-
 UserDataFactory::UserDataFactory(void){
 }
 
@@ -173,7 +158,7 @@ void UserDataFactory::parseUserData(const Ogre::String& data, const EntityDescri
 		//TRACK
 		else if(strcmp(root->Value(),"Track") == 0){
 			//create
-			Track * track(new Track(description.getName(),description.getPosition(), description.getOrientation(), processtime));
+			Track * track(new Track(description.getName()));
 			//load
 			track->load(root);
 			//forward

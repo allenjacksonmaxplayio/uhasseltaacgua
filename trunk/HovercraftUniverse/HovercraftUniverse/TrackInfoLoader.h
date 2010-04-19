@@ -15,6 +15,9 @@ namespace HovUni {
 class TrackInfoLoader : public Loader, public UserDataCallback {
 private:
 
+	/** The local factory */
+	UserDataFactory mUserDataFactory;
+
 	/** The track */
 	Track * mTrack;
 

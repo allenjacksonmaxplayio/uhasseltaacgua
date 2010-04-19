@@ -4,14 +4,12 @@
 
 namespace HovUni {
 
-const Ogre::String Track::CATEGORY("Track");
-
-Track::Track(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,position,orientation,"",processInterval,3){
+Track::Track(const Ogre::String& name):
+	NetworkEntity(3){
 }
 
 Track::Track( ZCom_BitStream* announcedata ):
-	Entity(announcedata,CATEGORY,3)
+	NetworkEntity(3)
 {
 }
 
@@ -19,7 +17,7 @@ Track::Track( ZCom_BitStream* announcedata ):
 void Track::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
 
-	//We are loading a CheckPoint!
+	//We are loading a track!
 	if(strcmp(data->Value(),"Track") != 0){
 		THROW(ParseException, "Given XML element is not of type track.");
 	}
@@ -69,9 +67,6 @@ Track::~Track(void){
 }
 
 void Track::setupReplication(){
-	//parent
-	Entity::setupReplication();
-
 	//mName
 	mNode->addReplicator(
 		new String_Replicator(&mDisplayName,
