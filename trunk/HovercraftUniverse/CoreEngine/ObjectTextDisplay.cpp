@@ -28,7 +28,7 @@ namespace HovUni {
 		m_pText->setPosition(0, 0);
 
 		m_pText->setParameter("font_name", "StarWars");
-		m_pText->setParameter("char_height", "16");
+		m_pText->setParameter("char_height", "12");
 		m_pText->setParameter("horz_align", "center");
 		m_pText->setColour(Ogre::ColourValue(1.0, 1.0, 1.0));
 

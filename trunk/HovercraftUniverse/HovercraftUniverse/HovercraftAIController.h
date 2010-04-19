@@ -38,6 +38,11 @@ public:
 	HovercraftAIController(std::string scriptname);
 
 	/**
+	*	Destructor.
+	*/
+	virtual ~HovercraftAIController();
+
+	/**
 	*	Initialization function.
 	*	Takes care of bindings and definition of entities.
 	*/

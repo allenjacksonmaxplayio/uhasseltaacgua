@@ -169,28 +169,28 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 		float timeSince) {
 	if (type == eZCom_EventUser) {
 		GameEventParser p;
-		GameEvent* event = p.parse(stream);
+		GameEvent* gEvent = p.parse(stream);
 		eZCom_NodeRole role = mNode->getRole();
 
 		// Check for an init event if this object is just created
-		InitEvent* init = dynamic_cast<InitEvent*> (event);
+		InitEvent* init = dynamic_cast<InitEvent*> (gEvent);
 		if (init) {
 			ZCom_BitStream* state = init->getStream();
 			mNumberPlayers = state->getInt(8);
 		}
 
 		if (role == eZCom_RoleOwner || role == eZCom_RoleProxy) {
-			StateEvent* newState = dynamic_cast<StateEvent*> (event);
+			StateEvent* newState = dynamic_cast<StateEvent*> (gEvent);
 			if (newState) {
 				mState->newState((States) newState->getState());
 			}
 		} else {
-			StateEvent* newState = dynamic_cast<StateEvent*> (event);
+			StateEvent* newState = dynamic_cast<StateEvent*> (gEvent);
 			if (newState) {
 				mState->newEvent((Events) newState->getState(), conn_id);
 			}
 		}
-		delete event;
+		delete gEvent;
 	}
 
 	// A new client received this object so send current state
@@ -298,13 +298,13 @@ void RaceState::SystemState::newState(States state) {
 	}
 }
 
-void RaceState::SystemState::newEvent(Events event, ZCom_ConnID id) {
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: New event " << event << " from " << id;
+void RaceState::SystemState::newEvent(Events events, ZCom_ConnID id) {
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: New event " << events << " from " << id;
 	// Check if the event is correct for the current state
 	bool correct = false;
 
-	if (((mCurrentState == INITIALIZING) && (event == INITIALIZED)) || ((mCurrentState == LOADING) && (event == STATECHANGED))
-			|| ((mCurrentState == LOADING) && (event == LOADED))) {
+	if (((mCurrentState == INITIALIZING) && (events == INITIALIZED)) || ((mCurrentState == LOADING) && (events == STATECHANGED))
+			|| ((mCurrentState == LOADING) && (events == LOADED))) {
 		correct = true;
 	}
 
@@ -314,13 +314,13 @@ void RaceState::SystemState::newEvent(Events event, ZCom_ConnID id) {
 
 }
 
-void RaceState::SystemState::sendEvent(Events event) {
-	StateEvent newState((unsigned int) event);
+void RaceState::SystemState::sendEvent(Events events) {
+	StateEvent newState((unsigned int) events);
 	ZCom_BitStream* stream = new ZCom_BitStream();
 	newState.serialize(stream);
 	ZCom_ConnID id = ((NetworkClient*) mRaceState->mNode->getControl())->getConnectionID();
 	mRaceState->mNode->sendEventDirect(eZCom_ReliableOrdered, stream, id);
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: sent " << event << " event";
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: sent " << events << " event";
 }
 
 void RaceState::SystemState::onLoading() {
@@ -400,8 +400,8 @@ std::ostream& operator<<(std::ostream& os, const RaceState::States& state) {
 	return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const RaceState::Events& event) {
-	switch (event) {
+std::ostream& operator<<(std::ostream& os, const RaceState::Events& events) {
+	switch (events) {
 	case RaceState::INITIALIZED:
 		os << "INITIALIZED";
 		break;
@@ -412,7 +412,7 @@ std::ostream& operator<<(std::ostream& os, const RaceState::Events& event) {
 		os << "STATECHANGED";
 		break;
 	default:
-		os << event;
+		os << events;
 		break;
 	}
 	return os;

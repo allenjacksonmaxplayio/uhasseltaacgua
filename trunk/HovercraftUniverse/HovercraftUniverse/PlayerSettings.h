@@ -5,6 +5,7 @@
 #include <zoidcom/zoidcom.h>
 #include <OgreString.h>
 #include "GameEvent.h"
+#include "Config.h"
 
 namespace HovUni {
 
@@ -23,6 +24,9 @@ class PlayerSettings: public NetworkEntity {
 private:
 	/** The lobby */
 	Lobby* mLobby;
+
+	/** The entities INI*/
+	Config* mEntitiesConfig;
 
 	/*
 	 * Replicated fields

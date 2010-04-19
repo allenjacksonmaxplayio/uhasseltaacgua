@@ -111,7 +111,7 @@ public:
 	 * @return result of the send operation
 	 */
 	template<typename EventType, int N>
-	bool sendEvent(const NetworkEvent<EventType, N>& event, bool secret = false) const;
+	bool sendEvent(const NetworkEvent<EventType, N>& nEvent, bool secret = false) const;
 
 	/**
 	 * Send an event for this entity
@@ -121,7 +121,7 @@ public:
 	 * @return result of the send operation
 	 */
 	template<typename EventType, int N>
-	bool sendEventDirect(const NetworkEvent<EventType, N>& event, ZCom_ConnID id) const;
+	bool sendEventDirect(const NetworkEvent<EventType, N>& nEvent, ZCom_ConnID id) const;
 
 	/**
 	 * Get the network node. You should probably not be calling this.
@@ -262,9 +262,9 @@ protected:
 };
 
 template<typename EventType, int N>
-bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secret) const {
+bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& nEvent, bool secret) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
-	event.serialize(stream);
+	nEvent.serialize(stream);
 
 	eZCom_NodeRole role = mNode->getRole();
 	if (role == eZCom_RoleAuthority) {
@@ -280,9 +280,9 @@ bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& event, bool secr
 }
 
 template<typename EventType, int N>
-bool NetworkEntity::sendEventDirect(const NetworkEvent<EventType, N>& event, ZCom_ConnID id) const {
+bool NetworkEntity::sendEventDirect(const NetworkEvent<EventType, N>& nEvent, ZCom_ConnID id) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
-	event.serialize(stream);
+	nEvent.serialize(stream);
 	return mNode->sendEventDirect(eZCom_ReliableOrdered, stream, id);
 }
 

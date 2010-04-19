@@ -30,7 +30,7 @@ namespace HovUni {
 		/**
 		*	Destructor.
 		*/
-		~ScriptWrapper();
+		virtual ~ScriptWrapper();
 
 		/**
 		*	Retrieve the Lua State. 

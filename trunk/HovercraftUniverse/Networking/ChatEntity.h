@@ -73,14 +73,14 @@ private:
 	 *
 	 * @param event an event
 	 */
-	void processEventsServer(ChatEvent* event);
+	void processEventsServer(ChatEvent* cEvent);
 
 	/**
 	 * Process a chat event at the client
 	 *
 	 * @param event an event
 	 */
-	void processEventsClient(ChatEvent* event);
+	void processEventsClient(ChatEvent* cEvent);
 
 };
 
