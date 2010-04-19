@@ -222,15 +222,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\CharacterContextContainer.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Havok.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\HavokEntityType.cpp"
 					>
 				</File>
 				<File
@@ -241,15 +233,19 @@
 					RelativePath=".\HoverCraftUniverseWorld.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\PhantomTrackAction.cpp"
-					>
-				</File>
 				<Filter
 					Name="entity"
 					>
 					<File
+						RelativePath=".\CharacterContextContainer.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\HavokEntity.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HavokEntityType.cpp"
 						>
 					</File>
 					<File
@@ -314,6 +310,10 @@
 					</File>
 					<File
 						RelativePath=".\HoverAction.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PhantomTrackAction.cpp"
 						>
 					</File>
 					<File
@@ -640,15 +640,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\CharacterContextContainer.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Havok.h"
-					>
-				</File>
-				<File
-					RelativePath=".\HavokEntityType.h"
 					>
 				</File>
 				<File
@@ -659,15 +651,19 @@
 					RelativePath=".\HoverCraftUniverseWorld.h"
 					>
 				</File>
-				<File
-					RelativePath=".\PhantomTrackAction.h"
-					>
-				</File>
 				<Filter
 					Name="entity"
 					>
 					<File
+						RelativePath=".\CharacterContextContainer.h"
+						>
+					</File>
+					<File
 						RelativePath=".\HavokEntity.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HavokEntityType.h"
 						>
 					</File>
 					<File
@@ -736,6 +732,10 @@
 					</File>
 					<File
 						RelativePath=".\HoverAction.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PhantomTrackAction.h"
 						>
 					</File>
 					<File

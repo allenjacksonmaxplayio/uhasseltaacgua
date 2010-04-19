@@ -12,7 +12,7 @@ namespace HovUni {
 class Entity;
 
 /**
- * A character
+ * A character, this interface should be used as container for the physical representation of game entities.
  */
 class HavokEntity {
 
