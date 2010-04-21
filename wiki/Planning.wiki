@@ -69,7 +69,8 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
    * WP 7 (Kristof + PJ): Rendering
      * WP 7.1: Implementation shaders.
      * WP 7.2: General improvement in graphics engine when needed.
-     * WP 7.3: Implementatie view ports die character al racend tonen.
+     * WP 7.3: Statische objecten introduceren om tegen te rijden.
+     * WP 7.4: Implementatie view ports die character al racend tonen (optioneel).
 
    * WP 8 (Nick): Menu + HUD
     * WP 8.1: Visualizatie control mapping + bieden mogelijkheden om controls aan te passen en op te slaan voor volgende keer.
