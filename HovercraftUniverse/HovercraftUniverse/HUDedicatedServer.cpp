@@ -12,7 +12,7 @@ namespace HovUni {
 		DedicatedServer(configINI) {
 	}
 
-	void HUDedicatedServer::run() {
+	void HUDedicatedServer::run(bool standalone) {
 		Ogre::Root* ogreRoot = Ogre::Root::getSingletonPtr();
 		
 		if (ogreRoot == 0) {
@@ -43,11 +43,14 @@ namespace HovUni {
 
 		HovUni::HUServer server;
 		server.start();
-		server.join();
-//		delete server;
-//		server = 0;
-		delete ogreRoot;
-		ogreRoot = 0;
+
+		if (standalone) {
+			server.join();
+			//delete server;
+			//server = 0;
+			delete ogreRoot;
+			ogreRoot = 0;
+		}
 	}
 
 	void HUDedicatedServer::init() {

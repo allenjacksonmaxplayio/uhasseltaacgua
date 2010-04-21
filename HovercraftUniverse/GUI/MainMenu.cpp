@@ -76,25 +76,26 @@ namespace HovUni {
 	}
 
 	Hikari::FlashValue MainMenu::onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
-		mListener->onConnect("localhost", this);
-		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
-
-//NEW CODE THAT STARTS THE SERVER::
-		/*
+		//mListener->onConnect("localhost", this);
+		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
+		
+		//NEW CODE THAT STARTS THE SERVER::
 		try {
-		//HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
+			//HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
 			HovUni::HUDedicatedServer app("SingleplayerServer.ini");
 		
 			app.init();
 			app.run();
+
+			//Give the server a second to load, should be enough
+			DWORD dwMilliseconds = 1000;
+			Sleep ( dwMilliseconds );
 
 			//Todo prettify catch blocks error msgs like this:
 			//HovUni::MessageBox* msg = new MessageBox("Could not connect to server", "connectionmessage");
 			//GUIManager::getSingletonPtr()->activateOverlay(msg);
 		
 			//HovUni::Console::destroyConsole();
-
-
 			mListener->onConnect("localhost", this);
 		
 			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
@@ -108,7 +109,7 @@ namespace HovUni {
 		} catch (...) {
 			MessageBoxA(NULL, "Unknown fatal Ogre Exception in starting Single Player Server", "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		}
-		*/
+		
 
 		return "success";
 	}

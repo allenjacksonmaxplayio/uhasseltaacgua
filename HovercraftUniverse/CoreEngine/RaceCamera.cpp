@@ -1,6 +1,8 @@
 #include "RaceCamera.h"
 #include "CameraControllerActionType.h"
 #include <OgreLogManager.h>
+#include "CameraSpring.h"
+#include "RepresentationManager.h"
 
 namespace HovUni {
 
@@ -12,6 +14,9 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 	// Create 3rd person view camera
 	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode");
 	m3rdPersonViewpointNode = m3rdPersonViewpointNode->createChildSceneNode(m3rdPersonViewpointNode->getName() + "Pitch");
+	//Init the camera now to avoid any chance of null pointers
+	CameraSpring::getInstance()->initCameraSpring(mCamera->getPosition(),//Cameras current position
+		Ogre::Vector3::ZERO);//Offset is 100 units behind(-) the player
 
 	// Create 1st person view camera
 	m1stPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "1stPersonNode");
@@ -119,24 +124,54 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	Ogre::Vector3 newPosition;
 	Ogre::Vector3 positionCam;
 	Ogre::Quaternion back;
+	Ogre::SceneNode* trackedNode = 0;
+	EntityRepresentation* trackedEntity = RepresentationManager::getSingletonPtr()->getTrackedEntityRepresentation();
 
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
-		oldPosition = mActiveViewpointNode->getPosition();
-		// Determine position camera
+		if (trackedEntity != 0) {
+			trackedNode = trackedEntity->getOgreSceneNode();
+			if (trackedNode) {
+				mCamera->setAutoTracking(true, trackedNode);
+			}
+		}
+
+		//////////////////////
+		// Comment this line for super mario galaxy style!
+		//////////////////////
+		mCamera->setFixedYawAxis(true, mObjectTrackCameraController->getUpVector());
+
 		newPosition = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
 
-		positionCam = oldPosition + (newPosition - oldPosition);// * 0.90;
-		//std::cout << oldPosition << "   " << newPosition << "   " << positionCam << std::endl;
+		positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
 
-		// Set position and direction to look at
-		mActiveViewpointNode->setPosition(positionCam);
-		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
+		//std::cout << "Position vector :: " << positionCam << std::endl;
+
+		mCamera->setPosition(positionCam);
+		//mCamera->setPosition(newPosition);
+		
+		//mCamera->lookAt(mObjectTrackCameraController->getPosition());
 		//turn the camera slightly to the tracked entity
-		mActiveViewpointNode->pitch(Ogre::Degree(-15.0f), Ogre::Node::TS_LOCAL);
+		//mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
+		//mCamera->pitch(Ogre::Degree(-15.0f));
+
+		/// OLD SHIT
+		//std::cout << "UP vector :: " << mObjectTrackCameraController->getUpVector() << std::endl;
+		//oldPosition = mActiveViewpointNode->getPosition();
+		// Determine position camera
+		//newPosition = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
+		//positionCam = oldPosition + (newPosition - oldPosition) * 0.10f;
+		//std::cout << oldPosition << "   " << newPosition << "   " << positionCam << std::endl;
+		// Set position and direction to look at
+		//mActiveViewpointNode->setPosition(positionCam);
+		//mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
+		//turn the camera slightly to the tracked entity
+		//mActiveViewpointNode->pitch(Ogre::Degree(-15.0f), Ogre::Node::TS_LOCAL);
+		
 		
 		break;
 	case FirstPerson:
+		mCamera->setAutoTracking(false);
 		// Determine position camera
 		positionCam = mObjectTrackCameraController->getPosition() + mObjectTrackCameraController->getDirection();
 
@@ -147,6 +182,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 
 		break;
 	case RearView:
+		mCamera->setAutoTracking(false);
 		// Determine position camera
 		positionCam = mObjectTrackCameraController->getPosition() - mObjectTrackCameraController->getDirection();
 		
@@ -158,6 +194,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 
 		break;
 	case FreeRoam:
+		mCamera->setAutoTracking(false);
 		// Get input from free roaming controller and apply
 		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 100), Ogre::Node::TS_LOCAL);
 		mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw(), Ogre::Node::TS_WORLD);
