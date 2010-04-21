@@ -37,42 +37,42 @@ public:
 	 * @param asteroid
 	 * @param externalitem
 	 */
-	void createAsteroid( Asteroid * asteroid, OgreMax::Types::ExternalItem * externalitem );
+	void createAsteroid( Asteroid * asteroid, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
 	 * Create a start given the extra data 
 	 * @param start
 	 * @param externalitem
 	 */
-	void createStart( Start * start, OgreMax::Types::ExternalItem * externalitem );
+	void createStart( Start * start, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
 	 * Create a finish given the extra data 
 	 * @param finish
 	 * @param externalitem
 	 */
-	void createFinish( Finish * finish, OgreMax::Types::ExternalItem * externalitem );
+	void createFinish( Finish * finish, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
 	 * Create a checkpoint given the extra data 
 	 * @param checkpoint
 	 * @param externalitem
 	 */
-	void createCheckpoint( CheckPoint * checkpoint, OgreMax::Types::ExternalItem * externalitem );
+	void createCheckpoint( CheckPoint * checkpoint, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
 	 * Create a portal given the extra data 
 	 * @param portal
 	 * @param externalitem
 	 */
-	void createPortal( Portal * portal, OgreMax::Types::ExternalItem * externalitem );
+	void createPortal( Portal * portal, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
 	 * Create a boost given the extra data 
 	 * @param boost
 	 * @param externalitem
 	 */
-	void createBoost( SpeedBoost * boost, OgreMax::Types::ExternalItem * externalitem );
+	void createBoost( SpeedBoost * boost, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
 	 * Get a character with given name

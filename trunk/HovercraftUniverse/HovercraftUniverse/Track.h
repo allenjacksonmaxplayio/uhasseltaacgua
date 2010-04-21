@@ -1,14 +1,13 @@
 #ifndef TRACK_H
 #define TRACK_H
 
-#include "NetworkEntity.h"
-
+#include "OgreString.h"
 #include "Exception.h"
 #include <tinyxml/tinyxml.h>
 
 namespace HovUni {
 
-class Track : public NetworkEntity {
+class Track {
 private:
 
 	/**
@@ -37,13 +36,6 @@ public:
 	 * Constructor.
 	 */
 	Track();
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param announcedata
-	 */
-	Track( ZCom_BitStream* announcedata );
 
 	/**
 	 * Constructor
@@ -121,26 +113,6 @@ public:
 	inline void setDisplayName(const Ogre::String& name){
 		mDisplayName = name;
 	}
-
-	/**
-	 * @see NetworkEntity::setReplication()
-	 */
-	void setupReplication();
-
-	/**
-	 * Get the class name for this class. This is used for registering
-	 * the class with the network
-	 *
-	 * @return the class name
-	 */
-	static std::string getClassName();
-
-	virtual void setAnnouncementData(ZCom_BitStream* stream){
-	}
-
-	virtual void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id,	ZCom_BitStream* stream, float timeSince){
-	}
-
 };
 
 }

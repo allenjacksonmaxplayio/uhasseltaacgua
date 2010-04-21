@@ -1,18 +1,10 @@
 #include "Track.h"
 #include <OgreStringConverter.h>
-#include "String_Replicator.h"
 
 namespace HovUni {
 
-Track::Track():
-	NetworkEntity(3){
+Track::Track(){
 }
-
-Track::Track( ZCom_BitStream* announcedata ):
-	NetworkEntity(3)
-{
-}
-
 
 void Track::load(TiXmlElement * data) throw(ParseException){
 	TiXmlNode * node;
@@ -64,36 +56,6 @@ void Track::load(TiXmlElement * data) throw(ParseException){
 }
 
 Track::~Track(void){
-}
-
-void Track::setupReplication(){
-	//mName
-	mNode->addReplicator(
-		new String_Replicator(&mDisplayName,
-		ZCOM_REPFLAG_MOSTRECENT,
-		ZCOM_REPRULE_AUTH_2_ALL
-	), 
-	true);
-
-	//mMinimumPlayers
-	mNode->addReplicationInt(&mMinimumPlayers,		// pointer to the variable
-    8,												// amount of bits(up to 255 players)
-    false,											// unsigned
-    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
-    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
-	);
-
-	//mMaximumPlayers
-	mNode->addReplicationInt(&mMaximumPlayers,		// pointer to the variable
-    8,												// amount of bits(up to 255 players)
-    false,											// unsigned
-    ZCOM_REPFLAG_MOSTRECENT,						// always send the most recent value only
-    ZCOM_REPRULE_AUTH_2_ALL							// server sends to all clients
-	);
-}
-
-std::string Track::getClassName(){
-	return "Track";
 }
 
 }

@@ -25,137 +25,313 @@ ServerLoader::ServerLoader() :
 ServerLoader::~ServerLoader(void) {
 }
 
-void ServerLoader::parseUserData(const Ogre::String& data, const EntityDescription& description){
-	//parse XML that describes the user data
+void ServerLoader::parseEntityParameters(TiXmlElement * root, Ogre::String& ogreentity, Ogre::Real& processtime){
+	assert(root);
+
+	TiXmlNode * current = root->FirstChild();
+	while ( current ){
+		TiXmlElement * element = dynamic_cast<TiXmlElement *>(current);			
+		if ( element ) {
+			if ( strcmp(element->Value(),"ProcessInterval") == 0 ){
+				processtime = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
+			}
+			else if ( strcmp(element->Value(),"OgreEntity") == 0 ){
+				ogreentity = Ogre::String(element->GetText());
+			}
+		}
+		current = current->NextSibling();
+	}
+}
+
+void ServerLoader::parseTrackUserData(const Ogre::String& userdata){
+	//check if track info
+	if (userdata.empty()) {
+		THROW(ParseException, "Invallid scene file: No track info found.");
+	}
+	
+	//parse track info
 	TiXmlDocument mDocument;
-	mDocument.Parse(data.c_str());
+	mDocument.Parse(userdata.c_str());
 	TiXmlElement * root = mDocument.RootElement();
 
-	//if correct xml, see if user data is known
-	if(root){
+	//should be XML
+	if(!root){
+		THROW(ParseException, "Invallid scene file: Invallid track info, no correct xml information.");
+	}
 
-		//Read some generic things of entities here
-		Ogre::String ogreentity = "";
-		Ogre::Real processtime = -1.0f;
+	//create
+	Track track;
 
-		TiXmlNode * current = root->FirstChild();
-		while ( current ){
-			TiXmlElement * element = dynamic_cast<TiXmlElement *>(current);			
-			if ( element ) {
-				if ( strcmp(element->Value(),"ProcessInterval") == 0 ){
-					processtime = Ogre::StringConverter::parseReal(Ogre::String(element->GetText()));
-				}
-				else if ( strcmp(element->Value(),"OgreEntity") == 0 ){
-					ogreentity = Ogre::String(element->GetText());
-				}
-			}
-			current = current->NextSibling();
-		}
+	//load
+	track.load(root);
+	Ogre::String filename = ".\\levels\\" + track.getPhysicsFileName();
 
+	mHovercraftWorld = Havok::getSingletonPtr();
+	const char * physicsfile = filename.c_str();
+	if (!mHovercraftWorld->load(physicsfile)) {
+		mDocument.Clear();
+		THROW(ParseException, "Could not load our physics file.");
+	}
 
-		//START
-		if(strcmp(root->Value(),"Start") == 0){
-			//create
-			Start * start(new Start(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			start->load(root);
-			//forward
-			onStart(start);
-		}
-		//STARTPOSITION
-		if(strcmp(root->Value(),"StartPosition") == 0){
-			//create
-			StartPosition * startp(new StartPosition(description.getName(),description.getPosition(), description.getOrientation(), processtime));
-			//load
-			startp->load(root);
-			//forward
-			onStartPosition(startp);
-		}
-		//FINISH
-		else if(strcmp(root->Value(),"Finish") == 0){
-			//create
-			Finish * finish(new Finish(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			finish->load(root);
-			//forward
-			onFinish(finish);
-		}
-		//CHECKPOINT
-		else if(strcmp(root->Value(),"CheckPoint") == 0){
-			//create
-			CheckPoint * checkpoint(new CheckPoint(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			checkpoint->load(root);
-			//forward
-			onCheckPoint(checkpoint);
-		}
-		//ASTEROID
-		else if(strcmp(root->Value(),"Asteroid") == 0){
-			//create
-			Asteroid * asteroid(new Asteroid(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			asteroid->load(root);
-			//forward
-			onAsteroid(asteroid);
-		}
-		//HOVERCRAFT
-		else if(strcmp(root->Value(),"Hovercraft") == 0){
-			//create
-			Hovercraft * hovercraft(new Hovercraft(description.getName(),0,description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			hovercraft->load(root);
-			//forward
-			onHoverCraft(hovercraft);
-		}
-		//BOOST
-		else if(strcmp(root->Value(),"Boost") == 0){
-			//create
-			SpeedBoost * boost(new SpeedBoost(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			boost->load(root);
-			//forward
-			onBoost(boost);
-		}
-		//PORTAL
-		else if(strcmp(root->Value(),"Portal") == 0){
-			//create
-			Portal * portal(new Portal(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			portal->load(root);
-			//forward
-			onPortal(portal);
-		}
-		//POWERUPSPAWN
-		else if(strcmp(root->Value(),"PowerupSpawn") == 0){
-			//create
-			PowerupSpawn * spawn(new PowerupSpawn(description.getName(),description.getPosition(), description.getOrientation(), ogreentity, processtime));
-			//load
-			spawn->load(root);
-			//forward
-			onPowerupSpawn(spawn);
-		}
-		//RESETSPAWN
-		else if(strcmp(root->Value(),"ResetSpawn") == 0){
-			//create
-			ResetSpawn * spawn(new ResetSpawn(description.getName(),description.getPosition(), description.getOrientation(), processtime));
-			//load
-			spawn->load(root);
-			//forward
-			onResetSpawn(spawn);
-		}
-		//TRACK
-		else if(strcmp(root->Value(),"Track") == 0){
-			//create
-			Track * track(new Track());
-			//load
-			track->load(root);
-			//forward
-			onTrack(track);
-		}
+	mDocument.Clear();
+}
 
-		//clear xml
+void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem){
+	
+	if ( externalitem.userData.empty() ){
+		THROW(ParseException, "Invallid scene file: No info for game entity found.");
+	}
+
+	//parse XML that describes the user data
+	TiXmlDocument mDocument;
+	mDocument.Parse(externalitem.userData.c_str());
+	TiXmlElement * root = mDocument.RootElement();
+	
+	//should be XML
+	if(!root){
+		THROW(ParseException, "Invallid scene file: Invallid game entity info, no correct xml information.");
+	}
+
+	//Read some generic things of entities here
+	Ogre::String ogreentity = "";
+	Ogre::Real processtime = -1.0f;
+
+	parseEntityParameters(root,ogreentity,processtime);
+
+	//START
+	if(strcmp(root->Value(),"Start") == 0){
+		//create
+		Start * entity = new Start(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+		
+		//create Physics
+		mHovercraftWorld->createStart(entity, externalitem);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName(), true);
+	}
+	//STARTPOSITION
+	else if(strcmp(root->Value(),"StartPosition") == 0){
+		//create
+		StartPosition * entity = new StartPosition(externalitem.name,externalitem.position, externalitem.rotation, processtime);
+		
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), StartPosition::getClassName(), true);
+	}
+	//FINISH
+	else if(strcmp(root->Value(),"Finish") == 0){
+		//create
+		Finish * entity = new Finish(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+		
+		//create Physics
+		mHovercraftWorld->createFinish(entity,externalitem);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName(), true);
+	}
+	//CHECKPOINT
+	else if(strcmp(root->Value(),"CheckPoint") == 0){
+		//create
+		CheckPoint * entity = new CheckPoint(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+
+		//create Physics
+		mHovercraftWorld->createCheckpoint(entity,externalitem);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName(), true);
+	}
+	//ASTEROID
+	else if(strcmp(root->Value(),"Asteroid") == 0){
+		//create
+		Asteroid * entity = new Asteroid(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+		
+		//create Physics
+		mHovercraftWorld->createAsteroid(entity,externalitem);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+		
+		//network register asteroid
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName(), true);
+	}
+	//BOOST
+	else if(strcmp(root->Value(),"Boost") == 0){
+		//create
+		SpeedBoost * entity = new SpeedBoost(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+
+		//physics
+		mHovercraftWorld->createBoost(entity, externalitem);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register asteroid
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName(), true);
+
+	}
+	//PORTAL
+	else if(strcmp(root->Value(),"Portal") == 0){
+		//create
+		Portal * entity = new Portal(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+		
+		mHovercraftWorld->createPortal(entity,externalitem);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register asteroid
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName(), true);
+	}
+	//POWERUPSPAWN
+	else if(strcmp(root->Value(),"PowerupSpawn") == 0){
+		//create
+		PowerupSpawn * entity = new PowerupSpawn(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
+		
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register asteroid
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName(), true);
+	}
+	//RESETSPAWN
+	else if(strcmp(root->Value(),"ResetSpawn") == 0){
+		//create
+		ResetSpawn * entity = new ResetSpawn(externalitem.name,externalitem.position, externalitem.rotation, processtime);
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register asteroid
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(), true);
+	}
+	else {
+		THROW(ParseException, "Invallid scene file: Unknown game entity found while parsing externals.\nValue is " + root->ValueStr());
 		mDocument.Clear();
 	}
+
+	mDocument.Clear();
+}
+
+void ServerLoader::parseHovercraftUserData(OgreMax::Types::EntityParameters& entityparameters){
+	
+	//problem
+	if (entityparameters.extraData->HasUserData() && entityparameters.extraData->userData.empty()) {
+		THROW(ParseException, "Invallid scene file: No info for game entity found.");
+	}
+
+	//parse XML that describes the user data
+	TiXmlDocument mDocument;
+	mDocument.Parse(entityparameters.extraData->userData.c_str());
+	TiXmlElement * root = mDocument.RootElement();
+
+	//should be XML
+	if(!root){
+		THROW(ParseException, "Invallid scene file: Invallid game entity info, no correct xml information.");
+	}
+
+	//Read some generic things of entities here
+	Ogre::String ogreentity = "";
+	Ogre::Real processtime = -1.0f;
+
+	parseEntityParameters(root,ogreentity,processtime);
+
+	Ogre::String filename = ".\\hovercraft\\" + mPlayer->getSettings()->getHovercraft() + ".hkx";
+	hkString hovercraftname(filename.c_str());
+
+	//HOVERCRAFT
+	if(strcmp(root->Value(),"Hovercraft") == 0){
+
+		//make a unique name
+		Ogre::String entityname = "Player_" + Ogre::StringConverter::toString(mPlayer->getSettings()->getID());
+
+		//create
+		Hovercraft * hovercraft(new Hovercraft(entityname,mPlayer->getSettings()->getID(),Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, ogreentity, processtime));
+		//load
+		hovercraft->load(root);
+
+		//Get the start positions
+		std::vector<Entity*> startpositions = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
+		StartPosition * myposition = dynamic_cast<StartPosition *>(startpositions.at(mPosition));
+		Ogre::Vector3 ogre_position = myposition->getPosition();
+		hovercraft->changePosition(ogre_position);		
+		
+		//physics
+		hkVector4 havok_position;
+		havok_position.set(ogre_position[0],ogre_position[1],ogre_position[2]);
+		mHovercraftWorld->addHovercraft(hovercraft, hovercraftname,entityparameters.name.c_str(), havok_position);
+		
+		//linkt to game
+		EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
+
+		//link to gamestate
+		hovercraft->setRaceState(mRaceState);
+
+		
+		// TODO Is this the correct place to add the AI controller?
+		if (mPlayer->isBot()) {
+			HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue("Server", "BotAI", "scripts/AI/PathFollowing.lua"));
+			hovercraft->setController(ai);
+			ai->initialize();
+		}
+
+		
+
+		//network
+		hovercraft->getNetworkNode()->setOwner(mPlayer->getSettings()->getID(), true);
+		hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(), true);
+	}
+	else {
+		THROW(ParseException, "Invallid scene file: Unknown game entity found while parsing entities.\nValue is " + root->ValueStr());
+		mDocument.Clear();
+	}
+
 }
 
 void ServerLoader::load(const Ogre::String& filename) {
@@ -163,31 +339,17 @@ void ServerLoader::load(const Ogre::String& filename) {
 }
 
 void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const Ogre::String& userData) {
-	if (!userData.empty()) {
-		EntityDescription desc("Track", Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-		parseUserData(userData, desc);
-	}
+	parseTrackUserData(userData);
 }
 
 void ServerLoader::onExternal(OgreMax::Types::ExternalItem& externalitem) {
-	mExternalitem = &externalitem;
-	if (!externalitem.userData.empty()) {
-		EntityDescription desc(externalitem.name, externalitem.position, externalitem.rotation);
-		parseUserData(externalitem.userData, desc);
-	}
-	mExternalitem = 0;
+	parseWorldUserData(externalitem);
 }
 
 void ServerLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent) {
 	//should be called when loading hovercrafts
 	if (mLoadingHovercrafts) {
-		if (!entityparameters.extraData.isNull() && entityparameters.extraData->HasUserData()) {
-			mCurrentHovercraft = entityparameters.name;
-			Ogre::String name = mPlayer->getSettings()->getPlayerName() + "_" + Ogre::StringConverter::toString(mPosition);
-			
-			EntityDescription desc(name, Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
-			parseUserData(entityparameters.extraData->userData, desc);
-		}
+		parseHovercraftUserData(entityparameters);
 	}
 }
 
@@ -218,200 +380,6 @@ void ServerLoader::FinishedLoad(bool success) {
 
 		mLoadingHovercrafts = false;
 	}
-}
-
-void ServerLoader::onTrack(Track * track) {
-	//TODO USE OGRE RESOURCES
-
-	Ogre::String filename = ".\\levels\\" + track->getPhysicsFileName();
-
-	mHovercraftWorld = Havok::getSingletonPtr();
-
-	const char * physicsfile = filename.c_str();
-	if (!mHovercraftWorld->load(physicsfile)) {
-		//loading failed
-		THROW(ParseException, "Could not load our physics file.");
-	}
-
-	delete track;
-}
-
-void ServerLoader::onAsteroid(Asteroid * asteroid) {
-	if (mExternalitem == 0) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//create Physics
-	mHovercraftWorld->createAsteroid(asteroid,mExternalitem);
-
-	//link to gamestate
-	asteroid->setRaceState(mRaceState);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(asteroid);
-
-	//network register asteroid
-	asteroid->networkRegister(NetworkIDManager::getServerSingletonPtr(), Asteroid::getClassName(), true);
-}
-
-void ServerLoader::onStart(Start * start) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//create start
-	mHovercraftWorld->createStart(start, mExternalitem);
-
-	//link to gamestate
-	start->setRaceState(mRaceState);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(start);
-
-	//network register asteroid
-	start->networkRegister(NetworkIDManager::getServerSingletonPtr(), Start::getClassName(), true);
-}
-
-void ServerLoader::onStartPosition(StartPosition * startposition) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//link to gamestate
-	startposition->setRaceState(mRaceState);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(startposition);
-
-	//network register asteroid
-	startposition->networkRegister(NetworkIDManager::getServerSingletonPtr(), StartPosition::getClassName(), true);
-}
-
-void ServerLoader::onCheckPoint(CheckPoint * checkpoint) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//link to gamestate
-	checkpoint->setRaceState(mRaceState);
-
-	//create Physics
-	mHovercraftWorld->createCheckpoint(checkpoint,mExternalitem);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(checkpoint);
-
-	//network register asteroid
-	checkpoint->networkRegister(NetworkIDManager::getServerSingletonPtr(), CheckPoint::getClassName(), true);
-}
-
-void ServerLoader::onFinish(Finish * finish) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//link to gamestate
-	finish->setRaceState(mRaceState);
-
-	mHovercraftWorld->createFinish(finish,mExternalitem);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(finish);
-
-	//network register asteroid
-	finish->networkRegister(NetworkIDManager::getServerSingletonPtr(), Finish::getClassName(), true);
-}
-
-void ServerLoader::onHoverCraft(Hovercraft * hovercraft) {
-	Ogre::String filename = ".\\hovercraft\\" + mPlayer->getSettings()->getHovercraft() + ".hkx";
-	hkString hovercraftname(filename.c_str());
-
-	// TODO Is this the correct place to add the AI controller?
-	if (mPlayer->isBot()) {
-		HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue("Server", "BotAI", "scripts/AI/PathFollowing.lua"));
-		hovercraft->setController(ai);
-		ai->initialize();
-	}
-
-	//Get the start positions
-	std::vector<Entity*> startpositions = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
-	StartPosition * myposition = dynamic_cast<StartPosition *>(startpositions.at(mPosition));
-	Ogre::Vector3 ogre_position = myposition->getPosition();
-	hkVector4 havok_position;
-	havok_position.set(ogre_position[0],ogre_position[1],ogre_position[2]);
-
-	mHovercraftWorld->addHovercraft(hovercraft, hovercraftname, mCurrentHovercraft.c_str(), havok_position);
-	EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
-
-	//link to gamestate
-	hovercraft->setRaceState(mRaceState);
-
-	hovercraft->changePosition(ogre_position);
-	hovercraft->getNetworkNode()->setOwner(mPlayer->getSettings()->getID(), true);
-	hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(), true);
-}
-
-void ServerLoader::onPortal(Portal * portal) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//link to gamestate
-	portal->setRaceState(mRaceState);
-
-	mHovercraftWorld->createPortal(portal,mExternalitem);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(portal);
-
-	//network register asteroid
-	portal->networkRegister(NetworkIDManager::getServerSingletonPtr(), Portal::getClassName(), true);
-}
-
-void ServerLoader::onBoost(SpeedBoost * boost) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//link to gamestate
-	boost->setRaceState(mRaceState);
-
-	mHovercraftWorld->createBoost(boost, mExternalitem);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(boost);
-
-	//network register asteroid
-	boost->networkRegister(NetworkIDManager::getServerSingletonPtr(), SpeedBoost::getClassName(), true);
-}
-
-void ServerLoader::onPowerupSpawn(PowerupSpawn * powerupspawn) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	//link to gamestate
-	powerupspawn->setRaceState(mRaceState);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(powerupspawn);
-
-	//network register asteroid
-	powerupspawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), PowerupSpawn::getClassName(), true);
-}
-
-void ServerLoader::onResetSpawn(ResetSpawn * spawn) {
-	if (!mExternalitem) {
-		THROW(ParseException, "This should be an external item.");
-	}
-
-	spawn->setRaceState(mRaceState);
-
-	//add to entity manager
-	EntityManager::getServerSingletonPtr()->registerEntity(spawn);
-
-	//network register asteroid
-	spawn->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(), true);
 }
 
 }

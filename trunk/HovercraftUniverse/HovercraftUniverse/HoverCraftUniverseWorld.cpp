@@ -89,12 +89,12 @@ HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 {
 }
 
-void HoverCraftUniverseWorld::createStart( Start * start, OgreMax::Types::ExternalItem * externalitem ){
+void HoverCraftUniverseWorld::createStart( Start * start, OgreMax::Types::ExternalItem& externalitem ){
 	mPhysicsWorld->markForWrite();
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-	setBox(aabb, externalitem->position, externalitem->rotation, externalitem->scale);
+	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	StartPhantom * phantom = new StartPhantom(aabb, start);
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
@@ -102,12 +102,12 @@ void HoverCraftUniverseWorld::createStart( Start * start, OgreMax::Types::Extern
 	mPhysicsWorld->unmarkForWrite();
 }
 
-void HoverCraftUniverseWorld::createFinish( Finish * finish, OgreMax::Types::ExternalItem * externalitem ){
+void HoverCraftUniverseWorld::createFinish( Finish * finish, OgreMax::Types::ExternalItem& externalitem ){
 	mPhysicsWorld->markForWrite();
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-	setBox(aabb, externalitem->position, externalitem->rotation, externalitem->scale);
+	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	FinishPhantom * phantom = new FinishPhantom(aabb, finish);
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
@@ -115,12 +115,12 @@ void HoverCraftUniverseWorld::createFinish( Finish * finish, OgreMax::Types::Ext
 	mPhysicsWorld->unmarkForWrite();
 }
 
-void HoverCraftUniverseWorld::createCheckpoint( CheckPoint * checkpoint, OgreMax::Types::ExternalItem * externalitem ){
+void HoverCraftUniverseWorld::createCheckpoint( CheckPoint * checkpoint, OgreMax::Types::ExternalItem& externalitem ){
 	mPhysicsWorld->markForWrite();
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-	setBox(aabb, externalitem->position, externalitem->rotation, externalitem->scale);
+	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(aabb, checkpoint);
 	mPhysicsWorld->addPhantom(checkpointphantom);
 	checkpointphantom->removeReference();
@@ -128,12 +128,12 @@ void HoverCraftUniverseWorld::createCheckpoint( CheckPoint * checkpoint, OgreMax
 	mPhysicsWorld->unmarkForWrite();
 }
 
-void HoverCraftUniverseWorld::createPortal( Portal * portal, OgreMax::Types::ExternalItem * externalitem ){
+void HoverCraftUniverseWorld::createPortal( Portal * portal, OgreMax::Types::ExternalItem& externalitem ){
 	mPhysicsWorld->markForWrite();
 
 	//Create a phantom that handles this
 	hkAabb aabb;
-	setBox(aabb, externalitem->position, externalitem->rotation, externalitem->scale);
+	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	PortalPhantom * phantom = new PortalPhantom(aabb, portal);
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
@@ -141,17 +141,17 @@ void HoverCraftUniverseWorld::createPortal( Portal * portal, OgreMax::Types::Ext
 	mPhysicsWorld->unmarkForWrite();
 }
 
-void HoverCraftUniverseWorld::createBoost( SpeedBoost * boost, OgreMax::Types::ExternalItem * externalitem ){
+void HoverCraftUniverseWorld::createBoost( SpeedBoost * boost, OgreMax::Types::ExternalItem& externalitem ){
 	mPhysicsWorld->markForWrite();
 
 	//Create a phantom that handles this
-	hkpShape * shape = setBox(externalitem->scale);
+	hkpShape * shape = setBox(externalitem.scale);
 
 	hkQuaternion r;
-	r.set(externalitem->rotation.x, externalitem->rotation.y, externalitem->rotation.z, externalitem->rotation.w);
+	r.set(externalitem.rotation.x, externalitem.rotation.y, externalitem.rotation.z, externalitem.rotation.w);
 
 	hkVector4 t;
-	t.set(externalitem->position[0], externalitem->position[1], externalitem->position[2]);
+	t.set(externalitem.position[0], externalitem.position[1], externalitem.position[2]);
 
 	hkTransform tr(r, t);
 
@@ -163,7 +163,7 @@ void HoverCraftUniverseWorld::createBoost( SpeedBoost * boost, OgreMax::Types::E
 	mPhysicsWorld->unmarkForWrite();
 }
 
-void HoverCraftUniverseWorld::createAsteroid( Asteroid * asteroid, OgreMax::Types::ExternalItem * externalitem ){
+void HoverCraftUniverseWorld::createAsteroid( Asteroid * asteroid, OgreMax::Types::ExternalItem& externalitem ){
 	mPhysicsWorld->markForWrite();
 
 	//Get the entity name of the asteroid
@@ -182,25 +182,21 @@ void HoverCraftUniverseWorld::createAsteroid( Asteroid * asteroid, OgreMax::Type
 	//add gravity field PULL
 	{
 		hkAabb currentAabb;
+		planetRigidBody->getCollidable()->getShape()->getAabb(planetRigidBody->getTransform(), 0.0f, currentAabb);
 
-		if (externalitem == 0) {
-			planetRigidBody->getCollidable()->getShape()->getAabb(planetRigidBody->getTransform(), 0.0f, currentAabb);
+		// Scale up the planet's gravity field's AABB so it goes beyond the planet
+		hkVector4 extents;
+		extents.setSub4(currentAabb.m_max, currentAabb.m_min);
+		hkInt32 majorAxis = extents.getMajorAxis();
+		hkReal maxExtent = extents(majorAxis);
+		maxExtent *= 0.4f;
 
-			// Scale up the planet's gravity field's AABB so it goes beyond the planet
-			hkVector4 extents;
-			extents.setSub4(currentAabb.m_max, currentAabb.m_min);
-			hkInt32 majorAxis = extents.getMajorAxis();
-			hkReal maxExtent = extents(majorAxis);
-			maxExtent *= 0.4f;
+		// Scale the AABB's extents
+		hkVector4 extension;
+		extension.setAll(maxExtent);
+		currentAabb.m_max.add4(extension);
+		currentAabb.m_min.sub4(extension);
 
-			// Scale the AABB's extents
-			hkVector4 extension;
-			extension.setAll(maxExtent);
-			currentAabb.m_max.add4(extension);
-			currentAabb.m_min.sub4(extension);
-		} else {
-			setBox(currentAabb, externalitem->position, externalitem->rotation, externalitem->scale);
-		}
 
 		// Attach a gravity phantom to the planet so it can catch objects which come close
 		PlanetGravityPhantom* gravityphantom = new PlanetGravityPhantom(asteroid, planetRigidBody, currentAabb);
