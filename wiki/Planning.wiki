@@ -18,7 +18,7 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
     * WP 1.5: *(DONE)* Visualizatie alle deelnemers in plaats van enkel diegene die controle heeft over het keyboard. Hierbij hoort het inlezen van de starting posities van de wereldbeschrijving en het plaatsen van de hovercrafts op hun posities (depends on 5.3.3 voor minstens 1 map).
     * WP 1.6: *(DONE)* Implementatie staten binnen de race state (count down, racing, finished, ...). 
     * WP 1.7: *(DONE)* Events triggeren naar clients als gevolg van de staten (tonen nummers bij count down, tonen ranking bij finish, ...).
-    * WP 1.8: Player specific events (voorbijsteken, bereiken finish, bereiken checkpoint, ...) triggeren en koppelen aan GamePlayer, deze events ook visualizeren bij entities (juichen, ...).
+    * WP 1.8: Player specific events (voorbijsteken, bereiken finish, bereiken checkpoint, ...) triggeren en koppelen aan RacePlayer, deze events ook visualizeren bij entities (juichen, ...).
     * WP 1.9: Uitbreiden speler met emotional state en agressiveness behaviour.
     * WP 1.10: Uitbreiden racestate met informatie over de checkpoints en over welke players welke checkpoints reeds hebben bereikt (depends on WP 2.3).
     * WP 1.11.A: Toelaten dat er een unload plaatsvindt zodat entiteiten uit de client verwijderd kunnen worden.
