@@ -4,6 +4,8 @@
 #include "Havok.h"
 
 #include "String_Replicator.h"
+#include "RacePlayer.h"
+#include "PlayerSettings.h"
 
 namespace HovUni {
 
@@ -104,6 +106,18 @@ void Hovercraft::load(TiXmlElement * data) throw(ParseException){
 Hovercraft::~Hovercraft(void){
 }
 
+void Hovercraft::updateLabel() {
+	if (mRacestate) {
+		if (mRacestate->getOwnPlayer() && mRacestate->getOwnPlayer()->getSettings()->getID() == mPlayerId) {
+			mLabel = ""; // This is you
+		} else {
+			mLabel = mRacestate->getPlayer(mPlayerId)->getSettings()->getPlayerName();
+		}
+	} else {
+		mLabel = mOgreEntity;
+	}
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "New label is " << mLabel;
+}
 
 void Hovercraft::process(float timeSince){
 	if ((timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {

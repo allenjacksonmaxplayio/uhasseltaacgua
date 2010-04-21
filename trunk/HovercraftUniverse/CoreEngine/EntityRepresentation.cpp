@@ -24,7 +24,7 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 		Ogre::Camera* cam = it.getNext();
 		mTextOverlay = new ObjectTextDisplay(mOgreEntity, cam);
 		mTextOverlay->enable(true);
-		mTextOverlay->setText(entity->getName());
+		mTextOverlay->setText(entity->getLabel());
 		//}
 	} else {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[EntityRep] Entity " << mEntity->getName() << "(" << mEntity->getCategory() << ") has no label.";
