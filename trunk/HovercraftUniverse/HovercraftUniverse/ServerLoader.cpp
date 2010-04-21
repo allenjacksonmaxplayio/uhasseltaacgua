@@ -316,7 +316,7 @@ void ServerLoader::parseHovercraftUserData(OgreMax::Types::EntityParameters& ent
 		
 		// TODO Is this the correct place to add the AI controller?
 		if (mPlayer->isBot()) {
-			HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue("Server", "BotAI", "scripts/AI/PathFollowing.lua"));
+			HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue<std::string>("Server", "BotAI", "scripts/AI/PathFollowing.lua"));
 			hovercraft->setController(ai);
 			ai->initialize();
 		}

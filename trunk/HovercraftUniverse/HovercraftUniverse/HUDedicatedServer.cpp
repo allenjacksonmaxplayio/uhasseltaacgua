@@ -14,13 +14,13 @@ namespace HovUni {
 
 	void HUDedicatedServer::run() {
 		//TODO Dirk retrieve these values from server ini
-		Ogre::Root ogreRoot(getConfig()->getValue("Ogre", "Plugins", "plugins.cfg"), getConfig()->getValue("Ogre", "ConfigFile", "ogre.cfg"), getConfig()->getValue("Ogre", "LogFile", "Server.log"));
-		//Ogre::LogManager::getSingleton().createLog(getConfig()->getValue("Server", "LogFile", "Server.log"), true);
+		Ogre::Root ogreRoot(getConfig()->getValue<std::string>("Ogre", "Plugins", "plugins.cfg"), getConfig()->getValue<std::string>("Ogre", "ConfigFile", "ogre.cfg"), getConfig()->getValue<std::string>("Ogre", "LogFile", "Server.log"));
+		//Ogre::LogManager::getSingleton().createLog(getConfig()->getValue<std::string>("Server", "LogFile", "Server.log"), true);
 
 // HACK IN OGRE FILE THINGY
 
 		Ogre::ConfigFile cf;
-		cf.load(mConfig->getValue("Ogre", "Resources", "resources.cfg").c_str());
+		cf.load(mConfig->getValue<std::string>("Ogre", "Resources", "resources.cfg").c_str());
 		// Iterate over config
 		Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
 		while (seci.hasMoreElements()) {

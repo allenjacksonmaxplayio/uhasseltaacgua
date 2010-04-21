@@ -102,7 +102,7 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 
 		//THE HAVOK FRAMERATE IS NOW CONTROLLED THROUGH SCRIPT.
 		//change data/engine_settings.cfg to change this!
-		int fps = DedicatedServer::getEngineSettings()->getIntValue("Havok", "Framerate", 30);
+		int fps = DedicatedServer::getEngineSettings()->getValue<int>("Havok", "Framerate", 30);
 		HoverCraftUniverseWorld world(1.0f/(float) fps);
 
 		Havok::ms_world = &world;

@@ -2,7 +2,6 @@
 
 #include "Exception.h"
 #include <boost/algorithm/string/trim.hpp>
-#include <sstream>
 
 namespace HovUni {
 
@@ -38,7 +37,7 @@ namespace HovUni {
 		}
 	}
 
-	std::string Config::getValue(const std::string& section, const std::string& field, const std::string& defaultValue) {
+	std::string Config::getStringValue(const std::string& section, const std::string& field, const std::string& defaultValue) {
 		std::string value = mReader.GetKeyValue(section, field);
 		boost::algorithm::trim(value);
 		if (value == "") {
@@ -48,53 +47,7 @@ namespace HovUni {
 		return value;
 	}
 
-	int Config::getIntValue(const std::string& section, const std::string& field, const int defaultValue) {
-		std::ostringstream ss;
-		ss << defaultValue;
-		std::string defaultStringValue = ss.str();
-		std::string stringValue = getValue(section, field, defaultStringValue);
-		std::istringstream buffer(stringValue);
-		int result;
-		buffer >> result;
-		return result;
-	}
-
-
-	int Config::getBoolValue(const std::string& section, const std::string& field, const bool defaultValue) {
-		std::ostringstream ss;
-		ss << defaultValue;
-		std::string defaultStringValue = ss.str();
-		std::string stringValue = getValue(section, field, defaultStringValue);
-		std::istringstream buffer(stringValue);
-		bool result;
-		buffer >> result;
-		return result;
-	}
-
-	float Config::getFloatValue(const std::string& section, const std::string& field, const float defaultValue) {
-		std::ostringstream ss;
-		ss << defaultValue;
-		std::string defaultStringValue = ss.str();
-		std::string stringValue = getValue(section, field, defaultStringValue);
-		std::istringstream buffer(stringValue);
-		float result;
-		buffer >> result;
-		return result;
-	}
-
-	double Config::getDoubleValue(const std::string& section, const std::string& field, const double defaultValue) {
-		std::ostringstream ss;
-		ss << defaultValue;
-		std::string defaultStringValue = ss.str();
-		std::string stringValue = getValue(section, field, defaultStringValue);
-		std::istringstream buffer(stringValue);
-		double result;
-		buffer >> result;
-		return result;
-	}
-
-	void Config::putValue(std::string section, std::string field, std::string value) {
+	void Config::putStringValue(const std::string& section, const std::string& field, const std::string& value) {
 		mReader.SetKeyValue(section,field,value);
 	}
-
 }
