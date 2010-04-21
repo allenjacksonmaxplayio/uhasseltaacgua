@@ -32,6 +32,8 @@ void Finish::onEnter ( Hovercraft * hovercraft ){
 	//TODO
 
 	std::cout << hovercraft->getName() << " enters finish " << getName() << std::endl;
+
+
 }
 
 void Finish::onLeave( Hovercraft * hovercraft ){

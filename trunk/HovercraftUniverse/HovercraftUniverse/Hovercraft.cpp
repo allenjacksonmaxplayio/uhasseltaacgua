@@ -11,11 +11,11 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
 const Ogre::Real Hovercraft::MAXSPEED(200.0);
 
-Hovercraft::Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,8), mTilt(0.0f), mCollisionState(false), mFinished(false) {
+Hovercraft::Hovercraft(const Ogre::String& name, const unsigned int playerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
+Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
 }
 
-Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,8) {
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,9) {
 	// Display name
 	int length = announcedata->getInt(sizeof(int) * 8);
 	if (length != 0) {
@@ -25,6 +25,8 @@ Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATE
 	}
 	Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Hovercraft :: onCLientSIde: |" << mDisplayName << "|";
 	mLabel = mOgreEntity;
+
+	mPlayerId = announcedata->getInt(sizeof(unsigned int) * 8);
 }
 
 void Hovercraft::load(TiXmlElement * data) throw(ParseException){
@@ -182,6 +184,14 @@ void Hovercraft::setupReplication(){
 
 	//Collision state
 	mNode->addReplicationBool(&mCollisionState, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
+
+	//player id
+	mNode->addReplicationInt((int*)&mPlayerId,
+	sizeof(unsigned int)*8,
+	false,
+	ZCOM_REPFLAG_MOSTRECENT,
+	ZCOM_REPRULE_AUTH_2_ALL
+	);
 }
 
 void Hovercraft::setAnnouncementData(ZCom_BitStream* stream) {
@@ -191,6 +201,8 @@ void Hovercraft::setAnnouncementData(ZCom_BitStream* stream) {
 	if ( mDisplayName.length() != 0 ){
 		stream->addString(mDisplayName.c_str());
 	}
+
+	stream->addInt(mPlayerId,sizeof(unsigned int) * 8);
 }
 
 std::string Hovercraft::getClassName(){

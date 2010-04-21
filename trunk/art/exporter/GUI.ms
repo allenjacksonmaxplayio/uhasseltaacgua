@@ -1,7 +1,7 @@
 shaderfx_path = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
 terrain_layer1_shader = shaderfx_path  + "terrain1.fx"
 terrain_layer2_shader = shaderfx_path  + "terrain2.fx"
-colormapoutputpath = getDir #image
+colormapoutputpath = (getDir #image) + "\\asteroid"
 
 print terrain_layer1_shader
 print terrain_layer2_shader
@@ -226,6 +226,18 @@ struct AsteroidInfo (
 			append currentMaterialLibrary dxmat
 			viewport_material_id = findItem currentMaterialLibrary dxmat
 			setUserProp asteroid "viewport" viewport_material_id
+		)
+		
+		done = false
+		/* find unwrap */
+		for i = 1 to obj.modifiers.count while done == false do (
+
+			if obj.modifiers[i].name == "Unwrap UVW"  then (	
+				obj.modifiers[i].unwrap2.selectByMatID 1
+				obj.modifiers[i].setFlattenAngle 60
+				obj.modifiers[i].flattenMapNoParams()
+				done = true					
+			)		
 		)
 	)
 	

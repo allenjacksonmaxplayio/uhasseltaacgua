@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
+#include <list>
 
 namespace HovUni {
 

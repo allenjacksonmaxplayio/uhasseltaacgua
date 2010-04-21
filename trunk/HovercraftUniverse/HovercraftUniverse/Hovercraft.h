@@ -16,6 +16,11 @@ namespace HovUni {
 class Hovercraft : public Entity {
 private:
 
+	/**
+	 * The id of the player this hovercraft is for
+	 */
+	unsigned int mPlayerId;
+
 	/** 
 	 * The moving status 
 	 */
@@ -89,11 +94,12 @@ public:
 	 * Constructor.
 	 *
 	 * @param name The name of the hovercraft
+	 * @param playerId
 	 * @param position
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Hovercraft(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
+	Hovercraft(const Ogre::String& name, unsigned int mPlayerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
 
 	/**
 	 * Constructor.
@@ -113,6 +119,10 @@ public:
 	 * Destructor
 	 */
 	~Hovercraft(void);
+
+	inline const unsigned int getPlayerId() const {
+		return mPlayerId;
+	}
 
 	/**
 	 * Get the moving status
