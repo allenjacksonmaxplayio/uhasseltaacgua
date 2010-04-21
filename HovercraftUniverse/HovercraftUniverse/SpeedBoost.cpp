@@ -9,11 +9,11 @@ namespace HovUni {
 const Ogre::String SpeedBoost::CATEGORY("Boost");
 
 SpeedBoost::SpeedBoost(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,1){
+	HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,1){
 }
 
 SpeedBoost::SpeedBoost( ZCom_BitStream* announcedata ):
-	Entity(announcedata,CATEGORY,1)
+	HovercraftUniverseEntity(announcedata,CATEGORY,1)
 {
 }
 

@@ -8,12 +8,12 @@ namespace HovUni {
 const Ogre::String Asteroid::CATEGORY("Asteroid");
 
 Asteroid::Asteroid(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-		Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,3) {
+		HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,3) {
 	// Empty
 }
 
 Asteroid::Asteroid( ZCom_BitStream* announcedata ):
-	Entity(announcedata,CATEGORY,3)
+	HovercraftUniverseEntity(announcedata,CATEGORY,3)
 {
 }
 

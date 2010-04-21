@@ -7,11 +7,11 @@ namespace HovUni {
 const Ogre::String Portal::CATEGORY("Portal");
 
 Portal::Portal(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,0){
+	HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,0){
 }
 
 Portal::Portal( ZCom_BitStream* announcedata ):
-	Entity(announcedata,CATEGORY,0)
+	HovercraftUniverseEntity(announcedata,CATEGORY,0)
 {
 }
 

@@ -1,7 +1,7 @@
 #ifndef FINISH_H
 #define FINISH_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 
@@ -12,7 +12,7 @@ class Hovercraft;
 /**
  * @author PJ
  */ 
-class Finish : public Entity{
+class Finish : public HovercraftUniverseEntity {
 
 private:
 	

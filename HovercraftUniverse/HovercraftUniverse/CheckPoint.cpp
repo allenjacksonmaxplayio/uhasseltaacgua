@@ -8,11 +8,11 @@ namespace HovUni {
 const Ogre::String CheckPoint::CATEGORY("Checkpoint");
 
 CheckPoint::CheckPoint(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation,const Ogre::String& ogreentity, float processInterval):
-	Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,2){
+	HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,2){
 }
 
 CheckPoint::CheckPoint(ZCom_BitStream* announcedata):
-Entity(announcedata,CATEGORY,2){
+	HovercraftUniverseEntity(announcedata,CATEGORY,2){
 }
 
 CheckPoint::~CheckPoint(void){

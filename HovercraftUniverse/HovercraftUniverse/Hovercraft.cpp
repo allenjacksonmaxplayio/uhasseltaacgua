@@ -12,10 +12,10 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 const Ogre::Real Hovercraft::MAXSPEED(200.0);
 
 Hovercraft::Hovercraft(const Ogre::String& name, const unsigned int playerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-Entity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
+HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
 }
 
-Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): Entity(announcedata,CATEGORY,9) {
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): HovercraftUniverseEntity(announcedata,CATEGORY,9) {
 	// Display name
 	int length = announcedata->getInt(sizeof(int) * 8);
 	if (length != 0) {

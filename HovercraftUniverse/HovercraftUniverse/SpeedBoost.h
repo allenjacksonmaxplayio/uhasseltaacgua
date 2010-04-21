@@ -1,7 +1,7 @@
 #ifndef SPEED_BOOST_H
 #define SPEED_BOOST_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 
 #include "Exception.h"
 #include <tinyxml/tinyxml.h>
@@ -15,7 +15,7 @@ class Hovercraft;
  * A Boost should speed up an entity that passes over it in the direction it is currently heading. 
  * @author PJ
  */
-class SpeedBoost : public Entity{
+class SpeedBoost : public HovercraftUniverseEntity{
 private:
 
 	/**

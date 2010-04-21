@@ -1,7 +1,7 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 
@@ -13,7 +13,7 @@ namespace HovUni {
  *
  * @author PJ
  */
-class Asteroid : public Entity {
+class Asteroid : public HovercraftUniverseEntity {
 public:
 
 	/**

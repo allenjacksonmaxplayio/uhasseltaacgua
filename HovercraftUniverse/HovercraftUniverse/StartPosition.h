@@ -1,7 +1,7 @@
 #ifndef STARTPOSITION_H
 #define STARTPOSITION_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 
 #include "Exception.h"
 #include <tinyxml/tinyxml.h>
@@ -11,7 +11,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class StartPosition : public Entity{
+class StartPosition : public HovercraftUniverseEntity {
 private:
 
 	/**

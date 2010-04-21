@@ -1,7 +1,7 @@
 #ifndef POWERUPSPAWN_H
 #define POWERUPSPAWN_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 
@@ -9,7 +9,7 @@ namespace HovUni {
 
 class Hovercraft;
 
-class PowerupSpawn : public Entity{
+class PowerupSpawn : public HovercraftUniverseEntity {
 public:
 
 	/**

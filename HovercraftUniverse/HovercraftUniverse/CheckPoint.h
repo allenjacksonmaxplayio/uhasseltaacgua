@@ -1,7 +1,7 @@
 #ifndef CHECKPOINT_H
 #define CHECKPOINT_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 #include <list>
@@ -13,7 +13,7 @@ class Hovercraft;
 /**
  * @author PJ
  */ 
-class CheckPoint : public Entity {
+class CheckPoint : public HovercraftUniverseEntity {
 private:
 
 	/**
