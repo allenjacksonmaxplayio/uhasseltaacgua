@@ -1,7 +1,7 @@
 #ifndef RESETSPAWN_H
 #define RESETSPAWN_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 
@@ -10,7 +10,7 @@ namespace HovUni {
 /**
  * @author PJ
  */ 
-class ResetSpawn : public Entity{
+class ResetSpawn : public HovercraftUniverseEntity {
 private:
 
 public:	

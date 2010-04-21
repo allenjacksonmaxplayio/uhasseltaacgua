@@ -6,11 +6,11 @@ namespace HovUni {
 const Ogre::String StartPosition::CATEGORY("StartPosition");
 
 StartPosition::StartPosition(const Ogre::String& name, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, float processInterval):
-	Entity(name,CATEGORY,position,orientation,"",processInterval,1){
+	HovercraftUniverseEntity(name,CATEGORY,position,orientation,"",processInterval,1){
 }
 
 StartPosition::StartPosition( ZCom_BitStream* announcedata ):
-	Entity(announcedata,CATEGORY,1)
+	HovercraftUniverseEntity(announcedata,CATEGORY,1)
 {
 }
 

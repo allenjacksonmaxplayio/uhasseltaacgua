@@ -1,7 +1,7 @@
 #ifndef HOVERCRAFT_H
 #define HOVERCRAFT_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 #include "BasicEntityEvent.h"
@@ -13,7 +13,7 @@ namespace HovUni {
  *
  * @author PJ, Kristof Overdulve
  */ 
-class Hovercraft : public Entity {
+class Hovercraft : public HovercraftUniverseEntity {
 private:
 
 	/**

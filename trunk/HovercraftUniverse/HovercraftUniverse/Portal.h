@@ -1,7 +1,7 @@
 #ifndef PORTAL_H
 #define PORTAL_H
 
-#include "Entity.h"
+#include "HovercraftUniverseEntity.h"
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 
@@ -14,7 +14,7 @@ class Hovercraft;
  * A portal is a teleportation mechanism that ports objects from begin to end
  * @author PJ	
  */
-class Portal : public Entity {
+class Portal : public HovercraftUniverseEntity {
 private:
 
 	/**
