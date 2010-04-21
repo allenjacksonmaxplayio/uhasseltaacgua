@@ -235,7 +235,7 @@ void RaceState::SystemState::update() {
 	if (mRaceState->mServer) {
 		switch (mCurrentState) {
 		case INTRO:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getIntValue("Server", "IntroTime", 1000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int>("Server", "IntroTime", 1000)) {
 				newState(COUNTDOWN);
 			}
 		case COUNTDOWN:
@@ -247,12 +247,12 @@ void RaceState::SystemState::update() {
 			}
 			break;
 		case RACING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getIntValue("Server", "PlayTime", 15000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int>("Server", "PlayTime", 15000)) {
 				newState(FINISHING);
 			}
 			break;
 		case FINISHING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getIntValue("Server", "FinishTime", 5000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int>("Server", "FinishTime", 5000)) {
 				newState(CLEANUP);
 				Entity::setControlsInactive();
 			}

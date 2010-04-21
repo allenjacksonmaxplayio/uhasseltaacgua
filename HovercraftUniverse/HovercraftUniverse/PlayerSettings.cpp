@@ -68,7 +68,7 @@ void PlayerSettings::setCharacter(unsigned int character) {
 const Ogre::String PlayerSettings::getCharacter() const {
 	std::stringstream ss;
 	ss << mCharacter;
-	return 	mEntitiesConfig->getValue("Character", ss.str(), "");
+	return 	mEntitiesConfig->getValue<std::string>("Character", ss.str(), "");
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -78,7 +78,7 @@ void PlayerSettings::setHovercraft(unsigned int hov) {
 const Ogre::String PlayerSettings::getHovercraft() const {
 	std::stringstream ss;
 	ss << mHovercraft;
-	return mEntitiesConfig->getValue("Hovercraft", ss.str(), "");
+	return mEntitiesConfig->getValue<std::string>("Hovercraft", ss.str(), "");
 }
 
 const unsigned int PlayerSettings::getID() const {

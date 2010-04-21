@@ -107,7 +107,7 @@ void HUClient::onConnectResult(eZCom_ConnectResult result, ZCom_BitStream& extra
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[HUClient\\" << mID << "]: My unique ID is " << mID;
 
 		//Start the chat client
-		std::string nickname = Application::getConfig()->getValue("Player", "PlayerName", "UnnamedPlayer");
+		std::string nickname = Application::getConfig()->getValue<std::string>("Player", "PlayerName", "UnnamedPlayer");
 		if (mAddress == "") {
 			mChatClient = new ChatClient(nickname);
 		} else {
@@ -160,9 +160,9 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		if (role == eZCom_RoleOwner) {
 			// Put our data in it
 			Config* conf = Application::getConfig();
-			ent->setPlayerName(conf->getValue("Player", "PlayerName", ""));
-			ent->setCharacter(conf->getIntValue("Player", "Character", 0));
-			ent->setHovercraft(conf->getIntValue("Player", "Hovercraft", 0));
+			ent->setPlayerName(conf->getValue<std::string>("Player", "PlayerName", ""));
+			ent->setCharacter(conf->getValue<int>("Player", "Character", 0));
+			ent->setHovercraft(conf->getValue<int>("Player", "Hovercraft", 0));
 		}
 
 		// Network register is done in constructor of player settings

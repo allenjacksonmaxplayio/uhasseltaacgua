@@ -44,7 +44,7 @@ namespace HovUni {
 		mConfig = getConfig();
 		mConfig->loadFile(fullConfigPath);
 		//Get(section, name, defaultValue)
-		std::string mDataPath = mConfig->getValue("Paths", "DataPath", "data");
+		std::string mDataPath = mConfig->getValue<std::string>("Paths", "DataPath", "data");
 		DWORD  retval=0;
 		TCHAR  buffer[MAX_PATH]=TEXT(""); 
 		TCHAR** lppPart={NULL};
@@ -58,6 +58,6 @@ namespace HovUni {
 		}
 		//Parse Engine settings
 		mEngineSettings = getEngineSettings();
-		mEngineSettings->loadFile(mConfig->getValue("Server", "EngineSettings", "engine_settings.cfg"));
+		mEngineSettings->loadFile(mConfig->getValue<std::string>("Server", "EngineSettings", "engine_settings.cfg"));
 	}
 }

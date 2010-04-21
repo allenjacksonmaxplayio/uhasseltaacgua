@@ -52,16 +52,16 @@ void Application::parseIni() {
 	mConfig = getConfig();
 	mConfig->loadFile(fullConfigPath);
 	//Get(section, name, defaultValue)
-	mDataPath = mConfig->getValue("Paths", "DataPath", "data");
-	mLogPath = mConfig->getValue("Ogre", "LogFile", "HovercraftUniverse.log");
-	mOgreConfig = mConfig->getValue("Ogre", "Resources", "resources.cfg");
-	mOgrePlugins = mConfig->getValue("Ogre", "Plugins", "plugins.cfg");
-	mSoundPath = mConfig->getValue("Sound", "Path", "sound\\");
-	mSoundFile = mConfig->getValue("Sound", "File", "Sound.fev");
-	mControlsPath = mConfig->getValue("Controls", "Path", "controls\\");
-	mControlsFile = mConfig->getValue("Controls", "File", "Controls.ini");
-	mEntitiesPath = mConfig->getValue("Entities", "Path", "entities\\");
-	mEntitiesFile = mConfig->getValue("Entities", "File", "Entities.ini");
+	mDataPath = mConfig->getValue<std::string>("Paths", "DataPath", "data");
+	mLogPath = mConfig->getValue<std::string>("Ogre", "LogFile", "HovercraftUniverse.log");
+	mOgreConfig = mConfig->getValue<std::string>("Ogre", "Resources", "resources.cfg");
+	mOgrePlugins = mConfig->getValue<std::string>("Ogre", "Plugins", "plugins.cfg");
+	mSoundPath = mConfig->getValue<std::string>("Sound", "Path", "sound\\");
+	mSoundFile = mConfig->getValue<std::string>("Sound", "File", "Sound.fev");
+	mControlsPath = mConfig->getValue<std::string>("Controls", "Path", "controls\\");
+	mControlsFile = mConfig->getValue<std::string>("Controls", "File", "Controls.ini");
+	mEntitiesPath = mConfig->getValue<std::string>("Entities", "Path", "entities\\");
+	mEntitiesFile = mConfig->getValue<std::string>("Entities", "File", "Entities.ini");
 
 	// Set file to entity manager 
 	EntityManager::setEntityMappingFile(mEntitiesPath + mEntitiesFile);
