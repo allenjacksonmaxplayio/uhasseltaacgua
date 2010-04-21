@@ -78,7 +78,7 @@ Aangezien ik niet per se een standaard heb gevolgd voor de planning. Hierbij enk
     * WP 8.3: *(DONE)* Visualizatie tijd racing.
     * WP 8.4: *(DONE)* Update speedometer + boost (TODO: wat doen we met boost?).
     * WP 8.5: Visualizatie achterstand op eerste + achterstand op vorige racer bij passeren checkpoint (depends on WP 1.10).
-    * WP 8.6: Visualizatie rankings voorgaande en volgende spelers als live 3D model (depends on WP 7.3, WP 1.7).
+    * WP 8.6: Visualizatie rankings voorgaande en volgende spelers als live 3D model (depends on WP 7.4, WP 1.7).
 
    * WP 10 (iedereen): Finalizatie
     * WP 10.1: Code review 
