@@ -15,12 +15,13 @@ namespace HovUni {
 	 *
 	 * @author Kristof Overdulve & Nick De Frangh
 	 */
-	class HovercraftRepresentation : public EntityRepresentation, public Moveable3DEmitter
-	{
+	class HovercraftRepresentation : public EntityRepresentation, public Moveable3DEmitter {
 	private:
 		static const float MAX_RPM;
 		static const float MIN_RPM;
 
+		/** The Particle Scene node, must be updated on every step */
+		Ogre::SceneNode* mParticleNode;
 	public:
 		/**
 		 * Constructor.
