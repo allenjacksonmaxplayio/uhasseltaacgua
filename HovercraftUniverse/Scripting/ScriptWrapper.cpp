@@ -10,8 +10,6 @@ namespace HovUni {
 
 	ScriptWrapper::~ScriptWrapper() {
 		lua_close(mLuaState);
-		delete mLuaState;
-		mLuaState = 0;
 	}
 
 	lua_State* ScriptWrapper::getLuaState() {
