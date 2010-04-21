@@ -421,9 +421,9 @@ void HavokHovercraft::load(const hkVector4& position){
 	mCollisionTest = new AdvancedTest(mWorld,this);
 
 	//Hover action
-	/*HoverAction * hoveraction = new HoverAction(this,mWorld);
+	HoverAction * hoveraction = new HoverAction(this,mWorld);
 	mWorld->addAction(hoveraction);
-	hoveraction->removeReference();*/
+	hoveraction->removeReference();
 
 	hkpAction * collisionsystem = new HavokHovercraftCollisionEffect(this);
 	mWorld->addAction(collisionsystem);

@@ -68,7 +68,10 @@ hkReal HoverAction::PlanetRayCastCallback::addBroadPhaseHandle( const hkpBroadPh
 			if ( HavokEntityType::getEntityType(ent) == HavokEntityType::PLANET ){
 
 
-				std::cout << ent->getName() << std::endl;
+				std::cout << "BROADPHASE FOUND " <<  ent->getName() << std::endl;
+
+
+				//TODO THIS CODE IS WRONG!!!!!!!!!!!!!!!!!!!!!!
 
 				hkpShapeRayCastInput sinput;
 				const hkTransform& trans = col->getTransform();
@@ -80,7 +83,7 @@ hkReal HoverAction::PlanetRayCastCallback::addBroadPhaseHandle( const hkpBroadPh
 				// subshape filtering turned off
 				sinput.m_rayShapeCollectionFilter = HK_NULL;
 
-				HK_DISPLAY_LINE( sinput.m_from, sinput.m_to, hkColor::RED);
+				HK_DISPLAY_ARROW ( sinput.m_from, sinput.m_to, hkColor::RED);
 
 				if (shape->castRay(sinput, *mOutput))
 				{
@@ -125,12 +128,12 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 		ray.m_to.add4(offset);
 	}
 
-	UserRayHitCollector collector(ray);
+	/*UserRayHitCollector collector(ray);
 	mWorld->lock();
 	mWorld->castRay( ray, collector );
-	mWorld->unlock();
+	mWorld->unlock();*/
 
-	/*hkpWorldRayCastOutput output;
+	hkpWorldRayCastOutput output;
 	{
 		PlanetRayCastCallback rayCallback( ray, &output );
 
@@ -160,7 +163,7 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 
 		HK_DISPLAY_LINE( ray.m_from, intersectionPointWorld, hkColor::RED);
 		//HK_SET_OBJECT_COLOR((hkUlong)output.m_rootCollidable, hkColor::RED);
-	}*/
+	}
 
 
 /*
