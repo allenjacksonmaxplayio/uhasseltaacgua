@@ -184,6 +184,7 @@ void ServerLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 		if (!entityparameters.extraData.isNull() && entityparameters.extraData->HasUserData()) {
 			mCurrentHovercraft = entityparameters.name;
 			Ogre::String name = mPlayer->getSettings()->getPlayerName() + "_" + Ogre::StringConverter::toString(mPosition);
+			
 			EntityDescription desc(name, Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
 			parseUserData(entityparameters.extraData->userData, desc);
 		}
@@ -243,6 +244,9 @@ void ServerLoader::onAsteroid(Asteroid * asteroid) {
 	//create Physics
 	mHovercraftWorld->createAsteroid(asteroid,mExternalitem);
 
+	//link to gamestate
+	asteroid->setRaceState(mRaceState);
+
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(asteroid);
 
@@ -258,6 +262,9 @@ void ServerLoader::onStart(Start * start) {
 	//create start
 	mHovercraftWorld->createStart(start, mExternalitem);
 
+	//link to gamestate
+	start->setRaceState(mRaceState);
+
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(start);
 
@@ -270,6 +277,9 @@ void ServerLoader::onStartPosition(StartPosition * startposition) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
+	//link to gamestate
+	startposition->setRaceState(mRaceState);
+
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(startposition);
 
@@ -281,6 +291,9 @@ void ServerLoader::onCheckPoint(CheckPoint * checkpoint) {
 	if (!mExternalitem) {
 		THROW(ParseException, "This should be an external item.");
 	}
+
+	//link to gamestate
+	checkpoint->setRaceState(mRaceState);
 
 	//create Physics
 	mHovercraftWorld->createCheckpoint(checkpoint,mExternalitem);
@@ -296,6 +309,9 @@ void ServerLoader::onFinish(Finish * finish) {
 	if (!mExternalitem) {
 		THROW(ParseException, "This should be an external item.");
 	}
+
+	//link to gamestate
+	finish->setRaceState(mRaceState);
 
 	mHovercraftWorld->createFinish(finish,mExternalitem);
 
@@ -327,6 +343,9 @@ void ServerLoader::onHoverCraft(Hovercraft * hovercraft) {
 	mHovercraftWorld->addHovercraft(hovercraft, hovercraftname, mCurrentHovercraft.c_str(), havok_position);
 	EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
 
+	//link to gamestate
+	hovercraft->setRaceState(mRaceState);
+
 	hovercraft->changePosition(ogre_position);
 	hovercraft->getNetworkNode()->setOwner(mPlayer->getSettings()->getID(), true);
 	hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(), true);
@@ -336,6 +355,9 @@ void ServerLoader::onPortal(Portal * portal) {
 	if (!mExternalitem) {
 		THROW(ParseException, "This should be an external item.");
 	}
+
+	//link to gamestate
+	portal->setRaceState(mRaceState);
 
 	mHovercraftWorld->createPortal(portal,mExternalitem);
 
@@ -351,6 +373,9 @@ void ServerLoader::onBoost(SpeedBoost * boost) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
+	//link to gamestate
+	boost->setRaceState(mRaceState);
+
 	mHovercraftWorld->createBoost(boost, mExternalitem);
 
 	//add to entity manager
@@ -365,6 +390,9 @@ void ServerLoader::onPowerupSpawn(PowerupSpawn * powerupspawn) {
 		THROW(ParseException, "This should be an external item.");
 	}
 
+	//link to gamestate
+	powerupspawn->setRaceState(mRaceState);
+
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(powerupspawn);
 
@@ -376,6 +404,8 @@ void ServerLoader::onResetSpawn(ResetSpawn * spawn) {
 	if (!mExternalitem) {
 		THROW(ParseException, "This should be an external item.");
 	}
+
+	spawn->setRaceState(mRaceState);
 
 	//add to entity manager
 	EntityManager::getServerSingletonPtr()->registerEntity(spawn);

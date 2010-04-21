@@ -197,25 +197,25 @@ public:
 	 * Called when player leaves the finish box
 	 *
 	 * @param finish
-	 * @param hovercraft
+	 * @param playerid
 	 */
-	void onFinish(Finish * finish, Hovercraft * hovercraft);
+	void onFinish(Finish * finish, unsigned int playerid);
 
 	/**
 	 * Called when player leaves the checkpoint box
 	 *
 	 * @param checkpoint
-	 * @param hovercraft
+	 * @param playerid
 	 */
-	void onCheckPoint(CheckPoint * checkpoint, Hovercraft * hovercraft);
+	void onCheckPoint(CheckPoint * checkpoint, unsigned int playerid);
 
 	/**
 	 * Called when start leaves the checkpoint box
 	 *
 	 * @param start
-	 * @param hovercraft
+	 * @param playerid
 	 */
-	void onStart(Start * start, Hovercraft * hovercraft);
+	void onStart(Start * start, unsigned int playerid);
 
 	/**
 	 * Get the class name for this class. This is used for registering

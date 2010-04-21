@@ -11,7 +11,7 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 
 const Ogre::Real Hovercraft::MAXSPEED(200.0);
 
-Hovercraft::Hovercraft(const Ogre::String& name, const unsigned int playerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
+Hovercraft::Hovercraft(const Ogre::String& name, unsigned int playerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
 HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
 }
 

@@ -91,14 +91,17 @@ RaceState::~RaceState() {
 	}
 }
 
-void RaceState::onFinish(Finish * finish, Hovercraft * hovercraft){
+void RaceState::onFinish(Finish * finish, unsigned int playerid){
+	std::cout << playerid << " reaches finish" << std::endl;
 }
 
 
-void RaceState::onCheckPoint(CheckPoint * checkpoint, Hovercraft * hovercraft){
+void RaceState::onCheckPoint(CheckPoint * checkpoint, unsigned int playerid){
+	std::cout << playerid << " reaches checkpoint" << std::endl;
 }
 
-void RaceState::onStart(Start * start, Hovercraft * hovercraft){
+void RaceState::onStart(Start * start, unsigned int playerid){
+	std::cout << playerid << " reaches start" << std::endl;
 }
 
 std::string RaceState::getClassName() {

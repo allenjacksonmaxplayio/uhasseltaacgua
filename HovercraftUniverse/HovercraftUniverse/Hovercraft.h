@@ -94,12 +94,11 @@ public:
 	 * Constructor.
 	 *
 	 * @param name The name of the hovercraft
-	 * @param playerId
 	 * @param position
 	 * @param quaternion
 	 * @param processInterval The process interval
 	 */
-	Hovercraft(const Ogre::String& name, unsigned int mPlayerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
+	Hovercraft(const Ogre::String& name, unsigned int playerid, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval);
 
 	/**
 	 * Constructor.
@@ -120,6 +119,18 @@ public:
 	 */
 	~Hovercraft(void);
 
+	/**
+	 * Set the player id of the controller of the hovercraft
+	 * @param playerid
+	 */
+	inline void setPlayerId( unsigned int playerid ){
+		mPlayerId = playerid;
+	}
+
+	/**
+	 * Get the player id of the controller of the hovercraft
+	 * @param playerid
+	 */
 	inline const unsigned int getPlayerId() const {
 		return mPlayerId;
 	}
