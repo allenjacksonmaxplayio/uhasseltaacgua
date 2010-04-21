@@ -2,6 +2,7 @@
 #include <OgreStringConverter.h>
 #include "String_Replicator.h"
 #include "Hovercraft.h"
+#include "RaceState.h"
 
 namespace HovUni {
 
@@ -52,14 +53,11 @@ void CheckPoint::load(TiXmlElement * data) throw(ParseException){
 }
 
 void CheckPoint::onEnter ( Hovercraft * hovercraft ){
-
-	std::cout << hovercraft->getName() << " entres checkpoint " << getName() << std::endl;
+	mRacestate->onCheckPoint(this,hovercraft->getPlayerId());	
 }
 
 
 void CheckPoint::onLeave( Hovercraft * hovercraft ){
-
-	std::cout << hovercraft->getName() << " leaves checkpoint " << getName() << std::endl;
 }
 
 void CheckPoint::setupReplication(){

@@ -1,5 +1,6 @@
 #include "Start.h"
 #include "Hovercraft.h"
+#include "RaceState.h"
 
 namespace HovUni {
 
@@ -25,14 +26,10 @@ Start::~Start(void){
 }
 
 void Start::onEnter ( Hovercraft * hovercraft ){
-
-	std::cout << hovercraft->getName() << " enters start " << getName() << std::endl;
+	mRacestate->onStart(this,hovercraft->getPlayerId());
 }
 
 void Start::onLeave( Hovercraft * hovercraft ){
-	std::cout << hovercraft->getName() << " leaves start " << getName() << std::endl;
-	// TODO: REMOVE THIS, ONLY FOR TESTING
-	//hovercraft->finished();
 }
 
 std::string Start::getClassName(){
