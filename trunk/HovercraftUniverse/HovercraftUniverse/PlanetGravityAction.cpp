@@ -64,6 +64,8 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 
 			character->updateUp(newUp);
 			
+			//TODO REMOVE THIS HOVER CODE
+
 			// hovering
 			hkVector4 hover;
 			hkVector4 position = rb->getPosition();
@@ -90,6 +92,7 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 			rb->applyForce(stepInfo.m_deltaTime, hover);
 
 			
+			//TODO END OF REMOVE
 		}
 	}
 
