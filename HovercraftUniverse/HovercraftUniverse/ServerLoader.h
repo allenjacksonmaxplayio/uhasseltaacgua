@@ -22,11 +22,6 @@ private:
 	HoverCraftUniverseWorld * mHovercraftWorld;
 
 	/**
-	 * Current external
-	 */
-	OgreMax::Types::ExternalItem * mExternalitem;
-
-	/**
 	 * A flag to state that the loader is working on hovercrafts
 	 */
 	bool mLoadingHovercrafts;
@@ -72,37 +67,40 @@ public:
 	virtual void onExternal(OgreMax::Types::ExternalItem& externalitem);
 
 	/**
-	 * Needed to read hovercraft
+	 * Needed to read hovercraft and other entities that are loaded later
 	 */
 	virtual void onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent);
 
 private:
 
-	//Custom objects
+	/**
+	 * Parse the given root for game entity properties
+	 * @param root, the root must not be 0
+	 * @param ogreentity, will be filled
+	 * @param processtime, will be filled
+	 */
+	void parseEntityParameters(TiXmlElement * root, Ogre::String& ogreentity, Ogre::Real& processtime);
 
-	void parseUserData(const Ogre::String& data, const EntityDescription& description);
+	/**
+	 * Read the metadata from the external item, create a gameenity from this.
+	 * Throw ParseException if exteralitem contains invallid information.
+	 * @param mExternalitem
+	 */
+	void parseWorldUserData(OgreMax::Types::ExternalItem& mExternalitem);
 
-	virtual void onAsteroid(Asteroid * asteroid);
+	/**
+	 * This will read the track metadata, this metadata contains the filename of the physical representation.
+	 * This is loaded into havok. Throws a ParseException if something fails.
+	 * @param data
+	 */
+	void parseTrackUserData(const Ogre::String& data);
 
-	virtual void onStartPosition(StartPosition * startposition);
-
-	virtual void onCheckPoint(CheckPoint * checkpoint);
-
-	virtual void onFinish(Finish * finish);
-
-	virtual void onStart(Start * start);
-
-	virtual void onHoverCraft(Hovercraft * hovercraft);
-
-	virtual void onTrack(Track * track);
-
-	virtual void onPortal(Portal * portal);
-
-	virtual void onBoost(SpeedBoost * boost);
-
-	virtual void onPowerupSpawn(PowerupSpawn * powerupspawn);
-
-	virtual void onResetSpawn(ResetSpawn * spawn);
+	/**
+	 * This will read the metadata of the given entity which should be an hovercraft.
+	 * Will load the hovercraft and add it to the world. Throws a ParseException if something fails.
+	 * @param entityparameters
+	 */
+	void parseHovercraftUserData(OgreMax::Types::EntityParameters& entityparameters);
 };
 
 }
