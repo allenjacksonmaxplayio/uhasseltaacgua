@@ -13,41 +13,41 @@ namespace HovUni {
 	}
 
 	void HUDedicatedServer::run() {
-		//TODO Dirk retrieve these values from server ini
-		Ogre::Root ogreRoot(getConfig()->getValue<std::string>("Ogre", "Plugins", "plugins.cfg"), getConfig()->getValue<std::string>("Ogre", "ConfigFile", "ogre.cfg"), getConfig()->getValue<std::string>("Ogre", "LogFile", "Server.log"));
-		//Ogre::LogManager::getSingleton().createLog(getConfig()->getValue<std::string>("Server", "LogFile", "Server.log"), true);
-
-// HACK IN OGRE FILE THINGY
-
-		Ogre::ConfigFile cf;
-		cf.load(mConfig->getValue<std::string>("Ogre", "Resources", "resources.cfg").c_str());
-		// Iterate over config
-		Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
-		while (seci.hasMoreElements()) {
-			// Read property
-			Ogre::String secName = seci.peekNextKey();
-			Ogre::ConfigFile::SettingsMultiMap * settings = seci.getNext();
-			
-			// For all settings of that property, add them
-			for (Ogre::ConfigFile::SettingsMultiMap::iterator it = settings->begin(); it != settings->end(); it++) {
-				Ogre::String typeName = it->first;
-				Ogre::String archName = it->second;
-				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+		Ogre::Root* ogreRoot = Ogre::Root::getSingletonPtr();
+		
+		if (ogreRoot == 0) {
+			ogreRoot = new Ogre::Root(getConfig()->getValue<std::string>("Ogre", "Plugins", "plugins.cfg"), getConfig()->getValue<std::string>("Ogre", "ConfigFile", "ogre.cfg"), getConfig()->getValue<std::string>("Ogre", "LogFile", "Server.log"));
+			Ogre::ConfigFile cf;
+			cf.load(mConfig->getValue<std::string>("Ogre", "Resources", "resources.cfg").c_str());
+			// Iterate over config
+			Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+			while (seci.hasMoreElements()) {
+				// Read property
+				Ogre::String secName = seci.peekNextKey();
+				Ogre::ConfigFile::SettingsMultiMap * settings = seci.getNext();
+				
+				// For all settings of that property, add them
+				for (Ogre::ConfigFile::SettingsMultiMap::iterator it = settings->begin(); it != settings->end(); it++) {
+					Ogre::String typeName = it->first;
+					Ogre::String archName = it->second;
+					Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+				}
 			}
+			
+			//make sure it doesn't parse materials
+			Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(Ogre::MaterialManager::getSingletonPtr());
 		}
 
-		//make sure it doesn't parse materials
-		Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(Ogre::MaterialManager::getSingletonPtr());
-
-// HACK IN OGRE FILE THINGY
+		//Save the INI here to make it complete
+		getConfig()->saveFile();
 
 		HovUni::HUServer server;
 		server.start();
 		server.join();
 //		delete server;
 //		server = 0;
-//		delete ogreRoot;
-//		ogreRoot = 0;
+		delete ogreRoot;
+		ogreRoot = 0;
 	}
 
 	void HUDedicatedServer::init() {
