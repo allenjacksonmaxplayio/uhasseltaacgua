@@ -2,6 +2,8 @@
 #include "MessageBox.h"
 #include "GUIManager.h"
 
+#include "HUDedicatedServer.h"
+
 namespace HovUni {
 	MainMenu::MainMenu(ServerMenuListener* serverListener, const Hikari::FlashDelegate& onQuit) {
 		//Create buttons
@@ -75,8 +77,38 @@ namespace HovUni {
 
 	Hikari::FlashValue MainMenu::onSingleplayer(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		mListener->onConnect("localhost", this);
-		
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
+
+//NEW CODE THAT STARTS THE SERVER::
+		/*
+		try {
+		//HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
+			HovUni::HUDedicatedServer app("SingleplayerServer.ini");
+		
+			app.init();
+			app.run();
+
+			//Todo prettify catch blocks error msgs like this:
+			//HovUni::MessageBox* msg = new MessageBox("Could not connect to server", "connectionmessage");
+			//GUIManager::getSingletonPtr()->activateOverlay(msg);
+		
+			//HovUni::Console::destroyConsole();
+
+
+			mListener->onConnect("localhost", this);
+		
+			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
+
+		} catch (Ogre::Exception& e) {
+			MessageBoxA(NULL, e.getFullDescription().c_str(), "Ogre Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		} catch (HovUni::Exception& e2) {
+			MessageBoxA(NULL, e2.getMessage().c_str(), "HovUni Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		} catch (std::exception& e) {
+			MessageBoxA(NULL, e.what(), "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		} catch (...) {
+			MessageBoxA(NULL, "Unknown fatal Ogre Exception in starting Single Player Server", "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		}
+		*/
 
 		return "success";
 	}

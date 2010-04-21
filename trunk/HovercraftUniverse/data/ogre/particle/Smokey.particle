@@ -1,5 +1,4 @@
-particle_system Smokey
-{
+particle_system Smokey {
 	quota	10000
 	material	PE/smoke
 	particle_width	1
@@ -8,8 +7,7 @@ particle_system Smokey
 	renderer	billboard
 	billboard_type	point
 
-	emitter Box
-	{
+	emitter Box {
 		angle	7.826
 		colour	0.1 0.1 0.1 1
 		colour_range_start	0.1 0.1 0.1 1
@@ -32,14 +30,12 @@ particle_system Smokey
 		depth	0
 	}
 
-	affector LinearForce
-	{
+	affector LinearForce {
 		force_vector	0 0 0
 		force_application	add
 	}
 
-	affector ColourFader
-	{
+	affector ColourFader {
 		red	0
 		green	0
 		blue	0
