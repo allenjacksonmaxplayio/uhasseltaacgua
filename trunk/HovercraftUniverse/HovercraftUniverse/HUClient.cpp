@@ -168,7 +168,7 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		// Network register is done in constructor of player settings
 		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream()
 		//		<< "[HUClient]: adding player to lobby";
-		mLobby->addPlayer(ent, ent->getID() == mID);
+		mLobby->addPlayer(ent, ent->getConnID() == mID);
 	} else if (requested_class == mIDManager->getID(RaceState::getClassName())) {
 		RaceState* ent = new RaceState(mLobby, HUApplication::msPreparationLoader, announcedata, requested_class, this);
 		mLobby->setRaceState(ent);

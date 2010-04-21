@@ -26,7 +26,7 @@ std::string Lobby::getClassName() {
 
 Lobby::Lobby(Loader * loader) :
 NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack.scene"), mMaximumPlayers(DedicatedServer::getConfig()->getValue<int>("Server", "MaximumPlayers", 12)),
-			mCurrentPlayers(0), mRaceState(0), mBots(DedicatedServer::getConfig()->getValue<bool>("Server", "Bots", false)) {
+			mCurrentPlayers(0), mRaceState(0), mBots(DedicatedServer::getConfig()->getValue<bool>("Server", "FillWithBots", false)) {
 
 	this->setReplicationInterceptor(this);
 }
@@ -47,7 +47,7 @@ Lobby::~Lobby() {
 void Lobby::process() {
 	processEvents(0.0f);
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
-		ZCom_ConnID id = it->first;
+		unsigned int id = it->first;
 		PlayerSettings* settings = it->second;
 
 		// Check if this settings wasn't deleted in the mean time
@@ -68,7 +68,7 @@ void Lobby::process() {
 	}
 }
 
-void Lobby::removePlayer(ZCom_ConnID id) {
+void Lobby::removePlayer(unsigned int id) {
 	removePlayer(mPlayers.find(id));
 }
 
@@ -98,6 +98,16 @@ void Lobby::addPlayer(PlayerSettings * settings, bool ownPlayer) {
 	}
 }
 
+unsigned int Lobby::getPlayerIDfromConnectionID(ZCom_ConnID connID) const {
+	for (playermap::const_iterator it = mPlayers.begin(); it != mPlayers.end(); ++it) {
+		if (it->second->getConnID() == connID) {
+			return it->first;
+		}
+	}
+	return 0;
+}
+
+
 void Lobby::start() {
 	StartTrackEvent startEvent;
 	sendEvent(startEvent);
@@ -126,27 +136,31 @@ bool Lobby::onConnectAttempt(ZCom_ConnID id) {
 void Lobby::onConnect(ZCom_ConnID id) {
 	//TODO lock mutex
 
+	PlayerSettings* newPlayer = new PlayerSettings(this, id);
+
 	// Request extra info
 	if (!mHasAdmin) {
-		mAdmin = id;
-		getNetworkNode()->setOwner(mAdmin, true);
+		mAdmin = newPlayer->getID();
+		getNetworkNode()->setOwner(id, true);
 		mHasAdmin = true;
 	}
 
 	// Add player to map
-	addPlayer(new PlayerSettings(this, id));
+	addPlayer(newPlayer);
 	mCurrentPlayers++;
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined with id " << id;
+
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New player joined with id " << newPlayer->getID();
 }
 
 void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 	//TODO lock mutex
+	unsigned int playerID = getPlayerIDfromConnectionID(id);
 
 	// Remove from map
-	removePlayer(id);
+	removePlayer(playerID);
 
 	// Check if new admin is needed
-	if (mAdmin == id) {
+	if (mAdmin == playerID) {
 
 		// Check if players remain
 		if (mPlayers.getPlayers().empty()) {
@@ -210,7 +224,7 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 		if (init) {
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Received initial lobby information";
 			ZCom_BitStream* state = init->getStream();
-			mAdmin = state->getInt(sizeof(ZCom_ConnID) * 8);
+			mAdmin = state->getInt(sizeof(unsigned int) * 8);
 			mMaximumPlayers = state->getInt(8);
 			mCurrentPlayers = state->getInt(8);
 			mTrackFilename = state->getString();
@@ -240,7 +254,7 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 	if (type == eZCom_EventInit && mNode->getRole() == eZCom_RoleAuthority) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: New client requested Lobby";
 		ZCom_BitStream* state = new ZCom_BitStream();
-		state->addInt(mAdmin, sizeof(ZCom_ConnID) * 8);
+		state->addInt(mAdmin, sizeof(unsigned int) * 8);
 		state->addInt(mMaximumPlayers, 8);
 		state->addInt(mCurrentPlayers, 8);
 		state->addString(mTrackFilename.c_str());
@@ -281,7 +295,7 @@ void Lobby::setupReplication() {
 
 	//mAdmin
 	mNode->addReplicationInt((zS32*) &mAdmin, // pointer to the variable
-			sizeof(ZCom_ConnID) * 8, // amount of bits(full)
+			sizeof(unsigned int) * 8, // amount of bits(full)
 			false, // unsigned
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
 			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
