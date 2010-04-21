@@ -179,10 +179,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\HovercraftUniverseEntity.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\HUApplication.cpp"
 				>
 			</File>
@@ -358,6 +354,10 @@
 					</File>
 					<File
 						RelativePath=".\Hovercraft.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HovercraftUniverseEntity.cpp"
 						>
 					</File>
 					<File
@@ -593,10 +593,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\HovercraftUniverseEntity.h"
-				>
-			</File>
-			<File
 				RelativePath=".\HUApplication.h"
 				>
 			</File>
@@ -784,6 +780,10 @@
 					</File>
 					<File
 						RelativePath=".\Hovercraft.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HovercraftUniverseEntity.h"
 						>
 					</File>
 					<File
