@@ -14,15 +14,13 @@ particle_system Smokey
 		colour	0.1 0.1 0.1 1
 		colour_range_start	0.1 0.1 0.1 1
 		colour_range_end	0.1 0.1 0.1 1
-		direction	-0.684313 -0.325257 0.652628
-		emission_rate	391.3
+		direction	0 0 1
+		emission_rate	800
 		position	0 0 0
 		velocity	7.317
 		velocity_min	7.317
 		velocity_max	13.04
-		time_to_live	0.9091
-		time_to_live_min	0.9091
-		time_to_live_max	0.9091
+		time_to_live	0.5
 		duration	0
 		duration_min	0
 		duration_max	0
@@ -36,7 +34,7 @@ particle_system Smokey
 
 	affector LinearForce
 	{
-		force_vector	2.94504 44.615 -2.90231
+		force_vector	0 0 0
 		force_application	add
 	}
 
@@ -45,6 +43,6 @@ particle_system Smokey
 		red	0
 		green	0
 		blue	0
-		alpha	0
+		alpha	1
 	}
 }
