@@ -85,7 +85,7 @@ namespace HovUni {
 			HovUni::HUDedicatedServer app("SingleplayerServer.ini");
 		
 			app.init();
-			app.run();
+			app.run(false);
 
 			//Give the server a second to load, should be enough
 			DWORD dwMilliseconds = 1000;

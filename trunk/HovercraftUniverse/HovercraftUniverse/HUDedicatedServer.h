@@ -20,7 +20,7 @@ namespace HovUni {
 		/**
 		*	See DedicatedServer::run()
 		*/
-		void run(bool standalone = false);
+		void run(bool standalone = true);
 	};
 }
 #endif //HUDEDICATEDSERVER_H_
