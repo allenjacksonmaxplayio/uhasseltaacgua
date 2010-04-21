@@ -57,15 +57,18 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 	if (HavokEntityType::getEntityType(rb) == HavokEntityType::CHARACTER) {
 		HavokEntity * character = reinterpret_cast<HavokEntity*>(rb->getUserData());
 		if (character != HK_NULL) {
-		
+			hkVector4 oldUp = character->getUp();
+
 			hkVector4 newUp(forceDir);
 			newUp.setNeg4(forceDir);
 			newUp.normalize3();
 
-			character->updateUp(newUp);
+			float speed = 0.8f;
+			hkVector4 inter(oldUp(0) + (newUp(0) - oldUp(0)) * speed, oldUp(1) + (newUp(1) - oldUp(1)) * speed, oldUp(2) + (newUp(2) - oldUp(2)) * speed);
+			inter.normalize3();
+			character->updateUp(inter);
 			
 			//TODO REMOVE THIS HOVER CODE
-
 			// hovering
 			hkVector4 hover;
 			hkVector4 position = rb->getPosition();
@@ -90,8 +93,6 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 
 			hover.setMul4(rb->getMass() * magnitude, newUp);
 			rb->applyForce(stepInfo.m_deltaTime, hover);
-
-			
 			//TODO END OF REMOVE
 		}
 	}

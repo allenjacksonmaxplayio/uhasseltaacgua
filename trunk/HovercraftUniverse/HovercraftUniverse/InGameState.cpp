@@ -208,6 +208,8 @@ namespace HovUni {
 		if (mUpdateListener) {
 			//Get current entity
 			Entity* currEntity = mEntityManager->getTrackedEntity();
+			Ogre::SceneManager::CameraIterator it = mRepresentationManager->getSceneManager()->getCameraIterator();
+			Ogre::Camera* cam = it.getNext();
 			mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
 		}
 		mSoundManager->update();
