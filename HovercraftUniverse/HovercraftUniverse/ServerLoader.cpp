@@ -324,7 +324,7 @@ void ServerLoader::parseHovercraftUserData(OgreMax::Types::EntityParameters& ent
 		
 
 		//network
-		hovercraft->getNetworkNode()->setOwner(mPlayer->getSettings()->getID(), true);
+		hovercraft->getNetworkNode()->setOwner(mPlayer->getSettings()->getConnID(), true);
 		hovercraft->networkRegister(NetworkIDManager::getServerSingletonPtr(), Hovercraft::getClassName(), true);
 	}
 	else {

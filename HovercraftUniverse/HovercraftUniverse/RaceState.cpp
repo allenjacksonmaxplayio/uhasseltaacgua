@@ -114,7 +114,7 @@ void RaceState::process() {
 	mState->update();
 
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
-		ZCom_ConnID id = it->first;
+		unsigned int id = it->first;
 		RacePlayer* player = it->second;
 
 		// Check if this settings wasn't deleted in the mean time
@@ -153,7 +153,7 @@ void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 	}
 }
 
-void RaceState::removePlayer(ZCom_ConnID id) {
+void RaceState::removePlayer(unsigned int id) {
 	removePlayer(mPlayers.find(id));
 }
 
@@ -204,7 +204,7 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 		} else {
 			StateEvent* newState = dynamic_cast<StateEvent*> (gEvent);
 			if (newState) {
-				mState->newEvent((Events) newState->getState(), conn_id);
+				mState->newEvent((Events) newState->getState(), mLobby->getPlayerIDfromConnectionID(conn_id));
 			}
 		}
 		delete gEvent;
@@ -315,7 +315,7 @@ void RaceState::SystemState::newState(States state) {
 	}
 }
 
-void RaceState::SystemState::newEvent(Events events, ZCom_ConnID id) {
+void RaceState::SystemState::newEvent(Events events, unsigned int id) {
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: New event " << events << " from " << id;
 	// Check if the event is correct for the current state
 	bool correct = false;
@@ -362,7 +362,7 @@ void RaceState::SystemState::setWaitingList() {
 	}
 }
 
-void RaceState::SystemState::eraseFromList(ZCom_ConnID id) {
+void RaceState::SystemState::eraseFromList(unsigned int id) {
 	mWaitingList.erase(id);
 
 	if (mWaitingList.empty()) {

@@ -9,22 +9,23 @@
 
 namespace HovUni {
 
-PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int userID) :
-	NetworkEntity(3), mUserID(userID), mCharacter(0), mHovercraft(0), mPlayerName(""), mLobby(lobby) {
+PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int connID) :
+	NetworkEntity(3), mConnID(connID), mUserID(getUniqueID()), mCharacter(0), mHovercraft(0), mPlayerName(""), mLobby(lobby) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->setEventNotification(true, false);
 
 	// Set owner
-	mNode->setOwner(userID, true);
+	mNode->setOwner(connID, true);
 
 	mEntitiesConfig = new Config();
 	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
-	NetworkEntity(3), mUserID(ZCom_Invalid_ID), mCharacter(0), mHovercraft(0), mPlayerName(name), mLobby(lobby) {
+	NetworkEntity(3), mConnID(ZCom_Invalid_ID), mUserID(getUniqueID()), mCharacter(0), mHovercraft(0), mPlayerName(name), mLobby(
+			lobby) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
@@ -35,7 +36,8 @@ PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
 }
 
 PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control) :
-	NetworkEntity(3), mLobby(lobby), mUserID(announcementdata->getInt(32)), mCharacter(0), mHovercraft(0), mPlayerName("") {
+	NetworkEntity(3), mConnID(announcementdata->getInt(32)), mUserID(announcementdata->getInt(32)), mCharacter(0), mHovercraft(0),
+			mPlayerName(""), mLobby(lobby) {
 
 	// Add as network entity
 	networkRegister(id, control);
@@ -47,6 +49,7 @@ PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, 
 
 PlayerSettings::~PlayerSettings() {
 	delete mEntitiesConfig;
+	releaseUniqueID(mUserID);
 }
 
 std::string PlayerSettings::getClassName() {
@@ -68,7 +71,7 @@ void PlayerSettings::setCharacter(unsigned int character) {
 const Ogre::String PlayerSettings::getCharacter() const {
 	std::stringstream ss;
 	ss << mCharacter;
-	return 	mEntitiesConfig->getValue<std::string>("Character", ss.str(), "");
+	return mEntitiesConfig->getValue<std::string> ("Character", ss.str(), "");
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -78,14 +81,19 @@ void PlayerSettings::setHovercraft(unsigned int hov) {
 const Ogre::String PlayerSettings::getHovercraft() const {
 	std::stringstream ss;
 	ss << mHovercraft;
-	return mEntitiesConfig->getValue<std::string>("Hovercraft", ss.str(), "");
+	return mEntitiesConfig->getValue<std::string> ("Hovercraft", ss.str(), "");
 }
 
 const unsigned int PlayerSettings::getID() const {
 	return mUserID;
 }
 
+const unsigned int PlayerSettings::getConnID() const {
+	return mConnID;
+}
+
 void PlayerSettings::setAnnouncementData(ZCom_BitStream* stream) {
+	stream->addInt(mConnID, 32);
 	stream->addInt(mUserID, 32);
 }
 
@@ -126,6 +134,26 @@ void PlayerSettings::setupReplication() {
 
 	//replicate character
 	replicateUnsignedInt((int*) &mCharacter, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY, 4);
+}
+
+std::set<unsigned int> PlayerSettings::msIDs;
+unsigned int PlayerSettings::msLowestPossible = 20;
+
+unsigned int PlayerSettings::getUniqueID() {
+	unsigned int i = msLowestPossible;
+
+	while (msIDs.find(i) != msIDs.end()) {
+		++i;
+	}
+
+	msIDs.insert(i);
+	msLowestPossible = i + 1;
+	return i;
+}
+
+void PlayerSettings::releaseUniqueID(unsigned int id) {
+	msIDs.erase(id);
+	msLowestPossible = (msLowestPossible < id ? msLowestPossible : id);
 }
 
 }

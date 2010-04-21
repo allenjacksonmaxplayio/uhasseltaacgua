@@ -31,7 +31,7 @@ class Hovercraft;
 class RaceState: public NetworkEntity, public Listenable<RaceStateListener> {
 public:
 	/** The player map type */
-	typedef PlayerMap<ZCom_ConnID, RacePlayer, false> playermap;
+	typedef PlayerMap<unsigned int, RacePlayer, false> playermap;
 
 	/** All the possible states during the race */
 	static const enum States {
@@ -138,7 +138,7 @@ public:
 	 * @param id the id of the player
 	 * @return the settings
 	 */
-	inline RacePlayer* getPlayer(ZCom_ConnID id) const {
+	inline RacePlayer* getPlayer(unsigned int id) const {
 		return mPlayers.getPlayer(id);
 	}
 
@@ -189,7 +189,7 @@ public:
 	 *
 	 * @param id the ID of the player
 	 */
-	void removePlayer(ZCom_ConnID id);
+	void removePlayer(unsigned int id);
 
 	// Game events that are triggered on server propagated from havok //
 
@@ -327,7 +327,7 @@ private:
 		 * @param event the event
 		 * @param id the ID of the player who sent the vent
 		 */
-		void newEvent(Events events, ZCom_ConnID id);
+		void newEvent(Events events, unsigned int id);
 
 		/**
 		 * Send an event to the server. (Client)
@@ -352,7 +352,7 @@ private:
 		 *
 		 * @param id the ID to remove
 		 */
-		void eraseFromList(ZCom_ConnID id);
+		void eraseFromList(unsigned int id);
 
 	};
 };

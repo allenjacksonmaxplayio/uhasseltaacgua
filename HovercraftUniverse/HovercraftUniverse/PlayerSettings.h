@@ -6,6 +6,7 @@
 #include <OgreString.h>
 #include "GameEvent.h"
 #include "Config.h"
+#include <set>
 
 namespace HovUni {
 
@@ -35,6 +36,9 @@ private:
 	// Adding a replicated field: set up replication (in setupReplication) + init event (in parseEvents)
 	// Const fields should be in announce data and not as replicator
 
+	/** The ID of the connection for this user */
+	const unsigned int mConnID;
+
 	/** The ID of the user */
 	const unsigned int mUserID;
 
@@ -53,9 +57,9 @@ public:
 	 * Constructor for settings for a certain player
 	 *
 	 * @param lobby the lobby
-	 * @param userID the ID of the player
+	 * @param connID the connection ID of the player, this will be different than the user ID
 	 */
-	PlayerSettings(Lobby * lobby, unsigned int userID);
+	PlayerSettings(Lobby * lobby, unsigned int connID);
 
 	/**
 	 * Constructor for settings of an AI or something
@@ -139,12 +143,19 @@ public:
 	const unsigned int getID() const;
 
 	/**
+	 * Get the connection ID of the user (Server)
+	 *
+	 * @return the connection ID of the user
+	 */
+	const unsigned int getConnID() const;
+
+	/**
 	 * Check whether this is a bot
 	 *
 	 * @return true if it is a bot, false otherwise
 	 */
 	inline bool isBot() const {
-		return mUserID == ZCom_Invalid_ID;
+		return mConnID == ZCom_Invalid_ID;
 	}
 
 protected:
@@ -170,6 +181,27 @@ protected:
 	 * @param stream the bitstream where the data can be set
 	 */
 	virtual void setAnnouncementData(ZCom_BitStream* stream);
+
+private:
+	/** A set with the current ID's in use */
+	static std::set<unsigned int> msIDs;
+
+	/** The lowest possible unique ID */
+	static unsigned int msLowestPossible;
+
+	/**
+	 * Get a unique ID that is not in use yet
+	 *
+	 * @return a unique ID
+	 */
+	static unsigned int getUniqueID();
+
+	/**
+	 * Release the unique ID so that it can be used again
+	 *
+	 * @param id the used ID
+	 */
+	static void releaseUniqueID(unsigned int id);
 };
 
 }

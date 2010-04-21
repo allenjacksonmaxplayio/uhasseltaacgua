@@ -26,7 +26,7 @@ class Lobby: public NetworkEntity,
 		public ZCom_NodeReplicationInterceptor {
 public:
 	/** The player map type */
-	typedef PlayerMap<ZCom_ConnID, PlayerSettings, false> playermap;
+	typedef PlayerMap<unsigned int, PlayerSettings, false> playermap;
 
 
 	/*
@@ -54,7 +54,7 @@ private:
 	// Adding a replicated field: set up replication (in setupReplication) + init event (in parseEvents)
 
 	/** The ID of the administrator */
-	ZCom_ConnID mAdmin;
+	unsigned int mAdmin;
 
 	/** The maximum number of players allowed */
 	int mMaximumPlayers;
@@ -112,9 +112,17 @@ public:
 	 * @param id the id of the player
 	 * @return the settings
 	 */
-	inline PlayerSettings* getPlayer(ZCom_ConnID id) {
+	inline PlayerSettings* getPlayer(unsigned int id) {
 		return mPlayers.getPlayer(id);
 	}
+
+	/**
+	 * Get the player ID for a given connection ID
+	 *
+	 * @param connID the connection ID of the player
+	 * @return the unique ID for the player
+	 */
+	unsigned int getPlayerIDfromConnectionID(ZCom_ConnID connID) const;
 
 	/**
 	 * Get the class name for this class. This is used for registering
@@ -253,11 +261,11 @@ public:
 protected:
 
 	/**
-	 * Remove player connection id. (Server + Client)
+	 * Remove player id. (Server + Client)
 	 *
 	 * @param id the ID of the player
 	 */
-	void removePlayer(ZCom_ConnID id);
+	void removePlayer(unsigned int id);
 
 	/**
 	 * Remove player. (Server + Client)
