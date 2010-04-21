@@ -67,7 +67,7 @@ namespace HovUni {
 		*	@param	field	The key, or field name.
 		*	@param	defaultValue	If no value / empty value was found, this value will be returned
 		*							Also, this default value will be SET into the config automatically.
-		*	@return	The value, as a double.
+		*	@return	The value, as the given type.
 		*/
 		template <typename T>
 		T getValue(const std::string& section, const std::string& field, const T defaultValue);
