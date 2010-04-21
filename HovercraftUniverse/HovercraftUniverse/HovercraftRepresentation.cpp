@@ -3,6 +3,8 @@
 #include "Hovercraft.h"
 #include <HovSound.h>
 #include <SoundManager.h>
+#include <OgreParticleSystem.h>
+#include <OgreSceneNode.h>
 
 namespace HovUni {
 
@@ -27,10 +29,17 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	//TODO: Don't know if this should be here...
 	SoundManager::getSingletonPtr()->registerEmitter(this);
 	startSound();
+
+	//TODO: check if we have to delete these things ourselves, or if ogre will take care of that
+	// (for example, when starting a new game)
+	Ogre::ParticleSystem* pSystem = sceneMgr->createParticleSystem(entity->getName(), "Smokey");
+	mParticleNode = node->createChildSceneNode();
+	mParticleNode->attachObject(pSystem);
+
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
-	// Empty
+	
 }
 
 void HovercraftRepresentation::getUpdates(Ogre::Vector3 ** position, Ogre::Vector3 ** velocity, Ogre::Vector3 ** orientation) {
