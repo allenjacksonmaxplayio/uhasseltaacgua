@@ -87,7 +87,13 @@ RaceState::~RaceState() {
 
 	// Delete all the players
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
-		it = removePlayer(it);
+		if (it->second->isBot()) {
+			PlayerSettings* settings = it->second->getSettings();
+			it = removePlayer(it);
+			delete settings;
+		} else {
+			it = removePlayer(it);
+		}
 	}
 }
 

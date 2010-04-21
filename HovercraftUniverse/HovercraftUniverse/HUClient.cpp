@@ -186,53 +186,64 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 	}
 
 	//Entities
-	else if (requested_class == mIDManager->getID(Asteroid::getClassName())) {
+	if (requested_class == mIDManager->getID(Asteroid::getClassName())) {
 		Asteroid * ent = new Asteroid(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(CheckPoint::getClassName())) {
 		CheckPoint * ent = new CheckPoint(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(Start::getClassName())) {
 		Start * ent = new Start(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(StartPosition::getClassName())) {
 		StartPosition * ent = new StartPosition(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(Finish::getClassName())) {
 		Finish * ent = new Finish(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(ResetSpawn::getClassName())) {
 		ResetSpawn * ent = new ResetSpawn(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(PowerupSpawn::getClassName())) {
 		PowerupSpawn * ent = new PowerupSpawn(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(SpeedBoost::getClassName())) {
 		SpeedBoost * ent = new SpeedBoost(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(Portal::getClassName())) {
 		Portal * ent = new Portal(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(Hovercraft::getClassName())) {
 		Hovercraft * ent = new Hovercraft(announcedata);
+		ent->setRaceState(mLobby->getRaceState());
+		ent->updateLabel();
 
 		// Monitor the loading of the hovercrafts
 		ProgressMonitor::getSingletonPtr()->updateTask("Loading hovercraft entities.");

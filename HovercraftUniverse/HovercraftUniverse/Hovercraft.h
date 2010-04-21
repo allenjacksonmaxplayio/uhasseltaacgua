@@ -281,6 +281,11 @@ public:
 	}
 
 	/**
+	 * Update the label
+	 */
+	void updateLabel();
+
+	/**
 	 * Callback to process this entity. This allows to do entity specific processing
 	 *(e.g. intermediate actions).
 	 *
