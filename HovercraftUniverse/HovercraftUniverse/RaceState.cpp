@@ -15,6 +15,10 @@
 #include "Entity.h"
 #include "DedicatedServer.h"
 #include "TrackInfoLoader.h"
+#include "Finish.h"
+#include "Start.h"
+#include "Hovercraft.h"
+#include "CheckPoint.h"
 #include <math.h>
 
 #include <OgreLogManager.h>
@@ -85,6 +89,16 @@ RaceState::~RaceState() {
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
 		it = removePlayer(it);
 	}
+}
+
+void RaceState::onFinish(Finish * finish, Hovercraft * hovercraft){
+}
+
+
+void RaceState::onCheckPoint(CheckPoint * checkpoint, Hovercraft * hovercraft){
+}
+
+void RaceState::onStart(Start * start, Hovercraft * hovercraft){
 }
 
 std::string RaceState::getClassName() {

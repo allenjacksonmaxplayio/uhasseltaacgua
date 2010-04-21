@@ -16,6 +16,10 @@ class ClientPreparationLoader;
 class RacePlayer;
 class RaceStateListener;
 class Timing;
+class Finish;
+class CheckPoint;
+class Start;
+class Hovercraft;
 
 /**
  * RaceState will be the main controlling component during the game.
@@ -186,6 +190,32 @@ public:
 	 * @param id the ID of the player
 	 */
 	void removePlayer(ZCom_ConnID id);
+
+	// Game events that are triggered on server propagated from havok //
+
+	/**
+	 * Called when player leaves the finish box
+	 *
+	 * @param finish
+	 * @param hovercraft
+	 */
+	void onFinish(Finish * finish, Hovercraft * hovercraft);
+
+	/**
+	 * Called when player leaves the checkpoint box
+	 *
+	 * @param checkpoint
+	 * @param hovercraft
+	 */
+	void onCheckPoint(CheckPoint * checkpoint, Hovercraft * hovercraft);
+
+	/**
+	 * Called when start leaves the checkpoint box
+	 *
+	 * @param start
+	 * @param hovercraft
+	 */
+	void onStart(Start * start, Hovercraft * hovercraft);
 
 	/**
 	 * Get the class name for this class. This is used for registering
