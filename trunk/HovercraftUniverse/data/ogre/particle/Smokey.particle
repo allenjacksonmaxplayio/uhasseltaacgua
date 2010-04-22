@@ -1,5 +1,6 @@
-particle_system Smokey {
-	quota	10000
+particle_system Smokey
+{
+	quota	4000
 	material	PE/smoke
 	particle_width	1
 	particle_height	1
@@ -7,38 +8,30 @@ particle_system Smokey {
 	renderer	billboard
 	billboard_type	point
 
-	emitter Box {
-		angle	7.826
-		colour	0.1 0.1 0.1 1
-		colour_range_start	0.1 0.1 0.1 1
-		colour_range_end	0.1 0.1 0.1 1
+	emitter Point
+	{
+		angle	6
+		colour	0.1 0.1 0.1 0.2
+		colour_range_start	0.1 0.1 0.1 0.2
+		colour_range_end	0.1 0.1 0.1 0.7
 		direction	0 0 1
-		emission_rate	800
+		emission_rate	500
 		position	0 0 0
-		velocity	7.317
-		velocity_min	7.317
-		velocity_max	13.04
-		time_to_live	0.5
-		duration	0
-		duration_min	0
-		duration_max	0
-		repeat_delay	0
-		repeat_delay_min	0
-		repeat_delay_max	0
-		width	0
-		height	0
-		depth	0
+		velocity_min	5
+		velocity_max	12
+		time_to_live	3
 	}
 
-	affector LinearForce {
-		force_vector	0 0 0
-		force_application	add
+	affector ColourFader
+	{
+		red		0.2
+		green	0.2
+		blue	0.2
+		alpha	-0.5
 	}
 
-	affector ColourFader {
-		red	0
-		green	0
-		blue	0
-		alpha	1
+	affector Scaler
+	{
+		rate	1.1
 	}
 }
