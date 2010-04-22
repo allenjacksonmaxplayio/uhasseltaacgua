@@ -132,7 +132,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		if (trackedEntity != 0) {
 			trackedNode = trackedEntity->getOgreSceneNode();
 			if (trackedNode) {
-				mCamera->setAutoTracking(true, trackedNode);
+				mCamera->setAutoTracking(true, trackedNode, mCamera->getUp() * 3);
 			}
 		}
 
