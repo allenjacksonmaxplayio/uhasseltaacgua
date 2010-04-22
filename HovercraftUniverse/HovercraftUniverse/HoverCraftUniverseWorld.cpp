@@ -96,6 +96,7 @@ void HoverCraftUniverseWorld::createStart( Start * start, OgreMax::Types::Extern
 	hkAabb aabb;
 	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	StartPhantom * phantom = new StartPhantom(aabb, start);
+	phantom->setUserData(reinterpret_cast<hkUlong>(start));
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
 
@@ -109,6 +110,7 @@ void HoverCraftUniverseWorld::createFinish( Finish * finish, OgreMax::Types::Ext
 	hkAabb aabb;
 	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	FinishPhantom * phantom = new FinishPhantom(aabb, finish);
+	phantom->setUserData(reinterpret_cast<hkUlong>(finish));
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
 
@@ -121,9 +123,10 @@ void HoverCraftUniverseWorld::createCheckpoint( CheckPoint * checkpoint, OgreMax
 	//Create a phantom that handles this
 	hkAabb aabb;
 	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
-	CheckpointPhantom * checkpointphantom = new CheckpointPhantom(aabb, checkpoint);
-	mPhysicsWorld->addPhantom(checkpointphantom);
-	checkpointphantom->removeReference();
+	CheckpointPhantom * phantom = new CheckpointPhantom(aabb, checkpoint);
+	phantom->setUserData(reinterpret_cast<hkUlong>(checkpoint));
+	mPhysicsWorld->addPhantom(phantom);
+	phantom->removeReference();
 
 	mPhysicsWorld->unmarkForWrite();
 }
@@ -135,6 +138,8 @@ void HoverCraftUniverseWorld::createPortal( Portal * portal, OgreMax::Types::Ext
 	hkAabb aabb;
 	setBox(aabb, externalitem.position, externalitem.rotation, externalitem.scale);
 	PortalPhantom * phantom = new PortalPhantom(aabb, portal);
+	phantom->setUserData(reinterpret_cast<hkUlong>(portal));	
+
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
 
@@ -156,6 +161,8 @@ void HoverCraftUniverseWorld::createBoost( SpeedBoost * boost, OgreMax::Types::E
 	hkTransform tr(r, t);
 
 	SpeedBoostPhantom * phantom = new SpeedBoostPhantom(shape, tr, boost);
+	phantom->setUserData(reinterpret_cast<hkUlong>(boost));
+
 	mPhysicsWorld->addPhantom(phantom);
 	phantom->removeReference();
 	shape->removeReference();
@@ -178,25 +185,12 @@ void HoverCraftUniverseWorld::createAsteroid( Asteroid * asteroid, OgreMax::Type
 
 	//Set that it is a planet
 	HavokEntityType::setEntityType(planetRigidBody, HavokEntityType::PLANET);
+	planetRigidBody->setUserData(reinterpret_cast<hkUlong>(asteroid));
 
 	//add gravity field PULL
 	{
 		hkAabb currentAabb;
-		planetRigidBody->getCollidable()->getShape()->getAabb(planetRigidBody->getTransform(), 0.0f, currentAabb);
-
-		// Scale up the planet's gravity field's AABB so it goes beyond the planet
-		hkVector4 extents;
-		extents.setSub4(currentAabb.m_max, currentAabb.m_min);
-		hkInt32 majorAxis = extents.getMajorAxis();
-		hkReal maxExtent = extents(majorAxis);
-		maxExtent *= 0.4f;
-
-		// Scale the AABB's extents
-		hkVector4 extension;
-		extension.setAll(maxExtent);
-		currentAabb.m_max.add4(extension);
-		currentAabb.m_min.sub4(extension);
-
+		setBox(currentAabb, externalitem.position, externalitem.rotation, externalitem.scale);
 
 		// Attach a gravity phantom to the planet so it can catch objects which come close
 		PlanetGravityPhantom* gravityphantom = new PlanetGravityPhantom(asteroid, planetRigidBody, currentAabb);
