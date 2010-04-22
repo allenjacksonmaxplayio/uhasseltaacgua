@@ -380,7 +380,7 @@ void HavokHovercraft::load(const hkVector4& position){
 	{
 		hkpCharacterStateInAir * state = new hkpCharacterStateInAir();
 		manager->registerState( state,	HK_CHARACTER_IN_AIR );
-		state->setMaxLinearAcceleration(hovercraft->getAcceleration() * 10.0f);
+		state->setMaxLinearAcceleration(hovercraft->getAcceleration()*10);
 		state->setGain(hovercraft->getAcceleration());
 		state->setSpeed(hovercraft->getMaximumSpeed());
 		state->removeReference();

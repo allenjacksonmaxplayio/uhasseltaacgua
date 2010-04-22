@@ -2,7 +2,6 @@
 #include "HavokEntityType.h"
 #include "HoverCraftUniverseWorld.h"
 #include "Havok.h"
-#include "DedicatedServer.h"
 
 #include <Physics/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h>
 #include <Physics/Collide/Agent/hkpProcessCollisionInput.h>
@@ -11,9 +10,8 @@
 namespace HovUni {
 
 PlanetGravityAction::PlanetGravityAction(hkpRigidBody* planetBody, hkpRigidBody* satellite, hkUlong phantomId, hkReal maxAcceleration):
-			hkpUnaryAction(satellite), mPlanetBody(planetBody), mPhantomId(phantomId), mGravityForce(maxAcceleration),
-			mHoveringHeight(DedicatedServer::getEngineSettings()->getValue<float>("Hovering", "Height", 2.5f)),
-			mCharacterGravity(DedicatedServer::getEngineSettings()->getValue<float>("Havok", "CharacterGravity", 20.0f)) {
+			hkpUnaryAction(satellite), mPlanetBody(planetBody), mPhantomId(phantomId), mGravityForce(maxAcceleration)
+ {
 	setUserData(HK_SPHERE_ACTION_ID);
 }
 
@@ -67,33 +65,6 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 			hkVector4 inter(oldUp(0) + (newUp(0) - oldUp(0)) * speed, oldUp(1) + (newUp(1) - oldUp(1)) * speed, oldUp(2) + (newUp(2) - oldUp(2)) * speed);
 			inter.normalize3();
 			character->updateUp(inter);
-			
-			//TODO REMOVE THIS HOVER CODE
-			// hovering
-			hkVector4 hover;
-			hkVector4 position = rb->getPosition();
-			hkVector4 ground = collector.getHitContact().getPosition();
-
-			hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
-			float distanceSquared = difference.lengthSquared3();
-			float distance = difference.length3();
-			float magnitude = 0.0f;
-			if (distance > 0.01f && distance <= mHoveringHeight) {
-				
-				magnitude = (1.0f / distance) * (mCharacterGravity + mGravityForce) * mHoveringHeight;
-				//magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight;
-				
-			} else if (distance > mHoveringHeight) {
-				magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight * 0.95f;
-			}
-			
-			//std::cout << magnitude << "  " << distance << std::endl;
-			//difference(1) = 0;
-			//std::cout << difference.length3() << " - " << difference(0) << ", " << difference(1) << ", " << difference(2) << std::endl;
-
-			hover.setMul4(rb->getMass() * magnitude, newUp);
-			rb->applyForce(stepInfo.m_deltaTime, hover);
-			//TODO END OF REMOVE
 		}
 	}
 

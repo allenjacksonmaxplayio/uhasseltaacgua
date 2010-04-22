@@ -1,0 +1,188 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+    <userData>
+        <![CDATA[<Track><Name>SimpleTrack2</Name><MinimumPlayers>1</MinimumPlayers><PhysicsFileName>SimpleTrack2.hkx</PhysicsFileName><MaximumPlayers>6</MaximumPlayers><PathFileName></PathFileName></Track>]]>
+</userData>
+    <environment>
+        <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
+        <colourBackground r="0" g="0" b="0" />
+        <clipping near="0" far="100000" />
+    </environment>
+    <nodes>
+        <node name="Camera01">
+            <position x="136.163" y="37.0786" z="82.5942" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0" qy="-0.489327" qz="2.98023e-008" qw="0.8721" />
+            <camera name="Camera01" fov="0.602557">
+                <clipping near="1" far="1000" />
+            </camera>
+        </node>
+        <node name="PlanetGeo2">
+            <position x="0" y="0" z="0" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="PlanetGeo2" castShadows="true" receiveShadows="true" meshFile="PlanetGeo2.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Planet2</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Grass" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="PlanetGeo1">
+            <position x="1204.12" y="-28.3762" z="7.15259e-007" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="PlanetGeo1" castShadows="true" receiveShadows="true" meshFile="PlanetGeo1.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Planet1</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Grass" />
+                </subentities>
+            </entity>
+            <node name="FinishGeom">
+                <position x="-806.748" y="35.8285" z="-152.025" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.106873" qy="-0.0427091" qz="0.0617371" qw="0.991435" />
+                <entity name="FinishGeom" castShadows="true" receiveShadows="true" meshFile="FinishGeom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>Finish</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="CheckPoint1" />
+                        <subentity index="1" materialName="CheckPoint2" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="CheckPoint01Geom">
+                <position x="-501.946" y="88.635" z="-73.4928" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0.0199094" qy="-0.0300642" qz="-0.00115923" qw="0.999349" />
+                <entity name="CheckPoint01Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint01Geom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>CheckPoint01</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="CheckPoint1" />
+                        <subentity index="1" materialName="CheckPoint2" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="StartGeom">
+                <position x="-78.9722" y="190.094" z="0.752906" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.00930566" qy="-0.0300852" qz="-0.0002801" qw="0.999504" />
+                <entity name="StartGeom" castShadows="true" receiveShadows="true" meshFile="StartGeom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>Start</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="CheckPoint1" />
+                        <subentity index="1" materialName="CheckPoint2" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+        <node name="Omni01">
+            <position x="546.206" y="1367.73" z="-3.27541" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="1.68587e-007" qz="-1.68587e-007" qw="-0.707107" />
+            <light name="Omni01" visible="true" type="point" castShadows="false" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+    </nodes>
+    <externals>
+        <item name="Planet2">
+            <userData>
+                <![CDATA[<Asteroid><Name>Planet2</Name><Gravity>30</Gravity><AsteroidType>0</AsteroidType><OgreEntity>PlanetGeo2</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+</userData>
+            <position x="0" y="0" z="0" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="21.0563" y="21.0563" z="21.0563" />
+        </item>
+        <item name="Finish">
+            <userData>
+                <![CDATA[<Finish><OgreEntity>FinishGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Finish>]]>
+</userData>
+            <position x="397.371" y="7.45237" z="-152.025" />
+            <rotation qx="-0.106873" qy="-0.0427091" qz="0.0617371" qw="0.991435" />
+            <scale x="0.403864" y="1" z="2.19233" />
+        </item>
+        <item name="CheckPoint01">
+            <userData>
+                <![CDATA[<CheckPoint><Name>Halfway</Name><Number>0</Number><OgreEntity>CheckPoint01Geom</OgreEntity><ProcessInterval>-1</ProcessInterval></CheckPoint>]]>
+</userData>
+            <position x="702.173" y="60.2589" z="-73.4928" />
+            <rotation qx="0.0199094" qy="-0.0300642" qz="-0.00115923" qw="0.999349" />
+            <scale x="0.403864" y="1" z="2.19233" />
+        </item>
+        <item name="Start">
+            <userData>
+                <![CDATA[<Start><OgreEntity>StartGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Start>]]>
+</userData>
+            <position x="1125.15" y="161.718" z="0.752907" />
+            <rotation qx="-0.00930566" qy="-0.0300852" qz="-0.0002801" qw="0.999504" />
+            <scale x="0.403864" y="1" z="2.19233" />
+        </item>
+        <item name="StartPos01">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="1156.18" y="167.751" z="-12.4324" />
+            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPos06">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="1191.99" y="167.751" z="-12.4324" />
+            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPos05">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="1191.99" y="167.751" z="21.9294" />
+            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPos04">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="1172.99" y="167.751" z="-12.4324" />
+            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPos03">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="1172.99" y="167.751" z="21.9294" />
+            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPos02">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="1156.18" y="167.751" z="21.9294" />
+            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Planet1">
+            <userData>
+                <![CDATA[<Asteroid><Name>Planet1</Name><Gravity>20</Gravity><AsteroidType>2</AsteroidType><OgreEntity>PlanetGeo1</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+</userData>
+            <position x="1204.12" y="-28.3762" z="7.15259e-007" />
+            <rotation qx="0" qy="-2.38419e-007" qz="1.04216e-014" qw="1" />
+            <scale x="211.47" y="98.2824" z="139.585" />
+        </item>
+    </externals>
+</scene>

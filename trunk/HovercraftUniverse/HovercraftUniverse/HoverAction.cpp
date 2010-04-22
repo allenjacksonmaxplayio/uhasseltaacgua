@@ -1,5 +1,6 @@
 #include "HoverAction.h"
 #include "HavokHovercraft.h"
+#include "DedicatedServer.h"
 
 #include <Physics/Dynamics/World/hkpWorld.h>
 #include <Physics/Collide/Shape/Query/hkpShapeRayCastInput.h>
@@ -9,99 +10,66 @@
 
 #include <Common/Visualize/hkDebugDisplay.h>
 
+#include <Physics/Collide/Query/CastUtil/hkpSimpleWorldRayCaster.h>
+
 #include "HavokEntityType.h"
+#include "EntityManager.h"
 #include "Hovercraft.h"
+#include "Asteroid.h"
 
 #include <iostream>
 
 namespace HovUni {
 
-class UserRayHitCollector: public hkpRayHitCollector {
-	private:
-		hkpWorldRayCastInput m_ray;
+// This class links the output of the broadphase raycaster to the narrowphase raycaster.
+class PlanetRayCastCallback : public hkpSimpleWorldRayCaster
+{
+private:
 
-	public:
-		UserRayHitCollector( hkpWorldRayCastInput& ray ): m_ray(ray) {;}
+	hkReal& mGravity;
 
-	protected:
+public:
 
-		virtual void addRayHit( const hkpCdBody& cdBody, const hkpShapeRayCastCollectorOutput& hitInfo )
-  		{
-			hkpWorldObject *object = static_cast<hkpWorldObject*>( cdBody.getRootCollidable()->getOwner() );
+	PlanetRayCastCallback( hkReal gravity ):
+		 hkpSimpleWorldRayCaster(), mGravity(gravity){
+	}
 
-			if ( object->getName() )
-				std::cout << object->getName() << std::endl;
-			else
-				std::cout << "UNKNOWN" << std::endl;
+protected:
 
-			if ( HavokEntityType::getEntityType(object) == HavokEntityType::PLANET ){
+
+	// the function which is called every time the broadphase raycaster hits the aabb of an
+	// object. This implementation checks the type of object and calls object->raycast if
+	// necessary
+	virtual	hkReal addBroadPhaseHandle( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex ){
+		//in this method one needs to find the actual intersection with the ray, this is updated so only planets are checked
+
+		//check if entity
+		const hkpCollidable* col = static_cast<hkpCollidable*>( static_cast<const hkpTypedBroadPhaseHandle*>(broadPhaseHandle)->getOwner() );
+		if ( col->getType() != hkpWorldObject::BROAD_PHASE_ENTITY ){
+			return 1.0f; //stop if not
+		}
 			
-				std::cout << object->getName() << std::endl;
+		//check if planet
+		const hkpEntity* ent = static_cast<hkpEntity*>(col->getOwner());
+		if ( HavokEntityType::getEntityType(ent) != HavokEntityType::PLANET ){
+			return 1.0f; //stop if not
+		}
 
-				hkVector4 hitPoint;
-				hitPoint.setInterpolate4( m_ray.m_from, m_ray.m_to, hitInfo.m_hitFraction );
+		Asteroid* asteroid = reinterpret_cast<Asteroid*>(ent->getUserData());
+		mGravity = asteroid->getGravity();
 
-				HK_DISPLAY_LINE(  m_ray.m_from, hitPoint, hkColor::RED);
-			}
-		}		
+		//get the real collision point
+		return  hkpSimpleWorldRayCaster::addBroadPhaseHandle(broadPhaseHandle,castIndex); //stop
+	}
 };
 
-
-
-
-//The filter
-HoverAction::PlanetRayCastCallback::PlanetRayCastCallback( const hkpWorldRayCastInput& input, hkpWorldRayCastOutput* output ):
-	mInput(input), mOutput(output)
-{
-}
-
-hkReal HoverAction::PlanetRayCastCallback::addBroadPhaseHandle( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex ){
-
-	const hkpCollidable* col = static_cast<hkpCollidable*>( static_cast<const hkpTypedBroadPhaseHandle*>(broadPhaseHandle)->getOwner() );
-	const hkpShape* shape = col->getShape();
-
-	if (shape)
-	{
-		if ( col->getType() == hkpWorldObject::BROAD_PHASE_ENTITY ){
-			const hkpEntity* ent = static_cast<hkpEntity*>(col->getOwner());
-
-			if ( HavokEntityType::getEntityType(ent) == HavokEntityType::PLANET ){
-
-
-				//std::cout << "BROADPHASE FOUND " <<  ent->getName() << std::endl;
-
-
-				//TODO THIS CODE IS WRONG!!!!!!!!!!!!!!!!!!!!!!
-
-				hkpShapeRayCastInput sinput;
-				const hkTransform& trans = col->getTransform();
-
-				// transform the ray into local space
-				sinput.m_from.setTransformedInversePos(trans, mInput.m_from);
-				sinput.m_to.setTransformedInversePos(trans, mInput.m_to);
-
-				// subshape filtering turned off
-				sinput.m_rayShapeCollectionFilter = HK_NULL;
-
-				HK_DISPLAY_ARROW ( sinput.m_from, sinput.m_to, hkColor::RED);
-
-				if (shape->castRay(sinput, *mOutput))
-				{
-					// transform the normal back into worldspace
-					mOutput->m_rootCollidable = col;
-					mOutput->m_normal.setRotatedDir( trans.getRotation(), mOutput->m_normal );
-				}
-			}
-		}
-	}
-	
-	return mOutput->m_hitFraction;
-}
 
 //The implementation
 
 HoverAction::HoverAction(HavokHovercraft * entity, hkpWorld * world):
-	hkpUnaryAction(entity->getRigidBody()), mHovercraft(entity), mWorld(world)
+	hkpUnaryAction(entity->getRigidBody()), mHovercraft(entity), mWorld(world),
+	mHoveringHeight(DedicatedServer::getEngineSettings()->getValue<float>("Hovering", "Height", 2.5f)),
+	mCharacterGravity(DedicatedServer::getEngineSettings()->getValue<float>("Havok", "CharacterGravity", 20.0f))
 {
 }
 
@@ -110,90 +78,55 @@ HoverAction::~HoverAction(void)
 }
 
 void HoverAction::applyAction( const hkStepInfo& stepInfo ){
+	const float NEGRAYLENGTH = -2.0f;
+	const float POSRAYLENGTH = 0.1f;
 
-	hkpWorldRayCastInput ray;
-	{
-		hkVector4 offset;
+	hkVector4 from = mHovercraft->getUp();
+	from.mul4(POSRAYLENGTH);
+	from.add4(mHovercraft->getRigidBody()->getPosition());
 
-		//position
-		ray.m_from = mHovercraft->getRigidBody()->getPosition();
-		offset = mHovercraft->getUp();
-		//offset.mul4(0.1);	//dont start at very bottom  to prevent small penetrationt from stopping the hovering
-		ray.m_from.add4(offset);	
+	hkVector4 to = mHovercraft->getUp();
+	to.mul4(NEGRAYLENGTH);
+	to.add4(mHovercraft->getRigidBody()->getPosition());
 
-		//position + inverse of up
-		ray.m_to = mHovercraft->getRigidBody()->getPosition();
-		offset = mHovercraft->getUp();
-		offset.mul4(-2);
-		ray.m_to.add4(offset);
-	}
-
-	/*UserRayHitCollector collector(ray);
-	mWorld->lock();
-	mWorld->castRay( ray, collector );
-	mWorld->unlock();*/
+	HK_DISPLAY_LINE(from,to, hkColor::AZURE );
+	
+	hkpWorldRayCastInput input;
+	input.m_from = from;
+	input.m_to = to;
 
 	hkpWorldRayCastOutput output;
-	{
-		PlanetRayCastCallback rayCallback( ray, &output );
+	hkReal currentgravity = 0;
 
-		hkpBroadPhase* broadPhase = mWorld->getBroadPhase();
-		hkpBroadPhase::hkpCastRayInput rayInput;
-		rayInput.m_from = ray.m_from;
-		rayInput.m_toBase = &ray.m_to;
-		rayInput.m_aabbCacheInfo = HK_NULL;
 
-		broadPhase->castRay(rayInput, &rayCallback, hkSizeOf(PlanetRayCastCallback)  );
-	}
-
-	// To visualise the raycast we make use of a macro defined in "hkDebugDisplay.h" called HK_DISPLAY_LINE.
-	// The macro takes three parameters: a start point, an end point and the line colour.
-	// If a hit is found we display a RED line from the raycast start point to the point of intersection and mark that
-	// point with a small RED cross. The intersection point is calculated using: startWorld + (result.m_mindist * endWorld).
-	// We also set the object to display in RED, once again making use of the HK_SET_OBJECT_COLOR macro.
-	//
-	// If no hit is found we simply display a GREY line between the raycast start and end points.
+	PlanetRayCastCallback caster(currentgravity);
+	caster.castRay(*mWorld->getBroadPhase(),input,mWorld->getCollisionFilter(),output);
 
 	if ( output.hasHit() )
 	{
-		hkVector4 intersectionPointWorld;
-		intersectionPointWorld.setInterpolate4( ray.m_from, ray.m_to, output.m_hitFraction );
+		hkVector4 ground;
+		ground.setInterpolate4( from, to, output.m_hitFraction );
 		
-		std::cout << "YEEEEEE" << std::endl;
+		// hovering
+		hkVector4 hover;
+		hkVector4 position = mHovercraft->getPosition();
 
-		HK_DISPLAY_LINE( ray.m_from, intersectionPointWorld, hkColor::RED);
-		//HK_SET_OBJECT_COLOR((hkUlong)output.m_rootCollidable, hkColor::RED);
-	}
-
-
-/*
-
-
-
-// hovering
-			hkVector4 hover;
-			hkVector4 position = rb->getPosition();
-			hkVector4 ground = collector.getHitContact().getPosition();
-
-			hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
-			float distanceSquared = difference.lengthSquared3();
-			float distance = difference.length3();
-			float magnitude = 0.0f;
-			if (distance > 0.01f && distance <= mHoveringHeight) {
-				
-				magnitude = (1.0f / distance) * (mCharacterGravity + mGravityForce) * mHoveringHeight;
-				//magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight;
-				
-			} else if (distance > mHoveringHeight) {
-				magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight * 0.95f;
-			}
+		hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
+		float distanceSquared = difference.lengthSquared3();
+		float distance = difference.length3();
+		float magnitude = 0.0f;
+		if (distance > 0.01f && distance <= mHoveringHeight) {
 			
-			//std::cout << magnitude << "  " << distance << std::endl;
-			//difference(1) = 0;
-			//std::cout << difference.length3() << " - " << difference(0) << ", " << difference(1) << ", " << difference(2) << std::endl;
-
-			hover.setMul4(rb->getMass() * magnitude, newUp);
-			rb->applyForce(stepInfo.m_deltaTime, hover);*/
+			magnitude = (1.0f / distance) * (mCharacterGravity + currentgravity) * mHoveringHeight;
+			//magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight;
+			
+		} else if (distance > mHoveringHeight) {
+			magnitude = (1.0f / distanceSquared) * (mCharacterGravity + currentgravity) * mHoveringHeight * mHoveringHeight * 0.95f;
+		}
+		
+		hover.setMul4(mHovercraft->getRigidBody()->getMass() * magnitude, mHovercraft->getUp());
+		mHovercraft->getRigidBody()->applyForce(stepInfo.m_deltaTime, hover);
+	}
 }
 
 }

@@ -16,6 +16,16 @@ class HoverAction : public hkpUnaryAction
 private:
 
 	/**
+	 * The height of the hovering
+	 */
+	const float mHoveringHeight;
+
+	/**
+	 * The magnitude of the gravity force on the character
+	 */
+	const float mCharacterGravity;
+
+	/**
 	 * The hovercraft
 	 */
 	HavokHovercraft * mHovercraft;
@@ -31,28 +41,6 @@ public:
 	~HoverAction(void);
 
 private:
-
-	// This class links the output of the broadphase raycaster to the narrowphase raycaster.
-	class PlanetRayCastCallback : public hkpBroadPhaseCastCollector
-	{
-		public:
-		
-			PlanetRayCastCallback( const hkpWorldRayCastInput& input, hkpWorldRayCastOutput* output );
-
-		protected:
-			// the function which is called every time the broadphase raycaster hits the aabb of an
-			// object. This implementation checks the type of object and calls object->raycast if
-			// necessary
-			virtual	hkReal addBroadPhaseHandle( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex );
-
-		private:
-			// The information about the ray start and end point
-			hkpWorldRayCastInput   mInput;
-
-			// A pointer to the result data structure
-			hkpWorldRayCastOutput* mOutput;
-	};
-
 
 	virtual void applyAction( const hkStepInfo& stepInfo );
 
