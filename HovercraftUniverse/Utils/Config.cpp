@@ -17,7 +17,7 @@ namespace HovUni {
 		bool success = mReader.Load(filename, true);
 		std::cout << "Config Loading file " << filename <<"."<< std::endl;
 		if (!success) {
-			throw new ConfigException("Could not read file " + filename + ": INI library returned false.");
+			THROW(ConfigException,"Could not read configuration file at " + filename + ".");
 		}
 		mFilename = filename;
 		std::cout << "Config new Filename " << mFilename << std::endl;
@@ -26,14 +26,14 @@ namespace HovUni {
 	void Config::saveFile(std::string filename) {
 		bool success = mReader.Save(filename);
 		if (!success) {
-			throw new ConfigException("Could not save to config file " + filename + ".");
+			THROW(ConfigException,"Could not save to config file " + filename + ".");
 		}
 	}
 
 	void Config::saveFile() {
 		bool success = mReader.Save(mFilename);
 		if (!success) {
-			throw new ConfigException("Could not save to default config file " + mFilename + ".");
+			THROW(ConfigException,"Could not save to default config file " + mFilename + ".");
 		}
 	}
 
