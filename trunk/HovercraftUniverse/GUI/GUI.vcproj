@@ -106,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\dependencies\Hikari\includes;..\dependencies\OGRE\include\OIS;..\dependencies\OGRE\include\OGRE;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;"
+				AdditionalIncludeDirectories="..\dependencies\Hikari\includes;..\dependencies\OGRE\include\OIS;..\dependencies\OGRE\include\OGRE;&quot;$(ProjectDir)..\Exceptions&quot;;&quot;$(ProjectDir)..\CoreEngine&quot;;&quot;$(ProjectDir)..\Utils&quot;;&quot;$(ProjectDir)..\HovercraftUniverse&quot;;&quot;$(ProjectDir)..\dependencies\boost\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
