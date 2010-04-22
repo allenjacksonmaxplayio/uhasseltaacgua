@@ -195,10 +195,11 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		break;
 	case FreeRoam:
 		mCamera->setAutoTracking(false);
+		mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
 		// Get input from free roaming controller and apply
-		mActiveViewpointNode->translate(mFreeroamCameraController->getDirection() * (timeSinceLastFrame * 100), Ogre::Node::TS_LOCAL);
-		mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw(), Ogre::Node::TS_WORLD);
-		mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch(), Ogre::Node::TS_LOCAL);
+		mCamera->yaw(mFreeroamCameraController->getYaw());
+		mCamera->pitch(mFreeroamCameraController->getPitch());
+		mCamera->setPosition(mCamera->getPosition() +  (mCamera->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
 		break;
 	default:
 		// Impossible

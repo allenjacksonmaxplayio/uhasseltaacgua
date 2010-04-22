@@ -20,8 +20,9 @@ NetworkServer::~NetworkServer() {
 
 }
 
-void NetworkServer::process() {
-	ZCom_processReplicators(1);
+void NetworkServer::process(zU32 simulationTimePassed) {
+	//std::cout << "Processing replicator : " << simulationTimePassed << std::endl;
+	ZCom_processReplicators(simulationTimePassed);
 	ZCom_processInput();
 	ZCom_processOutput();
 	ZoidCom::Sleep(10);

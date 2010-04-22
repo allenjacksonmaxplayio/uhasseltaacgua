@@ -173,7 +173,7 @@ namespace HovUni {
 		// Process the client
 		if (mTimeLapsed > 0.016f) {
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
-			mHUClient->process();
+			mHUClient->process((int) (mTimeLapsed * 1000.0f));
 			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
 			mTimeLapsed = 0.0f;
 		}

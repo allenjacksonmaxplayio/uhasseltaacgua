@@ -96,9 +96,15 @@ void NetworkEntity::replicateUnsignedInt(int* value, zU8 rules, zU8 mantissaBits
 	mNode->addReplicationInt(value, mantissaBits, false, flags, rules, minDelay, maxDelay);
 }
 
+void NetworkEntity::replicateInterpolationFloat(float* value, float margin, zU8 rules, zU8 mantissaBits, zU8 flags,
+		zS16 minDelay, zS16 maxDelay, float ipolfac, float* tmp) {
+	mNode->addInterpolationFloat(value, mantissaBits, flags, rules, margin, tmp, minDelay, maxDelay, ipolfac);
+}
+
 void NetworkEntity::replicateFloat(float* value, zU8 rules, zU8 mantissaBits, zU8 flags,
 		zS16 minDelay, zS16 maxDelay) {
 	mNode->addReplicationFloat(value, mantissaBits, flags, rules, minDelay, maxDelay);
+	
 }
 
 void NetworkEntity::replicateOgreVector3(Ogre::Vector3* vector, zU8 rules, zU8 mantissaBits,

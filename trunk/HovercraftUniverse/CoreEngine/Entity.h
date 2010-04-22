@@ -34,6 +34,9 @@ protected:
 	/** The position */
 	Ogre::Vector3 mPosition;
 
+	/** Temp position */
+	Ogre::Vector3 mTmpPosition;
+
 	/** The linear velocity (Dirk)*/
 	Ogre::Vector3 mVelocity;
 

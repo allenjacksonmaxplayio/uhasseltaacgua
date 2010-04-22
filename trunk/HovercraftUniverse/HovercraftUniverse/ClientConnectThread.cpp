@@ -24,13 +24,13 @@ namespace HovUni {
 		try {
 			mClient->connect(0);
 			//Process the commands
-			mClient->process();
+			mClient->process(1);
 
 			//Try to spam-check for a connection for two seconds
 			int retryCount = 0;
 			while ( (!mClient->finishedConnecting()) && (retryCount < 20) ) {
 				mClient->timed_wait(boost::get_system_time() + boost::posix_time::millisec(100)); //Wait for 100 milliseconds
-				mClient->process();
+				mClient->process(100);
 				++retryCount;
 			}
 
@@ -39,7 +39,7 @@ namespace HovUni {
 				retryCount = 0;
 				while ( (!mClient->finishedConnecting()) && (retryCount < 20) ) {
 					mClient->timed_wait(boost::get_system_time() + boost::posix_time::millisec(500)); //Wait for 1/2 second
-					mClient->process();
+					mClient->process(500);
 					++retryCount;
 					Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[ClientConnectThread]: Connection try " << retryCount;
 				}

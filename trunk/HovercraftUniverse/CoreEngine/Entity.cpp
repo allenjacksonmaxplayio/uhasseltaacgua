@@ -4,14 +4,15 @@
 #include <cassert>
 #include <OgreLogManager.h>
 #include "EntityPropertySystem.h"
+#include "CameraSpring.h"
 
 namespace HovUni {
 
 class EntityManager;
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Vector3& orientation, const Ogre::Vector3& upvector, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkEntity(replicators + 4), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
-			mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel("") {
+		NetworkEntity(replicators + 6), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
+			mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO) {
 	// Update data
 	changePosition(position);
 	changeOrientation(Ogre::Vector3::UNIT_Y.getRotationTo(upvector));
@@ -21,8 +22,8 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 }
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
-		NetworkEntity(replicators + 4), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
-		mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel("") {
+		NetworkEntity(replicators + 6), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
+		mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO) {
 	// Update data
 	changePosition(position);
 	changeOrientation(orientation);
@@ -31,7 +32,7 @@ Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogr
 }
 
 Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators ): 
-	NetworkEntity(replicators + 4), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO), mLabel("")
+	NetworkEntity(replicators + 6), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO)
 {
 	//name and entity
 
@@ -116,7 +117,18 @@ void Entity::setController(Controller * controller) {
 }
 
 void Entity::update(float timeSince) {
-
+	/*
+	if (this->getCategory() == "Hovercraft") {
+		std::cout << "Position: " << mPosition << std::endl;
+		std::cout << "tmpPosition: " << mTmpPosition << std::endl;
+	}
+	*/
+	/*
+	if (mNode->getRole() != eZCom_RoleAuthority) {
+		//Interpolate the position manually
+		mPosition = CameraSpring::getInstance()->updateCameraSpring(mPosition, mTmpPosition);
+	}
+	*/
 	// Process the network entity
 	NetworkEntity::processEvents(timeSince);
 
@@ -151,7 +163,7 @@ Ogre::String Entity::getCategory() const {
 	return mCategory;
 }
 
-Ogre::Vector3 Entity::getPosition() const { 
+Ogre::Vector3 Entity::getPosition() const {
 	return mPosition; 
 }
 
@@ -229,7 +241,14 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 
 void Entity::setupReplication() {
 	//TODO: min and max delay should be defined, not magic number...
-	replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
+	//replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
+	mNode->addInterpolationFloat(&mPosition.x, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.x);
+	mNode->addInterpolationFloat(&mPosition.y, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.y);
+	mNode->addInterpolationFloat(&mPosition.z, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.z);
+	//replicateInterpolationFloat(&mPosition.x, 10.0f, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 100, 1000, 0, &mTmpPosition.x); 
+	//replicateInterpolationFloat(&mPosition.y, 10.0f, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 100, 1000, 0, &mTmpPosition.y);
+	//replicateInterpolationFloat(&mPosition.z, 10.0f, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 100, 1000, 0, &mTmpPosition.z);
+
 	replicateOgreQuaternion(&mOrientation, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
 	replicateOgreVector3(&mVelocity, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
 

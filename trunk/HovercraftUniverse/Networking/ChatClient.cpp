@@ -40,7 +40,7 @@ void ChatClient::removeListener(ChatListener* listener) {
 }
 
 void ChatClient::process() {
-	NetworkClient::process();
+	NetworkClient::process(1);
 	if (mChat) {
 		mChat->processEvents(0.0f);
 	}

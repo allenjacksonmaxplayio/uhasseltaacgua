@@ -59,13 +59,14 @@ void NetworkClient::disconnect(const std::string& reason) {
 		ZCom_Disconnect(mConnID, stream);
 
 		while (mConnected) {
-			process();
+			process(1);
 		}
 	}
 }
 
-void NetworkClient::process() {
-	ZCom_processReplicators(1);
+void NetworkClient::process(zU32 simulationTimePassed) {
+	//std::cout << "Processing replicator : " << simulationTimePassed << std::endl;
+	ZCom_processReplicators(simulationTimePassed);
 	ZCom_processInput();
 	ZCom_processOutput();
 	ZoidCom::Sleep(10);

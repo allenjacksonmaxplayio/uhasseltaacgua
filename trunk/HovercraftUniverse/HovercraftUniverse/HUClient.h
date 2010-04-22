@@ -76,8 +76,10 @@ public:
 
 	/**
 	 * Process incoming and outgoing packets
+	 *
+	 * @param simulationTimePassed the time that elapsed since the last process (milliseconds)
 	 */
-	virtual void process();
+	virtual void process(zU32 simulationTimePassed);
 
 	/**
 	 * Disconnect
