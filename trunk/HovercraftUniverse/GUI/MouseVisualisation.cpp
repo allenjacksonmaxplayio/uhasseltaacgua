@@ -30,8 +30,8 @@ namespace HovUni {
 	}
 
 	void MouseVisualisation::setWindowDimensions(unsigned int width, unsigned int height) {
-		mWindowWidth = (Ogre::Real) (width > 0) ? width : 1;
-		mWindowHeight = (Ogre::Real) (height > 0) ? height : 1;
+		mWindowWidth = (Ogre::Real) ((width > 0) ? width : 1);
+		mWindowHeight = (Ogre::Real) ((height > 0) ? height : 1);
 
 		mCursorContainer->setWidth(mTexture->getWidth() / mWindowWidth);
 		mCursorContainer->setHeight(mTexture->getHeight() / mWindowHeight);
