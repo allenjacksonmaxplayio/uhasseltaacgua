@@ -22,7 +22,7 @@ ChatServer::~ChatServer() {
 }
 
 void ChatServer::process() {
-	NetworkServer::process();
+	NetworkServer::process(1);
 	mChat->processEvents(0.0f);
 }
 

@@ -41,7 +41,7 @@ public:
 	/**
 	 * Process incoming and outgoing packets
 	 */
-	virtual void process();
+	virtual void process(zU32 simulationTimePassed);
 
 //
 // ZCom_Control callbacks

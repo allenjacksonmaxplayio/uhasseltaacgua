@@ -205,7 +205,7 @@ namespace HovUni {
 		}
 
 		if (mLastClientUpdate > 0.016f) {
-			mClient->process();
+			mClient->process((int) (mLastClientUpdate * 1000.0f));
 			mLastClientUpdate = 0.0f;
 		}
 

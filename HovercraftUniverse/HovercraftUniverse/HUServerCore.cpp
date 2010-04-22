@@ -29,8 +29,8 @@ HUServerCore::~HUServerCore() {
 	mLobby;
 }
 
-void HUServerCore::process() {
-	NetworkServer::process();
+void HUServerCore::process(zU32 simulationTimePassed) {
+	NetworkServer::process(simulationTimePassed);
 	mLobby->process();
 }
 

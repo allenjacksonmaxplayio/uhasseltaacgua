@@ -70,8 +70,8 @@ HUClient::~HUClient() {
 	delete mChatClient;
 }
 
-void HUClient::process() {
-	NetworkClient::process();
+void HUClient::process(zU32 simulationTimePassed) {
+	NetworkClient::process(simulationTimePassed);
 
 	if (mLobby) {
 		mLobby->process();

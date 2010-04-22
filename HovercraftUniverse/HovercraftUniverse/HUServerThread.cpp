@@ -38,7 +38,7 @@ void HUServerThread::operator()() {
 		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Updating entities " << (float) since.total_microseconds() / (float) 1000000;
 		EntityManager::getServerSingletonPtr()->updateEntities((float) since.total_microseconds() / (float) 1000000);
 		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Processing server core";
-		mServerCore->process();
+		mServerCore->process((int) since.total_milliseconds());
 
 		//Update the chat server
 		mChatServer->process();

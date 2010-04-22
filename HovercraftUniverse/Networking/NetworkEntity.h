@@ -193,6 +193,26 @@ protected:
 			ZCOM_REPFLAG_MOSTRECENT, zS16 minDelay = -1, zS16 maxDelay = -1);
 
 	/**
+	 * Add a float to the replicated variables and make it interpolate
+	 *
+	 * @param value The float to replicate
+	 * @param margin The error margin. If the difference between the received and the current value is bigger than _treshold,
+     *			Zoidcom will just set current = received without interpolation.
+	 * @param rules The rules for the replicator, this indicates whether the
+	 *				variable is replicated from the server only, or whether the
+	 *				owner can change the value too
+	 * @param mantissaBits the number of mantissa bits to replicate, default is 23
+	 * @param flags flags to indicate how the value must be replicated, default is ZCOM_REPFLAG_MOSTRECENT
+	 * @param minDelay the minimum delay between to updates, default is -1 (no minimum)
+	 * @param maxDelay the maximum delay between to updates, default is -1 (no maximum)
+	 * @param ipolfac The interpolation factor, the higher it becomes, the higher the influence of the incoming data over the local data.
+     *                Set to 0 to ignore incoming data, or 1 to just write incoming data to value. (default 0.4f)
+	 * @param tmp If set, Zoidcom will store incoming updates in tmp and interpolate against tmp. If not set, Zoidcom will use internal memory.
+	 */
+	void replicateInterpolationFloat(float* value, float margin, zU8 rules, zU8 mantissaBits, zU8 flags,
+		zS16 minDelay, zS16 maxDelay, float ipolfac, float* tmp);
+
+	/**
 	 * Add a float to the replicated variables
 	 *
 	 * @param value The float to replicate

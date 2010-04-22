@@ -68,7 +68,7 @@ hkReal HoverAction::PlanetRayCastCallback::addBroadPhaseHandle( const hkpBroadPh
 			if ( HavokEntityType::getEntityType(ent) == HavokEntityType::PLANET ){
 
 
-				std::cout << "BROADPHASE FOUND " <<  ent->getName() << std::endl;
+				//std::cout << "BROADPHASE FOUND " <<  ent->getName() << std::endl;
 
 
 				//TODO THIS CODE IS WRONG!!!!!!!!!!!!!!!!!!!!!!

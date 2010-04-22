@@ -53,7 +53,7 @@ namespace HovUni {
 		/**
 		*	Run the server.
 		*/
-		void run(bool standalone);
+		void run(bool standalone = false);
 
 		/**
 		*	Returns a pointer to the singleton Engine Settings object.
