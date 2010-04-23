@@ -2,7 +2,6 @@
 #define HUSERVERTHREAD_H_
 
 #include "HUServerCore.h"
-#include <ChatServer.h>
 
 namespace HovUni {
 
@@ -15,9 +14,6 @@ class HUServerThread {
 private:
 	/** The server core */
 	HUServerCore* mServerCore;
-
-	/** A chat server */
-	ChatServer* mChatServer;
 
 	/** Whether to stop the thread */
 	bool mStop;

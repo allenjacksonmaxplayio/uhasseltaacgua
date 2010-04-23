@@ -8,6 +8,8 @@
 
 namespace HovUni {
 
+class RacePlayer;
+
 /**
  * The hovercraft entity.
  *
@@ -20,6 +22,9 @@ private:
 	 * The id of the player this hovercraft is for
 	 */
 	unsigned int mPlayerId;
+
+	/** A reference to the race player */
+	RacePlayer* mPlayer;
 
 	/** 
 	 * The moving status 
@@ -292,6 +297,13 @@ public:
 	 * @param timeSince the time since the last processing of the entity
 	 */
 	virtual void process(float timeSince);
+
+	/**
+	 * Set the race state for the entity
+	 *
+	 * @param racestate the race state
+	 */
+	virtual void setRaceState(RaceState* racestate);
 
 	/**
 	 * Callback to process a controller event at the server that got processed by the 

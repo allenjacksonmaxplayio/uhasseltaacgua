@@ -98,7 +98,7 @@ public:
 	/**
 	 * Request the current chat client
 	 */
-	ChatClient* getChatClient() {
+	ChatClient* getChat() {
 		return mChatClient;
 	}
 

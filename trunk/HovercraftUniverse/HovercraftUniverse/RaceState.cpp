@@ -34,29 +34,38 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 		mLoader->setRaceState(this);
 	}
 
+	// Add as network entity
+	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
+
 	// Load track info and check players
 	TrackInfoLoader trackInfoLoader(lobby->getTrackFilename());
 	Track * trackEntity = trackInfoLoader.getTrack();
 	if (trackEntity) {
-		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Track " << trackEntity->getDisplayName() << " must have at least " << trackEntity->getMinimumPlayers() << 
-			" players and at most " << trackEntity->getMaximumPlayers() << "!";
-	}
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Track " << trackEntity->getDisplayName()
+				<< " must have at least " << trackEntity->getMinimumPlayers() << " players and at most "
+				<< trackEntity->getMaximumPlayers() << "!";
 
-	// Add as network entity
-	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
+		unsigned int maxPlayers = trackEntity->getMaximumPlayers();
+		unsigned int minPlayers = trackEntity->getMinimumPlayers();
 
-	// Create race players
-	const Lobby::playermap::list_type& playersettings = lobby->getPlayers();
+		// Create race players
+		const Lobby::playermap::list_type& playersettings = lobby->getPlayers();
 
-	for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end(); ++it) {
-		RacePlayer* rplayer = new RacePlayer(this, it->second);
-		rplayer->getNetworkNode()->setOwner(it->first, true);
-		addPlayer(rplayer);
-	}
+		for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end()
+				|| mPlayers.getPlayers().size() > maxPlayers; ++it) {
+			RacePlayer* rplayer = new RacePlayer(this, it->second);
+			rplayer->getNetworkNode()->setOwner(it->first, true);
+			addPlayer(rplayer);
+		}
 
-	// Bots
-	if (mLobby->hasBots()) {
-		int bots = mLobby->getMaxPlayers() - mLobby->getNumberOfPlayers();
+		// Bots
+		int bots = 0;
+		if (mLobby->hasBots()) {
+			bots = (mLobby->getMaxPlayers() < maxPlayers ? mLobby->getMaxPlayers() : maxPlayers) - mPlayers.getPlayers().size();
+		} else if (minPlayers > mPlayers.getPlayers().size()) {
+			// The minimum amount of players is not reached so add bots anyway
+			bots = minPlayers - mPlayers.getPlayers().size();
+		}
 
 		for (int i = 0; i < bots; ++i) {
 			PlayerSettings* settings = new PlayerSettings(mLobby, "Bot");
@@ -97,16 +106,15 @@ RaceState::~RaceState() {
 	}
 }
 
-void RaceState::onFinish(Finish * finish, unsigned int playerid){
+void RaceState::onFinish(Finish * finish, unsigned int playerid) {
 	std::cout << playerid << " reaches finish" << std::endl;
 }
 
-
-void RaceState::onCheckPoint(CheckPoint * checkpoint, unsigned int playerid){
+void RaceState::onCheckPoint(CheckPoint * checkpoint, unsigned int playerid) {
 	std::cout << playerid << " reaches checkpoint" << std::endl;
 }
 
-void RaceState::onStart(Start * start, unsigned int playerid){
+void RaceState::onStart(Start * start, unsigned int playerid) {
 	std::cout << playerid << " reaches start" << std::endl;
 }
 
@@ -241,7 +249,7 @@ void RaceState::SystemState::update() {
 	if (mRaceState->mServer) {
 		switch (mCurrentState) {
 		case INTRO:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int>("Server", "IntroTime", 1000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "IntroTime", 1000)) {
 				newState(COUNTDOWN);
 			}
 		case COUNTDOWN:
@@ -253,12 +261,12 @@ void RaceState::SystemState::update() {
 			}
 			break;
 		case RACING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int>("Server", "PlayTime", 15000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "PlayTime", 15000)) {
 				newState(FINISHING);
 			}
 			break;
 		case FINISHING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int>("Server", "FinishTime", 5000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "FinishTime", 5000)) {
 				newState(CLEANUP);
 				Entity::setControlsInactive();
 			}

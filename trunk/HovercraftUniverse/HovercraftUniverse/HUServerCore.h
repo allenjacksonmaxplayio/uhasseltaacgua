@@ -8,6 +8,8 @@
 
 namespace HovUni {
 
+class ChatServer;
+
 /**
  * This class represents the core of the server. It holds the controls
  * for the networking etc.
@@ -18,8 +20,11 @@ class HUServerCore: public NetworkServer
 {
 private:
 
-	/** The Loby **/
+	/** The lobby **/
 	Lobby * mLobby;
+
+	/** A chat server */
+	ChatServer* mChatServer;
 
 	/** The entity manager */
 	EntityManager * mEntityManager;
@@ -42,6 +47,14 @@ public:
 	 * Process incoming and outgoing packets
 	 */
 	virtual void process(zU32 simulationTimePassed);
+
+	/**
+	 * Request the current chat server
+	 */
+	ChatServer* getChat() {
+		return mChatServer;
+	}
+
 
 //
 // ZCom_Control callbacks

@@ -57,10 +57,10 @@ private:
 	unsigned int mAdmin;
 
 	/** The maximum number of players allowed */
-	int mMaximumPlayers;
+	unsigned int mMaximumPlayers;
 
 	/** The current number of players */
-	int mCurrentPlayers;
+	unsigned int mCurrentPlayers;
 
 	/** The filename of the track */
 	Ogre::String mTrackFilename;
@@ -236,7 +236,7 @@ public:
 	 *
 	 * @param max The maximum number of players allowed
 	 */
-	inline void setMaxPlayers(int max) {
+	inline void setMaxPlayers(unsigned int max) {
 		mMaximumPlayers = max;
 	}
 
@@ -245,7 +245,7 @@ public:
 	 *
 	 * @return The maximum number of players allowed
 	 */
-	inline int getMaxPlayers() const {
+	inline unsigned int getMaxPlayers() const {
 		return mMaximumPlayers;
 	}
 
@@ -254,7 +254,7 @@ public:
 	 *
 	 * @return The number of real players
 	 */
-	inline int getNumberOfPlayers() const {
+	inline unsigned int getNumberOfPlayers() const {
 		return mCurrentPlayers;
 	}
 

@@ -14,10 +14,10 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 const Ogre::Real Hovercraft::MAXSPEED(200.0);
 
 Hovercraft::Hovercraft(const Ogre::String& name, unsigned int playerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
+HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mPlayer(0), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
 }
 
-Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): HovercraftUniverseEntity(announcedata,CATEGORY,9) {
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): HovercraftUniverseEntity(announcedata,CATEGORY,9), mPlayer(0) {
 	// Display name
 	int length = announcedata->getInt(sizeof(int) * 8);
 	if (length != 0) {
@@ -111,12 +111,11 @@ void Hovercraft::updateLabel() {
 		if (mRacestate->getOwnPlayer() && mRacestate->getOwnPlayer()->getSettings()->getID() == mPlayerId) {
 			mLabel = ""; // This is you
 		} else {
-			mLabel = mRacestate->getPlayer(mPlayerId)->getSettings()->getPlayerName();
+			mLabel = mPlayer->getSettings()->getPlayerName();
 		}
 	} else {
 		mLabel = mOgreEntity;
 	}
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "New label is " << mLabel;
 }
 
 void Hovercraft::process(float timeSince){
@@ -132,6 +131,13 @@ void Hovercraft::process(float timeSince){
 
 		const hkQuaternion& rotation = character->getOrientation();
 		changeOrientation(Ogre::Quaternion(rotation(3),rotation(0),rotation(1),rotation(2)));
+	}
+}
+
+void Hovercraft::setRaceState(RaceState* racestate) {
+	HovercraftUniverseEntity::setRaceState(racestate);
+	if (mRacestate) {
+		mPlayer = mRacestate->getPlayer(mPlayerId);
 	}
 }
 

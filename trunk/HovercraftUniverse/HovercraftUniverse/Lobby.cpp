@@ -302,7 +302,7 @@ void Lobby::setupReplication() {
 	);
 
 	//mCurrentPlayers
-	mNode->addReplicationInt(&mCurrentPlayers, // pointer to the variable
+	mNode->addReplicationInt((int*) &mCurrentPlayers, // pointer to the variable
 			8, // amount of bits(up to 255 players)
 			false, // unsigned
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
@@ -310,7 +310,7 @@ void Lobby::setupReplication() {
 	);
 
 	//mMaximumPlayers
-	mNode->addReplicationInt(&mMaximumPlayers, // pointer to the variable
+	mNode->addReplicationInt((int*) &mMaximumPlayers, // pointer to the variable
 			8, // amount of bits(up to 255 players)
 			false, // unsigned
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only

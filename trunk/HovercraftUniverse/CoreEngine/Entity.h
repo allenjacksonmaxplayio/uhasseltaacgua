@@ -71,6 +71,7 @@ public:
 	 * @param category the category to which this entity belongs
 	 * @param position the initial position of the entity
 	 * @param orientation the initial orientation of the entity
+	 * @param upvector the up vector
 	 * @param name of the ogre entity that represents this entity
 	 * @param processInterval the mean interval between two consecutive processings (-1 for no process callbacks)
 	 * @param replicators the number of replicator to be used

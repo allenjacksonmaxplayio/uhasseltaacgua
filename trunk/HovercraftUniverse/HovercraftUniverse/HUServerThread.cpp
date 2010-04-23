@@ -10,15 +10,12 @@ namespace HovUni {
 
 HUServerThread::HUServerThread() : mServerCore(0), mStop(false) {
 	mServerCore = new HUServerCore();
-	mChatServer = new ChatServer();
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Server]: Ready for incoming connections";
 }
 
 HUServerThread::~HUServerThread() {
 	delete mServerCore;
 	mServerCore = 0;
-	delete mChatServer;
-	mChatServer = 0;
 }
 
 void HUServerThread::stop() {
@@ -39,9 +36,6 @@ void HUServerThread::operator()() {
 		EntityManager::getServerSingletonPtr()->updateEntities((float) since.total_microseconds() / (float) 1000000);
 		//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Processing server core";
 		mServerCore->process((int) since.total_milliseconds());
-
-		//Update the chat server
-		mChatServer->process();
 
 		// Sleep
 		boost::xtime xt;

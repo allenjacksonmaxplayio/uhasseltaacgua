@@ -25,7 +25,7 @@ namespace HovUni {
 		Ogre::String chatText = args.at(0).getString();
 
 		if (chatText != "") {
-			mClient->getChatClient()->sendText(chatText);
+			mClient->getChat()->sendText(chatText);
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[LobbyState]: " << "Sending chat message: " << args.at(0).getString();
 		}
 
