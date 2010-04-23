@@ -2,10 +2,11 @@
 #define STARTREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "Start.h"
 #include <vector>
 
 namespace HovUni {
+
+	class Start;
 
 	/**
 	 * Representation of a start entity.

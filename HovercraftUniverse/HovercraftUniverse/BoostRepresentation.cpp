@@ -1,4 +1,5 @@
 #include "BoostRepresentation.h"
+#include "SpeedBoost.h"
 
 namespace HovUni {
 

@@ -1,5 +1,5 @@
 #include "FinishRepresentation.h"
-#include <vector>
+#include "Finish.h"
 
 namespace HovUni {
 

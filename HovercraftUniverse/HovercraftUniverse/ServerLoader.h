@@ -2,7 +2,6 @@
 #define SERVERLOADER_H
 
 #include "Loader.h"
-#include "EntityDescription.h"
 #include "GameEntityDeclarations.h"
 
 namespace HovUni {

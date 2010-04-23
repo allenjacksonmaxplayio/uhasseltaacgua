@@ -17,6 +17,7 @@ class SpeedBoost;
 class PowerupSpawn;
 class ResetSpawn;
 class Track;
+class StaticBody;
 
 }
 

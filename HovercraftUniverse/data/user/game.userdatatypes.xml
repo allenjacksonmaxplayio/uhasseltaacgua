@@ -80,7 +80,7 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
   -->
   <class name="Start" super="GameEntity" usage="object">
   </class>
-  
+
   <!-- 
   /**
    * StartPosition 
@@ -152,6 +152,15 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
     */
   -->
   <class name="ResetSpawn" usage="object">
+  </class>
+
+  <!-- 
+  /**
+   * StaticBody 
+   * A static body that can be hit.
+   */ 
+  -->
+  <class name="StaticBody" super="GameEntity" usage="object">
   </class>
 
 </userDataTypes>

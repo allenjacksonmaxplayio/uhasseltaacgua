@@ -2,10 +2,11 @@
 #define CHECKPOINTREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "CheckPoint.h"
 #include <vector>
 
 namespace HovUni {
+
+	class CheckPoint;
 
 	/**
 	 * Representation of a checkpoint entity.

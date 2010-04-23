@@ -1,3 +1,5 @@
+#include "GameEntities.h"
+
 #include "AsteroidRepresentation.h"
 #include "BoostRepresentation.h"
 #include "CheckPointRepresentation.h"
@@ -5,7 +7,8 @@
 #include "HovercraftRepresentation.h"
 #include "PortalRepresentation.h"
 #include "StartRepresentation.h"
-#include "TrackRepresentation.h"
+#include "StaticBodyRepresentation.h"
+
 #include "ClientLoader.h"
 #include "GameView.h"
 #include "ProgressMonitor.h"
@@ -148,7 +151,15 @@ void ClientLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 					// Create start representation
 					entRep = new StartRepresentation(dynamic_cast<Start *>(ent), mSceneMgr, entityparameters.meshFile, entityparameters.resourceGroupName, visible, entityparameters.castShadows, 
 						entityparameters.renderingDistance, entityparameters.materialFile, subMaterials);
-				} /*else if (ent->getCategory() == Track::CATEGORY) {
+				} else if (ent->getCategory() == StaticBody::CATEGORY) {
+					// Create start representation
+					entRep = new StaticBodyRepresentation(dynamic_cast<StaticBody *>(ent), mSceneMgr, entityparameters.meshFile, entityparameters.resourceGroupName, visible, entityparameters.castShadows, 
+						entityparameters.renderingDistance, entityparameters.materialFile, subMaterials);
+				}
+				
+				
+				
+				/*else if (ent->getCategory() == Track::CATEGORY) {
 					// Create track representation
 					entRep = new TrackRepresentation(dynamic_cast<Track *>(ent), mSceneMgr, entityparameters.meshFile, entityparameters.resourceGroupName, visible, entityparameters.castShadows, 
 						entityparameters.renderingDistance, entityparameters.materialFile, subMaterials);

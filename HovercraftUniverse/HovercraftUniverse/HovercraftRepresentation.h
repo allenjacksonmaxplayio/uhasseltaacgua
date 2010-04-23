@@ -2,13 +2,14 @@
 #define HOVERCRAFTREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "Hovercraft.h"
 #include <vector>
 
 #include <Moveable3DEmitter.h>
 
 
 namespace HovUni {
+
+	class Hovercraft;
 
 	/**
 	 * Representation of a hovercraft entity.
