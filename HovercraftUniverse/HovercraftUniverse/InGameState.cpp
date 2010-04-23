@@ -19,7 +19,7 @@ namespace HovUni {
 		Ogre::String chatText = args.at(0).getString();
 
 		if (chatText != "") {
-			mHUClient->getChatClient()->sendText(chatText);
+			mHUClient->getChat()->sendText(chatText);
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[InGameState]: " << "Sending chat message: " << args.at(0).getString();
 		}
 

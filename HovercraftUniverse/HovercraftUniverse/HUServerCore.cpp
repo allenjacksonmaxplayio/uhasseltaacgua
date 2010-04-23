@@ -2,10 +2,14 @@
 #include "ServerLoader.h"
 #include "EntityRegister.h"
 #include "DedicatedServer.h"
+#include "ChatServer.h"
 
 namespace HovUni {
 
 HUServerCore::HUServerCore() : NetworkServer(2375, 2376, "HUServer"), mEntityManager(0), mIDManager(0) {
+	// Create the chat server
+	mChatServer = new ChatServer();
+
 	// Create and store entity manager
 	mEntityManager = EntityManager::getServerSingletonPtr();
 	mEntityManager->setEntityMappingFile(
@@ -27,11 +31,16 @@ HUServerCore::HUServerCore() : NetworkServer(2375, 2376, "HUServer"), mEntityMan
 HUServerCore::~HUServerCore() {
 	delete mLobby;
 	mLobby;
+	delete mChatServer;
+	mChatServer = 0;
 }
 
 void HUServerCore::process(zU32 simulationTimePassed) {
 	NetworkServer::process(simulationTimePassed);
 	mLobby->process();
+
+	//Update the chat server
+	mChatServer->process();
 }
 
 bool HUServerCore::ZCom_cbConnectionRequest(ZCom_ConnID id, ZCom_BitStream& request, ZCom_BitStream& reply) {
