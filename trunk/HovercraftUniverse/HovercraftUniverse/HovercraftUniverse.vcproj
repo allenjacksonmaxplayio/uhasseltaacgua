@@ -252,6 +252,10 @@
 						RelativePath=".\HavokHovercraft.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\StaticBodyEntity.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="phantom"
@@ -318,6 +322,10 @@
 					</File>
 					<File
 						RelativePath=".\PlanetGravityAction.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\UpdatePositionAction.cpp"
 						>
 					</File>
 				</Filter>
@@ -666,6 +674,10 @@
 						RelativePath=".\HavokHovercraft.h"
 						>
 					</File>
+					<File
+						RelativePath=".\StaticBodyEntity.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="phantom"
@@ -736,6 +748,10 @@
 					</File>
 					<File
 						RelativePath=".\PlanetGravityAction.h"
+						>
+					</File>
+					<File
+						RelativePath=".\UpdatePositionAction.h"
 						>
 					</File>
 				</Filter>

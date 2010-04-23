@@ -102,12 +102,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		Start * entity = new Start(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
 		
-		//create Physics
-		mHovercraftWorld->createStart(entity, externalitem);
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//create Physics
+		mHovercraftWorld->createStart(entity, externalitem);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
@@ -135,12 +135,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		Finish * entity = new Finish(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
 		
-		//create Physics
-		mHovercraftWorld->createFinish(entity,externalitem);
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//create Physics
+		mHovercraftWorld->createFinish(entity,externalitem);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
@@ -153,12 +153,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		CheckPoint * entity = new CheckPoint(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
 
-		//create Physics
-		mHovercraftWorld->createCheckpoint(entity,externalitem);
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//create Physics
+		mHovercraftWorld->createCheckpoint(entity,externalitem);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
@@ -171,12 +171,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		Asteroid * entity = new Asteroid(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
 		
-		//create Physics
-		mHovercraftWorld->createAsteroid(entity,externalitem);
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//create Physics
+		mHovercraftWorld->createAsteroid(entity,externalitem);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
@@ -189,12 +189,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		SpeedBoost * entity = new SpeedBoost(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
 
-		//physics
-		mHovercraftWorld->createBoost(entity, externalitem);
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//physics
+		mHovercraftWorld->createBoost(entity, externalitem);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
@@ -208,11 +208,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		Portal * entity = new Portal(externalitem.name,externalitem.position, externalitem.rotation, ogreentity, processtime);
 		
-		mHovercraftWorld->createPortal(entity,externalitem);
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//physics
+		mHovercraftWorld->createPortal(entity,externalitem);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
@@ -255,12 +256,12 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		//create
 		StaticBody * entity = new StaticBody(externalitem.name,externalitem.position, externalitem.rotation,ogreentity, processtime);
 
-		//toDo bind physics to RB
-
-
 		//load
 		entity->load(root);
 		entity->setRaceState(mRaceState);
+
+		//physics
+		mHovercraftWorld->createStaticBody(entity);
 
 		//register as entity
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	

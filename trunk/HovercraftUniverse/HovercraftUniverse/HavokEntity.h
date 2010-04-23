@@ -38,12 +38,6 @@ public:
 	virtual ~HavokEntity();
 
 	/**
-	 * Load the character, must be called before the character is used
-	 * @param position
-	 */
-	virtual void load(const hkVector4& position) = 0;
-
-	/**
 	 * Get the up of the character
 	 * @return the up of the character
 	 */
