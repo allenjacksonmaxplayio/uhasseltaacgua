@@ -17,6 +17,7 @@
 #include "Portal.h"
 #include "PowerupSpawn.h"
 #include "ResetSpawn.h"
+#include "StaticBody.h"
 
 namespace HovUni {
 
@@ -47,6 +48,7 @@ void EntityRegister::registerAll(NetworkIDManager& manager) {
 	manager.registerClass(SpeedBoost::getClassName(),true);
 	manager.registerClass(Start::getClassName(),true);
 	manager.registerClass(StartPosition::getClassName(),true);
+	manager.registerClass(StaticBody::getClassName(),true);
 }
 
 }

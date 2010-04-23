@@ -345,10 +345,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\EntityDescription.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\Finish.cpp"
 						>
 					</File>
@@ -382,6 +378,10 @@
 					</File>
 					<File
 						RelativePath=".\StartPosition.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\StaticBody.cpp"
 						>
 					</File>
 					<File
@@ -421,7 +421,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TrackRepresentation.cpp"
+						RelativePath=".\StaticBodyRepresentation.cpp"
 						>
 					</File>
 				</Filter>
@@ -763,10 +763,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\EntityDescription.h"
-						>
-					</File>
-					<File
 						RelativePath=".\Finish.h"
 						>
 					</File>
@@ -811,6 +807,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\StaticBody.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Track.h"
 						>
 					</File>
@@ -847,7 +847,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\TrackRepresentation.h"
+						RelativePath=".\StaticBodyRepresentation.h"
 						>
 					</File>
 				</Filter>

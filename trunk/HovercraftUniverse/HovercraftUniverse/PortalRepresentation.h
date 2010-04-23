@@ -2,10 +2,11 @@
 #define PORTALREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "Portal.h"
 #include <vector>
 
 namespace HovUni {
+
+	class Portal;
 
 	/**
 	 * Representation of a portal entity.

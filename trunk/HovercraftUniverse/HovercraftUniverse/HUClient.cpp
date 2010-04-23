@@ -15,15 +15,6 @@
 #include "RaceState.h"
 #include "RacePlayer.h"
 
-#include "AsteroidRepresentation.h"
-#include "BoostRepresentation.h"
-#include "CheckPointRepresentation.h"
-#include "FinishRepresentation.h"
-#include "HovercraftRepresentation.h"
-#include "PortalRepresentation.h"
-#include "StartRepresentation.h"
-#include "TrackRepresentation.h"
-
 #include "Start.h"
 #include "Finish.h"
 #include "Asteroid.h"
@@ -34,6 +25,7 @@
 #include "Portal.h"
 #include "PowerupSpawn.h"
 #include "ResetSpawn.h"
+#include "StaticBody.h"
 
 #include "ProgressMonitor.h"
 #include <OgreLogManager.h>
@@ -236,6 +228,12 @@ void HUClient::onNodeDynamic(ZCom_ClassID requested_class, ZCom_BitStream* annou
 		ent->setRaceState(mLobby->getRaceState());
 	} else if (requested_class == mIDManager->getID(Portal::getClassName())) {
 		Portal * ent = new Portal(announcedata);
+		ent->networkRegister(requested_class, this);
+		mEntityManager->registerEntity(ent);
+		name = ent->getName();
+		ent->setRaceState(mLobby->getRaceState());
+	} else if (requested_class == mIDManager->getID(StaticBody::getClassName())) {
+		StaticBody * ent = new StaticBody(announcedata);
 		ent->networkRegister(requested_class, this);
 		mEntityManager->registerEntity(ent);
 		name = ent->getName();

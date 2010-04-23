@@ -1,6 +1,5 @@
 #include "CustomOgreMaxScene.h"
 #include "Exception.h"
-#include "EntityDescription.h"
 #include "DedicatedServer.h"
 #include "GameEntities.h"
 
@@ -250,6 +249,24 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 
 		//network register asteroid
 		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(), true);
+	}
+	//Rigid Body
+	else if(strcmp(root->Value(),"StaticBody") == 0){
+		//create
+		StaticBody * entity = new StaticBody(externalitem.name,externalitem.position, externalitem.rotation,ogreentity, processtime);
+
+		//toDo bind physics to RB
+
+
+		//load
+		entity->load(root);
+		entity->setRaceState(mRaceState);
+
+		//register as entity
+		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
+
+		//network register asteroid
+		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), StaticBody::getClassName(), true);
 	}
 	else {
 		THROW(ParseException, "Invallid scene file: Unknown game entity found while parsing externals.\nValue is " + root->ValueStr());

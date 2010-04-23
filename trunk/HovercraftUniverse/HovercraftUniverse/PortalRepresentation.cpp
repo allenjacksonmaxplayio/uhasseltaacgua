@@ -1,4 +1,5 @@
 #include "PortalRepresentation.h"
+#include "Portal.h"
 
 namespace HovUni {
 

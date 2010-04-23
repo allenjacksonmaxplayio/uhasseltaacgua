@@ -2,10 +2,11 @@
 #define FINISHREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "Finish.h"
 #include <vector>
 
 namespace HovUni {
+
+	class Finish;
 
 	/**
 	 * Representation of a finish entity.

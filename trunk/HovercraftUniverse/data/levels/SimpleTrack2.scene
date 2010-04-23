@@ -94,6 +94,29 @@
                 <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
             </light>
         </node>
+        <node name="Omni02">
+            <position x="2743.87" y="-1108.84" z="-3.2753" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="1.68587e-007" qz="-1.68587e-007" qw="-0.707107" />
+            <light name="Omni02" visible="true" type="point" castShadows="false" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="BoxGeo">
+            <position x="957.175" y="234.668" z="-69.2442" />
+            <scale x="1" y="0.650298" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="BoxGeo" castShadows="true" receiveShadows="true" meshFile="BoxGeo.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Box</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
     </nodes>
     <externals>
         <item name="Planet2">
@@ -183,6 +206,14 @@
             <position x="1204.12" y="-28.3762" z="7.15259e-007" />
             <rotation qx="0" qy="-2.38419e-007" qz="1.04216e-014" qw="1" />
             <scale x="211.47" y="98.2824" z="139.585" />
+        </item>
+        <item name="Box">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>BoxGeo</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="957.175" y="234.668" z="-69.2442" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="4.77812" y="4.77812" z="4.77812" />
         </item>
     </externals>
 </scene>

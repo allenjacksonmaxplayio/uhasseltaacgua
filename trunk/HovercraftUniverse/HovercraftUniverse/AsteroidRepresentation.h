@@ -2,9 +2,10 @@
 #define ASTEROIDREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "Asteroid.h"
 
 namespace HovUni {
+
+	class Asteroid;
 
 	/**
 	 * Representation of an asteroid entity.

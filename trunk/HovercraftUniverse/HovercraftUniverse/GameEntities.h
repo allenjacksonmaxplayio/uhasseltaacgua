@@ -12,5 +12,6 @@
 #include "Portal.h"
 #include "PowerupSpawn.h"
 #include "ResetSpawn.h"
+#include "StaticBody.h"
 
 #endif

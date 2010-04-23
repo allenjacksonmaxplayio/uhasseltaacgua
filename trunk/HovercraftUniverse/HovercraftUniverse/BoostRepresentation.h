@@ -2,10 +2,11 @@
 #define BOOSTREPRESENTATION_H_
 
 #include "EntityRepresentation.h"
-#include "SpeedBoost.h"
 #include <vector>
 
 namespace HovUni {
+
+	class SpeedBoost;
 
 	/**
 	 * Representation of a boost entity.

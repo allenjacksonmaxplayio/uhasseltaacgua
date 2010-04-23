@@ -1,4 +1,5 @@
 #include "CheckPointRepresentation.h"
+#include "CheckPoint.h"
 
 namespace HovUni {
 
