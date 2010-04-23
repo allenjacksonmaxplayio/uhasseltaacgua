@@ -46,7 +46,7 @@ material PE/smoke
 
 			texture_unit
 			{
-				texture smoke.png
+				texture darksmoke.png
 			}
 		}
 	}
