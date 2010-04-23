@@ -75,6 +75,11 @@ public:
 	void createBoost( SpeedBoost * boost, OgreMax::Types::ExternalItem & externalitem );
 
 	/**
+	 * Add a static body
+	 */
+	void createStaticBody( StaticBody * entity );
+
+	/**
 	 * Get a character with given name
 	 * @param name
 	 * @return character, HK_NULL if not found
@@ -87,6 +92,10 @@ public:
 	 * @param pos
 	 */
 	void addHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, const hkVector4& pos );
+
+
+
+
 
 	/**
 	 * Pre simulation steps

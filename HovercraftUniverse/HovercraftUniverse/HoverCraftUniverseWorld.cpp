@@ -5,6 +5,7 @@
 
 #include "HavokEntityType.h"
 #include "PhantomTrackAction.h"
+#include "UpdatePositionAction.h"
 
 #include "GameEntities.h"
 
@@ -19,6 +20,7 @@
 #include "FinishPhantom.h"
 #include "PortalPhantom.h"
 #include "PowerupPhantom.h"
+
 
 
 #include <Physics/Collide/Filter/Group/hkpGroupFilterSetup.h>
@@ -201,6 +203,25 @@ void HoverCraftUniverseWorld::createAsteroid( Asteroid * asteroid, OgreMax::Type
 	mPhysicsWorld->unmarkForWrite();
 }
 
+void HoverCraftUniverseWorld::createStaticBody( StaticBody * entity ){
+	mPhysicsWorld->markForWrite();
+
+	//Get the entity name of the asteroid
+	Ogre::String entityname = entity->getOgreEntity();
+	
+	// Find the body
+	hkpRigidBody* body = mPhysicsData->findRigidBodyByName(entityname.c_str());
+
+	if (body == HK_NULL) {
+		THROW(ParseException, "No such name found.");
+	}
+
+	//add update action, this will propagate the position of the physic rigid body to the game entity
+	mPhysicsWorld->addAction(new UpdatePositionAction(body,entity));
+
+	mPhysicsWorld->unmarkForWrite();
+}
+
 
 
 void HoverCraftUniverseWorld::postStep() {
@@ -226,7 +247,7 @@ HavokEntity * HoverCraftUniverseWorld::getCharacter(const char * name) {
 }
 
 void HoverCraftUniverseWorld::addHovercraft( Hovercraft * entity, const hkString& hovercraft, const hkString& entityname, const hkVector4& pos ){
-	HavokEntity * c = new HavokHovercraft(mPhysicsWorld,entity,hovercraft,entityname);
+	HavokHovercraft * c = new HavokHovercraft(mPhysicsWorld,entity,hovercraft,entityname);
 	c->load(pos);
 	mCharactersMap.insert(entity->getName().c_str(),c);
 }

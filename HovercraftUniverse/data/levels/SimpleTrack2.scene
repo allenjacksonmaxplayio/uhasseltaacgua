@@ -72,7 +72,7 @@
             <node name="StartGeom">
                 <position x="-78.9722" y="190.094" z="0.752906" />
                 <scale x="1" y="1" z="1" />
-                <rotation qx="-0.00930566" qy="-0.0300852" qz="-0.0002801" qw="0.999504" />
+                <rotation qx="-0.00930566" qy="-0.0300852" qz="-0.000280101" qw="0.999504" />
                 <entity name="StartGeom" castShadows="true" receiveShadows="true" meshFile="StartGeom.mesh">
                     <userData>
                         <![CDATA[<OgreEntity><GameEntity>Start</GameEntity></OgreEntity>]]>
@@ -105,12 +105,38 @@
             </light>
         </node>
         <node name="BoxGeo">
-            <position x="957.175" y="234.668" z="-69.2442" />
-            <scale x="1" y="0.650298" z="1" />
+            <position x="219.898" y="20" z="-153.308" />
+            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <entity name="BoxGeo" castShadows="true" receiveShadows="true" meshFile="BoxGeo.mesh">
                 <userData>
                     <![CDATA[<OgreEntity><GameEntity>Box</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="SphereGeo01">
+            <position x="1039.74" y="250.714" z="-37.0018" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="SphereGeo01" castShadows="true" receiveShadows="true" meshFile="SphereGeo01.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Sphere01</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="SphereGeo02">
+            <position x="853.75" y="250.714" z="-175.486" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="SphereGeo02" castShadows="true" receiveShadows="true" meshFile="SphereGeo02.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Sphere02</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
                     <subentity index="0" materialName="Box" />
@@ -148,7 +174,7 @@
                 <![CDATA[<Start><OgreEntity>StartGeom</OgreEntity><ProcessInterval>-1</ProcessInterval></Start>]]>
 </userData>
             <position x="1125.15" y="161.718" z="0.752907" />
-            <rotation qx="-0.00930566" qy="-0.0300852" qz="-0.0002801" qw="0.999504" />
+            <rotation qx="-0.00930566" qy="-0.0300852" qz="-0.000280101" qw="0.999504" />
             <scale x="0.403864" y="1" z="2.19233" />
         </item>
         <item name="StartPos01">
@@ -211,9 +237,25 @@
             <userData>
                 <![CDATA[<StaticBody><OgreEntity>BoxGeo</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
 </userData>
-            <position x="957.175" y="234.668" z="-69.2442" />
+            <position x="219.898" y="20" z="-153.308" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="4.77812" y="4.77812" z="4.77812" />
+            <scale x="7.51575" y="7.51575" z="7.51575" />
+        </item>
+        <item name="Sphere01">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>SphereGeo01</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="1039.74" y="250.714" z="-37.0018" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="4.4056" y="4.4056" z="4.4056" />
+        </item>
+        <item name="Sphere02">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>SphereGeo02</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="853.75" y="250.714" z="-175.486" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="2.31901" y="2.31901" z="2.31901" />
         </item>
     </externals>
 </scene>
