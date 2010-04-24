@@ -246,9 +246,9 @@ HavokEntity * HoverCraftUniverseWorld::getCharacter(const char * name) {
 	return result;
 }
 
-void HoverCraftUniverseWorld::addHovercraft( Hovercraft * entity, const hkString& hovercraft, const hkString& entityname, const hkVector4& pos ){
+void HoverCraftUniverseWorld::createHovercraft( Hovercraft * entity, const hkString& hovercraft, const hkString& entityname, const hkVector4& pos, const hkQuaternion& rot ){
 	HavokHovercraft * c = new HavokHovercraft(mPhysicsWorld,entity,hovercraft,entityname);
-	c->load(pos);
+	c->load(pos,rot);
 	mCharactersMap.insert(entity->getName().c_str(),c);
 }
 

@@ -103,9 +103,12 @@ public:
 	~HavokHovercraft(void);
 
 	/**
-	 * Load the hovercraft at given position
+	 * Load the hovercraft at given position with given orientation
+	 * 
+	 * @param position
+	 * @param rotation
 	 */
-	virtual void load(const hkVector4& position);
+	virtual void load(const hkVector4& position, const hkQuaternion& rotation);
 
 	/**
 	 * Get the up vector of the hovercraft

@@ -318,12 +318,17 @@ void ServerLoader::parseHovercraftUserData(OgreMax::Types::EntityParameters& ent
 		std::vector<Entity*> startpositions = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
 		StartPosition * myposition = dynamic_cast<StartPosition *>(startpositions.at(mPosition));
 		Ogre::Vector3 ogre_position = myposition->getPosition();
+		Ogre::Quaternion ogre_orientation = myposition->getQuaternion();
+
 		hovercraft->changePosition(ogre_position);		
 		
 		//physics
 		hkVector4 havok_position;
 		havok_position.set(ogre_position[0],ogre_position[1],ogre_position[2]);
-		mHovercraftWorld->addHovercraft(hovercraft, hovercraftname,entityparameters.name.c_str(), havok_position);
+		hkQuaternion havok_orientation;
+		havok_orientation.set(ogre_orientation.x, ogre_orientation.y, ogre_orientation.z, ogre_orientation.w);
+
+		mHovercraftWorld->createHovercraft(hovercraft, hovercraftname,entityparameters.name.c_str(), havok_position, havok_orientation);
 		
 		//linkt to game
 		EntityManager::getServerSingletonPtr()->registerEntity(hovercraft);
