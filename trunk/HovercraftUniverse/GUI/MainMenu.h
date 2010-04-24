@@ -6,6 +6,8 @@
 #include "OverlayContainer.h"
 #include "ServerMenu.h"
 #include "ServerMenuListener.h"
+#include "HUDedicatedServer.h"
+
 
 namespace HovUni {
 	/**
@@ -38,6 +40,9 @@ namespace HovUni {
 			
 			/** A listener for input commands */
 			ServerMenuListener* mListener;
+
+			/** The local server, for single player (Dirk)*/
+			HUDedicatedServer* mLocalServer;
 
 		public:
 			/**
