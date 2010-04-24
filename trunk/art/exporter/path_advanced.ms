@@ -1,37 +1,88 @@
-macroscript TrackScript category: "Hovercraft Univer Tools"
+macroscript Track category: "Hovercraft Universe Tools"
 (
+
 	local floater
-	rollout TrackRollout "Rollout" width:216 height:96
+	rollout TrackRollout "Rollout" width:216 height:168
 	(
-			fn shapeFilter obj = iskindof obj Shape
+		fn shapeFilter obj = iskindof obj Shape
+		fn objectFilter obj = iskindof obj GeometryClass	
 				
-			pickbutton btnPickShape "..." pos:[176,16] width:32 height:16 filter:shapeFilter
-			button btnOk "OK" pos:[152,72] width:56 height:16
-			edittext txtShape "Shape" pos:[16,16] with:152 height:16 enabled:false
-			spinner spnSubdivisions "Subdivisions" pos:[24,40] width:184 height:16 range:[0,100,10] type:#integer
-			button btnCancel "Cancel" pos[96,72] width:48 height:16
+		pickbutton btnPickTerrain "..." pos:[176,80] width:32 height:16 filter:objectFilter
+		pickbutton btnPickShape "..." pos:[176,32] width:32 height:16 filter:shapeFilter
+		button btnOK "OK" pos:[152,144] width:56 height:16
+		edittext txtShape "Shape" pos:[8,8] width:200 height:16 enabled:false
+		spinner spnSubdivisions "Subdivisions" pos:[24,120] width:184 height:16 range:[0,100,10] type:#integer
+		button btnCancel "Cancel" pos:[96,144] width:48 height:16
+		editText txtTerrain "Terrain" pos:[8,56] width:200 height:16 enabled:false
+			
+		on btnPickShape picked obj do
+		(
+				txtShape.text = obj.name
+		)
 		
-			on btnOk pressed do
-			(
-				nrOfElements = spnSubdivisions.value -1
-				s = getNodeByName textShape.text
-				for i = 0 to nrOfElements do
-				(
-					p = lengthInterp s 1 (1.0 * i / nrOfElements)
-					b = box pos:p width: 1 length:1 height:10
+		on btnPickTerrain picked obj do
+		(
+				txtTerrain.text = obj.name
+		)
+		
+		on btnOK pressed do
+		(
+			nrOfElements = spnSubdivisions.value - 1
+			s = getNodeByName txtShape.text
+			t = getNodeByName txtTerrain.text
+			
+			sceneSettings = ogremax.GetSceneSettings() 
+
+			basefilename = ""
+			if sceneSettings.userdata != undefined then (
+				start = findString sceneSettings.userdata "<Name>"
+				end = findString sceneSettings.userdata "</Name>"
+				
+				if start != undefined and end != undefined then (
+					start += 6
+					count = end - start
+					basefilename = substring sceneSettings.userdata start count
+					ready = true		
 				)
-				closeRolloutFloater floater
+			)			
+			
+			filename = basefilename + ".path" 
+
+			file = createFile filename
+					
+			for i = 0 to nrOfElements do
+			(
+				p = lengthInterp s 1 ((1.0 * i) / nrOfElements)
+				
+				/*dir = pathTangent s ((1.0 * i) / nrOfElements)
+				rotZ = atan2 dir.y dir.x
+				rot = eulerAngles 0 0 -rotZ	*/		
+				
+				
+				dir = t.position - p				
+				landscapeRay = ray p dir
+				result = intersectRay t landscapeRay
+				
+				format "% % % 1\n" p.x p.y p.z to: file	
 			)
 			
-			on btnPickShape picked obj do 
-			(
-					txtShape.text = obj.name
-			)
+			close file
 			
-			on btnCancel pressed do 
-			(
-				closeRolloutFloater floater
-			)
+			/* set path settings in scene */
+			
+			start = findString sceneSettings.userdata "<PathFileName>"
+			end = findString sceneSettings.userdata "</PathFileName>"
+			start += 14
+			count = end - start	
+			sceneSettings.userdata = replace sceneSettings.userdata start count filename	
+			
+	
+
+		)
+		on btnCancel pressed do
+		(
+			closeRolloutFloater floater
+		)
 	)
 	
 	on Execute do 
