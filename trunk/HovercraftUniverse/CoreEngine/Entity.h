@@ -6,6 +6,7 @@
 #include "NetworkEntity.h"
 #include "ControllerEvent.h"
 #include <OgreLogManager.h>
+#include "CameraSpring.h"
 
 namespace HovUni {
 
@@ -61,6 +62,9 @@ protected:
 	/** Should the controls be processed or not? */
 	static bool mControlsActive;
 
+	/** Interpolator for the position of the hovercraft */
+	CameraSpring mSpringInterpolator;
+
 public:
 
 
@@ -99,6 +103,12 @@ public:
 	 * @param replicators the number of replicator to be used
 	 */
 	Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators );
+
+private:
+	/** Do some initialisation */
+	void init();
+
+public:
 
 	/**
 	 * Destructor.
@@ -175,6 +185,13 @@ public:
 	 * @return the position
 	 */
 	Ogre::Vector3 getPosition() const;
+
+	/**
+	 * Returns a smoothed position of this entity.
+	 *
+	 * @return The smoothed position
+	 */
+	Ogre::Vector3 getSmoothPosition() const;
 
 	/**
 	 * Returns the linear velocity of this entity.

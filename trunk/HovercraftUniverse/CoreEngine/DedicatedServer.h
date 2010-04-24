@@ -28,6 +28,7 @@ namespace HovUni {
 		*	Config File name
 		*/
 		std::string mConfigFilename;
+
 	public:
 		/**
 		*	Constructor.

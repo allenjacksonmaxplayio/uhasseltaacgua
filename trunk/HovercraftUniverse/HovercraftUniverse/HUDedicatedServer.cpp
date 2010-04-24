@@ -1,4 +1,3 @@
-#include "HUServer.h"
 #include "HUDedicatedServer.h"
 #include <OgreRoot.h>
 #include <OgreConfigFile.h>
@@ -9,7 +8,15 @@
 
 namespace HovUni {
 	HUDedicatedServer::HUDedicatedServer(const std::string& configINI) : 
-		DedicatedServer(configINI) {
+		DedicatedServer(configINI), mServer(0) {
+	}
+
+	HUDedicatedServer::~HUDedicatedServer() {
+		if (mServer) {
+			mServer->stop();
+		}
+		delete mServer;
+		mServer = 0;
 	}
 
 	void HUDedicatedServer::run(bool standalone) {
@@ -41,13 +48,13 @@ namespace HovUni {
 		//Save the INI here to make it complete
 		getConfig()->saveFile();
 
-		HovUni::HUServer server;
-		server.start();
+		mServer = new HUServer();
+		mServer->start();
 
 		if (standalone) {
-			server.join();
-			//delete server;
-			//server = 0;
+			mServer->join();
+			delete mServer;
+			mServer = 0;
 			delete ogreRoot;
 			ogreRoot = 0;
 		}
@@ -55,5 +62,13 @@ namespace HovUni {
 
 	void HUDedicatedServer::init() {
 		DedicatedServer::init();
+	}
+
+	void HUDedicatedServer::stop() {
+		if (mServer != 0) {
+			if (mServer->isRunning()) {
+				mServer->stop();
+			}
+		}
 	}
 }

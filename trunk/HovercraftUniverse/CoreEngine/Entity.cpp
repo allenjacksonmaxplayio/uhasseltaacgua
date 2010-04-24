@@ -4,7 +4,6 @@
 #include <cassert>
 #include <OgreLogManager.h>
 #include "EntityPropertySystem.h"
-#include "CameraSpring.h"
 
 namespace HovUni {
 
@@ -12,27 +11,27 @@ class EntityManager;
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Vector3& orientation, const Ogre::Vector3& upvector, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 6), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
-			mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO) {
+			mProcessElapsed(processInterval), mPosition(Ogre::Vector3::ZERO), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO) {
 	// Update data
 	changePosition(position);
 	changeOrientation(Ogre::Vector3::UNIT_Y.getRotationTo(upvector));
 	changeOrientation(Ogre::Vector3::NEGATIVE_UNIT_Z.getRotationTo(orientation));
 
-	mProperties = new EntityPropertyMap(this);
+	init();
 }
 
 Entity::Entity(const Ogre::String& name, const Ogre::String& category, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval, unsigned short replicators) : 
 		NetworkEntity(replicators + 6), mName(name), mCategory(category), mOgreEntity(ogreentity), mController(0), mProcessInterval(processInterval),
-		mProcessElapsed(processInterval), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO) {
+		mProcessElapsed(processInterval), mPosition(Ogre::Vector3::ZERO), mVelocity(Ogre::Vector3::ZERO), mOrientation(Ogre::Quaternion::IDENTITY), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO) {
 	// Update data
 	changePosition(position);
 	changeOrientation(orientation);
 
-	mProperties = new EntityPropertyMap(this);
+	init();
 }
 
 Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category, unsigned short replicators ): 
-	NetworkEntity(replicators + 6), mController(0), mCategory(category), mVelocity(Ogre::Vector3::ZERO), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO)
+	NetworkEntity(replicators + 6), mController(0), mCategory(category), mPosition(Ogre::Vector3::ZERO), mVelocity(Ogre::Vector3::ZERO), mLabel(""), mTmpPosition(Ogre::Vector3::ZERO)
 {
 	//name and entity
 
@@ -74,6 +73,7 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 	mPosition[0] = announcementdata->getFloat(10);
 	mPosition[1] = announcementdata->getFloat(10);
 	mPosition[2] = announcementdata->getFloat(10);
+	mTmpPosition = mPosition;
 	
 	//orientation
 	mOrientation[0] = announcementdata->getFloat(10);
@@ -81,7 +81,7 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 	mOrientation[2] = announcementdata->getFloat(10);
 	mOrientation[3] = announcementdata->getFloat(10);
 
-	mProperties = new EntityPropertyMap(this);
+	init();
 }
 
 
@@ -90,9 +90,20 @@ Entity::~Entity() {
 	delete mProperties;
 }
 
+void Entity::init() {
+	mSpringInterpolator.setDampening(60);
+	mSpringInterpolator.setMass(60);
+	mSpringInterpolator.setStiffness(30);
+
+	mProperties = new EntityPropertyMap(this);
+}
+
 void Entity::changePosition(const Ogre::Vector3& newPosition) {
 	// TODO Check whether valid
 
+	if (mPosition == Ogre::Vector3::ZERO) {
+		mTmpPosition = newPosition;
+	}
 	// Set new position
 	mPosition = newPosition;
 }
@@ -123,12 +134,12 @@ void Entity::update(float timeSince) {
 		std::cout << "tmpPosition: " << mTmpPosition << std::endl;
 	}
 	*/
-	/*
-	if (mNode->getRole() != eZCom_RoleAuthority) {
+	
+	//if (mNode->getRole() != eZCom_RoleAuthority) {
 		//Interpolate the position manually
-		mPosition = CameraSpring::getInstance()->updateCameraSpring(mPosition, mTmpPosition);
-	}
-	*/
+		mTmpPosition = mSpringInterpolator.updateCameraSpring(mTmpPosition, mPosition);
+	//}
+	
 	// Process the network entity
 	NetworkEntity::processEvents(timeSince);
 
@@ -164,7 +175,11 @@ Ogre::String Entity::getCategory() const {
 }
 
 Ogre::Vector3 Entity::getPosition() const {
-	return mPosition; 
+	return mPosition;
+}
+
+Ogre::Vector3 Entity::getSmoothPosition() const {
+	return mTmpPosition; 
 }
 
 Ogre::Vector3 Entity::getVelocity() const { 

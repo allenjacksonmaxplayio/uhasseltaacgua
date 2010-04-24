@@ -108,6 +108,7 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 		mActiveViewpointNode = mRearViewpointNode;
 	} else if (mCurrCamViewpoint == FreeRoam) {
 		mActiveViewpointNode = mFreeRoamViewpointNode;
+		mCamera->lookAt(mObjectTrackCameraController->getPosition());
 	}
 	mActiveViewpointNode->attachObject(mCamera);
 
@@ -130,10 +131,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	switch (mCurrCamViewpoint) {
 	case ThirdPerson:
 		if (trackedEntity != 0) {
-			trackedNode = trackedEntity->getOgreSceneNode();
-			if (trackedNode) {
-				mCamera->setAutoTracking(true, trackedNode, mCamera->getUp() * 3);
-			}
+			mCamera->lookAt(trackedEntity->getEntity()->getSmoothPosition() + mObjectTrackCameraController->getUpVector() * 5);
 		}
 
 		//////////////////////
@@ -171,30 +169,27 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		
 		break;
 	case FirstPerson:
-		mCamera->setAutoTracking(false);
 		// Determine position camera
 		positionCam = mObjectTrackCameraController->getPosition() + mObjectTrackCameraController->getDirection();
 
 		// Set position and direction to look at
-		mActiveViewpointNode->setPosition(positionCam);
-		mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
-		mActiveViewpointNode->pitch(Ogre::Degree(-5.0f), Ogre::Node::TS_LOCAL);
+		mCamera->setPosition(positionCam);
+		mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
+		mCamera->pitch(Ogre::Radian::Radian(Ogre::Degree(-5.0f)));
 
 		break;
 	case RearView:
-		mCamera->setAutoTracking(false);
 		// Determine position camera
 		positionCam = mObjectTrackCameraController->getPosition() - mObjectTrackCameraController->getDirection();
 		
 		// Set position and direction to look at
-		mActiveViewpointNode->setPosition(positionCam);
+		mCamera->setPosition(positionCam);
 		// turn the camera 180 degrees around the up vector
 		back = Ogre::Quaternion(Ogre::Degree(180), mObjectTrackCameraController->getUpVector());
-		mActiveViewpointNode->setOrientation(back * mObjectTrackCameraController->getOrientation());
+		mCamera->setOrientation(back * mObjectTrackCameraController->getOrientation());
 
 		break;
 	case FreeRoam:
-		mCamera->setAutoTracking(false);
 		mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
 		// Get input from free roaming controller and apply
 		mCamera->yaw(mFreeroamCameraController->getYaw());

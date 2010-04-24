@@ -544,6 +544,10 @@
 						RelativePath=".\LobbyGUI.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\MainMenu.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="GameLogic"
@@ -1000,6 +1004,10 @@
 					</File>
 					<File
 						RelativePath=".\LobbyGUI.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MainMenu.h"
 						>
 					</File>
 				</Filter>
