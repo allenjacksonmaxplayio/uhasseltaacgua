@@ -182,7 +182,7 @@
                 <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="1156.18" y="167.751" z="-12.4324" />
-            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <rotation qx="-0.477714" qy="-0.521334" qz="0.521334" qw="-0.477714" />
             <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPos06">
@@ -190,7 +190,7 @@
                 <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="1191.99" y="167.751" z="-12.4324" />
-            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <rotation qx="0.521334" qy="0.477714" qz="-0.477714" qw="0.521334" />
             <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPos05">
@@ -198,7 +198,7 @@
                 <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="1191.99" y="167.751" z="21.9294" />
-            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <rotation qx="0.5" qy="0.5" qz="-0.5" qw="0.5" />
             <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPos04">
@@ -206,7 +206,7 @@
                 <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="1172.99" y="167.751" z="-12.4324" />
-            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <rotation qx="0.5" qy="0.5" qz="-0.5" qw="0.5" />
             <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPos03">
@@ -214,7 +214,7 @@
                 <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="1172.99" y="167.751" z="21.9294" />
-            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <rotation qx="0.521334" qy="0.477714" qz="-0.477714" qw="0.521334" />
             <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPos02">
@@ -222,7 +222,7 @@
                 <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="1156.18" y="167.751" z="21.9294" />
-            <rotation qx="0.707107" qy="-1.68587e-007" qz="1.68587e-007" qw="0.707107" />
+            <rotation qx="0.521334" qy="0.477714" qz="-0.477714" qw="0.521334" />
             <scale x="1" y="1" z="1" />
         </item>
         <item name="Planet1">

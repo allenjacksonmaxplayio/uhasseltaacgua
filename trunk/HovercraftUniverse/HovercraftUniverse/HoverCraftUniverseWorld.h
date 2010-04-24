@@ -91,7 +91,7 @@ public:
 	 * @param name
 	 * @param pos
 	 */
-	void addHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, const hkVector4& pos );
+	void createHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, const hkVector4& pos, const hkQuaternion& rot );
 
 
 

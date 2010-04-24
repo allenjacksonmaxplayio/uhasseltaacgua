@@ -70,12 +70,13 @@ std::ostream& operator<<(std::ostream& stream, const hkVector4& v) {
 
 HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hkString& filename, const hkString& entityname):
 		HavokEntity(world), mEntity(entity), mFilename(filename), mEntityName(entityname), mCharacterRigidBody(HK_NULL), mCollisionCounter(0),
-		mUp(HavokEntity::UP), mSide(HavokEntity::FORWARD), mCharacterContext(HK_NULL),
-		mRotationDelta(DedicatedServer::getEngineSettings()->getValue<float>("Movement", "TurnAngle", 0.0f)),
+		mCharacterContext(HK_NULL),	mRotationDelta(DedicatedServer::getEngineSettings()->getValue<float>("Movement", "TurnAngle", 0.0f)),
 		mSpeedDamping(DedicatedServer::getEngineSettings()->getValue<float>("Movement", "Damping", 0.0f)),
 		mCharacterGravity(DedicatedServer::getEngineSettings()->getValue<float>("Havok", "CharacterGravity", 0.0f))
 		
 {
+	mUp.set(0,1,0);
+	mSide.set(0,0,1);
 	mCollisionTest = 0;
 }
 
@@ -170,24 +171,11 @@ void HavokHovercraft::update(){
 	//speeding
 	if (status.moveForward()) {	
 		scaledspeed = 1;
-		/*
-		currentspeed += hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
-
-		if (currentspeed > hovercraft->getMaximumSpeed()) {
-			currentspeed = hovercraft->getMaximumSpeed();
-		}*/
 	}
 
 	//braking..
 	if (status.moveBackward()) {
 		scaledspeed = -1;	
-		/*
-		currentspeed -= hovercraft->getAcceleration() * Havok::getSingleton().getTimeStep();
-
-		if (currentspeed < -1 * hovercraft->getMaximumSpeed()) {
-			currentspeed = -1 * hovercraft->getMaximumSpeed();
-		}
-		*/
 	}
 /*
 	// damping
@@ -326,7 +314,7 @@ void HavokHovercraft::update(){
 }
 
 
-void HavokHovercraft::load(const hkVector4& position){
+void HavokHovercraft::load(const hkVector4& position, const hkQuaternion& rotation ){
 	mWorld->markForWrite();
 
 	//Hovercrafts right
@@ -362,7 +350,18 @@ void HavokHovercraft::load(const hkVector4& position){
 	info.m_maxSpeedForSimplexSolver = Hovercraft::MAXSPEED;
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
 	info.m_friction = 0.1f;
-	info.m_rotation = hkQuaternion::getIdentity();
+	info.m_rotation = rotation;
+
+
+	
+	/*hkRotation rbRotation; 
+	rbRotation.set(rotation);
+	mUp = rbRotation.getColumn(1);
+	mUp.normalize3();
+	mSide = rbRotation.getColumn(0);
+	mSide.normalize3();
+	mForward = rbRotation.getColumn(2);
+	mForward.normalize3();*/
 
 	//set up the actions
 	hkpCharacterStateManager* manager = new hkpCharacterStateManager();
