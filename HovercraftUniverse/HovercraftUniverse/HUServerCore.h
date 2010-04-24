@@ -1,7 +1,7 @@
 #ifndef HUSERVERCORE_H_
 #define HUSERVERCORE_H_
 
-#include "NetworkServer.h"
+#include <NetworkServer.h>
 #include "EntityManager.h"
 #include "NetworkIDManager.h"
 #include "Lobby.h"

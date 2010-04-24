@@ -4,7 +4,12 @@
 #include "BasicOverlay.h"
 
 namespace HovUni {
-	class MessageBox : public BasicOverlay {
+	/**
+	 * A simple messageBox overlay.
+	 *
+	 * @author Nick De Frangh
+	 */
+	class NMessageBox : public BasicOverlay {
 		private:
 			/** The message to be displayed */
 			Ogre::String mMessage;
@@ -15,7 +20,7 @@ namespace HovUni {
 			 * 
 			 * @param message The message to display
 			 */
-			MessageBox(const Ogre::String& message, const Ogre::String& name, int width = 520, int height = 150, const Hikari::Position& position = Hikari::Center, Ogre::ushort zOrder = 0);
+			NMessageBox(const Ogre::String& message, const Ogre::String& name, int width = 520, int height = 150, const Hikari::Position& position = Hikari::Center, Ogre::ushort zOrder = 0);
 
 			/**
 			 * Function that gets called after activation. This will set the text

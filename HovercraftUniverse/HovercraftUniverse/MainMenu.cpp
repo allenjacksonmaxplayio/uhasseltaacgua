@@ -1,6 +1,7 @@
 #include "MainMenu.h"
-#include "MessageBox.h"
+#include <NMessageBox.h>
 #include "GUIManager.h"
+#include <windows.h>
 
 namespace HovUni {
 	MainMenu::MainMenu(ServerMenuListener* serverListener, const Hikari::FlashDelegate& onQuit) {
@@ -57,6 +58,7 @@ namespace HovUni {
 		}
 		//Delete / stop the server if it is running
 		if (mLocalServer != 0) {
+			mLocalServer->stop();
 			delete mLocalServer;
 			mLocalServer = 0;
 		}
@@ -86,7 +88,7 @@ namespace HovUni {
 		//NEW CODE THAT STARTS THE SERVER::
 		try {
 			//HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
-			mLocalServer =  new HUDedicatedServer("SingleplayerServer.ini");
+			mLocalServer = new HUDedicatedServer("SingleplayerServer.ini");
 		
 			mLocalServer->init();
 			mLocalServer->run(false);
@@ -105,13 +107,17 @@ namespace HovUni {
 			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: onsingleplayer finished";
 
 		} catch (Ogre::Exception& e) {
-			MessageBoxA(NULL, e.getFullDescription().c_str(), "Ogre Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+			GUIManager::getSingletonPtr()->activateOverlay(new HovUni::NMessageBox(e.getFullDescription(), "OgreException"));
+			//MessageBoxA(NULL, e.getFullDescription().c_str(), "Ogre Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		} catch (HovUni::Exception& e2) {
-			MessageBoxA(NULL, e2.getMessage().c_str(), "HovUni Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+			GUIManager::getSingletonPtr()->activateOverlay(new HovUni::NMessageBox(e2.getMessage(), "HovUniException"));
+			//MessageBoxA(NULL, e2.getMessage().c_str(), "HovUni Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		} catch (std::exception& e) {
-			MessageBoxA(NULL, e.what(), "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+			GUIManager::getSingletonPtr()->activateOverlay(new HovUni::NMessageBox(e.what(), "stdException"));
+			//MessageBoxA(NULL, e.what(), "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		} catch (...) {
-			MessageBoxA(NULL, "Unknown fatal Ogre Exception in starting Single Player Server", "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+			GUIManager::getSingletonPtr()->activateOverlay(new HovUni::NMessageBox("Unknown fatal Ogre Exception in starting Single Player Server", "unknownException"));
+			//MessageBoxA(NULL, "Unknown fatal Ogre Exception in starting Single Player Server", "Exception in starting Single Player Server", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		}
 		
 
@@ -152,8 +158,7 @@ namespace HovUni {
 			mListener->finishConnect();
 		} else {
 			//Show a messagebox
-			HovUni::MessageBox* msg = new MessageBox("Could not connect to server", "connectionmessage");
-			GUIManager::getSingletonPtr()->activateOverlay(msg);
+			GUIManager::getSingletonPtr()->activateOverlay(new HovUni::NMessageBox("Could not connect to server", "connectionmessage"));
 		}
 	}
 }

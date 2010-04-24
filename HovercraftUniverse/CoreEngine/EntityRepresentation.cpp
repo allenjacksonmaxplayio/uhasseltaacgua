@@ -54,7 +54,8 @@ EntityRepresentation::~EntityRepresentation() {
 
 void EntityRepresentation::draw() {
 	// Update the settings
-	mOgreNode->setPosition(mEntity->getPosition());
+	//mOgreNode->setPosition(mEntity->getPosition());
+	mOgreNode->setPosition(mEntity->getSmoothPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
 	//Text overlay
 	if (mTextOverlay != 0) {
