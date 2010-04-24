@@ -2,10 +2,9 @@
 #include "MessageBox.h"
 #include "GUIManager.h"
 
-#include "HUDedicatedServer.h"
-
 namespace HovUni {
 	MainMenu::MainMenu(ServerMenuListener* serverListener, const Hikari::FlashDelegate& onQuit) {
+		mLocalServer = 0;
 		//Create buttons
 		mListener = serverListener;
 
@@ -56,6 +55,11 @@ namespace HovUni {
 		if (mServerMenu->isActivated()) {
 			mServerMenu->deactivate();
 		}
+		//Delete / stop the server if it is running
+		if (mLocalServer != 0) {
+			delete mLocalServer;
+			mLocalServer = 0;
+		}
 
 		delete mSingleplayerButton;
 		delete mMultiplayerButton;
@@ -82,14 +86,14 @@ namespace HovUni {
 		//NEW CODE THAT STARTS THE SERVER::
 		try {
 			//HovUni::Console::createConsole("HovercraftUniverse Dedicated Server");
-			HovUni::HUDedicatedServer app("SingleplayerServer.ini");
+			mLocalServer =  new HUDedicatedServer("SingleplayerServer.ini");
 		
-			app.init();
-			app.run(false);
+			mLocalServer->init();
+			mLocalServer->run(false);
 
 			//Give the server a second to load, should be enough
 			DWORD dwMilliseconds = 1000;
-			Sleep ( dwMilliseconds );
+			Sleep(dwMilliseconds);
 
 			//Todo prettify catch blocks error msgs like this:
 			//HovUni::MessageBox* msg = new MessageBox("Could not connect to server", "connectionmessage");
