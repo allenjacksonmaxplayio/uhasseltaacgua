@@ -26,6 +26,11 @@ private:
 	bool mLoadingHovercrafts;
 
 	/**
+	 * The path for bots
+	 */
+	Ogre::String mPathFilename;
+
+	/**
 	 * Current player
 	 */
 	RacePlayer* mPlayer;

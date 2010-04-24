@@ -1,6 +1,6 @@
 <scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <userData>
-        <![CDATA[<Track><Name>SimpleTrack2</Name><MinimumPlayers>1</MinimumPlayers><PhysicsFileName>SimpleTrack2.hkx</PhysicsFileName><MaximumPlayers>6</MaximumPlayers><PathFileName></PathFileName></Track>]]>
+        <![CDATA[<Track><Name>SimpleTrack2</Name><MinimumPlayers>1</MinimumPlayers><PhysicsFileName>SimpleTrack2.hkx</PhysicsFileName><MaximumPlayers>6</MaximumPlayers><PathFileName>SimpleTrack2.path</PathFileName></Track>]]>
 </userData>
     <environment>
         <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
@@ -140,6 +140,16 @@
 </userData>
                 <subentities>
                     <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Path">
+            <position x="1014.68" y="-1.57197e-006" z="-35.9625" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Path" castShadows="true" receiveShadows="true" meshFile="Path.mesh">
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
                 </subentities>
             </entity>
         </node>

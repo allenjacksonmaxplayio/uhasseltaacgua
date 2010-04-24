@@ -10,7 +10,8 @@
 #include <OgreVector4.h>
 
 namespace HovUni {
-	HovercraftAIController::HovercraftAIController(std::string scriptname) {
+	HovercraftAIController::HovercraftAIController(std::string scriptname, std::string pathfilename) {
+		mPathFileName = pathfilename;
 		mClassName = "[HovercraftAIController]: ";
 	
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Starting.";
@@ -59,9 +60,9 @@ namespace HovUni {
 			luabind::call_function<void>(luaState,"setEntity", getEntity());
 			
 			//Temporary Path! 
-			//TODO HERE is where we should read the *.path file... but not hardcoded
+			//here is where we should read the *.path file... but not hardcoded
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Parsing Path file.";
-			std::vector<std::vector<float>> path = PathReader::parsePath("levels/SimpleTrackRecorded.path");
+			std::vector<std::vector<float>> path = PathReader::parsePath( "levels/" + mPathFileName);
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Setting Path.";		
 			luabind::object table = luabind::newtable(luaState);
 			for (unsigned int i = 0; i < path.size(); i++) {

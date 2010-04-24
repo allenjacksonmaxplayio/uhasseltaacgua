@@ -65,6 +65,8 @@ void ServerLoader::parseTrackUserData(const Ogre::String& userdata){
 	track.load(root);
 	Ogre::String filename = ".\\levels\\" + track.getPhysicsFileName();
 
+	mPathFilename = track.getPathFileName();
+
 	mHovercraftWorld = Havok::getSingletonPtr();
 	const char * physicsfile = filename.c_str();
 	if (!mHovercraftWorld->load(physicsfile)) {
@@ -339,7 +341,7 @@ void ServerLoader::parseHovercraftUserData(OgreMax::Types::EntityParameters& ent
 		
 		// TODO Is this the correct place to add the AI controller?
 		if (mPlayer->isBot()) {
-			HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue<std::string>("Server", "BotAI", "scripts/AI/PathFollowing.lua"));
+			HovercraftAIController* ai = new HovercraftAIController(DedicatedServer::getConfig()->getValue<std::string>("Server", "BotAI", "scripts/AI/PathFollowing.lua"), mPathFilename);
 			hovercraft->setController(ai);
 			ai->initialize();
 		}
