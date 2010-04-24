@@ -20,6 +20,11 @@ private:
 	 */
 	Ogre::String mPhysicsFileName;
 
+	/** 
+	 * Path file for bots
+	 */
+	Ogre::String mPathFileName;
+
 	/**
 	 * Minimum players
 	 */
@@ -63,6 +68,22 @@ public:
 	 */
 	inline void setPhysicsFileName(const Ogre::String& physicsFileName){
 		mPhysicsFileName = physicsFileName;
+	}
+
+	/**
+	 * Get path filename
+	 * @return the path filename
+	 */
+	inline Ogre::String getPathFileName() const {
+		return mPathFileName;
+	}
+
+	/**
+	 * Set path filename
+	 * @param path filename
+	 */
+	inline void setPathFileName(const Ogre::String& pathFileName){
+		mPathFileName = pathFileName;
 	}
 
 	/**

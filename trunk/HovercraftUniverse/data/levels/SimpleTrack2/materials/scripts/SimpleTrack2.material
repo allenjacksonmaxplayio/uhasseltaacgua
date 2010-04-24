@@ -1,4 +1,18 @@
 
+material NoMaterial
+{
+	technique
+	{
+		pass
+		{
+		}
+
+	}
+
+}
+
+
+
 material Grass
 {
 	technique

@@ -18,6 +18,8 @@ namespace HovUni {
 class HovercraftAIController : public HovercraftController {
 	//Provide public accesspoints for AI script.
 private:
+	/** filename of the Path can be found in level dir*/
+	std::string mPathFileName;
 	/** Class name*/
 	std::string mClassName;
 	/** The script object */
@@ -35,7 +37,7 @@ public:
 	*	2) setController() in the client
 	*	3) AIController.initialize();
 	*/
-	HovercraftAIController(std::string scriptname);
+	HovercraftAIController(std::string scriptname, std::string pathfilename);
 
 	/**
 	*	Destructor.

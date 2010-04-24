@@ -37,7 +37,7 @@ if  ready == true then (
 				(
 					knot = getKnotPoint o s k
 					
-					format "% % %\n" knot.x knot.y knot.z to: file				
+					format "% % % 1\n" knot.x knot.y knot.z to: file				
 
 				)--end k loop
 			)--end s loop

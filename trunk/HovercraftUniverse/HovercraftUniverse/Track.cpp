@@ -53,6 +53,16 @@ void Track::load(TiXmlElement * data) throw(ParseException){
 			mPhysicsFileName = Ogre::String(element->GetText());
 		}
 	}
+
+	//Read Physics File Name
+	mPathFileName = "";
+	node = data->FirstChild("PathFileName");
+	if(node){
+		TiXmlElement* element = dynamic_cast<TiXmlElement*>(node);
+		if(element){
+			mPathFileName = Ogre::String(element->GetText());
+		}
+	}
 }
 
 Track::~Track(void){
