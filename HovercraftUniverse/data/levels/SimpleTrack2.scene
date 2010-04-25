@@ -126,7 +126,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Sphere01</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Box" />
+                    <subentity index="0" materialName="Soccer" />
                 </subentities>
             </entity>
         </node>
@@ -139,7 +139,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Sphere02</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Box" />
+                    <subentity index="0" materialName="Soccer" />
                 </subentities>
             </entity>
         </node>
