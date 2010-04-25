@@ -38,7 +38,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Planet1</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Grass" />
+                    <subentity index="0" materialName="Asteroid01" />
                 </subentities>
             </entity>
             <node name="FinishGeom">

@@ -16,9 +16,9 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
    float4 alpha0 = tex2D( alphaMap0, Input.TexCoord );
     
    //Get color of textures       
-   float4 l0 = tex2D(Layer0, Input.TexCoord * 5);
-   float4 l1 = tex2D(Layer1, Input.TexCoord * 5);
-   float4 l2 = tex2D(Layer2, Input.TexCoord * 5);
+   float4 l0 = tex2D(Layer0, Input.TexCoord * 10);
+   float4 l1 = tex2D(Layer1, Input.TexCoord * 10);
+   float4 l2 = tex2D(Layer2, Input.TexCoord * 10);
    
    return alpha0.r * l0 + alpha0.g * l1 + alpha0.b * l2;
 }
