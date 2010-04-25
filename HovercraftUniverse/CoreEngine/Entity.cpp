@@ -96,6 +96,8 @@ void Entity::init() {
 	mSpringInterpolator.setStiffness(30);
 
 	mProperties = new EntityPropertyMap(this);
+
+	mLastPosition = Ogre::Vector3::ZERO;
 }
 
 void Entity::changePosition(const Ogre::Vector3& newPosition) {
@@ -106,6 +108,7 @@ void Entity::changePosition(const Ogre::Vector3& newPosition) {
 	}
 	// Set new position
 	mPosition = newPosition;
+	mLastPosition = newPosition;
 }
 
 void Entity::changeVelocity(const Ogre::Vector3& newVelocity) {
@@ -134,11 +137,19 @@ void Entity::update(float timeSince) {
 		std::cout << "tmpPosition: " << mTmpPosition << std::endl;
 	}
 	*/
-	
+
 	//if (mNode->getRole() != eZCom_RoleAuthority) {
 		//Interpolate the position manually
-		mTmpPosition = mSpringInterpolator.updateCameraSpring(mTmpPosition, mPosition);
+		//mTmpPosition = mSpringInterpolator.updateCameraSpring(mTmpPosition, mPosition);
 	//}
+
+	if (mLastPosition != mPosition) {
+		mTmpPosition = mPosition;
+		mLastPosition = mPosition;
+	} else {
+		//Predict a new position
+		mTmpPosition += mVelocity * timeSince;
+	}
 	
 	// Process the network entity
 	NetworkEntity::processEvents(timeSince);
@@ -175,7 +186,8 @@ Ogre::String Entity::getCategory() const {
 }
 
 Ogre::Vector3 Entity::getPosition() const {
-	return mPosition;
+	//return mPosition;
+	return mTmpPosition;
 }
 
 Ogre::Vector3 Entity::getSmoothPosition() const {
