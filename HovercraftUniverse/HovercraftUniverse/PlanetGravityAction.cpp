@@ -68,6 +68,8 @@ void PlanetGravityAction::applyAction(const hkStepInfo& stepInfo)
 		}
 	}
 
+	
+
 	force.setMul4(rb->getMass() * mGravityForce, forceDir);
 	rb->applyForce(stepInfo.m_deltaTime, force);
 }
