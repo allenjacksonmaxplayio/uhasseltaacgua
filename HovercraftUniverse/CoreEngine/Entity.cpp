@@ -268,10 +268,10 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 
 void Entity::setupReplication() {
 	//TODO: min and max delay should be defined, not magic number...
-	//replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
-	mNode->addInterpolationFloat(&mPosition.x, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.x);
-	mNode->addInterpolationFloat(&mPosition.y, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.y);
-	mNode->addInterpolationFloat(&mPosition.z, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.z);
+	replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
+	//mNode->addInterpolationFloat(&mPosition.x, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.x);
+	//mNode->addInterpolationFloat(&mPosition.y, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.y);
+	//mNode->addInterpolationFloat(&mPosition.z, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.z);
 	//replicateInterpolationFloat(&mPosition.x, 10.0f, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 100, 1000, 0, &mTmpPosition.x); 
 	//replicateInterpolationFloat(&mPosition.y, 10.0f, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 100, 1000, 0, &mTmpPosition.y);
 	//replicateInterpolationFloat(&mPosition.z, 10.0f, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 100, 1000, 0, &mTmpPosition.z);

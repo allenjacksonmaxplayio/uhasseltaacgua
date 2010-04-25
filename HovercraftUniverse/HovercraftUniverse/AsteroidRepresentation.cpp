@@ -7,6 +7,7 @@ AsteroidRepresentation::AsteroidRepresentation(Asteroid * entity, Ogre::SceneMan
 											   Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials) 
 											   : EntityRepresentation(entity, meshFile, sceneMgr, resourceGroupName, visible, castShadows, renderingDistance, materialFile, subMaterials) {
 	// Empty
+	this->getOgreEntity()->setCastShadows(false);
 }
 
 AsteroidRepresentation::~AsteroidRepresentation() {
