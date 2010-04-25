@@ -1,7 +1,10 @@
-shaderfx_path = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
-terrain_layer1_shader = shaderfx_path  + "terrain1.fx"
-terrain_layer2_shader = shaderfx_path  + "terrain2.fx"
-colormapoutputpath = (getDir #image) + "\\asteroid"
+macroscript Asteroid category: "Hovercraft Universe Tools"
+(
+
+local shaderfx_path = pathConfig.getCurrentProjectFolder()  + "\\shaderfx\\"
+local terrain_layer1_shader = shaderfx_path  + "terrain1.fx"
+local terrain_layer2_shader = shaderfx_path  + "terrain2.fx"
+local colormapoutputpath = (getDir #image) + "\\asteroid"
 
 print terrain_layer1_shader
 print terrain_layer2_shader
@@ -338,11 +341,6 @@ struct AsteroidInfo (
 )
 
 
-rollout Teleport "Teleport" width:192 height:296
-(
-	groupBox grp4 "Teleport" pos:[8,8] width:176 height:64
-)
-
 rollout AsteroidTool "Asteroid Tool" width:184 height:464
 (
 	
@@ -556,51 +554,12 @@ rollout AsteroidTool "Asteroid Tool" width:184 height:464
 	)
 )
 
-fn checkAsteroid =
-(
-	sel = getCurrentSelection()
-	
-	/* Check if one object selected */
-	if  sel.count == 0 then (
-		messageBox "No object selected, select ONE object" title:"Error"
-		return false
-	)
-	else 
+	on Execute do 
 	(
-		if sel.count != 1 then (
-			messageBox "To manny objects selected, select ONE object" title:"Error"
-			return false
-		)
-		else (
-	
-			/* save the object in obj */
-			obj = sel[1]
-			
-			vertexpaintlayers = 0
-			vertexpaintidices = #(0,0)
-			
-			/* check if one or two vertex paint layers */
-			for i = 1 to obj.modifiers.count do (
-				if obj.modifiers[i].name == "VertexPaint"  then (
-					vertexpaintlayers += 1
-					vertexpaintidices[vertexpaintlayers] = i
-				)
-			)
-	
-			if vertexpaintlayers == 0 OR vertexpaintlayers > 2 then(
-				messageBox "The selected object has no or to many vertex paint modifiers, it should have at least one, maximum two of these modifiers" title:"Error"
-				return false
-			)
-			else (
-				return true
-			)
-		)
-	)			
+		rof=newrolloutfloater "Asteroid Tools" 200 500
+		addrollout AsteroidTool rof
+	)
+
 )
-
-
-rof=newrolloutfloater "Exporter Utilities" 200 500
-addrollout AsteroidTool rof
-addrollout Teleport rof
 
 
