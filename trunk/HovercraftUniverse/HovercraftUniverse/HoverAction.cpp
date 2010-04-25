@@ -30,7 +30,7 @@ private:
 
 public:
 
-	PlanetRayCastCallback( hkReal gravity ):
+	PlanetRayCastCallback( hkReal& gravity ):
 		 hkpSimpleWorldRayCaster(), mGravity(gravity){
 	}
 
@@ -78,8 +78,8 @@ HoverAction::~HoverAction(void)
 }
 
 void HoverAction::applyAction( const hkStepInfo& stepInfo ){
-	const float NEGRAYLENGTH = -2.0f;
-	const float POSRAYLENGTH = 0.1f;
+	const hkReal NEGRAYLENGTH = -1.0f * mHoveringHeight;
+	const hkReal POSRAYLENGTH = 0.1f;
 
 	hkVector4 from = mHovercraft->getUp();
 	from.mul4(POSRAYLENGTH);
@@ -106,7 +106,7 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 	{
 		hkVector4 ground;
 		ground.setInterpolate4( from, to, output.m_hitFraction );
-		
+
 		// hovering
 		hkVector4 hover;
 		hkVector4 position = mHovercraft->getPosition();
@@ -123,7 +123,7 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 		} else if (distance > mHoveringHeight) {
 			magnitude = (1.0f / distanceSquared) * (mCharacterGravity + currentgravity) * mHoveringHeight * mHoveringHeight * 0.95f;
 		}
-		
+
 		hover.setMul4(mHovercraft->getRigidBody()->getMass() * magnitude, mHovercraft->getUp());
 		mHovercraft->getRigidBody()->applyForce(stepInfo.m_deltaTime, hover);
 	}
