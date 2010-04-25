@@ -35,6 +35,9 @@ protected:
 	/** The position */
 	Ogre::Vector3 mPosition;
 
+	/** Value to check for position change */
+	Ogre::Vector3 mLastPosition;
+
 	/** Temp position */
 	Ogre::Vector3 mTmpPosition;
 
