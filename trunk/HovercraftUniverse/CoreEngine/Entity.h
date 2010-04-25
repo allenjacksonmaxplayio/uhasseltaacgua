@@ -16,7 +16,7 @@ class EntityPropertyMap;
  * An entity is an object in the game world that has a game state. This state can be modified by the 
  * interaction of players with the game.
  *
- * @author Kristof Overdulve, Olivier Berghmans & Tobias Van Bladel
+ * @author Kristof Overdulve, Olivier Berghmans & Tobias Van Bladel, Nick De Frangh
  */
 class Entity: public NetworkEntity {
 protected:

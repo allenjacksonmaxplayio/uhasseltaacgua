@@ -68,7 +68,10 @@ void RaceCamera::setFreeroam(Ogre::Vector3 pos, Ogre::Quaternion orientation, Og
 
 bool RaceCamera::keyPressed(const OIS::KeyEvent & e) { 
 	CameraActions::CameraControllerActionType action = mInputManager->getKeyManager()->getCameraAction(e.key);
+	EntityRepresentation* trackedEntity = RepresentationManager::getSingletonPtr()->getTrackedEntityRepresentation();
 	// TODO Set the camera controller
+	bool freeroamSwitch = false;
+
 	switch (action) {
 	case CameraActions::CHANGECAMERA:
 		// Switch to next camera
@@ -76,6 +79,10 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 			mCurrCamViewpoint = ThirdPerson;
 		} else {
 			mCurrCamViewpoint = CameraViewpoint(mCurrCamViewpoint + 1);
+
+			if (mCurrCamViewpoint == FreeRoam) {
+				freeroamSwitch = true;
+			}
 		}
 		break;
 	case CameraActions::THIRD_PERSON_CAMERA:
@@ -93,6 +100,7 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 	case CameraActions::FREE_CAMERA:
 		// Switch to free roaming
 		mCurrCamViewpoint = FreeRoam;
+		freeroamSwitch = true;
 		break;
 	default:
 		// Do nothing
@@ -108,9 +116,19 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 		mActiveViewpointNode = mRearViewpointNode;
 	} else if (mCurrCamViewpoint == FreeRoam) {
 		mActiveViewpointNode = mFreeRoamViewpointNode;
-		mCamera->lookAt(mObjectTrackCameraController->getPosition());
 	}
 	mActiveViewpointNode->attachObject(mCamera);
+
+	if (freeroamSwitch) {
+		//Initialise the freeroam camera
+		if (trackedEntity != 0) {
+			Ogre::Vector3 position = trackedEntity->getEntity()->getPosition() - (trackedEntity->getEntity()->getOrientation() * 50) + (trackedEntity->getEntity()->getUpVector() * 40);
+			mActiveViewpointNode->setPosition(position);
+			mActiveViewpointNode->lookAt(trackedEntity->getEntity()->getPosition(), Ogre::Node::TS_WORLD);
+			//mCamera->setPosition(position);
+			//mCamera->lookAt(trackedEntity->getEntity()->getPosition());
+		}
+	}
 
 	// Succes
 	return true; 
@@ -128,77 +146,91 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 	Ogre::SceneNode* trackedNode = 0;
 	EntityRepresentation* trackedEntity = RepresentationManager::getSingletonPtr()->getTrackedEntityRepresentation();
 
-	switch (mCurrCamViewpoint) {
-	case ThirdPerson:
-		if (trackedEntity != 0) {
-			mCamera->lookAt(trackedEntity->getEntity()->getSmoothPosition() + mObjectTrackCameraController->getUpVector() * 5);
+	if (trackedEntity != 0) {
+		Entity* currEntity = trackedEntity->getEntity();
+
+		switch (mCurrCamViewpoint) {
+		case ThirdPerson:
+			newPosition = currEntity->getPosition() - (currEntity->getOrientation() * 20) + (currEntity->getUpVector() * 10);
+			
+			//positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
+			//mCamera->setFixedYawAxis(true, mObjectTrackCameraController->getUpVector()); // Comment this line for super mario galaxy style!
+			//mCamera->setPosition(positionCam);
+
+			positionCam = CameraSpring::getInstance()->updateCameraSpring(mActiveViewpointNode->getPosition(), newPosition); //Smooth tracking
+			//positionCam = newPosition; //Hard tracking
+			mActiveViewpointNode->setPosition(positionCam);
+			mActiveViewpointNode->setOrientation(currEntity->getQuaternion());
+
+			//mCamera->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5);
+			mActiveViewpointNode->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5, Ogre::Node::TS_WORLD);
+
+			//mCamera->setPosition(newPosition);
+			//mCamera->lookAt(mObjectTrackCameraController->getPosition());
+			//turn the camera slightly to the tracked entity
+			//mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
+			//mCamera->pitch(Ogre::Degree(-15.0f));
+
+			/// OLD SHIT
+			//std::cout << "UP vector :: " << mObjectTrackCameraController->getUpVector() << std::endl;
+			//oldPosition = mActiveViewpointNode->getPosition();
+			// Determine position camera
+			//newPosition = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
+			//positionCam = oldPosition + (newPosition - oldPosition) * 0.10f;
+			//std::cout << oldPosition << "   " << newPosition << "   " << positionCam << std::endl;
+			// Set position and direction to look at
+			//mActiveViewpointNode->setPosition(positionCam);
+			//mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
+			//turn the camera slightly to the tracked entity
+			//mActiveViewpointNode->pitch(Ogre::Degree(-15.0f), Ogre::Node::TS_LOCAL);
+			
+			
+			break;
+		case FirstPerson:
+			// Determine position camera
+			positionCam = currEntity->getPosition() + currEntity->getOrientation();
+
+			// Set position and direction to look at
+			//mCamera->setPosition(positionCam);
+			//mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
+			//mCamera->pitch(Ogre::Degree(-5.0f));
+
+			mActiveViewpointNode->setPosition(positionCam);
+			mActiveViewpointNode->setOrientation(currEntity->getQuaternion());
+			mActiveViewpointNode->pitch(Ogre::Degree(-5.0f));
+
+			break;
+		case RearView:
+			// Determine position camera
+			positionCam = currEntity->getPosition() - currEntity->getOrientation();
+			// turn the camera 180 degrees around the up vector
+			back = Ogre::Quaternion(Ogre::Degree(180), currEntity->getUpVector());
+
+			// Set position and direction to look at
+			//mCamera->setPosition(positionCam);
+			//mCamera->setOrientation(back * mObjectTrackCameraController->getOrientation());
+
+
+			mActiveViewpointNode->setPosition(positionCam);
+			mActiveViewpointNode->setOrientation(back * currEntity->getQuaternion());
+
+			break;
+		case FreeRoam:
+			//mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
+			// Get input from free roaming controller and apply
+			//mCamera->yaw(mFreeroamCameraController->getYaw());
+			//mCamera->pitch(mFreeroamCameraController->getPitch());
+			//mCamera->setPosition(mCamera->getPosition() +  (mCamera->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
+
+			mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw());
+			mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch());
+			mActiveViewpointNode->setPosition(mActiveViewpointNode->getPosition() +  (mActiveViewpointNode->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
+
+			break;
+		default:
+			// Impossible
+			break;
 		}
-
-		//////////////////////
-		// Comment this line for super mario galaxy style!
-		//////////////////////
-		mCamera->setFixedYawAxis(true, mObjectTrackCameraController->getUpVector());
-
-		newPosition = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
-
-		positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
-
-		//std::cout << "Position vector :: " << positionCam << std::endl;
-
-		mCamera->setPosition(positionCam);
-		//mCamera->setPosition(newPosition);
-		
-		//mCamera->lookAt(mObjectTrackCameraController->getPosition());
-		//turn the camera slightly to the tracked entity
-		//mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
-		//mCamera->pitch(Ogre::Degree(-15.0f));
-
-		/// OLD SHIT
-		//std::cout << "UP vector :: " << mObjectTrackCameraController->getUpVector() << std::endl;
-		//oldPosition = mActiveViewpointNode->getPosition();
-		// Determine position camera
-		//newPosition = mObjectTrackCameraController->getPosition() - (mObjectTrackCameraController->getDirection() * 20) + (mObjectTrackCameraController->getUpVector() * 10);
-		//positionCam = oldPosition + (newPosition - oldPosition) * 0.10f;
-		//std::cout << oldPosition << "   " << newPosition << "   " << positionCam << std::endl;
-		// Set position and direction to look at
-		//mActiveViewpointNode->setPosition(positionCam);
-		//mActiveViewpointNode->setOrientation(mObjectTrackCameraController->getOrientation());
-		//turn the camera slightly to the tracked entity
-		//mActiveViewpointNode->pitch(Ogre::Degree(-15.0f), Ogre::Node::TS_LOCAL);
-		
-		
-		break;
-	case FirstPerson:
-		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() + mObjectTrackCameraController->getDirection();
-
-		// Set position and direction to look at
-		mCamera->setPosition(positionCam);
-		mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
-		mCamera->pitch(Ogre::Radian::Radian(Ogre::Degree(-5.0f)));
-
-		break;
-	case RearView:
-		// Determine position camera
-		positionCam = mObjectTrackCameraController->getPosition() - mObjectTrackCameraController->getDirection();
-		
-		// Set position and direction to look at
-		mCamera->setPosition(positionCam);
-		// turn the camera 180 degrees around the up vector
-		back = Ogre::Quaternion(Ogre::Degree(180), mObjectTrackCameraController->getUpVector());
-		mCamera->setOrientation(back * mObjectTrackCameraController->getOrientation());
-
-		break;
-	case FreeRoam:
-		mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
-		// Get input from free roaming controller and apply
-		mCamera->yaw(mFreeroamCameraController->getYaw());
-		mCamera->pitch(mFreeroamCameraController->getPitch());
-		mCamera->setPosition(mCamera->getPosition() +  (mCamera->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
-		break;
-	default:
-		// Impossible
-		break;
 	}
 }
 

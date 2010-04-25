@@ -5,9 +5,9 @@ namespace HovUni {
 CameraSpring CameraSpring::mCameraSpring;
 
 CameraSpring::CameraSpring(){
-	mStiffness = 6;
+	mStiffness = 4;
 	mDampening = 30;
-	mMass = 60;
+	mMass = 70;
 }
 
 void CameraSpring::initCameraSpring(Ogre::Vector3 camPos, Ogre::Vector3 offsetPos)
