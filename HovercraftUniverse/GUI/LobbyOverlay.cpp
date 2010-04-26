@@ -33,6 +33,10 @@ namespace HovUni {
 		this->callFunction("setAdmin", Hikari::Args(admin));
 	}
 
+	void LobbyOverlay::markAdmin(int id) {
+		this->callFunction("markAdmin", Hikari::Args(id));
+	}
+
 	void LobbyOverlay::setFillBots(bool fill) {
 		this->callFunction("setFillBots", Hikari::Args(fill));
 	}

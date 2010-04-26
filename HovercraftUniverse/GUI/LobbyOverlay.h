@@ -72,6 +72,13 @@ namespace HovUni {
 			void setAdmin(bool admin);
 
 			/**
+			 * Mark a certain is as admin.
+			 *
+			 * @param id The id of the user you want to mark as admin
+			 */
+			void markAdmin(int id);
+
+			/**
 			 * Set the fill with bots value.
 			 *
 			 * @param fill True when you want to fill with bots, false otherwise

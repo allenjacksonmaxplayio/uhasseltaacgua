@@ -160,6 +160,15 @@ public:
 	}
 
 	/**
+	 * Get the Id of the current admin
+	 *
+	 * @return The id of the current admin
+	 */
+	inline unsigned int getAdminId() const {
+		return mAdmin;
+	}
+
+	/**
 	 * Set the race state. The state will be deleted by the lobby itself. (Server + Client)
 	 *
 	 * @param state the new race state

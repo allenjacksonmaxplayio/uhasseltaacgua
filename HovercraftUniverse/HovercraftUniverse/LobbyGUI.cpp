@@ -81,6 +81,10 @@ namespace HovUni {
 		mLobbyOverlay->setAdmin(admin);
 	}
 
+	void LobbyGUI::markAdmin(int id) {
+		mLobbyOverlay->markAdmin(id);
+	}
+
 	void LobbyGUI::setFillBots(bool fill) {
 		mLobbyOverlay->setFillBots(fill);
 	}

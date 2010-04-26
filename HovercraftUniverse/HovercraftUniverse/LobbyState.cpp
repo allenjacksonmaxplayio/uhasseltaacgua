@@ -197,7 +197,9 @@ namespace HovUni {
 
 		//50 FPS
 		if (mLastGUIUpdate > (1.0f / 50.0f) || mLastGUIUpdate < 0) {
-			//onAdminChange(mLobby->isAdmin());
+			if (mLobbyGUI->isActivated()) {
+				mLobbyGUI->markAdmin(mLobby->getAdminId());
+			}
 			
 			//We are using a GUI, so update it
 			mGUIManager->update();
