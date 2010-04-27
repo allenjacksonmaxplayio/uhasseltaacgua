@@ -76,6 +76,9 @@ private:
 	const long mCountdownInterval;
 	const unsigned char mCountdownIntervalLog2;
 
+	/** Map with player ID's and next checkpoint ID */
+	std::map<unsigned int, Ogre::int32> mCheckpointMapping;
+
 	/*
 	 * Replicated fields
 	 */
