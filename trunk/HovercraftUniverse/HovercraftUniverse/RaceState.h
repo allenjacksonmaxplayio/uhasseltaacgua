@@ -79,6 +79,9 @@ private:
 	/** Map with player ID's and next checkpoint ID */
 	std::map<unsigned int, Ogre::int32> mCheckpointMapping;
 
+	/** ID of the finish (= last checkpoint + 1) */
+	Ogre::int32 mFinishID;
+
 	/*
 	 * Replicated fields
 	 */

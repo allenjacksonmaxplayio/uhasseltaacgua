@@ -28,7 +28,7 @@ namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track),
-			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13) {
+			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1) {
 	mState = new SystemState(this);
 
 	if (mLoader) {
@@ -73,13 +73,14 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 			RacePlayer* rplayer = new RacePlayer(this, settings);
 			addPlayer(rplayer);
 		}
+
 	}
 }
 
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
-			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13) {
+			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1) {
 
 	mState = new SystemState(this);
 
@@ -108,11 +109,21 @@ RaceState::~RaceState() {
 }
 
 void RaceState::onFinish(Finish * finish, unsigned int playerid) {
-	std::cout << playerid << " reaches finish" << std::endl;
-	std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
-	CheckPoint * lastCP = dynamic_cast<CheckPoint *>(checkpoints.back());
-	Ogre::int32 finishID = lastCP->getNumber() + 1;
-	if (mCheckpointMapping[playerid] == finishID) {
+	
+	if (mFinishID == -1) {
+		// finish checkpoint
+		std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
+		for (unsigned int i = 0; i < checkpoints.size(); ++i) {
+			CheckPoint * checkpoint = dynamic_cast<CheckPoint *>(checkpoints[i]);
+			if (checkpoint->getNumber() >= mFinishID) {
+				mFinishID = checkpoint->getNumber() + 1;
+			}
+		}
+		std::cout << "finish ID is " << mFinishID << std::endl;
+	}
+	
+	
+	if (mCheckpointMapping[playerid] == mFinishID) {
 		// finished!
 		std::cout << playerid << " finished!" << std::endl;
 		// increase next checkpoint
@@ -123,9 +134,12 @@ void RaceState::onFinish(Finish * finish, unsigned int playerid) {
 		}
 		// disable controls for this player
 		// TODO (or maybe not?)
-	} else {
+	} else if (mCheckpointMapping[playerid] < mFinishID) {
 		// not yet finished!
 		std::cout << playerid << " reaches incorrect finish, skipped checkpoint " << mCheckpointMapping[playerid] << std::endl;
+	} else {
+		// already finished
+		std::cout << playerid << " already finished" << std::endl;
 	}
 
 }
