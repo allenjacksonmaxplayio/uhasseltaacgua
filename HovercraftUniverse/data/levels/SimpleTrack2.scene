@@ -41,6 +41,20 @@
                     <subentity index="0" materialName="Asteroid01" />
                 </subentities>
             </entity>
+            <node name="CheckPoint02Geom">
+                <position x="-676.547" y="63.5982" z="-108.211" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="-0.0282932" qy="-0.110954" qz="0.092502" qw="0.989107" />
+                <entity name="CheckPoint02Geom" castShadows="true" receiveShadows="true" meshFile="CheckPoint02Geom.mesh">
+                    <userData>
+                        <![CDATA[<OgreEntity><GameEntity>CheckPoint02</GameEntity></OgreEntity>]]>
+</userData>
+                    <subentities>
+                        <subentity index="0" materialName="CheckPoint1" />
+                        <subentity index="1" materialName="CheckPoint2" />
+                    </subentities>
+                </entity>
+            </node>
             <node name="FinishGeom">
                 <position x="-806.748" y="35.8285" z="-152.025" />
                 <scale x="1" y="1" z="1" />
@@ -126,7 +140,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Sphere01</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Soccer" />
+                    <subentity index="0" materialName="Box" />
                 </subentities>
             </entity>
         </node>
@@ -139,17 +153,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Sphere02</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Soccer" />
-                </subentities>
-            </entity>
-        </node>
-        <node name="Path">
-            <position x="1014.68" y="-1.57197e-006" z="-35.9625" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
-            <entity name="Path" castShadows="true" receiveShadows="true" meshFile="Path.mesh">
-                <subentities>
-                    <subentity index="0" materialName="NoMaterial" />
+                    <subentity index="0" materialName="Box" />
                 </subentities>
             </entity>
         </node>
@@ -162,6 +166,14 @@
             <position x="0" y="0" z="0" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="21.0563" y="21.0563" z="21.0563" />
+        </item>
+        <item name="CheckPoint02">
+            <userData>
+                <![CDATA[<CheckPoint><Name>OverHalfway</Name><Number>1</Number><OgreEntity>CheckPoint02Geom</OgreEntity><ProcessInterval>-1</ProcessInterval></CheckPoint>]]>
+</userData>
+            <position x="527.572" y="35.2221" z="-108.211" />
+            <rotation qx="-0.0282932" qy="-0.110954" qz="0.092502" qw="0.989107" />
+            <scale x="0.403864" y="1" z="2.19233" />
         </item>
         <item name="Finish">
             <userData>
