@@ -13,6 +13,7 @@
 #include "Timing.h"
 #include "Track.h"
 #include "Entity.h"
+#include "EntityManager.h"
 #include "DedicatedServer.h"
 #include "TrackInfoLoader.h"
 #include "Finish.h"
@@ -108,14 +109,48 @@ RaceState::~RaceState() {
 
 void RaceState::onFinish(Finish * finish, unsigned int playerid) {
 	std::cout << playerid << " reaches finish" << std::endl;
+	std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
+	CheckPoint * lastCP = dynamic_cast<CheckPoint *>(checkpoints.back());
+	Ogre::int32 finishID = lastCP->getNumber() + 1;
+	if (mCheckpointMapping[playerid] == finishID) {
+		// finished!
+		std::cout << playerid << " finished!" << std::endl;
+		// increase next checkpoint
+		mCheckpointMapping[playerid]++;
+		// change state to finishing
+		if (mState->getState() == RACING) {
+			mState->newState(FINISHING);
+		}
+		// disable controls for this player
+		// TODO (or maybe not?)
+	} else {
+		// not yet finished!
+		std::cout << playerid << " reaches incorrect finish, skipped checkpoint " << mCheckpointMapping[playerid] << std::endl;
+	}
+
 }
 
 void RaceState::onCheckPoint(CheckPoint * checkpoint, unsigned int playerid) {
-	std::cout << playerid << " reaches checkpoint" << std::endl;
+	if (mCheckpointMapping[playerid] == checkpoint->getNumber()) {
+		// correct checkpoint
+		std::cout << playerid << " reaches correct checkpoint " << checkpoint->getNumber() << std::endl;
+		// increase next checkpoint
+		mCheckpointMapping[playerid]++;
+	} else {
+		// incorrect checkpoint
+		std::cout << playerid << " reaches wrong checkpoint " << checkpoint->getNumber() << " (should be " <<  mCheckpointMapping[playerid] << ")" << std::endl;
+	}
 }
 
 void RaceState::onStart(Start * start, unsigned int playerid) {
-	std::cout << playerid << " reaches start" << std::endl;
+	if (mCheckpointMapping[playerid] == -1) {
+		// correct start
+		std::cout << playerid << " reaches start" << std::endl;
+		mCheckpointMapping[playerid] = 0;
+	} else {
+		// already passed start!
+		std::cout << playerid << " reaches invalid start" << std::endl;
+	}
 }
 
 std::string RaceState::getClassName() {
@@ -153,6 +188,7 @@ RaceState::playermap::iterator RaceState::removePlayer(playermap::iterator i) {
 
 void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 	mPlayers.addPlayer(player->getSettings()->getID(), player, ownPlayer);
+	mCheckpointMapping[player->getSettings()->getID()] = -1;
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Inserting new RacePlayer";
 	if (ownPlayer) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Received own player object";
@@ -266,7 +302,7 @@ void RaceState::SystemState::update() {
 			}
 			break;
 		case FINISHING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "FinishTime", 5000)) {
+			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "FinishTime", 30000)) {
 				newState(CLEANUP);
 				Entity::setControlsInactive();
 			}
