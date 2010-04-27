@@ -140,7 +140,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Sphere01</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Box" />
+                    <subentity index="0" materialName="Soccer" />
                 </subentities>
             </entity>
         </node>
@@ -153,7 +153,17 @@
                     <![CDATA[<OgreEntity><GameEntity>Sphere02</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Box" />
+                    <subentity index="0" materialName="Soccer" />
+                </subentities>
+            </entity>
+        </node>
+		<node name="Path">
+            <position x="1014.68" y="-1.57197e-006" z="-35.9625" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Path" castShadows="true" receiveShadows="true" meshFile="Path.mesh">
+                <subentities>
+                    <subentity index="0" materialName="NoMaterial" />
                 </subentities>
             </entity>
         </node>
