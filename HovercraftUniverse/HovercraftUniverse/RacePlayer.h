@@ -2,6 +2,7 @@
 #define RACEPLAYER_H
 
 #include "NetworkEntity.h"
+#include <map>
 
 namespace HovUni {
 
@@ -25,6 +26,12 @@ private:
 
 	/** The current position of this player in the race */
 	short mPlayerPosition;
+
+	/** The last checkpoint reached */
+	unsigned int mLastCheckpoint;
+
+	/** The timestamps of the checkpoints reached */
+	std::map<unsigned int, long> mCheckpoints;
 
 public:
 	/**
@@ -86,9 +93,28 @@ public:
 	 */
 	short getPosition() const;
 
-	void onCheckpoint();
+	/**
+	 * Add a timestamp of a checkpoint reached by this player
+	 *
+	 * @param checkpoint the ID of the checkpoint
+	 * @param timestamp the timestamp
+	 */
+	void addCheckpoint(unsigned int checkpoint, long timestamp);
 
-	void onFinish();
+	/**
+	 * Get the timestamp for a checkpoint
+	 *
+	 * @param checkpoint the ID of the checkpoint
+	 * @return the timestamp, or -1 if the checkpoint was not reached yet
+	 */
+	long getCheckpoint(unsigned int checkpoint);
+
+	/**
+	 * Get the ID of the last checkpoint reached
+	 *
+	 * @return the ID of the last checkpoint reached
+	 */
+	unsigned int getLastCheckpoint();
 
 	/**
 	 * Get the class name for this class. This is used for registering

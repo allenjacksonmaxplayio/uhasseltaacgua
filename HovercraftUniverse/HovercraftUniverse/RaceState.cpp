@@ -20,6 +20,7 @@
 #include "Start.h"
 #include "Hovercraft.h"
 #include "CheckPoint.h"
+#include "CheckpointEvent.h"
 #include <math.h>
 
 #include <OgreLogManager.h>
@@ -109,25 +110,24 @@ RaceState::~RaceState() {
 }
 
 void RaceState::onFinish(Finish * finish, unsigned int playerid) {
-	
+
 	if (mFinishID == -1) {
 		// finish checkpoint
 		std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
 		for (unsigned int i = 0; i < checkpoints.size(); ++i) {
-			CheckPoint * checkpoint = dynamic_cast<CheckPoint *>(checkpoints[i]);
+			CheckPoint * checkpoint = dynamic_cast<CheckPoint *> (checkpoints[i]);
 			if (checkpoint->getNumber() >= mFinishID) {
 				mFinishID = checkpoint->getNumber() + 1;
 			}
 		}
 		std::cout << "finish ID is " << mFinishID << std::endl;
 	}
-	
-	
+
 	if (mCheckpointMapping[playerid] == mFinishID) {
 		// finished!
 		std::cout << playerid << " finished!" << std::endl;
 		// increase next checkpoint
-		mCheckpointMapping[playerid]++;
+		updatePlayerCheckpoint(playerid);
 		// change state to finishing
 		if (mState->getState() == RACING) {
 			mState->newState(FINISHING);
@@ -149,10 +149,11 @@ void RaceState::onCheckPoint(CheckPoint * checkpoint, unsigned int playerid) {
 		// correct checkpoint
 		std::cout << playerid << " reaches correct checkpoint " << checkpoint->getNumber() << std::endl;
 		// increase next checkpoint
-		mCheckpointMapping[playerid]++;
+		updatePlayerCheckpoint(playerid);
 	} else {
 		// incorrect checkpoint
-		std::cout << playerid << " reaches wrong checkpoint " << checkpoint->getNumber() << " (should be " <<  mCheckpointMapping[playerid] << ")" << std::endl;
+		std::cout << playerid << " reaches wrong checkpoint " << checkpoint->getNumber() << " (should be "
+				<< mCheckpointMapping[playerid] << ")" << std::endl;
 	}
 }
 
@@ -160,11 +161,33 @@ void RaceState::onStart(Start * start, unsigned int playerid) {
 	if (mCheckpointMapping[playerid] == -1) {
 		// correct start
 		std::cout << playerid << " reaches start" << std::endl;
-		mCheckpointMapping[playerid] = 0;
+		updatePlayerCheckpoint(playerid);
 	} else {
 		// already passed start!
 		std::cout << playerid << " reaches invalid start" << std::endl;
 	}
+}
+
+void RaceState::updatePlayerCheckpoint(unsigned int playerid) {
+	RacePlayer* player = getPlayer(playerid);
+	long timestamp = mState->mTimer->elapsed();
+	player->addCheckpoint(mCheckpointMapping[playerid], timestamp);
+	player->setPosition(calculatePlayerPosition(mCheckpointMapping[playerid]));
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Position of player " << player->getSettings()->getPlayerName() << " is " << player->getPosition();
+	sendEvent(CheckpointEvent(playerid, mCheckpointMapping[playerid], timestamp));
+	mCheckpointMapping[playerid]++;
+}
+
+unsigned int RaceState::calculatePlayerPosition(unsigned int checkpoint) const {
+	unsigned int position = 1;
+
+	for (std::map<unsigned int, Ogre::int32>::const_iterator it = mCheckpointMapping.begin(); it != mCheckpointMapping.end(); ++it) {
+		// If the checkpoint of the other is greater than this one, they already passed this checkpoint
+		if ((unsigned int) it->second > checkpoint) {
+			++position;
+		}
+	}
+	return position;
 }
 
 std::string RaceState::getClassName() {
@@ -202,7 +225,7 @@ RaceState::playermap::iterator RaceState::removePlayer(playermap::iterator i) {
 
 void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 	mPlayers.addPlayer(player->getSettings()->getID(), player, ownPlayer);
-	mCheckpointMapping[player->getSettings()->getID()] = -1;
+	mCheckpointMapping[player->getSettings()->getID()] = 0;
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Inserting new RacePlayer";
 	if (ownPlayer) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Received own player object";
@@ -260,17 +283,21 @@ void RaceState::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_C
 			mNumberPlayers = state->getInt(8);
 		}
 
-		if (role == eZCom_RoleOwner || role == eZCom_RoleProxy) {
-			StateEvent* newState = dynamic_cast<StateEvent*> (gEvent);
-			if (newState) {
+		StateEvent* newState = dynamic_cast<StateEvent*> (gEvent);
+		if (newState) {
+			if (role == eZCom_RoleOwner || role == eZCom_RoleProxy) {
 				mState->newState((States) newState->getState());
-			}
-		} else {
-			StateEvent* newState = dynamic_cast<StateEvent*> (gEvent);
-			if (newState) {
+			} else {
 				mState->newEvent((Events) newState->getState(), mLobby->getPlayerIDfromConnectionID(conn_id));
 			}
 		}
+
+		CheckpointEvent* checkpoint = dynamic_cast<CheckpointEvent*> (gEvent);
+		if (checkpoint) {
+			RacePlayer* player = getPlayer(checkpoint->getUser());
+			player->addCheckpoint(checkpoint->getCheckpoint(), checkpoint->getTimestamp());
+		}
+
 		delete gEvent;
 	}
 

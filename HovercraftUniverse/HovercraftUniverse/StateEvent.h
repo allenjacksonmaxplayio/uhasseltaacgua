@@ -10,8 +10,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class StateEvent : public GameEvent
-{
+class StateEvent: public GameEvent {
 private:
 	// The state
 	unsigned int mState;
