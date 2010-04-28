@@ -4,6 +4,8 @@
 #include "Lobby.h"
 #include "RaceStateListener.h"
 
+#include <OgreLogManager.h>
+
 namespace HovUni {
 
 RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
@@ -45,6 +47,7 @@ bool RacePlayer::isBot() const {
 
 void RacePlayer::setPosition(short position) {
 	mPlayerPosition = position;
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Position of player " << getSettings()->getPlayerName() << " is " << position;
 	std::vector<RaceStateListener*> listeners = mRaceState->getListeners();
 	for (std::vector<RaceStateListener*>::iterator i = listeners.begin(); i != listeners.end(); ++i) {
 		(*i)->onPositionChange(this);
