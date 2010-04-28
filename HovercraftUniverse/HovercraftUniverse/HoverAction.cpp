@@ -78,7 +78,7 @@ HoverAction::~HoverAction(void)
 }
 
 void HoverAction::applyAction( const hkStepInfo& stepInfo ){
-	const hkReal NEGRAYLENGTH = -1.0f * mHoveringHeight;
+	const hkReal NEGRAYLENGTH = -2.0f * mHoveringHeight;	//double of hoverheight
 	const hkReal POSRAYLENGTH = 0.1f;
 
 	hkVector4 from = mHovercraft->getUp();
@@ -102,30 +102,21 @@ void HoverAction::applyAction( const hkStepInfo& stepInfo ){
 	PlanetRayCastCallback caster(currentgravity);
 	caster.castRay(*mWorld->getBroadPhase(),input,mWorld->getCollisionFilter(),output);
 
-	if ( output.hasHit() )
-	{
-		hkVector4 ground;
-		ground.setInterpolate4( from, to, output.m_hitFraction );
+	if (output.hasHit()){
 
-		// hovering
-		hkVector4 hover;
-		hkVector4 position = mHovercraft->getPosition();
+		hkReal dist = -1.0f * output.m_hitFraction * NEGRAYLENGTH;
 
-		hkVector4 difference(position(0) - ground(0), position(1) - ground(1), position(2) - ground(2));
-		float distanceSquared = difference.lengthSquared3();
-		float distance = difference.length3();
-		float magnitude = 0.0f;
-		if (distance > 0.01f && distance <= mHoveringHeight) {
-			
-			magnitude = (1.0f / distance) * (mCharacterGravity + currentgravity) * mHoveringHeight;
-			//magnitude = (1.0f / distanceSquared) * (mCharacterGravity + mGravityForce) * mHoveringHeight * mHoveringHeight;
-			
-		} else if (distance > mHoveringHeight) {
-			magnitude = (1.0f / distanceSquared) * (mCharacterGravity + currentgravity) * mHoveringHeight * mHoveringHeight * 0.95f;
+		//only hover if hovercraft sufficienttly close to planet
+		if ( dist < (mHoveringHeight) ){
+		
+			// hovering
+			hkVector4 hover;
+
+			hover.setMul4(mHovercraft->getRigidBody()->getMass() * currentgravity * (1.0f/dist), mHovercraft->getUp());
+			mHovercraft->getRigidBody()->applyForce(stepInfo.m_deltaTime, hover);
 		}
+		
 
-		hover.setMul4(mHovercraft->getRigidBody()->getMass() * magnitude, mHovercraft->getUp());
-		mHovercraft->getRigidBody()->applyForce(stepInfo.m_deltaTime, hover);
 	}
 }
 
