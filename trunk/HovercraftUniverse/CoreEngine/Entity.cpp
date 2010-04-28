@@ -268,7 +268,7 @@ void Entity::processControllerEvents(ControllerEvent* event) {
 
 void Entity::setupReplication() {
 	//TODO: min and max delay should be defined, not magic number...
-	replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, -1, 1000);
+	replicateOgreVector3(&mPosition, ZCOM_REPRULE_AUTH_2_ALL, 23, ZCOM_REPFLAG_MOSTRECENT, 0, 250, 1000);
 	//mNode->addInterpolationFloat(&mPosition.x, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.x);
 	//mNode->addInterpolationFloat(&mPosition.y, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.y);
 	//mNode->addInterpolationFloat(&mPosition.z, 10, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL, 0, &mTmpPosition.z);
