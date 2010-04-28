@@ -76,11 +76,14 @@ private:
 	const long mCountdownInterval;
 	const unsigned char mCountdownIntervalLog2;
 
-	/** Map with player ID's and next checkpoint ID */
+	/** Map with player ID's and next checkpoint ID (Server) */
 	std::map<unsigned int, Ogre::int32> mCheckpointMapping;
 
-	/** ID of the finish (= last checkpoint + 1) */
+	/** ID of the finish (= last checkpoint + 1) (Server) */
 	Ogre::int32 mFinishID;
+
+	/** The positions of the players */
+	std::vector<unsigned int> mPlayerPositions;
 
 	/*
 	 * Replicated fields
@@ -288,12 +291,11 @@ protected:
 
 private:
 	/**
-	 * Calculate position for a player that reached a checkpoint
+	 * Calculate and update new positions because of a player reaching a checkpoint
 	 *
-	 * @param checkpoint the ID of the checkpoint reached
-	 * @return the position
+	 * @param playerid the ID of the player that reached a checkpoint
 	 */
-	unsigned int calculatePlayerPosition(unsigned int checkpoint) const;
+	void calculatePlayerPosition(unsigned int playerid);
 
 	/**
 	 * This sub-class represents the finite state machine of the race state.

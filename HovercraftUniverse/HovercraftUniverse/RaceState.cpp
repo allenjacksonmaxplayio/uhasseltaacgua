@@ -172,22 +172,46 @@ void RaceState::updatePlayerCheckpoint(unsigned int playerid) {
 	RacePlayer* player = getPlayer(playerid);
 	long timestamp = mState->mTimer->elapsed();
 	player->addCheckpoint(mCheckpointMapping[playerid], timestamp);
-	player->setPosition(calculatePlayerPosition(mCheckpointMapping[playerid]));
-	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Position of player " << player->getSettings()->getPlayerName() << " is " << player->getPosition();
+	calculatePlayerPosition(playerid);
 	sendEvent(CheckpointEvent(playerid, mCheckpointMapping[playerid], timestamp));
 	mCheckpointMapping[playerid]++;
 }
 
-unsigned int RaceState::calculatePlayerPosition(unsigned int checkpoint) const {
+void RaceState::calculatePlayerPosition(unsigned int playerid) {
 	unsigned int position = 1;
 
 	for (std::map<unsigned int, Ogre::int32>::const_iterator it = mCheckpointMapping.begin(); it != mCheckpointMapping.end(); ++it) {
 		// If the checkpoint of the other is greater than this one, they already passed this checkpoint
-		if ((unsigned int) it->second > checkpoint) {
+		if (it->second > mCheckpointMapping[playerid]) {
 			++position;
 		}
 	}
-	return position;
+
+	// Remove the player from the list and insert it at the right position
+	unsigned int i = 1;
+	for (std::vector<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
+		// Since this player reaches a checkpoint, it can only move forward in position or stay equal
+		// In other words, position is smaller or equal to the current place
+		if ((i == position) && (*it == playerid)) {
+			// Position stayed the same
+			break;
+		} else if ((i == position) && (*it != playerid)) {
+			// Position improved so previous value should be deleted
+			mPlayerPositions.insert(it, playerid);
+		} else if ((i > position) && (*it == playerid)) {
+			// Position improved so this deletes old value
+			mPlayerPositions.erase(it);
+			break;
+		}
+		++i;
+	}
+
+	// Update player positions
+	i = 1;
+	for (std::vector<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
+		getPlayer(*it)->setPosition(i);
+		++i;
+	}
 }
 
 std::string RaceState::getClassName() {
@@ -226,6 +250,7 @@ RaceState::playermap::iterator RaceState::removePlayer(playermap::iterator i) {
 void RaceState::addPlayer(RacePlayer* player, bool ownPlayer) {
 	mPlayers.addPlayer(player->getSettings()->getID(), player, ownPlayer);
 	mCheckpointMapping[player->getSettings()->getID()] = 0;
+	mPlayerPositions.push_back(player->getSettings()->getID());
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Inserting new RacePlayer";
 	if (ownPlayer) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Received own player object";
