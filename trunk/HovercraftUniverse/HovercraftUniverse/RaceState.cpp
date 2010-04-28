@@ -188,19 +188,13 @@ void RaceState::calculatePlayerPosition(unsigned int playerid) {
 	}
 
 	// Remove the player from the list and insert it at the right position
+	mPlayerPositions.remove(playerid);
 	unsigned int i = 1;
-	for (std::vector<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
+	for (std::list<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
 		// Since this player reaches a checkpoint, it can only move forward in position or stay equal
-		// In other words, position is smaller or equal to the current place
-		if ((i == position) && (*it == playerid)) {
-			// Position stayed the same
-			break;
-		} else if ((i == position) && (*it != playerid)) {
+		if ((i == position) && (*it != playerid)) {
 			// Position improved so previous value should be deleted
 			mPlayerPositions.insert(it, playerid);
-		} else if ((i > position) && (*it == playerid)) {
-			// Position improved so this deletes old value
-			mPlayerPositions.erase(it);
 			break;
 		}
 		++i;
@@ -208,7 +202,7 @@ void RaceState::calculatePlayerPosition(unsigned int playerid) {
 
 	// Update player positions
 	i = 1;
-	for (std::vector<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
+	for (std::list<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
 		getPlayer(*it)->setPosition(i);
 		++i;
 	}
