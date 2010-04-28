@@ -2,8 +2,9 @@
 
 #include "StateEvent.h"
 #include "OnJoinEvent.h"
-#include "onLeaveEvent.h"
-#include "initEvent.h"
+#include "OnLeaveEvent.h"
+#include "InitEvent.h"
+#include "CheckpointEvent.h"
 
 namespace HovUni {
 
@@ -25,6 +26,8 @@ GameEvent* GameEventParser::parse(ZCom_BitStream* stream) {
 		return OnJoinEvent::parse(stream);
 	case onLeave:
 		return OnLeaveEvent::parse(stream);
+	case checkPoint:
+		return CheckpointEvent::parse(stream);
 	default:
 		return 0;
 		break;

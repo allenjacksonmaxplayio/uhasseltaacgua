@@ -258,6 +258,13 @@ protected:
 	void onInitialized();
 
 	/**
+	 * Update the checkpoint of a player
+	 *
+	 * @param playerid the ID of the player
+	 */
+	void updatePlayerCheckpoint(unsigned int playerid);
+
+	/**
 	 * A callback that should be implemented in order to parse and process
 	 * incoming events.
 	 */
@@ -281,6 +288,14 @@ protected:
 
 private:
 	/**
+	 * Calculate position for a player that reached a checkpoint
+	 *
+	 * @param checkpoint the ID of the checkpoint reached
+	 * @return the position
+	 */
+	unsigned int calculatePlayerPosition(unsigned int checkpoint) const;
+
+	/**
 	 * This sub-class represents the finite state machine of the race state.
 	 *
 	 * @author Olivier Berghmans
@@ -299,10 +314,10 @@ private:
 		/** Whether the server is waiting for the clients to renew their state (Server) */
 		bool mStartOfState;
 
+	public:
 		/** The timer used for the countdown (Server) */
 		Timing* mTimer;
 
-	public:
 		/**
 		 * Constructor
 		 *

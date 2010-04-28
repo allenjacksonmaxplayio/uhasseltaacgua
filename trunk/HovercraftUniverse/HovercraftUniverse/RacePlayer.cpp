@@ -7,7 +7,7 @@
 namespace HovUni {
 
 RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
-	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(-1) {
+	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(-1), mLastCheckpoint(-1) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
@@ -17,7 +17,7 @@ RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
 RacePlayer::RacePlayer(Lobby* lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(1), mRaceState(lobby->getRaceState()), mPlayerSettings(lobby->getPlayer(
-			announcementdata->getInt(32))), mPlayerPosition(-1) {
+			announcementdata->getInt(32))), mPlayerPosition(-1), mLastCheckpoint(-1) {
 
 	// Add as network entity
 	networkRegister(id, control);
@@ -54,6 +54,22 @@ void RacePlayer::setPosition(short position) {
 short RacePlayer::getPosition() const {
 	return mPlayerPosition;
 }
+
+void RacePlayer::addCheckpoint(unsigned int checkpoint, long timestamp) {
+	if (mLastCheckpoint == checkpoint - 1) {
+		mCheckpoints[checkpoint] = timestamp;
+		++mLastCheckpoint;
+	}
+}
+
+long RacePlayer::getCheckpoint(unsigned int checkpoint) {
+	return (checkpoint <= mLastCheckpoint ? mCheckpoints[checkpoint] : -1);
+}
+
+unsigned int RacePlayer::getLastCheckpoint() {
+	return mLastCheckpoint;
+}
+
 
 void RacePlayer::setAnnouncementData(ZCom_BitStream* stream) {
 	stream->addInt(mPlayerSettings->getID(), 32);

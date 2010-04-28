@@ -574,6 +574,10 @@
 				Name="GameEvents"
 				>
 				<File
+					RelativePath=".\CheckpointEvent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\GameEvent.cpp"
 					>
 				</File>
@@ -1039,6 +1043,10 @@
 			<Filter
 				Name="GameEvents"
 				>
+				<File
+					RelativePath=".\CheckpointEvent.h"
+					>
+				</File>
 				<File
 					RelativePath=".\GameEvent.h"
 					>
