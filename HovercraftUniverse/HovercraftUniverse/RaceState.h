@@ -83,7 +83,7 @@ private:
 	Ogre::int32 mFinishID;
 
 	/** The positions of the players */
-	std::vector<unsigned int> mPlayerPositions;
+	std::list<unsigned int> mPlayerPositions;
 
 	/*
 	 * Replicated fields
