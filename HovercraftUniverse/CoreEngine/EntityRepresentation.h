@@ -38,6 +38,9 @@ protected:
 	/** Text overlay*/
 	ObjectTextDisplay* mTextOverlay;
 
+	/** The additional orientation change required */
+	Ogre::Quaternion mOrientation;
+
 public:
 
 	/**
