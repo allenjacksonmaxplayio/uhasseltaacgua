@@ -37,6 +37,10 @@ namespace HovUni {
 		}
 	}
 
+	const Config::keymap& Config::getKeys(const std::string& section) const {
+		return mReader.GetSection(section)->GetKeys();
+	}
+
 	std::string Config::getStringValue(const std::string& section, const std::string& field, const std::string& defaultValue) {
 		std::string value = mReader.GetKeyValue(section, field);
 		boost::algorithm::trim(value);

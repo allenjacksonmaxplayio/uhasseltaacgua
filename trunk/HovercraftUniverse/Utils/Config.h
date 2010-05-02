@@ -13,7 +13,6 @@ namespace HovUni {
 	*/
 	class Config {
 	private:
-		
 
 		/**
 		*	The INI File object.
@@ -27,6 +26,8 @@ namespace HovUni {
 
 		
 	public:
+		/** The type of a key map */
+		typedef KeyMapA keymap;
 
 		/**
 		*	Constructor. Use Config::getSingletonPtr().
@@ -80,6 +81,13 @@ namespace HovUni {
 		*/
 		template <typename T>
 		void putValue(const std::string& section, const std::string& field, const T value);
+
+		/**
+		 * Get the available keys for a certain section
+		 *
+		 * @param section The section name
+		 */
+		const keymap& getKeys(const std::string& section) const;
 
 	private:
 		/**

@@ -4,8 +4,10 @@
 #include "NetworkEntity.h"
 #include "Listenable.h"
 #include "PlayerMap.h"
+#include "Config.h"
 #include <iostream>
 #include <set>
+#include <boost/random.hpp>
 
 namespace HovUni {
 
@@ -42,7 +44,8 @@ public:
 		RACING, /** The race has started */
 		FINISHING, /** Someone has finished, wait for everyone to finish */
 		OUTRO, /** Outro for the race to show rankings */
-		CLEANUP /** Clean up and return to lobby */
+		CLEANUP
+	/** Clean up and return to lobby */
 	};
 
 	/** All the possible events the client can send to the server during the race */
@@ -84,6 +87,9 @@ private:
 
 	/** The positions of the players */
 	std::list<unsigned int> mPlayerPositions;
+
+	/** Random number generator */
+	boost::mt19937* mRng;
 
 	/*
 	 * Replicated fields
@@ -175,6 +181,13 @@ public:
 	 * @return the state
 	 */
 	States getState() const;
+
+	/**
+	 * Check if the race is done, i.e. the race state is clean up
+	 *
+	 * @return true if the race is done, false otherwise
+	 */
+	bool isDone() const;
 
 	/**
 	 * Get the countdown timer which indicates the time left on the timer
@@ -298,6 +311,17 @@ private:
 	void calculatePlayerPosition(unsigned int playerid);
 
 	/**
+	 * Get the random settings for a bot given some keymaps
+	 *
+	 * @param hovercrafts the key map of hovercraft keys
+	 * @param characters the key map of character keys
+	 * @param hovercraftKey the random key for the hovercraft (OUT)
+	 * @param characterKey the random key for the character (OUT)
+	 */
+	void randomSettingsForBot(const Config::keymap& hovercrafts, const Config::keymap& characters, unsigned int& hovercraftKey,
+			unsigned int& characterKey);
+
+	/**
 	 * This sub-class represents the finite state machine of the race state.
 	 *
 	 * @author Olivier Berghmans
@@ -326,6 +350,11 @@ private:
 		 * @param racestate the race state
 		 */
 		SystemState(RaceState* racestate);
+
+		/**
+		 * Destructor
+		 */
+		~SystemState();
 
 		/**
 		 * Update the system state

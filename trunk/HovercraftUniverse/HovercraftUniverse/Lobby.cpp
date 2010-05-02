@@ -65,6 +65,10 @@ void Lobby::process() {
 
 	if (mRaceState) {
 		mRaceState->process();
+		if (mRaceState->isDone()) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: deleting race state";
+			deleteRaceState();
+		}
 	}
 }
 
@@ -129,13 +133,10 @@ RaceState* Lobby::getRaceState() {
 }
 
 bool Lobby::onConnectAttempt(ZCom_ConnID id) {
-	//TODO lock mutex
 	return (mCurrentPlayers < mMaximumPlayers) && !getRaceState();
 }
 
 void Lobby::onConnect(ZCom_ConnID id) {
-	//TODO lock mutex
-
 	PlayerSettings* newPlayer = new PlayerSettings(this, id);
 
 	// Request extra info
@@ -153,7 +154,6 @@ void Lobby::onConnect(ZCom_ConnID id) {
 }
 
 void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
-	//TODO lock mutex
 	unsigned int playerID = getPlayerIDfromConnectionID(id);
 
 	// Remove from map
@@ -169,14 +169,13 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 
 			// There are no players so we can remove the race state if there is one
 			if (mRaceState) {
-				delete mRaceState;
-				mRaceState = 0;
-				Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Closed race and ready to allow new players";
+				deleteRaceState();
 			}
 		} else {
 			// Set new admin
-			mAdmin = mPlayers.begin()->first;
-			getNetworkNode()->setOwner(mAdmin, true);
+			PlayerSettings* newAdmin = mPlayers.begin()->second;
+			mAdmin = newAdmin->getID();
+			getNetworkNode()->setOwner(newAdmin->getConnID(), true);
 		}
 	}
 }
@@ -211,6 +210,12 @@ void Lobby::onStartClient() {
 			--i;
 		}
 	}
+}
+
+void Lobby::deleteRaceState() {
+	delete mRaceState;
+	mRaceState = 0;
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Closed race and ready to allow new players";
 }
 
 void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream,

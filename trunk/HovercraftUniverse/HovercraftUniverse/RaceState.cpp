@@ -29,7 +29,7 @@ namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track),
-			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1) {
+			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1), mRng(0) {
 	mState = new SystemState(this);
 
 	if (mLoader) {
@@ -69,10 +69,22 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 			bots = minPlayers - mPlayers.getPlayers().size();
 		}
 
+		Config entitiesConfig;
+		entitiesConfig.loadFile(EntityManager::getEntityMappingFile());
+		Config::keymap hovercrafts = entitiesConfig.getKeys("Hovercraft");
+		Config::keymap characters = entitiesConfig.getKeys("Character");
+
 		for (int i = 0; i < bots; ++i) {
 			PlayerSettings* settings = new PlayerSettings(mLobby, "Bot");
 			RacePlayer* rplayer = new RacePlayer(this, settings);
 			addPlayer(rplayer);
+
+			// Set random hovercraft and character
+			unsigned int hov = 0;
+			unsigned int cha = 0;
+			randomSettingsForBot(hovercrafts, characters, hov, cha);
+			settings->setHovercraft(hov);
+			settings->setCharacter(cha);
 		}
 
 	}
@@ -81,7 +93,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
-			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1) {
+			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1), mRng(0) {
 
 	mState = new SystemState(this);
 
@@ -94,9 +106,6 @@ RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStre
 }
 
 RaceState::~RaceState() {
-	// Delete the system state
-	delete mState;
-
 	// Delete all the players
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
 		if (it->second->isBot()) {
@@ -107,6 +116,14 @@ RaceState::~RaceState() {
 			it = removePlayer(it);
 		}
 	}
+
+	// Delete the system state after all the players
+	delete mState;
+	mState = 0;
+
+	// Delete rng
+	delete mRng;
+	mRng = 0;
 }
 
 void RaceState::onFinish(Finish * finish, unsigned int playerid) {
@@ -208,6 +225,41 @@ void RaceState::calculatePlayerPosition(unsigned int playerid) {
 	}
 }
 
+void RaceState::randomSettingsForBot(const Config::keymap& hovercrafts, const Config::keymap& characters,
+		unsigned int& hovercraftKey, unsigned int& characterKey) {
+
+	if (!mRng) {
+		mRng = new boost::mt19937;
+	}
+	boost::uniform_int<> unifhov(0, hovercrafts.size() - 1);
+	boost::uniform_int<> unifcha(0, characters.size() - 1);
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> > randhov(*mRng, unifhov);
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> > randcha(*mRng, unifcha);
+
+	int hov = randhov();
+	int cha = randcha();
+
+	unsigned int i = 0;
+	for (Config::keymap::const_iterator it = hovercrafts.begin(); it != hovercrafts.end(); ++it) {
+		if (i == hov) {
+			std::istringstream buffer(it->first);
+			buffer >> hovercraftKey;
+			break;
+		}
+		++i;
+	}
+
+	i = 0;
+	for (Config::keymap::const_iterator it = characters.begin(); it != characters.end(); ++it) {
+		if (i == hov) {
+			std::istringstream buffer(it->first);
+			buffer >> characterKey;
+			break;
+		}
+		++i;
+	}
+}
+
 std::string RaceState::getClassName() {
 	return "RaceState";
 }
@@ -269,6 +321,10 @@ Listenable<RaceStateListener>::list_type& RaceState::getListeners() {
 
 RaceState::States RaceState::getState() const {
 	return mState->getState();
+}
+
+bool RaceState::isDone() const {
+	return (mServer ? (mState->getState() == CLEANUP) && mState->mTimer->elapsed() > 3000 : isDeleted());
 }
 
 void RaceState::onInitialized() {
@@ -341,6 +397,11 @@ RaceState::SystemState::SystemState(RaceState* racestate) :
 	}
 }
 
+RaceState::SystemState::~SystemState() {
+	delete mTimer;
+	mTimer = 0;
+}
+
 void RaceState::SystemState::update() {
 	if (mRaceState->mServer) {
 		switch (mCurrentState) {
@@ -401,6 +462,9 @@ void RaceState::SystemState::newState(States state) {
 			mTimer->restart();
 			break;
 		case FINISHING:
+			mTimer->restart();
+			break;
+		case CLEANUP:
 			mTimer->restart();
 			break;
 		default:
