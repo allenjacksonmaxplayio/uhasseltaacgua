@@ -8,9 +8,10 @@
 namespace HovUni {
 
 	/**
-	*	This class wraps the INI functionality to read/write key-value pairs to file.
-	*	@author Dirk Delahaye, 26/03/2010
-	*/
+	 * This class wraps the INI functionality to read/write key-value pairs to file.
+	 *
+	 * @author Dirk Delahaye, 26/03/2010
+	 */
 	class Config {
 	private:
 
