@@ -322,6 +322,12 @@ protected:
 	 */
 	void processEventsOther(GameEvent* gEvent);
 
+private:
+	/**
+	 * Delete the race state
+	 */
+	void deleteRaceState();
+
 	///////////////////////////
 	// INTERCEPTOR FUNCTIONS //
 	///////////////////////////
