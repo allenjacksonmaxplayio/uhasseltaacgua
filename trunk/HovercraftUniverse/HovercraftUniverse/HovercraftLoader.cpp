@@ -92,6 +92,8 @@ void HovercraftLoader::onNode(OgreMax::Types::NodeParameters& nodeparameters, st
 
 	// Create node
 	Ogre::SceneNode * node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	node->setOrientation(nodeparameters.orientation);
+	node->scale(nodeparameters.scale);
 
 	// Build the animation if there is one
 	if (animation) {

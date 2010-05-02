@@ -38,6 +38,7 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 
 	if (node) {
 		// There is a node, so just attach entity, but clear position
+		mOrientation = node->getOrientation();
 		mOgreNode = node;
 		mOgreNode->attachObject(mOgreEntity);
 	} else {
@@ -57,6 +58,7 @@ void EntityRepresentation::draw() {
 	//mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setPosition(mEntity->getSmoothPosition());
 	mOgreNode->setOrientation(mEntity->getQuaternion());
+	mOgreNode->rotate(mOrientation);
 	//Text overlay
 	if (mTextOverlay != 0) {
 		mTextOverlay->update();
