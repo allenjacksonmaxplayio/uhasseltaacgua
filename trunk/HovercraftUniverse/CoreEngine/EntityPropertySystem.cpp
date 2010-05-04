@@ -280,7 +280,7 @@ void EntityPropertyMapReplicator::updateMap(ZCom_BitStream &_stream){
 					mData.mMap = newmap;	
 					mData.mMutex.unlock();
 
-					std::cout << "RESET" << std::endl;
+					//std::cout << "RESET" << std::endl;
 
 					break;
 				}
