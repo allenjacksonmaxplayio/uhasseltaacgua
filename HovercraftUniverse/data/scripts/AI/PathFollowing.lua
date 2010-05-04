@@ -137,8 +137,7 @@ function decide()
 	println("Speed: " .. getMySpeed()*100 .. "%");
 
 	--############################### COLLISION AVOIDANCE
-	--if (mEntity:isInCollisionState()) then
-	if (false) then
+	if (mEntity:isInCollisionState()) then
 		local speed = mEntity:getSpeed();
 		--println("Collision Avoidance! Braking and turning right! Speed is " .. speed);
 		--TODO steer the opposite way
