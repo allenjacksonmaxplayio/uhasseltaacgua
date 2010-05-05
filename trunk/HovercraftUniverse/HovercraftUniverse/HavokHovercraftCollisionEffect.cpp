@@ -58,7 +58,7 @@ HavokHovercraftCollisionEffect::HavokHovercraftCollisionEffect(HavokHovercraft *
 
 HavokHovercraftCollisionEffect::~HavokHovercraftCollisionEffect(void)
 {
-	mHovercraft->getRigidBody()->removeCollisionListener(mListener);
+	m_entity->removeCollisionListener(mListener);
 	delete mListener;
 }
 

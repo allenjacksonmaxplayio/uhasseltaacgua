@@ -71,10 +71,12 @@ HoverAction::HoverAction(HavokHovercraft * entity, hkpWorld * world):
 	mHoveringHeight(DedicatedServer::getEngineSettings()->getValue<float>("Hovering", "Height", 2.5f)),
 	mCharacterGravity(DedicatedServer::getEngineSettings()->getValue<float>("Havok", "CharacterGravity", 20.0f))
 {
+	mWorld->addReference();
 }
 
 HoverAction::~HoverAction(void)
 {
+	mWorld->removeReference();
 }
 
 void HoverAction::applyAction( const hkStepInfo& stepInfo ){

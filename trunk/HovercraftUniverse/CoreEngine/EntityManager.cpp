@@ -5,6 +5,7 @@ namespace HovUni {
 EntityManager * EntityManager::mEntityManagerServer = 0;
 EntityManager * EntityManager::mEntityManagerClient = 0;
 std::string EntityManager::mEntityMappingFile = "";
+const std::string EntityManager::ALL("ALL");
 
 EntityManager::EntityManager() : mEntityTracked("") {
 }
@@ -55,9 +56,15 @@ Entity * EntityManager::getEntity(Ogre::String entityName) {
 std::vector<Entity *> EntityManager::getEntities(Ogre::String categoryName) {
 	std::vector<Entity *> results;
 
+	bool add = (categoryName == ALL);
+
 	// Search entities 
 	for (std::vector<Entity *>::const_iterator it = mEntities.begin(); it != mEntities.end(); it++) {
-		if ((*it)->getCategory() == categoryName) {
+		
+		if ( add ){
+			results.push_back(*it);
+		}
+		else if ((*it)->getCategory() == categoryName) {
 			// Add entity to list
 			results.push_back(*it);
 		}

@@ -33,7 +33,7 @@ void HavokThread::StopHavokThread(){
 		WaitForSingleObject(HavokThread::handle,INFINITE);
 	}
 
-	if ( HavokThread::havokdebug ){
+	/*if ( HavokThread::havokdebug ){
 		WaitForSingleObject( HavokThread::pi.hProcess, INFINITE );
 
 		// Close process and thread handles. 
@@ -41,7 +41,7 @@ void HavokThread::StopHavokThread(){
 		CloseHandle( HavokThread::pi.hThread );
 
 		HavokThread::havokdebug = false;
-	}
+	}*/
 }
 
 void HavokThread::StartHavokThread( const char * filename, Loader * loader ){

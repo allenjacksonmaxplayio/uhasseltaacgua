@@ -128,6 +128,19 @@ AbstractHavokWorld::~AbstractHavokWorld(void)
 void AbstractHavokWorld::unload () {
 	if ( !mIsLoaded )
 		return;
+/*
+	//remove visual debugger
+	vdb->removeReference();
+	vdb = HK_NULL;
+
+	//remove context from array
+	contexts->removeAt(contexts->indexOf(context));
+	// Contexts are not reference counted at the base class level by the VDB as
+	// they are just interfaces really. So only delete the context after you have
+	// finished using the VDB.
+	context->removeReference();
+	context = HK_NULL;
+	*/
 
 	mPhysicsWorld->markForWrite();
 	mPhysicsWorld->removeReference();
@@ -141,18 +154,6 @@ void AbstractHavokWorld::unload () {
 	mLoadedData->callDestructors();
 	mLoadedData->removeReference();
 
-	//remove visual debugger
-	vdb->removeReference();
-	vdb = HK_NULL;
-
-	//remove context from array
-	contexts->removeAt(contexts->indexOf(context));
-	// Contexts are not reference counted at the base class level by the VDB as
-	// they are just interfaces really. So only delete the context after you have
-	// finished using the VDB.
-	context->removeReference();
-	context = HK_NULL;
-	
 	//delete the queue
 	delete jobQueue;
 	jobQueue = HK_NULL;

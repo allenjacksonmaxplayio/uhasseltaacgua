@@ -6,7 +6,7 @@
 
 namespace HovUni {
 
-class StaticBody;
+class HovercraftUniverseEntity;
 
 /**
  * This action will keep the position of a static body entity equal to the position of a havok rigid body
@@ -19,7 +19,7 @@ public:
 	/**
 	 * Constructor
 	 */
-	UpdatePositionAction( hkpRigidBody * body, StaticBody * gamebody, hkReal delta = 0.01f );
+	UpdatePositionAction( hkpRigidBody * body, HovercraftUniverseEntity * gamebody, hkReal delta = 0.01f );
 
 	~UpdatePositionAction(void);
 
@@ -27,7 +27,7 @@ private:
 
 	hkReal mDelta;
 
-	StaticBody * mStaticBody;
+	HovercraftUniverseEntity * mStaticBody;
 
 	hkVector4 mPreviousPosition;
 
