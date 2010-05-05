@@ -18,6 +18,7 @@
 
 #include "HoverAction.h"
 #include "HavokHovercraftCollisionEffect.h"
+#include "UpdatePositionAction.h"
 
 #include "Hovercraft.h"
 #include "DedicatedServer.h"
@@ -86,6 +87,7 @@ HavokHovercraft::~HavokHovercraft(void)
 		delete mCollisionTest;
 	}
 
+
 	mCharacterRigidBody->removeReference();
 	mCharacterRigidBody = HK_NULL;
 
@@ -95,7 +97,6 @@ HavokHovercraft::~HavokHovercraft(void)
 	mPhysicsData->removeReference();
 	mPhysicsData = HK_NULL;
 	
-	//TODO look at this memory leak thing
 	mLoadedData->disableDestructors();
 	mLoadedData->callDestructors();
 	mLoadedData->removeReference();
@@ -177,16 +178,6 @@ void HavokHovercraft::update(){
 	if (status.moveBackward()) {
 		scaledspeed = -1;	
 	}
-/*
-	// damping
-	if (!status.moveBackward() && !status.moveForward()) {
-		currentspeed *= mSpeedDamping;
-		if ((currentspeed < 1.0f) && (currentspeed > -1.0f)) {
-			currentspeed = 0.0f;
-		}
-	}
-*/
-	
 
 	//rotations
 	if (status.moveLeft() || status.moveRight()) {
@@ -282,24 +273,9 @@ void HavokHovercraft::update(){
 		actualSpeed = newSpeed.length3();
 	}
 	
-	//std::cout << "ACTUAL SPEED: " << actualSpeed << std::endl;
-
 	//set new speed
 	mEntity->setSpeed(actualSpeed);
 	
-
-	//POST STEP
-	/*
-	hkRotation newOrientation;
-	newOrientation.getColumn(0) = mSide;
-	newOrientation.getColumn(1) = mUp;
-	newOrientation.getColumn(2).setCross(mSide, mUp);
-	newOrientation.renormalize();
-	*/
-	
-	//HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mForward, hkColor::BLUE);
-	//HK_DISPLAY_ARROW(mCharacterRigidBody->getPosition(), mUp, hkColor::RED);
-
 	const hkReal gain = 0.25f;
 	const hkQuaternion& currentOrient = mCharacterRigidBody->getRigidBody()->getRotation();
 	hkQuaternion desiredOrient;
@@ -351,17 +327,6 @@ void HavokHovercraft::load(const hkVector4& position, const hkQuaternion& rotati
 	info.m_maxSlope = 45.0f * HK_REAL_DEG_TO_RAD;
 	info.m_friction = 0.1f;
 	info.m_rotation = rotation;
-
-
-	
-	/*hkRotation rbRotation; 
-	rbRotation.set(rotation);
-	mUp = rbRotation.getColumn(1);
-	mUp.normalize3();
-	mSide = rbRotation.getColumn(0);
-	mSide.normalize3();
-	mForward = rbRotation.getColumn(2);
-	mForward.normalize3();*/
 
 	//set up the actions
 	hkpCharacterStateManager* manager = new hkpCharacterStateManager();
@@ -420,13 +385,9 @@ void HavokHovercraft::load(const hkVector4& position, const hkQuaternion& rotati
 	mCollisionTest = new AdvancedTest(mWorld,this);
 
 	//Hover action
-	HoverAction * hoveraction = new HoverAction(this,mWorld);
-	mWorld->addAction(hoveraction);
-	hoveraction->removeReference();
-
-	hkpAction * collisionsystem = new HavokHovercraftCollisionEffect(this);
-	mWorld->addAction(collisionsystem);
-	collisionsystem->removeReference();	
+	mWorld->addAction(new HoverAction(this,mWorld));
+	mWorld->addAction(new HavokHovercraftCollisionEffect(this));
+	mWorld->addAction(new UpdatePositionAction(charbody,mEntity));
 
 	mWorld->unmarkForWrite();
 }

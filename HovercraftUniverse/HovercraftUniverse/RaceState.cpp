@@ -22,6 +22,7 @@
 #include "CheckPoint.h"
 #include "CheckpointEvent.h"
 #include <math.h>
+#include "Havok.h"
 
 #include <OgreLogManager.h>
 
@@ -466,6 +467,15 @@ void RaceState::SystemState::newState(States state) {
 			break;
 		case CLEANUP:
 			mTimer->restart();
+			{
+				Havok::stop();
+				std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
+				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
+					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
+
+					//delete (*i);
+				}
+			}
 			break;
 		default:
 			break;
@@ -477,6 +487,16 @@ void RaceState::SystemState::newState(States state) {
 		switch (state) {
 		case LOADING:
 			onLoading();
+			break;
+		case CLEANUP:
+			{
+				std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
+				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
+					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
+
+					//delete (*i);
+				}
+			}
 			break;
 		default:
 			break;

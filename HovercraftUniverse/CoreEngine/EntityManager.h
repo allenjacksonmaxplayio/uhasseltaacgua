@@ -37,6 +37,11 @@ protected:
 	static std::string mEntityMappingFile;
 
 public:
+
+	/**
+	 * Category that captures all entities
+	 */
+	static const std::string ALL;
 	
 	/**
 	 * Constructor.

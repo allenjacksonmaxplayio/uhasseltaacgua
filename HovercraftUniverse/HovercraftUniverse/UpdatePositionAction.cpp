@@ -3,7 +3,7 @@
 
 namespace HovUni {
 
-UpdatePositionAction::UpdatePositionAction( hkpRigidBody * body, StaticBody * gamebody, hkReal delta ):
+UpdatePositionAction::UpdatePositionAction( hkpRigidBody * body, HovercraftUniverseEntity * gamebody, hkReal delta ):
 	hkpUnaryAction(body), mStaticBody(gamebody), mDelta(delta) {
 	mPreviousPosition = body->getPosition();
 	mPreviousOrientation = body->getRotation();

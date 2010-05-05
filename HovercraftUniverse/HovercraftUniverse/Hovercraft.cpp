@@ -1,11 +1,10 @@
 #include "Hovercraft.h"
 #include <OgreStringConverter.h>
 
-#include "Havok.h"
-
 #include "String_Replicator.h"
 #include "RacePlayer.h"
 #include "PlayerSettings.h"
+#include "RaceState.h"
 
 namespace HovUni {
 
@@ -119,7 +118,7 @@ void Hovercraft::updateLabel() {
 }
 
 void Hovercraft::process(float timeSince){
-	if ((timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
+/*	if ((timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
 
 		//Fetch from havok
 		HavokEntity * character = Havok::getSingleton().getCharacter(mName.c_str());
@@ -131,7 +130,7 @@ void Hovercraft::process(float timeSince){
 
 		const hkQuaternion& rotation = character->getOrientation();
 		changeOrientation(Ogre::Quaternion(rotation(3),rotation(0),rotation(1),rotation(2)));
-	}
+	}*/
 }
 
 void Hovercraft::setRaceState(RaceState* racestate) {

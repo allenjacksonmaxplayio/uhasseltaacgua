@@ -32,6 +32,8 @@ public:
 	 */
 	virtual ~HoverCraftUniverseWorld(void);
 
+	virtual void unload ();
+
 	/**
 	 * Create an asteroid given the extra data 
 	 * @param asteroid
@@ -92,10 +94,6 @@ public:
 	 * @param pos
 	 */
 	void createHovercraft( Hovercraft * entity, const hkString& filename, const hkString& entityname, const hkVector4& pos, const hkQuaternion& rot );
-
-
-
-
 
 	/**
 	 * Pre simulation steps
