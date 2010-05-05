@@ -18,14 +18,10 @@ const hkVector4 HavokEntity::UP(0,1,0);
 const hkVector4 HavokEntity::FORWARD(1,0,0);
 
 HavokEntity::HavokEntity( hkpWorld * world ):
-	mWorld(world)
-{
-	mWorld->addReference();
+	mWorld(world){
 }
 
 HavokEntity::~HavokEntity() {
-	//remove world
-	mWorld->removeReference();
 }
 	
 }

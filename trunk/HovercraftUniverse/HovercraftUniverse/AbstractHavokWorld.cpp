@@ -60,25 +60,6 @@ AbstractHavokWorld::AbstractHavokWorld(hkReal timestep):
 	stackBuffer = hkAllocate<char>( stackSize, HK_MEMORY_CLASS_BASE);
 	hkThreadMemory::getInstance().setStackArea( stackBuffer, stackSize);
 
-	//
-	// Initialize the multi-threading classes, hkJobQueue, and hkJobThreadPool
-	//
-
-	// They can be used for all Havok multithreading tasks. In this exmaple we only show how to use
-	// them for physics, but you can reference other multithreading demos in the demo framework
-	// to see how to multithread other products. The model of usage is the same as for physics.
-	// The hkThreadpool has a specified number of threads that can run Havok jobs.  These can work
-	// alongside the main thread to perform any Havok multi-threadable computations.
-	// The model for running Havok tasks in Spus and in auxilary threads is identical.  It is encapsulated in the
-	// class hkJobThreadPool.  On PLAYSTATION(R)3 we initialize the SPU version of this class, which is simply a SPURS taskset.
-	// On other multi-threaded platforms we initialize the CPU version of this class, hkCpuJobThreadPool, which creates a pool of threads
-	// that run in exactly the same way.  On the PLAYSTATION(R)3 we could also create a hkCpuJobThreadPool.  However, it is only
-	// necessary (and advisable) to use one Havok PPU thread for maximum efficiency. In this case we simply use this main thread
-	// for this purpose, and so do not create a hkCpuJobThreadPool.
-
-	// We can cap the number of threads used - here we use the maximum for whatever multithreaded platform we are running on. This variable is
-	// set in the following code sections.
-		
 	// Get the number of physical threads available on the system
 	hkHardwareInfo hwInfo;
 	hkGetHardwareInfo(hwInfo);
@@ -106,7 +87,35 @@ AbstractHavokWorld::AbstractHavokWorld(hkReal timestep):
 
 AbstractHavokWorld::~AbstractHavokWorld(void)
 {
-	unload();
+	//remove visual debugger
+	mPhysicsWorld->markForWrite();
+
+	
+
+	vdb->removeReference();
+	vdb = HK_NULL;
+	
+	//remove context from array
+	contexts->removeAt(contexts->indexOf(context));
+	// Contexts are not reference counted at the base class level by the VDB as
+	// they are just interfaces really. So only delete the context after you have
+	// finished using the VDB.
+	context->removeReference();
+	context = HK_NULL;
+
+	mPhysicsWorld->removeReference();
+	mPhysicsWorld = HK_NULL;
+
+	mPhysicsData->removeReference();
+	mPhysicsData = HK_NULL;
+
+	mLoadedData->disableDestructors();
+	mLoadedData->callDestructors();
+	mLoadedData->removeReference();
+
+	//delete the queue
+	delete jobQueue;
+	jobQueue = HK_NULL;
 
 	//
 	// Clean up the thread pool
@@ -125,45 +134,10 @@ AbstractHavokWorld::~AbstractHavokWorld(void)
 	hkBaseSystem::quit();
 }
 
-void AbstractHavokWorld::unload () {
-	if ( !mIsLoaded )
-		return;
-/*
-	//remove visual debugger
-	vdb->removeReference();
-	vdb = HK_NULL;
-
-	//remove context from array
-	contexts->removeAt(contexts->indexOf(context));
-	// Contexts are not reference counted at the base class level by the VDB as
-	// they are just interfaces really. So only delete the context after you have
-	// finished using the VDB.
-	context->removeReference();
-	context = HK_NULL;
-	*/
-
-	mPhysicsWorld->markForWrite();
-	mPhysicsWorld->removeReference();
-	mPhysicsWorld = HK_NULL;
-
-	mPhysicsData->removeReference();
-	mPhysicsData = HK_NULL;
-	
-	//TODO look at this memory leak thing
-	mLoadedData->disableDestructors();
-	mLoadedData->callDestructors();
-	mLoadedData->removeReference();
-
-	//delete the queue
-	delete jobQueue;
-	jobQueue = HK_NULL;
-
-}
-
 bool AbstractHavokWorld::load ( const char * filename ){
 	//unload if a world is present
 	if ( mIsLoaded )
-		unload();
+		return true;
 
 	// We also need to create a Job queue. This job queue will be used by all Havok modules to run multithreaded work.
 	// Here we only use it for physics.
@@ -209,17 +183,7 @@ bool AbstractHavokWorld::load ( const char * filename ){
 	// We need to register all modules we will be running multi-threaded with the job queue
 	mPhysicsWorld->registerWithJobQueue( jobQueue );
 
-	//
-	// Initialize the VDB
-	//
-
-	// <PHYSICS-ONLY>: Register physics specific visual debugger processes
-	// By default the VDB will show debug points and lines, however some products such as physics and cloth have additional viewers
-	// that can show geometries etc and can be enabled and disabled by the VDB app.
 	{
-		// The visual debugger so we can connect remotely to the simulation
-		// The context must exist beyond the use of the VDB instance, and you can make
-		// whatever contexts you like for your own viewer types.
 		context = new hkpPhysicsContext();
 		hkpPhysicsContext::registerAllPhysicsProcesses(); // all the physics viewers
 		context->addWorld(mPhysicsWorld); // add the physics world so the viewers can see it

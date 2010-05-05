@@ -82,14 +82,6 @@ public:
 	~AbstractHavokWorld(void);
 
 	/**
-	 * Get the world
-	 * @return world
-	 */
-	hkpWorld* getWorld() {
-		return mPhysicsWorld;
-	}
-
-	/**
 	 * Get the world timestep
 	 * @return timestep
 	 */
@@ -104,11 +96,6 @@ public:
 	 * @param filanem
 	 */
 	virtual bool load ( const char * filename );
-
-	/**
-	 * Unload the world, removing everything from memory and setting is loaded flag to false
-	 */
-	virtual void unload ();
 
 	/**
 	 * Check the loaded flag
