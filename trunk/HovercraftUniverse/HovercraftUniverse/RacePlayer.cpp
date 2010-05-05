@@ -48,10 +48,6 @@ bool RacePlayer::isBot() const {
 void RacePlayer::setPosition(short position) {
 	mPlayerPosition = position;
 	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Position of player " << getSettings()->getPlayerName() << " is " << position;
-	std::vector<RaceStateListener*> listeners = mRaceState->getListeners();
-	for (std::vector<RaceStateListener*>::iterator i = listeners.begin(); i != listeners.end(); ++i) {
-		(*i)->onPositionChange(this);
-	}
 }
 
 short RacePlayer::getPosition() const {
@@ -90,6 +86,14 @@ void RacePlayer::setupReplication() {
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
 			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
 	);
+}
+
+void RacePlayer::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
+		zU32 _meta_bits) {
+	std::vector<RaceStateListener*> listeners = mRaceState->getListeners();
+	for (std::vector<RaceStateListener*>::iterator i = listeners.begin(); i != listeners.end(); ++i) {
+		(*i)->onPositionChange(this);
+	}
 }
 
 }

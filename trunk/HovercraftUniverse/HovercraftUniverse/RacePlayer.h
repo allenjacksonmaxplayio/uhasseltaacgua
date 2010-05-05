@@ -16,7 +16,7 @@ class PlayerSettings;
  *
  * @author Olivier Berghmans
  */
-class RacePlayer: public NetworkEntity {
+class RacePlayer: public NetworkEntity, public ZCom_NodeReplicationInterceptor {
 private:
 	/** The race state */
 	RaceState* const mRaceState;
@@ -147,6 +147,60 @@ protected:
 	 * @param stream the bitstream where the data can be set
 	 */
 	virtual void setAnnouncementData(ZCom_BitStream* stream);
+
+	///////////////////////////
+	// INTERCEPTOR FUNCTIONS //
+	///////////////////////////
+public:
+	/**
+	 * @inheritDoc
+	 */
+	bool inPreUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role) {
+		return true;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	bool inPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, ZCom_Replicator *_replicator,
+			zU32 _estimated_time_sent) {
+		return true;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	void inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
+			zU32 _meta_bits);
+
+	/**
+	 * @inheritDoc
+	 */
+	void outPreReplicateNode(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role) {
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	void outPreDereplicateNode(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role) {
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	bool outPreUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role) {
+		return true;
+	}
+
+	/*! @copydoc ZCom_NodeReplicationInterceptor::outPreUpdateItem(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,ZCom_Replicator*) */
+	bool outPreUpdateItem(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role, ZCom_Replicator *_replicator) {
+		return true;
+	}
+
+	/*! @copydoc ZCom_NodeReplicationInterceptor::outPostUpdate(ZCom_Node*,ZCom_ConnID,eZCom_NodeRole,zU32,zU32,zU32) */
+	void outPostUpdate(ZCom_Node *_node, ZCom_ConnID _to, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
+			zU32 _meta_bits) {
+	}
 
 };
 }

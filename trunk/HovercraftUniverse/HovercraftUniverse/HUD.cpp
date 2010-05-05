@@ -194,6 +194,18 @@ namespace HovUni {
 		}
 	}
 
+	void HUD::setNumberOfPlayers(int players) {
+		if (mPosition) {
+			mPosition->setNumberOfPlayers(players);
+		}
+	}
+
+	void HUD::setCurrentPosition(int position) {
+		if (mPosition) {
+			mPosition->setCurrentPosition(position);
+		}
+	}
+
 	void HUD::buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents ) {
 		//Build up mapping for relative positioning
 		std::map<Ogre::String, Hikari::Position> relativePositions;
