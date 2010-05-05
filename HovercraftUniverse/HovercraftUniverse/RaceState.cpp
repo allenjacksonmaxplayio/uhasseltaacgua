@@ -473,7 +473,7 @@ void RaceState::SystemState::newState(States state) {
 				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
 					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
 
-					//delete (*i);
+					delete (*i);
 				}
 			}
 			break;
@@ -494,7 +494,7 @@ void RaceState::SystemState::newState(States state) {
 				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
 					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
 
-					//delete (*i);
+					delete (*i);
 				}
 			}
 			break;

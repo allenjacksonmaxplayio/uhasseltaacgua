@@ -89,9 +89,6 @@ HoverCraftUniverseWorld::HoverCraftUniverseWorld(hkReal timestep):
 
 HoverCraftUniverseWorld::~HoverCraftUniverseWorld(void)
 {
-}
-
-void HoverCraftUniverseWorld::unload (){
 	hkStorageStringMap<HavokEntity*>::Iterator i = mCharactersMap.getIterator();
 	while ( mCharactersMap.isValid(i) ){
 		delete mCharactersMap.getValue(i);
@@ -99,9 +96,6 @@ void HoverCraftUniverseWorld::unload (){
 	}
 
 	mCharactersMap.clear();
-
-	//do parent
-	AbstractHavokWorld::unload();
 }
 
 void HoverCraftUniverseWorld::createStart( Start * start, OgreMax::Types::ExternalItem& externalitem ){

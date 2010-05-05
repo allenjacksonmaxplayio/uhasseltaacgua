@@ -134,8 +134,6 @@ SimpleEntityCollision::SimpleEntityCollision ( hkpWorld * world, HavokEntity * e
 {
 	mWorld->markForWrite();	
 
-	mWorld->addReference();
-
 	mPhantom = new SimpleEntityCollisionPhantom(aabb, this);
 	mWorld->addPhantom(mPhantom);
 
@@ -156,7 +154,6 @@ SimpleEntityCollision::~SimpleEntityCollision(){
 	mPhantom->removeReference();
 	mPhantom = HK_NULL;
 
-	mWorld->removeReference();
 	mWorld->unmarkForWrite();
 }
 
@@ -276,8 +273,6 @@ AdvancedEntityCollision::AdvancedEntityCollision ( hkpWorld * world, HavokEntity
 {
 	mWorld->markForWrite();	
 
-	mWorld->addReference();
-
 	hkTransform tr;
 	tr.setIdentity();
 
@@ -301,7 +296,6 @@ AdvancedEntityCollision::~AdvancedEntityCollision(){
 	mPhantom->removeReference();
 	mPhantom = HK_NULL;
 
-	mWorld->removeReference();
 	mWorld->unmarkForWrite();
 }
 

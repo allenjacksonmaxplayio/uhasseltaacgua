@@ -14,8 +14,6 @@ Havok::~Havok(void)
 }
 
 void Havok::start( const char * filename, Loader * loader ) {
-	//Server means Havok
-	//do Havok sim in background
 	ms_world = 0;
 	HavokThread::StartHavokThread( filename, loader );
 }

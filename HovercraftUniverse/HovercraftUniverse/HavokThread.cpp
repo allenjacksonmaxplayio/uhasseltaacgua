@@ -32,16 +32,6 @@ void HavokThread::StopHavokThread(){
 		HavokThread::run = false;
 		WaitForSingleObject(HavokThread::handle,INFINITE);
 	}
-
-	/*if ( HavokThread::havokdebug ){
-		WaitForSingleObject( HavokThread::pi.hProcess, INFINITE );
-
-		// Close process and thread handles. 
-		CloseHandle( HavokThread::pi.hProcess );
-		CloseHandle( HavokThread::pi.hThread );
-
-		HavokThread::havokdebug = false;
-	}*/
 }
 
 void HavokThread::StartHavokThread( const char * filename, Loader * loader ){
@@ -50,25 +40,6 @@ void HavokThread::StartHavokThread( const char * filename, Loader * loader ){
     HavokThread::si.cb = sizeof(HavokThread::si);
     ZeroMemory( &HavokThread::pi, sizeof(HavokThread::pi) );
 	
-	DWORD fileAttr;
-    fileAttr = GetFileAttributes("hkVisualDebugger.exe");
-	if (0xFFFFFFFF != fileAttr){
-/*
-		if (CreateProcess( "hkVisualDebugger.exe",   // No module name (use command line)
-			NULL,        // Command line
-			NULL,           // Process handle not inheritable
-			NULL,           // Thread handle not inheritable
-			FALSE,          // Set handle inheritance to FALSE
-			0,              // No creation flags
-			NULL,           // Use parent's environment block
-			NULL,           // Use parent's starting directory 
-			&HavokThread::si,            // Pointer to STARTUPINFO structure
-			&HavokThread::pi )           // Pointer to PROCESS_INFORMATION structure
-		) {
-			HavokThread::havokdebug = true;
-		}*/
-	}
-
 	HavokThread::startevent = CreateEvent( 
         NULL,               // default security attributes
         TRUE,               // manual-reset event
@@ -103,9 +74,9 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 		//THE HAVOK FRAMERATE IS NOW CONTROLLED THROUGH SCRIPT.
 		//change data/engine_settings.cfg to change this!
 		int fps = DedicatedServer::getEngineSettings()->getValue<int>("Havok", "Framerate", 30);
-		HoverCraftUniverseWorld world(1.0f/(float) fps);
+		HoverCraftUniverseWorld * world = new HoverCraftUniverseWorld(1.0f/(float) fps);
 
-		Havok::ms_world = &world;
+		Havok::ms_world = world;
 
 		//load havok world should be done in THIS thread
 		CustomOgreMaxScene scene;
@@ -120,13 +91,15 @@ DWORD WINAPI runHavok( LPVOID lpParam ) {
 		//hkReal lastTime = stopWatch.getElapsedSeconds();
 
 		while ( HavokThread::run ) {
-			world.step();
+			world->step();
 
-			Sleep( world.getTimeStep() * 1000 );
+			Sleep( world->getTimeStep() * 1000 );
 			// Pause until the actual time has passed
 			//while (stopWatch.getElapsedSeconds() < lastTime + world.getTimeStep());
 			//	lastTime += world.getTimeStep();			
 		}
+
+		delete world;
 	} catch (HovUni::Exception & e) {
 		MessageBox(NULL, e.getMessage().c_str(), "HovUni Exception in HavokThread!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 	} catch (Ogre::Exception & e) {

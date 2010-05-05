@@ -32,8 +32,6 @@ public:
 	 */
 	virtual ~HoverCraftUniverseWorld(void);
 
-	virtual void unload ();
-
 	/**
 	 * Create an asteroid given the extra data 
 	 * @param asteroid
