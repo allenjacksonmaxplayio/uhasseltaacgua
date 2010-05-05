@@ -26,6 +26,7 @@ public:
 	 * @param player the player
 	 */
 	virtual void onPositionChange(RacePlayer* player) = 0;
+
 };
 
 }

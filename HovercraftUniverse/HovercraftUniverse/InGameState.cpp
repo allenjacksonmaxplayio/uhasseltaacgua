@@ -33,7 +33,7 @@ namespace HovUni {
 	void InGameState::updateProgress(double progress) {
 		if (mLoader) {
 			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[InGameState]: OMFG? " << (float) (progress * 100.0f);
-			mLoader->setLoaded((float) (progress * 100.0f), "KeejOow! hier moet ge zijn!!!");
+			mLoader->setLoaded((float) (progress * 100.0f), "Loading some more...");
 		}
 	}
 
@@ -85,6 +85,8 @@ namespace HovUni {
 				mCountdownFadeout = 3;
 				//Countdown has finished, race has started!
 				mHud->startLapTimer();
+				mHud->setCurrentPosition(mRaceState->getOwnPlayer()->getPosition());
+				mHud->setNumberOfPlayers(mRaceState->getPlayers().size());
 
 				break;
 			}
@@ -106,7 +108,11 @@ namespace HovUni {
 	}
 
 	void InGameState::onPositionChange(RacePlayer* player) {
-		
+		if (mHud->isActivated()) {
+			std::cout << "Position: " << mRaceState->getOwnPlayer()->getPosition() << std::endl;
+			mHud->setCurrentPosition(mRaceState->getOwnPlayer()->getPosition());
+			mHud->setNumberOfPlayers(mRaceState->getPlayers().size());
+		}
 	}
 
 	////////////////////////////////////////////

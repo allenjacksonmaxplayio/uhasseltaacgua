@@ -151,6 +151,10 @@ public:
 	/** Check if the chat is focused */
 	bool isChatFocused() { return mChatIsActivated; }
 
+	void setNumberOfPlayers(int players);
+
+	void setCurrentPosition(int position);
+
 private:
 	void buildComponents(TiXmlElement* HUDConfig, std::vector<ComponentData*>& components, std::vector<ComponentData*>& percentageComponents );
 
