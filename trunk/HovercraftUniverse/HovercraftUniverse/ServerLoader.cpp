@@ -368,7 +368,10 @@ void ServerLoader::onSceneUserData(const Ogre::String& userDataReference, const 
 }
 
 void ServerLoader::onExternal(OgreMax::Types::ExternalItem& externalitem) {
-	parseWorldUserData(externalitem);
+	//ignore externals on hovercraft
+	if (!mLoadingHovercrafts) {
+		parseWorldUserData(externalitem);
+	}
 }
 
 void ServerLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, const OgreMax::Types::Attachable * parent) {
