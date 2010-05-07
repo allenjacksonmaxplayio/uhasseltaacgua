@@ -5,13 +5,13 @@
         <clipping near="0" far="100000" />
     </environment>
     <nodes>
-        <node name="hoverjeep_1">
+        <node name="hoverJeep">
             <position x="0.000797987" y="0.324353" z="1.10031" />
             <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <entity name="hoverjeep_1" castShadows="true" receiveShadows="true" meshFile="hoverjeep_1.mesh">
+            <entity name="hoverJeep" castShadows="true" receiveShadows="true" meshFile="hoverJeep.mesh">
                 <userData>
-                    <![CDATA[<Hovercraft><Name>HoverJeep</Name><Description>Very good steering, average speed, low weight.</Description><OgreEntity>HoverJeep</OgreEntity><ProcessInterval>-1</ProcessInterval><Speed>80</Speed><Mass>40</Mass><Acceleration>20</Acceleration><Steering>100</Steering></Hovercraft>]]>
+                    <![CDATA[<Hovercraft><Name>HoverJeep</Name><Description>Very good steering, average speed, low weight.</Description><OgreEntity>hoverJeep</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>80</Speed><Mass>40</Mass><Acceleration>20</Acceleration><Steering>100</Steering></Hovercraft>]]>
 </userData>
                 <subentities>
                     <subentity index="0" materialName="ArmyShinyGreen" />
