@@ -1,4 +1,4 @@
-<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.7" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <environment>
         <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
         <colourBackground r="0" g="0" b="0" />
@@ -6,7 +6,7 @@
     </environment>
     <nodes>
         <node name="hippycraft">
-            <position x="-0.0322353" y="0.92099" z="-0.319361" />
+            <position x="0" y="0.92099" z="-0.319361" />
             <scale x="1" y="1.24214" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <entity name="hippycraft" castShadows="true" receiveShadows="true" meshFile="hippycraft.mesh">
@@ -23,4 +23,21 @@
             </entity>
         </node>
     </nodes>
+    <externals>
+        <item name="Dummy01">
+            <position x="0" y="2.19388" z="0.245219" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.0320372" y="0.0320372" z="0.0320372" />
+        </item>
+        <item name="Exhauster">
+            <position x="-5.21477e-008" y="1.85613" z="1.43822" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.0320372" y="0.0320372" z="0.0320372" />
+        </item>
+        <item name="Front">
+            <position x="1.35857e-007" y="0.499548" z="-2.86283" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="0.0320372" y="0.0320372" z="0.0320372" />
+        </item>
+    </externals>
 </scene>

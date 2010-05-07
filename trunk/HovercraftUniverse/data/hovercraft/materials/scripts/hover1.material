@@ -1,114 +1,4 @@
 
-material Seat
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture seat.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material SteeringWheel
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture steeringwheel.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material CogsMetallic
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture cogsmetallic.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material HovercogsCabin
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture hovercogscabin.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material HoverBodyMap
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture hovercraftbody.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
 material HoverTireMap
 {
 	technique
@@ -140,6 +30,116 @@ material WindScreen
 			ambient 0.698039 0.894118 0.921569 1
 			diffuse 0.698039 0.894118 0.921569 1
 			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material HoverBodyMap
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture hovercraftbody.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material HovercogsCabin
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture hovercogscabin.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material CogsMetallic
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture cogsmetallic.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material SteeringWheel
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture steeringwheel.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material Seat
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture seat.jpg
+			}
 		}
 
 	}
