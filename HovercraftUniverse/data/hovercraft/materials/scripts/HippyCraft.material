@@ -1,18 +1,4 @@
 
-material NoMaterial
-{
-	technique
-	{
-		pass
-		{
-		}
-
-	}
-
-}
-
-
-
 material HippycraftBody
 {
 	technique
