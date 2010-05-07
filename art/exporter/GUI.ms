@@ -67,10 +67,6 @@ struct AsteroidInfo (
 			currentMaterialLibrary[color_material_id] = standardMaterial ()
 		)
 		
-		if ogre_material_id != undefined and ogre_material_id <=  currentMaterialLibrary.count then (
-			currentMaterialLibrary[ogre_material_id] = standardMaterial ()
-		)
-		
 		if viewport_material_id != undefined and viewport_material_id <=  currentMaterialLibrary.count  then (
 			currentMaterialLibrary[viewport_material_id] = standardMaterial ()
 		)
@@ -187,37 +183,6 @@ struct AsteroidInfo (
 			setUserProp asteroid "color" color_material_id
 		)
 		
-		if ogre_material_id == undefined then (
-			/** Create Ogre material */
-			ogremat = OgreMax_Material ()	
-			ogremat.Techniques[1] = OgreMax_Technique ()
-			ogremat.Techniques[1].Passes[1] = OgreMax_Pass()
-			
-			/*ogremat.Techniques[1].Passes[1] .PixelShader = TERRAINSHADER
-			ogremat.Techniques[1].Passes[1] .TextureUnits [1] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [1].Bitmap = openBitMap APLHA1
-			ogremat.Techniques[1].Passes[1] .TextureUnits [2] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [2].Bitmap = openBitMap LAYER1
-			ogremat.Techniques[1].Passes[1] .TextureUnits [3] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [3].Bitmap = openBitMap LAYER2
-			ogremat.Techniques[1].Passes[1] .TextureUnits [4] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [4].Bitmap = openBitMap LAYER3
-
-			ogremat.Techniques[1].Passes[1] .TextureUnits [5] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [5].Bitmap = openBitMap APLHA2
-			ogremat.Techniques[1].Passes[1] .TextureUnits [6] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [6].Bitmap = openBitMap LAYER4
-			ogremat.Techniques[1].Passes[1] .TextureUnits [7] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [7].Bitmap = openBitMap LAYER5
-			ogremat.Techniques[1].Passes[1] .TextureUnits [8] = OgreMax_Texture_Unit()
-			ogremat.Techniques[1].Passes[1] .TextureUnits [8].Bitmap = openBitMap LAYER6	*/			
-			
-			append currentMaterialLibrary ogremat
-			ogre_material_id = findItem currentMaterialLibrary ogremat
-		
-			setUserProp asteroid "ogre" ogre_material_id
-		)
-		
 		if viewport_material_id == undefined then (
 			/** Create DirectX material (viewport) */
 			effectfile = terrain_layer1_shader
@@ -258,18 +223,6 @@ struct AsteroidInfo (
 	
 	,
 	
-	fn getOgreMaterial = 
-	(
-		if ogre_material_id == undefined then (
-			return undefined
-		)
-		else (
-			return currentMaterialLibrary[ogre_material_id]
-		)
-	)
-	
-	,
-	
 	/** Set current material as color material */
 	fn showColor = (
 		if color_material_id == undefined then (
@@ -289,18 +242,6 @@ struct AsteroidInfo (
 		)
 		else (
 			asteroid.material = currentMaterialLibrary[viewport_material_id]
-		)
-	)
-	
-	,
-	
-	/** Set current material as ogre material */
-	fn showOgre = (
-		if ogre_material_id == undefined then (
-			messageBox "No ogre material found! Use create firts" title:"Error"			
-		)
-		else (
-			asteroid.material = currentMaterialLibrary[ogre_material_id]
 		)
 	)
 	
