@@ -45,15 +45,15 @@ void GameView::draw(Ogre::Real timeSinceLastFrame) {
 	mRaceCam->update(timeSinceLastFrame);
 
 	// Draw the entity representations
-	drawEntityRepresentations();
+	drawEntityRepresentations(timeSinceLastFrame);
 	
 	// TODO Draw the static objects
 }
 
-void GameView::drawEntityRepresentations() {
+void GameView::drawEntityRepresentations(Ogre::Real timeSinceLastFrame) {
 	for (std::vector<EntityRepresentation *>::const_iterator it = mEntityRepresentations.begin(); 
 			it != mEntityRepresentations.end(); it++) {
-		(*it)->draw();
+		(*it)->draw(timeSinceLastFrame);
 	}
 }
 

@@ -23,6 +23,10 @@ namespace HovUni {
 
 		/** The Particle Scene node, must be updated on every step */
 		Ogre::SceneNode* mParticleNode;
+
+		/** Animation state for rotation of hover */
+		Ogre::AnimationState * mRotorState;
+
 	public:
 		/**
 		 * Constructor.
@@ -34,6 +38,13 @@ namespace HovUni {
 		 * Destructor.
 		 */
 		~HovercraftRepresentation();
+
+		/**
+		 * Draws the representation.
+		 * 
+		 * @param time since last frame
+		 */
+		void draw( Ogre::Real timeSinceLastFrame );
 
 		/**
 		 * This function will be called every cycle to get updates for the position,
