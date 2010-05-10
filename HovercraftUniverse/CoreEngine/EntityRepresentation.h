@@ -61,8 +61,10 @@ public:
 
 	/**
 	 * Draws the representation.
+	 * 
+	 * @param time since last frame
 	 */
-	void draw();
+	virtual void draw( Ogre::Real timeSinceLastFrame );
 
 	/**
 	 * Returns the entity that this representation visualizes.

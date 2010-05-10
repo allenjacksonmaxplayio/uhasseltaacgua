@@ -82,8 +82,10 @@ protected:
 
 	/**
 	 * Draw the entity representations.
+	 *
+	 * @param time since last frame
 	 */
-	void drawEntityRepresentations();
+	void drawEntityRepresentations(Ogre::Real timeSinceLastFrame);
 
 };
 

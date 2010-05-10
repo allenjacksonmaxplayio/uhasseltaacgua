@@ -53,7 +53,7 @@ EntityRepresentation::~EntityRepresentation() {
 	mTextOverlay = 0;
 }
 
-void EntityRepresentation::draw() {
+void EntityRepresentation::draw(Ogre::Real timeSinceLastFrame) {
 	// Update the settings
 	//mOgreNode->setPosition(mEntity->getPosition());
 	mOgreNode->setPosition(mEntity->getSmoothPosition());

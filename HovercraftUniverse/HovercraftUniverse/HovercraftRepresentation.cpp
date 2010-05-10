@@ -13,7 +13,7 @@ const float HovercraftRepresentation::MIN_RPM = 500.0f;
 
 HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
 												   Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials, Ogre::SceneNode * node) 
-			: EntityRepresentation(entity, meshFile,  sceneMgr, resourceGroupName, visible, castShadows, renderingDistance, materialFile, subMaterials, node), Moveable3DEmitter(EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT) {
+			: EntityRepresentation(entity, meshFile,  sceneMgr, resourceGroupName, visible, castShadows, renderingDistance, materialFile, subMaterials, node), Moveable3DEmitter(EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT), mRotorState(0) {
    for ( std::vector<Ogre::String>::iterator i = subMaterials.begin(); i != subMaterials.end(); i++ ){
 	   std::cout << *i << std::endl;
    }
@@ -34,11 +34,24 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	mParticleNode = node->createChildSceneNode();
 	mParticleNode->attachObject(pSystem);
 
+	mRotorState = mOgreEntity->getAnimationState("Rotor");
+	if ( mRotorState != 0 ){
+		mRotorState->setLoop(true);
+		mRotorState->setEnabled(true);
+	}
+
 	this->getOgreEntity()->setCastShadows(true);
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
 	
+}
+
+void HovercraftRepresentation::draw( Ogre::Real timeSinceLastFrame ){
+	if ( mRotorState != 0 ){
+		 mRotorState->addTime(timeSinceLastFrame);
+	}
+	EntityRepresentation::draw(timeSinceLastFrame);
 }
 
 void HovercraftRepresentation::getUpdates(Ogre::Vector3 ** position, Ogre::Vector3 ** velocity, Ogre::Vector3 ** orientation) {
