@@ -6,12 +6,12 @@
     </environment>
     <nodes>
         <node name="hoverJeep">
-            <position x="0.000797987" y="0.324353" z="1.10031" />
+            <position x="0.000798045" y="5.84473e-008" z="-2.55481e-015" />
             <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <entity name="hoverJeep" castShadows="true" receiveShadows="true" meshFile="hoverJeep.mesh">
                 <userData>
-                    <![CDATA[<Hovercraft><Name>HoverJeep</Name><Description>Very good steering, average speed, low weight.</Description><OgreEntity>hoverJeep</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>80</Speed><Mass>40</Mass><Acceleration>20</Acceleration><Steering>100</Steering></Hovercraft>]]>
+                    <![CDATA[<Hovercraft><Name>HoverJeep</Name><Description>Very good steering, average speed, low weight.</Description><OgreEntity>hoverJeep</OgreEntity><ProcessInterval>0.016</ProcessInterval><Speed>80</Speed><Mass>40</Mass><Acceleration>25</Acceleration><Steering>100</Steering></Hovercraft>]]>
 </userData>
                 <subentities>
                     <subentity index="0" materialName="ArmyShinyGreen" />
@@ -34,17 +34,17 @@
     </nodes>
     <externals>
         <item name="Seat">
-            <position x="0.0141909" y="0.205567" z="1.49589" />
+            <position x="0.0141909" y="0.205567" z="0.158774" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="0.0840639" y="0.0840639" z="0.0840639" />
         </item>
         <item name="Exhauster">
-            <position x="0.0141909" y="0.548214" z="3.81574" />
+            <position x="0.0141909" y="0.548214" z="2.47863" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="0.0840639" y="0.0840639" z="0.0840639" />
         </item>
         <item name="Front">
-            <position x="0.014191" y="-0.353323" z="-2.13072" />
+            <position x="0.0141911" y="-0.353323" z="-3.46784" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="0.0840639" y="0.0840639" z="0.0840639" />
         </item>

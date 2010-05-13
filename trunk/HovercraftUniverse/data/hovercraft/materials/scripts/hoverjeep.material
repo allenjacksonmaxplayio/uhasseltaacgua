@@ -1,175 +1,4 @@
 
-material Leather
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture jeepseat.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material ShinyIron
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0.675 0.675 0.675 20 0
-
-			texture_unit
-			{
-				texture cogsmetallic.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material JeepHoverHood
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture jeephoverhood.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material JeepArmyColours
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture jeeparmycolours.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material HoverjeepTires
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture hoverjeeptires.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material ArmyShinyGreen
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0.468 0.468 0.468 19 0
-
-			texture_unit
-			{
-				texture armygreen.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material dashboard
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture jeepdashboard.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
-material Default
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.7 0.7 0.7 1
-			diffuse 0.7 0.7 0.7 1
-			specular 0.707 0.707 0.707 50 0
-		}
-
-	}
-
-}
-
-
-
 material JeepGroen
 {
 	technique
@@ -197,6 +26,23 @@ material Knipperlicht
 			diffuse 1 1 0 1
 			specular 0.269412 0.269412 0.269412 80 0
 			emissive 0.6 0.6 0.6 1
+		}
+
+	}
+
+}
+
+
+
+material Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.7 0.7 0.7 1
+			specular 0.707 0.707 0.707 50 0
 		}
 
 	}
@@ -241,6 +87,23 @@ material Koplamp
 
 
 
+material ZwartMetaal
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.4 0.4 1
+			diffuse 0.4 0.4 0.4 1
+			specular 0.269412 0.269412 0.269412 40 0
+		}
+
+	}
+
+}
+
+
+
 material Glas
 {
 	technique
@@ -256,15 +119,152 @@ material Glas
 
 
 
-material ZwartMetaal
+material HoverjeepTires
 {
 	technique
 	{
 		pass
 		{
-			ambient 0.4 0.4 0.4 1
-			diffuse 0.4 0.4 0.4 1
-			specular 0.269412 0.269412 0.269412 40 0
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture hoverjeeptires.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material JeepArmyColours
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture jeeparmycolours.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material JeepHoverHood
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture jeephoverhood.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material ArmyShinyGreen
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0.468 0.468 0.468 19 0
+
+			texture_unit
+			{
+				texture armygreen.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material Leather
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture jeepseat.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material ShinyIron
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0.675 0.675 0.675 20 0
+
+			texture_unit
+			{
+				texture cogsmetallic.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material dashboard
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture jeepdashboard.jpg
+			}
 		}
 
 	}
