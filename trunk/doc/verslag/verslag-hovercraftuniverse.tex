@@ -15,6 +15,7 @@
 \usepackage{todonotes}
 \usepackage{hyperref}
 \usepackage{parskip}
+\usepackage{listings}
 \hypersetup{
 %    bookmarks=true,         % show bookmarks bar?
     unicode=false,          % non-Latin characters in Acrobat’s bookmarks
@@ -64,16 +65,15 @@ Entiteiten kunnen bestuurd worden door \verb|Controller|s. Een controller genere
 
 Voor de visuele representatie op de clients heeft elke relevante entiteit een \verb|EntityRepresentation|. Deze verbindt de conceptuele entiteit met een entiteit in Ogre. Om de wereld te kunnen tekenen vanuit het standpunt van \'e\'en speler worden deze representatie-objecten, samen met de Ogre camera, bijgehouden in een \verb|GameView|. 
 
-
-\begin{figure}
-	\centering
-		\includegraphics[width=0.50\textwidth]{images/netwerkfreq.png}
-	\caption{The client entity polls its next move from the controller}
-	\label{fig:netwerkfreq}
-\end{figure}
+%\begin{figure}
+%	\centering
+%		\includegraphics[width=0.50\textwidth]{images/netwerkfreq.png}
+%	\caption{The client entity polls its next move from the controller}
+%	\label{fig:netwerkfreq}
+%\end{figure}
 
 \subsection{Besturing}
-
+\todo{Tobias?}
 
 \subsection{Netwerkstructuur}
 \begin{figure}
@@ -82,9 +82,15 @@ Voor de visuele representatie op de clients heeft elke relevante entiteit een \v
 	\caption{ZoidCom werking}
 	\label{fig:zoidcom}
 \end{figure}
-\todo{Over ZoidCom en het repliceren van data over het netwerk.}
+\todo{Olivier?}
 
-\subsection{Scritping en AI}
+\subsection{Grafische userinterface}
+\todo{Nick?}
+
+\subsection{Geluid}
+\todo{...Nick? :D}
+
+\subsection{Scripting en AI}
 Voor de bots is een AI voorzien, die ``menselijk'' stuurgedrag nabootst. De algoritmen van deze AI zijn gebaseerd op de autonome stuursimulaties van Craig Reynolds \cite{reynolds:1999}. De huidige AI is in staat om een voorgedefinieerd pad te volgen binnen een bepaalde marge (``Path Following''). Een pad wordt voorgesteld als een \emph{multiline}: een lijst van punten in de wereld, telkens geassocieerd met een straal (\verb|radius|). De straal op punt $x_i$ stelt de \emph{breedte} van het pad voor tussen punt $x_i$ e, $x_{i+1}$. Deze paden worden opgeslagen in aparte bestanden. Dit betekent dat de level designers per map een ideaal pad (of meerdere paden) voor de AI kunnen aanmaken. 
 
 De AI is geprogrammeerd in Lua \cite{lerusalimschy:2006}, om aanpassing van de AI-algoritmen mogelijk te maken zonder dat het spel hiervoor gehercompileerd moet worden. Voor de binding tussen Lua en C++ wordt Luabind gebruikt. De \verb|ScriptWrapper| klasse abstraheert deze scripts en laat de programmeurs toe om met de scripts te werken, zonder Lua-specifieke constructies te moeten gebruiken.
@@ -108,6 +114,17 @@ Aangezien deze methodes afhankelijk zijn van de physics, draaien ze op de server
 \caption{Het geavanceerde collision avoidance model}%
 \label{fig:advancedcollisionavoidance}%
 \end{figure}
+
+\subsection{Configuratiebestanden}
+Configuratiebestanden zijn beschikbaar voor de server en client, in INI formaat (zie Listing~\ref{lst:inifileformat}). Dit laat gebruikers toe om hun nickname, gekozen voertuig, enz. te kiezen en op te slaan. Een aantal server-specifieke instellingen worden ook ondersteund (aantal spelers, AI-script, sterkte van de zwaartekracht, \ldots). Het spel kan deze bestanden ook opslaan met de huidige instellingen.
+
+\lstset{caption=Het INI bestandsformaat,label=lst:inifileformat}
+\begin{lstlisting}
+[section name]
+keyname=value
+#comment
+keyname = value, value , value #comment
+\end{lstlisting}
 
 \section{Rolverdeling en verantwoordelijkheden}
 
