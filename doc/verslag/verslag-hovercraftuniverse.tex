@@ -16,7 +16,7 @@
 \usepackage{hyperref}
 \usepackage{parskip}
 \hypersetup{
-    bookmarks=true,         % show bookmarks bar?
+%    bookmarks=true,         % show bookmarks bar?
     unicode=false,          % non-Latin characters in Acrobat’s bookmarks
     pdftoolbar=true,        % show Acrobat’s toolbar?
     pdfmenubar=true,        % show Acrobat’s menu?
@@ -87,9 +87,27 @@ Voor de visuele representatie op de clients heeft elke relevante entiteit een \v
 \subsection{Scritping en AI}
 Voor de bots is een AI voorzien, die ``menselijk'' stuurgedrag nabootst. De algoritmen van deze AI zijn gebaseerd op de autonome stuursimulaties van Craig Reynolds \cite{reynolds:1999}. De huidige AI is in staat om een voorgedefinieerd pad te volgen binnen een bepaalde marge (``Path Following''). Een pad wordt voorgesteld als een \emph{multiline}: een lijst van punten in de wereld, telkens geassocieerd met een straal (\verb|radius|). De straal op punt $x_i$ stelt de \emph{breedte} van het pad voor tussen punt $x_i$ e, $x_{i+1}$. Deze paden worden opgeslagen in aparte bestanden. Dit betekent dat de level designers per map een ideaal pad (of meerdere paden) voor de AI kunnen aanmaken. 
 
-Deze AI is geprogrammeerd in Lua \cite{lerusalimschy:2006}, om aanpassing van de AI-algoritmen mogelijk te maken zonder dat het spel hiervoor gehercompileerd moet worden. Voor de binding tussen Lua en C++ wordt Luabind gebruikt. De \verb|ScriptWrapper| klasse abstraheert deze scripts en laat de programmeurs toe om met de scripts te werken, zonder Lua-specifieke constructies te moeten gebruiken.
+De AI is geprogrammeerd in Lua \cite{lerusalimschy:2006}, om aanpassing van de AI-algoritmen mogelijk te maken zonder dat het spel hiervoor gehercompileerd moet worden. Voor de binding tussen Lua en C++ wordt Luabind gebruikt. De \verb|ScriptWrapper| klasse abstraheert deze scripts en laat de programmeurs toe om met de scripts te werken, zonder Lua-specifieke constructies te moeten gebruiken.
 
-\todo{collision avoidance}
+\emph{Collision avoidance} voor de AI is ook ge\"implementeerd met behulp van Havok physics. Er zijn twee implementaties beschikbaar voor de \verb|EntityCollision| interface. Het eenvoudige model (zie Figuur~\ref{fig:simplecollisionavoidance}) plaatst een kubus op een bepaalde afstand van het voertuig om objecten te detecteren. Dit model gebruikt zeer weinig resources, maar is ook niet zo krachtig. Het geavanceerde model gebruikt een 3D-lichaam dat zich uitstrekt van het voertuig tot de gewenste afstand voor de figuur (zie Figuur~\ref{fig:advancedcollisionavoidance}). Deze manier van werken heeft een kleine meerkost in resources in vergelijking met het eenvoudige model.
+
+Aangezien deze methodes afhankelijk zijn van de physics, draaien ze op de server. Als een object wordt gedetecteerd, wordt dit door middel van een event doorgegeven aan een callback functie in de entiteit. Dit wordt vertaald naar een boolean in de entiteit, die door het netwerk wordt gerepliceerd op de client. Client-side maakt de AI dan een beslissing om het obstakel te ontwijken.
+
+\begin{figure}%
+\begin{center}
+\includegraphics[width=0.4 \columnwidth]{images/collision_prevention_simple.jpg}%
+\end{center}
+\caption{Het eenvoudige collision avoidance model}%
+\label{fig:simplecollisionavoidance}%
+\end{figure}
+
+\begin{figure}%
+\begin{center}
+\includegraphics[width=0.8 \columnwidth]{images/collision_prevention_advanced.jpg}%
+\end{center}
+\caption{Het geavanceerde collision avoidance model}%
+\label{fig:advancedcollisionavoidance}%
+\end{figure}
 
 \section{Rolverdeling en verantwoordelijkheden}
 \todo{Of niet? :D}
