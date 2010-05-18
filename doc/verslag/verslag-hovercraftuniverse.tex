@@ -45,15 +45,23 @@
 \newpage
 
 \section{Introductie}
+\emph{Hovercraft Universe} is een race game waarin spelers tussen planeten in de ruimte kunnen rondvliegen met hovercrafts.\todo{meer blabla:p}
 
 \section{Gebruikte libraries}
+%MAXIMUM 2 ZINNEN PER ENTRY!!!
 \begin{itemize}
-\item[\textbf{Rendering}] Ogre\footnote{\url{http://www.ogre3d.org/}}
-\item[\textbf{Physics}] Havok-Physics\footnote{\url{http://www.havok.com/index.php?page=havok-physics}}
+\item[\textbf{Physics}] De fysische gamewereld wordt gesimuleerd door Havok Physics\footnote{\url{http://www.havok.com/index.php?page=havok-physics}}. Havok draait enkel op de server en zorgt voor alle berekeningen die nodig zijn voor fysische interactie.
+
+\item[\textbf{Rendering}] Voor het renderen gebruiken we de Ogre Open Source Graphics Engine\footnote{\url{http://www.ogre3d.org/}}. Ogre draait enkel op de clients en zorgt voor de visuele representatie van de game-entiteiten. Andere, uitsluitend visuele, effecten en overlays worden ook door Ogre afgehandeld: particle effects, tekst overlays boven de entiteiten, \ldots.
+
 \item[\textbf{Netwerk}] ZoidCom\footnote{\url{http://www.zoidcom.com/}}
+
 \item[\textbf{Input}] Object Oriented Input System (OIS)\footnote{\url{http://sourceforge.net/projects/wgois/}}
+
 \item[\textbf{Geluid}] FMOD Interactive Audio Middelware\footnote{\url{http://www.fmod.org/}}
-\item[\textbf{Scripting}] Lua\footnote{\url{http://www.lua.org/}} en LuaBind\footnote{\url{http://www.rasterbar.com/products/luabind.html}}
+
+\item[\textbf{Scripting}] Lua\footnote{\url{http://www.lua.org/}} en LuaBind\footnote{\url{http://www.rasterbar.com/products/luabind.html}} bieden de mogelijkheid om op een dynamische manier eigenschappen van het spel te veranderen.
+
 \item[\textbf{GUI}] Adobe Flash\footnote{\url{http://www.adobe.com/products/flash/}} en Hikari\footnote{\url{http://code.google.com/p/hikari-library/}}.
 \end{itemize}
 
@@ -72,9 +80,6 @@ Voor de visuele representatie op de clients heeft elke relevante entiteit een \v
 %	\label{fig:netwerkfreq}
 %\end{figure}
 
-\subsection{Besturing}
-\todo{Tobias?}
-
 \subsection{Netwerkstructuur}
 \begin{figure}
 	\centering
@@ -84,11 +89,17 @@ Voor de visuele representatie op de clients heeft elke relevante entiteit een \v
 \end{figure}
 \todo{Olivier?}
 
+\subsection{Physics}
+\todo{Pieter-Jan?}
+
 \subsection{Grafische userinterface}
 \todo{Nick?}
 
 \subsection{Geluid}
 \todo{...Nick? :D}
+
+\subsection{Besturing}
+\todo{Tobias?}
 
 \subsection{Scripting en AI}
 Voor de bots is een AI voorzien, die ``menselijk'' stuurgedrag nabootst. De algoritmen van deze AI zijn gebaseerd op de autonome stuursimulaties van Craig Reynolds \cite{reynolds:1999}. De huidige AI is in staat om een voorgedefinieerd pad te volgen binnen een bepaalde marge (``Path Following''). Een pad wordt voorgesteld als een \emph{multiline}: een lijst van punten in de wereld, telkens geassocieerd met een straal (\verb|radius|). De straal op punt $x_i$ stelt de \emph{breedte} van het pad voor tussen punt $x_i$ e, $x_{i+1}$. Deze paden worden opgeslagen in aparte bestanden. Dit betekent dat de level designers per map een ideaal pad (of meerdere paden) voor de AI kunnen aanmaken. 
