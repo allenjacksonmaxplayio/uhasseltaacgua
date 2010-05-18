@@ -9,6 +9,7 @@
 \usepackage{url}
 \usepackage{todonotes}
 \usepackage{hyperref}
+\usepackage{parskip}
 \hypersetup{
     bookmarks=true,         % show bookmarks bar?
     unicode=false,          % non-Latin characters in Acrobat’s bookmarks
@@ -52,7 +53,13 @@
 
 \section{Programmastructuur en -organisatie}
 \subsection{Algemeen}
-\todo{Over entiteiten, controllers, gameview, etc... Structuur uitleggen op ruwe basis van SSN'67.}
+De basisstructuur van de engine achter Hovercraft Universe is gemaakt naar analogie met de architectuur van \emph{Shellshock: Nam '67} \cite{rouwe:2005}. Elk object in de spelwereld waarmee ge\"interageerd kan worden, wordt voorgesteld door een \verb|Entity|. Deze entiteiten worden gegroepeerd in de \verb|EntityManager|, die de entiteiten tijdens het spel kan updaten. In onze implementatie is een \verb|Entity| tevens een uitbreiding van \verb|NetworkEntity|, die replicatie over het netwerk mogelijk maakt.
+
+Entiteiten kunnen bestuurd worden door \verb|Controller|s. Een controller generereert \emph{events}, die door de entiteiten gepolld worden. Deze interface laat toe om entiteiten te besturen op verschillende manieren: toetsenbord/muis, AI, \ldots.
+
+Voor de visuele representatie op de clients heeft elke relevante entiteit een \verb|EntityRepresentation|. Deze verbindt de conceptuele entiteit met een entiteit in Ogre. Om de wereld te kunnen tekenen vanuit het standpunt van \'e\'en speler worden deze representatie-objecten, samen met de Ogre camera, bijgehouden in een \verb|GameView|. 
+
+
 \begin{figure}
 	\centering
 		\includegraphics[width=0.50\textwidth]{images/netwerkfreq.png}
@@ -72,5 +79,8 @@
 
 \subsection{Rolverdeling en verantwoordelijkheden}
 \todo{Of niet? :D}
+
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}
