@@ -1,8 +1,67 @@
 macroscript Track category: "Hovercraft Universe Tools"
 (
+	local static
+	rollout StaticRollout "Static" width:216 height:184
+	(
+		fn objectFilter obj = iskindof obj GeometryClass
+		
+		pickbutton btn1 "PickButton" pos:[40,32] width:88 height:32 filter:objectFilter
+		button btn2 "Update" pos:[40,144] width:88 height:32
+		edittext edtmass "Mass" pos:[8,88] width:120 height:16
+		editText edt4 "Object" pos:[8,8] width:120 height:16
+				
+		on btn1 picked obj do
+		(
+			edt4.text = obj.name
+		)
+		on btn2 pressed do
+		(
+			s = getNodeByName edt4.text 
+			
+			while s.modifiers[#Shape] != undefined do (
+				m = s.modifiers[#Shape] 
+				deleteModifier  s m
+			)
+			
+			while s.modifiers[#Rigid_Body] != undefined do (
+				m = s.modifiers[#Rigid_Body] 
+				deleteModifier  s m
+			)
+						
+			addModifier s (Havok_Shape()) 
+			s.modifiers[#Shape].shapeType = 5
+			addModifier s (Havok_Rigid_Body())
+			s.modifiers[#Rigid_Body].mass = (edtmass.text as float)
+			
+			dummyname = s.name + "_ent"	
+				
+			/* delete dummy if already there */
+			olddum = getNodeByName dummyname
+			if olddum != undefined do
+				delete olddum	
+				
+			dum = Dummyhelper pos:(s.pos) iconSize:10
+			/* make our dummy slightly bigger than object */
+			sc = length (s.max - s.min) / 9.95
+			scale dum [sc,sc,sc]							
+			dum.name = dummyname
+			dum.parent = s
 
+			objectSettingsStatic = ogremax.GetObjectSettingsByNode(s) 
+			objectSettingsDummy = ogremax.GetObjectSettingsByNode(dum) 
+			
+			objectSettingsDummy.type = "External"
+			objectSettingsDummy.UserDataClass = "StaticBody"
+			objectSettingsDummy.UserData = "<StaticBody><OgreEntity>" + s.name + "</OgreEntity><ProcessInterval>" + "-1" + "</ProcessInterval></StaticBody>"
+		
+			objectSettingsStatic.UserDataClass = "OgreEntity"
+			objectSettingsStatic.UserData = "<OgreEntity><GameEntity>" + dum.name + "</GameEntity></OgreEntity>"
+		)
+	)
+	
+	
 	local floater
-	rollout TrackRollout "Rollout" width:216 height:168
+	rollout TrackRollout "Path" width:216 height:168
 	(
 		fn shapeFilter obj = iskindof obj Shape
 		fn objectFilter obj = iskindof obj GeometryClass	
@@ -89,5 +148,6 @@ macroscript Track category: "Hovercraft Universe Tools"
 	(
 			floater  = NewRolloutFloater "Track Creator" 500 200
 			addRollout TrackRollout floater
+			addRollout StaticRollout floater
 	)
 )
