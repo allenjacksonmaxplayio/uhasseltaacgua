@@ -1,4 +1,4 @@
-macroscript Track category: "Hovercraft Universe Tools"
+macroscript WorldEditing category: "Hovercraft Universe Tools"
 (
 	local floater
 	
