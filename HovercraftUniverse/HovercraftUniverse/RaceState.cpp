@@ -41,7 +41,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 
 	// Load track info and check players
-	TrackInfoLoader trackInfoLoader(lobby->getTrackFilename());
+	TrackInfoLoader trackInfoLoader(mTrackFilename);
 	Track * trackEntity = trackInfoLoader.getTrack();
 	if (trackEntity) {
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Track " << trackEntity->getDisplayName()

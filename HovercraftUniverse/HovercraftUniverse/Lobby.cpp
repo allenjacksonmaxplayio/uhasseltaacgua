@@ -25,7 +25,7 @@ std::string Lobby::getClassName() {
 }
 
 Lobby::Lobby(Loader * loader) :
-NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrackFilename("SimpleTrack2.scene"), mMaximumPlayers(DedicatedServer::getConfig()->getValue<int>("Server", "MaximumPlayers", 12)),
+NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrack(0), mMaximumPlayers(DedicatedServer::getConfig()->getValue<int>("Server", "MaximumPlayers", 12)),
 			mCurrentPlayers(0), mRaceState(0), mBots(DedicatedServer::getConfig()->getValue<bool>("Server", "FillWithBots", false)) {
 
 	this->setReplicationInterceptor(this);
@@ -180,13 +180,13 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 	}
 }
 
-void Lobby::onTrackChange(const Ogre::String& filename) {
-	mTrackFilename = filename;
-}
-
 void Lobby::onStartServer() {
 	if (!getRaceState()) {
-		RaceState* racestate = new RaceState(this, mLoader, mTrackFilename);
+
+		//TODO GET FROM TRACK ID
+		Ogre::String trackfile = "SimpleTrack2.scene";
+
+		RaceState* racestate = new RaceState(this, mLoader, trackfile);
 		setRaceState(racestate);
 
 		// Tell the clients to start
@@ -232,7 +232,7 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 			mAdmin = state->getInt(sizeof(unsigned int) * 8);
 			mMaximumPlayers = state->getInt(8);
 			mCurrentPlayers = state->getInt(8);
-			mTrackFilename = state->getString();
+			mTrack = state->getInt(8);
 			mBots = state->getBool();
 		}
 
@@ -262,7 +262,7 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 		state->addInt(mAdmin, sizeof(unsigned int) * 8);
 		state->addInt(mMaximumPlayers, 8);
 		state->addInt(mCurrentPlayers, 8);
-		state->addString(mTrackFilename.c_str());
+		state->addInt(mTrack,8);
 		state->addBool(mBots);
 		sendEventDirect(InitEvent(state), conn_id);
 	}
@@ -295,8 +295,13 @@ void Lobby::processEventsOther(GameEvent* gEvent) {
 
 void Lobby::setupReplication() {
 
-	//track filename
-	replicateString(&mTrackFilename, ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_PROXY);
+	//mCurrentPlayers
+	mNode->addReplicationInt((int*) &mTrack, // pointer to the variable
+			8, // amount of bits(up to 255 maps)
+			false, // unsigned
+			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
+			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
+	);
 
 	//mAdmin
 	mNode->addReplicationInt((zS32*) &mAdmin, // pointer to the variable
@@ -341,6 +346,7 @@ void Lobby::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _re
 		(*i)->onAdminChange(this->isAdmin());
 		(*i)->onBotsChange(this->hasBots());
 		(*i)->onMaxPlayersChange(this->getMaxPlayers());
+		(*i)->onTrackChange(this->getTrackId());
 	}
 }
 

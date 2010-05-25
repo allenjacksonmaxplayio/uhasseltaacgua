@@ -51,6 +51,13 @@ public:
 	 * @param players The new maximum number of players
 	 */
 	virtual void onMaxPlayersChange(int players) = 0;
+
+	/**
+	 * Called when the track has changed.
+	 *
+	 * @param trackid The new track id
+	 */
+	virtual void onTrackChange(int trackid) = 0;
 };
 
 }

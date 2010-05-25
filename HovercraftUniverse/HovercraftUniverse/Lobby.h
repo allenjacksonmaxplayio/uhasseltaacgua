@@ -62,8 +62,8 @@ private:
 	/** The current number of players */
 	unsigned int mCurrentPlayers;
 
-	/** The filename of the track */
-	Ogre::String mTrackFilename;
+	/** The id of the track */
+	unsigned int mTrack;
 
 	/** Whether the lobby has bots or not */
 	bool mBots;
@@ -151,12 +151,21 @@ public:
 	}
 
 	/**
-	 * Get the track filename (Server + Client)
+	 * Get the track id (Server + Client)
 	 *
-	 * @return the filename of the track
+	 * @return the id of the track
 	 */
-	inline Ogre::String getTrackFilename() const {
-		return mTrackFilename;
+	inline unsigned int getTrackId() const {
+		return mTrack;
+	}
+
+	/**
+	 * Set the track id (Client: Owner)
+	 *
+	 * @param trackid the new id of the track
+	 */
+	inline void setTrackId( unsigned int trackid ) {
+		mTrack = trackid;
 	}
 
 	/**
@@ -214,13 +223,6 @@ public:
 	 * Called to notify the listeners of the start. (Client)
 	 */
 	virtual void onStartClient();
-
-	/**
-	 * Called when admin changes the map. (Client: Owner)
-
-	 * @param filename the new filename of the map
-	 */
-	virtual void onTrackChange(const Ogre::String& filename);
 
 	/**
 	 * Mark the lobby to fill the server with bots or not. (Client: Owner)
