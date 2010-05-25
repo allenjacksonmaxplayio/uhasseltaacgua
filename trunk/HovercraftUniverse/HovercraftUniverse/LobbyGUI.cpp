@@ -77,6 +77,10 @@ namespace HovUni {
 		mLobbyOverlay->deleteUser(id);
 	}
 
+	void LobbyGUI::setTrackId(unsigned int value){
+	
+	}
+
 	void LobbyGUI::setAdmin(bool admin) {
 		mLobbyOverlay->setAdmin(admin);
 	}

@@ -136,6 +136,13 @@ namespace HovUni {
 			 */
 			void setPlayerMax(int value);
 
+			/**
+			 * Set the current track id.
+			 *
+			 * @param track id The track id
+			 */
+			void setTrackId(unsigned int value);
+
 			/** 
 			 * Function to show or hide the start button
 			 *

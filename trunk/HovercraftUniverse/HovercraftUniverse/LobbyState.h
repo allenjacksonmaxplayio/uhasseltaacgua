@@ -155,6 +155,13 @@ namespace HovUni {
 			 */
 			virtual void onMaxPlayersChange(int players);
 
+			/**
+			 * Called when the track has changed.
+			 *
+			 * @param trackid The new track id
+			 */
+			virtual void onTrackChange(int trackid);
+
 			////////////////////////////////////////
 			//	BasicGameState functions
 			////////////////////////////////////////

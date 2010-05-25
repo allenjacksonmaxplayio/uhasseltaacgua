@@ -132,6 +132,10 @@ namespace HovUni {
 		mLobbyGUI->setPlayerMax(players);
 	}
 
+	void LobbyState::onTrackChange(int trackid) {
+		mLobbyGUI->setTrackId(trackid);
+	}
+
 	////////////////////////////////////////
 	//	BasicGameState functions
 	////////////////////////////////////////
