@@ -83,16 +83,24 @@ HavokHovercraft::HavokHovercraft(hkpWorld * world, Hovercraft * entity, const hk
 
 HavokHovercraft::~HavokHovercraft(void)
 {
+	mWorld->markForWrite();
+
+	hkpRigidBody * charbody = mCharacterRigidBody->getRigidBody();
+	
 	if (mCollisionTest != 0) {
 		delete mCollisionTest;
 	}
 
+	//remove the body
+	mWorld->removeEntity(charbody);
 
-	mCharacterRigidBody->removeReference();
-	mCharacterRigidBody = HK_NULL;
+
 
 	mCharacterContext->removeReference();
 	mCharacterContext = HK_NULL;
+	
+	mCharacterRigidBody->removeReference();
+	mCharacterRigidBody = HK_NULL;
 
 	mPhysicsData->removeReference();
 	mPhysicsData = HK_NULL;
@@ -100,6 +108,8 @@ HavokHovercraft::~HavokHovercraft(void)
 	mLoadedData->disableDestructors();
 	mLoadedData->callDestructors();
 	mLoadedData->removeReference();
+
+	mWorld->unmarkForWrite();
 
 }
 
@@ -376,10 +386,6 @@ void HavokHovercraft::load(const hkVector4& position, const hkQuaternion& rotati
 	HavokEntityType::setEntityType(charbody,HavokEntityType::CHARACTER);
 	mWorld->addEntity( charbody );
 
-	//Remove some data
-	tmp->removeReference();
-
-
 	//collision prevention test
 	//mCollisionTest = new SimpleTest(mWorld,this);
 	mCollisionTest = new AdvancedTest(mWorld,this);
@@ -388,6 +394,10 @@ void HavokHovercraft::load(const hkVector4& position, const hkQuaternion& rotati
 	mWorld->addAction(new HoverAction(this,mWorld));
 	mWorld->addAction(new HavokHovercraftCollisionEffect(this));
 	mWorld->addAction(new UpdatePositionAction(charbody,mEntity));
+
+	//Remove some data
+	tmp->removeReference();
+	//charbody->removeReference();
 
 	mWorld->unmarkForWrite();
 }

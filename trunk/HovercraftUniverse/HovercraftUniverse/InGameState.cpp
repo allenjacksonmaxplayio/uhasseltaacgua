@@ -185,7 +185,7 @@ namespace HovUni {
 		}
 
 		//Check if we need to synchronise the countdown
-		if (mRaceState->getState() == RaceState::COUNTDOWN) {
+		if ((mRaceState != 0) && (mRaceState->getState() == RaceState::COUNTDOWN)) {
 			mCountdown->resync(mRaceState->getCountdown());
 		}
 
