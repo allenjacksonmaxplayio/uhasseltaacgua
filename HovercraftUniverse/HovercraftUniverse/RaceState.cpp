@@ -490,12 +490,13 @@ void RaceState::SystemState::newState(States state) {
 			break;
 		case CLEANUP:
 			{
-				std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
+				//TODO MUST BE DONE ONLY WITH DEDICATED SERVER 
+				/*std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
 				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
 					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
 
 					delete (*i);
-				}
+				}*/
 			}
 			break;
 		default:

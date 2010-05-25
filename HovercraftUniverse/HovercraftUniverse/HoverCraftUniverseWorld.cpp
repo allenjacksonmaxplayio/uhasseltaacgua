@@ -33,7 +33,7 @@ namespace {
 hkpShape * setBox(const Ogre::Vector3& scale) {
 	hkVector4 halfex;
 	halfex.set(scale[0], scale[1], scale[2]);
-	halfex.mul4(5.0f); //10 base scale, divided by 2 for half extend => 5.0
+	halfex.mul4(0.5f); //divided by 2 for half extend => 0.5
 	return new hkpBoxShape(halfex);
 }
 
@@ -47,11 +47,11 @@ void setBox(hkAabb& aabb, const Ogre::Vector3& position, const Ogre::Quaternion&
 	hkTransform tr(q, t);
 
 	hkVector4 pos1;
-	pos1.set(scale.x * 5, scale.y * 5, scale.z * 5);
+	pos1.set(scale.x * 0.5, scale.y * 0.5, scale.z * 0.5);
 	pos1.setTransformedPos(tr, pos1);
 
 	hkVector4 pos2;
-	pos2.set(scale.x * -5, scale.y * -5, scale.z * -5);
+	pos2.set(scale.x * -0.5, scale.y * -0.5, scale.z * -0.5);
 	pos2.setTransformedPos(tr, pos2);
 
 	if (pos1(0) > pos2(0)) {
