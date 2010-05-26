@@ -16,6 +16,7 @@ PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int connID) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->setEventNotification(true, false);
+	mNode->dependsOn(lobby->getNetworkNode());
 
 	// Set owner
 	mNode->setOwner(connID, true);

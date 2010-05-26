@@ -14,6 +14,7 @@ RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->dependsOn(state->getNetworkNode());
+	mNode->dependsOn(playerSettings->getNetworkNode());
 }
 
 RacePlayer::RacePlayer(Lobby* lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,
