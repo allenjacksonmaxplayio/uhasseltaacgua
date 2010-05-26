@@ -33,9 +33,6 @@ protected:
 	/** The singleton object for the client */
     static EntityManager * mEntityManagerClient;
 
-	/** The file where the mapping of entity codes on entity values is defined */
-	static std::string mEntityMappingFile;
-
 public:
 
 	/**
@@ -155,23 +152,6 @@ public:
 	 */
     static EntityManager * getClientSingletonPtr(void);
 
-	/**
-	 * Sets the entity mapping file.
-	 *
-	 * @param entityMappingFile the entity mapping
-	 */
-	static void setEntityMappingFile(std::string entityMappingFile) {
-		mEntityMappingFile = entityMappingFile;
-	}
-
-	/**
-	 * Returns the file that performs the mapping of codes on values.
-	 *
-	 * @return the mapping
-	 */
-	static std::string getEntityMappingFile() {
-		return mEntityMappingFile;
-	}
 };
 
 }

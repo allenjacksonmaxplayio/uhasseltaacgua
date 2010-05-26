@@ -318,7 +318,7 @@ private:
 	 * @param hovercraftKey the random key for the hovercraft (OUT)
 	 * @param characterKey the random key for the character (OUT)
 	 */
-	void randomSettingsForBot(const Config::keymap& hovercrafts, const Config::keymap& characters, unsigned int& hovercraftKey,
+	void randomSettingsForBot(const std::map<unsigned int,Ogre::String>& hovercrafts, const std::map<unsigned int,Ogre::String>& characters, unsigned int& hovercraftKey,
 			unsigned int& characterKey);
 
 	/**

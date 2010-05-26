@@ -26,9 +26,6 @@ private:
 	/** The lobby */
 	Lobby* mLobby;
 
-	/** The entities INI*/
-	Config* mEntitiesConfig;
-
 	/*
 	 * Replicated fields
 	 */

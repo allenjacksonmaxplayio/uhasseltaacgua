@@ -3,6 +3,7 @@
 #include "EntityRegister.h"
 #include "DedicatedServer.h"
 #include "ChatServer.h"
+#include "EntityMapping.h"
 
 namespace HovUni {
 
@@ -12,10 +13,11 @@ HUServerCore::HUServerCore() : NetworkServer(2375, 2376, "HUServer"), mEntityMan
 
 	// Create and store entity manager
 	mEntityManager = EntityManager::getServerSingletonPtr();
-	mEntityManager->setEntityMappingFile(
-		DedicatedServer::getConfig()->getValue<std::string>("Entities", "Path", "entities\\") +
-		DedicatedServer::getConfig()->getValue<std::string>("Entities", "File", "Entities.ini")
-	);
+
+	
+	EntityMapping::setEntityIniFile(DedicatedServer::getConfig()->getValue<std::string>("Entities", "Path", "entities\\") +
+		DedicatedServer::getConfig()->getValue<std::string>("Entities", "File", "Entities.ini"));
+
 	mIDManager = NetworkIDManager::getServerSingletonPtr();
 	mIDManager->setControl(this);
 	EntityRegister::registerAll(*mIDManager);

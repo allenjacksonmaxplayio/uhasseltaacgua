@@ -4,7 +4,6 @@ namespace HovUni {
 
 EntityManager * EntityManager::mEntityManagerServer = 0;
 EntityManager * EntityManager::mEntityManagerClient = 0;
-std::string EntityManager::mEntityMappingFile = "";
 const std::string EntityManager::ALL("ALL");
 
 EntityManager::EntityManager() : mEntityTracked("") {
