@@ -40,6 +40,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
+	mNode->dependsOn(lobby->getNetworkNode());
 
 	// Load track info and check players
 	TrackInfoLoader trackInfoLoader(mTrackFilename);
