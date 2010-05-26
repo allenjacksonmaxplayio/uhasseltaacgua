@@ -60,16 +60,150 @@ void ClientLoader::onAmbientColour(const Ogre::ColourValue& colour) {
 	mSceneMgr->setAmbientLight(colour);	
 }
 
-void ClientLoader::onShadowProperties(OgreMax::Types::ShadowParameters& parameter) {
-	// Not yet supported
+void ClientLoader::onShadowProperties(OgreMax::Types::ShadowParameters& params) {
+  //Set the shadow parameters
+	if (params.shadowTechnique == Ogre::SHADOWTYPE_NONE) {
+        //Turn off shadows
+        this->mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_NONE);
+    }
+    else
+    {
+        //Turn on shadows
+
+        this->mSceneMgr->setShadowTechnique(params.shadowTechnique);
+        this->mSceneMgr->setShadowTextureSelfShadow(params.selfShadow);
+        this->mSceneMgr->setShadowColour(params.shadowColor);
+		if (params.farDistance > 0){
+			this->mSceneMgr->setShadowFarDistance(params.farDistance);
+		}
+
+		//Set shadow texture parameters if necessary
+        if (this->mSceneMgr->isShadowTechniqueTextureBased())
+        {
+			Ogre::RenderSystem* renderSystem = Ogre::Root::getSingleton().getRenderSystem();
+
+            //Determine texture size
+          /*  if (!renderSystem->getCapabilities()->hasCapability(Ogre::RSC_HWRENDER_TO_TEXTURE))
+            {
+                //Render to texture not supported, so ensure the shadow texture
+                //size doesn't exceed the window size
+
+                //Take minimum render window dimension as window size
+				
+
+                int windowSize = (int)std::min(this->mViewport->getWidth(), this->mViewport->getHeight());
+
+                //Use the lesser of the texture and window sizes
+                params.textureSize = std::min(params.textureSize, windowSize);
+            }
+
+            //If necessary, make sure the texture size is a power of two
+			if (!OgreMax::OgreMaxUtilities::IsPowerOfTwo(params.textureSize) && !renderSystem->getCapabilities()->hasCapability(Ogre::RSC_NON_POWER_OF_2_TEXTURES)) {
+				params.textureSize = OgreMax::OgreMaxUtilities::NextSmallestPowerOfTwo(params.textureSize);
+            }*/
+
+            if (params.pixelFormat == Ogre::PF_UNKNOWN) {
+                //Choose a default format
+				if (renderSystem->getName().find("GL") != Ogre::String::npos)
+                {
+	                //OpenGL performs better with a half-float format
+	                params.pixelFormat = Ogre::PF_FLOAT16_R;
+                }
+                else
+                {
+	                //D3D is the opposite - if you ask for PF_FLOAT16_R you
+	                //get an integer format instead. You can ask for PF_FLOAT16_GR
+	                //but the precision doesn't work well
+                    params.pixelFormat = Ogre::PF_FLOAT32_R;
+                }
+            }
+
+            //Set texture size, count, pixel format
+            this->mSceneMgr->setShadowTextureSettings(params.textureSize, params.textureCount, params.pixelFormat);
+
+            //Set other texture settings
+            this->mSceneMgr->setShadowDirLightTextureOffset(params.textureOffset);
+            this->mSceneMgr->setShadowTextureFadeStart(params.textureFadeStart);
+            this->mSceneMgr->setShadowTextureFadeEnd(params.textureFadeEnd);
+            this->mSceneMgr->setShadowTextureCasterMaterial(params.textureShadowCasterMaterial);
+            this->mSceneMgr->setShadowTextureReceiverMaterial(params.textureShadowReceiverMaterial);
+        }
+
+		 //Set shadow camera setup
+        Ogre::ShadowCameraSetupPtr shadowCameraSetupPtr;
+        if (!params.cameraSetup.empty()) {
+			Ogre::String typeLower = params.cameraSetup;
+			Ogre::StringUtil::toLowerCase(typeLower);
+
+			if (typeLower == "uniform") {
+				shadowCameraSetupPtr = Ogre::ShadowCameraSetupPtr(new Ogre::DefaultShadowCameraSetup());
+			}
+			else if (typeLower == "uniformfocused") {
+				shadowCameraSetupPtr = Ogre::ShadowCameraSetupPtr(new Ogre::FocusedShadowCameraSetup());
+			}
+			else if (typeLower == "lispsm") {
+				shadowCameraSetupPtr = Ogre::ShadowCameraSetupPtr(new Ogre::LiSPSMShadowCameraSetup());
+			}
+			else if (typeLower == "planeoptimal")
+			{
+				shadowCameraSetupPtr = Ogre::ShadowCameraSetupPtr(new Ogre::PlaneOptimalShadowCameraSetup(new Ogre::MovablePlane(params.optimalPlane)));
+			} 
+			else {
+				Ogre::StringUtil::StrStreamType errorMessage;
+				errorMessage << "Invalid shadow camera setup specified: " << typeLower;
+				OGRE_EXCEPT
+					(
+					Ogre::Exception::ERR_INVALIDPARAMS,
+					errorMessage.str(),
+					"OgreMaxScene::ParseShadowCameraSetup"
+					);
+			}
+        }
+        else {
+            //Create the appropriate default setup
+			shadowCameraSetupPtr = Ogre::ShadowCameraSetupPtr(new Ogre::DefaultShadowCameraSetup());
+        }
+	    this->mSceneMgr->setShadowCameraSetup(shadowCameraSetupPtr);
+	}
 }
 
 void ClientLoader::onBackgroundColour(const Ogre::ColourValue& colour) {
 	// Not yet(?) supported
 }
 
-void ClientLoader::onLight(OgreMax::Types::LightParameters& light, const OgreMax::Types::Attachable * parent) {
-	// Not yet supported
+void ClientLoader::onLight(OgreMax::Types::LightParameters& parameters, const OgreMax::Types::Attachable * parent) {
+	//Create the light
+	Ogre::Light* light = mSceneMgr->createLight(parameters.name);
+	if (parameters.queryFlags != 0)
+		light->setQueryFlags(parameters.queryFlags);
+	if (parameters.visibilityFlags != 0)
+		light->setVisibilityFlags(parameters.visibilityFlags);
+
+	light->setType(parameters.lightType);
+	light->setCastShadows(parameters.castShadows);
+	light->setPowerScale(parameters.power);
+	light->setDiffuseColour(parameters.diffuseColor);
+	light->setSpecularColour(parameters.specularColor);
+	light->setPosition(parameters.position);
+	light->setSpotlightFalloff(parameters.spotlightFalloff);
+	light->setSpotlightInnerAngle(parameters.spotlightInnerAngle);
+	light->setSpotlightOuterAngle(parameters.spotlightOuterAngle);
+	light->setAttenuation(parameters.attenuationRange, parameters.attenuationConstant, parameters.attenuationLinear, parameters.attenuationQuadric);
+
+	//Get Ogre parent
+	Ogre::SceneNode* parentnode = 0;
+
+	if ( parent == 0 ){
+		parentnode = mSceneMgr->getRootSceneNode();
+	} else {
+		if ( mSceneMgr->hasSceneNode(parent->name) )
+			parentnode =  mSceneMgr->getSceneNode(parent->name);
+		else 
+			parentnode = mSceneMgr->getRootSceneNode();
+	}
+
+	parentnode->attachObject(light);
+
 }
     
 void ClientLoader::onCamera(OgreMax::Types::CameraParameters& params, const OgreMax::Types::Attachable * parent) {
@@ -193,7 +327,7 @@ void ClientLoader::onNode(OgreMax::Types::NodeParameters& nodeparameters, std::v
 	Ogre::String name = nodeparameters.name;
 	
 	// Create node
-	Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode(name);
 
 	// Set properties
 	node->setPosition(nodeparameters.position);

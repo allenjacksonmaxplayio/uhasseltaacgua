@@ -140,7 +140,7 @@ void Application::createClient(const Ogre::String& host, unsigned int port){
 void Application::setupScene() {
 	// Create scene manager
 	msSceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
-	//msSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
+	msSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
 
 	// Get created window

@@ -3,9 +3,12 @@
         <![CDATA[<Track><Name>SimpleTrack2</Name><MinimumPlayers>0</MinimumPlayers><MaximumPlayers>6</MaximumPlayers><PathFileName>SimpleTrack2.path</PathFileName><PhysicsFileName>SimpleTrack2.hkx</PhysicsFileName></Track>]]>
 </userData>
     <environment>
-        <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
+        <colourAmbient r="0.12549" g="0.12549" b="0.12549" />
         <colourBackground r="0" g="0" b="0" />
         <clipping near="0" far="100000" />
+        <shadows technique="stencilAdditive" farDistance="200">
+            <colourShadow r="0.25098" g="0.25098" b="0.25098" />
+        </shadows>
     </environment>
     <nodes>
         <node name="Camera01">
@@ -202,6 +205,59 @@
                 </subentities>
             </entity>
         </node>
+        <node name="Rock03">
+            <position x="-1111.26" y="149.718" z="-362.862" />
+            <scale x="1.9748" y="1.9748" z="1.9748" />
+            <rotation qx="-2.29682e-011" qy="3.92945e-008" qz="0.906308" qw="-0.422618" />
+            <entity name="Rock03" castShadows="true" receiveShadows="true" meshFile="Rock03.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Rock03_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="13-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Omni01">
+            <position x="-5.4762" y="196.544" z="-22.786" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni01" visible="true" type="point" castShadows="true" power="1">
+                <colourDiffuse r="0.592157" g="0.85098" b="0.972549" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="Omni02">
+            <position x="-572.581" y="233.604" z="-118.906" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni02" visible="true" type="point" castShadows="true" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="Omni03">
+            <position x="-1078.54" y="444.302" z="-394.478" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni03" visible="true" type="point" castShadows="true" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="Omni04">
+            <position x="-1495.71" y="535.971" z="-616.806" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni04" visible="true" type="point" castShadows="true" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
     </nodes>
     <externals>
         <item name="Asteroid01_ent">
@@ -354,7 +410,7 @@
 </userData>
             <position x="-1278.43" y="281.264" z="-454.07" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <scale x="535.676" y="535.676" z="535.676" />
+            <scale x="680.79" y="680.79" z="680.79" />
         </item>
         <item name="Check03_ent">
             <userData>
@@ -363,6 +419,14 @@
             <position x="-1300.71" y="500.962" z="-470.413" />
             <rotation qx="0.0158898" qy="-0.70704" qz="0.0682815" qw="0.70369" />
             <scale x="34.6003" y="10.3397" z="15.2678" />
+        </item>
+        <item name="Rock03_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Rock03</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-1111.26" y="149.718" z="-362.862" />
+            <rotation qx="-6.4719e-011" qy="3.95858e-008" qz="0.906308" qw="-0.422618" />
+            <scale x="70.1387" y="78.2482" z="75.7922" />
         </item>
     </externals>
 </scene>

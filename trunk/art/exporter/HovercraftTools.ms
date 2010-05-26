@@ -14,6 +14,34 @@ macroscript WorldEditing category: "Hovercraft Universe Tools"
 			objectSettings.userdata = ""
 		)		
 	)
+
+	/**
+	  *	Get the value of a tag in the xml
+	  * @param xml
+	  * @param tag, the tag
+	  * @return value, undefined if tag nog found
+	  */	
+	fn getTagValue xml tag = (
+		taglength = tag.count
+		begintag = "<" + tag +  ">"
+		endtag = "</" + tag + ">"
+		
+		startpos = (findString xml begintag) 	/*begin of the value*/
+		endpos = (findString xml endtag) 		/*end of the value*/
+		
+		if startpos != undefined and endpos != undefined then (
+			startpos += taglength + 2 /** the <> and taglength */
+			count = endpos - startpos
+			/** replace userdata with new version */
+			if count != 0 then (
+				return substring xml startpos count
+			)
+			else (
+				return ""
+			)
+		)
+		return undefined
+	)
 	
 	/**
 	  *	Update the value of a tag in the userdata of given object
@@ -117,6 +145,23 @@ macroscript WorldEditing category: "Hovercraft Universe Tools"
 			return addTag obj parenttag tag val 
 		else
 			return true
+	)
+	
+	
+	rollout Track "General track settings" width:176 height:160
+	(
+		edittext edt1 "TrackName" pos:[8,8] width:160 height:16
+		button btn1 "Update" pos:[112,136] width:56 height:16
+
+		on btn1 pressed do
+		(
+				sceneSettings = ogremax.GetSceneSettings() 			
+				edt1.text = getTagValue sceneSettings.userdata "name"			
+				sceneSettings.MeshPath = edt1.text + "/models"
+				sceneSettings.ModelPath = sceneSettings.MeshPath
+				sceneSettings.BitmapPath = "materials/textures"
+				sceneSettings.MaterialPath = edt1.text + "/materials/scripts"
+			)
 	)
 	
 	rollout RaceObjectsRollout "Race Objects" width:216 height:269
@@ -329,7 +374,8 @@ macroscript WorldEditing category: "Hovercraft Universe Tools"
 	on Execute do 
 	(
 			floater  = NewRolloutFloater "Track Creator" 232 500
-			addRollout TrackRollout floater
+			addRollout Track floater
 			addRollout RaceObjectsRollout floater
+			addRollout TrackRollout floater			
 	)
 )
