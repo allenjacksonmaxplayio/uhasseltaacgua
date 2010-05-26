@@ -40,7 +40,8 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 		mRotorState->setEnabled(true);
 	}
 
-	this->getOgreEntity()->setCastShadows(true);
+	//mOgreEntity->getM
+
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
