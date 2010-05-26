@@ -23,6 +23,7 @@
 #include "CheckpointEvent.h"
 #include <math.h>
 #include "Havok.h"
+#include "EntityMapping.h"
 
 #include <OgreLogManager.h>
 
@@ -70,10 +71,9 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 			bots = minPlayers - mPlayers.getPlayers().size();
 		}
 
-		Config entitiesConfig;
-		entitiesConfig.loadFile(EntityManager::getEntityMappingFile());
-		Config::keymap hovercrafts = entitiesConfig.getKeys("Hovercraft");
-		Config::keymap characters = entitiesConfig.getKeys("Character");
+
+		const std::map<unsigned int,Ogre::String>& hovercrafts = EntityMapping::getInstance().getMap(EntityMapping::HOVERCRAFT);
+		const std::map<unsigned int,Ogre::String>& characters = EntityMapping::getInstance().getMap(EntityMapping::CHARACTER);
 
 		for (int i = 0; i < bots; ++i) {
 			PlayerSettings* settings = new PlayerSettings(mLobby, "Bot");
@@ -226,7 +226,7 @@ void RaceState::calculatePlayerPosition(unsigned int playerid) {
 	}
 }
 
-void RaceState::randomSettingsForBot(const Config::keymap& hovercrafts, const Config::keymap& characters,
+void RaceState::randomSettingsForBot(const std::map<unsigned int,Ogre::String>& hovercrafts, const std::map<unsigned int,Ogre::String>& characters,
 		unsigned int& hovercraftKey, unsigned int& characterKey) {
 
 	if (!mRng) {
@@ -241,21 +241,17 @@ void RaceState::randomSettingsForBot(const Config::keymap& hovercrafts, const Co
 	int cha = randcha();
 
 	unsigned int i = 0;
-	for (Config::keymap::const_iterator it = hovercrafts.begin(); it != hovercrafts.end(); ++it) {
+	for (std::map<unsigned int,Ogre::String>::const_iterator it = hovercrafts.begin(); it != hovercrafts.end(); ++it) {
 		if (i == hov) {
-			std::istringstream buffer(it->first);
-			buffer >> hovercraftKey;
-			break;
+			hovercraftKey = it->first;
 		}
 		++i;
 	}
 
 	i = 0;
-	for (Config::keymap::const_iterator it = characters.begin(); it != characters.end(); ++it) {
+	for (std::map<unsigned int,Ogre::String>::const_iterator it = characters.begin(); it != characters.end(); ++it) {
 		if (i == hov) {
-			std::istringstream buffer(it->first);
-			buffer >> characterKey;
-			break;
+			characterKey = it->first;
 		}
 		++i;
 	}

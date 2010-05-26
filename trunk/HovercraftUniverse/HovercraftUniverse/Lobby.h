@@ -28,7 +28,6 @@ public:
 	/** The player map type */
 	typedef PlayerMap<unsigned int, PlayerSettings, false> playermap;
 
-
 	/*
 	 * Not replicated fields
 	 */

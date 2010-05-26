@@ -4,6 +4,7 @@
 #include "GameEvent.h"
 #include "GameEventParser.h"
 #include "InitEvent.h"
+#include "EntityMapping.h"
 
 #include <OgreLogManager.h>
 
@@ -18,9 +19,6 @@ PlayerSettings::PlayerSettings(Lobby * lobby, unsigned int connID) :
 
 	// Set owner
 	mNode->setOwner(connID, true);
-
-	mEntitiesConfig = new Config();
-	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
@@ -30,9 +28,6 @@ PlayerSettings::PlayerSettings(Lobby* lobby, const Ogre::String& name) :
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
 	mNode->setEventNotification(true, false);
-
-	mEntitiesConfig = new Config();
-	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id, ZCom_Control* control) :
@@ -42,13 +37,9 @@ PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, 
 	// Add as network entity
 	networkRegister(id, control);
 	mNode->setEventNotification(true, false);
-
-	mEntitiesConfig = new Config();
-	mEntitiesConfig ->loadFile(EntityManager::getEntityMappingFile());
 }
 
 PlayerSettings::~PlayerSettings() {
-	delete mEntitiesConfig;
 	releaseUniqueID(mUserID);
 }
 
@@ -69,9 +60,7 @@ void PlayerSettings::setCharacter(unsigned int character) {
 }
 
 const Ogre::String PlayerSettings::getCharacter() const {
-	std::stringstream ss;
-	ss << mCharacter;
-	return mEntitiesConfig->getValue<std::string> ("Character", ss.str(), "");
+	return EntityMapping::getInstance().getName(EntityMapping::CHARACTER,mCharacter).first;
 }
 
 void PlayerSettings::setHovercraft(unsigned int hov) {
@@ -79,9 +68,7 @@ void PlayerSettings::setHovercraft(unsigned int hov) {
 }
 
 const Ogre::String PlayerSettings::getHovercraft() const {
-	std::stringstream ss;
-	ss << mHovercraft;
-	return mEntitiesConfig->getValue<std::string> ("Hovercraft", ss.str(), "");
+	return EntityMapping::getInstance().getName(EntityMapping::HOVERCRAFT,mHovercraft).first;
 }
 
 const unsigned int PlayerSettings::getID() const {

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Config.h"
 #include "OgreWindowListener.h"
+#include "EntityMapping.h"
 
 namespace HovUni {
 Ogre::SceneManager* Application::msSceneMgr = 0;
@@ -64,7 +65,7 @@ void Application::parseIni() {
 	mEntitiesFile = mConfig->getValue<std::string>("Entities", "File", "Entities.ini");
 
 	// Set file to entity manager 
-	EntityManager::setEntityMappingFile(mEntitiesPath + mEntitiesFile);
+	EntityMapping::setEntityIniFile(mEntitiesPath + mEntitiesFile);
 
 	//WARNING! Sets the current directory to the Data Folder, relative to current PWD.
 	DWORD  retval=0;
