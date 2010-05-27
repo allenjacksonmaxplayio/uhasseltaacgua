@@ -21,6 +21,28 @@ material Engine
 
 
 
+material 11-Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture Barrel.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
 material Rock
 {
 	technique
@@ -131,6 +153,28 @@ material Jump02
 
 
 
+material Box
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture box.png
+			}
+		}
+
+	}
+
+}
+
+
+
 material Asteroid02
 {
 	technique Shader
@@ -222,7 +266,6 @@ technique Shader
 			}
 		}
 	}
-
 }
 
 
@@ -339,7 +382,7 @@ material Wing-Engine
 
 material Asteroid01
 {
-technique Shader
+	technique Shader
 	{
 		pass Texture
 		{
