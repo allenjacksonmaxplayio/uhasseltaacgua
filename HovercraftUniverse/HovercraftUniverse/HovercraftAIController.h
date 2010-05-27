@@ -91,6 +91,11 @@ public:
 	bool turnRight();
 
 	/**
+	* @see HovercraftController::reset()
+	*/
+	bool reset();
+
+	/**
 	 * @see Controller::getEvents()
 	 */
 	std::vector<ControllerEvent*> getEvents();

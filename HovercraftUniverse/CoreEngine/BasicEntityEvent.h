@@ -27,6 +27,9 @@ private:
 	/** Whether the entity should move right */
 	bool mRight;
 
+	/** Whether the entity should be reseted */
+	bool mReset;
+
 public:
 
 	/**
@@ -41,8 +44,9 @@ public:
 	 * @param backward whether the entity should move backward
 	 * @param left whether the entity should move left
 	 * @param right whether the entity should move right
+	 * @param reset whether the entity should be reseted
 	 */
-	BasicEntityEvent(bool forward, bool backward, bool left, bool right);
+	BasicEntityEvent(bool forward, bool backward, bool left, bool right, bool reset);
 
 	/**
 	 * Destructor
@@ -83,6 +87,13 @@ public:
 	 * @return true if the entity should move right
 	 */
 	bool moveRight() const;
+
+	/**
+	 * Check whether the entity should be reseted
+	 *
+	 * @return true if the entity should be reseted
+	 */
+	bool reset() const;
 
 	/**
 	 * Parse the stream to create this event

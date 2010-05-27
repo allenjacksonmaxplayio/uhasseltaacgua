@@ -186,6 +186,10 @@
 				RelativePath=".\HUDedicatedServer.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\PathRecorder.cpp"
+				>
+			</File>
 			<Filter
 				Name="Network"
 				>
@@ -614,6 +618,10 @@
 			</File>
 			<File
 				RelativePath=".\HUDedicatedServer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PathRecorder.h"
 				>
 			</File>
 			<Filter
