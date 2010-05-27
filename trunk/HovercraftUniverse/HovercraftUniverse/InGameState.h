@@ -11,6 +11,7 @@
 #include "RaceStateListener.h"
 #include "RepresentationManager.h"
 #include <tinyxml/tinyxml.h>
+#include <SkyX.h>
 
 namespace HovUni {
 	class RaceState; //Forward declaration
@@ -56,6 +57,9 @@ namespace HovUni {
 
 			/** Boolean to check if we should update the listener position or not */
 			bool mUpdateListener;
+
+			/** The sky renderer */
+			SkyX::SkyX * mSkyX;
 
 		public:
 			/**
