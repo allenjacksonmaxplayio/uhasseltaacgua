@@ -258,6 +258,84 @@
                 <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
             </light>
         </node>
+        <node name="Box01">
+            <position x="-522.809" y="43.6577" z="-66.9745" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Box01" castShadows="true" receiveShadows="true" meshFile="Box01.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Box01_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Box02">
+            <position x="-522.809" y="43.6577" z="-64.0289" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Box02" castShadows="true" receiveShadows="true" meshFile="Box02.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Box02_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Box03">
+            <position x="-522.809" y="45.7755" z="-65.4743" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Box03" castShadows="true" receiveShadows="true" meshFile="Box03.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Box03_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Box" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Barrel01">
+            <position x="-543.567" y="43.2778" z="-56.0745" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Barrel01" castShadows="true" receiveShadows="true" meshFile="Barrel01.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Barrel01_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="11-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Barrel02">
+            <position x="-543.567" y="43.2778" z="-53.2546" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="-0.707107" qz="3.09086e-008" qw="0.707107" />
+            <entity name="Barrel02" castShadows="true" receiveShadows="true" meshFile="Barrel02.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Barrel02_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="11-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Barrel03">
+            <position x="-540.656" y="42.4224" z="-54.1578" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.5" qy="-0.5" qz="0.5" qw="0.5" />
+            <entity name="Barrel03" castShadows="true" receiveShadows="true" meshFile="Barrel03.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Barrel03_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="11-Default" />
+                </subentities>
+            </entity>
+        </node>
     </nodes>
     <externals>
         <item name="Asteroid01_ent">
@@ -427,6 +505,54 @@
             <position x="-1111.26" y="149.718" z="-362.862" />
             <rotation qx="-6.4719e-011" qy="3.95858e-008" qz="0.906308" qw="-0.422618" />
             <scale x="70.1387" y="78.2482" z="75.7922" />
+        </item>
+        <item name="Box01_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Box01</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-522.809" y="43.6577" z="-66.9745" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="2" y="2" z="2" />
+        </item>
+        <item name="Box02_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Box02</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-522.809" y="43.6577" z="-64.0289" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="2" y="2" z="2" />
+        </item>
+        <item name="Box03_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Box03</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-522.809" y="45.7755" z="-65.4743" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="2" y="2" z="2" />
+        </item>
+        <item name="Barrel01_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Barrel01</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-543.567" y="43.2778" z="-56.0745" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="2" y="3" z="1.90211" />
+        </item>
+        <item name="Barrel02_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Barrel02</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-543.567" y="43.2778" z="-53.2545" />
+            <rotation qx="-1.25607e-015" qy="-0.707107" qz="3.09086e-008" qw="0.707107" />
+            <scale x="2" y="3" z="1.90211" />
+        </item>
+        <item name="Barrel03_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Barrel03</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-540.656" y="42.4224" z="-54.1578" />
+            <rotation qx="-0.5" qy="-0.5" qz="0.5" qw="0.5" />
+            <scale x="2" y="3" z="1.90211" />
         </item>
     </externals>
 </scene>
