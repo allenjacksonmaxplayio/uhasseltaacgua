@@ -40,6 +40,9 @@ void ControlsReader::setDefaultControls() {
 	mKeyManager->setKey(TURNRIGHT, OIS::KC_RIGHT, true);
 	mKeyManager->setKey(TURNRIGHT, OIS::KC_NUMPAD6, true);
 
+	// RESET
+	mKeyManager->setKey(RESET, OIS::KC_R, true);
+
 	// CAMERA
 	mKeyManager->setCameraKey(CHANGECAMERA, OIS::KC_C, true);
 	mKeyManager->setCameraKey(CHANGECAMERA, OIS::KC_V, true);
@@ -103,6 +106,7 @@ void ControlsReader::readControls() {
 		setKeys(BRAKE, reader.GetKeyValue("Movement", actionNames[BRAKE]), "KC_DOWN");
 		setKeys(TURNLEFT, reader.GetKeyValue("Movement", actionNames[TURNLEFT]), "KC_LEFT");
 		setKeys(TURNRIGHT, reader.GetKeyValue("Movement", actionNames[TURNRIGHT]), "KC_RIGHT");
+		setKeys(RESET, reader.GetKeyValue("Movement", actionNames[RESET]), "KC_R");
 
 		setCameraKeys(CHANGECAMERA, reader.GetKeyValue("Camera", cameraActionNames[CHANGECAMERA]), "KC_C");
 		setCameraKeys(THIRD_PERSON_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[THIRD_PERSON_CAMERA]), "KC_1");
