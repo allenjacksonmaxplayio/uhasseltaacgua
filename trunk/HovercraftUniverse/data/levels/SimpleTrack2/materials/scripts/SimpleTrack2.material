@@ -187,6 +187,9 @@ material Asteroid02
 
 			fragment_program_ref asteroidPS
 			{
+				param_named scale_layer1 float 15
+				param_named scale_layer2 float 20
+				param_named scale_layer3 float 10
 			}
 
 			texture_unit alphaMap0
@@ -235,6 +238,9 @@ technique Shader
 
 			fragment_program_ref asteroidPS
 			{
+				param_named scale_layer1 float 15
+				param_named scale_layer2 float 20
+				param_named scale_layer3 float 10
 			}
 
 			texture_unit alphaMap0
@@ -392,6 +398,9 @@ material Asteroid01
 
 			fragment_program_ref asteroidPS
 			{
+				param_named scale_layer1 float 15
+				param_named scale_layer2 float 20
+				param_named scale_layer3 float 10
 			}
 
 			texture_unit alphaMap0

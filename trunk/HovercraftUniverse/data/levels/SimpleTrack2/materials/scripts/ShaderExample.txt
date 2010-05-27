@@ -10,6 +10,9 @@ material Asteroid
 
 			fragment_program_ref asteroidPS
 			{
+				param_named textureSize1 float 10
+				param_named textureSize2 float 10
+				param_named textureSize3 float 10
 			}
 
 			texture_unit alphaMap0
