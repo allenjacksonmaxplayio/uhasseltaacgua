@@ -28,7 +28,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Asteroid01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Grass" />
+                    <subentity index="0" materialName="Asteroid01" />
                 </subentities>
             </entity>
         </node>
@@ -41,7 +41,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Rock01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="13-Default" />
+                    <subentity index="0" materialName="Rock" />
                 </subentities>
             </entity>
         </node>
@@ -68,7 +68,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Asteroid02_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Grass" />
+                    <subentity index="0" materialName="Asteroid02" />
                 </subentities>
             </entity>
         </node>
@@ -81,7 +81,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Engine01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="01-Default" />
+                    <subentity index="0" materialName="Engine" />
                 </subentities>
             </entity>
         </node>
@@ -94,8 +94,8 @@
                     <![CDATA[<OgreEntity><GameEntity>Wing_Part_02_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="01-Default" />
-                    <subentity index="1" materialName="02-Default" />
+                    <subentity index="0" materialName="Wing" />
+                    <subentity index="1" materialName="Wing-Engine" />
                 </subentities>
             </entity>
         </node>
@@ -108,7 +108,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Wing_Part_01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="01-Default" />
+                    <subentity index="0" materialName="Wing" />
                 </subentities>
             </entity>
         </node>
@@ -135,7 +135,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Fighter_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Material#12" />
+                    <subentity index="0" materialName="Fighter" />
                 </subentities>
             </entity>
         </node>
@@ -148,7 +148,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Jump01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Asteroid" />
+                    <subentity index="0" materialName="Jump02" />
                 </subentities>
             </entity>
         </node>
@@ -161,7 +161,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Rock02_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="13-Default" />
+                    <subentity index="0" materialName="Rock" />
                 </subentities>
             </entity>
         </node>
@@ -174,7 +174,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Jump02_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Asteroid" />
+                    <subentity index="0" materialName="Jump02" />
                 </subentities>
             </entity>
         </node>
@@ -187,7 +187,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Planet01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Grass" />
+                    <subentity index="0" materialName="Asteroid03" />
                 </subentities>
             </entity>
         </node>
@@ -214,7 +214,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Rock03_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="13-Default" />
+                    <subentity index="0" materialName="Rock" />
                 </subentities>
             </entity>
         </node>
