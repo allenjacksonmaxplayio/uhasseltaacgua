@@ -3,6 +3,9 @@
 
 #include <Physics/Dynamics/Action/hkpUnaryAction.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
+#include <Physics/Dynamics/Entity/hkpEntityActivationListener.h>
+
+
 
 namespace HovUni {
 
@@ -12,7 +15,7 @@ class HovercraftUniverseEntity;
  * This action will keep the position of a static body entity equal to the position of a havok rigid body
  * @author Pieter-Jan Pintens
  */
-class UpdatePositionAction : public hkpUnaryAction
+class UpdatePositionAction : public hkpUnaryAction, public hkpEntityActivationListener
 {
 public:
 
@@ -22,6 +25,10 @@ public:
 	UpdatePositionAction( hkpRigidBody * body, HovercraftUniverseEntity * gamebody, hkReal delta = 0.01f );
 
 	~UpdatePositionAction(void);
+
+	virtual void  entityDeactivatedCallback (hkpEntity *entity); 
+   
+	virtual void  entityActivatedCallback (hkpEntity *entity);
 
 private:
 
