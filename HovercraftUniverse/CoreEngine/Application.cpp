@@ -142,7 +142,6 @@ void Application::setupScene() {
 	msSceneMgr = mOgreRoot->createSceneManager(Ogre::ST_GENERIC, "Default");
 	msSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
-
 	// Get created window
 	Ogre::RenderWindow* win = mOgreRoot->getAutoCreatedWindow();
 	Ogre::WindowEventUtilities::addWindowEventListener(win, new OgreWindowListener());

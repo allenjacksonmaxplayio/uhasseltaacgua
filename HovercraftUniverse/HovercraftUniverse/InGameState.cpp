@@ -1,5 +1,5 @@
 #include "InGameState.h"
-
+#include "Application.h"
 #include "Hovercraft.h"
 #include "HovercraftRepresentation.h"
 #include "ProgressMonitor.h"
@@ -136,6 +136,16 @@ namespace HovUni {
 			ProgressMonitor::getSingletonPtr()->addListener(this);
 		}
 
+		// Create skies
+		mSkyX = new SkyX::SkyX(Application::msSceneMgr, mRepresentationManager->getGameViews().at(0)->getCamera()->getCamera());
+		mSkyX->create();
+
+		// Add a basic cloud layer
+		mSkyX->getCloudsManager()->add(SkyX::CloudLayer::Options());
+		SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
+		SkyXOptions.Time.x = 21.0;
+		mSkyX->getAtmosphereManager()->setOptions(SkyXOptions);
+
 		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(200, 100, 400, 200);
 		mCountdown = new Countdown("Countdown", "countdown.swf", size.first, size.second, Hikari::Center);
 
@@ -198,6 +208,16 @@ namespace HovUni {
 				mCountdownFadeout = -1;
 			}
 		}
+
+		// Get the sky options
+		SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
+		mSkyX->setTimeMultiplier(0.3f);
+		// Make sure we never quit night time
+		if ((SkyXOptions.Time.x > 4.0) && (SkyXOptions.Time.x < 5.0)) {
+			SkyXOptions.Time.x = 21.0;
+		}
+		mSkyX->getAtmosphereManager()->setOptions(SkyXOptions);
+		mSkyX->update(evt.timeSinceLastFrame);
 
 		// Update representation manager
 		mRepresentationManager->drawGameViews(evt.timeSinceLastFrame);
