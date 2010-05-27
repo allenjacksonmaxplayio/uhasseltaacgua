@@ -7,7 +7,7 @@
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
-			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false) {
+			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false), mCleaningUp(false) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
@@ -93,7 +93,7 @@ namespace HovUni {
 			case RaceState::FINISHING: {
 				//We have finished, go freestyle!
 				mHud->stopLapTimer();
-				
+
 				break;
 			}
 			case RaceState::CLEANUP: {
@@ -101,6 +101,9 @@ namespace HovUni {
 
 				//Stop updating the sound listener
 				mUpdateListener = false;
+
+				//Stop some things
+				mCleaningUp = true;
 				
 				break;
 			}
@@ -194,9 +197,15 @@ namespace HovUni {
 			mTimeLapsed = 0.0f;
 		}
 
-		//Check if we need to synchronise the countdown
-		if ((mRaceState != 0) && (mRaceState->getState() == RaceState::COUNTDOWN)) {
-			mCountdown->resync(mRaceState->getCountdown());
+		if (!mCleaningUp) {
+			//Check if we need to synchronise the countdown
+			if ((mRaceState != 0) && (mRaceState->getState() == RaceState::COUNTDOWN)) {
+				mCountdown->resync(mRaceState->getCountdown());
+			}
+		} else {
+			//We want to switch state!
+			mRaceState->removeListener(this);
+			mManager->switchState(GameStateManager::LOBBY);
 		}
 
 		//Check if we need to remove the countdown overlay

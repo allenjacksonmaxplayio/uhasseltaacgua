@@ -61,6 +61,9 @@ namespace HovUni {
 			/** The sky renderer */
 			SkyX::SkyX * mSkyX;
 
+			/** Boolean to check if we are cleaning up */
+			bool mCleaningUp;
+
 		public:
 			/**
 			 * Constructor
