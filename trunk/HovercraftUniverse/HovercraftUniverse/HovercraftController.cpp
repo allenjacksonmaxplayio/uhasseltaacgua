@@ -10,7 +10,7 @@ using namespace boost::posix_time;
 
 namespace HovUni {
 
-HovercraftController::HovercraftController() : mLast(false, false, false, false) {
+HovercraftController::HovercraftController() : mLast(false, false, false, false, false) {
 
 }
 
@@ -31,7 +31,7 @@ std::vector<ControllerEvent*> HovercraftController::getEvents() {
 	}*/
 
 	std::vector<ControllerEvent*> events;
-	BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight());
+	BasicEntityEvent current(moveForward(), moveBackward(), turnLeft(), turnRight(), reset());
 
 	// Only send an event when there is a change
 	if (!(current == mLast) || (mTimer.elapsed() >= 1000)) {

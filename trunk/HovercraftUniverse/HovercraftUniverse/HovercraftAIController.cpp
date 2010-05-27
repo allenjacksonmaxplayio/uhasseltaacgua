@@ -150,5 +150,7 @@ namespace HovUni {
 		return mActionMap[ControllerActions::TURNRIGHT];
 	}
 
-
+	bool HovercraftAIController::reset(){
+		return false;
+	}
 }

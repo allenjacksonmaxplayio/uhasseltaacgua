@@ -68,6 +68,13 @@ public:
 	 */
 	virtual bool turnRight() = 0;
 
+	/**
+	 * Check whether the entity should be reseted
+	 *
+	 * @return true if the entity should be reseted
+	 */
+	virtual bool reset() = 0;
+
 };
 
 }

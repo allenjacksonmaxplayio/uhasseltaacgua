@@ -5,7 +5,7 @@
 namespace HovUni {
 
 HovercraftPlayerController::HovercraftPlayerController(void) : mMovingLeft(false), mMovingForward(false),
-		mMovingRight(false), mMovingBackward(false) {
+		mMovingRight(false), mMovingBackward(false), mReset(false) {
 	// Fetch input manager object
 	mInputManager = InputManager::getSingletonPtr();
 	mInputManager->addKeyListener(this, "HovercraftPlayerController");
@@ -32,6 +32,10 @@ bool HovercraftPlayerController::turnRight() {
 	return mMovingRight;
 }
 
+bool HovercraftPlayerController::reset() {
+	return mReset;
+}
+
 bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) { 
 	
 	// TODO: this is a temporary hack, should be removed after Nick toggles this in the gamestate somewhere...
@@ -55,7 +59,7 @@ bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) {
 			mMovingRight = true;
 			break;
 		case ControllerActions::RESET:
-			//std::cout << "RESET BUTTON PRESSED" << std::endl;
+			mReset = true;
 			break;
 		default:
 			break;
@@ -80,6 +84,9 @@ bool HovercraftPlayerController::keyReleased(const OIS::KeyEvent & e) {
 			break;
 		case ControllerActions::TURNRIGHT:
 			mMovingRight = false;
+			break;
+		case ControllerActions::RESET:
+			mReset = false;
 			break;
 		default:
 			break;

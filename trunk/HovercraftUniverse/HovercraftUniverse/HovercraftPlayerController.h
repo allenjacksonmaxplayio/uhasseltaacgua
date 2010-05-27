@@ -23,6 +23,7 @@ protected:
 	bool mMovingForward;
 	bool mMovingRight;
 	bool mMovingBackward;
+	bool mReset;
 
 
 public:
@@ -37,24 +38,29 @@ public:
 	virtual ~HovercraftPlayerController(void);
 
 	/**
-	 * @see DummyHovercraftController::moveForward()
+	 * @see HovercraftController::moveForward()
 	 */
 	bool moveForward();
 
 	/**
-	 * @see DummyHovercraftController::moveBackward()
+	 * @see HovercraftController::moveBackward()
 	 */
 	bool moveBackward();
 
 	/**
-	 * @see DummyHovercraftController::turnLeft()
+	 * @see HovercraftController::turnLeft()
 	 */
 	bool turnLeft();
 
 	/**
-	 * @see DummyHovercraftController::turnRight()
+	 * @see HovercraftController::turnRight()
 	 */
 	bool turnRight();
+
+	/**
+	 * @see HovercraftController::reset()
+	 */
+	bool reset();
 
 	/**
 	 * @see KeyListener::keyPressed().

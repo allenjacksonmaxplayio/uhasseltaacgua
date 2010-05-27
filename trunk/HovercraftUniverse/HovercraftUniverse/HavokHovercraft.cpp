@@ -22,6 +22,8 @@
 
 #include "Hovercraft.h"
 #include "DedicatedServer.h"
+#include "EntityManager.h"
+#include "CheckPoint.h"
 
 #include "BoostProperty.h"
 
@@ -175,6 +177,15 @@ void HavokHovercraft::update(){
 	float currentspeed = mEntity->getSpeed();
 	
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
+
+	if ( status.reset() ){
+		//reset the damn thing
+		std::vector<Entity*> test = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
+		Ogre::Vector3 pos = test[0]->getPosition();
+		hkVector4 resetpos (pos[0],pos[1],pos[2] + 10);
+		mCharacterRigidBody->getRigidBody()->setPosition(resetpos);
+	}
+
 
 	//Speed on a scale [0-1]
 	float scaledspeed = 0.f;
