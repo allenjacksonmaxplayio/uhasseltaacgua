@@ -3,7 +3,7 @@
 #include "StringUtils.h"
 
 namespace HovUni {
-	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax) {
+	LobbyGUI::LobbyGUI(const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax) {
 		//Show the background
 		mBackground = new BasicOverlay("Background_LB", "background.swf", GUIManager::getSingletonPtr()->getResolutionWidth(), GUIManager::getSingletonPtr()->getResolutionHeight(), Hikari::Center, 1);
 		mBackground->setExactFit(true);
@@ -25,14 +25,13 @@ namespace HovUni {
 		addOverlay("pickCarBtn", mPickCar);
 		addOverlay("pickCharBtn", mPickChar);
 		addOverlay("leaveBtn", mLeave);
-		
 
 		int lobbyWidth = GUIManager::getSingletonPtr()->getResolutionWidth() - width; //The maximum width we have
 		scale = (lobbyWidth * 1.0f) / 1500.0f;
 		int lobbyHeight = (int) (scale * 1000);
 
 		//Now show the lobby itself
-		mLobbyOverlay = new LobbyOverlay(onChat, botsValue, playerMax, "lobbyVisual", "lobby.swf", lobbyWidth, lobbyHeight, Hikari::BottomLeft);
+		mLobbyOverlay = new LobbyOverlay(mapChange, onChat, botsValue, playerMax, "lobbyVisual", "lobby.swf", lobbyWidth, lobbyHeight, Hikari::BottomLeft);
 		addOverlay("lobbyVisual", mLobbyOverlay);
 	}
 
@@ -78,7 +77,7 @@ namespace HovUni {
 	}
 
 	void LobbyGUI::setTrackId(unsigned int value){
-	
+		
 	}
 
 	void LobbyGUI::setAdmin(bool admin) {
@@ -109,5 +108,17 @@ namespace HovUni {
 				GUIManager::getSingletonPtr()->disableOverlay(mStart);
 			}
 		}
+	}
+
+	void LobbyGUI::clearMaps() {
+		mLobbyOverlay->clearMaps();
+	}
+			
+	void LobbyGUI::addMap(int id, const std::string& name) {
+		mLobbyOverlay->addMap(id, name);
+	}
+
+	void LobbyGUI::setMap(int id, const std::string& name) {
+		mLobbyOverlay->setMap(id, name);
 	}
 }
