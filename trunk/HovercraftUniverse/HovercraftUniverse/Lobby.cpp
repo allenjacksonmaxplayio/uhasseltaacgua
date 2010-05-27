@@ -300,7 +300,7 @@ void Lobby::setupReplication() {
 			8, // amount of bits(up to 255 maps)
 			false, // unsigned
 			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
-			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
+			ZCOM_REPRULE_OWNER_2_AUTH | ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients, but owner can send to server
 	);
 
 	//mAdmin

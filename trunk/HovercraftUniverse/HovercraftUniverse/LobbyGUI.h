@@ -43,7 +43,7 @@ namespace HovUni {
 			 * @param onLeave Function to be called when a user pushes the leave button
 			 * @param botsValue The function that will be called when the admin toggles the checkbox for bots
 			 */
-			LobbyGUI(const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax);
+			LobbyGUI(const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax);
 			
 			/**
 			 * Destructor
@@ -149,6 +149,25 @@ namespace HovUni {
 			 * @param show True if you want to show the button, false otherwise
 			 */
 			void showStart(bool show);
+
+			/**
+			 * Clear the entire list of maps
+			 */
+			void clearMaps();
+			
+			/**
+			 * Add a map to the dropdown box
+			 * @param id The if of the map
+			 * @param name The name of the map
+			 */
+			void addMap(int id, const std::string& name);
+
+			/**
+			 * Set a certain map as active
+			 * @param id The if of the map
+			 * @param name The name of the map
+			 */
+			void setMap(int id, const std::string& name);
 	};
 }
 

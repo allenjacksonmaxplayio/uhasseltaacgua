@@ -1,11 +1,12 @@
 #include "LobbyOverlay.h"
 
 namespace HovUni {
-	LobbyOverlay::LobbyOverlay(const Hikari::FlashDelegate& chatInput, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) 
+	LobbyOverlay::LobbyOverlay(const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& chatInput, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder) 
 			: BasicOverlay(name, fileName, width, height, position, zOrder) {
 		this->bind("chatInput", chatInput);
 		this->bind("botsValue", botsValue);
 		this->bind("playerMax", playerMax);
+		this->bind("mapChange", mapChange);
 		setBParameter(BasicOverlay::ALPHAHACK, true);
 	}
 
@@ -47,5 +48,17 @@ namespace HovUni {
 
 	void LobbyOverlay::customActionAfterActivate() {
 		this->focus();
+	}
+
+	void LobbyOverlay::clearMaps() {
+		this->callFunction("clearMaps", Hikari::Args());
+	}
+			
+	void LobbyOverlay::addMap(int id, const std::string& name) {
+		this->callFunction("addMap", Hikari::Args(id)(name));
+	}
+
+	void LobbyOverlay::setMap(int id, const std::string& name) {
+		this->callFunction("setMap", Hikari::Args(id)(name));
 	}
 }

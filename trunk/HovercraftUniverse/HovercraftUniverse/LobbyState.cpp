@@ -3,13 +3,14 @@
 #include "Config.h"
 #include "Application.h"
 #include "InGameState.h"
+#include "EntityMapping.h"
 #include <tinyxml/tinyxml.h>
 #include <OgreRoot.h>
 
 namespace HovUni {
 	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
-		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue), Hikari::FlashDelegate(this, &LobbyState::playerMax));
+		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::mapChange), Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue), Hikari::FlashDelegate(this, &LobbyState::playerMax));
 	}
 
 	LobbyState::~LobbyState() {
@@ -61,6 +62,14 @@ namespace HovUni {
 		int maxPlayers = (int)args.at(0).getNumber();
 		
 		mLobby->setMaxPlayers(maxPlayers);
+
+		return "success";
+	}
+
+	Hikari::FlashValue LobbyState::mapChange(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		int mapID = (int)args.at(0).getNumber();
+
+		mLobby->setTrackId(mapID);
 
 		return "success";
 	}
@@ -133,7 +142,8 @@ namespace HovUni {
 	}
 
 	void LobbyState::onTrackChange(int trackid) {
-		mLobbyGUI->setTrackId(trackid);
+		std::map<unsigned int, Ogre::String> maps = EntityMapping::getInstance().getMap(EntityMapping::MAPS);
+		mLobbyGUI->setMap(trackid, maps[trackid]);
 	}
 
 	////////////////////////////////////////
@@ -174,6 +184,15 @@ namespace HovUni {
 		onAdminChange(mLobby->isAdmin());
 		onBotsChange(mLobby->hasBots());
 		onMaxPlayersChange(mLobby->getMaxPlayers());
+
+		//Store the maps
+		std::map<unsigned int, Ogre::String> maps = EntityMapping::getInstance().getMap(EntityMapping::MAPS);
+		std::map<unsigned int, Ogre::String>::iterator it;
+		mLobbyGUI->clearMaps();
+		for(it = maps.begin(); it != maps.end(); it++) {
+			mLobbyGUI->addMap(it->first, it->second);
+		}
+		onTrackChange(mLobby->getTrackId());
 	}
 
 	void LobbyState::disable() {
