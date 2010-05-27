@@ -54,6 +54,9 @@ bool HovercraftPlayerController::keyPressed(const OIS::KeyEvent & e) {
 		case ControllerActions::TURNRIGHT:
 			mMovingRight = true;
 			break;
+		case ControllerActions::RESET:
+			//std::cout << "RESET BUTTON PRESSED" << std::endl;
+			break;
 		default:
 			break;
 	}

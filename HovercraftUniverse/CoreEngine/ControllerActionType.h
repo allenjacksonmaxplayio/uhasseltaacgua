@@ -18,14 +18,14 @@ enum ControllerActionType {
 	BRAKE=2, 
 	TURNLEFT=3, 
 	TURNRIGHT=4,
-
+	RESET,
 
 
 	ACTIONS_END	// shouldn't be used as a real control, just a check for the last entry in the enum
 };
 
 /** String representations of the actions */
-static std::string actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right",};
+static std::string actionNames[]={ "Invalid", "Accelerate", "Brake", "Turn Left", "Turn Right", "Reset", };
 }
 
 }
