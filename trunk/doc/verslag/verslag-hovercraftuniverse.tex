@@ -105,7 +105,9 @@ De onderdelen van de GUI zijn ge\"implementeerd in ActionScript\footnote{\url{ht
 \todo{...Nick?}
 
 \subsection{Besturing}
-\todo{Tobias?}
+De centrale klasse voor de besturing is de \texttt{KeyManager}. In deze klasse kunnen alle nodige acties geregistreerd worden door middel van een uniek ID, bijvoorbeeld in een enumeratie. Aan elk van deze acties kunnen \'e\'en of meerdere knoppen gebonden worden. Telkens wanneer de \texttt{HovercraftPlayerController} een key event binnenkrijgt, zal er bij de key manager nagegaan worden welke actie er overeenkomt met deze toets. Op deze manier is het mogelijk om de spelbesturing gemakkelijk te wijzigen zonder dat de controller aangepast moet worden. Bovendien kunnen er meerdere toetsen voor dezelfde actie gebruikt worden.
+
+In de \texttt{KeyManager} staat ook nog een mapping tussen alle toetsen die OIS ondersteunt en hun bijhorende string-representatie. Zo kunnen de controls ingelezen of weggeschreven worden naar een configuratiebestand. Standaard is dit bestand te vinden in de data\textbackslash controls map, maar wanneer dit bestand ontbreekt zal er automatisch een nieuw aangemaakt worden met de default controls. In dit configuratiebestand staan alle geregistreerde acties per categorie. Voor elke actie kunnen \'e\'en of meerdere toetsen opgegeven worden, gescheiden door een komma. Wanneer een actie ontbreekt, zal de standaardtoets voor deze actie gebruikt worden.
 
 \subsection{Scripting en AI}
 Voor de bots is een AI voorzien, die ``menselijk'' stuurgedrag nabootst. De algoritmen van deze AI zijn gebaseerd op de autonome stuursimulaties van Craig Reynolds \cite{reynolds:1999}. De huidige AI is in staat om een voorgedefinieerd pad te volgen binnen een bepaalde marge (``Path Following''). Een pad wordt voorgesteld als een \emph{multiline}: een lijst van punten in de wereld, telkens geassocieerd met een straal (\texttt{radius}). De straal op punt $x_i$ stelt de \emph{breedte} van het pad voor tussen punt $x_i$ e, $x_{i+1}$. Deze paden worden opgeslagen in aparte bestanden. Dit betekent dat de level designers per map een ideaal pad (of meerdere paden) voor de AI kunnen aanmaken. 
