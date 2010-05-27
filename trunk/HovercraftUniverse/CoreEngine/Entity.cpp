@@ -186,8 +186,8 @@ Ogre::String Entity::getCategory() const {
 }
 
 Ogre::Vector3 Entity::getPosition() const {
-	return mPosition;
-	//return mTmpPosition;
+	//return mPosition;
+	return mTmpPosition;
 }
 
 Ogre::Vector3 Entity::getSmoothPosition() const {
