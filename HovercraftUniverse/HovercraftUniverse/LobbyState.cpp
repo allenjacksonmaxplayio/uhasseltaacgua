@@ -171,7 +171,9 @@ namespace HovUni {
 		const Lobby::playermap::list_type players = mLobby->getPlayers();
 		for (Lobby::playermap::const_iterator i = players.begin(); i != players.end(); ++i) {
 			PlayerSettings* player = (*i).second;
-			mLobbyGUI->addUser(player->getID(), player->getPlayerName(), player->getCharacter(), player->getHovercraft());
+			if (!player->isBot()) {
+				mLobbyGUI->addUser(player->getID(), player->getPlayerName(), player->getCharacter(), player->getHovercraft());
+			}
 		}
 
 		//Activate all possible interception listeners

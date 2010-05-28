@@ -9,38 +9,38 @@
 /*
     Total number of events in the project
 */
-static const int EVENTCOUNT_HOVSOUND = 1;
+const static int EVENTCOUNT_HOVSOUND = 1;
 
 /*
     EventGroup/Event-relative indices
 */
-static const int EVENTGROUP_HOVSOUND_EVENTS = 0;
-static const int EVENTGROUPCOUNT_HOVSOUND_EVENTS = 1;
-static const int EVENT_HOVSOUND_EVENTS_HOVERCRAFT = 0;
-static const int EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_RPM = 0;
-static const int EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_LOAD = 1;
+const static int EVENTGROUP_HOVSOUND_EVENTS = 0;
+const static int EVENTGROUPCOUNT_HOVSOUND_EVENTS = 1;
+const static int EVENT_HOVSOUND_EVENTS_HOVERCRAFT = 0;
+const static int EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_RPM = 0;
+const static int EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_LOAD = 1;
 
 /*
     Project-unique event ids
 */
-static const int EVENTID_HOVSOUND_EVENTS_HOVERCRAFT = 0;
+const static int EVENTID_HOVSOUND_EVENTS_HOVERCRAFT = 0;
 
-static const int EVENTCATEGORY_HOVSOUND_MASTER = 0;
-static const int EVENTCATEGORYCOUNT_HOVSOUND_MASTER = 1;
+const static int EVENTCATEGORY_HOVSOUND_MASTER = 0;
+const static int EVENTCATEGORYCOUNT_HOVSOUND_MASTER = 1;
 
-static const int EVENTCATEGORY_HOVSOUND_MASTER_MUSIC = 0;
-static const int EVENTCATEGORYCOUNT_HOVSOUND_MASTER_MUSIC = 0;
+const static int EVENTCATEGORY_HOVSOUND_MASTER_MUSIC = 0;
+const static int EVENTCATEGORYCOUNT_HOVSOUND_MASTER_MUSIC = 0;
 
 
 /*
     Event GUIDs
 */
-static const char *EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT = "{b35c1ac9-f834-4c7c-919e-4e80d98d6483}";
+const static char *EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT = "{b35c1ac9-f834-4c7c-919e-4e80d98d6483}";
 
 /*
     Music cue ids
 */
-static const unsigned int MUSICCUE_HOVSOUND_BACKGROUND_NORMAL = 2;
-static const unsigned int MUSICCUE_HOVSOUND_MENU = 3;
+const static unsigned int MUSICCUE_HOVSOUND_BACKGROUND_NORMAL = 2;
+const static unsigned int MUSICCUE_HOVSOUND_MENU = 3;
 
 #endif /* HOVSOUND_H */

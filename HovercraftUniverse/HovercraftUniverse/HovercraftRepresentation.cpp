@@ -51,7 +51,8 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
-	
+	SoundManager::getSingletonPtr()->deregisterEmitter(this);
+	stopSound();
 }
 
 void HovercraftRepresentation::draw( Ogre::Real timeSinceLastFrame ){

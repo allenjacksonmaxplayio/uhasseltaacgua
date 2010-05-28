@@ -182,6 +182,9 @@ namespace HovUni {
 		mCountdown = 0;
 
 		mRaceState->removeListener(this);
+
+		//Switch music
+		mSoundManager->stopAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
 	}
 
 	bool InGameState::frameStarted(const Ogre::FrameEvent & evt) {
