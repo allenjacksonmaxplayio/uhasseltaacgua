@@ -55,6 +55,13 @@ namespace HovUni {
 		//Disable the input window
 		GUIManager::getSingletonPtr()->disableOverlay(mConnectWindow);
 
+		//Activate the rest again
+		//re-enable buttons on background
+		mCreateButton->ignoreInputs(false);
+		mJoinButton->ignoreInputs(false);
+		mBackButton->ignoreInputs(false);
+
+
 		return "success";
 	}
 

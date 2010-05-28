@@ -42,6 +42,7 @@ namespace HovUni {
 		customActionBeforeActivate();
 
 		mFlashControl = GUIManager::getSingletonPtr()->createOverlay(mName, mFileName, mWidth, mHeight, mPosition, mZOrder);
+		mFlashControl->setDraggable(false);
 		if (mExactFit) {
 			mFlashControl->setScaleMode(Hikari::SM_EXACTFIT);
 		} else {
