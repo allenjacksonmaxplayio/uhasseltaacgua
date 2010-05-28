@@ -49,7 +49,7 @@ void  HovercraftCollisionListener::contactProcessCallback (hkpContactProcessEven
 				pos[2] += havpos(2);
 			}
 
-			pos /= collisiodata->getNumContactPoints ();
+			pos /= collisiodata->getNumContactPoints();
 			nor[0] = mCollisionEffect->mBounceVector(0);
 			nor[1] = mCollisionEffect->mBounceVector(1);
 			nor[2] = mCollisionEffect->mBounceVector(2);

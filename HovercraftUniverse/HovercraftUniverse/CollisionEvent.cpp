@@ -8,6 +8,9 @@ CollisionEvent::CollisionEvent(const Ogre::Vector3& position, const Ogre::Vector
 {
 }
 
+CollisionEvent::CollisionEvent(const CollisionEvent& c): 
+	VisualEvent(onCollision), mPosition(c.getPosition()), mNormal(c.getNormal()) {}
+
 CollisionEvent::CollisionEvent():
 	VisualEvent(onCollision){
 }

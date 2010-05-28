@@ -30,7 +30,7 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 
 	//TODO: check if we have to delete these things ourselves, or if ogre will take care of that
 	// (for example, when starting a new game)
-	Ogre::ParticleSystem* pSystem = sceneMgr->createParticleSystem(entity->getName(), "Smokey");
+	Ogre::ParticleSystem* pSystem = sceneMgr->createParticleSystem(entity->getName() + "Smoke", "Smokey");
 	mParticleNode = node->createChildSceneNode();
 	mParticleNode->attachObject(pSystem);
 
@@ -40,8 +40,14 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 		mRotorState->setEnabled(true);
 	}
 
-	//mOgreEntity->getM
-
+	//Collision Sparks
+	mSparks = sceneMgr->createParticleSystem(entity->getName() + "Spark", "Spark");
+	mSparks->setKeepParticlesInLocalSpace(true);
+	mSparks->setEmitting(false);
+	mSparksNode = node->getParentSceneNode()->createChildSceneNode();
+	mSparksNode->scale(0.1f, 0.1f, 0.1f);
+	mSparksNode->attachObject(mSparks);
+	
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
@@ -52,6 +58,21 @@ void HovercraftRepresentation::draw( Ogre::Real timeSinceLastFrame ){
 	if ( mRotorState != 0 ){
 		 mRotorState->addTime(timeSinceLastFrame);
 	}
+	//Collision Sparks
+	CollisionEvent* colEvent = ((Hovercraft*)mEntity)->getCollisionEvent();
+	if (colEvent != 0) {
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Drawing Collision Event! " << colEvent->getPosition();
+		if (mSparksNode->getPosition() != colEvent->getPosition()) {
+			mSparksNode->setPosition(colEvent->getPosition());
+			mSparksNode->setDirection(colEvent->getNormal());
+			mSparks->setEmitting(true);
+			//Reset the emitter!
+			mSparks->getEmitter(0)->setEnabled(false);
+			mSparks->getEmitter(0)->setEnabled(true);
+		}
+	}
+	
+
 	EntityRepresentation::draw(timeSinceLastFrame);
 }
 

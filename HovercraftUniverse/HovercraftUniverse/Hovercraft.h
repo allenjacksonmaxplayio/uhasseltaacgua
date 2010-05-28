@@ -5,6 +5,7 @@
 #include <tinyxml/tinyxml.h>
 #include "Exception.h"
 #include "BasicEntityEvent.h"
+#include "CollisionEvent.h"
 
 namespace HovUni {
 
@@ -83,6 +84,12 @@ private:
 	 * Used to disable controls after finishing.
 	 */
 	bool mFinished;
+
+	/**
+	*	The hovercraft is actually colliding with something -> this event is not null
+	*	@author Dirk 
+	*/
+	CollisionEvent* mCollisionEvent;
 
 public:
 
@@ -362,6 +369,8 @@ public:
 	 * @see NetworkEntity::setAnnouncementData(ZCom_BitStream* stream)
 	 */
 	void setAnnouncementData(ZCom_BitStream* stream);
+
+	CollisionEvent* getCollisionEvent() const;
 };
 
 }
