@@ -62,7 +62,7 @@ void HovercraftRepresentation::draw( Ogre::Real timeSinceLastFrame ){
 	//Collision Sparks
 	CollisionEvent* colEvent = ((Hovercraft*)mEntity)->getCollisionEvent();
 	if (colEvent != 0) {
-		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Drawing Collision Event! " << colEvent->getPosition();
+		//Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Drawing Collision Event! " << colEvent->getPosition();
 		if (mSparksNode->getPosition() != colEvent->getPosition()) {
 			mSparksNode->setPosition(colEvent->getPosition());
 			mSparksNode->setDirection(colEvent->getNormal());
