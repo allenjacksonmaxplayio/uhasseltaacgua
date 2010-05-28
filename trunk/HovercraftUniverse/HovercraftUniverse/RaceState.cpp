@@ -472,6 +472,8 @@ void RaceState::SystemState::newState(States state) {
 
 					delete (*i);
 				}
+
+				
 			}
 			break;
 		default:

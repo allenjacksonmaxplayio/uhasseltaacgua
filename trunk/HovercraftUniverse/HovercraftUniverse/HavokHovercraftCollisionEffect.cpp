@@ -7,6 +7,8 @@
 #include "HavokEntityType.h"
 #include <iostream>
 
+#include "CollisionEvent.h"
+
 namespace HovUni {
 
 HovercraftCollisionListener::HovercraftCollisionListener(HavokHovercraftCollisionEffect * collisionEffect):
@@ -34,10 +36,26 @@ void  HovercraftCollisionListener::contactProcessCallback (hkpContactProcessEven
 		if ( collisiodata->getNumContactPoints () != 0 ){
 			mCollisionEffect->mBounceVector.setZero4();
 
+			Ogre::Vector3 pos;
+			Ogre::Vector3 nor;
+
 			for ( int i = 0; i < collisiodata->getNumContactPoints (); i++ ){
 				hkpProcessCdPoint & point =  collisiodata->getContactPoint (i);
 				mCollisionEffect->mBounceVector.add4(point.m_contact.getNormal());
+
+				const hkVector4& havpos = point.m_contact.getPosition();
+				pos[0] += havpos(0);
+				pos[1] += havpos(1);
+				pos[2] += havpos(2);
 			}
+
+			pos /= collisiodata->getNumContactPoints ();
+			nor[0] = mCollisionEffect->mBounceVector(0);
+			nor[1] = mCollisionEffect->mBounceVector(1);
+			nor[2] = mCollisionEffect->mBounceVector(2);
+
+			//send collision event!
+			mCollisionEffect->mHovercraft->getEntity()->sendEvent(CollisionEvent(pos,nor));
 
 			mCollisionEffect->mBounceVector.mul4( -1.0f * ((Hovercraft*)mCollisionEffect->mHovercraft->getEntity())->getSpeed()/(hkReal) collisiodata->getNumContactPoints ());
 			mCollisionEffect->mHasCollision= true;

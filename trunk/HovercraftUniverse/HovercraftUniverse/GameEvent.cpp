@@ -2,7 +2,7 @@
 
 namespace HovUni {
 
-GameEvent::GameEvent(GameEventType type) : NetworkEvent<GameEventType, GameEventTypeSize>(type) {
+GameEvent::GameEvent(GameEventType type) : NetworkEvent<GameEventType, GameEventTypeSize,3>(type) {
 
 }
 

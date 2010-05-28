@@ -10,7 +10,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-template<typename EventType, int N>
+template<typename EventType, int N, int EventClass>
 class NetworkEventParser {
 public:
 	/**
@@ -28,9 +28,9 @@ public:
 	 * Parse a stream to the correct event
 	 *
 	 * @param stream the bitstream containing the event
-	 * @return the event
+	 * @return the event, 0 if not a right event
 	 */
-	virtual NetworkEvent<EventType, N>* parse(ZCom_BitStream* stream) = 0;
+	virtual NetworkEvent<EventType, N, EventClass>* parse(ZCom_BitStream* stream) = 0;
 };
 
 }

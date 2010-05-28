@@ -13,7 +13,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ChatEvent: public NetworkEvent<ChatEventType, ChatEventTypeSize> {
+class ChatEvent: public NetworkEvent<ChatEventType, ChatEventTypeSize,1> {
 protected:
 	/** The chat line */
 	std::string mLine;

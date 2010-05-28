@@ -12,7 +12,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class GameEventParser: public NetworkEventParser<GameEventType, GameEventTypeSize> {
+class GameEventParser: public NetworkEventParser<GameEventType, GameEventTypeSize,3> {
 public:
 	/**
 	 * Destructor

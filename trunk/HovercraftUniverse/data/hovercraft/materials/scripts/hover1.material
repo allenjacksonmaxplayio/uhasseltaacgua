@@ -1,6 +1,8 @@
 
 material HoverTireMap
 {
+	receive_shadows off
+	
 	technique
 	{
 		pass
@@ -8,7 +10,7 @@ material HoverTireMap
 			ambient 0.588 0.588 0.588 1
 			diffuse 0.588 0.588 0.588 1
 			specular 0 0 0 10 0
-
+			
 			texture_unit
 			{
 				texture tires.jpg
@@ -23,6 +25,8 @@ material HoverTireMap
 
 material WindScreen
 {
+	receive_shadows off
+	
 	technique
 	{
 		pass
@@ -30,16 +34,17 @@ material WindScreen
 			ambient 0.698039 0.894118 0.921569 1
 			diffuse 0.698039 0.894118 0.921569 1
 			specular 0 0 0 10 0
+			
 		}
-
 	}
-
 }
 
 
 
 material HoverBodyMap
 {
+	receive_shadows off
+	
 	technique
 	{
 		pass
@@ -47,21 +52,22 @@ material HoverBodyMap
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
+			
 
 			texture_unit
 			{
 				texture hovercraftbody.jpg
 			}
 		}
-
 	}
-
 }
 
 
 
 material HovercogsCabin
 {
+	receive_shadows off
+
 	technique
 	{
 		pass
@@ -69,6 +75,7 @@ material HovercogsCabin
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
+			
 
 			texture_unit
 			{
@@ -84,6 +91,8 @@ material HovercogsCabin
 
 material CogsMetallic
 {
+	receive_shadows off
+	
 	technique
 	{
 		pass
@@ -91,6 +100,7 @@ material CogsMetallic
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
+			
 
 			texture_unit
 			{
@@ -105,7 +115,8 @@ material CogsMetallic
 
 
 material SteeringWheel
-{
+{	
+	receive_shadows off
 	technique
 	{
 		pass
@@ -113,6 +124,7 @@ material SteeringWheel
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
+			
 
 			texture_unit
 			{
@@ -135,6 +147,7 @@ material Seat
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
+			receive_shadows off
 
 			texture_unit
 			{
