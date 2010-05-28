@@ -73,7 +73,11 @@ Entiteiten kunnen bestuurd worden door \texttt{Controller}s. Een controller gene
 
 Voor de visuele representatie op de clients heeft elke relevante entiteit een \texttt{EntityRepresentation}. Deze verbindt de conceptuele entiteit met een entiteit in Ogre. Om de wereld te kunnen tekenen vanuit het standpunt van \'e\'en speler worden deze representatie-objecten, samen met de Ogre camera, bijgehouden in een \texttt{GameView}. 
 
-De bovenstaande klassen zitten vervat binnen het \texttt{CoreEngine}-project, dat in principe voor eender welk soort spel gebruikt kan worden. Voor Hovercraft Universe is een specifieke implementatie voorzien: de \texttt{HovercraftController}, 
+De bovenstaande klassen zitten vervat binnen het \texttt{CoreEngine}-project, dat in principe voor eender welk soort spel gebruikt kan worden. Voor Hovercraft Universe is een specifieke implementatie voorzien: de \texttt{HovercraftController}, waarvan de \texttt{HovercraftAIController} en \texttt{HovercraftPlayerController} afgeleid worden. 
+
+\todo{Iets over de application / server application structuur}
+
+\subsection{Netwerkstructuur}
 
 %\begin{figure}
 %	\centering
@@ -81,21 +85,72 @@ De bovenstaande klassen zitten vervat binnen het \texttt{CoreEngine}-project, da
 %	\caption{The client entity polls its next move from the controller}
 %	\label{fig:netwerkfreq}
 %\end{figure}
+%
+%\begin{figure}
+%	\centering
+%		\includegraphics[width=0.50\textwidth]{images/zoidcom.png}
+%	\caption{ZoidCom werking}
+%	\label{fig:zoidcom}
+%\end{figure}
+\todo{Server, client, netwerk, zoidcom, chatfunctionaliteit, replicatie, interpolatie, ....}
 
-\subsection{Netwerkstructuur}
-\begin{figure}
-	\centering
-		\includegraphics[width=0.50\textwidth]{images/zoidcom.png}
-	\caption{ZoidCom werking}
-	\label{fig:zoidcom}
-\end{figure}
-\todo{Olivier?}
+\todo{Olivier!}
+
+
+\subsection{Modellen en user-data}
+De \textbf{modellen} zijn gedefinieerd in het (niet open) bestandsformaat van 3DS Max. Deze worden ge\"exporteerd naar het DotScene XML-formaat met behulp van de OgreMax Scene Exporter\footnote{\url{http://www.ogremax.com/}}. DotScene\footnote{\url{http://www.ogre3d.org/wiki/index.php/DotScene}} is een gestandaardiseerd XML-formaat dat informatie bevat over het soort entiteit, de grootte van het model, de gebruikte materialen en meshfiles, etc. Tevens bevat dit DotScene bestand informatie specifiek voor gebruik in HovercraftUniverse (snelheid, gewicht, \ldots). Een voorbeeld van deze user-data is gegeven in Listing~\ref{lst:sceneuserdata}.
+
+\lstset{language=XML,caption=UserData in DotScene,label=lst:sceneuserdata}
+\begin{lstlisting}
+<Hovercraft>
+    <Name>hover1</Name>
+    <Description>Nonw</Description>
+    <OgreEntity>hover1</OgreEntity>
+    <ProcessInterval>0.016</ProcessInterval>
+    <Speed>100</Speed>
+    <Mass>50</Mass>
+    <Acceleration>10</Acceleration>
+    <Steering>100</Steering>
+</Hovercraft>
+\end{lstlisting}
+
+Voor de \textbf{mappen} (tracks) wordt er \'e\'en groot DotScene wereld gegenereerd waarin alle relevante nodes zijn gedefinieerd: planeten, checkpoints, statische objecten, startposities, etc. Een voorbeeld van een dergelijke node is te zien in Listing~\ref{lst:jumpnode}
+
+\lstset{language=XML,caption=E\'en van de nodes in de DotScene van een wereld.,label=lst:jumpnode}
+\begin{lstlisting}
+<node name="Jump01">
+    <position x="-148.891" y="21.0134" z="-20.245" />
+    <scale x="1" y="1" z="1" />
+    <rotation qx="0.13454" qy="0.990908" 
+        qz="-5.34715e-008" qw="-7.48115e-008" />
+    <entity name="Jump01" castShadows="true" receiveShadows="true" meshFile="Jump01.mesh">
+        <userData>
+            <![CDATA[<OgreEntity><GameEntity>Jump01_ent</GameEntity></OgreEntity>]]>
+        </userData>
+        <subentities>
+            <subentity index="0" materialName="Jump02" />
+        </subentities>
+    </entity>
+</node>
+\end{lstlisting}
+
+\subsection{Visualisatie en Ogre}
+De \texttt{EntityRepresentation} klasse zorgt ervoor dat Ogre de verschillende entiteiten kan visualiseren.\todo{meer hierover}
+
+Ook worden hier een aantal visuele effecten aan toegevoegd. Ogre Particle Systems worden gebruikt om rook, vonken, etc. weer te geven. Er is tevens een tekst-overlay voor de nicknames voorzien zodat de spelers elkaar kunnen herkennen tijdens het spel. Aangezien deze effecten enkel client-side gebeuren bij het tekenen van de entiteiten, heeft dit geen invloed op de performantie van de netwerkcomponenten.
 
 \subsection{Physics}
-\todo{Pieter-Jan?}
+\todo{PJ / Tobias}
+
+\todo{Havok, draait enkel op server in aparte thread, ... binding tussen physics en de rest van het spel}
+
+\todo{iets over krachten? }
+
 
 \subsection{Grafische userinterface}
 De onderdelen van de GUI zijn ge\"implementeerd in ActionScript\footnote{\url{http://www.adobe.com/devnet/actionscript/}}, en worden met behulp van Hikari gevisualiseerd in Ogre. Hikari is een library die Flash (SWF) bestanden kan inlezen, en voor de binding tussen Flash en C++ zorgt.
+
+\todo{Nick}
 
 \subsection{Geluid}
 \todo{iets over FMod bestanden en hoe het werkt}
@@ -134,7 +189,21 @@ Aangezien deze methodes afhankelijk zijn van de physics, draaien ze op de server
 \label{fig:advancedcollisionavoidance}%
 \end{figure}
 
-\subsection{Configuratiebestanden}
+\subsection{Game Logic}
+\todo{Lobby, admins? of bij netwerken}
+
+\todo{Raceplayer, Racestate, positiebepaling}
+
+\subsection{Level of Detail}
+\subsubsection{Netwerk}
+\todo{update rate afhankelijk van de afstand tussen A en B, ...}
+
+\subsubsection{Rendering}
+\todo{Polycount verminderen afhankelijk van de afstand van het te tekenen object met ogre...}
+
+\subsection{Misc.}
+
+\subsubsection{Configuratiebestanden}
 Configuratiebestanden zijn beschikbaar voor de server en client, in INI formaat (zie Listing~\ref{lst:inifileformat}). Dit laat gebruikers toe om hun nickname, gekozen voertuig, enz. te kiezen en op te slaan. Een aantal server-specifieke instellingen worden ook ondersteund (aantal spelers, AI-script, sterkte van de zwaartekracht, \ldots). Het spel kan deze bestanden ook opslaan met de huidige instellingen.
 
 \lstset{caption=Het INI bestandsformaat,label=lst:inifileformat}
@@ -147,14 +216,12 @@ keyname = value, value , value #comment
 
 \section{Rolverdeling en verantwoordelijkheden}\todo{dit erin houden?}
 \begin{description}
-	\item[Algemene architectuur] Kristof
-	\item[Networking] Olivier
-	\item[Scripting en AI] Dirk
-	\item[Physics] Pieter-Jan, Tobias
-	\item[Controls] Tobias
-	\item[Geluid] Nick
-	\item[GUI] Nick
-	\item[3D modellen, Ogre] Kristof, Pieter-Jan
+	\item[Kristof Overdulve] Algemene architectuur, 3D modellering, Ogre visualisatie en animatie
+	\item[Pieter-Jan Pintens] Havok Physics, 3D modellering, Ogre visualisatie en animatie
+	\item[Dirk Delahaye] Scripting, AI, visuele effecten, configuratiebestanden
+	\item[Tobias Van Bladel] Input, controls, physics
+	\item[Nick De Frangh] Grafische user interface, Geluid
+	\item[Olivier Berghmans] Algemene architectuur, netwerk
 \end{description}
 
 \bibliographystyle{plain}
