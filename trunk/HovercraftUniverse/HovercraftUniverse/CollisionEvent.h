@@ -25,6 +25,8 @@ public:
 	 */
 	CollisionEvent(const Ogre::Vector3& position, const Ogre::Vector3& normal);
 
+	CollisionEvent(const CollisionEvent&);
+
 	/**
 	 * Constructor
 	 */

@@ -47,11 +47,11 @@ void setBox(hkAabb& aabb, const Ogre::Vector3& position, const Ogre::Quaternion&
 	hkTransform tr(q, t);
 
 	hkVector4 pos1;
-	pos1.set(scale.x * 0.5, scale.y * 0.5, scale.z * 0.5);
+	pos1.set(scale.x * 0.5f, scale.y * 0.5f, scale.z * 0.5f);
 	pos1.setTransformedPos(tr, pos1);
 
 	hkVector4 pos2;
-	pos2.set(scale.x * -0.5, scale.y * -0.5, scale.z * -0.5);
+	pos2.set(scale.x * -0.5f, scale.y * -0.5f, scale.z * -0.5f);
 	pos2.setTransformedPos(tr, pos2);
 
 	if (pos1(0) > pos2(0)) {

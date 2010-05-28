@@ -14,7 +14,7 @@ namespace HovUni {
 	/**
 	 * Representation of a hovercraft entity.
 	 *
-	 * @author Kristof Overdulve & Nick De Frangh
+	 * @author Kristof Overdulve, Nick De Frangh, Dirk Delahaye
 	 */
 	class HovercraftRepresentation : public EntityRepresentation, public Moveable3DEmitter {
 	private:
@@ -27,6 +27,9 @@ namespace HovUni {
 		/** Animation state for rotation of hover */
 		Ogre::AnimationState * mRotorState;
 
+		/** Collision Sparks */
+		Ogre::ParticleSystem* mSparks;
+		Ogre::SceneNode* mSparksNode;
 	public:
 		/**
 		 * Constructor.

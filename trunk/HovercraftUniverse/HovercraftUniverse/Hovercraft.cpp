@@ -7,7 +7,6 @@
 #include "RaceState.h"
 #include "VisualEventParser.h"
 #include "VisualEvent.h"
-#include "CollisionEvent.h"
 
 namespace HovUni {
 
@@ -16,10 +15,10 @@ const Ogre::String Hovercraft::CATEGORY("Hovercraft");
 const Ogre::Real Hovercraft::MAXSPEED(200.0);
 
 Hovercraft::Hovercraft(const Ogre::String& name, unsigned int playerId, const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::String& ogreentity, float processInterval):
-HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mPlayer(0), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId) {
+HovercraftUniverseEntity(name,CATEGORY,position,orientation,ogreentity,processInterval,9), mPlayer(0), mTilt(0.0f), mCollisionState(false), mFinished(false), mPlayerId(playerId), mCollisionEvent(0) {
 }
 
-Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): HovercraftUniverseEntity(announcedata,CATEGORY,9), mPlayer(0) {
+Hovercraft::Hovercraft( ZCom_BitStream* announcedata ): HovercraftUniverseEntity(announcedata,CATEGORY,9), mPlayer(0), mCollisionEvent(0) {
 	// Display name
 	int length = announcedata->getInt(sizeof(int) * 8);
 	if (length != 0) {
@@ -147,20 +146,25 @@ void Hovercraft::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_
 void Hovercraft::processEventsOther(ControllerEvent* cEvent){
 }
 
-void Hovercraft::processVisualEvent ( VisualEvent * e ){
+void Hovercraft::processVisualEvent (VisualEvent * e){
 	switch (e->getType()){
 		case onCollision:
 			{
-				//TODO DIRK ADD PS
 				CollisionEvent * colevent = dynamic_cast<CollisionEvent*>(e);
-				const Ogre::Vector3& normal = colevent->getNormal();
-				const Ogre::Vector3& position = colevent->getPosition();
-				std::cout << "GOT COLLISION EVENT " << position[0] << " " << position[1] << " " << position[2] << std::endl;
+				delete mCollisionEvent;
+				mCollisionEvent = new CollisionEvent(*colevent);
+				//const Ogre::Vector3& normal = colevent->getNormal();
+				//const Ogre::Vector3& position = colevent->getPosition();
+				//std::cout << "GOT COLLISION EVENT " << position[0] << " " << position[1] << " " << position[2] << std::endl;
 			}
 			break;
 		default:
 			break;
 	};
+}
+
+CollisionEvent* Hovercraft::getCollisionEvent() const {
+	return mCollisionEvent;
 }
 
 void Hovercraft::processEventsServer(ControllerEvent* cEvent){
