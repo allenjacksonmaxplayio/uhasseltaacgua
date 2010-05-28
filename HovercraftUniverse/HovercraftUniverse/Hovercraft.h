@@ -9,6 +9,7 @@
 namespace HovUni {
 
 class RacePlayer;
+class VisualEvent;
 
 /**
  * The hovercraft entity.
@@ -306,6 +307,17 @@ public:
 	virtual void setRaceState(RaceState* racestate);
 
 	/**
+	 * Process visual event
+	 * @param e
+	 */
+	virtual void processVisualEvent ( VisualEvent * e );
+
+	/**
+	 * @see NetworkEntity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince)
+	 */
+	void parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince);
+
+	/**
 	 * Callback to process a controller event at the server that got processed by the 
 	 * controller.  Must be overriden since this class in itself has no clue which 
 	 * controller properties there are.
@@ -331,8 +343,7 @@ public:
 	 *
 	 * @param event a controller event
 	 */
-	virtual void processEventsOther(ControllerEvent* cEvent){
-	}
+	virtual void processEventsOther(ControllerEvent* cEvent);
 
 	/**
 	 * @see NetworkEntity::setReplication()

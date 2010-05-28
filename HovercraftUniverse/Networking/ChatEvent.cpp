@@ -3,7 +3,7 @@
 namespace HovUni {
 
 ChatEvent::ChatEvent(ChatEventType type, const std::string& line) :
-	NetworkEvent<ChatEventType, ChatEventTypeSize> (type), mLine(line) {
+	NetworkEvent<ChatEventType, ChatEventTypeSize,1> (type), mLine(line) {
 
 }
 

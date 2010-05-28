@@ -12,7 +12,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class GameEvent : public NetworkEvent<GameEventType, GameEventTypeSize> {
+class GameEvent : public NetworkEvent<GameEventType, GameEventTypeSize,3> {
 public:
 	/**
 	 * Constructor

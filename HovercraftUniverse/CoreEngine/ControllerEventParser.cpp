@@ -8,16 +8,17 @@ ControllerEventParser::~ControllerEventParser() {
 }
 
 ControllerEvent* ControllerEventParser::parse(ZCom_BitStream* stream) {
+	if ( !ControllerEvent::checkEventClass(stream) ){
+		return 0;
+	}
+
 	ControllerEventType type = ControllerEvent::readType(stream);
 
 	switch (type) {
 		case BasicEntity:
 			return BasicEntityEvent::parse(stream);
-			break;
 		default:
-			// TODO exception
 			return 0;
-			break;
 	}
 
 }

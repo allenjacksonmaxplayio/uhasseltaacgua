@@ -13,7 +13,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ControllerEvent: public NetworkEvent<ControllerEventType, ControllerEventTypeSize>
+class ControllerEvent: public NetworkEvent<ControllerEventType, ControllerEventTypeSize,2>
 {
 public:
 	/**

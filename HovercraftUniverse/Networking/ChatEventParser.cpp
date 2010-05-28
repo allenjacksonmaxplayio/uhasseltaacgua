@@ -9,6 +9,10 @@ ChatEventParser::~ChatEventParser() {
 }
 
 ChatEvent* ChatEventParser::parse(ZCom_BitStream* stream) {
+	if ( !ChatEvent::checkEventClass(stream) ){
+		return 0;
+	}
+
 	ChatEventType type = ChatEvent::readType(stream);
 
 	switch (type) {
@@ -19,7 +23,6 @@ ChatEvent* ChatEventParser::parse(ZCom_BitStream* stream) {
 		return NotifyEvent::parse(stream);
 		break;
 	default:
-		// TODO exception
 		return 0;
 		break;
 	}

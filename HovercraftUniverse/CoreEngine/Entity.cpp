@@ -221,10 +221,15 @@ EntityPropertyMap * Entity::getPropertyMap() {
 void Entity::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince) {
 	//If user event
 	if ( type == eZCom_EventUser ){	
-		ControllerEventParser p;
-		ControllerEvent* event = p.parse(stream);
-		processControllerEvents(event);
-		delete event;
+		//Control events
+		{
+			ControllerEventParser p;
+			ControllerEvent* event = p.parse(stream);
+			if ( event ){
+				processControllerEvents(event);
+				delete event;
+			}
+		}
 	}
 }
 

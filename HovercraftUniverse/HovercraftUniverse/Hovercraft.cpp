@@ -5,6 +5,9 @@
 #include "RacePlayer.h"
 #include "PlayerSettings.h"
 #include "RaceState.h"
+#include "VisualEventParser.h"
+#include "VisualEvent.h"
+#include "CollisionEvent.h"
 
 namespace HovUni {
 
@@ -118,19 +121,6 @@ void Hovercraft::updateLabel() {
 }
 
 void Hovercraft::process(float timeSince){
-/*	if ((timeSince > 0.0f) && (mNode->getRole() == eZCom_RoleAuthority)) {
-
-		//Fetch from havok
-		HavokEntity * character = Havok::getSingleton().getCharacter(mName.c_str());
-		const hkVector4& position = character->getPosition();
-		changePosition(Ogre::Vector3(position(0),position(1),position(2)));
-
-		const hkVector4& velocity = character->getVelocity();
-		changeVelocity(Ogre::Vector3(velocity(0),velocity(1),velocity(2)));
-
-		const hkQuaternion& rotation = character->getOrientation();
-		changeOrientation(Ogre::Quaternion(rotation(3),rotation(0),rotation(1),rotation(2)));
-	}*/
 }
 
 void Hovercraft::setRaceState(RaceState* racestate) {
@@ -138,6 +128,39 @@ void Hovercraft::setRaceState(RaceState* racestate) {
 	if (mRacestate) {
 		mPlayer = mRacestate->getPlayer(mPlayerId);
 	}
+}
+
+void Hovercraft::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnID conn_id, ZCom_BitStream* stream, float timeSince){
+	Entity::parseEvents(type,remote_role,conn_id,stream,timeSince);
+
+	if ( type == eZCom_EventUser ){	
+		VisualEventParser p;
+		VisualEvent * event = p.parse(stream);
+		if (event ){
+			processVisualEvent(event);
+			delete event;
+		}
+	}
+}
+
+
+void Hovercraft::processEventsOther(ControllerEvent* cEvent){
+}
+
+void Hovercraft::processVisualEvent ( VisualEvent * e ){
+	switch (e->getType()){
+		case onCollision:
+			{
+				//TODO DIRK ADD PS
+				CollisionEvent * colevent = dynamic_cast<CollisionEvent*>(e);
+				const Ogre::Vector3& normal = colevent->getNormal();
+				const Ogre::Vector3& position = colevent->getPosition();
+				std::cout << "GOT COLLISION EVENT " << position[0] << " " << position[1] << " " << position[2] << std::endl;
+			}
+			break;
+		default:
+			break;
+	};
 }
 
 void Hovercraft::processEventsServer(ControllerEvent* cEvent){

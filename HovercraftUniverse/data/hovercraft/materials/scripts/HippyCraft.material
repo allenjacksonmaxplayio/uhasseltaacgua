@@ -1,6 +1,8 @@
 
 material HippycraftBody
 {
+	receive_shadows off
+
 	technique
 	{
 		pass
@@ -23,6 +25,8 @@ material HippycraftBody
 
 material HoverSteering
 {
+	receive_shadows off
+
 	technique
 	{
 		pass
@@ -45,6 +49,8 @@ material HoverSteering
 
 material HoverSeat
 {
+	receive_shadows off
+
 	technique
 	{
 		pass
@@ -67,6 +73,8 @@ material HoverSeat
 
 material HoverCogs
 {
+	receive_shadows off
+
 	technique
 	{
 		pass
@@ -89,6 +97,8 @@ material HoverCogs
 
 material Hovertires
 {
+	receive_shadows off
+
 	technique
 	{
 		pass

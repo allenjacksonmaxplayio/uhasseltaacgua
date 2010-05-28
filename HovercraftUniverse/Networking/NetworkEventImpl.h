@@ -7,24 +7,27 @@ unsigned int logn(unsigned n) {
 	return (unsigned int) ceil(log((double) n) / log((double) N));
 }
 
-template<typename EventType, unsigned N>
-NetworkEvent<EventType, N>::NetworkEvent(EventType type) :
+template<typename EventType, unsigned N, int EventClass>
+NetworkEvent<EventType, N, EventClass>::NetworkEvent(EventType type) :
 	mType(type) {
 
 }
 
-template<typename EventType, unsigned N>
-NetworkEvent<EventType, N>::~NetworkEvent() {
+template<typename EventType, unsigned N, int EventClass>
+NetworkEvent<EventType, N, EventClass>::~NetworkEvent() {
 
 }
 
-template<typename EventType, unsigned N>
-EventType NetworkEvent<EventType, N>::getType() const {
+template<typename EventType, unsigned N, int EventClass>
+EventType NetworkEvent<EventType, N, EventClass>::getType() const {
 	return mType;
 }
 
-template<typename EventType, unsigned N>
-void NetworkEvent<EventType, N>::serialize(ZCom_BitStream* stream) const {
+template<typename EventType, unsigned N, int EventClass>
+void NetworkEvent<EventType, N, EventClass>::serialize(ZCom_BitStream* stream) const {
+	//write class of the event
+	stream->addInt(EventClass,5);
+
 	// Write the type of the event
 	if (N != 0) {
 		stream->addInt((int) mType, logn<2> (N));
@@ -36,8 +39,11 @@ void NetworkEvent<EventType, N>::serialize(ZCom_BitStream* stream) const {
 	write(stream);
 }
 
-template<typename EventType, unsigned N>
-void NetworkEvent<EventType, N>::deserialize(ZCom_BitStream* stream) {
+template<typename EventType, unsigned N, int EventClass>
+void NetworkEvent<EventType, N, EventClass>::deserialize(ZCom_BitStream* stream) {
+	//ignore the type
+	stream->skipInt(5);
+
 	// Read the type of the event
 	if (N != 0) {
 		mType = (EventType) (int) stream->getInt(logn<2> (N));
@@ -49,10 +55,24 @@ void NetworkEvent<EventType, N>::deserialize(ZCom_BitStream* stream) {
 	read(stream);
 }
 
-template<typename EventType, unsigned N>
-EventType NetworkEvent<EventType, N>::readType(ZCom_BitStream* stream) {
+
+template<typename EventType, unsigned N, int EventClass>
+bool NetworkEvent<EventType, N, EventClass>::checkEventClass(ZCom_BitStream* stream){
 	ZCom_BitStream::BitPos pos;
 	stream->saveReadState(pos);
+	int eventclass = (int) stream->getInt(5);
+	stream->restoreReadState(pos);
+	return eventclass == EventClass;	//return true if eventclass is the same
+}
+
+template<typename EventType, unsigned N, int EventClass>
+EventType NetworkEvent<EventType, N, EventClass>::readType(ZCom_BitStream* stream) {
+	ZCom_BitStream::BitPos pos;
+	stream->saveReadState(pos);
+
+	//ignore the type
+	stream->skipInt(5);
+
 	EventType t;
 	if (N != 0) {
 		t = (EventType) (int) stream->getInt(logn<2> (N));

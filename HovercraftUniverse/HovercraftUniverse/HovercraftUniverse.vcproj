@@ -606,6 +606,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="VisualEvents"
+				>
+				<File
+					RelativePath=".\CollisionEvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\VisualEvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\VisualEventParser.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1081,6 +1097,26 @@
 				</File>
 				<File
 					RelativePath=".\StateEvent.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="VisualEvents"
+				>
+				<File
+					RelativePath=".\CollisionEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\VisualEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\VisualEventParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\VisualEventType.h"
 					>
 				</File>
 			</Filter>

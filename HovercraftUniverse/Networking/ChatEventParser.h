@@ -12,7 +12,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-class ChatEventParser: public NetworkEventParser<ChatEventType, ChatEventTypeSize> {
+class ChatEventParser: public NetworkEventParser<ChatEventType, ChatEventTypeSize,1> {
 public:
 	/**
 	 * Destructor

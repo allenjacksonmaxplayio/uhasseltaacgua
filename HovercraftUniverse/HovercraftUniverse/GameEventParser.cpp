@@ -13,6 +13,10 @@ GameEventParser::~GameEventParser() {
 }
 
 GameEvent* GameEventParser::parse(ZCom_BitStream* stream) {
+	if ( !GameEvent::checkEventClass(stream) ){
+		return 0;
+	}
+
 	GameEventType type = GameEvent::readType(stream);
 
 	switch (type) {
@@ -30,7 +34,6 @@ GameEvent* GameEventParser::parse(ZCom_BitStream* stream) {
 		return CheckpointEvent::parse(stream);
 	default:
 		return 0;
-		break;
 	}
 }
 

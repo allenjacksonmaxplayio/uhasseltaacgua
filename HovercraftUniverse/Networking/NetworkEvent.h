@@ -11,7 +11,7 @@ namespace HovUni {
  *
  * @author Olivier Berghmans
  */
-template<typename EventType, unsigned N>
+template<typename EventType, unsigned N, int EventClass>
 class NetworkEvent {
 private:
 	/** The type of the event */
@@ -69,6 +69,16 @@ public:
 	 * @param stream the bitstream containing the event
 	 */
 	virtual void read(ZCom_BitStream* stream) = 0;
+
+	/**
+	 * Check if the eventclass of the event from the stream is the same as ours. 
+	 * This read just "peeks" at the eventclass and does not change
+	 * any state in the stream. In other words, after using
+	 * this method, the deserialize method can still be used.
+	 *
+	 * @param stream the bitstream containing the event
+	 */
+	static bool checkEventClass(ZCom_BitStream* stream);
 
 	/**
 	 * Read the type of the event from the stream. However,

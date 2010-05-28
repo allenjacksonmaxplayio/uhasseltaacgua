@@ -110,8 +110,8 @@ public:
 	 * @param secret false if the data may be send to all proxies
 	 * @return result of the send operation
 	 */
-	template<typename EventType, int N>
-	bool sendEvent(const NetworkEvent<EventType, N>& nEvent, bool secret = false) const;
+	template<typename EventType, int N, int EventClass>
+	bool sendEvent(const NetworkEvent<EventType, N, EventClass>& nEvent, bool secret = false) const;
 
 	/**
 	 * Send an event for this entity
@@ -120,8 +120,8 @@ public:
 	 * @param id the ID to send to
 	 * @return result of the send operation
 	 */
-	template<typename EventType, int N>
-	bool sendEventDirect(const NetworkEvent<EventType, N>& nEvent, ZCom_ConnID id) const;
+	template<typename EventType, int N, int EventClass>
+	bool sendEventDirect(const NetworkEvent<EventType, N, EventClass>& nEvent, ZCom_ConnID id) const;
 
 	/**
 	 * Get the network node. You should probably not be calling this.
@@ -281,8 +281,8 @@ protected:
 
 };
 
-template<typename EventType, int N>
-bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& nEvent, bool secret) const {
+template<typename EventType, int N, int EventClass>
+bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N, EventClass>& nEvent, bool secret) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
 	nEvent.serialize(stream);
 
@@ -299,8 +299,8 @@ bool NetworkEntity::sendEvent(const NetworkEvent<EventType, N>& nEvent, bool sec
 	return false;
 }
 
-template<typename EventType, int N>
-bool NetworkEntity::sendEventDirect(const NetworkEvent<EventType, N>& nEvent, ZCom_ConnID id) const {
+template<typename EventType, int N, int EventClass>
+bool NetworkEntity::sendEventDirect(const NetworkEvent<EventType, N, EventClass>& nEvent, ZCom_ConnID id) const {
 	ZCom_BitStream* stream = new ZCom_BitStream();
 	nEvent.serialize(stream);
 	return mNode->sendEventDirect(eZCom_ReliableOrdered, stream, id);
