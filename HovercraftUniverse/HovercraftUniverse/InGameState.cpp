@@ -157,6 +157,9 @@ namespace HovUni {
 	}
 
 	void InGameState::disable() {
+		// Clean up skies
+		mSkyX->remove();
+
 		//Deregister for chatevents
 		mHUClient->removeChatListener(mHud);
 
