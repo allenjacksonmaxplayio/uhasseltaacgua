@@ -46,7 +46,7 @@
             </entity>
         </node>
         <node name="Check01">
-            <position x="-63.4644" y="35.6643" z="-6.66379" />
+            <position x="-63.4644" y="37.5228" z="-6.66379" />
             <scale x="1" y="1" z="1" />
             <rotation qx="0.0774659" qy="-0.703366" qz="0.0682675" qw="0.703289" />
             <entity name="Check01" castShadows="true" receiveShadows="true" meshFile="Check01.mesh">
@@ -345,7 +345,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Asteroid03_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Rock" />
+                    <subentity index="0" materialName="Asteroid04" />
                 </subentities>
             </entity>
         </node>
@@ -465,7 +465,7 @@
             <userData>
                 <![CDATA[<CheckPoint><OgreEntity>Check01</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Start</Name><Number>0</Number></CheckPoint>]]>
 </userData>
-            <position x="-63.4644" y="35.6643" z="-6.66379" />
+            <position x="-63.4644" y="37.5228" z="-6.66379" />
             <rotation qx="0.0774659" qy="-0.703366" qz="0.0682675" qw="0.703289" />
             <scale x="34.6003" y="10.3397" z="15.2678" />
         </item>
