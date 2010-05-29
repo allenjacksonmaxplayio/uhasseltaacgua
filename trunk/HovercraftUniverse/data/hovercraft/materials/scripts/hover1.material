@@ -140,6 +140,7 @@ material SteeringWheel
 
 material Seat
 {
+	receive_shadows off
 	technique
 	{
 		pass
@@ -147,7 +148,6 @@ material Seat
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
-			receive_shadows off
 
 			texture_unit
 			{
