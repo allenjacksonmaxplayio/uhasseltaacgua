@@ -40,7 +40,7 @@ PATH_PROBELENGTH = 0.1;
 EPSILON = 0.01; -- for avoiding steering oscillations
 
 MINSPEED = 0.1; -- % of speed for accurate steering
-MAXSPEED = 0.3; -- % of speed for going in a straight line
+MAXSPEED = 1.0; -- % of speed for going in a straight line
 -----------------------------
 
 
@@ -137,7 +137,8 @@ function decide()
 	println("Speed: " .. getMySpeed()*100 .. "%");
 
 	--############################### COLLISION AVOIDANCE
-	if (mEntity:isInCollisionState()) then
+	if (false) then
+	--if (mEntity:isInCollisionState()) then
 		local speed = mEntity:getSpeed();
 		--println("Collision Avoidance! Braking and turning right! Speed is " .. speed);
 		--TODO steer the opposite way
