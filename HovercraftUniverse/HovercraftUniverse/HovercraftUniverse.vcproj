@@ -594,14 +594,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\OnJoinEvent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\OnLeaveEvent.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\StateEvent.cpp"
 					>
 				</File>
@@ -1085,14 +1077,6 @@
 				</File>
 				<File
 					RelativePath=".\InitEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\OnJoinEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\OnLeaveEvent.h"
 					>
 				</File>
 				<File

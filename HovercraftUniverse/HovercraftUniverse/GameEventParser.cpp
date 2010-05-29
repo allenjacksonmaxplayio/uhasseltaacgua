@@ -1,8 +1,6 @@
 #include "GameEventParser.h"
 
 #include "StateEvent.h"
-#include "OnJoinEvent.h"
-#include "OnLeaveEvent.h"
 #include "InitEvent.h"
 #include "CheckpointEvent.h"
 
@@ -26,10 +24,6 @@ GameEvent* GameEventParser::parse(ZCom_BitStream* stream) {
 		return StateEvent::parse(stream);
 	case startTrack:
 		return StartTrackEvent::parse(stream);
-	case onJoin:
-		return OnJoinEvent::parse(stream);
-	case onLeave:
-		return OnLeaveEvent::parse(stream);
 	case checkPoint:
 		return CheckpointEvent::parse(stream);
 	default:
