@@ -125,7 +125,7 @@ namespace HovUni {
 		//Calculate angle
 		float angle = forward.angleBetween(destination).valueDegrees();
 
-		float side = (forward.crossProduct(up)).dotProduct(destination - Ogre::Vector3::ZERO);
+		float side = (forward.crossProduct(up)).dotProduct(destination);
 		side /= Ogre::Math::Abs(side);
 
 		mDirection->setAngle(angle * side);

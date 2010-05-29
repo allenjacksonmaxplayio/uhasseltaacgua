@@ -1,8 +1,11 @@
 #include "InGameState.h"
 #include "Application.h"
+#include "CheckPoint.h"
+#include "Finish.h"
 #include "Hovercraft.h"
 #include "HovercraftRepresentation.h"
 #include "ProgressMonitor.h"
+#include "Start.h"
 #include <HovSound.h>
 
 namespace HovUni {
@@ -185,6 +188,7 @@ namespace HovUni {
 
 		//Switch music
 		mSoundManager->stopAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
+		mSoundManager->startAmbient(MUSICCUE_HOVSOUND_MENU);
 	}
 
 	bool InGameState::frameStarted(const Ogre::FrameEvent & evt) {
@@ -340,10 +344,41 @@ namespace HovUni {
 		//Current entity
 		Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
 
+		RacePlayer* myPlayer = mRaceState->getOwnPlayer();
+		
+		//std::cout << "WE NEED TO POINT TO: " << (int)myPlayer->getLastCheckpoint() << std::endl;
+
+		Ogre::Vector3 goal = (currEnt->getPosition() + currEnt->getOrientation());
+		if ((int)myPlayer->getLastCheckpoint() == -1) {
+			//Point to the start
+			std::vector<Entity*> starts = EntityManager::getServerSingletonPtr()->getEntities(Start::CATEGORY);
+			if (starts.size() >= 1) {
+				Start * start = dynamic_cast<Start *> (starts[0]);
+				goal = start->getPosition();
+			}
+		} else {
+			//Find the correct checkpoint
+			std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
+			for (unsigned int i = 0; i < checkpoints.size(); ++i) {
+				CheckPoint * checkpoint = dynamic_cast<CheckPoint *> (checkpoints[i]);
+				if (checkpoint->getNumber() == (myPlayer->getLastCheckpoint() + 1)) {
+					goal = checkpoint->getPosition();
+					break;
+				}
+
+				//If we get here, we didn't find it, point to the finish!
+				std::vector<Entity*> finishes = EntityManager::getServerSingletonPtr()->getEntities(Finish::CATEGORY);
+				if (finishes.size() >= 1) {
+					Finish * finish = dynamic_cast<Finish *> (finishes[0]);
+					goal = finish->getPosition();
+				}
+			}
+		}
+
 		if (currEnt != 0) {
 			Hovercraft* hov = (Hovercraft*) currEnt;
 
-			mHud->updateDirection(currEnt->getOrientation(), (Ogre::Vector3(2, 0, 0) - currEnt->getPosition()), Ogre::Vector3(0.0f, 1.0f, 0.0f));
+			mHud->updateDirection(currEnt->getOrientation(), goal - currEnt->getPosition(), currEnt->getUpVector());
 			mHud->updateSpeed( fabs((hov->getSpeed() / hov->getMaximumSpeed()) * 100.0f) );
 		}
 	}
