@@ -47,7 +47,6 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	mSparksNode = node->getParentSceneNode()->createChildSceneNode();
 	mSparksNode->scale(0.1f, 0.1f, 0.1f);
 	mSparksNode->attachObject(mSparks);
-	
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
