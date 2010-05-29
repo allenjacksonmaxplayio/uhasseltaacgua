@@ -34,6 +34,7 @@ void EntityMapping::load(){
 	addMapping(c,EntityMapping::CHARACTER);
 	addMapping(c,EntityMapping::HOVERCRAFT);
 	addMapping(c,EntityMapping::MAPS);
+	mLoaded = true;
 }
 
 void EntityMapping::addMapping( Config& config, const Ogre::String& key ){
