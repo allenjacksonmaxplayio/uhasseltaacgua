@@ -13,8 +13,6 @@
 
 //Events
 #include "InitEvent.h"
-#include "OnJoinEvent.h"
-#include "OnLeaveEvent.h"
 
 #include <OgreLogManager.h>
 
