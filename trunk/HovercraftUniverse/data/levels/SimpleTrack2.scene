@@ -187,7 +187,7 @@
                     <![CDATA[<OgreEntity><GameEntity>Planet01_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Asteroid03" />
+                    <subentity index="0" materialName="Planet01" />
                 </subentities>
             </entity>
         </node>

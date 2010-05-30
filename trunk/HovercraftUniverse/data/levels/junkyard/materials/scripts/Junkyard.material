@@ -1,5 +1,73 @@
 
-material Wing
+material Asteroid01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material Asteroid02
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material Planet01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material Asteroid03
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material 06-Default
 {
 	technique
 	{
@@ -11,7 +79,51 @@ material Wing
 
 			texture_unit
 			{
-				texture wing.png
+				texture trunk.png
+			}
+		}
+
+	}
+
+}
+
+
+
+material 06-Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture trunk.png
+			}
+		}
+
+	}
+
+}
+
+
+
+material CheckPoint1
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588 0.588 0.588 1
+			diffuse 0.588 0.588 0.588 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture checkpoint_1.png
 			}
 		}
 
@@ -56,28 +168,6 @@ material Box
 			texture_unit
 			{
 				texture box.png
-			}
-		}
-
-	}
-
-}
-
-
-
-material Engine
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture engine-texture.png
 			}
 		}
 
@@ -175,6 +265,28 @@ material Wing
 
 
 
+material Wing
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture wing.png
+			}
+		}
+
+	}
+
+}
+
+
+
 material Wing-Engine
 {
 	technique
@@ -197,7 +309,7 @@ material Wing-Engine
 
 
 
-material 06-Default
+material Engine
 {
 	technique
 	{
@@ -209,7 +321,29 @@ material 06-Default
 
 			texture_unit
 			{
-				texture trunk.png
+				texture engine-texture.png
+			}
+		}
+
+	}
+
+}
+
+
+
+material Rock
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture rock-texture.png
 			}
 		}
 
@@ -236,28 +370,6 @@ material Leaves3
 				texture_alias Map#32
 				texture leaves3.png
 				filtering linear linear linear
-			}
-		}
-
-	}
-
-}
-
-
-
-material 06-Default
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture trunk.png
 			}
 		}
 
@@ -359,15 +471,20 @@ material Tunnel
 
 
 
-material Asteroid02
+material CheckPoint1
 {
 	technique
 	{
 		pass
 		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
+			ambient 0.588 0.588 0.588 1
+			diffuse 0.588 0.588 0.588 1
 			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture checkpoint_1.png
+			}
 		}
 
 	}
@@ -376,15 +493,20 @@ material Asteroid02
 
 
 
-material Asteroid01
+material CheckPoint2
 {
 	technique
 	{
 		pass
 		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
+			ambient 0.588 0.588 0.588 1
+			diffuse 0.588 0.588 0.588 1
 			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture checkpoint_3.png
+			}
 		}
 
 	}
@@ -393,7 +515,7 @@ material Asteroid01
 
 
 
-material Asteroid03
+material Rock
 {
 	technique
 	{
@@ -402,6 +524,11 @@ material Asteroid03
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture rock-texture.png
+			}
 		}
 
 	}
