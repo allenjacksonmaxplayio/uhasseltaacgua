@@ -10,12 +10,12 @@ particle_system Spark
 
 	emitter Point
 	{
-		angle	33.16
+		angle	50
 		colour	1 1 1 1
 		direction	0 1 0
-		emission_rate	500
-		position	0.590229 14.6031 -13.8853
-		velocity	20.27
+		emission_rate	150
+		position	0 0 0
+		velocity	75
 		time_to_live_min	0
 		time_to_live_max	1.0
 		duration 0.01
