@@ -41,7 +41,8 @@ namespace HovUni {
 
 	Hikari::FlashValue LobbyState::onPressLeave(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
 		//Disconnect
-		mClient->disconnect("... is leaving");
+		string username = mClient->getLobby()->getOwnPlayer()->getPlayerName();
+		mClient->disconnect(username + " is leaving");
 
 		mManager->switchState(GameStateManager::MAIN_MENU);
 		//Delete the client to save some resources
