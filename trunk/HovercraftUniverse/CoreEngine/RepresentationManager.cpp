@@ -35,8 +35,7 @@ void RepresentationManager::addEntityRepresentation(EntityRepresentation * entit
 
 void RepresentationManager::removeEntityRepresentation(Ogre::String entityRep) {
 	// Loop through list and remove if found
-	for (std::vector<EntityRepresentation *>::const_iterator it = mEntityRepresentations.begin(); 
-			it != mEntityRepresentations.end(); it++) {
+	for (std::vector<EntityRepresentation *>::const_iterator it = mEntityRepresentations.begin(); it != mEntityRepresentations.end(); it++) {
 		if ((*it)->getEntity()->getName() == entityRep) {
 			// Erase from entity representations
 			mEntityRepresentations.erase(it);

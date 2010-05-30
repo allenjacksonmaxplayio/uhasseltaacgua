@@ -4,14 +4,26 @@
 #include "CameraSpring.h"
 #include "RepresentationManager.h"
 
+class Application;
+
 namespace HovUni {
 
 RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneMgr), mID(ID), mCurrCamViewpoint(ThirdPerson) {
+	// Fetch input manager object and register controls
+	mInputManager = InputManager::getSingletonPtr();
+	mInputManager->addKeyListener(this, "RaceCamera");
+
+	// Create camera controllers
+	mFreeroamCameraController = new FreeroamCameraController();
+	mObjectTrackCameraController = new ObjectTrackCameraController();
+
 	// Create camera for this game view
 	mCamera = mSceneMgr->createCamera("Camera" + mID);
 	mCamera->setNearClipDistance(0.1f);
 	mCamera->setFarClipDistance(30000.0f);
+}
 
+void RaceCamera::reinitialize() {
 	// Create 3rd person view camera
 	m3rdPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "3rdPersonNode");
 	m3rdPersonViewpointNode = m3rdPersonViewpointNode->createChildSceneNode(m3rdPersonViewpointNode->getName() + "Pitch");
@@ -32,14 +44,6 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 		Ogre::Vector3(-40, 20, 40));
 	mFreeRoamViewpointNode->yaw(Ogre::Degree(-45));
 	mFreeRoamViewpointNode = mFreeRoamViewpointNode->createChildSceneNode(mFreeRoamViewpointNode->getName() + "Pitch");
-
-	// Fetch input manager object and register controls
-	mInputManager = InputManager::getSingletonPtr();
-	mInputManager->addKeyListener(this, "RaceCamera");
-
-	// Create camera controllers
-	mFreeroamCameraController = new FreeroamCameraController();
-	mObjectTrackCameraController = new ObjectTrackCameraController();
 
 	// Set default camera and controller
 	mActiveViewpointNode = m3rdPersonViewpointNode;

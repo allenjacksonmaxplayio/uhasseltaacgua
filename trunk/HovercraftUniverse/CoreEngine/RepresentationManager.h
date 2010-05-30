@@ -65,6 +65,13 @@ public:
 	void addEntityRepresentation(EntityRepresentation * entityRep);
 
 	/**
+	 * Returns the entity representations.
+	 *
+	 * @return the entity representations
+	 */
+	std::vector<EntityRepresentation *> getEntityRepresentations() { return mEntityRepresentations; }
+
+	/**
 	 * Removes the given entity representation from the manager.
 	 *
 	 * @param entityRep the unique name of the entity representation to remove

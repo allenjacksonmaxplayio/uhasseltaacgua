@@ -167,16 +167,16 @@ void Application::setupScene() {
 	//////////////////////////////////////////////////////////////////////////
 	//TODO: The creation of a GameView should be moved to InGameState (Nick)//
 	//////////////////////////////////////////////////////////////////////////
-	// Add single game view to representation manager and fix aspect ratio
-	GameView * gv = new GameView(msSceneMgr);
-	Ogre::Camera * cam = gv->getCamera()->getCamera();
-	Ogre::Viewport * vp = win->addViewport(cam);
-	cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-	mRepresentationManager->addGameView(gv);
+    // Add single game view to representation manager and fix aspect ratio
+    GameView * gv = new GameView(msSceneMgr);
+    Ogre::Camera * cam = gv->getCamera()->getCamera();
+    Ogre::Viewport * vp = win->addViewport(cam);
+    cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+    mRepresentationManager->addGameView(gv);
 
-	// Initialise and store the GUIManager
-	GUIManager::init(root->Attribute("mediaPath"), vp);
-	mGUIManager = GUIManager::getSingletonPtr();
+    // Initialise and store the GUIManager
+    GUIManager::init(root->Attribute("mediaPath"), vp);
+    mGUIManager = GUIManager::getSingletonPtr();
 
 	// Initialise and store the SoundManager (dont remove trailing \)
 	SoundManager::init(mSoundPath, mSoundFile);
