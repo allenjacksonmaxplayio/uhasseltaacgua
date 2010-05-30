@@ -10,6 +10,7 @@
 #include "RaceState.h"
 #include "RacePlayer.h"
 #include "DedicatedServer.h"
+#include "EntityMapping.h"
 
 //Events
 #include "InitEvent.h"
@@ -182,7 +183,7 @@ void Lobby::onStartServer() {
 	if (!getRaceState()) {
 
 		//TODO GET FROM TRACK ID
-		Ogre::String trackfile = "SimpleTrack2.scene";
+		Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS,this->mTrack).first;		
 
 		RaceState* racestate = new RaceState(this, mLoader, trackfile);
 		setRaceState(racestate);
