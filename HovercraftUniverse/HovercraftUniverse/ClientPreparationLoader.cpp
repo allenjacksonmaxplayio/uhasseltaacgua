@@ -4,6 +4,7 @@
 #include "RepresentationManager.h"
 #include "ProgressMonitor.h"
 #include <OgreSceneManager.h>
+#include <OgreResourceGroupManager.h>
 
 namespace HovUni {
 
@@ -71,6 +72,34 @@ void ClientPreparationLoader::onEntity(OgreMax::Types::EntityParameters& entityp
 
 void ClientPreparationLoader::registerLoader(Ogre::String filename) {
 	mCurrFilename = filename;
+
+	int pos = filename.find(".scene");
+	Ogre::String trackname = filename.substr(0,pos);
+
+	if ( Ogre::ResourceGroupManager::getSingleton().resourceGroupExists("Track") ){
+		Ogre::ResourceGroupManager::getSingleton().clearResourceGroup("Track");
+	}
+	else {
+		Ogre::ResourceGroupManager::getSingleton().createResourceGroup ("Track");
+	}	
+
+	//Add resource location to Ogre
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+		"levels/" + trackname + "/textures",
+		"FileSystem",
+		"Track"
+	);
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+		"levels/" + trackname + "/models",
+		"FileSystem",
+		"Track"	
+	);
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+		"levels/" + trackname + "/materials/scripts",
+		"FileSystem",
+		"Track"
+	);
+	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Track");
 
 	// Load the file for which a loader must be created
 	load(mCurrFilename);
