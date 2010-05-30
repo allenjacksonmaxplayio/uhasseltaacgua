@@ -345,12 +345,12 @@
                     <![CDATA[<OgreEntity><GameEntity>Asteroid03_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="Asteroid04" />
+                    <subentity index="0" materialName="Asteroid03" />
                 </subentities>
             </entity>
         </node>
         <node name="Omni05">
-            <position x="766.736" y="431.212" z="-8.0515" />
+            <position x="873.18" y="267.221" z="-8.05149" />
             <scale x="1" y="1" z="1" />
             <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
             <light name="Omni05" visible="true" type="point" castShadows="true" power="1">
@@ -360,7 +360,7 @@
             </light>
         </node>
         <node name="Omni06">
-            <position x="766.736" y="-228.224" z="-8.05147" />
+            <position x="766.736" y="-115.785" z="-8.05148" />
             <scale x="1" y="1" z="1" />
             <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
             <light name="Omni06" visible="true" type="point" castShadows="true" power="1">
@@ -495,6 +495,48 @@
                 </subentities>
             </entity>
         </node>
+        <node name="Start02">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="632.85" y="-4.41476" z="-52.4766" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.0017422" qy="0.0318807" qz="0.99949" qw="-5.55889e-005" />
+        </node>
+        <node name="Start03">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="620.989" y="-3.05053" z="-31.1135" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.0017422" qy="0.0318807" qz="0.99949" qw="-5.55889e-005" />
+        </node>
+        <node name="Start04">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="608.656" y="-4.41476" z="-52.4766" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.0017422" qy="0.0318807" qz="0.99949" qw="-5.55889e-005" />
+        </node>
+        <node name="Start05">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="596.795" y="-3.05053" z="-31.1135" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.0017422" qy="0.0318807" qz="0.99949" qw="-5.55889e-005" />
+        </node>
+        <node name="Omni07">
+            <position x="1420.65" y="-115.785" z="-8.05148" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni07" visible="true" type="point" castShadows="true" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
     </nodes>
     <externals>
         <item name="Asteroid01_ent">
@@ -504,54 +546,6 @@
             <position x="0" y="0" z="0" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="596.782" y="157.88" z="302.386" />
-        </item>
-        <item name="StartPos01">
-            <userData>
-                <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
-</userData>
-            <position x="621.502" y="18.7288" z="11.618" />
-            <rotation qx="0.451584" qy="0.544403" qz="0.541097" qw="-0.454875" />
-            <scale x="1" y="1" z="1" />
-        </item>
-        <item name="StartPos06">
-            <userData>
-                <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber></StartPosition>]]>
-</userData>
-            <position x="657.156" y="18.965" z="14.9079" />
-            <rotation qx="-0.497314" qy="-0.502973" qz="-0.499392" qw="0.500304" />
-            <scale x="1" y="1" z="1" />
-        </item>
-        <item name="StartPos05">
-            <userData>
-                <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber></StartPosition>]]>
-</userData>
-            <position x="658.572" y="18.965" z="-0.435527" />
-            <rotation qx="0.474901" qy="0.524187" qz="0.520741" qw="-0.478044" />
-            <scale x="1" y="1" z="1" />
-        </item>
-        <item name="StartPos04">
-            <userData>
-                <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
-</userData>
-            <position x="638.242" y="18.8397" z="13.1627" />
-            <rotation qx="0.474901" qy="0.524187" qz="0.52074" qw="-0.478044" />
-            <scale x="1" y="1" z="1" />
-        </item>
-        <item name="StartPos03">
-            <userData>
-                <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
-</userData>
-            <position x="639.658" y="18.8397" z="-2.18079" />
-            <rotation qx="-0.497314" qy="-0.502973" qz="-0.499392" qw="0.500304" />
-            <scale x="1" y="1" z="1" />
-        </item>
-        <item name="StartPos02">
-            <userData>
-                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
-</userData>
-            <position x="622.918" y="18.7288" z="-3.72547" />
-            <rotation qx="-0.497314" qy="-0.502973" qz="-0.499393" qw="0.500304" />
-            <scale x="1" y="1" z="1" />
         </item>
         <item name="Rock01_ent">
             <userData>
@@ -776,6 +770,22 @@
             <position x="1274.82" y="2.3939" z="-78.2505" />
             <rotation qx="-0.00682853" qy="0.101908" qz="-0.145469" qw="0.984077" />
             <scale x="84.1554" y="5" z="50.9362" />
+        </item>
+        <item name="Start00">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="657.857" y="-4.41476" z="-52.4766" />
+            <rotation qx="-0.0017422" qy="0.0318807" qz="0.99949" qw="-5.55889e-005" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Start01">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="645.996" y="-3.05053" z="-31.1135" />
+            <rotation qx="-0.0017422" qy="0.0318807" qz="0.99949" qw="-5.55889e-005" />
+            <scale x="1" y="1" z="1" />
         </item>
     </externals>
 </scene>
