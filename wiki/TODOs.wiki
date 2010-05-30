@@ -7,3 +7,4 @@
   * Positie correct replicaten en weergeven
   * Crash bij het returnen naar lobby met bots
   * Countdown in lobby chat wanneer admin op start drukt
+  * Server.ini "bots=1" doet niets
