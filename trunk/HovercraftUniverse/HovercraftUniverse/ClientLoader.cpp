@@ -52,7 +52,7 @@ void ClientLoader::onSkyDome(OgreMax::Types::SkyDomeParameters& skyDomeParameter
 }
 
 void ClientLoader::onClipping(Ogre::Real environmentNear, Ogre::Real environmentFar) {
-	// Not yet(?) supported
+	
 }
 
 void ClientLoader::onAmbientColour(const Ogre::ColourValue& colour) {

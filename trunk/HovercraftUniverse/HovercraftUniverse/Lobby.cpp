@@ -183,7 +183,7 @@ void Lobby::onStartServer() {
 	if (!getRaceState()) {
 
 		//TODO GET FROM TRACK ID
-		Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS,this->mTrack).first;		
+		Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS,this->mTrack).first + ".scene"; 		
 
 		RaceState* racestate = new RaceState(this, mLoader, trackfile);
 		setRaceState(racestate);
