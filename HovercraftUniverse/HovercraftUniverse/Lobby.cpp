@@ -65,7 +65,7 @@ void Lobby::process() {
 	if (mRaceState) {
 		mRaceState->process();
 		if (mRaceState->isDone()) {
-			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: deleting race state";
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Deleting RaceState";
 			deleteRaceState();
 		}
 	}

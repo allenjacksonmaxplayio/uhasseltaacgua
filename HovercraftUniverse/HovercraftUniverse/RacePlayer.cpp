@@ -27,7 +27,7 @@ RacePlayer::RacePlayer(Lobby* lobby, ZCom_BitStream* announcementdata, ZCom_Clas
 }
 
 RacePlayer::~RacePlayer() {
-
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Deleting RacePlayer for " << mPlayerSettings->getPlayerName();
 }
 
 std::string RacePlayer::getClassName() {

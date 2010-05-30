@@ -108,12 +108,17 @@ RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStre
 }
 
 RaceState::~RaceState() {
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Deleting RaceState";
 	// Delete all the players
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
 		if (it->second->isBot()) {
 			PlayerSettings* settings = it->second->getSettings();
 			it = removePlayer(it);
-			delete settings;
+
+			// Only delete settings on server because client will already take care of it
+			if (mServer) {
+				delete settings;
+			}
 		} else {
 			it = removePlayer(it);
 		}
