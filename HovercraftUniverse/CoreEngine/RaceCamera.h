@@ -79,6 +79,11 @@ public:
 	~RaceCamera(void);
 
 	/**
+	 * Reinitialize the camera.
+	 */
+	void reinitialize();
+
+	/**
 	 * Sets the free roaming position and orientation.
 	 *
 	 * @param pos the position of the freeroam camera

@@ -12,6 +12,7 @@
 #include "RepresentationManager.h"
 #include <tinyxml/tinyxml.h>
 #include <SkyX.h>
+#include <boost/thread.hpp>
 
 namespace HovUni {
 	class RaceState; //Forward declaration
@@ -63,6 +64,9 @@ namespace HovUni {
 
 			/** Boolean to check if we are cleaning up */
 			bool mCleaningUp;
+
+			/** Whether to run */
+			bool mRun;
 
 		public:
 			/**

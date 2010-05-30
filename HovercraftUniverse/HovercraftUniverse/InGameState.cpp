@@ -10,7 +10,7 @@
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
-			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false), mCleaningUp(false) {
+			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false), mCleaningUp(false), mRun(false) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
@@ -126,6 +126,11 @@ namespace HovUni {
 	////////////////////////////////////////////
 
 	void InGameState::activate() {
+		// Either this one may be entered
+		//boost::mutex::scoped_lock l(mMutex);
+
+		mRepresentationManager->getGameViews().at(0)->getCamera()->reinitialize();
+
 		//Make sure we activate all the key actions
 		mInputManager->getKeyManager()->setActive();
 
@@ -157,9 +162,18 @@ namespace HovUni {
 
 		//Switch music
 		mSoundManager->startAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
+
+		// Start drawing
+		mRun = true;
 	}
 
 	void InGameState::disable() {
+		// Or this one
+		//boost::mutex::scoped_lock l(mMutex);
+
+		// Stop drawing
+		mRun = false;
+
 		// Clean up skies
 		mSkyX->remove();
 
@@ -186,80 +200,118 @@ namespace HovUni {
 
 		mRaceState->removeListener(this);
 
+		// Remove representation managers
+		std::vector<EntityRepresentation*> entreps = RepresentationManager::getSingletonPtr()->getEntityRepresentations();
+        for ( std::vector<EntityRepresentation*>::iterator i = entreps.begin(); i != entreps.end(); i++ ){
+			RepresentationManager::getSingletonPtr()->removeEntityRepresentation((*i)->getEntity()->getName());
+                delete (*i);
+        }
+
+		// Remove entities
+		std::vector<Entity*> ents = EntityManager::getClientSingletonPtr()->getEntities(EntityManager::ALL);
+        for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
+                EntityManager::getClientSingletonPtr()->releaseEntity((*i)->getName());
+
+                delete (*i);
+        }
+
+		// Remove everything
+		Application::msSceneMgr->destroyAllAnimations();
+		Application::msSceneMgr->destroyAllAnimationStates();
+		Application::msSceneMgr->destroyAllBillboardChains();
+		Application::msSceneMgr->destroyAllBillboardSets();
+		Application::msSceneMgr->destroyAllEntities();
+		Application::msSceneMgr->destroyAllMovableObjects();
+		Application::msSceneMgr->destroyAllInstancedGeometry();
+		Application::msSceneMgr->destroyAllLights();
+		Application::msSceneMgr->destroyAllEntities();
+		Application::msSceneMgr->getRootSceneNode()->removeAndDestroyAllChildren();
+
 		//Switch music
 		mSoundManager->stopAmbient(MUSICCUE_HOVSOUND_BACKGROUND_NORMAL);
 		mSoundManager->startAmbient(MUSICCUE_HOVSOUND_MENU);
 	}
 
 	bool InGameState::frameStarted(const Ogre::FrameEvent & evt) {
-		bool result = true;
+		// Or this one
+		//boost::mutex::scoped_lock l(mMutex);
 
-		mTimeLapsed += evt.timeSinceLastFrame;
+		if (mRun) {
+			bool result = true;
 
-		// Update entity manager
-		mEntityManager->updateEntities(evt.timeSinceLastFrame);
+			mTimeLapsed += evt.timeSinceLastFrame;
 
-		// Process the client
-		if (mTimeLapsed > 0.016f) {
-			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
-			mHUClient->process((int) (mTimeLapsed * 1000.0f));
-			// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
-			mTimeLapsed = 0.0f;
-		}
+			// Update entity manager
+			mEntityManager->updateEntities(evt.timeSinceLastFrame);
 
-		if (!mCleaningUp) {
-			//Check if we need to synchronise the countdown
-			if ((mRaceState != 0) && (mRaceState->getState() == RaceState::COUNTDOWN)) {
-				mCountdown->resync(mRaceState->getCountdown());
+			// Process the client
+			if (mTimeLapsed > 0.016f) {
+				// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client start input output process";
+				mHUClient->process((int) (mTimeLapsed * 1000.0f));
+				// Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Client ends input output process";
+				mTimeLapsed = 0.0f;
 			}
-		} else {
-			//We want to switch state!
-			mRaceState->removeListener(this);
-			mManager->switchState(GameStateManager::LOBBY);
-		}
 
-		//Check if we need to remove the countdown overlay
-		if (mCountdownFadeout != -1) {
-			mCountdownFadeout -= evt.timeSinceLastFrame;
-
-			if (mCountdownFadeout <= 0) {
-				mGUIManager->disableOverlay(mCountdown);
-				mCountdownFadeout = -1;
+			if (!mCleaningUp) {
+				//Check if we need to synchronise the countdown
+				if ((mRaceState != 0) && (mRaceState->getState() == RaceState::COUNTDOWN)) {
+					mCountdown->resync(mRaceState->getCountdown());
+				}
+			} else {
+				//We want to switch state!
+				mRaceState->removeListener(this);
+				mManager->switchState(GameStateManager::LOBBY);
 			}
+
+			//Check if we need to remove the countdown overlay
+			if (mCountdownFadeout != -1) {
+				mCountdownFadeout -= evt.timeSinceLastFrame;
+
+				if (mCountdownFadeout <= 0) {
+					mGUIManager->disableOverlay(mCountdown);
+					mCountdownFadeout = -1;
+				}
+			}
+
+			// Get the sky options
+			SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
+			mSkyX->setTimeMultiplier(0.3f);
+			// Make sure we never quit night time
+			if ((SkyXOptions.Time.x > 4.0) && (SkyXOptions.Time.x < 5.0)) {
+				SkyXOptions.Time.x = 21.0;
+			}
+			mSkyX->getAtmosphereManager()->setOptions(SkyXOptions);
+			mSkyX->update(evt.timeSinceLastFrame);
+
+			// Update representation manager
+			if (mRun) {
+				mRepresentationManager->drawGameViews(evt.timeSinceLastFrame);
+			}
+
+			//Update the HUD
+			if (mHud->isActivated()) {
+				updateHud();
+			}
+
+			//We are using a GUI, so update it
+			mGUIManager->update();
+
+			//We have sound, update it
+			if (mUpdateListener) {
+				//Get current entity
+				Entity* currEntity = mEntityManager->getTrackedEntity();
+				Ogre::SceneManager::CameraIterator it = mRepresentationManager->getSceneManager()->getCameraIterator();
+				Ogre::Camera* cam = it.getNext();
+				mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
+			}
+			mSoundManager->update();
+
+			// Return whether to continue
+			return (mContinue && result);
 		}
 
-		// Get the sky options
-		SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
-		mSkyX->setTimeMultiplier(0.3f);
-		// Make sure we never quit night time
-		if ((SkyXOptions.Time.x > 4.0) && (SkyXOptions.Time.x < 5.0)) {
-			SkyXOptions.Time.x = 21.0;
-		}
-		mSkyX->getAtmosphereManager()->setOptions(SkyXOptions);
-		mSkyX->update(evt.timeSinceLastFrame);
-
-		// Update representation manager
-		mRepresentationManager->drawGameViews(evt.timeSinceLastFrame);
-
-		//Update the HUD
-		if (mHud->isActivated()) {
-			updateHud();
-		}
-
-		//We are using a GUI, so update it
-		mGUIManager->update();
-
-		//We have sound, update it
-		if (mUpdateListener) {
-			//Get current entity
-			Entity* currEntity = mEntityManager->getTrackedEntity();
-			Ogre::SceneManager::CameraIterator it = mRepresentationManager->getSceneManager()->getCameraIterator();
-			Ogre::Camera* cam = it.getNext();
-			mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
-		}
-		mSoundManager->update();
-
-		return (mContinue && result);
+		// Return false
+		return mContinue;
 	}
 
 	bool InGameState::mouseMoved(const OIS::MouseEvent & e) {
