@@ -2,6 +2,7 @@
 
 = Put all todo's here for the next realease =
 
+  * Sterren visualizeren in nieuwe map!
   * "... is leaving" oplossen
   * Hovercraft select box
   * Positie correct replicaten en weergeven
