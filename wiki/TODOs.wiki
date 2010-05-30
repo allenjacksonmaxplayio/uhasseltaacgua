@@ -10,3 +10,4 @@
   * Logo en laadscherm ontwerpen
   * Crash wanneer server could not be reached
   * Overlays zomaar in de lucht
+  * Reset gaat altijd naar 2e checkpoint
