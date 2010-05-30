@@ -1,6 +1,6 @@
 #TODOs for the next release
 
-= Put all todo's here for the next realease =
+= Put all todo's here for the next release =
 
   * Sterren visualizeren in nieuwe map!
   * Hovercraft select box
@@ -8,3 +8,4 @@
   * Crash bij het returnen naar lobby met bots
   * Countdown in lobby chat wanneer admin op start drukt
   * Server.ini "bots=1" doet niets
+  * Logo en laadscherm ontwerpen
