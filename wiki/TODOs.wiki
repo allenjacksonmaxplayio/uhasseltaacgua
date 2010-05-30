@@ -1,0 +1,7 @@
+#TODOs for the next release
+
+= Put all todo's here for the next realease =
+
+  * "... is leaving" oplossen
+  * Hovercraft select box
+  * Positie correct replicaten en weergeven
