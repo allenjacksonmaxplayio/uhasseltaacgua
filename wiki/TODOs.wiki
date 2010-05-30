@@ -9,3 +9,4 @@
   * Countdown in lobby chat wanneer admin op start drukt
   * Server.ini "bots=1" doet niets
   * Logo en laadscherm ontwerpen
+  * Crash wanneer server could not be reached
