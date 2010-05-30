@@ -361,49 +361,15 @@ material Tunnel
 
 material Asteroid02
 {
-	technique Shader
+	technique
 	{
-		pass Texture
+		pass
 		{
-			ambient 0.698039 0.698039 0.698039 1
-			diffuse 0.698039 0.698039 0.698039 1
-			specular 0.898039 0.898039 0.898039 1 20
-
-			fragment_program_ref asteroidPS
-			{
-				param_named scale_layer1 float 15
-				param_named scale_layer2 float 20
-				param_named scale_layer3 float 10
-			}
-
-			texture_unit alphaMap0
-			{
-				texture_alias alphaMap0
-				texture Asteroid02DiffuseMap.png
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer0
-			{
-				texture_alias Layer0
-				texture dirt.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer1
-			{
-				texture_alias Layer1
-				texture rock.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer2
-			{
-				texture_alias Layer2
-				texture grass.jpg
-				filtering linear linear linear
-			}
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
 		}
+
 	}
 
 }
@@ -412,49 +378,15 @@ material Asteroid02
 
 material Asteroid01
 {
-	technique Shader
+	technique
 	{
-		pass Texture
+		pass
 		{
-			ambient 0.698039 0.698039 0.698039 1
-			diffuse 0.698039 0.698039 0.698039 1
-			specular 0.898039 0.898039 0.898039 1 20
-
-			fragment_program_ref asteroidPS
-			{
-				param_named scale_layer1 float 15
-				param_named scale_layer2 float 20
-				param_named scale_layer3 float 10
-			}
-
-			texture_unit alphaMap0
-			{
-				texture_alias alphaMap0
-				texture Asteroid01DiffuseMap.png
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer0
-			{
-				texture_alias Layer0
-				texture dirt.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer1
-			{
-				texture_alias Layer1
-				texture rock.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer2
-			{
-				texture_alias Layer2
-				texture grass.jpg
-				filtering linear linear linear
-			}
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
 		}
+
 	}
 
 }
@@ -463,100 +395,15 @@ material Asteroid01
 
 material Asteroid03
 {
-	technique Shader
+	technique
 	{
-		pass Texture
+		pass
 		{
-			ambient 0.698039 0.698039 0.698039 1
-			diffuse 0.698039 0.698039 0.698039 1
-			specular 0.898039 0.898039 0.898039 1 20
-
-			fragment_program_ref asteroidPS
-			{
-				param_named scale_layer1 float 15
-				param_named scale_layer2 float 20
-				param_named scale_layer3 float 10
-			}
-
-			texture_unit alphaMap0
-			{
-				texture_alias alphaMap0
-				texture Asteroid03DiffuseMap.png
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer0
-			{
-				texture_alias Layer0
-				texture dirt.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer1
-			{
-				texture_alias Layer1
-				texture rock.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer2
-			{
-				texture_alias Layer2
-				texture grass.jpg
-				filtering linear linear linear
-			}
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
 		}
-	}
 
-}
-
-
-
-material Planet01
-{
-	technique Shader
-	{
-		pass Texture
-		{
-			ambient 0.698039 0.698039 0.698039 1
-			diffuse 0.698039 0.698039 0.698039 1
-			specular 0.898039 0.898039 0.898039 1 20
-
-			fragment_program_ref asteroidPS
-			{
-				param_named scale_layer1 float 15
-				param_named scale_layer2 float 20
-				param_named scale_layer3 float 10
-			}
-
-			texture_unit alphaMap0
-			{
-				texture_alias alphaMap0
-				texture Planet01DiffuseMap.png
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer0
-			{
-				texture_alias Layer0
-				texture dirt.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer1
-			{
-				texture_alias Layer1
-				texture rock.jpg
-				filtering linear linear linear
-			}
-			
-			texture_unit Layer2
-			{
-				texture_alias Layer2
-				texture grass.jpg
-				filtering linear linear linear
-			}
-		}
 	}
 
 }
