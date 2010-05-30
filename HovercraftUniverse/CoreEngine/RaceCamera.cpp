@@ -76,7 +76,8 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 	EntityRepresentation* trackedEntity = RepresentationManager::getSingletonPtr()->getTrackedEntityRepresentation();
 	// TODO Set the camera controller
 	bool freeroamSwitch = false;
-
+	bool wasCameraAction = true;
+	
 	switch (action) {
 	case CameraActions::CHANGECAMERA:
 		// Switch to next camera
@@ -109,20 +110,24 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 		break;
 	default:
 		// Do nothing
+		wasCameraAction = false;
 		break;
 	}
 
-	mActiveViewpointNode->detachObject(mCamera);
-	if (mCurrCamViewpoint == ThirdPerson) {
-		mActiveViewpointNode = m3rdPersonViewpointNode;
-	} else if (mCurrCamViewpoint == FirstPerson) {
-		mActiveViewpointNode = m1stPersonViewpointNode;
-	} else if (mCurrCamViewpoint == RearView) {
-		mActiveViewpointNode = mRearViewpointNode;
-	} else if (mCurrCamViewpoint == FreeRoam) {
-		mActiveViewpointNode = mFreeRoamViewpointNode;
+	if (wasCameraAction) {
+		mActiveViewpointNode->detachObject(mCamera);
+
+		if (mCurrCamViewpoint == ThirdPerson) {
+			mActiveViewpointNode = m3rdPersonViewpointNode;
+		} else if (mCurrCamViewpoint == FirstPerson) {
+			mActiveViewpointNode = m1stPersonViewpointNode;
+		} else if (mCurrCamViewpoint == RearView) {
+			mActiveViewpointNode = mRearViewpointNode;
+		} else if (mCurrCamViewpoint == FreeRoam) {
+			mActiveViewpointNode = mFreeRoamViewpointNode;
+		}
+		mActiveViewpointNode->attachObject(mCamera);
 	}
-	mActiveViewpointNode->attachObject(mCamera);
 
 	if (freeroamSwitch) {
 		//Initialise the freeroam camera
