@@ -6,3 +6,4 @@
   * "... is leaving" oplossen
   * Hovercraft select box
   * Positie correct replicaten en weergeven
+  * Crash bij het returnen naar lobby met bots
