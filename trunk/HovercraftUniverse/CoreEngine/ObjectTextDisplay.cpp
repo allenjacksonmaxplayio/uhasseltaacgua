@@ -9,9 +9,9 @@ namespace HovUni {
 		m_text = "";
 
 		// create an overlay that we can use for later
-		m_pOverlay = Ogre::OverlayManager::getSingleton().getByName("TextOverlay");
+		m_pOverlay = Ogre::OverlayManager::getSingleton().getByName("TextOverlay" + p->getName());
 		if (m_pOverlay == 0) {
-			m_pOverlay = Ogre::OverlayManager::getSingleton().create("TextOverlay");
+			m_pOverlay = Ogre::OverlayManager::getSingleton().create("TextOverlay" + p->getName());
 		}
 
 		Ogre::OverlayElement* overlayElement = Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", "TextOverlayContainer" + p->getName());
@@ -45,7 +45,7 @@ namespace HovUni {
 		m_pOverlay->remove2D(m_pContainer);
 		overlayManager->destroyOverlayElement(m_pText);
 		overlayManager->destroyOverlayElement(m_pContainer);
-		overlayManager->destroy(m_pOverlay);
+		//overlayManager->destroy(m_pOverlay);
 	}
 
 	void ObjectTextDisplay::enable(bool enable) {

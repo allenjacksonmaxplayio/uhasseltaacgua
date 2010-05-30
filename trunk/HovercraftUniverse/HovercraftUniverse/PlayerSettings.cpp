@@ -41,6 +41,7 @@ PlayerSettings::PlayerSettings(Lobby * lobby, ZCom_BitStream* announcementdata, 
 }
 
 PlayerSettings::~PlayerSettings() {
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[PlayerSettings]: Deleting PlayerSettings for " << mPlayerName;
 	releaseUniqueID(mUserID);
 }
 
