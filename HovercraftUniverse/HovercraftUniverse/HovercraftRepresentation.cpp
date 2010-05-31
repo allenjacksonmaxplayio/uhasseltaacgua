@@ -15,10 +15,11 @@ const float HovercraftRepresentation::MIN_RPM = 500.0f;
 HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::SceneManager * sceneMgr, Ogre::String meshFile, Ogre::String resourceGroupName, bool visible, bool castShadows, 
 												   Ogre::Real renderingDistance, Ogre::String materialFile, std::vector<Ogre::String> subMaterials, Ogre::SceneNode * node) 
 			: EntityRepresentation(entity, meshFile,  sceneMgr, resourceGroupName, visible, castShadows, renderingDistance, materialFile, subMaterials, node), Moveable3DEmitter(EVENTGUID_HOVSOUND_EVENTS_HOVERCRAFT), mRotorState(0) {
-   for ( std::vector<Ogre::String>::iterator i = subMaterials.begin(); i != subMaterials.end(); i++ ){
+	for ( std::vector<Ogre::String>::iterator i = subMaterials.begin(); i != subMaterials.end(); i++ ){
 	   std::cout << *i << std::endl;
-   }
+	}
 
+	// ########################################################## CHARACTER IN HOVERCRAFT ####################################################
 	// Create character node to sit in hovercraft
 	Ogre::SceneNode * hovercraftNode = getOgreSceneNode();	
 	Ogre::SceneNode * characterNode = hovercraftNode->createChildSceneNode(/* translate, rotate */);
@@ -27,10 +28,9 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	characterNode->yaw(Ogre::Degree(180.0), Ogre::Node::TS_PARENT);
 	characterNode->translate(Ogre::Vector3(0.5, 2.5, 0.0));
 	//characterNode->roll(Ogre::Degree(-90.0));
-
     // Create the character entity (TODO Yes i know it is hardcoded ...)
 	Ogre::Entity * characterEntity = Application::msSceneMgr->createEntity(entity->getName() + "_character", "Cloudera.mesh", resourceGroupName);
-	characterEntity->getAllAnimationStates();
+	//characterEntity->getAllAnimationStates();
 	//Ogre::AnimationState * characterSitAnimation =	characterEntity->getAnimationState("Sit");
 	//if (characterSitAnimation != 0) {
 	//	characterSitAnimation->setEnabled(true);
@@ -38,10 +38,10 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	characterEntity->setCastShadows(true);
 	characterEntity->setMaterialName("04-Default");
 	characterEntity->getSubEntity(0)->setMaterialName("04-Default");
-
 	// Attach entity to node
 	characterNode->attachObject(characterEntity);
 
+	// ########################################################## SOUND ####################################################
    //Initialize sound
 	setEventParameter(EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_RPM, 1000.0f);
 	float load_min, load_max;
@@ -52,18 +52,14 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	//SoundManager::getSingletonPtr()->registerEmitter(this);
 	//startSound();
 
+	// ########################################################## SMOKE PARTICLE SYSTEM ####################################################
 	//TODO: check if we have to delete these things ourselves, or if ogre will take care of that
 	// (for example, when starting a new game)
 	Ogre::ParticleSystem* pSystem = sceneMgr->createParticleSystem(entity->getName() + "Smoke", "Smokey");
 	mParticleNode = node->createChildSceneNode();
 	mParticleNode->attachObject(pSystem);
 
-	mRotorState = mOgreEntity->getAnimationState("Rotor");
-	if ( mRotorState != 0 ){
-		mRotorState->setLoop(true);
-		mRotorState->setEnabled(true);
-	}
-
+	// ########################################################## SPARKS PARTICLE SYSTEM ####################################################
 	//Collision Sparks
 	mSparks = sceneMgr->createParticleSystem(entity->getName() + "Spark", "Spark");
 	mSparks->setKeepParticlesInLocalSpace(true);
@@ -71,6 +67,13 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	mSparksNode = node->getParentSceneNode()->createChildSceneNode();
 	mSparksNode->scale(0.1f, 0.1f, 0.1f);
 	mSparksNode->attachObject(mSparks);
+
+	// ########################################################## ROTOR ANIMATION ####################################################
+	mRotorState = mOgreEntity->getAnimationState("Rotor");
+	if (mRotorState != 0) {
+		mRotorState->setLoop(true);
+		mRotorState->setEnabled(true);
+	}
 }
 
 HovercraftRepresentation::~HovercraftRepresentation() {
