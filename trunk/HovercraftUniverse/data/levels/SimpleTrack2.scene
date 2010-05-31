@@ -1,4 +1,4 @@
-<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.3" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <userData>
         <![CDATA[<Track><Name>Simple Track 2</Name><MinimumPlayers>0</MinimumPlayers><MaximumPlayers>6</MaximumPlayers><PathFileName>SimpleTrack2.path</PathFileName><PhysicsFileName>SimpleTrack2.hkx</PhysicsFileName></Track>]]>
 </userData>
@@ -370,7 +370,7 @@
         </item>
         <item name="Check01_ent">
             <userData>
-                <![CDATA[<CheckPoint><OgreEntity>Check01</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Start</Name><Number>0</Number></CheckPoint>]]>
+                <![CDATA[<CheckPoint><OgreEntity>Check01</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Jumpy</Name><Number>1</Number></CheckPoint>]]>
 </userData>
             <position x="-63.4644" y="37.5228" z="-6.66379" />
             <rotation qx="0.0774659" qy="-0.703366" qz="0.0682675" qw="0.703289" />
@@ -410,7 +410,7 @@
         </item>
         <item name="Check02_ent">
             <userData>
-                <![CDATA[<CheckPoint><OgreEntity>Check02</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Middle</Name><Number>1</Number></CheckPoint>]]>
+                <![CDATA[<CheckPoint><OgreEntity>Check02</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Middle</Name><Number>2</Number></CheckPoint>]]>
 </userData>
             <position x="-473.667" y="46.7041" z="-46.0181" />
             <rotation qx="0.0101174" qy="-0.819057" qz="-0.0264471" qw="0.573013" />
@@ -570,7 +570,7 @@
         </item>
         <item name="Check04_ent">
             <userData>
-                <![CDATA[<Start><OgreEntity>Check04</OgreEntity><ProcessInterval>-1</ProcessInterval></Start>]]>
+                <![CDATA[<CheckPoint><Name>Start</Name><Number>0</Number><OgreEntity>Check04</OgreEntity><ProcessInterval>-1</ProcessInterval></CheckPoint>]]>
 </userData>
             <position x="79.4172" y="52.8911" z="-13.8523" />
             <rotation qx="0.0187252" qy="-0.668601" qz="-0.133017" qw="0.731388" />
