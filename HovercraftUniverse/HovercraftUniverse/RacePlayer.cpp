@@ -24,6 +24,7 @@ RacePlayer::RacePlayer(Lobby* lobby, ZCom_BitStream* announcementdata, ZCom_Clas
 
 	// Add as network entity
 	networkRegister(id, control);
+	setReplicationInterceptor(this);
 }
 
 RacePlayer::~RacePlayer() {
