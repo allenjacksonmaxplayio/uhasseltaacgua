@@ -24,6 +24,8 @@
 #include "DedicatedServer.h"
 #include "EntityManager.h"
 #include "CheckPoint.h"
+#include "StartPosition.h"
+#include "RacePlayer.h"
 
 #include "BoostProperty.h"
 
@@ -179,11 +181,28 @@ void HavokHovercraft::update(){
 	const BasicEntityEvent& status = hovercraft->getMovingStatus();
 
 	if ( status.reset() ){
-		//reset the damn thing
-		std::vector<Entity*> test = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
-		Ogre::Vector3 pos = test[0]->getPosition();
-		hkVector4 resetpos (pos[0],pos[1],pos[2] + 10);
-		mCharacterRigidBody->getRigidBody()->setPosition(resetpos);
+
+		//int chechptn = mEntity->getRaceState()->getPlayer(mEntity->getPlayerId())->getLastCheckpoint();
+		
+		Ogre::Vector3 pos;
+		Ogre::Quaternion rot;
+		/*if ( chechptn == -1 ){*/
+			std::vector<Entity*> startpoints = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
+			pos = startpoints[0]->getPosition();
+			rot = startpoints[0]->getQuaternion();
+		/*}
+		else {
+			//reset the damn thing
+			std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
+			pos = checkpoints[chechptn]->getPosition();
+			rot = checkpoints[chechptn]->getQuaternion();
+		}*/
+
+		pos += 10.0 * rot.yAxis();
+		hkVector4 resetpos (pos[0],pos[1],pos[2]);
+		
+
+		mCharacterRigidBody->getRigidBody()->setPosition(resetpos);	
 	}
 
 

@@ -61,6 +61,16 @@ private:
 	 */
 	hkVector4 mBounceVector;
 
+	/**
+	 * Current bounce position
+	 */
+	hkVector4 mNormal;
+
+	/**
+	 * Current bounce normal
+	 */
+	hkVector4 mPosition;
+
 	/** 
 	 * True if collision occured
 	 */
