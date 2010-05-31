@@ -160,6 +160,8 @@ void RaceState::onFinish(Finish * finish, unsigned int playerid) {
 	if (mCheckpointMapping[playerid] == mFinishID) {
 		// finished!
 		std::cout << playerid << " finished!" << std::endl;
+		RacePlayer* player = getPlayer(playerid);
+		player->setFinished();
 		// increase next checkpoint
 		updatePlayerCheckpoint(playerid);
 		// change state to finishing

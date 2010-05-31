@@ -27,6 +27,9 @@ private:
 	/** The current position of this player in the race */
 	unsigned int mPlayerPosition;
 
+	/** Whether the player finished */
+	bool mFinished;
+
 	/** The last checkpoint reached */
 	unsigned int mLastCheckpoint;
 
@@ -93,6 +96,18 @@ public:
 	 * @return the current position
 	 */
 	short getPosition() const;
+
+	/**
+	 * Indicate that the player finished
+	 */
+	void setFinished();
+
+	/**
+	 * Check whether the player finished
+	 *
+	 * @return true if finished, false otherwise
+	 */
+	bool isFinished() const;
 
 	/**
 	 * Add a timestamp of a checkpoint reached by this player
