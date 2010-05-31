@@ -18,6 +18,7 @@ ACCELERATE	=	1;
 BRAKE		=	2;
 TURNLEFT	=	3;
 TURNRIGHT	=	4;
+RESET		=	5;
 -----------------------------
 
 
@@ -41,6 +42,8 @@ EPSILON = 0.01; -- for avoiding steering oscillations
 
 MINSPEED = 0.1; -- % of speed for accurate steering
 MAXSPEED = 1.0; -- % of speed for going in a straight line
+
+RESETTHRESHOLD = 100; -- distance threshold for pressing the reset button
 -----------------------------
 
 
@@ -52,7 +55,7 @@ function registerController(controllerObj)
 end
 
 function println(msg)
-	--game:luaLog(AI_NAME .. " :: " .. msg);
+	game:luaLog(AI_NAME .. " :: " .. msg);
 end
 
 function setEntity(entity)
@@ -125,6 +128,7 @@ function goStraight()
 	game:setAction(TURNRIGHT, false);
 end
 
+
 --[[
 --	Main function
 --	Preliminary, pseudostateless AI
@@ -183,6 +187,14 @@ function decide()
 	local p1 = Vector3(p1Vector4.x, p1Vector4.y, p1Vector4.z);
 	local project = project(probe, p0, p1);
 	distanceToPath = probe:distance(project);
+
+	if (distanceToPath > RESETTHRESHOLD) then
+		game:setAction(RESET, true);
+		println("Resetting!!");
+	else
+		game:setAction(RESET, false);
+	end
+
 	--println("Closest pathline lies between " .. toString(p0) .. " and " .. toString(p1));
 	println("projected point ".. toString(project) .." at " .. distanceToPath .. " units distance from probe.");
 	println("Closest pathline is segment[" .. (pathIndex-1) .. "->" .. pathIndex .. ", lies between " .. toString(p0) .. " and " .. toString(p1) .. ", at " .. distanceToPath .. " units distance from PROBE.");

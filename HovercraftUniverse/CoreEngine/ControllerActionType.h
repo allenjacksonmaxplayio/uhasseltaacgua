@@ -18,7 +18,7 @@ enum ControllerActionType {
 	BRAKE=2, 
 	TURNLEFT=3, 
 	TURNRIGHT=4,
-	RESET,
+	RESET=5,
 
 
 	ACTIONS_END	// shouldn't be used as a real control, just a check for the last entry in the enum
