@@ -25,8 +25,8 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
     setEventParameter(EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_LOAD, load_max);
 
 	//TODO: Don't know if this should be here...
-	SoundManager::getSingletonPtr()->registerEmitter(this);
-	startSound();
+	//SoundManager::getSingletonPtr()->registerEmitter(this);
+	//startSound();
 
 	//TODO: check if we have to delete these things ourselves, or if ogre will take care of that
 	// (for example, when starting a new game)

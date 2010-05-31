@@ -91,8 +91,10 @@ namespace HovUni {
 		//Start playing music
 		if (mEvent == 0) {
 			//Try to get a new event
+			std::cout << "Starting engine music" << std::endl;
 			if (!handleError(SoundManager::getSingletonPtr()->getSoundEvent(mEventGUID, &mEvent), PLAY)) {
 				//Could not play... we tried
+				std::cout << "Starting engine music FAILED" << std::endl;
 				return;
 			}
 		}
