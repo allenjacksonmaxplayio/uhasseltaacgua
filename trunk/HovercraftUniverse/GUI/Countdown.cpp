@@ -9,7 +9,7 @@ namespace HovUni {
 
 	void Countdown::start(long milliseconds) {
 		mStarted = true;
-		mTime = milliseconds % 9000;
+		mTime = milliseconds;
 
 		try {
 			this->callFunction("start", Hikari::Args(mTime));
@@ -21,9 +21,9 @@ namespace HovUni {
 	void Countdown::resync(long milliseconds) {
 		if (mStarted) {
 			try {
-				this->callFunction("resync", Hikari::Args(milliseconds % 9000));
+				this->callFunction("resync", Hikari::Args(milliseconds));
 			} catch (OverlayNotActivatedException) {
-				mTime = milliseconds % 9000;
+				mTime = milliseconds;
 			}
 		}
 	}
