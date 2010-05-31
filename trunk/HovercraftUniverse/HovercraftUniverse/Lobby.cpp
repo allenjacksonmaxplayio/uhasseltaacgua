@@ -79,15 +79,12 @@ void Lobby::process() {
 				//TODO GET FROM TRACK ID
 				Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS, this->mTrack).first + ".scene";
 
-				RaceState* racestate = new RaceState(this, mLoader, trackfile);
-				setRaceState(racestate);
-
 				if (mChatServer) {
 					mChatServer->sendNotification("Go!");
 				}
-				// Tell the clients to start
-				StartTrackEvent startEvent;
-				sendEvent(startEvent);
+
+				RaceState* racestate = new RaceState(this, mLoader, trackfile);
+				setRaceState(racestate);
 				Ogre::LogManager::getSingleton().getDefaultLog()->stream()
 						<< "[Lobby]: Racestate constructing and ready process events";
 			}
