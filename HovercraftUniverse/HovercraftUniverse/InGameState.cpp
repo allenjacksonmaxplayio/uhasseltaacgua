@@ -104,10 +104,12 @@ namespace HovUni {
 				mHud->startLapTimer();
 				mHud->setCurrentPosition(mRaceState->getOwnPlayer()->getPosition());
 				mHud->setNumberOfPlayers(mRaceState->getPlayers().size());
+				mFinished = false;
 
 				break;
 			}
 			case RaceState::FINISHING: {
+				mFinished = false;
 				//We have finished, go freestyle!
 				//mRaceState->
 				mGUIManager->activateOverlay(mCountdown);
@@ -275,17 +277,20 @@ namespace HovUni {
 					mCountdown->resync(mRaceState->getCountdown());
 				}
 
-				if ((mRaceState != 0) && (mRaceState->getState() == RaceState::FINISHING)) {
-					RacePlayer* ownPlayer = mRaceState->getOwnPlayer();
-					if (ownPlayer->isFinished()) {
-						mHud->stopLapTimer();
-						long milliseconds = ownPlayer->getCheckpoint(ownPlayer->getLastCheckpoint());
+				if (!mFinished) {
+					if ((mRaceState != 0) && (mRaceState->getState() == RaceState::FINISHING)) {
+						RacePlayer* ownPlayer = mRaceState->getOwnPlayer();
+						if (ownPlayer->isFinished()) {
+							mHud->stopLapTimer();
+							long milliseconds = ownPlayer->getCheckpoint(ownPlayer->getLastCheckpoint());
 
-						int minutes = milliseconds / (1000 * 60);
-						int seconds = (milliseconds - minutes * (1000 * 60)) / 1000;
-						int hundredseconds = (milliseconds - seconds * 1000 - minutes * (60 * 1000)) / 10;
+							int minutes = milliseconds / (1000 * 60);
+							int seconds = (milliseconds - minutes * (1000 * 60)) / 1000;
+							int hundredseconds = (milliseconds - seconds * 1000 - minutes * (60 * 1000)) / 10;
 
-						mHud->setLapTimer(minutes, seconds, hundredseconds);
+							mHud->setLapTimer(minutes, seconds, hundredseconds);
+							mFinished = true;
+						}
 					}
 				}
 			} else {
