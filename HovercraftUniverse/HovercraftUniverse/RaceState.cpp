@@ -31,7 +31,7 @@ namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track),
-			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1), mRng(0), mIntroTime(0),
+			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(20), mFinishID(-1), mRng(0), mIntroTime(0),
 			mPlayTime(0), mFinishTime(0) {
 	mState = new SystemState(this);
 
@@ -104,7 +104,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
-			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1),
+			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(20), mFinishID(-1),
 			mRng(0), mIntroTime(0), mPlayTime(0), mFinishTime(0) {
 
 	mState = new SystemState(this);
@@ -406,7 +406,7 @@ void RaceState::setupReplication() {
 }
 
 RaceState::SystemState::SystemState(RaceState* racestate) :
-	mRaceState(racestate), mCurrentState(INITIALIZING), mStartOfState(false), mTimer(0) {
+	mRaceState(racestate), mCurrentState(INITIALIZING), mStartOfState(false), mTimer(0), mPlayTimer(0) {
 	if (mRaceState->mServer) {
 		setWaitingList();
 	}
@@ -443,6 +443,9 @@ void RaceState::SystemState::update() {
 			if (mTimer->elapsed() >= mRaceState->mFinishTime) {
 				newState(CLEANUP);
 				Entity::setControlsInactive();
+			} else {
+				mRaceState->mCountdown = mRaceState->mFinishTime - mTimer->elapsed();
+				//std::cout << "SERVER TIMEOUT: " << mRaceState->mCountdown << std::endl;
 			}
 			break;
 		default:

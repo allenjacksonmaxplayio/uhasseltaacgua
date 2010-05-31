@@ -109,7 +109,21 @@ namespace HovUni {
 			}
 			case RaceState::FINISHING: {
 				//We have finished, go freestyle!
-				mHud->stopLapTimer();
+				//mRaceState->
+				mGUIManager->activateOverlay(mCountdown);
+				mCountdown->start(mRaceState->getCountdown());
+	
+				RacePlayer* ownPlayer = mRaceState->getOwnPlayer();
+				if (ownPlayer->isFinished()) {
+					mHud->stopLapTimer();
+					long milliseconds = ownPlayer->getCheckpoint(ownPlayer->getLastCheckpoint());
+
+					int minutes = milliseconds / (1000 * 60);
+					int seconds = (milliseconds - minutes * (1000 * 60)) / 1000;
+					int hundredseconds = (milliseconds - seconds * 1000 - minutes * (60 * 1000)) / 10;
+
+					mHud->setLapTimer(minutes, seconds, hundredseconds);
+				}
 
 				break;
 			}
@@ -193,6 +207,7 @@ namespace HovUni {
 
 		//Deregister for chatevents
 		mHUClient->removeChatListener(mHud);
+		mGUIManager->disableOverlay(mCountdown);
 
 		//Remove the hud
 		if (mHud != 0) {
@@ -267,7 +282,8 @@ namespace HovUni {
 
 			if (!mCleaningUp) {
 				//Check if we need to synchronise the countdown
-				if ((mRaceState != 0) && (mRaceState->getState() == RaceState::COUNTDOWN)) {
+				if ((mRaceState != 0) && ((mRaceState->getState() == RaceState::COUNTDOWN) || (mRaceState->getState() == RaceState::FINISHING))) {
+					std::cout << "TIME LEFT: " << mRaceState->getCountdown() << std::endl;
 					mCountdown->resync(mRaceState->getCountdown());
 				}
 			} else {
@@ -302,7 +318,7 @@ namespace HovUni {
 			}
 
 			//Update the HUD
-			if (mHud->isActivated()) {
+			if (!mCleaningUp && mHud->isActivated()) {
 				updateHud();
 			}
 
