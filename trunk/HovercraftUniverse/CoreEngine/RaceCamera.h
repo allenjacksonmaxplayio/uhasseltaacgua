@@ -124,6 +124,11 @@ public:
 	 */
 	Ogre::Camera * getCamera() { return mCamera; }
 
+	void setPosition(const Ogre::Vector3& position, const Ogre::Vector3& direction) {
+		mCamera->setPosition(position);
+		mCamera->setDirection(direction);
+	}
+
 };
 
 }

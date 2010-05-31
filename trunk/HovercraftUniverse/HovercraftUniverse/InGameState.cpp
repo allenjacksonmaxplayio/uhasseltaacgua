@@ -60,6 +60,9 @@ namespace HovUni {
 				break;
 			}
 			case RaceState::INTRO: {
+				Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
+				mRepresentationManager->getGameViews().at(0)->getCamera()->setPosition(currEnt->getPosition(), currEnt->getOrientation());
+
 				//Everyone is done loading, go ingame and show the intro!
 				mGUIManager->disableOverlay(mLoader);
 
