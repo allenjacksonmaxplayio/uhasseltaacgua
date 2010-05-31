@@ -60,14 +60,14 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 				<< " must have at least " << trackEntity->getMinimumPlayers() << " players and at most "
 				<< trackEntity->getMaximumPlayers() << "!";
 
-		unsigned int maxPlayers = trackEntity->getMaximumPlayers();
+		unsigned int maxPlayers = (mLobby->getMaxPlayers() < trackEntity->getMaximumPlayers() ? mLobby->getMaxPlayers() : trackEntity->getMaximumPlayers());
 		unsigned int minPlayers = trackEntity->getMinimumPlayers();
 
 		// Create race players
 		const Lobby::playermap::list_type& playersettings = lobby->getPlayers();
 
 		for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end()
-				|| mPlayers.getPlayers().size() > maxPlayers; ++it) {
+				&& mPlayers.getPlayers().size() < maxPlayers; ++it) {
 			RacePlayer* rplayer = new RacePlayer(this, it->second, initialPosition++);
 
 			// Tell the clients to start
@@ -81,7 +81,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 		// Bots
 		int bots = 0;
 		if (mLobby->hasBots()) {
-			bots = (mLobby->getMaxPlayers() < maxPlayers ? mLobby->getMaxPlayers() : maxPlayers) - mPlayers.getPlayers().size();
+			bots = maxPlayers - mPlayers.getPlayers().size();
 		} else if (minPlayers > mPlayers.getPlayers().size()) {
 			// The minimum amount of players is not reached so add bots anyway
 			bots = minPlayers - mPlayers.getPlayers().size();
