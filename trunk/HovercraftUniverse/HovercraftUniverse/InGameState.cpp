@@ -60,9 +60,6 @@ namespace HovUni {
 				break;
 			}
 			case RaceState::INTRO: {
-				HovercraftRepresentation* me = (HovercraftRepresentation*) mRepresentationManager->getTrackedEntityRepresentation();
-				me->setVolume(0.6f);
-
 				//Everyone is done loading, go ingame and show the intro!
 				mGUIManager->disableOverlay(mLoader);
 
@@ -78,6 +75,23 @@ namespace HovUni {
 				//Show the countdown
 				mGUIManager->activateOverlay(mCountdown);
 				mCountdown->start(5000);
+
+				mMutex.lock();
+				/*
+				//Activate the engines
+				std::vector<EntityRepresentation*> entreps = RepresentationManager::getSingletonPtr()->getEntityRepresentations();
+				for (std::vector<EntityRepresentation*>::iterator i = entreps.begin(); i != entreps.end(); i++) {
+					HovercraftRepresentation * hov = dynamic_cast<HovercraftRepresentation *> (*i);
+					if (hov != 0) {
+						SoundManager::getSingletonPtr()->registerEmitter(hov);
+						hov->startSound();
+					}
+				}
+
+				HovercraftRepresentation* me = (HovercraftRepresentation*) mRepresentationManager->getTrackedEntityRepresentation();
+				me->setVolume(0.6f);
+				*/
+				mMutex.unlock();
 
 				//Start updating the sound listener
 				mUpdateListener = true;
@@ -303,7 +317,10 @@ namespace HovUni {
 				Ogre::Camera* cam = it.getNext();
 				mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
 			}
+
+			mMutex.lock();
 			mSoundManager->update();
+			mMutex.unlock();
 
 			// Return whether to continue
 			return (mContinue && result);
@@ -397,7 +414,7 @@ namespace HovUni {
 
 		RacePlayer* myPlayer = mRaceState->getOwnPlayer();
 		
-		std::cout << "WE NEED TO POINT TO: " << (int)myPlayer->getLastCheckpoint() << std::endl;
+		//std::cout << "WE NEED TO POINT TO: " << (int)myPlayer->getLastCheckpoint() << std::endl;
 
 		Ogre::Vector3 goal = (currEnt->getPosition() + currEnt->getOrientation());
 

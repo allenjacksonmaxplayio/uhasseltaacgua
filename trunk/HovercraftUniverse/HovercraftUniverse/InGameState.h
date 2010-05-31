@@ -13,6 +13,7 @@
 #include <tinyxml/tinyxml.h>
 #include <SkyX.h>
 #include <boost/thread.hpp>
+//#include <boost/detail/mutex.hpp>
 
 namespace HovUni {
 	class RaceState; //Forward declaration
@@ -67,6 +68,9 @@ namespace HovUni {
 
 			/** Whether to run */
 			bool mRun;
+
+			/** Mutex */
+			boost::mutex mMutex;
 
 		public:
 			/**

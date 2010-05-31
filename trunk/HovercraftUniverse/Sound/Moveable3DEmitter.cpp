@@ -106,7 +106,7 @@ namespace HovUni {
 	void Moveable3DEmitter::setEventParameter(unsigned int parameterID, float value) {
 		FMOD::EventParameter* param;
 		mEvent->getParameterByIndex(parameterID, &param);
-
+		
 		param->setValue(value);
 	}
 

@@ -33,20 +33,6 @@ namespace HovUni {
 		//Now show the lobby itself
 		mLobbyOverlay = new LobbyOverlay(mapChange, onChat, botsValue, playerMax, "lobbyVisual", "lobby.swf", lobbyWidth, lobbyHeight, Hikari::BottomLeft);
 		addOverlay("lobbyVisual", mLobbyOverlay);
-
-		//Calculate inition top padding, this is the total space available above the buttons
-		int topPadding = ((GUIManager::getSingletonPtr()->getResolutionHeight() / 2) - height);
-		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(356, 86, 713, 173);
-		width = size.first;
-		height = size.second;
-		
-		//Adjust the padding to the calculated height
-		//topPadding -= (height - (height / 3));
-		topPadding = (topPadding / 2) - (height / 4);
-
-		mTitle = new BasicOverlay("LobbyTitle", "title.swf", width, height, Hikari::Position(Hikari::TopCenter, 0, topPadding));
-		mTitle->setBParameter(BasicOverlay::ALPHAHACK, true);
-		addOverlay("title", mTitle);
 	}
 
 	LobbyGUI::~LobbyGUI() {
@@ -58,7 +44,6 @@ namespace HovUni {
 		//delete mPickChar;
 		delete mLeave;
 		delete mStart;
-		delete mTitle;
 		delete mLobbyOverlay;
 	}
 
