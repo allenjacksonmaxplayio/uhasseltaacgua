@@ -39,8 +39,9 @@ public:
 	 *
 	 * @param state the race state
 	 * @param playerSettings The general settings for this player
+	 * @param position the position of the player
 	 */
-	RacePlayer(RaceState* state, PlayerSettings* playerSettings);
+	RacePlayer(RaceState* state, PlayerSettings* playerSettings, int position);
 
 	/**
 	 * Constructor

@@ -8,8 +8,8 @@
 
 namespace HovUni {
 
-RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings) :
-	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(-1), mLastCheckpoint(-1) {
+RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings, int position) :
+	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(position), mLastCheckpoint(-1) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
