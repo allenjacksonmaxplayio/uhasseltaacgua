@@ -206,7 +206,7 @@ void RaceState::onStart(Start * start, unsigned int playerid) {
 
 void RaceState::updatePlayerCheckpoint(unsigned int playerid) {
 	RacePlayer* player = getPlayer(playerid);
-	long timestamp = mState->mTimer->elapsed();
+	long timestamp = mState->mPlayTimer->elapsed();
 	player->addCheckpoint(mCheckpointMapping[playerid], timestamp);
 	calculatePlayerPosition(playerid);
 	sendEvent(CheckpointEvent(playerid, mCheckpointMapping[playerid], timestamp));
@@ -415,6 +415,8 @@ RaceState::SystemState::SystemState(RaceState* racestate) :
 RaceState::SystemState::~SystemState() {
 	delete mTimer;
 	mTimer = 0;
+	delete mPlayTimer;
+	mPlayTimer = 0;
 }
 
 void RaceState::SystemState::update() {
@@ -474,6 +476,7 @@ void RaceState::SystemState::newState(States state) {
 			mTimer->restart();
 			break;
 		case RACING:
+			mPlayTimer = new Timing();
 			mTimer->restart();
 			break;
 		case FINISHING:
