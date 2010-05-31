@@ -31,12 +31,18 @@ namespace HovUni {
 
 RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(true), mLobby(lobby), mLoader(loader), mTrackFilename(track),
-			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1), mRng(0) {
+			mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1), mRng(0), mIntroTime(0),
+			mPlayTime(0), mFinishTime(0) {
 	mState = new SystemState(this);
 
 	if (mLoader) {
 		mLoader->setRaceState(this);
 	}
+
+	// Read config values
+	mIntroTime = DedicatedServer::getConfig()->getValue<int> ("Server", "IntroTime", 5000);
+	mPlayTime = DedicatedServer::getConfig()->getValue<int> ("Server", "PlayTime", 900000);
+	mFinishTime = DedicatedServer::getConfig()->getValue<int> ("Server", "FinishTime", 30000);
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
@@ -72,9 +78,8 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 			bots = minPlayers - mPlayers.getPlayers().size();
 		}
 
-
-		const std::map<unsigned int,Ogre::String>& hovercrafts = EntityMapping::getInstance().getMap(EntityMapping::HOVERCRAFT);
-		const std::map<unsigned int,Ogre::String>& characters = EntityMapping::getInstance().getMap(EntityMapping::CHARACTER);
+		const std::map<unsigned int, Ogre::String>& hovercrafts = EntityMapping::getInstance().getMap(EntityMapping::HOVERCRAFT);
+		const std::map<unsigned int, Ogre::String>& characters = EntityMapping::getInstance().getMap(EntityMapping::CHARACTER);
 
 		for (int i = 0; i < bots; ++i) {
 			PlayerSettings* settings = new PlayerSettings(mLobby, "Bot");
@@ -95,7 +100,8 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(0), mNumberPlayers(0), mState(0), mServer(false), mLobby(lobby), mLoader(loader), mTrackFilename(
-			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1), mRng(0) {
+			announcementdata->getString()), mCountdown(-1), mCountdownInterval(5000), mCountdownIntervalLog2(13), mFinishID(-1),
+			mRng(0), mIntroTime(0), mPlayTime(0), mFinishTime(0) {
 
 	mState = new SystemState(this);
 
@@ -108,12 +114,17 @@ RaceState::RaceState(Lobby* lobby, ClientPreparationLoader* loader, ZCom_BitStre
 }
 
 RaceState::~RaceState() {
+	Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[RaceState]: Deleting RaceState";
 	// Delete all the players
 	for (playermap::iterator it = mPlayers.begin(); it != mPlayers.end();) {
 		if (it->second->isBot()) {
 			PlayerSettings* settings = it->second->getSettings();
 			it = removePlayer(it);
-			delete settings;
+
+			// Only delete settings on server because client will already take care of it
+			if (mServer) {
+				delete settings;
+			}
 		} else {
 			it = removePlayer(it);
 		}
@@ -227,8 +238,8 @@ void RaceState::calculatePlayerPosition(unsigned int playerid) {
 	}
 }
 
-void RaceState::randomSettingsForBot(const std::map<unsigned int,Ogre::String>& hovercrafts, const std::map<unsigned int,Ogre::String>& characters,
-		unsigned int& hovercraftKey, unsigned int& characterKey) {
+void RaceState::randomSettingsForBot(const std::map<unsigned int, Ogre::String>& hovercrafts, const std::map<unsigned int,
+		Ogre::String>& characters, unsigned int& hovercraftKey, unsigned int& characterKey) {
 
 	if (!mRng) {
 		mRng = new boost::mt19937;
@@ -242,7 +253,7 @@ void RaceState::randomSettingsForBot(const std::map<unsigned int,Ogre::String>& 
 	int cha = randcha();
 
 	unsigned int i = 0;
-	for (std::map<unsigned int,Ogre::String>::const_iterator it = hovercrafts.begin(); it != hovercrafts.end(); ++it) {
+	for (std::map<unsigned int, Ogre::String>::const_iterator it = hovercrafts.begin(); it != hovercrafts.end(); ++it) {
 		if (i == hov) {
 			hovercraftKey = it->first;
 		}
@@ -250,7 +261,7 @@ void RaceState::randomSettingsForBot(const std::map<unsigned int,Ogre::String>& 
 	}
 
 	i = 0;
-	for (std::map<unsigned int,Ogre::String>::const_iterator it = characters.begin(); it != characters.end(); ++it) {
+	for (std::map<unsigned int, Ogre::String>::const_iterator it = characters.begin(); it != characters.end(); ++it) {
 		if (i == hov) {
 			characterKey = it->first;
 		}
@@ -404,7 +415,7 @@ void RaceState::SystemState::update() {
 	if (mRaceState->mServer) {
 		switch (mCurrentState) {
 		case INTRO:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "IntroTime", 1000)) {
+			if (mTimer->elapsed() >= mRaceState->mIntroTime) {
 				newState(COUNTDOWN);
 			}
 		case COUNTDOWN:
@@ -416,12 +427,12 @@ void RaceState::SystemState::update() {
 			}
 			break;
 		case RACING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "PlayTime", 15000)) {
+			if (mTimer->elapsed() >= mRaceState->mPlayTime) {
 				newState(FINISHING);
 			}
 			break;
 		case FINISHING:
-			if (mTimer->elapsed() >= DedicatedServer::getConfig()->getValue<int> ("Server", "FinishTime", 30000)) {
+			if (mTimer->elapsed() >= mRaceState->mFinishTime) {
 				newState(CLEANUP);
 				Entity::setControlsInactive();
 			}
@@ -467,13 +478,12 @@ void RaceState::SystemState::newState(States state) {
 			{
 				Havok::stop();
 				std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
-				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
+				for (std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++) {
 					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
 
 					delete (*i);
 				}
 
-				
 			}
 			break;
 		default:
@@ -487,16 +497,15 @@ void RaceState::SystemState::newState(States state) {
 		case LOADING:
 			onLoading();
 			break;
-		case CLEANUP:
-			{
-				//TODO MUST BE DONE ONLY WITH DEDICATED SERVER 
-				/*std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
-				for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
-					EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
+		case CLEANUP: {
+			//TODO MUST BE DONE ONLY WITH DEDICATED SERVER
+			/*std::vector<Entity*> ents = EntityManager::getServerSingletonPtr()->getEntities(EntityManager::ALL);
+			 for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
+			 EntityManager::getServerSingletonPtr()->releaseEntity((*i)->getName());
 
-					delete (*i);
-				}*/
-			}
+			 delete (*i);
+			 }*/
+		}
 			break;
 		default:
 			break;

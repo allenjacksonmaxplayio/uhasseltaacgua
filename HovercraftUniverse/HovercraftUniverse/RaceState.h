@@ -91,6 +91,17 @@ private:
 	/** Random number generator */
 	boost::mt19937* mRng;
 
+	/** The introtime */
+	int mIntroTime;
+
+	/** The playtime */
+	int mPlayTime;
+
+	/** The finish time */
+	int mFinishTime;
+
+
+
 	/*
 	 * Replicated fields
 	 */
