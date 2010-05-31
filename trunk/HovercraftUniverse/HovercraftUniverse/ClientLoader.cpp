@@ -69,8 +69,7 @@ void ClientLoader::onShadowProperties(OgreMax::Types::ShadowParameters& params) 
     else
     {
         //Turn on shadows
-
-        this->mSceneMgr->setShadowTechnique(params.shadowTechnique);
+		this->mSceneMgr->setShadowTechnique(params.shadowTechnique);
         this->mSceneMgr->setShadowTextureSelfShadow(params.selfShadow);
         this->mSceneMgr->setShadowColour(params.shadowColor);
 		if (params.farDistance > 0){
