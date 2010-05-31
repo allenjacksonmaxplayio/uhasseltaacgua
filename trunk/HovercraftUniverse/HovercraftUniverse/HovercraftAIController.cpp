@@ -143,14 +143,13 @@ namespace HovUni {
 	}
 
 	bool HovercraftAIController::turnLeft() {
-		return mActionMap[ControllerActions::TURNLEFT];
-	}
+		return mActionMap[ControllerActions::TURNLEFT];}
 
 	bool HovercraftAIController::turnRight() {
 		return mActionMap[ControllerActions::TURNRIGHT];
 	}
 
 	bool HovercraftAIController::reset(){
-		return false;
+		return mActionMap[ControllerActions::RESET];
 	}
 }
