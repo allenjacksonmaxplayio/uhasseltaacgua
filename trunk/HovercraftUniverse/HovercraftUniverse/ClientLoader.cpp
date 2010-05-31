@@ -252,8 +252,7 @@ void ClientLoader::onEntity(OgreMax::Types::EntityParameters& entityparameters, 
 			Entity * ent = EntityManager::getClientSingletonPtr()->getEntity(entityName);
 			if (ent) {
 				// Update task
-				ProgressMonitor::getSingletonPtr()->updateTask("Loading world.");
-
+				ProgressMonitor::getSingletonPtr()->updateTask("Loading world: " + ent->getCategory());
 				EntityRepresentation * entRep = 0;
 				bool visible = !(entityparameters.visibility == OgreMax::Types::OBJECT_HIDDEN);
 				if (ent->getCategory() == Asteroid::CATEGORY) {
