@@ -140,11 +140,11 @@ De \texttt{EntityRepresentation} klasse zorgt ervoor dat Ogre de verschillende e
 Ook worden hier een aantal visuele effecten aan toegevoegd. Ogre Particle Systems worden gebruikt om rook, vonken, etc. weer te geven. Er is tevens een tekst-overlay voor de nicknames voorzien zodat de spelers elkaar kunnen herkennen tijdens het spel. Aangezien deze effecten enkel client-side gebeuren bij het tekenen van de entiteiten, heeft dit geen invloed op de performantie van de netwerkcomponenten.
 
 \subsection{Physics}
-\todo{PJ / Tobias}
+Alle acties op de hovercrafts en interacties met de omgeving gebeuren door middel van fysische krachten. Dit gebeurt volledig op de server, die een Havok-thread draait. De input van de clients, zowel menselijke spelers als AI, wordt vertaald in een kracht op de hovercraft. Havok berekent vervolgens alle totale krachten en daaruit volgende versnellingen en snelheden. Hieruit zal de nieuwe positie van alle entiteiten bepaald worden. Deze posities worden dan doorgestuurd naar alle clients zodat zij de wijzigingen kunnen zien. Bovendien zorgt Havok ook voor de collision detection zodat verschillende entiteiten niet tegelijk op dezelfde plaats kunnen bestaan.
 
-\todo{Havok, draait enkel op server in aparte thread, ... binding tussen physics en de rest van het spel}
+De zwaartekracht op de verschillende planeten is afgeleid van het \texttt{PlanetGravity} voorbeeld van Havok. Concreet wordt er rond elke planeet een \textit{phantom} geplaatst. Wanneer een object binnen deze phantom komt, wordt er een kracht uitgeoefend waardoor de objecten aangetrokken worden door de planeet. Deze kracht kan per planeet verschillen zodat elke planeet een eigen zwaartekrachtsterkte heeft.
 
-\todo{iets over krachten? }
+Op elke hovercraft-entiteit wordt nog een extra actie gedefini\"eerd om het object te laten zweven. Dit is een kracht die in tegengestelde richting ten opzichte van de zwaartekracht werkt. Afhankelijk van de hoogte verandert de grootte van de kracht. Dicht bij het planeetoppervlak zal er een sterke tegengestelde kracht gebruikt worden. Hoe verder van de planeet, hoe zwakker de kracht wordt. Vanaf een bepaalde hoogte valt de kracht weg, zodat de hovercraft terug naar beneden begint te vallen. Op deze manier krijgen we een lichte oscillatie van de hoveringhoogte.
 
 
 \subsection{Grafische userinterface}
