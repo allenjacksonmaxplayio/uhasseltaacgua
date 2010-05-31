@@ -51,34 +51,10 @@ void  HovercraftCollisionListener::contactProcessCallback (hkpContactProcessEven
 						best = &point.m_contact;
 					}
 				}
-
-				//mCollisionEffect->mBounceVector.add4(point.m_contact.getNormal());
-
-				//const hkVector4& havnor =.getNormal();
-				//const hkVector4& havpos = point.m_contact.getPosition();
-
-				//send collision event!
-				//mCollisionEffect->mHovercraft->getEntity()->sendEvent(CollisionEvent(Ogre::Vector3(havpos(0),havpos(1),havpos(2)),Ogre::Vector3(havnor(0),havnor(1),havnor(2))));
-
-
-				/*pos[0] += havpos(0);
-				pos[1] += havpos(1);
-				pos[2] += havpos(2);*/
 			}
 
-			/*pos /= collisiodata->getNumContactPoints ();
-			nor[0] = mCollisionEffect->mBounceVector(0);
-			nor[1] = mCollisionEffect->mBounceVector(1);
-			nor[2] = mCollisionEffect->mBounceVector(2);
-			nor.normalise();
-			nor *= -1;*/
-
-			//send collision event!
-			const hkVector4& havnor = best->getNormal();
-			const hkVector4& havpos = best->getPosition();
-			mCollisionEffect->mHovercraft->getEntity()->sendEvent(CollisionEvent(Ogre::Vector3(havpos(0),havpos(1),havpos(2)),Ogre::Vector3(havnor(0),havnor(1),havnor(2))));
-
-
+			mCollisionEffect->mPosition = best->getPosition();
+			mCollisionEffect->mNormal = best->getNormal();			
 			mCollisionEffect->mBounceVector = best->getNormal();
 			mCollisionEffect->mBounceVector.mul4( -1.0f * ((Hovercraft*)mCollisionEffect->mHovercraft->getEntity())->getSpeed()/(hkReal) collisiodata->getNumContactPoints ());
 			mCollisionEffect->mHasCollision= true;
@@ -90,9 +66,7 @@ void  HovercraftCollisionListener::contactProcessCallback (hkpContactProcessEven
 HavokHovercraftCollisionEffect::HavokHovercraftCollisionEffect(HavokHovercraft * hovercraft):
 	hkpUnaryAction(hovercraft->getRigidBody()), mHovercraft(hovercraft)
 {
-	mBounceVector.setZero4();
-	mHasCollision = false;
-	
+	mHasCollision = false;	
 	mListener = new HovercraftCollisionListener(this);
 	mHovercraft->getRigidBody()->addCollisionListener(mListener);
 }
@@ -107,7 +81,9 @@ HavokHovercraftCollisionEffect::~HavokHovercraftCollisionEffect(void)
 void HavokHovercraftCollisionEffect::applyAction( const hkStepInfo& stepInfo ){
 	if ( mHasCollision ){
 		this->mHovercraft->getRigidBody()->applyLinearImpulse(mBounceVector);
-		mBounceVector.setZero4();
+
+		//send collision event!
+		mHovercraft->getEntity()->sendEvent(CollisionEvent(Ogre::Vector3(mPosition(0),mPosition(1),mPosition(2)),Ogre::Vector3(mNormal(0),mNormal(1),mNormal(2))));
 		mHasCollision = false;
 	}
 }
