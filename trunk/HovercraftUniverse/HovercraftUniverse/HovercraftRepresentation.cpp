@@ -1,5 +1,6 @@
 #include "HovercraftRepresentation.h"
 
+#include "Application.h"
 #include "Hovercraft.h"
 #include <HovSound.h>
 #include <SoundManager.h>
@@ -17,6 +18,29 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
    for ( std::vector<Ogre::String>::iterator i = subMaterials.begin(); i != subMaterials.end(); i++ ){
 	   std::cout << *i << std::endl;
    }
+
+	// Create character node to sit in hovercraft
+	Ogre::SceneNode * hovercraftNode = getOgreSceneNode();	
+	Ogre::SceneNode * characterNode = hovercraftNode->createChildSceneNode(/* translate, rotate */);
+	characterNode->scale(0.025, 0.025, 0.025);
+	characterNode->setOrientation(Ogre::Quaternion(0.529707, 0.0, 0.0, -0.848181));
+	characterNode->yaw(Ogre::Degree(180.0), Ogre::Node::TS_PARENT);
+	characterNode->translate(Ogre::Vector3(0.5, 2.5, 0.0));
+	//characterNode->roll(Ogre::Degree(-90.0));
+
+    // Create the character entity (TODO Yes i know it is hardcoded ...)
+	Ogre::Entity * characterEntity = Application::msSceneMgr->createEntity(entity->getName() + "_character", "Cloudera.mesh", resourceGroupName);
+	characterEntity->getAllAnimationStates();
+	//Ogre::AnimationState * characterSitAnimation =	characterEntity->getAnimationState("Sit");
+	//if (characterSitAnimation != 0) {
+	//	characterSitAnimation->setEnabled(true);
+	//}
+	characterEntity->setCastShadows(true);
+	characterEntity->setMaterialName("04-Default");
+	characterEntity->getSubEntity(0)->setMaterialName("04-Default");
+
+	// Attach entity to node
+	characterNode->attachObject(characterEntity);
 
    //Initialize sound
 	setEventParameter(EVENTPARAMETER_HOVSOUND_EVENTS_HOVERCRAFT_RPM, 1000.0f);
