@@ -51,6 +51,10 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 	// Load track info and check players
 	TrackInfoLoader trackInfoLoader(mTrackFilename);
 	Track * trackEntity = trackInfoLoader.getTrack();
+
+	// Initial position
+	int initialPosition = 1;
+
 	if (trackEntity) {
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Track " << trackEntity->getDisplayName()
 				<< " must have at least " << trackEntity->getMinimumPlayers() << " players and at most "
@@ -64,7 +68,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 
 		for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end()
 				|| mPlayers.getPlayers().size() > maxPlayers; ++it) {
-			RacePlayer* rplayer = new RacePlayer(this, it->second);
+			RacePlayer* rplayer = new RacePlayer(this, it->second, initialPosition++);
 			rplayer->getNetworkNode()->setOwner(it->first, true);
 			addPlayer(rplayer);
 		}
@@ -83,7 +87,7 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 
 		for (int i = 0; i < bots; ++i) {
 			PlayerSettings* settings = new PlayerSettings(mLobby, "Bot");
-			RacePlayer* rplayer = new RacePlayer(this, settings);
+			RacePlayer* rplayer = new RacePlayer(this, settings, initialPosition++);
 			addPlayer(rplayer);
 
 			// Set random hovercraft and character
