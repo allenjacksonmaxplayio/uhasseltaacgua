@@ -163,17 +163,17 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 		case ThirdPerson:
 			newPosition = currEntity->getPosition() - (currEntity->getOrientation() * 20) + (currEntity->getUpVector() * 10);
 			
-			//positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
-			//mCamera->setFixedYawAxis(true, mObjectTrackCameraController->getUpVector()); // Comment this line for super mario galaxy style!
-			//mCamera->setPosition(positionCam);
+			positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
+			mCamera->setFixedYawAxis(true, mObjectTrackCameraController->getUpVector()); // Comment this line for super mario galaxy style!
+			mCamera->setPosition(positionCam);
 
-			positionCam = CameraSpring::getInstance()->updateCameraSpring(mActiveViewpointNode->getPosition(), newPosition); //Smooth tracking
+			//positionCam = CameraSpring::getInstance()->updateCameraSpring(mActiveViewpointNode->getPosition(), newPosition); //Smooth tracking
 			//positionCam = newPosition; //Hard tracking
-			mActiveViewpointNode->setPosition(positionCam);
-			mActiveViewpointNode->setOrientation(currEntity->getQuaternion());
+			//mActiveViewpointNode->setPosition(positionCam);
+			//mActiveViewpointNode->setOrientation(currEntity->getQuaternion());
 
-			//mCamera->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5);
-			mActiveViewpointNode->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5, Ogre::Node::TS_WORLD);
+			mCamera->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5);
+			//mActiveViewpointNode->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5, Ogre::Node::TS_WORLD);
 
 			//mCamera->setPosition(newPosition);
 			//mCamera->lookAt(mObjectTrackCameraController->getPosition());
@@ -201,13 +201,13 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 			positionCam = currEntity->getPosition() + currEntity->getOrientation();
 
 			// Set position and direction to look at
-			//mCamera->setPosition(positionCam);
-			//mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
-			//mCamera->pitch(Ogre::Degree(-5.0f));
+			mCamera->setPosition(positionCam);
+			mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
+			mCamera->pitch(Ogre::Degree(-5.0f));
 
-			mActiveViewpointNode->setPosition(positionCam);
-			mActiveViewpointNode->setOrientation(currEntity->getQuaternion());
-			mActiveViewpointNode->pitch(Ogre::Degree(-5.0f));
+			//mActiveViewpointNode->setPosition(positionCam);
+			//mActiveViewpointNode->setOrientation(currEntity->getQuaternion());
+			//mActiveViewpointNode->pitch(Ogre::Degree(-5.0f));
 
 			break;
 		case RearView:
@@ -217,24 +217,24 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 			back = Ogre::Quaternion(Ogre::Degree(180), currEntity->getUpVector());
 
 			// Set position and direction to look at
-			//mCamera->setPosition(positionCam);
-			//mCamera->setOrientation(back * mObjectTrackCameraController->getOrientation());
+			mCamera->setPosition(positionCam);
+			mCamera->setOrientation(back * mObjectTrackCameraController->getOrientation());
 
 
-			mActiveViewpointNode->setPosition(positionCam);
-			mActiveViewpointNode->setOrientation(back * currEntity->getQuaternion());
+			//mActiveViewpointNode->setPosition(positionCam);
+			//mActiveViewpointNode->setOrientation(back * currEntity->getQuaternion());
 
 			break;
 		case FreeRoam:
-			//mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
+			mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
 			// Get input from free roaming controller and apply
-			//mCamera->yaw(mFreeroamCameraController->getYaw());
-			//mCamera->pitch(mFreeroamCameraController->getPitch());
-			//mCamera->setPosition(mCamera->getPosition() +  (mCamera->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
+			mCamera->yaw(mFreeroamCameraController->getYaw());
+			mCamera->pitch(mFreeroamCameraController->getPitch());
+			mCamera->setPosition(mCamera->getPosition() +  (mCamera->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
 
-			mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw());
-			mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch());
-			mActiveViewpointNode->setPosition(mActiveViewpointNode->getPosition() +  (mActiveViewpointNode->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
+			//mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw());
+			//mActiveViewpointNode->pitch(mFreeroamCameraController->getPitch());
+			//mActiveViewpointNode->setPosition(mActiveViewpointNode->getPosition() +  (mActiveViewpointNode->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
 
 			break;
 		default:
