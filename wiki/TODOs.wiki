@@ -8,3 +8,4 @@
   * Crash wanneer server could not be reached
   * Reset gaat altijd naar 2e checkpoint
   * Keys en camera nog altijd gemapt op oude entity als het spel stopt
+  * Overlays kapot omdat de Camera raar doet
