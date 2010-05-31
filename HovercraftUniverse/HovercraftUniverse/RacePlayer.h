@@ -25,7 +25,7 @@ private:
 	PlayerSettings* const mPlayerSettings;
 
 	/** The current position of this player in the race */
-	short mPlayerPosition;
+	unsigned int mPlayerPosition;
 
 	/** The last checkpoint reached */
 	unsigned int mLastCheckpoint;

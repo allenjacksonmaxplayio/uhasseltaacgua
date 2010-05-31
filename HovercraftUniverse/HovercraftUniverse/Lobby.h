@@ -14,6 +14,8 @@ class LobbyListener;
 class Loader;
 class PlayerSettings;
 class RaceState;
+class Timing;
+class ChatServer;
 
 /**
  * The Lobby which holds the settings of the connected players, assigns an
@@ -32,8 +34,6 @@ public:
 	 * Not replicated fields
 	 */
 private:
-	//TODO MUTEX PROTECT PLAYERS
-
 	/** The player map */
 	playermap mPlayers;
 
@@ -42,6 +42,21 @@ private:
 
 	/** Indicator of whether there is an administrator */
 	bool mHasAdmin;
+
+	/** Whether the start was initiated (Server) */
+	bool mPressedStart;
+
+	/** The timer used for the countdown (Server) */
+	Timing* mTimer;
+
+	/** Countdown value for the start (Server) */
+	int mCountdown;
+
+	/** Total countdown */
+	static int msCountdownValue;
+
+	/** The chat server (Server) */
+	ChatServer* mChatServer;
 
 	/** The race state when a race is busy */
 	RaceState* mRaceState;
@@ -266,6 +281,15 @@ public:
 	 */
 	inline unsigned int getNumberOfPlayers() const {
 		return mCurrentPlayers;
+	}
+
+	/**
+	 * Set the chat server so that the lobby can send notifications
+	 *
+	 * @param chat the chat server
+	 */
+	inline void setChatServer(ChatServer* chat) {
+		mChatServer = chat;
 	}
 
 protected:

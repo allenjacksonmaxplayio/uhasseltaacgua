@@ -11,6 +11,9 @@
 #include "RacePlayer.h"
 #include "DedicatedServer.h"
 #include "EntityMapping.h"
+#include "Timing.h"
+#include "ChatServer.h"
+#include <sstream>
 
 //Events
 #include "InitEvent.h"
@@ -19,13 +22,17 @@
 
 namespace HovUni {
 
+int Lobby::msCountdownValue = 5;
+
 std::string Lobby::getClassName() {
 	return "Lobby";
 }
 
 Lobby::Lobby(Loader * loader) :
-NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrack(0), mMaximumPlayers(DedicatedServer::getConfig()->getValue<int>("Server", "MaximumPlayers", 12)),
-			mCurrentPlayers(0), mRaceState(0), mBots(DedicatedServer::getConfig()->getValue<bool>("Server", "FillWithBots", false)) {
+	NetworkEntity(5), mLoader(loader), mHasAdmin(false), mAdmin(-1), mTrack(0), mMaximumPlayers(
+			DedicatedServer::getConfig()->getValue<int> ("Server", "MaximumPlayers", 12)), mCurrentPlayers(0), mRaceState(0),
+			mBots(DedicatedServer::getConfig()->getValue<bool> ("Server", "FillWithBots", false)), mPressedStart(false),
+			mTimer(0), mChatServer(0), mCountdown(0) {
 
 	this->setReplicationInterceptor(this);
 }
@@ -59,6 +66,38 @@ void Lobby::process() {
 		} else {
 			settings->processEvents(0.0f);
 			++it;
+		}
+	}
+
+	// Check if start was pressed
+	if (mPressedStart) {
+		long elapsed = mTimer->elapsed();
+
+		if (elapsed >= msCountdownValue * 1000) {
+			mPressedStart = false;
+			if (!getRaceState()) {
+				//TODO GET FROM TRACK ID
+				Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS, this->mTrack).first + ".scene";
+
+				RaceState* racestate = new RaceState(this, mLoader, trackfile);
+				setRaceState(racestate);
+
+				if (mChatServer) {
+					mChatServer->sendNotification("Go!");
+				}
+				// Tell the clients to start
+				StartTrackEvent startEvent;
+				sendEvent(startEvent);
+				Ogre::LogManager::getSingleton().getDefaultLog()->stream()
+						<< "[Lobby]: Racestate constructing and ready process events";
+			}
+		} else if (msCountdownValue - (elapsed / 1000) < mCountdown) {
+			mCountdown = msCountdownValue - (elapsed / 1000);
+			if (mChatServer) {
+				std::ostringstream ss;
+				ss << mCountdown;
+				mChatServer->sendNotification(ss.str());
+			}
 		}
 	}
 
@@ -109,7 +148,6 @@ unsigned int Lobby::getPlayerIDfromConnectionID(ZCom_ConnID connID) const {
 	}
 	return 0;
 }
-
 
 void Lobby::start() {
 	StartTrackEvent startEvent;
@@ -180,19 +218,13 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 }
 
 void Lobby::onStartServer() {
-	if (!getRaceState()) {
-
-		//TODO GET FROM TRACK ID
-		Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS,this->mTrack).first + ".scene"; 		
-
-		RaceState* racestate = new RaceState(this, mLoader, trackfile);
-		setRaceState(racestate);
-
-		// Tell the clients to start
-		StartTrackEvent startEvent;
-		sendEvent(startEvent);
-		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[Lobby]: Racestate constructing and ready process events";
+	mPressedStart = true;
+	mTimer = new Timing();
+	mCountdown = msCountdownValue + 1;
+	if (mChatServer) {
+		mChatServer->sendNotification("Starting in...");
 	}
+
 }
 
 void Lobby::onStartClient() {
@@ -261,7 +293,7 @@ void Lobby::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_ConnI
 		state->addInt(mAdmin, sizeof(unsigned int) * 8);
 		state->addInt(mMaximumPlayers, 8);
 		state->addInt(mCurrentPlayers, 8);
-		state->addInt(mTrack,8);
+		state->addInt(mTrack, 8);
 		state->addBool(mBots);
 		sendEventDirect(InitEvent(state), conn_id);
 	}

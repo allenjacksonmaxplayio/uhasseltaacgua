@@ -81,12 +81,7 @@ void RacePlayer::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_
 }
 
 void RacePlayer::setupReplication() {
-	mNode->addReplicationInt((zS32*) &mPlayerPosition, // pointer to the variable
-			sizeof(short) * 8, // amount of bits(full)
-			false, // unsigned
-			ZCOM_REPFLAG_MOSTRECENT, // always send the most recent value only
-			ZCOM_REPRULE_AUTH_2_ALL // server sends to all clients
-	);
+	replicateUnsignedInt((int*) &mPlayerPosition, ZCOM_REPRULE_AUTH_2_ALL, 4);
 }
 
 void RacePlayer::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
