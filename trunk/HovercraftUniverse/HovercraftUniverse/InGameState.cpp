@@ -202,17 +202,16 @@ namespace HovUni {
 
 		// Remove representation managers
 		std::vector<EntityRepresentation*> entreps = RepresentationManager::getSingletonPtr()->getEntityRepresentations();
-        for ( std::vector<EntityRepresentation*>::iterator i = entreps.begin(); i != entreps.end(); i++ ){
+        for (std::vector<EntityRepresentation*>::iterator i = entreps.begin(); i != entreps.end(); i++) {
 			RepresentationManager::getSingletonPtr()->removeEntityRepresentation((*i)->getEntity()->getName());
-                delete (*i);
+            delete (*i);
         }
 
 		// Remove entities
 		std::vector<Entity*> ents = EntityManager::getClientSingletonPtr()->getEntities(EntityManager::ALL);
-        for ( std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++ ){
-                EntityManager::getClientSingletonPtr()->releaseEntity((*i)->getName());
-
-                delete (*i);
+        for (std::vector<Entity*>::iterator i = ents.begin(); i != ents.end(); i++) {
+            EntityManager::getClientSingletonPtr()->releaseEntity((*i)->getName());
+            delete (*i);
         }
 
 		// Remove everything

@@ -34,6 +34,9 @@ namespace HovUni {
 			/** A button to start the race (admin only) */
 			MenuButton* mStart;
 
+			/** the title Overlay */
+			BasicOverlay* mTitle;
+
 		public:
 			/**
 			 * Constructor for the LobbyGUI

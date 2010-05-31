@@ -22,14 +22,14 @@ namespace HovUni {
 		mSingleplayerButton->bind("press", Hikari::FlashDelegate(this, &MainMenu::onSingleplayer));
 		mMultiplayerButton = new MenuButton("Multiplayer", "multiplayerBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, (width / 2), -(height / 2)));
 		mMultiplayerButton->bind("press", Hikari::FlashDelegate(this, &MainMenu::onMultiplayer));
-		mOptionsButton = new MenuButton("Options", "optionsBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, -(width / 2), (height / 2)));
-		mOptionsButton->bind("press", Hikari::FlashDelegate(this, &MainMenu::onOptions));
-		mQuitButton = new MenuButton("Quit", "quitBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, (width / 2), (height / 2)));
+		//mOptionsButton = new MenuButton("Options", "optionsBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, -(width / 2), (height / 2)));
+		//mOptionsButton->bind("press", Hikari::FlashDelegate(this, &MainMenu::onOptions));
+		mQuitButton = new MenuButton("Quit", "quitBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Center, 0, (height / 2)));
 		mQuitButton->bind("press", onQuit);
 
 		addOverlay("singleplayerBtn", mSingleplayerButton);
 		addOverlay("multiplayerBtn", mMultiplayerButton);
-		addOverlay("optionsBtn", mOptionsButton);
+		//addOverlay("optionsBtn", mOptionsButton);
 		addOverlay("quitBtn", mQuitButton);
 
 		//Calculate inition top padding, this is the total space available above the buttons
@@ -42,7 +42,7 @@ namespace HovUni {
 		//topPadding -= (height - (height / 3));
 		topPadding = (topPadding / 2) - (height / 4);
 
-		mTitle = new BasicOverlay("Title", "title.swf", width, height, Hikari::Position(Hikari::TopCenter, 0, topPadding), 1);
+		mTitle = new BasicOverlay("Title", "title.swf", width, height, Hikari::Position(Hikari::TopCenter, 0, topPadding));
 		mTitle->setBParameter(BasicOverlay::ALPHAHACK, true);
 		addOverlay("title", mTitle);
 
@@ -65,7 +65,7 @@ namespace HovUni {
 
 		delete mSingleplayerButton;
 		delete mMultiplayerButton;
-		delete mOptionsButton;
+		//delete mOptionsButton;
 		delete mQuitButton;
 		delete mTitle;
 		delete mServerMenu;

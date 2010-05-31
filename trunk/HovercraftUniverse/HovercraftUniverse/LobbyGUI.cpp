@@ -10,20 +10,20 @@ namespace HovUni {
 		addOverlay("Background__LB", mBackground);
 		
 		//Lets make the buttons first, calculate their size
-		int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 4; //We want to fill the entire screen
+		int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 5; //We want to fill the entire screen
 		float scale = (height * 1.0f) / 320.0f;
 		int width = (int) (445 * scale);
 		
-		mPickCar = new MenuButton("Change\nHovercraft", "pickCarBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, -(3 * (height / 2))));
+		//mPickCar = new MenuButton("Change\nHovercraft", "pickCarBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, -(3 * (height / 2))));
 		//mSingleplayerButton->bind("press", Hikari::FlashDelegate(this, &MainMenu::onSingleplayer));;
-		mPickChar = new MenuButton("Change\nCharacter", "pickCharBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, -(height / 2)));
-		mLeave = new MenuButton("Leave Lobby", "leaveBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, (height / 2)));
+		//mPickChar = new MenuButton("Change\nCharacter", "pickCharBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, -(height / 2)));
+		mLeave = new MenuButton("Leave Lobby", "leaveBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, (2 * (height / 2))));
 		mLeave->bind("press", onLeave);
-		mStart = new MenuButton("Start", "startBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, (3 * (height / 2))));
+		mStart = new MenuButton("Start", "startBtn", "menuButton.swf", width, height, Hikari::Position(Hikari::Right, 0, (4 * (height / 2))));
 		mStart->bind("press", onStart);
 
-		addOverlay("pickCarBtn", mPickCar);
-		addOverlay("pickCharBtn", mPickChar);
+		//addOverlay("pickCarBtn", mPickCar);
+		//addOverlay("pickCharBtn", mPickChar);
 		addOverlay("leaveBtn", mLeave);
 
 		int lobbyWidth = GUIManager::getSingletonPtr()->getResolutionWidth() - width; //The maximum width we have
@@ -33,6 +33,20 @@ namespace HovUni {
 		//Now show the lobby itself
 		mLobbyOverlay = new LobbyOverlay(mapChange, onChat, botsValue, playerMax, "lobbyVisual", "lobby.swf", lobbyWidth, lobbyHeight, Hikari::BottomLeft);
 		addOverlay("lobbyVisual", mLobbyOverlay);
+
+		//Calculate inition top padding, this is the total space available above the buttons
+		int topPadding = ((GUIManager::getSingletonPtr()->getResolutionHeight() / 2) - height);
+		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(356, 86, 713, 173);
+		width = size.first;
+		height = size.second;
+		
+		//Adjust the padding to the calculated height
+		//topPadding -= (height - (height / 3));
+		topPadding = (topPadding / 2) - (height / 4);
+
+		mTitle = new BasicOverlay("LobbyTitle", "title.swf", width, height, Hikari::Position(Hikari::TopCenter, 0, topPadding));
+		mTitle->setBParameter(BasicOverlay::ALPHAHACK, true);
+		addOverlay("title", mTitle);
 	}
 
 	LobbyGUI::~LobbyGUI() {
@@ -40,10 +54,12 @@ namespace HovUni {
 			GUIManager::getSingletonPtr()->disableOverlay(mStart);
 		}
 
-		delete mPickCar;
-		delete mPickChar;
+		//delete mPickCar;
+		//delete mPickChar;
 		delete mLeave;
 		delete mStart;
+		delete mTitle;
+		delete mLobbyOverlay;
 	}
 
 	void LobbyGUI::onDeactivate() {

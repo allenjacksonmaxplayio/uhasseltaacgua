@@ -86,6 +86,7 @@ Entity::Entity ( ZCom_BitStream* announcementdata, const Ogre::String& category,
 
 
 Entity::~Entity() {
+	delete mController;
 	// Empty
 	delete mProperties;
 }
