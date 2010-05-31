@@ -4,8 +4,6 @@
 
   * Sterren visualizeren in nieuwe map!
   * Hovercraft select box
-  * Positie correct replicaten en weergeven
-  * Countdown in lobby chat wanneer admin op start drukt
   * Logo en laadscherm ontwerpen
   * Crash wanneer server could not be reached
   * Reset gaat altijd naar 2e checkpoint
