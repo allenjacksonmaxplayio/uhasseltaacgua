@@ -9,7 +9,7 @@
 #include <HovSound.h>
 
 namespace HovUni {
-	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig) 
+	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig)
 			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false), mCleaningUp(false), mRun(false) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
@@ -121,15 +121,15 @@ namespace HovUni {
 
 				//Stop some things
 				mCleaningUp = true;
-				
+
 				break;
 			}
 		}
 	}
 
 	void InGameState::onPositionChange(RacePlayer* player) {
-		if (mHud->isActivated()) {
-			std::cout << "Position: " << mRaceState->getOwnPlayer()->getPosition() << std::endl;
+		if (mHud->isActivated() && player->getSettings()->getID() == mRaceState->getOwnPlayer()->getSettings()->getID()) {
+			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[InGameState]: Own position: " << mRaceState->getOwnPlayer()->getPosition();
 			mHud->setCurrentPosition(mRaceState->getOwnPlayer()->getPosition());
 			mHud->setNumberOfPlayers(mRaceState->getPlayers().size());
 		}
@@ -344,7 +344,7 @@ namespace HovUni {
 
 		//We are using a GUI, so update it
 		result = result && mGUIManager->mousePressed(e, id);
-		
+
 		return result;
 	}
 
@@ -353,7 +353,7 @@ namespace HovUni {
 
 		//We are using a GUI, so update it
 		result = result && mGUIManager->mouseReleased(e, id);
-		
+
 		return result;
 	}
 
@@ -368,7 +368,7 @@ namespace HovUni {
 			case OIS::KC_RMENU:
 			case OIS::KC_F4:
 				// Check whether right combinations are pressed concurrently
-				if (keyboard->isKeyDown(OIS::KC_ESCAPE) || 
+				if (keyboard->isKeyDown(OIS::KC_ESCAPE) ||
 					(keyboard->isKeyDown(OIS::KC_LMENU) && keyboard->isKeyDown(OIS::KC_RMENU) && keyboard->isKeyDown(OIS::KC_F4))) {
 					// Stop rendering
 					mContinue = false;
@@ -394,7 +394,7 @@ namespace HovUni {
 
 		//We are using a GUI, so update it
 		result = result && mGUIManager->keyPressed(e);
-		
+
 		return result;
 	}
 
@@ -403,7 +403,7 @@ namespace HovUni {
 
 		//We are using a GUI, so update it
 		result = result && mGUIManager->keyReleased(e);
-		
+
 		return result;
 	}
 
@@ -413,7 +413,7 @@ namespace HovUni {
 		Entity* currEnt = EntityManager::getClientSingletonPtr()->getTrackedEntity();
 
 		RacePlayer* myPlayer = mRaceState->getOwnPlayer();
-		
+
 		//std::cout << "WE NEED TO POINT TO: " << (int)myPlayer->getLastCheckpoint() << std::endl;
 
 		Ogre::Vector3 goal = (currEnt->getPosition() + currEnt->getOrientation());

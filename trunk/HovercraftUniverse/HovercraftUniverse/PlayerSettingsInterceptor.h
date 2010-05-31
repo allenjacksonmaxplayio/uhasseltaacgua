@@ -26,7 +26,7 @@ private:
 
 public:
 	/**
-	 * Constructor for a playersettingslistener
+	 * Constructor for a playersettingsInterceptor
 	 *
 	 * @param playerSettings The object to register this listener to
 	 * @param listener The listener who wants to receive callbacks
