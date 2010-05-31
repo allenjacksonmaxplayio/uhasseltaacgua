@@ -9,7 +9,7 @@
 namespace HovUni {
 
 RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings, int position) :
-	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(position), mLastCheckpoint(-1) {
+	NetworkEntity(1), mRaceState(state), mPlayerSettings(playerSettings), mPlayerPosition(position), mFinished(false), mLastCheckpoint(-1) {
 
 	// Add as network entity
 	networkRegister(NetworkIDManager::getServerSingletonPtr(), getClassName(), true);
@@ -20,7 +20,7 @@ RacePlayer::RacePlayer(RaceState* state, PlayerSettings* playerSettings, int pos
 RacePlayer::RacePlayer(Lobby* lobby, ZCom_BitStream* announcementdata, ZCom_ClassID id,
 		ZCom_Control* control) :
 	NetworkEntity(1), mRaceState(lobby->getRaceState()), mPlayerSettings(lobby->getPlayer(
-			announcementdata->getInt(32))), mPlayerPosition(-1), mLastCheckpoint(-1) {
+			announcementdata->getInt(32))), mPlayerPosition(-1), mFinished(false), mLastCheckpoint(-1) {
 
 	// Add as network entity
 	networkRegister(id, control);
@@ -56,6 +56,14 @@ short RacePlayer::getPosition() const {
 	return mPlayerPosition;
 }
 
+void RacePlayer::setFinished() {
+	mFinished = true;
+}
+
+bool RacePlayer::isFinished() const {
+	return mFinished;
+}
+
 void RacePlayer::addCheckpoint(unsigned int checkpoint, long timestamp) {
 	if (mLastCheckpoint == checkpoint - 1) {
 		mCheckpoints[checkpoint] = timestamp;
@@ -83,6 +91,7 @@ void RacePlayer::parseEvents(eZCom_Event type, eZCom_NodeRole remote_role, ZCom_
 
 void RacePlayer::setupReplication() {
 	replicateUnsignedInt((int*) &mPlayerPosition, ZCOM_REPRULE_AUTH_2_ALL, 4);
+	mNode->addReplicationBool(&mFinished, ZCOM_REPFLAG_MOSTRECENT, ZCOM_REPRULE_AUTH_2_ALL);
 }
 
 void RacePlayer::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRole _remote_role, zU32 _rep_bits, zU32 _event_bits,
