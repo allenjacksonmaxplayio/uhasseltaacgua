@@ -148,16 +148,29 @@ Op elke hovercraft-entiteit wordt nog een extra actie gedefini\"eerd om het obje
 
 
 \subsection{Grafische userinterface}
-De onderdelen van de GUI zijn ge\"implementeerd in ActionScript\footnote{\url{http://www.adobe.com/devnet/actionscript/}}, en worden met behulp van Hikari gevisualiseerd in Ogre. Hikari is een library die Flash (SWF) bestanden kan inlezen, en voor de binding tussen Flash en C++ zorgt.
+De onderdelen van de GUI zijn ge\"implementeerd in ActionScript\footnote{\url{http://www.adobe.com/devnet/actionscript/}}, en worden met behulp van Hikari gevisualiseerd in Ogre. Hikari is een library die Flash (SWF) bestanden kan inlezen, en voor de binding tussen Flash en C++ zorgt. Hikari is aangepast en uitgebreid, oa. met de functionaliteit om overlays uit te schakelen.
 
-\todo{Nick}
+De \texttt{BasicOverlay} klasse bevat alle basisfunctionaliteit en stelt een enkel Flash-bestand voor. Deze kan een bepaalde positie en dimensies innemen.
+
+De HUD van het spel is geconfigureerd aan de hand van een XML-bestand. Gebruikers kunnen hun eigen HUD zo aanpassen, instellen en eventueel andere HUD-elementen gebruiken. Listing~\ref{lst:hudxml} toont een voorbeeld van de configuratie van een HUD-element.
+
+\lstset{language=XML,caption=HUD configuratie van de LapTimer,label=lst:hudxml}
+\begin{lstlisting}
+<element type="timer" file="lapTimer.swf">
+	<size>
+		<min width="174" height="40" />
+		<max width="520" height="120" />
+	</size>
+	<position>
+		<relative val="TopRight" />
+	</position>
+</element>
+\end{lstlisting}
 
 \subsection{Geluid}
-\todo{iets over FMod bestanden en hoe het werkt}
+De FMOD library en tools zijn gebruikt voor het geluid en de muziek. De muziek is onderverdeeld Deze queues worden georganiseerd in een stack. De muziek en geluidseffecten worden door de FMOD Designer gecompileerd in \'e\'en enkel .fsb bestand.
 
-\todo{Iets over de 3D emitter...}
-
-\todo{...Nick?}
+Om toe te laten dat entiteiten in de wereld geluid produceren is \texttt{Moveable3DEmitter} gemaakt. Deze is een wrapper voor de FMOD functionaliteit, en bepaalt het geluid voor een entiteit in de wereld aan de hand van de positie, snelheid, orientatie. In onze architectuur zorgen de \texttt{EntityRepresentation}s voor de specifieke implementatie van het 3D geluid.
 
 \subsection{Besturing}
 De centrale klasse voor de besturing is de \texttt{KeyManager}. In deze klasse kunnen alle nodige acties geregistreerd worden door middel van een uniek ID, bijvoorbeeld in een enumeratie. Aan elk van deze acties kunnen \'e\'en of meerdere knoppen gebonden worden. Telkens wanneer de \texttt{HovercraftPlayerController} een key event binnenkrijgt, zal er bij de key manager nagegaan worden welke actie er overeenkomt met deze toets. Op deze manier is het mogelijk om de spelbesturing gemakkelijk te wijzigen zonder dat de controller aangepast moet worden. Bovendien kunnen er meerdere toetsen voor dezelfde actie gebruikt worden.
