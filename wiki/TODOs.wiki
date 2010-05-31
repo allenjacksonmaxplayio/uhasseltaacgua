@@ -6,8 +6,7 @@
   * Hovercraft select box
   * Positie correct replicaten en weergeven
   * Countdown in lobby chat wanneer admin op start drukt
-  * Server.ini "bots=1" doet niets
   * Logo en laadscherm ontwerpen
   * Crash wanneer server could not be reached
-  * Overlays zomaar in de lucht
   * Reset gaat altijd naar 2e checkpoint
+  * Keys en camera nog altijd gemapt op oude entity als het spel stopt
