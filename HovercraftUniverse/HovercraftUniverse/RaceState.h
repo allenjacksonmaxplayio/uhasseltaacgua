@@ -355,6 +355,9 @@ private:
 		/** The timer used for the countdown (Server) */
 		Timing* mTimer;
 
+		/** The timer used for the playtime (Server) */
+		Timing* mPlayTimer;
+
 		/**
 		 * Constructor
 		 *
