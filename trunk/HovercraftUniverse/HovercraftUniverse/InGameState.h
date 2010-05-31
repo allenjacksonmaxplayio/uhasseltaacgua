@@ -72,6 +72,9 @@ namespace HovUni {
 			/** Mutex */
 			boost::mutex mMutex;
 
+			/** Boolean to check for finish */
+			bool mFinished;
+
 		public:
 			/**
 			 * Constructor
