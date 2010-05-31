@@ -69,6 +69,11 @@ RaceState::RaceState(Lobby* lobby, Loader* loader, Ogre::String track) :
 		for (Lobby::playermap::const_iterator it = playersettings.begin(); it != playersettings.end()
 				|| mPlayers.getPlayers().size() > maxPlayers; ++it) {
 			RacePlayer* rplayer = new RacePlayer(this, it->second, initialPosition++);
+
+			// Tell the clients to start
+			StartTrackEvent startEvent;
+			mLobby->sendEventDirect(startEvent, it->second->getConnID());
+
 			rplayer->getNetworkNode()->setOwner(it->first, true);
 			addPlayer(rplayer);
 		}
