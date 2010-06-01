@@ -10,7 +10,7 @@
 namespace HovUni {
 	LobbyState::LobbyState(HUClient* client) : mClient(client), mLobby(client->getLobby()), mLastGUIUpdate(0), mLastClientUpdate(0) {
 		mGUIManager = GUIManager::getSingletonPtr();
-		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::mapChange), Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue), Hikari::FlashDelegate(this, &LobbyState::playerMax));
+		mLobbyGUI = new LobbyGUI(Hikari::FlashDelegate(this, &LobbyState::hovercraftChange), Hikari::FlashDelegate(this, &LobbyState::mapChange), Hikari::FlashDelegate(this, &LobbyState::onChat), Hikari::FlashDelegate(this, &LobbyState::onPressStart), Hikari::FlashDelegate(this, &LobbyState::onPressLeave), Hikari::FlashDelegate(this, &LobbyState::botsValue), Hikari::FlashDelegate(this, &LobbyState::playerMax));
 	}
 
 	LobbyState::~LobbyState() {
@@ -75,6 +75,14 @@ namespace HovUni {
 		return "success";
 	}
 
+	Hikari::FlashValue LobbyState::hovercraftChange(Hikari::FlashControl* caller, const Hikari::Arguments& args) {
+		int hoverID = (int)args.at(0).getNumber();
+
+		mLobby->getOwnPlayer()->setHovercraft(hoverID);
+
+		return "success";
+	}
+
 	////////////////////////////////////////
 	//	PlayerSettingsListener functions
 	////////////////////////////////////////
@@ -96,6 +104,10 @@ namespace HovUni {
 
 		//Player has been updated, propagate changes
 		mLobbyGUI->editUser(id, username, character, car);
+
+		if (id == mLobby->getOwnPlayer()->getID()) {
+			mLobbyGUI->setHovercraft(mLobby->getOwnPlayer()->getHovercraftID(), mLobby->getOwnPlayer()->getHovercraft());
+		}
 	}
 
 	////////////////////////////////////////
@@ -196,6 +208,13 @@ namespace HovUni {
 			mLobbyGUI->addMap(it->first, it->second);
 		}
 		onTrackChange(mLobby->getTrackId());
+
+		//Store the hovercrafts
+		std::map<unsigned int, Ogre::String> hovercrafts = EntityMapping::getInstance().getMap(EntityMapping::HOVERCRAFT);
+		mLobbyGUI->clearHovercrafts();
+		for(it = hovercrafts.begin(); it != hovercrafts.end(); it++) {
+			mLobbyGUI->addHovercraft(it->first, it->second);
+		}
 	}
 
 	void LobbyState::disable() {

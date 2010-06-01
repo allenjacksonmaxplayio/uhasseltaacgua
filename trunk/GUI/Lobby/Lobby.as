@@ -88,6 +88,8 @@
 			//Setup Settings
 			setAdmin(true);
 			
+			mHovercrafts.addEventListener(Event.CHANGE, hovercraftToggle);
+			
 			mTrackBox.addEventListener(Event.CHANGE, trackToggle);
 			mTrackBox.textField.setStyle("textFormat", myFont);
 			mTrackBox.textField.setStyle("embedFonts", true);
@@ -119,6 +121,11 @@
 			ExternalInterface.addCallback("clearMaps", clearMaps);
 			ExternalInterface.addCallback("addMap", addMap);
 			ExternalInterface.addCallback("setMap", setMap);
+			
+			//Hovercraft box
+			ExternalInterface.addCallback("clearHovercrafts", clearHovercrafts);
+			ExternalInterface.addCallback("addHovercraft", addHovercraft);
+			ExternalInterface.addCallback("setHovercraft", setHovercraft);
 
 			
 			//Setup user list
@@ -168,6 +175,31 @@
 		//////////////////////////////////////
 		//				SETTINGS			//
 		//////////////////////////////////////
+		
+		public function clearHovercrafts():void {
+			mHovercrafts.removeAll();
+		}
+		
+		public function addHovercraft(id:int, val:String) {
+			mHovercrafts.addItem({label:val, data:id});
+			mHovercrafts.textField.setStyle("textFormat", myFont);
+			mHovercrafts.textField.setStyle("embedFonts", true);
+			mHovercrafts.dropdown.setRendererStyle("textFormat", myFont);
+			mHovercrafts.dropdown.setRendererStyle("embedFonts", true);
+			mHovercrafts.dropdown.rowHeight = 40;
+		}
+		
+		public function setHovercraft(id:int, val:String) {
+			mHovercrafts.selectedIndex = findItemIndex(mHovercrafts, id.toString());
+			mHovercrafts.drawNow();
+		}
+		
+		public function hovercraftToggle(evt:Event) {
+			//Notify the listener
+			var val:int = ComboBox(evt.target).selectedItem.data; 
+			
+			ExternalInterface.call("hovercraftChange", val);
+		}
 		
 		public function clearMaps():void {
 			mTrackBox.removeAll();
