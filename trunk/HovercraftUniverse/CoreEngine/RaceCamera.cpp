@@ -249,6 +249,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 			// Get input from free roaming controller and apply
 			mCamera->yaw(mFreeroamCameraController->getYaw());
 			mCamera->pitch(mFreeroamCameraController->getPitch());
+			mCamera->roll(mFreeroamCameraController->getRoll());
 			mCamera->setPosition(mCamera->getPosition() +  (mCamera->getOrientation() * mFreeroamCameraController->getDirection()) * (timeSinceLastFrame * 100));
 
 			//mActiveViewpointNode->yaw(mFreeroamCameraController->getYaw());
