@@ -8,6 +8,7 @@
 #include "Hovercraft.h"
 #include "PathReader.h"
 #include <OgreVector4.h>
+#include "BoostProperty.h"
 
 namespace HovUni {
 	HovercraftAIController::HovercraftAIController(std::string scriptname, std::string pathfilename) {
@@ -29,6 +30,7 @@ namespace HovUni {
 					.def("setAction", &HovercraftAIController::setAction)
 					.def("getAction", &HovercraftAIController::getAction)
 					.def("luaLog", &HovercraftAIController::luaLog)
+					.def("getBoosting", &HovercraftAIController::getBoosting)
 			];
 			Ogre::LogManager::getSingleton().getDefaultLog()->stream() << mClassName << "Loading file " << scriptname;
 			this->mScript->load(scriptname);
@@ -130,6 +132,15 @@ namespace HovUni {
 
 	void HovercraftAIController::luaLog(const std::string message) {
 		Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "Lua :: " << message;
+	}
+
+	bool HovercraftAIController::getBoosting() {
+		BoostProperty* prop = dynamic_cast<BoostProperty*>(this->getEntity()->getPropertyMap()->getProperty(BoostProperty::KEY));
+		if (prop == 0) {
+			return false;
+		}
+		Ogre::Real boosting = prop->getBoost();
+		return (boosting > 0);
 	}
 
 
