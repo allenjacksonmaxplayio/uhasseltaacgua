@@ -49,7 +49,15 @@
 			var seconds:int = (time - minutes * (1000 * 60)) / 1000;
 			var hundredseconds:int = (time - seconds * 1000 - minutes * (60 * 1000)) / 10;
 			
-			var ret:String = String(minutes) + ":" + String(seconds) + ":" + String(hundredseconds);
+			var ret:String = String(minutes) + ":";
+			if (seconds < 10) {
+				ret += "0";
+			}
+			ret += String(seconds) + ":";
+			if (hundredseconds < 10) {
+				ret += "0";
+			}
+			ret += String(hundredseconds);
 			
 			trace(String(minutes));
 			trace(String(seconds));
