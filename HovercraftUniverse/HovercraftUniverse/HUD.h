@@ -42,6 +42,8 @@ private:
 	/** Boolean to check if the chat is activated */
 	bool mChatIsActivated;
 
+	std::string mHudName;
+
 	/** Helper data structure */
 	struct ComponentData {
 		/** The name for the component */
@@ -71,6 +73,11 @@ public:
 	 * Destructor.
 	 */
 	virtual ~HUD();
+
+	/**
+	 * Hide the direction arrow
+	 */
+	void hideDirection();
 
 	/**
 	 * Update the direction arrow in the HUD (if present)

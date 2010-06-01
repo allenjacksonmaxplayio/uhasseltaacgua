@@ -245,7 +245,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 
 			break;
 		case FreeRoam:
-			mCamera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
+			mCamera->setFixedYawAxis(false, Ogre::Vector3::UNIT_Y);
 			// Get input from free roaming controller and apply
 			mCamera->yaw(mFreeroamCameraController->getYaw());
 			mCamera->pitch(mFreeroamCameraController->getPitch());

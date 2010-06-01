@@ -10,6 +10,7 @@
 #include "ProgressMonitorListener.h"
 #include "RaceStateListener.h"
 #include "RepresentationManager.h"
+#include "Results.h"
 #include <tinyxml/tinyxml.h>
 #include <SkyX.h>
 #include <boost/thread.hpp>
@@ -53,6 +54,9 @@ namespace HovUni {
 
 			/** A countdown overlay */
 			Countdown* mCountdown;
+
+			/** Results overlay */
+			Results* mResults;
 
 			/** Value to keep the fadeout time for the countdown overlay */
 			Ogre::Real mCountdownFadeout;
@@ -118,6 +122,13 @@ namespace HovUni {
 			 * @param player the player
 			 */
 			virtual void onPositionChange(RacePlayer* player);
+
+			/**
+			 * The player finished
+			 *
+			 * @param player the player
+			 */
+			virtual void onFinish(RacePlayer* player);
 
 			////////////////////////////////////////////
 			//			BasicGameState functions	  //

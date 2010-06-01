@@ -7,7 +7,13 @@ namespace HovUni {
 		this->setBParameter(BasicOverlay::ALPHAHACK, true);
 	}
 
-	void Results::addPlayer(int position, const Ogre::String& name, long time) {
-
+	bool Results::addPlayer(int position, const Ogre::String& name, long time) {
+		try{
+			this->callFunction("addPosition", Hikari::Args(position)(name)(time));
+		} catch (OverlayNotActivatedException) {
+			//Ignore
+			return false;
+		}
+		return true;
 	}
 }

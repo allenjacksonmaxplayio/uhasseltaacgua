@@ -91,6 +91,7 @@ namespace HovUni {
 			} else if (!strcmp(data->mName.c_str(), "direction")) {
 				mDirection = new Direction(data->mName, data->mFilename, data->mWidth, data->mHeight, data->mPosition);
 				mDirection->setBParameter(BasicOverlay::ALPHAHACK, true);
+				mHudName = data->mName;
 				this->addOverlay(data->mName, mDirection);
 				mDirection->ignoreInputs(true);
 			} else if (!strcmp(data->mName.c_str(), "chat")) {
@@ -130,6 +131,13 @@ namespace HovUni {
 			side /= Ogre::Math::Abs(side);
 
 			mDirection->setAngle(angle * side);
+		}
+	}
+
+	void HUD::hideDirection() {
+		//Calculate angle
+		if (mDirection != 0) {
+			this->removeOverlay(mHudName);
 		}
 	}
 
