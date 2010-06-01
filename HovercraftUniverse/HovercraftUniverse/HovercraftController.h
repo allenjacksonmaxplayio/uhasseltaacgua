@@ -22,7 +22,7 @@ protected:
 	Timing mTimer;
 
 	//Temp
-	time_t mSeconds;
+	__int64 mPreviousTime;
 
 public:
 	/**
