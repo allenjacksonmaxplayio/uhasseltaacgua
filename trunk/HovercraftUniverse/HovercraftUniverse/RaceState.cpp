@@ -266,7 +266,7 @@ void RaceState::randomSettingsForBot(const std::map<unsigned int, Ogre::String>&
 	unsigned int i = 0;
 	for (std::map<unsigned int, Ogre::String>::const_iterator it = hovercrafts.begin(); it != hovercrafts.end(); ++it) {
 		if (i == hov) {
-			hovercraftKey = it->first;
+			hovercraftKey = 0;//it->first;
 		}
 		++i;
 	}
