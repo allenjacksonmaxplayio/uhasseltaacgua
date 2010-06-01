@@ -124,7 +124,7 @@ namespace HovUni {
 
 	void HUD::updateDirection(Ogre::Vector3& forward, Ogre::Vector3& destination, Ogre::Vector3& up) {
 		//Calculate angle
-		if (mDirection != 0) {
+		if ((mDirection != 0) && (mDirection->isActivated())) {
 			float angle = forward.angleBetween(destination).valueDegrees();
 
 			float side = (forward.crossProduct(up)).dotProduct(destination);
