@@ -14,6 +14,8 @@
 #include "Timing.h"
 #include "ChatServer.h"
 #include <sstream>
+#include "TrackInfoLoader.h"
+#include "Track.h"
 
 //Events
 #include "InitEvent.h"
@@ -215,11 +217,25 @@ void Lobby::onDisconnect(ZCom_ConnID id, const std::string& reason) {
 }
 
 void Lobby::onStartServer() {
-	mPressedStart = true;
-	mTimer = new Timing();
-	mCountdown = msCountdownValue + 1;
-	if (mChatServer) {
-		mChatServer->sendNotification("Starting in...");
+	// Load track info and check players
+	Ogre::String trackfile = EntityMapping::getInstance().getName(EntityMapping::MAPS, this->mTrack).first + ".scene";
+	TrackInfoLoader trackInfoLoader(trackfile);
+	Track * trackEntity = trackInfoLoader.getTrack();
+
+	unsigned int maxPlayers = (getMaxPlayers() < trackEntity->getMaximumPlayers() ? getMaxPlayers()
+			: trackEntity->getMaximumPlayers());
+
+	if (mPlayers.getPlayers().size() <= maxPlayers) {
+		mPressedStart = true;
+		mTimer = new Timing();
+		mCountdown = msCountdownValue + 1;
+		if (mChatServer) {
+			mChatServer->sendNotification("Starting in...");
+		}
+	} else {
+		if (mChatServer) {
+			mChatServer->sendNotification("Unable to start because there are too many players.");
+		}
 	}
 
 }
