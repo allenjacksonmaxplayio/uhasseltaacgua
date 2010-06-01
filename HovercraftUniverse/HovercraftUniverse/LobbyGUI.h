@@ -46,7 +46,7 @@ namespace HovUni {
 			 * @param onLeave Function to be called when a user pushes the leave button
 			 * @param botsValue The function that will be called when the admin toggles the checkbox for bots
 			 */
-			LobbyGUI(const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax);
+			LobbyGUI(const Hikari::FlashDelegate& hovercraftChange, const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& onChat, const Hikari::FlashDelegate& onStart, const Hikari::FlashDelegate& onLeave, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax);
 			
 			/**
 			 * Destructor
@@ -171,6 +171,25 @@ namespace HovUni {
 			 * @param name The name of the map
 			 */
 			void setMap(int id, const std::string& name);
+
+			/**
+			 * Clear the entire list of hovercrafts
+			 */
+			void clearHovercrafts();
+
+			/**
+			 * Add a hovercraft to the dropdown box
+			 * @param id The if of the hovercraft
+			 * @param name The name of the hovercraft
+			 */
+			void addHovercraft(int id, const std::string& name);
+
+			/**
+			 * Set a certain hovercraft as active
+			 * @param id The if of the hovercraft
+			 * @param name The name of the hovercraft
+			 */
+			void setHovercraft(int id, const std::string& name);
 	};
 }
 

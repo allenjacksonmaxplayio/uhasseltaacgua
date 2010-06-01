@@ -133,6 +133,15 @@ public:
 	const Ogre::String getHovercraft() const;
 
 	/**
+	 * Get the hovercraft ID
+     *
+	 * @return The ID of the hovercraft
+	 */
+	int getHovercraftID() {
+		return mHovercraft;
+	}
+
+	/**
 	 * Get the ID of the user
 	 *
 	 * @return the ID of the user

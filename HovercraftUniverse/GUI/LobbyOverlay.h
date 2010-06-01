@@ -18,7 +18,7 @@ namespace HovUni {
 			 *			posts a new chat message
 			 * @param botsValue The function that will be called when the admin toggles the checkbox for bots
 			 */
-			LobbyOverlay(const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& chatInput, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
+			LobbyOverlay(const Hikari::FlashDelegate& hovercraftChange, const Hikari::FlashDelegate& mapChange, const Hikari::FlashDelegate& chatInput, const Hikari::FlashDelegate& botsValue, const Hikari::FlashDelegate& playerMax, const Ogre::String& name, const Ogre::String& fileName, int width, int height, const Hikari::Position& position, Ogre::ushort zOrder = 0);
 
 			/**
 			 * Add a new chat message to the lobby chat
@@ -116,6 +116,25 @@ namespace HovUni {
 			 * @param name The name of the map
 			 */
 			void setMap(int id, const std::string& name);
+
+			/**
+			 * Clear the entire list of hovercrafts
+			 */
+			void clearHovercrafts();
+
+			/**
+			 * Add a hovercraft to the dropdown box
+			 * @param id The if of the hovercraft
+			 * @param name The name of the hovercraft
+			 */
+			void addHovercraft(int id, const std::string& name);
+
+			/**
+			 * Set a certain hovercraft as active
+			 * @param id The if of the hovercraft
+			 * @param name The name of the hovercraft
+			 */
+			void setHovercraft(int id, const std::string& name);
 	};
 }
 

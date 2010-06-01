@@ -80,7 +80,7 @@ namespace HovUni {
 				mCountdown->start(5000);
 
 				mMutex.lock();
-				/*
+				
 				//Activate the engines
 				std::vector<EntityRepresentation*> entreps = RepresentationManager::getSingletonPtr()->getEntityRepresentations();
 				for (std::vector<EntityRepresentation*>::iterator i = entreps.begin(); i != entreps.end(); i++) {
@@ -88,12 +88,13 @@ namespace HovUni {
 					if (hov != 0) {
 						SoundManager::getSingletonPtr()->registerEmitter(hov);
 						hov->startSound();
+						hov->setVolume(0.8f);
 					}
 				}
 
 				HovercraftRepresentation* me = (HovercraftRepresentation*) mRepresentationManager->getTrackedEntityRepresentation();
-				me->setVolume(0.6f);
-				*/
+				me->setVolume(0.4f);
+				
 				mMutex.unlock();
 
 				//Start updating the sound listener

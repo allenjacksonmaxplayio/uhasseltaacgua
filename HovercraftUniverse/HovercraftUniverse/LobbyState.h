@@ -116,6 +116,16 @@ namespace HovUni {
 			 */
 			Hikari::FlashValue mapChange(Hikari::FlashControl* caller, const Hikari::Arguments& args);
 
+			/**
+			 * Function that will be called when the hovercraft is changed.
+			 *
+			 * @param caller A Reference to the caller, should be ignored unles syou know what you are doing!
+			 * @param arg The arguments of the called function (int)
+			 * @return Should return the return value that is expected by the flash file or something random
+			 *		if void.
+			 */
+			Hikari::FlashValue hovercraftChange(Hikari::FlashControl* caller, const Hikari::Arguments& args);
+
 			////////////////////////////////////////
 			//	PlayerSettingsListener functions
 			////////////////////////////////////////
