@@ -43,7 +43,7 @@ EPSILON = 0.01; -- for avoiding steering oscillations
 MINSPEED = 0.1; -- % of speed for accurate steering
 MAXSPEED = 1.0; -- % of speed for going in a straight line
 
-RESETTHRESHOLD = 100; -- distance threshold for pressing the reset button
+RESETTHRESHOLD = 200; -- distance threshold for pressing the reset button
 -----------------------------
 
 
