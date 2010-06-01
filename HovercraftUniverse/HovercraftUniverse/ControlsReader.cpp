@@ -59,6 +59,8 @@ void ControlsReader::setDefaultControls() {
 	mKeyManager->setCameraKey(FREE_CAMERA_RIGHT, OIS::KC_D, true);
 	mKeyManager->setCameraKey(FREE_CAMERA_UP, OIS::KC_E, true);
 	mKeyManager->setCameraKey(FREE_CAMERA_DOWN, OIS::KC_Q, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_ROLL_LEFT, OIS::KC_Z, true);
+	mKeyManager->setCameraKey(FREE_CAMERA_ROLL_RIGHT, OIS::KC_C, true);
 
 	// write controls to file
 	mKeyManager->writeControlsFile();
@@ -122,6 +124,8 @@ void ControlsReader::readControls() {
 		setCameraKeys(FREE_CAMERA_RIGHT, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_RIGHT]), "KC_D");
 		setCameraKeys(FREE_CAMERA_UP, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_UP]), "KC_E");
 		setCameraKeys(FREE_CAMERA_DOWN, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_DOWN]), "KC_Q");
+		setCameraKeys(FREE_CAMERA_ROLL_LEFT, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_ROLL_LEFT]), "KC_Z");
+		setCameraKeys(FREE_CAMERA_ROLL_RIGHT, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_ROLL_RIGHT]), "KC_C");
 	}
 
 }

@@ -63,6 +63,19 @@ Ogre::Degree FreeroamCameraController::getPitch() {
 	return Ogre::Degree((Ogre::Real) -0.13 * mouseRelativeY);
 }
 
+Ogre::Degree FreeroamCameraController::getRoll() {
+	Ogre::Real rolling = Ogre::Real(0.0f);
+	if (mRollingLeft) { 
+		rolling -= 1.0f;
+	}
+	if (mRollingRight) { 
+		rolling += 1.0f;
+	}
+
+	// Return pitch
+	return Ogre::Degree(rolling);
+}
+
 bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) { 
 	CameraActions::CameraControllerActionType action = mInputManager->getKeyManager()->getCameraAction(e.key);
 	// Process possibly resulting move
@@ -84,6 +97,12 @@ bool FreeroamCameraController::keyPressed(const OIS::KeyEvent & e) {
 			break;
 		case CameraActions::FREE_CAMERA_DOWN:
 			mMovingDown = true;
+			break;
+		case CameraActions::FREE_CAMERA_ROLL_LEFT:
+			mRollingLeft = true;
+			break;
+		case CameraActions::FREE_CAMERA_ROLL_RIGHT:
+			mRollingRight = true;
 			break;
 		default:
 			break;
@@ -114,6 +133,12 @@ bool FreeroamCameraController::keyReleased(const OIS::KeyEvent & e) {
 			break;
 		case CameraActions::FREE_CAMERA_DOWN:
 			mMovingDown = false;
+			break;
+		case CameraActions::FREE_CAMERA_ROLL_LEFT:
+			mRollingLeft = false;
+			break;
+		case CameraActions::FREE_CAMERA_ROLL_RIGHT:
+			mRollingRight = false;
 			break;
 		default:
 			break;

@@ -26,6 +26,8 @@ private:
 	bool mMovingBackward;
 	bool mMovingUp;
 	bool mMovingDown;
+	bool mRollingLeft;
+	bool mRollingRight;
 
 	/** The position of the mouse compared to the last position */
 	Ogre::Real mMouseRelativeX;
@@ -65,9 +67,16 @@ public:
 	/**
 	 * Tells the pitch degree that the camera should perform since last frame.
 	 *
-	 * @return the yaw degree
+	 * @return the pitch degree
 	 */
 	virtual Ogre::Degree getPitch();
+
+	/**
+	 * Tells the roll degree that the camera should perform since last frame.
+	 *
+	 * @return the roll degree
+	 */
+	virtual Ogre::Degree getRoll();
 
 	/**
 	 * @see KeyListener::keyPressed().
