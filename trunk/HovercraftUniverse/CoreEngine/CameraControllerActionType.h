@@ -23,6 +23,7 @@ enum CameraControllerActionType {
 	FREE_CAMERA_DOWN, 
 	FREE_CAMERA_LEFT, 
 	FREE_CAMERA_RIGHT,
+	MARIO_STYLE_CAMERA,
 
 
 
@@ -32,7 +33,7 @@ enum CameraControllerActionType {
 /** String representations of the actions */
 static std::string cameraActionNames[]={ "Invalid", "Change Camera", "External View", 
 	"Cockpit View", "Rear View", "Free Roam Camera", "Forward", "Back",
-	"Up", "Down", "Left", "Right"};
+	"Up", "Down", "Left", "Right", "Mario Galaxy Style"};
 
 }
 

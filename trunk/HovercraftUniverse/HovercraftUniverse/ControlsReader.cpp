@@ -51,6 +51,7 @@ void ControlsReader::setDefaultControls() {
 	mKeyManager->setCameraKey(FIRST_PERSON_CAMERA, OIS::KC_2, true);
 	mKeyManager->setCameraKey(REAR_VIEW_CAMERA, OIS::KC_3, true);
 	mKeyManager->setCameraKey(FREE_CAMERA, OIS::KC_4, true);
+	mKeyManager->setCameraKey(MARIO_STYLE_CAMERA, OIS::KC_5, true);
 
 	mKeyManager->setCameraKey(FREE_CAMERA_FWD, OIS::KC_W, true);
 	mKeyManager->setCameraKey(FREE_CAMERA_BACK, OIS::KC_S, true);
@@ -113,6 +114,7 @@ void ControlsReader::readControls() {
 		setCameraKeys(FIRST_PERSON_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[FIRST_PERSON_CAMERA]), "KC_2");
 		setCameraKeys(REAR_VIEW_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[REAR_VIEW_CAMERA]), "KC_3");
 		setCameraKeys(FREE_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[FREE_CAMERA]), "KC_4");
+		setCameraKeys(MARIO_STYLE_CAMERA, reader.GetKeyValue("Camera", cameraActionNames[MARIO_STYLE_CAMERA]), "KC_5");
 
 		setCameraKeys(FREE_CAMERA_FWD, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_FWD]), "KC_W");
 		setCameraKeys(FREE_CAMERA_BACK, reader.GetKeyValue("FreeCamera", cameraActionNames[FREE_CAMERA_BACK]), "KC_S");

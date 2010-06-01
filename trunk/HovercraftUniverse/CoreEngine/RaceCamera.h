@@ -29,6 +29,9 @@ private:
 	/** The 3d person viewpoint of the camera */
 	Ogre::SceneNode * m3rdPersonViewpointNode;
 
+	/** The 3d person mario style camera */
+	Ogre::SceneNode * mMarioStyleViewpointNode;
+
 	/** The first person viewpoint of the camera */
 	Ogre::SceneNode * m1stPersonViewpointNode;
 
@@ -48,7 +51,8 @@ private:
 		ThirdPerson = 0,
 		FirstPerson = 1,
 		RearView = 2,
-		FreeRoam = 3
+		FreeRoam = 3,
+		MarioStyle = 4
 	};
 
 	/** The camera currently active */

@@ -31,6 +31,13 @@ void RaceCamera::reinitialize() {
 	CameraSpring::getInstance()->initCameraSpring(mCamera->getPosition(),//Cameras current position
 		Ogre::Vector3::ZERO);//Offset is 100 units behind(-) the player
 
+	// Create mario style camera
+	mMarioStyleViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "MarioNode");
+	mMarioStyleViewpointNode = mMarioStyleViewpointNode->createChildSceneNode(m3rdPersonViewpointNode->getName() + "Pitch");
+	//Init the camera now to avoid any chance of null pointers
+	CameraSpring::getInstance()->initCameraSpring(mCamera->getPosition(),//Cameras current position
+		Ogre::Vector3::ZERO);//Offset is 100 units behind(-) the player
+
 	// Create 1st person view camera
 	m1stPersonViewpointNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mCamera->getName() + "1stPersonNode");
 	m1stPersonViewpointNode = m1stPersonViewpointNode->createChildSceneNode(m1stPersonViewpointNode->getName() + "Pitch");
@@ -81,7 +88,7 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 	switch (action) {
 	case CameraActions::CHANGECAMERA:
 		// Switch to next camera
-		if (mCurrCamViewpoint == FreeRoam) {
+		if (mCurrCamViewpoint == MarioStyle) {
 			mCurrCamViewpoint = ThirdPerson;
 		} else {
 			mCurrCamViewpoint = CameraViewpoint(mCurrCamViewpoint + 1);
@@ -94,6 +101,10 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 	case CameraActions::THIRD_PERSON_CAMERA:
 		// Switch to 3rd person
 		mCurrCamViewpoint = ThirdPerson;
+		break;
+	case CameraActions::MARIO_STYLE_CAMERA:
+		// Switch to mario style
+		mCurrCamViewpoint = MarioStyle;
 		break;
 	case CameraActions::FIRST_PERSON_CAMERA:
 		// Switch to 1st person
@@ -119,6 +130,8 @@ bool RaceCamera::keyPressed(const OIS::KeyEvent & e) {
 
 		if (mCurrCamViewpoint == ThirdPerson) {
 			mActiveViewpointNode = m3rdPersonViewpointNode;
+		} else if (mCurrCamViewpoint == MarioStyle) {
+			mActiveViewpointNode = mMarioStyleViewpointNode;
 		} else if (mCurrCamViewpoint == FirstPerson) {
 			mActiveViewpointNode = m1stPersonViewpointNode;
 		} else if (mCurrCamViewpoint == RearView) {
@@ -194,6 +207,12 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 			//turn the camera slightly to the tracked entity
 			//mActiveViewpointNode->pitch(Ogre::Degree(-15.0f), Ogre::Node::TS_LOCAL);
 			
+			break;
+		case MarioStyle:
+			newPosition = currEntity->getPosition() - (currEntity->getOrientation() * 20) + (currEntity->getUpVector() * 10);
+			positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
+			mCamera->setPosition(positionCam);
+			mCamera->lookAt(currEntity->getSmoothPosition() + currEntity->getUpVector() * 5);
 			
 			break;
 		case FirstPerson:
