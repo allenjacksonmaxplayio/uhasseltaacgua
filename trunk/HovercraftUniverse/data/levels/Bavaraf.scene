@@ -1,0 +1,226 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+    <userData>
+        <![CDATA[<Track><Name>Planet Bavaraf</Name><MinimumPlayers>1</MinimumPlayers><MaximumPlayers>4</MaximumPlayers><PathFileName>Bavaraf.path</PathFileName><PhysicsFileName>Bavaraf.hkx</PhysicsFileName></Track>]]>
+</userData>
+    <environment>
+        <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
+        <colourBackground r="0" g="0" b="0" />
+        <clipping near="0" far="100000" />
+    </environment>
+    <nodes>
+        <node name="PlanetGeom">
+            <position x="-6.16174" y="1.68005" z="-7.42574" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="-3.08347e-008" qz="-0.705416" qw="0.708794" />
+            <entity name="PlanetGeom" castShadows="true" receiveShadows="true" meshFile="PlanetGeom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>PlanetGeom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Planet" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="StartGeom">
+            <position x="-11.3244" y="90.5836" z="-16.4103" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="-4.17248e-010" qz="-0.00954551" qw="0.999954" />
+            <entity name="StartGeom" castShadows="true" receiveShadows="true" meshFile="StartGeom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>StartGeom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="CheckPointSign" />
+                    <subentity index="1" materialName="CheckpointPoleWood" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Checkpoint0Geom">
+            <position x="16.9903" y="32.7484" z="-85.5341" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.437905" qy="-0.619305" qz="0.254206" qw="0.600067" />
+            <entity name="Checkpoint0Geom" castShadows="true" receiveShadows="true" meshFile="Checkpoint0Geom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Checkpoint0Geom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="CheckPointSign" />
+                    <subentity index="1" materialName="CheckpointPoleWood" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Checkpoint1Geom">
+            <position x="90.2842" y="-3.89825" z="-7.69886" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.476923" qy="-0.420307" qz="-0.472953" qw="0.610084" />
+            <entity name="Checkpoint1Geom" castShadows="true" receiveShadows="true" meshFile="Checkpoint1Geom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Checkpoint1Geom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="CheckPointSign" />
+                    <subentity index="1" materialName="CheckpointPoleWood" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Checkpoint2Geom">
+            <position x="-14.2984" y="-77.8627" z="-49.567" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0.895878" qy="-0.107683" qz="0.410621" qw="-0.131136" />
+            <entity name="Checkpoint2Geom" castShadows="true" receiveShadows="true" meshFile="Checkpoint2Geom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Checkpoint2Geom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="CheckPointSign" />
+                    <subentity index="1" materialName="CheckpointPoleWood" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Checkpoint3Geom">
+            <position x="-79.8394" y="-31.0695" z="-29.948" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0.637002" qy="-0.619254" qz="0.450001" qw="0.0908401" />
+            <entity name="Checkpoint3Geom" castShadows="true" receiveShadows="true" meshFile="Checkpoint3Geom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Checkpoint3Geom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="CheckPointSign" />
+                    <subentity index="1" materialName="CheckpointPoleWood" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Reset01">
+            <position x="-8.64041" y="41.8174" z="-83.9975" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.547944" qy="0" qz="0" qw="0.836515" />
+        </node>
+        <node name="Omni01">
+            <position x="94.7542" y="-1.12751e-005" z="-257.944" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni01" visible="true" type="point" castShadows="false" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="Omni02">
+            <position x="-138.246" y="-77.9807" z="5.73722" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107" />
+            <light name="Omni02" visible="true" type="point" castShadows="false" power="1">
+                <colourDiffuse r="1" g="1" b="1" />
+                <colourSpecular r="1" g="1" b="1" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+    </nodes>
+    <externals>
+        <item name="PlanetGeom_ent">
+            <userData>
+                <![CDATA[<Asteroid><OgreEntity>PlanetGeom</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Baveraf</Name><Gravity>65</Gravity><AsteroidType>0</AsteroidType></Asteroid>]]>
+</userData>
+            <position x="-6.16174" y="1.68005" z="-7.42574" />
+            <rotation qx="0" qy="-3.08347e-008" qz="-0.705416" qw="0.708794" />
+            <scale x="232.689" y="233.741" z="228.04" />
+        </item>
+        <item name="StartPosition4">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-4.57302" y="88.5091" z="-9.13774" />
+            <rotation qx="0" qy="-5.2108e-015" qz="-1.19209e-007" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition3">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-8.95322" y="87.6985" z="-9.13774" />
+            <rotation qx="0" qy="-5.2108e-015" qz="-1.19209e-007" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition2">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-12.7295" y="87.4788" z="-9.13774" />
+            <rotation qx="0" qy="-5.2108e-015" qz="-1.19209e-007" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartPosition1">
+            <userData>
+                <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
+</userData>
+            <position x="-16.6107" y="88.3247" z="-9.13774" />
+            <rotation qx="0" qy="-5.2108e-015" qz="-1.19209e-007" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="StartGeom_ent">
+            <userData>
+                <![CDATA[<CheckPoint><OgreEntity>StartGeom</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Start</Name><Number>0</Number></CheckPoint>]]>
+</userData>
+            <position x="-11.3244" y="90.5836" z="-16.4103" />
+            <rotation qx="4.33701e-019" qy="-4.17248e-010" qz="-0.00954551" qw="0.999954" />
+            <scale x="22.3913" y="11.4678" z="1.71491" />
+        </item>
+        <item name="Checkpoint0Geom_ent">
+            <userData>
+                <![CDATA[<CheckPoint><OgreEntity>Checkpoint0Geom</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Check 1</Name><Number>1</Number></CheckPoint>]]>
+</userData>
+            <position x="16.9902" y="32.7484" z="-85.5341" />
+            <rotation qx="-0.437905" qy="-0.619305" qz="0.254206" qw="0.600067" />
+            <scale x="22.3913" y="11.4678" z="1.71491" />
+        </item>
+        <item name="Checkpoint1Geom_ent">
+            <userData>
+                <![CDATA[<CheckPoint><OgreEntity>Checkpoint1Geom</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Check</Name><Number>1</Number></CheckPoint>]]>
+</userData>
+            <position x="90.2842" y="-3.89825" z="-7.69886" />
+            <rotation qx="-0.476923" qy="-0.420307" qz="-0.472953" qw="0.610084" />
+            <scale x="22.3913" y="11.4678" z="1.71491" />
+        </item>
+        <item name="Checkpoint2Geom_ent">
+            <userData>
+                <![CDATA[<CheckPoint><OgreEntity>Checkpoint2Geom</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Check 02</Name><Number>2</Number></CheckPoint>]]>
+</userData>
+            <position x="-14.2984" y="-77.8627" z="-49.567" />
+            <rotation qx="0.895878" qy="-0.107683" qz="0.410621" qw="-0.131136" />
+            <scale x="22.3913" y="11.4678" z="1.71491" />
+        </item>
+        <item name="Checkpoint3Geom_ent">
+            <userData>
+                <![CDATA[<Finish><OgreEntity>Checkpoint3Geom</OgreEntity><ProcessInterval>-1</ProcessInterval></Finish>]]>
+</userData>
+            <position x="-79.8394" y="-31.0695" z="-29.948" />
+            <rotation qx="0.637002" qy="-0.619254" qz="0.450001" qw="0.09084" />
+            <scale x="22.3913" y="11.4678" z="1.71492" />
+        </item>
+        <item name="Reset00">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>0</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="-8.64041" y="93.088" z="-4.54209" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset02">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>2</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="75.1256" y="38.7327" z="-38.6345" />
+            <rotation qx="-0.49143" qy="-0.370001" qz="-0.242362" qw="0.750238" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset03">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>3</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="-8.64041" y="-74.8024" z="-57.7366" />
+            <rotation qx="0.988354" qy="0" qz="0" qw="-0.152171" />
+            <scale x="1" y="1" z="1" />
+        </item>
+    </externals>
+</scene>
