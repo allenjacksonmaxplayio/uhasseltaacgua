@@ -143,7 +143,9 @@ namespace HovUni {
 	}
 
 	void InGameState::onFinish(RacePlayer* player) {
+		
 
+		//mResults->addPlayer(player->getPosition(), player->getSettings()->getPlayerName(), player->getCheckpoint(player->getLastCheckpoint()));
 	}
 
 	////////////////////////////////////////////
@@ -302,14 +304,16 @@ namespace HovUni {
 							mHud->setLapTimer(minutes, seconds, hundredseconds);
 							mFinished = true;
 
-							int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 2; //We want to fill half the screen
-							float scale = (height * 1.0f) / 400.0;
-							int width = (int) (550 * scale);
-							mResults = new Results("ResultsOverlay", "raceresults.swf", width, height, Hikari::TopCenter);
-							if (mHud->isActivated()) {
-								mHud->hideDirection();
+							if (mResults == 0) {
+								int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 2; //We want to fill half the screen
+								float scale = (height * 1.0f) / 400.0;
+								int width = (int) (550 * scale);
+								mResults = new Results("ResultsOverlay", "raceresults.swf", width, height, Hikari::TopCenter);
+								if (mHud->isActivated()) {
+									mHud->hideDirection();
+								}
+								mGUIManager->activateOverlay(mResults);
 							}
-							mGUIManager->activateOverlay(mResults);
 						}
 					}
 				}

@@ -83,7 +83,8 @@ namespace HovUni {
 			return mFlashControl->callFunction(name, args);
 		} else {
 			//Exception
-			THROW(OverlayNotActivatedException, "You need to activate the overlay before you can call functions on it");
+			return "false";
+			//THROW(OverlayNotActivatedException, "You need to activate the overlay before you can call functions on it");
 		}
 	}
 
