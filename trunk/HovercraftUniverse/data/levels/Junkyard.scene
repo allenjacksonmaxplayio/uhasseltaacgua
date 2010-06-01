@@ -6,7 +6,7 @@
         <colourAmbient r="0.12549" g="0.12549" b="0.12549" />
         <colourBackground r="0" g="0" b="0" />
         <clipping near="0" far="100000" />
-        <shadows technique="stencilAdditive" farDistance="100000">
+        <shadows technique="textureAdditive" farDistance="100000">
             <colourShadow r="0.25098" g="0.25098" b="0.25098" />
         </shadows>
     </environment>
