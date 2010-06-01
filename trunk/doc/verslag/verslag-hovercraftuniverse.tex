@@ -222,14 +222,15 @@ Aangezien deze methodes afhankelijk zijn van de physics, draaien ze op de server
 \end{figure}
 
 \subsection{Game Logic}
-\todo{Lobby, admins? of bij netwerken}
 
-\todo{Raceplayer, Racestate, positiebepaling}
+Bij het starten van een multiplayer spel komen de spelers eerst in een lobby. De lobby bevat de logica om een spel te starten met een aantal speler. De eerste speler, die met de lobby verbindt, wordt automatisch administrator. Deze speler kan de verschillende instellingen van de lobby aanpassen, v.b. het aantal spelers en de map. De administrator kan ook beslissen wanneer het spel start. De lobby zal op dat moment de objecten van de gekozen map en de objecten voor alle spelers aanmaken. Als de administrator het spel verlaat, kiest de lobby een nieuwe administrator die de instellingen kan aanpassen.
+
+De lobby zal bij het starten van de map ook een RaceState object maken. Dit object bevat alle logica die nodig is tijdens het spel en zal ook eventuele bots aanmaken. De RaceState start in de \emph{INTRO} staat en zal een countdown starten zodat de spelers tesamen vertrekken. Tijdens de race gaat de RaceState naar de \emph{RACING} staat en zal bij elke checkpoint de nieuwe posities berekenen voor de spelers. Het tijdstip van de checkpoint wordt voor elke speler bijgehouden en doorgestuurd naar alle spelers zodat deze op de hoogte worden gehouden van de status van de andere spelers.
 
 \subsection{Level of Detail}
 \subsubsection{Netwerk}
 
-De snelheid waarin updates worden gebroadcast naar andere avatars wordt dynamisch aangepast door middel van prioriteiten. Zoidcom bevat functionaliteit om bepaalde objecten relevanter of minder relevant te maken zodat deze sneller of minder snel worden geupdatete en worden doorgestuurd naar de clients. Deze relevantie wordt in Hovercraft Universe enerzijds bepaald door de afstand in wereldco\"{o}rdinaten, maar ook door de planeten waar we op zitten. Updates van andere objecten worden sneller ontvangen als deze zich op dezelfde planeet vinden dan wanneer ze zich op een andere planeet bevinden. 
+De snelheid waarin updates worden gebroadcast naar andere avatars wordt dynamisch aangepast door middel van prioriteiten. Zoidcom bevat functionaliteit om bepaalde objecten relevanter of minder relevant te maken zodat deze sneller of minder snel worden ge\"updatet en worden doorgestuurd naar de clients. Deze relevantie wordt in Hovercraft Universe enerzijds bepaald door de afstand in wereldco\"{o}rdinaten, maar ook door de planeten waar we op zitten. Updates van andere objecten worden sneller ontvangen als deze zich op dezelfde planeet vinden dan wanneer ze zich op een andere planeet bevinden. 
 
 Om de hoeveelheid updates te verminderen  wordt er gebruik gemaakt van dead reckoning. Concreet betekent dit dat er een positie en een richting wordt doorgestuurd naar de clients en dat deze zelf berekenen waar de entiteiten zich de volgende frames zullen bevinden tot er een nieuwe update binnenkomt van de server en de correcte nieuwe positie en richting wordt ingesteld. Het berekende pad wordt dan ge\"{i}nterpoleerd naar de ge\"{u}pdatete posities. Door dit toe te passen kan de benodigde frequentie van de updates sterk verlaagd worden. Een eventuele discrepantie met betrekking tot bijvoorbeeld collision detection wordt opgelost doordat de hele collision engine server-based gebeurt en deze inherent een consistente staat van de wereld bevat. Bij bijvoorbeeld botsingen worden dan events gegenereerd die onmiddelijk de staat op de client aanpassen zodat kritische acties meteen bij alle relevante clients zichtbaar worden.
 
