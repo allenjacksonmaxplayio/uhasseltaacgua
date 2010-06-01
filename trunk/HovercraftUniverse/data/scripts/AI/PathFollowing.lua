@@ -140,10 +140,12 @@ function decide()
 	--println("Velocity: " .. toString(velocity));
 	println("Speed: " .. getMySpeed()*100 .. "%");
 
-
+	--############################### BOOSTING
+	--If boosting, just BOOST, don't try steering or slowing down.
 	if (game:getBoosting()) then
 		println("Boosting!!!");
 		speedUp();
+		goStraight();
 		return 0;
 	else
 		println("Not boosting");
