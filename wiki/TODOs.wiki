@@ -3,11 +3,11 @@
 = Put all todo's here for the next release =
 
   * *DONE* Sterren visualizeren in nieuwe map!
-  * Hovercraft select box
-  * Logo en laadscherm ontwerpen
+  * *DONE* Hovercraft select box
+  * *DONE* Logo en laadscherm ontwerpen
   * *WONTFIX* Crash wanneer server could not be reached
   * *DONE* Reset gaat altijd naar 2e checkpoint
   * *WONTFIX* Keys en camera nog altijd gemapt op oude entity als het spel stopt
-  * Overlays kapot omdat de Camera raar doet
-  * Berekenen van positie bij Finishen (nu gebeurt dit op de laatste checkpoint, maar niet bij de finish)
-  * "Loading Some more text"
+  * Overlays kapot omdat de Camera raar doet -> Dirk
+  * *DONE* Berekenen van positie bij Finishen (nu gebeurt dit op de laatste checkpoint, maar niet bij de finish)
+  * "Loading Some more text" -> Nick
