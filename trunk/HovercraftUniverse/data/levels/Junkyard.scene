@@ -1,4 +1,4 @@
-<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.3" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.5" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <userData>
         <![CDATA[<Track><Name>Junk Yard</Name><MinimumPlayers>0</MinimumPlayers><MaximumPlayers>6</MaximumPlayers><PathFileName>junkyard.path</PathFileName><PhysicsFileName>junkyard.hkx</PhysicsFileName></Track>]]>
 </userData>
@@ -601,6 +601,20 @@
                 </subentities>
             </entity>
         </node>
+        <node name="Check04">
+            <position x="741.265" y="125.461" z="8.65775" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0.016615" qy="-0.598229" qz="0.11013" qw="0.793547" />
+            <entity name="Check04" castShadows="true" receiveShadows="true" meshFile="Check04.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Check04_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="CheckPoint2" />
+                    <subentity index="1" materialName="CheckPoint1" />
+                </subentities>
+            </entity>
+        </node>
     </nodes>
     <externals>
         <item name="Asteroid01_ent">
@@ -621,7 +635,7 @@
         </item>
         <item name="Check01_ent">
             <userData>
-                <![CDATA[<CheckPoint><OgreEntity>Check01</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Half way</Name><Number>2</Number></CheckPoint>]]>
+                <![CDATA[<CheckPoint><OgreEntity>Check01</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Half way</Name><Number>3</Number></CheckPoint>]]>
 </userData>
             <position x="-63.4644" y="37.5228" z="-6.66379" />
             <rotation qx="0.0774659" qy="-0.703366" qz="0.0682675" qw="0.703289" />
@@ -661,7 +675,7 @@
         </item>
         <item name="Check02_ent">
             <userData>
-                <![CDATA[<CheckPoint><OgreEntity>Check02</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Middle</Name><Number>3</Number></CheckPoint>]]>
+                <![CDATA[<CheckPoint><OgreEntity>Check02</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Middle</Name><Number>4</Number></CheckPoint>]]>
 </userData>
             <position x="-473.667" y="46.7041" z="-46.0181" />
             <rotation qx="0.0101174" qy="-0.819057" qz="-0.0264471" qw="0.573013" />
@@ -978,6 +992,54 @@
             <position x="1564.98" y="80.8724" z="-136.517" />
             <rotation qx="0.170984" qy="0.981505" qz="-0.0292759" qw="-0.0809692" />
             <scale x="219.784" y="10.4888" z="147.151" />
+        </item>
+        <item name="Check04_ent">
+            <userData>
+                <![CDATA[<CheckPoint><OgreEntity>Check04</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Turned</Name><Number>2</Number></CheckPoint>]]>
+</userData>
+            <position x="741.265" y="125.461" z="8.65787" />
+            <rotation qx="0.016615" qy="-0.598229" qz="0.11013" qw="0.793547" />
+            <scale x="34.6003" y="10.3397" z="15.2678" />
+        </item>
+        <item name="Reset00">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>0</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="918.634" y="-1.72516e-006" z="-39.4672" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset01">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>1</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="1720.86" y="-81.7266" z="-151.667" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset02">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>2</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="918.634" y="137.447" z="-16.9373" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset03">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>3</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="-19.6677" y="52.2876" z="-16.9372" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset04">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>4</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="-423.492" y="52.2876" z="-40.1574" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
     </externals>
 </scene>

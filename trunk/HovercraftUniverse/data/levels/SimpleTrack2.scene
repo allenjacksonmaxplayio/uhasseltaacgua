@@ -6,7 +6,7 @@
         <colourAmbient r="0.12549" g="0.12549" b="0.12549" />
         <colourBackground r="0" g="0" b="0" />
         <clipping near="0" far="100000" />
-        <shadows technique="textureAdditive" farDistance="1000000">
+        <shadows technique="stencilAdditive" farDistance="200">
             <colourShadow r="0.25098" g="0.25098" b="0.25098" />
         </shadows>
     </environment>
@@ -575,6 +575,30 @@
             <position x="79.4172" y="52.8911" z="-13.8523" />
             <rotation qx="0.0187252" qy="-0.668601" qz="-0.133017" qw="0.731388" />
             <scale x="34.6003" y="10.3397" z="15.2678" />
+        </item>
+        <item name="Reset01">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>1</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="25.604" y="68.1616" z="-26.5465" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset02">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>2</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="-441.762" y="49.876" z="-36.8801" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
+        </item>
+        <item name="Reset00">
+            <userData>
+                <![CDATA[<ResetSpawn><Checkpoint>0</Checkpoint></ResetSpawn>]]>
+</userData>
+            <position x="99.5144" y="60.702" z="-26.5465" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
     </externals>
 </scene>

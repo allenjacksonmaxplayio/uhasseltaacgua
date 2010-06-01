@@ -38,7 +38,7 @@ void  HovercraftCollisionListener::contactProcessCallback (hkpContactProcessEven
 
 			//Ogre::Vector3 pos(Ogre::Vector3::ZERO);
 			//Ogre::Vector3 nor(Ogre::Vector3::ZERO);
-			hkContactPoint * best = 0;		
+			hkContactPoint * best = 0;
 
 			for ( int i = 0; i < collisiodata->getNumContactPoints (); i++ ){
 				hkpProcessCdPoint & point =  collisiodata->getContactPoint (i);

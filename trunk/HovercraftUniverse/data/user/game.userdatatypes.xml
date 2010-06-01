@@ -152,6 +152,7 @@ For an example you can look at the Hovercraft.h/Hovercraft.cpp
     */
   -->
   <class name="ResetSpawn" usage="object">
+	<data name="Checkpoint" displayName="Checkpoint" groupName="Info" type="int" default="0" minValue="0" maxValue="5000"/>
   </class>
 
   <!-- 
