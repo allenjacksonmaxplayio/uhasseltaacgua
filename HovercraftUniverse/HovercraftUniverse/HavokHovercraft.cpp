@@ -185,7 +185,7 @@ void HavokHovercraft::update(){
 
 		int chechptn = mEntity->getRaceState()->getPlayer(mEntity->getPlayerId())->getLastCheckpoint();
 		
-		std::cout << "PTN: " << chechptn << std::endl;
+		//std::cout << "PTN: " << chechptn << std::endl;
 
 		Ogre::Vector3 pos;
 		if ( chechptn == -1 ){
@@ -207,9 +207,9 @@ void HavokHovercraft::update(){
 
 				//find best
 				for ( std::vector<Entity*>::iterator i = resets.begin();  i != resets.end(); i++ ){
-					std::cout << "ResetSpawn: " << ((ResetSpawn*)(*i))->getCheckpointId() << std::endl;
+					//std::cout << "ResetSpawn: " << ((ResetSpawn*)(*i))->getCheckpointId() << std::endl;
 
-					std::cout << "Abs Delta: " << abs(((ResetSpawn*)(*i))->getCheckpointId() - chechptn) << std::endl;
+					//std::cout << "Abs Delta: " << abs(((ResetSpawn*)(*i))->getCheckpointId() - chechptn) << std::endl;
 
 					int testdelta = abs(((ResetSpawn*)(*i))->getCheckpointId() - chechptn);
 
