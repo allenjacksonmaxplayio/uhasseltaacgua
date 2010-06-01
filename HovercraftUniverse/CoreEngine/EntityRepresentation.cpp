@@ -18,12 +18,12 @@ EntityRepresentation::EntityRepresentation(Entity * entity, Ogre::String meshFil
 		mOgreEntity->setMaterialName(materialFile);
 	}
 	mTextOverlay = 0;
-	if (false) { //TODO overlays are broken.
-//	if (mEntity->hasLabel()) {
+	//if (false) { //TODO overlays are broken.
+	if (mEntity->hasLabel()) {
 		Ogre::SceneManager::CameraIterator it = mSceneMgr->getCameraIterator();
 		Ogre::Camera* cam = it.getNext(); //Warning! We are only using the first camera, if there are more, need to iterate over them.
 		if ((mOgreEntity != 0) && (cam != 0)) {
-			mTextOverlay = new ObjectTextDisplay(mOgreEntity, cam);
+			mTextOverlay = new ObjectTextDisplay(mOgreEntity, cam->getLodCamera());
 			mTextOverlay->enable(true);
 			mTextOverlay->setText(entity->getLabel());
 		}
