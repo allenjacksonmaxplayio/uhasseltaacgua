@@ -13,6 +13,9 @@ namespace HovUni {
 class ResetSpawn : public HovercraftUniverseEntity {
 private:
 
+	//The reset id this checkpooint is connected too
+	int mReset;
+
 public:	
 
 	/**
@@ -41,6 +44,14 @@ public:
 	 * Destructor
 	 */
 	~ResetSpawn(void);
+
+	/**
+	 * Get the id of the checkpoint the reset is coupled too
+	 * @param checkpoint
+	 */
+	inline int getCheckpointId(){
+		return mReset;
+	}
 
 	/**
 	 * load

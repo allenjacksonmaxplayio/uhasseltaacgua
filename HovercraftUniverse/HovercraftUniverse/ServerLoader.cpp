@@ -251,7 +251,7 @@ void ServerLoader::parseWorldUserData(OgreMax::Types::ExternalItem& externalitem
 		EntityManager::getServerSingletonPtr()->registerEntity(entity);	
 
 		//network register asteroid
-		entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(), true);
+		//entity->networkRegister(NetworkIDManager::getServerSingletonPtr(), ResetSpawn::getClassName(), true);
 	}
 	//Rigid Body
 	else if(strcmp(root->Value(),"StaticBody") == 0){

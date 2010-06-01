@@ -25,6 +25,7 @@
 #include "EntityManager.h"
 #include "CheckPoint.h"
 #include "StartPosition.h"
+#include "ResetSpawn.h"
 #include "RacePlayer.h"
 
 #include "BoostProperty.h"
@@ -182,26 +183,47 @@ void HavokHovercraft::update(){
 
 	if ( status.reset() ){
 
-		//int chechptn = mEntity->getRaceState()->getPlayer(mEntity->getPlayerId())->getLastCheckpoint();
+		int chechptn = mEntity->getRaceState()->getPlayer(mEntity->getPlayerId())->getLastCheckpoint();
 		
+		std::cout << "PTN: " << chechptn << std::endl;
+
 		Ogre::Vector3 pos;
-		Ogre::Quaternion rot;
-		/*if ( chechptn == -1 ){*/
+		if ( chechptn == -1 ){
 			std::vector<Entity*> startpoints = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
 			pos = startpoints[0]->getPosition();
-			rot = startpoints[0]->getQuaternion();
-		/*}
+		}
 		else {
 			//reset the damn thing
-			std::vector<Entity*> checkpoints = EntityManager::getServerSingletonPtr()->getEntities(CheckPoint::CATEGORY);
-			pos = checkpoints[chechptn]->getPosition();
-			rot = checkpoints[chechptn]->getQuaternion();
-		}*/
+			std::vector<Entity*> resets = EntityManager::getServerSingletonPtr()->getEntities(ResetSpawn::CATEGORY);
+			if ( chechptn >= resets.size() ){
+				//finished -> allow reset to start
+				std::vector<Entity*> startpoints = EntityManager::getServerSingletonPtr()->getEntities(StartPosition::CATEGORY);
+				pos = startpoints[0]->getPosition();
+			}
+			else {
+				//normal case, find best reset that has been reached
+				Entity* closest = 0;
+				int delta = 10000;	//big
 
-		pos += 10.0 * rot.yAxis();
+				//find best
+				for ( std::vector<Entity*>::iterator i = resets.begin();  i != resets.end(); i++ ){
+					std::cout << "ResetSpawn: " << ((ResetSpawn*)(*i))->getCheckpointId() << std::endl;
+
+					std::cout << "Abs Delta: " << abs(((ResetSpawn*)(*i))->getCheckpointId() - chechptn) << std::endl;
+
+					int testdelta = abs(((ResetSpawn*)(*i))->getCheckpointId() - chechptn);
+
+					if ( testdelta < delta ){
+						closest = *i;
+						delta = testdelta;
+					}
+				}
+
+				pos = closest->getPosition();
+			}
+		}
+
 		hkVector4 resetpos (pos[0],pos[1],pos[2]);
-		
-
 		mCharacterRigidBody->getRigidBody()->setPosition(resetpos);	
 	}
 
