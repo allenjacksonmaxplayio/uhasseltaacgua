@@ -8,6 +8,6 @@
   * *WONTFIX* Crash wanneer server could not be reached
   * *DONE* Reset gaat altijd naar 2e checkpoint
   * *WONTFIX* Keys en camera nog altijd gemapt op oude entity als het spel stopt
-  * *DONE* Overlays kapot omdat de Camera raar doet -> Dirk
+  * *DONE* Overlays kapot omdat de Camera raar doet
   * *DONE* Berekenen van positie bij Finishen (nu gebeurt dit op de laatste checkpoint, maar niet bij de finish)
   * "Loading Some more text" -> Nick
