@@ -127,7 +127,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="fmod_event.lib fmodex_vc.lib OgreMain.lib"
+				AdditionalDependencies="fmodex_vc.lib fmod_event.lib OgreMain.lib"
 				OutputFile="$(OutDir)\$(ProjectName).lib"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\dependencies\FMOD\lib&quot;;&quot;$(ProjectDir)..\dependencies\OGRE\lib\release&quot;"
 			/>

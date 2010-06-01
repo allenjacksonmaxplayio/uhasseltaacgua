@@ -36,7 +36,7 @@ namespace HovUni {
 	void InGameState::updateProgress(double progress) {
 		if (mLoader) {
 			//Ogre::LogManager::getSingleton().getDefaultLog()->stream() << "[InGameState]: OMFG? " << (float) (progress * 100.0f);
-			mLoader->setLoaded((float) (progress * 100.0f), "Loading some more...");
+			mLoader->setLoaded((float) (progress * 100.0f), "Loading...");
 		}
 	}
 
@@ -170,6 +170,7 @@ namespace HovUni {
 
 		if (mLoader == 0) {
 			mLoader = new LoadingOverlay("Loader", "loader.swf", mGUIManager->getResolutionWidth(), mGUIManager->getResolutionHeight(), Hikari::Center);
+			mLoader->setNoBorders(true);
 			mGUIManager->activateOverlay(mLoader);
 			mLoader->setLoaded(0.0f, "Initializing");
 			ProgressMonitor::getSingletonPtr()->addListener(this);
@@ -376,6 +377,7 @@ namespace HovUni {
 				Entity* currEntity = mEntityManager->getTrackedEntity();
 				Ogre::SceneManager::CameraIterator it = mRepresentationManager->getSceneManager()->getCameraIterator();
 				Ogre::Camera* cam = it.getNext();
+				std::cout << "Setting listener to pos: " << currEntity->getPosition() << std::endl;
 				mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
 			}
 
