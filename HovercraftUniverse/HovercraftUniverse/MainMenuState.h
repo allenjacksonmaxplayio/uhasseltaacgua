@@ -7,6 +7,7 @@
 #include "ConnectListener.h"
 #include "MainMenu.h"
 #include "ServerMenuListener.h"
+#include "HUDedicatedServer.h"
 
 namespace HovUni {
 	/**
@@ -36,6 +37,9 @@ namespace HovUni {
 
 			/** the result of the connection attempt */
 			bool mConnectionResult;
+
+			/** The local server, for single player (Dirk)*/
+			HUDedicatedServer* mLocalServer;
 
 		public:
 			/**
