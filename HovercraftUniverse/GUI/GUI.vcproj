@@ -211,6 +211,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Results.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ServerMenu.cpp"
 					>
 				</File>
@@ -294,6 +298,10 @@
 				</File>
 				<File
 					RelativePath=".\Position.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Results.h"
 					>
 				</File>
 				<File
