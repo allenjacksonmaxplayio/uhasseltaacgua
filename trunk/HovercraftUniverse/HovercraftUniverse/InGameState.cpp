@@ -377,7 +377,7 @@ namespace HovUni {
 				Entity* currEntity = mEntityManager->getTrackedEntity();
 				Ogre::SceneManager::CameraIterator it = mRepresentationManager->getSceneManager()->getCameraIterator();
 				Ogre::Camera* cam = it.getNext();
-				std::cout << "Setting listener to pos: " << currEntity->getPosition() << std::endl;
+				//std::cout << "Setting listener to pos: " << currEntity->getPosition() << std::endl;
 				mSoundManager->updateListenerPosition(&currEntity->getPosition(), &currEntity->getVelocity(), &currEntity->getOrientation());
 			}
 

@@ -78,7 +78,12 @@ namespace HovUni {
 		Ogre::Matrix4 mat = m_c->getViewMatrix();
 		const Ogre::Vector3* corners = bbox.getAllCorners();
 
-		float min_x = 1.0f, max_x = 0.0f, min_y = 1.0f, max_y = 0.0f;
+		float min_x = 1.0f;
+		float max_x = 0.0f;
+		float min_y = 1.0f;
+		float max_y = 0.0f;
+		float min_z = 1.0f;
+		float max_z = 0.0f;
 
 		// expand the screen-space bounding-box so that it completely encloses 
 		// the object's AABB
@@ -89,6 +94,12 @@ namespace HovUni {
 			// get a camera-space vertex
 			corner = mat * corner;
 
+			if (corner.z > 0) {
+				//Object is (at least partly) BEHIND the camera. do not draw overlay.
+				m_pContainer->hide();
+				return;
+			}
+
 			// make 2D relative/normalized coords from the view-space vertex
 			// by dividing out the Z (depth) factor -- this is an approximation
 			float x = corner.x / corner.z + 0.5f;
@@ -97,15 +108,12 @@ namespace HovUni {
 			if (x < min_x) {
 				min_x = x;
 			}
-
 			if (x > max_x) {
 				max_x = x;
 			}
-
 			if (y < min_y) {
 				min_y = y;
 			}
-
 			if (y > max_y) {
 				max_y = y;
 			}
@@ -114,8 +122,16 @@ namespace HovUni {
 		// we now have relative screen-space coords for the object's bounding box; here
 		// we need to center the text above the BB on the top edge. The line that defines
 		// this top edge is (min_x, min_y) to (max_x, min_y)
-		m_pContainer->setPosition(1-max_x, min_y);  // Edited by alberts: This code works for me
-		m_pContainer->setDimensions(max_x - min_x, 0.1f); // 0.1, just "because"
+		//std::cout << min_x << ", " << min_y << " || " << max_x << ", " << max_y << std::endl;
+		if ((min_x < 0) || (min_x > 1) || (min_y < 0) || (min_y > 1) || (max_x < 0) || (max_x > 1) || (max_y < 0) || (max_y > 1)) {
+			//m_pContainer->setEnabled(false);
+			m_pContainer->hide();
+		} else {
+			//m_pContainer->setEnabled(true);			
+			m_pContainer->show();
+			m_pContainer->setPosition(1-max_x, min_y);  // Edited by alberts: This code works for me
+			m_pContainer->setDimensions(max_x - min_x, 0.1f); // 0.1, just "because"
+		}
 	}
 
 
