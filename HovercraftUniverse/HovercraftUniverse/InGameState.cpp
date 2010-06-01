@@ -314,7 +314,7 @@ namespace HovUni {
 
 			// Get the sky options
 			SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
-			mSkyX->setTimeMultiplier(0.3f);
+			mSkyX->setTimeMultiplier(0.2f);
 			// Make sure we never quit night time
 			if ((SkyXOptions.Time.x > 4.0) && (SkyXOptions.Time.x < 5.0)) {
 				SkyXOptions.Time.x = 21.0;
