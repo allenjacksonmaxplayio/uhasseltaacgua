@@ -19,8 +19,10 @@ namespace HovUni {
 
 			/**
 			 * add a player
+			 *
+			 * @return true if the update succeeded, false otherwise
 			 */
-			void addPlayer(int position, const Ogre::String& name, long time);
+			bool addPlayer(int position, const Ogre::String& name, long time);
 	};
 }
 

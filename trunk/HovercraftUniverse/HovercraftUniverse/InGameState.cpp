@@ -10,7 +10,7 @@
 
 namespace HovUni {
 	InGameState::InGameState(HUClient* client, RaceState* raceState, TiXmlElement* HUDConfig)
-			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false), mCleaningUp(false), mRun(false) {
+			: mHUClient(client), mTimeLapsed(0), mContinue(true), mRaceState(raceState), mLoader(0), mCountdownFadeout(-1), mUpdateListener(false), mCleaningUp(false), mRun(false), mResults(0) {
 
 		mHud = new HUD(HUDConfig, Hikari::FlashDelegate(this, &InGameState::onChat));
 		mEntityManager = EntityManager::getClientSingletonPtr();
@@ -142,6 +142,10 @@ namespace HovUni {
 		}
 	}
 
+	void InGameState::onFinish(RacePlayer* player) {
+
+	}
+
 	////////////////////////////////////////////
 	//			BasicGameState functions	  //
 	////////////////////////////////////////////
@@ -205,6 +209,10 @@ namespace HovUni {
 		//Remove the hud
 		if (mHud != 0) {
 			mHud->deactivate();
+		}
+
+		if (mResults != 0) {
+			mGUIManager->disableOverlay(mResults);
 		}
 
 		//Restore cursor
@@ -293,6 +301,28 @@ namespace HovUni {
 
 							mHud->setLapTimer(minutes, seconds, hundredseconds);
 							mFinished = true;
+
+							int height = GUIManager::getSingletonPtr()->getResolutionHeight() / 2; //We want to fill half the screen
+							float scale = (height * 1.0f) / 400.0;
+							int width = (int) (550 * scale);
+							mResults = new Results("ResultsOverlay", "raceresults.swf", width, height, Hikari::TopCenter);
+							if (mHud->isActivated()) {
+								mHud->hideDirection();
+							}
+							mGUIManager->activateOverlay(mResults);
+						}
+					}
+				}
+
+				if (mFinished) {
+					//Add finished players to the list
+					const RaceState::playermap::list_type players = mRaceState->getPlayers();
+
+					RaceState::playermap::const_iterator it;
+					
+					for (it = players.begin(); it != players.end(); ++it) {
+						if ((*it).second->isFinished()) {
+							mResults->addPlayer((*it).second->getPosition(), (*it).second->getSettings()->getPlayerName(), (*it).second->getCheckpoint((*it).second->getLastCheckpoint()));
 						}
 					}
 				}

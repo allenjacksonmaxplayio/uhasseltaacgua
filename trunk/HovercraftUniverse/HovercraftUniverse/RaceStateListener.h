@@ -27,6 +27,13 @@ public:
 	 */
 	virtual void onPositionChange(RacePlayer* player) = 0;
 
+	/**
+	 * The player finished
+	 *
+	 * @param player the player
+	 */
+	virtual void onFinish(RacePlayer* player) = 0;
+
 };
 
 }

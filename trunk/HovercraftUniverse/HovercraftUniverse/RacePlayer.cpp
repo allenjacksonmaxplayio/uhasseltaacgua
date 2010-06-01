@@ -99,6 +99,9 @@ void RacePlayer::inPostUpdate(ZCom_Node *_node, ZCom_ConnID _from, eZCom_NodeRol
 	std::vector<RaceStateListener*> listeners = mRaceState->getListeners();
 	for (std::vector<RaceStateListener*>::iterator i = listeners.begin(); i != listeners.end(); ++i) {
 		(*i)->onPositionChange(this);
+		if (isFinished()) {
+			(*i)->onFinish(this);
+		}
 	}
 }
 
