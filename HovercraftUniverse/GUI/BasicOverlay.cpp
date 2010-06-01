@@ -45,6 +45,8 @@ namespace HovUni {
 		mFlashControl->setDraggable(false);
 		if (mExactFit) {
 			mFlashControl->setScaleMode(Hikari::SM_EXACTFIT);
+		} else if (mNoBorders) {
+			mFlashControl->setScaleMode(Hikari::SM_NOBORDER);
 		} else {
 			mFlashControl->setScaleMode(Hikari::SM_SHOWALL);
 		}
@@ -118,5 +120,9 @@ namespace HovUni {
 
 	void BasicOverlay::setExactFit(bool val) {
 		mExactFit = val;
+	}
+
+	void BasicOverlay::setNoBorders(bool val) {
+		mNoBorders = val;
 	}
 }

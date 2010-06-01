@@ -46,6 +46,9 @@ namespace HovUni {
 			/** Boolean to mark if this overlay should use exact fit or not */
 			bool mExactFit;
 
+			/** Boolean to mark if this overlay should use noborders or not */
+			bool mNoBorders;
+
 			/** Boolean to mark if we want to ignore all inputs or not */
 			bool mIgnoreInputs;
 
@@ -206,6 +209,13 @@ namespace HovUni {
 			 * @param val True of false to set/unset exact fit. Dfault is false
 			 */
 			void setExactFit(bool val = false);
+
+			/**
+			 * Mark this overlay to use (or not use) noborders, default is false
+			 *
+			 * @param val True of false to set/unset noborders. Dfault is false
+			 */
+			void setNoBorders(bool val = false);
 	};
 }
 
