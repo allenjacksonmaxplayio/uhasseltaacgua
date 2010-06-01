@@ -177,6 +177,7 @@ void CIniFileA::Load( std::istream& input , bool bMerge )
             unsigned int nType = ( sRead.find_first_of("[") == 0 && ( sRead[sRead.find_last_not_of(" \t\r\n")] == ']' ) ) ? SECTION : OTHER ;
             nType = ( (nType == OTHER) && ( sRead.find_first_of("=") ) > 0 ) ? KEY : nType ;
             nType = ( (nType == OTHER) && ( sRead.find_first_of("#") == 0) ) ? COMMENT : nType ;
+			nType = ( (nType == OTHER) && ( sRead.find_first_of(";") == 0) ) ? COMMENT : nType ;
 
             switch( nType )
             {

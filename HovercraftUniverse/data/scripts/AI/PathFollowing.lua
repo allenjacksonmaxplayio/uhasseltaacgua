@@ -140,6 +140,15 @@ function decide()
 	--println("Velocity: " .. toString(velocity));
 	println("Speed: " .. getMySpeed()*100 .. "%");
 
+
+	if (game:getBoosting()) then
+		println("Boosting!!!");
+		speedUp();
+		return 0;
+	else
+		println("Not boosting");
+	end
+
 	--############################### COLLISION AVOIDANCE
 	if (false) then
 	--if (mEntity:isInCollisionState()) then

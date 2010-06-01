@@ -69,6 +69,10 @@ public:
 	*/
 	void luaLog(const std::string message);
 
+	/**
+	*	Provides a way for the AI script to retrieve current boosting status of the hovercraft
+	*/
+	bool getBoosting();
 
 	/**
 	* @see HovercraftController::moveForward()
