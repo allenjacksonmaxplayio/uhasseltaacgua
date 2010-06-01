@@ -146,6 +146,12 @@ Ook worden hier een aantal visuele effecten aan toegevoegd. Ogre Particle System
 
 Schaduws en lichteffecten kunnen zoals voordien dynamisch aangepast worden. SkyX wordt gebruikt om dag- en nacht cycli te renderen en om wolken en sterrenhemels te tonen. Omdat het spel zich in de ruimte afspeelt wordt er enkel gerenderd tussen 22.00 en 5.00 uur. Beperkend aan SkyX is echter dat in de huidige vorm enkel hemels worden gerenderd en dus geen hele universe vol sterren. OgreMax\footnote{\url{http://www.ogremax.com/}} wordt gebruikt om modellen te exporteren vanuit 3DS Max en te importeren in Ogre.
 
+Hovercraft Universe ondersteunt vier verschillende camera's: een third-person view waarbij de hovercraft zelf zichtbaar en waarbij een groot deel van de wereld wordt getoond. First-person view geeft een beter snelheidsgevoel en verhoogt het inlevingsvermogen van de speler. Vervolgens is er een rear-view camera en een free-roaming camera om de omgeving te verkennen.
+
+Material mapping wordt gedetailleerd uitgevoerd door middel van UVW-unwrapping. Niet alleen is dit erg flexibel om gecontroleerd materials te geven aan modellen, ook laat dit single-pass GPU pixel shading toe en vergemakkelijkt dit het proces voor LoD. 
+
+Het gebruik van pixel shaders wordt extensief aangewend om alpha splatting te verwezenlijken en dus de overgang tussen texture tiles vloeiend te laten overkomen. 
+
 \subsection{Physics}
 
 Alle acties op de hovercrafts en interacties met de omgeving gebeuren door middel van fysische krachten. Dit gebeurt volledig op de server, die een Havok-thread draait. De input van de clients, zowel menselijke spelers als AI, wordt vertaald in een kracht op de hovercraft. Havok berekent vervolgens alle totale krachten en daaruit volgende versnellingen en snelheden. Hieruit zal de nieuwe positie van alle entiteiten bepaald worden. Deze posities worden dan doorgestuurd naar alle clients zodat zij de wijzigingen kunnen zien. Bovendien zorgt Havok ook voor de collision detection zodat verschillende entiteiten niet tegelijk op dezelfde plaats kunnen bestaan. Collision detection gebeurt zowel tussen hovercrafts en stilstaande objecten als tussen hovercrafts onderling. Bij deze botsingen worden er bovendien vonkjes weergegeven door middel van particle effects.
@@ -218,10 +224,15 @@ Aangezien deze methodes afhankelijk zijn van de physics, draaien ze op de server
 
 \subsection{Level of Detail}
 \subsubsection{Netwerk}
-\todo{update rate afhankelijk van de afstand tussen A en B, ...}
+
+De snelheid waarin updates worden gebroadcast naar andere avatars wordt dynamisch aangepast door middel van prioriteiten. Zoidcom bevat functionaliteit om bepaalde objecten relevanter of minder relevant te maken zodat deze sneller of minder snel worden geupdatete en worden doorgestuurd naar de clients. Deze relevantie wordt in Hovercraft Universe enerzijds bepaald door de afstand in wereldco\"{o}rdinaten, maar ook door de planeten waar we op zitten. Updates van andere objecten worden sneller ontvangen als deze zich op dezelfde planeet vinden dan wanneer ze zich op een andere planeet bevinden. 
+
+Om de hoeveelheid updates te verminderen  wordt er gebruik gemaakt van dead reckoning. Concreet betekent dit dat er een positie en een richting wordt doorgestuurd naar de clients en dat deze zelf berekenen waar de entiteiten zich de volgende frames zullen bevinden tot er een nieuwe update binnenkomt van de server en de correcte nieuwe positie en richting wordt ingesteld. Het berekende pad wordt dan ge\"{i}nterpoleerd naar de ge\"{u}pdatete posities. Door dit toe te passen kan de benodigde frequentie van de updates sterk verlaagd worden. Een eventuele discrepantie met betrekking tot bijvoorbeeld collision detection wordt opgelost doordat de hele collision engine server-based gebeurt en deze inherent een consistente staat van de wereld bevat. Bij bijvoorbeeld botsingen worden dan events gegenereerd die onmiddelijk de staat op de client aanpassen zodat kritische acties meteen bij alle relevante clients zichtbaar worden.
+
 
 \subsubsection{Rendering}
-\todo{Polycount verminderen afhankelijk van de afstand van het te tekenen object met ogre...}
+
+Ogre bevat reeds een standaard aantal algoritmes voor LoD. Dit wordt zoals reeds vermeld in de hand gewerkt door een slim gebruik van textures. De mate waarin LoD wordt toegepast kan dynamisch worden aangepast in configuratiebestanden.
 
 \subsection{Misc.}
 
