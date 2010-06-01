@@ -45,14 +45,14 @@
 \newpage
 
 \section{Introductie}
-\emph{Hovercraft Universe} is een race game waarin spelers tussen planeten in de ruimte kunnen rondvliegen met hovercrafts.\todo{meer blabla:p}
+\emph{Hovercraft Universe} is een race game waarin spelers tussen planeten in de ruimte kunnen rondvliegen met hovercrafts. Het nadeel aan traditionele race games is dat de camera en game play nogal statisch en weinig beweeglijk is. Dit spel is revolutionair in het opzicht dat wanneer je van planeet naar planeet springt de speler in een andere atmosfeer komt met een ander niveau van zwaartekracht en andere eigenschappen.
 
 \section{Gebruikte libraries}
 %MAXIMUM 2 ZINNEN PER ENTRY!!!
 \begin{itemize}
 \item[\textbf{Physics}] De fysische gamewereld wordt gesimuleerd door Havok Physics\footnote{\url{http://www.havok.com/index.php?page=havok-physics}}. Havok draait enkel op de server en zorgt voor alle berekeningen die nodig zijn voor fysische interactie.
 
-\item[\textbf{Rendering}] Voor het renderen gebruiken we de Ogre Open Source Graphics Engine\footnote{\url{http://www.ogre3d.org/}}. Ogre draait enkel op de clients en zorgt voor de visuele representatie van de game-entiteiten. Andere, uitsluitend visuele, effecten en overlays worden ook door Ogre afgehandeld: particle effects, tekst overlays boven de entiteiten, \ldots.
+\item[\textbf{Rendering}] Voor het renderen gebruiken we de Ogre Open Source Graphics Engine\footnote{\url{http://www.ogre3d.org/}}. Ogre draait enkel op de clients en zorgt voor de visuele representatie van de game-entiteiten. Andere, uitsluitend visuele, effecten en overlays worden ook door Ogre afgehandeld: particle effects, tekst overlays boven de entiteiten, \ldots. SkyX\footnote{\url{http://www.ogre3d.org/forums/viewtopic.php?t=48414&f=11}} en OgreMax\footnote{\url{http://www.ogremax.com/}}.
 
 \item[\textbf{Netwerk}] ZoidCom\footnote{\url{http://www.zoidcom.com/}}
 
@@ -63,6 +63,7 @@
 \item[\textbf{Scripting}] Lua\footnote{\url{http://www.lua.org/}} en LuaBind\footnote{\url{http://www.rasterbar.com/products/luabind.html}} bieden de mogelijkheid om op een dynamische manier eigenschappen van het spel te veranderen.
 
 \item[\textbf{GUI}] Adobe Flash\footnote{\url{http://www.adobe.com/products/flash/}} en Hikari\footnote{\url{http://code.google.com/p/hikari-library/}}.
+
 \end{itemize}
 
 \section{Programmastructuur en -organisatie}
@@ -71,7 +72,7 @@ De basisstructuur van de engine achter Hovercraft Universe is gemaakt naar analo
 
 Entiteiten kunnen bestuurd worden door \texttt{Controller}s. Een controller generereert \emph{events}, die door de entiteiten gepolld worden. Deze interface laat toe om entiteiten te besturen op verschillende manieren: toetsenbord/muis, AI, \ldots.
 
-Voor de visuele representatie op de clients heeft elke relevante entiteit een \texttt{EntityRepresentation}. Deze verbindt de conceptuele entiteit met een entiteit in Ogre. Om de wereld te kunnen tekenen vanuit het standpunt van \'e\'en speler worden deze representatie-objecten, samen met de Ogre camera, bijgehouden in een \texttt{GameView}. 
+Voor de visuele representatie op de clients heeft elke relevante entiteit een \texttt{EntityRepresentation}. Deze verbindt de conceptuele entiteit met een entiteit in Ogre en is gegroepeerd in een \texttt{RepresentationManager}. Om de wereld te kunnen tekenen vanuit het standpunt van \'e\'en speler worden deze representatie-objecten, samen met de Ogre camera, bijgehouden in een \texttt{GameView}. Deze \texttt{GameView} is tevens verantwoordelijk voor het tekenen van de 2D HUD per speler. In tegenstelling tot het originele design wordt hier niet gebruik gemaakt van fixed update frequencies. De visualisatie van objecten gebeurt zo snel mogelijk en wordt dus aangevat in de \texttt{RepresentationManager} wanneer de vorige rendering cyclus voorbij is. Updates voor entities worden daarentegen ge\"{u}pdatete als de \texttt{Server} wijzigingen aankondigt.
 
 De bovenstaande klassen zitten vervat binnen het \texttt{CoreEngine}-project, dat in principe voor eender welk soort spel gebruikt kan worden. Voor Hovercraft Universe is een specifieke implementatie voorzien: de \texttt{HovercraftController}, waarvan de \texttt{HovercraftAIController} en \texttt{HovercraftPlayerController} afgeleid worden. 
 
@@ -103,9 +104,9 @@ De \textbf{modellen} zijn gedefinieerd in het (niet open) bestandsformaat van 3D
 \lstset{language=XML,caption=UserData in DotScene,label=lst:sceneuserdata}
 \begin{lstlisting}
 <Hovercraft>
-    <Name>hover1</Name>
-    <Description>Nonw</Description>
-    <OgreEntity>hover1</OgreEntity>
+    <Name>USA Hovercraft</Name>
+    <Description>Fast and responsive, rather light.</Description>
+    <OgreEntity>USAHovercraft</OgreEntity>
     <ProcessInterval>0.016</ProcessInterval>
     <Speed>100</Speed>
     <Mass>50</Mass>
@@ -123,9 +124,11 @@ Voor de \textbf{mappen} (tracks) wordt er \'e\'en groot DotScene wereld gegenere
     <scale x="1" y="1" z="1" />
     <rotation qx="0.13454" qy="0.990908" 
         qz="-5.34715e-008" qw="-7.48115e-008" />
-    <entity name="Jump01" castShadows="true" receiveShadows="true" meshFile="Jump01.mesh">
+    <entity name="Jump01" castShadows="true" 
+           receiveShadows="true" meshFile="Jump01.mesh">
         <userData>
-            <![CDATA[<OgreEntity><GameEntity>Jump01_ent</GameEntity></OgreEntity>]]>
+            <![CDATA[<OgreEntity><GameEntity>Jump01_ent
+                </GameEntity></OgreEntity>]]>
         </userData>
         <subentities>
             <subentity index="0" materialName="Jump02" />
@@ -134,20 +137,23 @@ Voor de \textbf{mappen} (tracks) wordt er \'e\'en groot DotScene wereld gegenere
 </node>
 \end{lstlisting}
 
+Door middel van scene loaders kunnen objecten gepositioneerd en getransformeerd worden om volledige sc\`{e}nes te  cre\"{e}ren. Het spel laat toe volledig uitgebreid en aangepast te worden door data files aan te passen zonder nood aan hercompilatie. Dit data-driven model beperkt zich niet alleen tot het toevoegen van werelden, maar ook tot het invoegen van nieuwe hovercrafts en characters. Tevens kan de kwaliteit van de werelden dynamisch worden aangepast door schaduws, lichten en materials aan en uit te zetten om zo ook oudere systemen te ondersteunen.
+
 \subsection{Visualisatie en Ogre}
-De \texttt{EntityRepresentation} klasse zorgt ervoor dat Ogre de verschillende entiteiten kan visualiseren.\todo{meer hierover}
 
 Ook worden hier een aantal visuele effecten aan toegevoegd. Ogre Particle Systems worden gebruikt om rook, vonken, etc. weer te geven. Er is tevens een tekst-overlay voor de nicknames voorzien zodat de spelers elkaar kunnen herkennen tijdens het spel. Aangezien deze effecten enkel client-side gebeuren bij het tekenen van de entiteiten, heeft dit geen invloed op de performantie van de netwerkcomponenten.
 
+Schaduws en lichteffecten kunnen zoals voordien dynamisch aangepast worden. SkyX wordt gebruikt om dag- en nacht cycli te renderen en om wolken en sterrenhemels te tonen. Omdat het spel zich in de ruimte afspeelt wordt er enkel gerenderd tussen 22.00 en 5.00 uur. Beperkend aan SkyX is echter dat in de huidige vorm enkel hemels worden gerenderd en dus geen hele universe vol sterren. OgreMax\footnote{\url{http://www.ogremax.com/}} wordt gebruikt om modellen te exporteren vanuit 3DS Max en te importeren in Ogre.
+
 \subsection{Physics}
+
 Alle acties op de hovercrafts en interacties met de omgeving gebeuren door middel van fysische krachten. Dit gebeurt volledig op de server, die een Havok-thread draait. De input van de clients, zowel menselijke spelers als AI, wordt vertaald in een kracht op de hovercraft. Havok berekent vervolgens alle totale krachten en daaruit volgende versnellingen en snelheden. Hieruit zal de nieuwe positie van alle entiteiten bepaald worden. Deze posities worden dan doorgestuurd naar alle clients zodat zij de wijzigingen kunnen zien. Bovendien zorgt Havok ook voor de collision detection zodat verschillende entiteiten niet tegelijk op dezelfde plaats kunnen bestaan.
 
 De zwaartekracht op de verschillende planeten is afgeleid van het \texttt{PlanetGravity} voorbeeld van Havok. Concreet wordt er rond elke planeet een \textit{phantom} geplaatst. Wanneer een object binnen deze phantom komt, wordt er een kracht uitgeoefend waardoor de objecten aangetrokken worden door de planeet. Deze kracht kan per planeet verschillen zodat elke planeet een eigen zwaartekrachtsterkte heeft.
 
 Op elke hovercraft-entiteit wordt nog een extra actie gedefini\"eerd om het object te laten zweven. Dit is een kracht die in tegengestelde richting ten opzichte van de zwaartekracht werkt. Afhankelijk van de hoogte verandert de grootte van de kracht. Dicht bij het planeetoppervlak zal er een sterke tegengestelde kracht gebruikt worden. Hoe verder van de planeet, hoe zwakker de kracht wordt. Vanaf een bepaalde hoogte valt de kracht weg, zodat de hovercraft terug naar beneden begint te vallen. Op deze manier krijgen we een lichte oscillatie van de hoveringhoogte.
 
-
-\subsection{Grafische userinterface}
+\subsection{Grafische user interface}
 De onderdelen van de GUI zijn ge\"implementeerd in ActionScript\footnote{\url{http://www.adobe.com/devnet/actionscript/}}, en worden met behulp van Hikari gevisualiseerd in Ogre. Hikari is een library die Flash (SWF) bestanden kan inlezen, en voor de binding tussen Flash en C++ zorgt. Hikari is aangepast en uitgebreid, oa. met de functionaliteit om overlays uit te schakelen.
 
 De \texttt{BasicOverlay} klasse bevat alle basisfunctionaliteit en stelt een enkel Flash-bestand voor. Deze kan een bepaalde positie en dimensies innemen.
@@ -157,13 +163,13 @@ De HUD van het spel is geconfigureerd aan de hand van een XML-bestand. Gebruiker
 \lstset{language=XML,caption=HUD configuratie van de LapTimer,label=lst:hudxml}
 \begin{lstlisting}
 <element type="timer" file="lapTimer.swf">
-	<size>
-		<min width="174" height="40" />
-		<max width="520" height="120" />
-	</size>
-	<position>
-		<relative val="TopRight" />
-	</position>
+    <size>
+       <min width="174" height="40" />
+           <max width="520" height="120" />
+    </size>
+    <position>
+        <relative val="TopRight" />
+    </position>
 </element>
 \end{lstlisting}
 
