@@ -176,7 +176,7 @@ De HUD van het spel is geconfigureerd aan de hand van een XML-bestand. Gebruiker
 \subsection{Geluid}
 De FMOD library en tools zijn gebruikt voor het geluid en de muziek. De muziek is onderverdeeld Deze queues worden georganiseerd in een stack. De muziek en geluidseffecten worden door de FMOD Designer gecompileerd in \'e\'en enkel .fsb bestand.
 
-Om toe te laten dat entiteiten in de wereld geluid produceren is \texttt{Moveable3DEmitter} gemaakt. Deze is een wrapper voor de FMOD functionaliteit, en bepaalt het geluid voor een entiteit in de wereld aan de hand van de positie, snelheid, orientatie. In onze architectuur zorgen de \texttt{EntityRepresentation}s voor de specifieke implementatie van het 3D geluid.
+Om toe te laten dat entiteiten in de wereld geluid produceren is \texttt{Moveable}- \texttt{3DEmitter} gemaakt. Deze is een wrapper voor de FMOD functionaliteit, en bepaalt het geluid voor een entiteit in de wereld aan de hand van de positie, snelheid, orientatie. In onze architectuur zorgen de \texttt{EntityRepresentation}s voor de specifieke implementatie van het 3D geluid.
 
 \subsection{Besturing}
 De centrale klasse voor de besturing is de \texttt{KeyManager}. In deze klasse kunnen alle nodige acties geregistreerd worden door middel van een uniek ID, bijvoorbeeld in een enumeratie. Aan elk van deze acties kunnen \'e\'en of meerdere knoppen gebonden worden. Telkens wanneer de \texttt{HovercraftPlayerController} een key event binnenkrijgt, zal er bij de key manager nagegaan worden welke actie er overeenkomt met deze toets. Op deze manier is het mogelijk om de spelbesturing gemakkelijk te wijzigen zonder dat de controller aangepast moet worden. Bovendien kunnen er meerdere toetsen voor dezelfde actie gebruikt worden.
@@ -233,14 +233,14 @@ keyname=value
 keyname = value, value , value #comment
 \end{lstlisting}
 
-\section{Rolverdeling en verantwoordelijkheden}\todo{dit erin houden?}
+\section{Rolverdeling en verantwoordelijkheden}}
 \begin{description}
-	\item[Kristof Overdulve] Algemene architectuur, 3D modellering, Ogre visualisatie en animatie
+	\item[Kristof Overdulve] Algemene client rendering architectuur, Ogre visualisatie en animatie, 2D artist, 3D modellering
 	\item[Pieter-Jan Pintens] Havok Physics, 3D modellering, Ogre visualisatie en animatie
 	\item[Dirk Delahaye] Scripting, AI, visuele effecten, configuratiebestanden
 	\item[Tobias Van Bladel] Input, controls, physics
 	\item[Nick De Frangh] Grafische user interface, Geluid
-	\item[Olivier Berghmans] Algemene architectuur, netwerk
+	\item[Olivier Berghmans] Algemene server architectuur, netwerk
 \end{description}
 
 \bibliographystyle{plain}
