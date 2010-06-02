@@ -226,6 +226,21 @@ Bij het starten van een multiplayerspel komen de spelers eerst in een lobby. De 
 
 De lobby zal bij het starten van de map ook een \texttt{RaceState} object maken. Dit object bevat alle logica die nodig is tijdens het spel en zal ook eventuele bots aanmaken. De RaceState start in de \emph{INTRO} staat en zal een countdown starten zodat de spelers tesamen vertrekken. Om er voor te zorgen dat alle deelnemers het start signaal tegelijkertijd zien, wordt deze countdown tijd ook gesynchroniseerd via het netwerk met de server. Tijdens de race gaat de RaceState naar de \emph{RACING} staat en worden bij elke checkpoint de nieuwe posities voor de spelers berekend. Het tijdstip van de checkpoint wordt voor elke speler bijgehouden en doorgestuurd naar alle spelers zodat deze op de hoogte worden gehouden van de status van de andere spelers. Bovendien zorgt de RaceState ervoor dat elke speler de checkpoints in de correcte volgorde doorloopt. Zo kunnen de spelers niet valsspelen door een kortere weg te gebruiken.
 
+De RaceState bevat de volgende staten:
+
+\begin{itemize}
+	\item \emph{INITIALIZING} zorgt ervoor dat alle spelers op de hoogte zijn dat het spel gaat beginnen
+	\item \emph{LOADING} geeft aan dat zowel server als clients de map aan het inladen zijn
+	\item \emph{INTRO} introduceert de geladen map en toont de avatar van de spelers
+	\item \emph{COUNTDOWN} telt af zodat de spelers tesamen aan de race beginnen
+	\item \emph{RACING} geeft aan dat de spelers aan het racen zijn
+	\item \emph{FINISHING} toont de spelers dat er iemand het einde bereikt heeft
+	\item \emph{OUTRO} laat de resultaten van de race aan de spelers zien
+	\item \emph{CLEANUP} ruimt de hele RaceState terug op en zorgt dat de spelers terug in de lobby komen
+\end{itemize}
+
+De meeste transities naar een volgende staat gebeuren door middel van een timer. De maximale tijd dat de RaceState in een bepaalde staat blijft, is configureerbaar via de INI-bestanden. Zo is het eenvoudig aan te geven dat de INTRO, RACING, FINISHING en OUTRO staat maar een bepaalde tijd mag duren. Andere transities, zoals van LOADING naar INTRO, gebeuren wanneer server en clients klaar zijn met hun taak tijdens die bepaalde staat.
+
 \subsection{Level of Detail}
 \subsubsection{Netwerk}
 
