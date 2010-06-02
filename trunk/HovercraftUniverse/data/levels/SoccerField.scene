@@ -267,7 +267,7 @@
         </item>
         <item name="FinishRoom_ent">
             <userData>
-                <![CDATA[<StaticBody><OgreEntity>FinishRoom</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+                <![CDATA[<Boost><OgreEntity>FinishRoom</OgreEntity><ProcessInterval>-1</ProcessInterval><Boost>10</Boost><Gain>0</Gain></Boost>]]>
 </userData>
             <position x="200" y="26.4659" z="5" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
