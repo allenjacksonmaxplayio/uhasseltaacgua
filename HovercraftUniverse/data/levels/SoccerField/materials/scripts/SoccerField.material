@@ -1,18 +1,4 @@
 
-material NoMaterial
-{
-	technique
-	{
-		pass
-		{
-		}
-
-	}
-
-}
-
-
-
 material SoccerBall
 {
 	technique
@@ -26,6 +12,28 @@ material SoccerBall
 			texture_unit
 			{
 				texture soccer.png
+			}
+		}
+
+	}
+
+}
+
+
+
+material DarkHall
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture darktexture.jpg
 			}
 		}
 
@@ -79,6 +87,45 @@ material WallTexture
 
 
 
+material Gray
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material SoccerField
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture soccerfield.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
 material Goal
 {
 	technique
@@ -101,7 +148,7 @@ material Goal
 
 
 
-material SoccerField
+material 09-Default
 {
 	technique
 	{
@@ -113,7 +160,7 @@ material SoccerField
 
 			texture_unit
 			{
-				texture soccerfield.jpg
+				texture grass.jpg
 			}
 		}
 
