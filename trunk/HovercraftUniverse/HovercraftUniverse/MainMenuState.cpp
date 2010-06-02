@@ -63,7 +63,7 @@ namespace HovUni {
 			//GUIManager::getSingletonPtr()->activateOverlay(msg);
 		
 			//HovUni::Console::destroyConsole();
-			onConnect("localhost", this);
+			onConnect("localhost", mMenu);
 		
 			Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "[MainMenu]: create game finished";
 
