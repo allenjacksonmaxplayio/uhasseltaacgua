@@ -1,6 +1,6 @@
-<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.2.7" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="39.3701" minOgreVersion="1.7" ogreMaxVersion="2.3" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
     <userData>
-        <![CDATA[<Track><Name>Soccer Field</Name><MinimumPlayers>1</MinimumPlayers><MaximumPlayers>12</MaximumPlayers><PathFileName>SoccerField.path</PathFileName><PhysicsFileName>SoccerField.hkx</PhysicsFileName></Track>]]>
+        <![CDATA[<Track><Name>Soccer Field</Name><MinimumPlayers>0</MinimumPlayers><MaximumPlayers>12</MaximumPlayers><PathFileName>SoccerField.path</PathFileName><PhysicsFileName>SoccerField.hkx</PhysicsFileName></Track>]]>
 </userData>
     <environment>
         <colourAmbient r="0.333333" g="0.333333" b="0.333333" />
@@ -8,24 +8,8 @@
         <clipping near="0" far="100000" />
     </environment>
     <nodes>
-        <node name="field">
-            <position x="5.13141" y="0.0642738" z="0.0415726" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
-            <entity name="field" castShadows="true" receiveShadows="true" meshFile="field.mesh">
-                <userData>
-                    <![CDATA[<OgreEntity><GameEntity>field_ent</GameEntity></OgreEntity>]]>
-</userData>
-                <subentities>
-                    <subentity index="0" materialName="SoccerField" />
-                    <subentity index="1" materialName="WallTexture" />
-                    <subentity index="2" materialName="Goal" />
-                    <subentity index="3" materialName="DarkHall" />
-                </subentities>
-            </entity>
-        </node>
         <node name="Camera01">
-            <position x="7.75143" y="10" z="-1.7295" />
+            <position x="7.75143" y="349.862" z="-1.7295" />
             <scale x="1" y="1" z="1" />
             <rotation qx="-0.707107" qy="-0" qz="-0" qw="0.707107" />
             <camera name="Camera01" fov="0.602557">
@@ -40,10 +24,77 @@
             <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="-0.707107" qz="3.09086e-008" qw="0.707107" />
         </node>
-        <node name="Ball">
-            <position x="3.25632" y="24.01" z="2.47524" />
-            <scale x="0.46483" y="0.46483" z="0.46483" />
+        <node name="FootballPlanet">
+            <position x="0" y="-100" z="4.37114e-006" />
+            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="FootballPlanet" castShadows="true" receiveShadows="true" meshFile="FootballPlanet.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>FootballPlanet_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="09-Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Goal02">
+            <position x="0.00863171" y="12.3312" z="176.525" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="1" qz="-4.37114e-008" qw="-7.54979e-008" />
+            <entity name="Goal02" castShadows="true" receiveShadows="true" meshFile="Goal02.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Goal02_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Goal" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Field">
+            <position x="0" y="-3.48218" z="1.52211e-007" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Field" castShadows="true" receiveShadows="true" meshFile="Field.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Field_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="SoccerField" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Wall">
+            <position x="7.62939e-006" y="11.4659" z="7.1282e-006" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Wall" castShadows="true" receiveShadows="true" meshFile="Wall.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Wall_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Gray" />
+                    <subentity index="1" materialName="WallTexture" />
+                    <subentity index="2" materialName="DarkHall" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Goal01">
+            <position x="0.00749969" y="12.3309" z="-176.525" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="1.50996e-007" qz="-6.60024e-015" qw="1" />
+            <entity name="Goal01" castShadows="true" receiveShadows="true" meshFile="Goal01.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Goal01_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Goal" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Ball">
+            <position x="-1.5197" y="44.8499" z="-1.96045e-006" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
             <entity name="Ball" castShadows="true" receiveShadows="true" meshFile="Ball.mesh">
                 <userData>
                     <![CDATA[<OgreEntity><GameEntity>Ball_ent</GameEntity></OgreEntity>]]>
@@ -53,140 +104,172 @@
                 </subentities>
             </entity>
         </node>
-        <node name="finish">
-            <position x="83.6078" y="5.99673" z="-8.34572" />
-            <scale x="1" y="1.69095" z="1" />
+        <node name="Finish">
+            <position x="200" y="26.4659" z="5" />
+            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
-            <entity name="finish" castShadows="true" receiveShadows="true" meshFile="finish.mesh">
+            <entity name="Finish" castShadows="true" receiveShadows="true" meshFile="Finish.mesh">
                 <userData>
-                    <![CDATA[<OgreEntity><GameEntity>finish_ent</GameEntity></OgreEntity>]]>
+                    <![CDATA[<OgreEntity><GameEntity>Finish_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="NoMaterial" />
+                    <subentity index="0" materialName="DarkHall" />
                 </subentities>
             </entity>
         </node>
     </nodes>
     <externals>
-        <item name="Ball_ent">
-            <userData>
-                <![CDATA[<StaticBody><OgreEntity>Ball</OgreEntity><ProcessInterval>0.016</ProcessInterval></StaticBody>]]>
-</userData>
-            <position x="3.3053" y="24.0063" z="2.42387" />
-            <scale x="0.458238" y="0.458238" z="0.458238" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
-        </item>
         <item name="StartPosition01">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>0</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="4.12973" y="16.1561" z="64.2894" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition02">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>1</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="3.25939" y="16.1561" z="-65.2459" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition03">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>2</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="16.3582" y="16.1561" z="64.2894" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition04">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>3</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="16.4346" y="16.1561" z="-65.2072" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition05">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>4</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="-8.77427" y="16.1561" z="64.2894" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition06">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>5</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="-8.88123" y="16.1561" z="-65.2245" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition07">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>6</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="28.4813" y="16.1561" z="64.2894" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition08">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>7</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="28.6293" y="16.1561" z="-65.103" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition09">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>8</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="-21.3591" y="16.1561" z="64.2894" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition10">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>9</PlayerNumber></StartPosition>]]>
 </userData>
             <position x="-21.4903" y="16.1561" z="-65.246" />
-            <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition11">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>10</PlayerNumber></StartPosition>]]>
 </userData>
-            <position x="3.85655" y="16.1561" z="85.3429" />
-            <scale x="1" y="1" z="1" />
+            <position x="3.85655" y="16.1561" z="142.253" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1" y="1" z="1" />
         </item>
         <item name="StartPosition12">
             <userData>
                 <![CDATA[<StartPosition><PlayerNumber>11</PlayerNumber></StartPosition>]]>
 </userData>
-            <position x="3.8382" y="16.1561" z="-83.4233" />
+            <position x="3.8382" y="16.1561" z="-153.196" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="1" y="1" z="1" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
         </item>
-        <item name="finish_ent">
+        <item name="FootballPlanet_ent">
             <userData>
-                <![CDATA[<Finish><OgreEntity>finish</OgreEntity><ProcessInterval>-1</ProcessInterval></Finish>]]>
+                <![CDATA[<Asteroid><OgreEntity>FootballPlanet</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>Football Planet</Name><Gravity>65</Gravity><AsteroidType>3</AsteroidType></Asteroid>]]>
 </userData>
-            <position x="87.8059" y="15.6334" z="-0.431936" />
-            <scale x="1" y="1.7608" z="1.70389" />
+            <position x="0" y="-100" z="4.37114e-006" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="1145.67" y="546.358" z="2291.34" />
         </item>
-        <item name="field_ent">
+        <item name="Goal02_ent">
             <userData>
-                <![CDATA[<Asteroid><Name>Soccer Field</Name><Gravity>65</Gravity><AsteroidType>2</AsteroidType><OgreEntity>field</OgreEntity><ProcessInterval>-1</ProcessInterval></Asteroid>]]>
+                <![CDATA[<StaticBody><OgreEntity>Goal02</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
 </userData>
-            <position x="27.55" y="23.4349" z="0.956316" />
-            <scale x="2.44829" y="0.949091" z="3.49077" />
+            <position x="0.00863171" y="12.3312" z="176.525" />
+            <rotation qx="2.11758e-022" qy="1" qz="-4.37114e-008" qw="-7.54979e-008" />
+            <scale x="60.2393" y="28.8476" z="33.3808" />
+        </item>
+        <item name="Field_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Field</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="0" y="-3.48218" z="1.52211e-007" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="240" y="10" z="320" />
+        </item>
+        <item name="Wall_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Wall</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="7.62939e-006" y="11.4659" z="7.1282e-006" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="280" y="50" z="360" />
+        </item>
+        <item name="Goal01_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Goal01</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="0.00749969" y="12.3309" z="-176.525" />
+            <rotation qx="0" qy="1.50996e-007" qz="-6.60024e-015" qw="1" />
+            <scale x="60.2393" y="28.8476" z="33.3808" />
+        </item>
+        <item name="Ball_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Ball</OgreEntity><ProcessInterval>0.0333333</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-1.5197" y="44.8499" z="-1.96045e-006" />
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+            <scale x="6" y="6" z="6" />
+        </item>
+        <item name="Finish_ent">
+            <userData>
+                <![CDATA[<Finish><OgreEntity>Finish</OgreEntity><ProcessInterval>-1</ProcessInterval></Finish>]]>
+</userData>
+            <position x="200" y="26.4659" z="5" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="120" y="70" z="70" />
         </item>
     </externals>
 </scene>
