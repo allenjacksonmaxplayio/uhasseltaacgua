@@ -27,7 +27,8 @@ VersionInfoVersion=1.0
 VersionInfoTextVersion=1.0
 PrivilegesRequired=none
 [Icons]
-Name: {commondesktop}\Hovercraft Universe; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; IconFilename: {app}\HovercraftUniverse.exe; Comment: Play Hovercraft Universe; IconIndex: 0
+Name: {commondesktop}\Hovercraft Universe; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; Comment: Play Hovercraft Universe; IconIndex: 0
+Name: {commondesktop}\Hovercraft Universe Dedicated Server; Filename: {app}\HovercraftUniverse.exe; Parameters: --server; WorkingDir: {app}; Comment: Run Hovercraft Universe Dedicated Server; IconIndex: 0
 [Run]
 Filename: {app}\HovercraftUniverse.exe; Description: Start playing Hovercraft Universe!; Flags: postinstall skipifsilent unchecked
 [Files]
@@ -70,7 +71,6 @@ Source: data\gui\raceresults.swf; DestDir: {app}\data\gui
 Source: data\gui\serverMenu.swf; DestDir: {app}\data\gui
 Source: data\gui\speedometer.swf; DestDir: {app}\data\gui
 Source: data\gui\title.swf; DestDir: {app}\data\gui
-Source: data\gui\zGUIConfig.xml; DestDir: {app}\data\gui
 Source: data\hovercraft\materials\scripts\HippyCraft.material; DestDir: {app}\data\hovercraft\materials\scripts
 Source: data\hovercraft\materials\scripts\hover1.material; DestDir: {app}\data\hovercraft\materials\scripts
 Source: data\hovercraft\materials\scripts\hoverjeep.material; DestDir: {app}\data\hovercraft\materials\scripts
@@ -97,10 +97,12 @@ Source: data\hovercraft\HippyCraft.hkx; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\HippyCraft.scene; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\hover1.hkx; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\hover1.scene; DestDir: {app}\data\hovercraft
+Source: data\hovercraft\USAHovercraft.hkx; DestDir: {app}\data\hovercraft
+Source: data\hovercraft\USAHovercraft.scene; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\HoverJeep.hkx; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\HoverJeep.scene; DestDir: {app}\data\hovercraft
 Source: data\levels\Bavaraf\materials\scripts\Bavaraf.material; DestDir: {app}\data\levels\Bavaraf\materials\scripts
-Source: data\levels\Bavaraf\materials\scripts\Kopie van Bavaraf.material; DestDir: {app}\data\levels\Bavaraf\materials\scripts
+;Source: data\levels\Bavaraf\materials\scripts\Kopie van Bavaraf.material; DestDir: {app}\data\levels\Bavaraf\materials\scripts
 Source: data\levels\Bavaraf\models\Checkpoint0Geom.mesh; DestDir: {app}\data\levels\Bavaraf\models
 Source: data\levels\Bavaraf\models\Checkpoint1Geom.mesh; DestDir: {app}\data\levels\Bavaraf\models
 Source: data\levels\Bavaraf\models\Checkpoint2Geom.mesh; DestDir: {app}\data\levels\Bavaraf\models
