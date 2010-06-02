@@ -233,15 +233,22 @@ void RaceState::calculatePlayerPosition(unsigned int playerid) {
 
 	// Remove the player from the list and insert it at the right position
 	mPlayerPositions.remove(playerid);
+	bool playerInserted = false;
 	unsigned int i = 1;
 	for (std::list<unsigned int>::iterator it = mPlayerPositions.begin(); it != mPlayerPositions.end(); ++it) {
 		// Since this player reaches a checkpoint, it can only move forward in position or stay equal
 		if ((i == position) && (*it != playerid)) {
 			// Position improved so previous value should be deleted
 			mPlayerPositions.insert(it, playerid);
+			playerInserted = true;
 			break;
 		}
 		++i;
+	}
+
+	if (!playerInserted) {
+		// Add player back to the end of list
+		mPlayerPositions.push_back(playerid);
 	}
 
 	// Update player positions
