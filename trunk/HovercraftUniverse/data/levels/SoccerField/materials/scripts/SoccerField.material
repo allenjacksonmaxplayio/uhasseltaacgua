@@ -121,28 +121,6 @@ material Gray
 
 
 
-material SoccerField
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0 0 0 10 0
-
-			texture_unit
-			{
-				texture soccerfield.jpg
-			}
-		}
-
-	}
-
-}
-
-
-
 material Goal
 {
 	technique
@@ -179,6 +157,43 @@ material 09-Default
 			{
 				texture grass.jpg
 			}
+		}
+
+	}
+
+}
+
+
+
+material SoccerField
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+
+			texture_unit
+			{
+				texture soccerfield.jpg
+			}
+		}
+
+	}
+
+}
+
+
+
+material Post
+{
+	technique
+	{
+		pass
+		{
+			specular 0 0 0 10 0
 		}
 
 	}
