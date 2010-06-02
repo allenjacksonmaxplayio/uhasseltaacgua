@@ -273,19 +273,29 @@ Source: data\levels\SoccerField\textures\walltexture.jpg; DestDir: {app}\data\le
 
 ;Levels
 Source: data\levels\Bavaraf.hkx; DestDir: {app}\data\levels
+Source: data\levels\Bavaraf.path; DestDir: {app}\data\levels
 Source: data\levels\Bavaraf.scene; DestDir: {app}\data\levels
+
 Source: data\levels\Junkyard.hkx; DestDir: {app}\data\levels
 Source: data\levels\Junkyard.path; DestDir: {app}\data\levels
 Source: data\levels\Junkyard.scene; DestDir: {app}\data\levels
+
 Source: data\levels\Ramp.hkx; DestDir: {app}\data\levels
+Source: data\levels\Ramp.path; DestDir: {app}\data\levels
 Source: data\levels\Ramp.scene; DestDir: {app}\data\levels
+
 Source: data\levels\SimpleTrack2.hkx; DestDir: {app}\data\levels
 Source: data\levels\SimpleTrack2.path; DestDir: {app}\data\levels
 Source: data\levels\SimpleTrack2.scene; DestDir: {app}\data\levels
-;Source: data\levels\SimpleTrack2_stencilShadow.scene; DestDir: {app}\data\levels
+
 Source: data\levels\SoccerField.hkx; DestDir: {app}\data\levels
+Source: data\levels\SoccerField.path; DestDir: {app}\data\levels
 Source: data\levels\SoccerField.scene; DestDir: {app}\data\levels
-;Source: data\levels\SoccerField_backup.scene; DestDir: {app}\data\levels
+
+
+
+
+; Ogre stuff
 Source: data\ogre\fonts\badabb.ttf; DestDir: {app}\data\ogre\fonts
 Source: data\ogre\fonts\Badaboom.fontdef; DestDir: {app}\data\ogre\fonts
 Source: data\ogre\fonts\Lynx.fontdef; DestDir: {app}\data\ogre\fonts
