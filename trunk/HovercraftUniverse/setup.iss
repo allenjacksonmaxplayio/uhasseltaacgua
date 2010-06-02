@@ -26,6 +26,7 @@ WizardSmallImageFile=bin\installer\setup-small.bmp
 VersionInfoVersion=1.0
 VersionInfoTextVersion=1.0
 PrivilegesRequired=none
+InfoAfterFile=bin\installer\ReadmeForInstaller.txt
 [Icons]
 Name: {commondesktop}\Hovercraft Universe; Filename: {app}\HovercraftUniverse.exe; WorkingDir: {app}; Comment: Play Hovercraft Universe; IconIndex: 0
 Name: {commondesktop}\Hovercraft Universe Dedicated Server; Filename: {app}\HovercraftUniverse.exe; Parameters: --server; WorkingDir: {app}; Comment: Run Hovercraft Universe Dedicated Server; IconIndex: 0
