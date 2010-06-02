@@ -1,0 +1,20 @@
+\select@language {dutch}
+\contentsline {section}{\numberline {1}Introductie}{2}{section.1}
+\contentsline {section}{\numberline {2}Gebruikte libraries}{2}{section.2}
+\contentsline {section}{\numberline {3}Programmastructuur en -organisatie}{2}{section.3}
+\contentsline {subsection}{\numberline {3.1}Algemeen}{2}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Netwerkstructuur}{3}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Modellen en user-data}{4}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Visualisatie en Ogre}{5}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Physics}{6}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Grafische user interface}{7}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Geluid}{7}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.8}Besturing}{7}{subsection.3.8}
+\contentsline {subsection}{\numberline {3.9}Scripting en AI}{8}{subsection.3.9}
+\contentsline {subsection}{\numberline {3.10}Game Logic}{10}{subsection.3.10}
+\contentsline {subsection}{\numberline {3.11}Level of Detail}{10}{subsection.3.11}
+\contentsline {subsubsection}{\numberline {3.11.1}Netwerk}{10}{subsubsection.3.11.1}
+\contentsline {subsubsection}{\numberline {3.11.2}Rendering}{11}{subsubsection.3.11.2}
+\contentsline {subsection}{\numberline {3.12}Misc.}{11}{subsection.3.12}
+\contentsline {subsubsection}{\numberline {3.12.1}Configuratiebestanden}{11}{subsubsection.3.12.1}
+\contentsline {section}{\numberline {4}Rolverdeling en verantwoordelijkheden}{11}{section.4}
