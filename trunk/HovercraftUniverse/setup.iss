@@ -260,6 +260,9 @@ Source: data\levels\SoccerField\models\FinishRoom.mesh; DestDir: {app}\data\leve
 Source: data\levels\SoccerField\models\FootballPlanet.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\models\Goal01.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\models\Goal02.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Red01.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Blue01.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Red.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\models\Wall.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\textures\darktexture.jpg; DestDir: {app}\data\levels\SoccerField\textures
 Source: data\levels\SoccerField\textures\goalfence.jpg; DestDir: {app}\data\levels\SoccerField\textures
