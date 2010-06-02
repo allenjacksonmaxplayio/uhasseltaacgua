@@ -60,6 +60,40 @@ material Gray
 
 
 
+material Red
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 0 0 1
+			diffuse 1 0 0 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
+material Blue
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0.188235 1 1
+			diffuse 0 0.188235 1 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
 material DarkHall
 {
 	technique

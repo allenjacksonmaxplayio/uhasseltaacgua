@@ -143,6 +143,32 @@
                 <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
             </light>
         </node>
+        <node name="Blue01">
+            <position x="-1" y="48" z="-180" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Blue01" castShadows="true" receiveShadows="true" meshFile="Blue01.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Blue01_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Blue" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Red01">
+            <position x="-1" y="48" z="180" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="Red01" castShadows="true" receiveShadows="true" meshFile="Red01.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>Red01_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Red" />
+                </subentities>
+            </entity>
+        </node>
     </nodes>
     <externals>
         <item name="StartPosition01">
@@ -304,6 +330,22 @@
             <position x="9.53674e-007" y="18.3152" z="180.25" />
             <rotation qx="0" qy="1" qz="-4.37114e-008" qw="-7.54979e-008" />
             <scale x="60" y="40" z="40" />
+        </item>
+        <item name="Blue01_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Blue01</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-1" y="48" z="-180" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="50" y="20" z="20" />
+        </item>
+        <item name="Red01_ent">
+            <userData>
+                <![CDATA[<StaticBody><OgreEntity>Red01</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
+</userData>
+            <position x="-1" y="48" z="-180" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <scale x="50" y="20" z="20" />
         </item>
     </externals>
 </scene>
