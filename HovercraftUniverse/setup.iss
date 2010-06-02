@@ -101,6 +101,8 @@ Source: data\hovercraft\USAHovercraft.hkx; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\USAHovercraft.scene; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\HoverJeep.hkx; DestDir: {app}\data\hovercraft
 Source: data\hovercraft\HoverJeep.scene; DestDir: {app}\data\hovercraft
+
+;Crazy planet level
 Source: data\levels\Bavaraf\materials\scripts\Bavaraf.material; DestDir: {app}\data\levels\Bavaraf\materials\scripts
 ;Source: data\levels\Bavaraf\materials\scripts\Kopie van Bavaraf.material; DestDir: {app}\data\levels\Bavaraf\materials\scripts
 Source: data\levels\Bavaraf\models\Checkpoint0Geom.mesh; DestDir: {app}\data\levels\Bavaraf\models
@@ -118,6 +120,8 @@ Source: data\levels\Bavaraf\textures\rock.jpg; DestDir: {app}\data\levels\Bavara
 Source: data\levels\Bavaraf\textures\terrain0.jpg; DestDir: {app}\data\levels\Bavaraf\textures
 Source: data\levels\Bavaraf\textures\trunk.png; DestDir: {app}\data\levels\Bavaraf\textures
 Source: data\levels\Bavaraf\textures\wall_512_5_05.jpg; DestDir: {app}\data\levels\Bavaraf\textures
+
+;The junk yard
 Source: data\levels\junkyard\materials\scripts\Junkyard.material; DestDir: {app}\data\levels\junkyard\materials\scripts
 Source: data\levels\junkyard\materials\scripts\Junkyard2.material; DestDir: {app}\data\levels\junkyard\materials\scripts
 Source: data\levels\junkyard\models\Asteroid01.mesh; DestDir: {app}\data\levels\junkyard\models
@@ -193,11 +197,15 @@ Source: data\levels\junkyard\textures\wing.png; DestDir: {app}\data\levels\junky
 Source: data\levels\materials\programs\asteroid.program; DestDir: {app}\data\levels\materials\programs
 Source: data\levels\materials\programs\asteroidPS.cg; DestDir: {app}\data\levels\materials\programs
 Source: data\levels\materials\programs\asteroidVS.cg; DestDir: {app}\data\levels\materials\programs
+
+;Halfpipe level
 Source: data\levels\Ramp\materials\scripts\Ramp.material; DestDir: {app}\data\levels\Ramp\materials\scripts
 Source: data\levels\Ramp\models\Box01.mesh; DestDir: {app}\data\levels\Ramp\models
 Source: data\levels\Ramp\models\Finish.mesh; DestDir: {app}\data\levels\Ramp\models
 Source: data\levels\Ramp\models\Planet01.mesh; DestDir: {app}\data\levels\Ramp\models
 Source: data\levels\Ramp\textures\ramp.png; DestDir: {app}\data\levels\Ramp\textures
+
+;SimpleTrack2
 Source: data\levels\SimpleTrack2\materials\scripts\ShaderExample.txt; DestDir: {app}\data\levels\SimpleTrack2\materials\scripts
 Source: data\levels\SimpleTrack2\materials\scripts\SimpleTrack2.material; DestDir: {app}\data\levels\SimpleTrack2\materials\scripts
 Source: data\levels\SimpleTrack2\materials\scripts\soccer.material; DestDir: {app}\data\levels\SimpleTrack2\materials\scripts
@@ -239,15 +247,28 @@ Source: data\levels\SimpleTrack2\textures\Planet01DiffuseMap.png; DestDir: {app}
 Source: data\levels\SimpleTrack2\textures\rock-texture.png; DestDir: {app}\data\levels\SimpleTrack2\textures
 Source: data\levels\SimpleTrack2\textures\rock.jpg; DestDir: {app}\data\levels\SimpleTrack2\textures
 Source: data\levels\SimpleTrack2\textures\wing.png; DestDir: {app}\data\levels\SimpleTrack2\textures
+
+;The soccer field
 Source: data\levels\SoccerField\materials\scripts\SoccerField.material; DestDir: {app}\data\levels\SoccerField\materials\scripts
 Source: data\levels\SoccerField\models\Ball.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Box01.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Box02.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Checkpoint0.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\models\field.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\models\finish.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\FinishRoom.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\FootballPlanet.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Goal01.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Goal02.mesh; DestDir: {app}\data\levels\SoccerField\models
+Source: data\levels\SoccerField\models\Wall.mesh; DestDir: {app}\data\levels\SoccerField\models
 Source: data\levels\SoccerField\textures\darktexture.jpg; DestDir: {app}\data\levels\SoccerField\textures
 Source: data\levels\SoccerField\textures\goalfence.jpg; DestDir: {app}\data\levels\SoccerField\textures
 Source: data\levels\SoccerField\textures\soccer.png; DestDir: {app}\data\levels\SoccerField\textures
+Source: data\levels\SoccerField\textures\grass.jpg; DestDir: {app}\data\levels\SoccerField\textures
 Source: data\levels\SoccerField\textures\soccerfield.jpg; DestDir: {app}\data\levels\SoccerField\textures
 Source: data\levels\SoccerField\textures\walltexture.jpg; DestDir: {app}\data\levels\SoccerField\textures
+
+;Levels
 Source: data\levels\Bavaraf.hkx; DestDir: {app}\data\levels
 Source: data\levels\Bavaraf.scene; DestDir: {app}\data\levels
 Source: data\levels\Junkyard.hkx; DestDir: {app}\data\levels
@@ -258,13 +279,12 @@ Source: data\levels\Ramp.scene; DestDir: {app}\data\levels
 Source: data\levels\SimpleTrack2.hkx; DestDir: {app}\data\levels
 Source: data\levels\SimpleTrack2.path; DestDir: {app}\data\levels
 Source: data\levels\SimpleTrack2.scene; DestDir: {app}\data\levels
-Source: data\levels\SimpleTrack2_stencilShadow.scene; DestDir: {app}\data\levels
+;Source: data\levels\SimpleTrack2_stencilShadow.scene; DestDir: {app}\data\levels
 Source: data\levels\SoccerField.hkx; DestDir: {app}\data\levels
 Source: data\levels\SoccerField.scene; DestDir: {app}\data\levels
-Source: data\levels\SoccerField_backup.scene; DestDir: {app}\data\levels
+;Source: data\levels\SoccerField_backup.scene; DestDir: {app}\data\levels
 Source: data\ogre\fonts\badabb.ttf; DestDir: {app}\data\ogre\fonts
 Source: data\ogre\fonts\Badaboom.fontdef; DestDir: {app}\data\ogre\fonts
-Source: data\ogre\fonts\Diavlo_MEDIUM_II_37.otf; DestDir: {app}\data\ogre\fonts
 Source: data\ogre\fonts\Lynx.fontdef; DestDir: {app}\data\ogre\fonts
 Source: data\ogre\fonts\Lynx.ttf; DestDir: {app}\data\ogre\fonts
 Source: data\ogre\fonts\solo5.ttf; DestDir: {app}\data\ogre\fonts
