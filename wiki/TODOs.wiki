@@ -10,4 +10,4 @@
   * *WONTFIX* Keys en camera nog altijd gemapt op oude entity als het spel stopt
   * *DONE* Overlays kapot omdat de Camera raar doet
   * *DONE* Berekenen van positie bij Finishen (nu gebeurt dit op de laatste checkpoint, maar niet bij de finish)
-  * "Loading Some more text" -> Nick
+  * *DONE* "Loading Some more text"
