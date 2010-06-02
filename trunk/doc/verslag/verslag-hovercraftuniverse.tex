@@ -224,7 +224,7 @@ Aangezien deze methodes afhankelijk zijn van de physics, draaien ze op de server
 
 Bij het starten van een multiplayerspel komen de spelers eerst in een lobby. De lobby bevat de logica om een spel te starten met een aantal spelers. De eerste speler die met de lobby verbindt, wordt automatisch administrator. Deze speler kan de verschillende instellingen van de lobby aanpassen, bv. het aantal spelers of de map. De administrator kan ook beslissen wanneer het spel start. De lobby zal op dat moment de objecten van de gekozen map en de objecten voor alle spelers aanmaken. Als de administrator het spel verlaat, kiest de lobby een nieuwe administrator die de instellingen kan aanpassen.
 
-De lobby zal bij het starten van de map ook een \texttt{RaceState} object maken. Dit object bevat alle logica die nodig is tijdens het spel en zal ook eventuele bots aanmaken. De RaceState start in de \emph{INTRO} staat en zal een countdown starten zodat de spelers tesamen vertrekken. Tijdens de race gaat de RaceState naar de \emph{RACING} staat en worden bij elke checkpoint de nieuwe posities voor de spelers berekend. Het tijdstip van de checkpoint wordt voor elke speler bijgehouden en doorgestuurd naar alle spelers zodat deze op de hoogte worden gehouden van de status van de andere spelers. Bovendien zorgt de RaceState ervoor dat elke speler de checkpoints in de correcte volgorde doorloopt. Zo kunnen de spelers niet valsspelen door een kortere weg te gebruiken.
+De lobby zal bij het starten van de map ook een \texttt{RaceState} object maken. Dit object bevat alle logica die nodig is tijdens het spel en zal ook eventuele bots aanmaken. De RaceState start in de \emph{INTRO} staat en zal een countdown starten zodat de spelers tesamen vertrekken. Om er voor te zorgen dat alle deelnemers het start signaal tegelijkertijd zien, wordt deze countdown tijd ook gesynchroniseerd via het netwerk met de server. Tijdens de race gaat de RaceState naar de \emph{RACING} staat en worden bij elke checkpoint de nieuwe posities voor de spelers berekend. Het tijdstip van de checkpoint wordt voor elke speler bijgehouden en doorgestuurd naar alle spelers zodat deze op de hoogte worden gehouden van de status van de andere spelers. Bovendien zorgt de RaceState ervoor dat elke speler de checkpoints in de correcte volgorde doorloopt. Zo kunnen de spelers niet valsspelen door een kortere weg te gebruiken.
 
 \subsection{Level of Detail}
 \subsubsection{Netwerk}
@@ -257,8 +257,8 @@ keyname = value, value , value #comment
 	\item[Pieter-Jan Pintens] Havok Physics, 3D modellering, Ogre visualisatie en animatie
 	\item[Dirk Delahaye] Scripting, AI, visuele effecten, configuratiebestanden
 	\item[Tobias Van Bladel] Input, controls, physics
-	\item[Nick De Frangh] Grafische user interface, geluid
-	\item[Olivier Berghmans] Algemene server architectuur, netwerk
+	\item[Nick De Frangh] Grafische user interface, geluid, game logic
+	\item[Olivier Berghmans] Algemene server architectuur, netwerk, game logic
 \end{description}
 
 \bibliographystyle{plain}
