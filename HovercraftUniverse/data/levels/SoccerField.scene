@@ -104,16 +104,42 @@
                 </subentities>
             </entity>
         </node>
-        <node name="Finish">
+        <node name="FinishRoom">
             <position x="200" y="26.4659" z="5" />
             <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="FinishRoom" castShadows="true" receiveShadows="true" meshFile="FinishRoom.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>FinishRoom_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="DarkHall" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Finish">
+            <position x="192.406" y="14.7769" z="5" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="-2.6054e-015" qz="-5.96046e-008" qw="1" />
             <entity name="Finish" castShadows="true" receiveShadows="true" meshFile="Finish.mesh">
                 <userData>
                     <![CDATA[<OgreEntity><GameEntity>Finish_ent</GameEntity></OgreEntity>]]>
 </userData>
                 <subentities>
-                    <subentity index="0" materialName="DarkHall" />
+                    <subentity index="0" materialName="Gray" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="CheckPoint0">
+            <position x="164.292" y="14.7769" z="5" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="-2.6054e-015" qz="-5.96046e-008" qw="1" />
+            <entity name="CheckPoint0" castShadows="true" receiveShadows="true" meshFile="CheckPoint0.mesh">
+                <userData>
+                    <![CDATA[<OgreEntity><GameEntity>CheckPoint0_ent</GameEntity></OgreEntity>]]>
+</userData>
+                <subentities>
+                    <subentity index="0" materialName="Gray" />
                 </subentities>
             </entity>
         </node>
@@ -263,13 +289,29 @@
             <rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
             <scale x="6" y="6" z="6" />
         </item>
-        <item name="Finish_ent">
+        <item name="FinishRoom_ent">
             <userData>
-                <![CDATA[<Finish><OgreEntity>Finish</OgreEntity><ProcessInterval>-1</ProcessInterval></Finish>]]>
+                <![CDATA[<StaticBody><OgreEntity>FinishRoom</OgreEntity><ProcessInterval>-1</ProcessInterval></StaticBody>]]>
 </userData>
             <position x="200" y="26.4659" z="5" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <scale x="120" y="70" z="70" />
+        </item>
+        <item name="Finish_ent">
+            <userData>
+                <![CDATA[<Finish><OgreEntity>Finish</OgreEntity><ProcessInterval>-1</ProcessInterval></Finish>]]>
+</userData>
+            <position x="192.406" y="14.7769" z="5" />
+            <rotation qx="0" qy="-2.6054e-015" qz="-5.96046e-008" qw="1" />
+            <scale x="24.4675" y="53.6772" z="65.4259" />
+        </item>
+        <item name="CheckPoint0_ent">
+            <userData>
+                <![CDATA[<CheckPoint><OgreEntity>CheckPoint0</OgreEntity><ProcessInterval>-1</ProcessInterval><Name>CheckPoint</Name><Number>0</Number></CheckPoint>]]>
+</userData>
+            <position x="164.292" y="14.7769" z="5" />
+            <rotation qx="-2.52435e-029" qy="-2.6054e-015" qz="-5.96046e-008" qw="1" />
+            <scale x="20" y="52.1325" z="65.4259" />
         </item>
     </externals>
 </scene>

@@ -43,6 +43,23 @@ material DarkHall
 
 
 
+material Gray
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0 0 0 10 0
+		}
+
+	}
+
+}
+
+
+
 material DarkHall
 {
 	technique
