@@ -30,11 +30,8 @@ HovercraftRepresentation::HovercraftRepresentation(Hovercraft * entity, Ogre::Sc
 	//characterNode->roll(Ogre::Degree(-90.0));
     // Create the character entity (TODO Yes i know it is hardcoded ...)
 	Ogre::Entity * characterEntity = Application::msSceneMgr->createEntity(entity->getName() + "_character", "Cloudera.mesh", resourceGroupName);
-	//characterEntity->getAllAnimationStates();
-	//Ogre::AnimationState * characterSitAnimation =	characterEntity->getAnimationState("Sit");
-	//if (characterSitAnimation != 0) {
-	//	characterSitAnimation->setEnabled(true);
-	//}
+	Ogre::AnimationState * characterSitAnimation = characterEntity->getAnimationState("Sit");
+	characterSitAnimation->setEnabled(true);
 	characterEntity->setCastShadows(true);
 	characterEntity->setMaterialName("04-Default");
 	characterEntity->getSubEntity(0)->setMaterialName("04-Default");
