@@ -227,7 +227,11 @@ void Lobby::onStartServer() {
 
 	if (mPlayers.getPlayers().size() <= maxPlayers) {
 		mPressedStart = true;
-		mTimer = new Timing();
+		if (mTimer) {
+			mTimer->restart();
+		} else {
+			mTimer = new Timing();
+		}
 		mCountdown = msCountdownValue + 1;
 		if (mChatServer) {
 			mChatServer->sendNotification("Starting in...");
