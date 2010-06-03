@@ -266,7 +266,7 @@ void HavokHovercraft::update(){
 				}
 				*/
 				
-				if (currentspeed > 0.0f) {
+				if (currentspeed >= 0.0f) {
 					angle = mRotationDelta;
 				} else if (currentspeed < 0.0f) {
 					angle = -mRotationDelta;
@@ -282,7 +282,7 @@ void HavokHovercraft::update(){
 				}
 				*/
 				
-				if (currentspeed > 0.0f) {
+				if (currentspeed >= 0.0f) {
 					angle = -mRotationDelta;
 				} else if (currentspeed < 0.0f) {
 					angle = mRotationDelta;
