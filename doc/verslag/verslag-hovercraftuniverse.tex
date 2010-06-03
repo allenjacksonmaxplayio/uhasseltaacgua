@@ -190,6 +190,8 @@ De FMOD library en tools zijn gebruikt voor het geluid en de muziek. De muziek i
 
 Om toe te laten dat entiteiten in de wereld geluid produceren is de \texttt{Moveable}- \texttt{3DEmitter} gemaakt. Dit is een wrapper voor de FMOD functionaliteit, en bepaalt het geluid voor een entiteit in de wereld aan de hand van de positie, snelheid en orientatie. In onze architectuur zorgen de \texttt{EntityRepresentation}s voor de specifieke implementatie van het 3D-geluid.
 
+De hovercrafts zenden een motor geluid uit welke gebruik maakt van de \texttt{Moveable\-3DEmitter} interface. Dit geluid werd in de FMod Designer aangemaakt als een event welke twee parameters gebruikt om variatie in het geluid te brengen. De belangrijkste parameter is hier het toerental dat ingesteld kan worden. Wanneer een hovercraft sneller of trager gaat zal dit gereflecteerd worden in het geluid dat zijn motor maakt. Ook het gewicht kan aangepast worden om zo een kleine variatie in het geproduceerde geluid te brengen.
+
 \subsection{Besturing}
 De centrale klasse voor de besturing is de \texttt{KeyManager}. In deze klasse kunnen alle nodige acties geregistreerd worden door middel van een uniek ID, bijvoorbeeld in een enumeratie. Aan elk van deze acties kunnen \'e\'en of meerdere knoppen gebonden worden. Telkens wanneer de \texttt{HovercraftPlayerController} een key event binnenkrijgt, zal er bij de key manager nagegaan worden welke actie er overeenkomt met deze toets. Op deze manier is het mogelijk om de spelbesturing gemakkelijk te wijzigen zonder dat de controller aangepast moet worden. Bovendien kunnen er meerdere toetsen voor dezelfde actie gebruikt worden.
 
