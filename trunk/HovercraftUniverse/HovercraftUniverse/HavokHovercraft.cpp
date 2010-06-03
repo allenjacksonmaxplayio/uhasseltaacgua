@@ -245,7 +245,7 @@ void HavokHovercraft::update(){
 	if (status.moveLeft() || status.moveRight()) {
 
 		// we can only turn while we're moving
-		if ((currentspeed > 1.0f) || (currentspeed < -1.0f)) {
+		//if ((currentspeed > 1.0f) || (currentspeed < -1.0f)) {
 			float angle = mCharacterRigidBody->getRigidBody()->getRotation().getAngle();
 			if (angle != 0.0f) {
 				hkVector4 axis = mUp;
@@ -258,25 +258,43 @@ void HavokHovercraft::update(){
 			}
 
 			if (status.moveLeft()) {
+				/*
+				if (status.moveBackward()) {
+					angle = -mRotationDelta;
+				} else {
+					angle = mRotationDelta;
+				}
+				*/
+				
 				if (currentspeed > 0.0f) {
 					angle = mRotationDelta;
 				} else if (currentspeed < 0.0f) {
 					angle = -mRotationDelta;
 				}
+				
 			}
 			if (status.moveRight()) {
+				/*
+				if (status.moveBackward()) {
+					angle = mRotationDelta;
+				} else {
+					angle = -mRotationDelta;
+				}
+				*/
+				
 				if (currentspeed > 0.0f) {
 					angle = -mRotationDelta;
 				} else if (currentspeed < 0.0f) {
 					angle = mRotationDelta;
 				}
+				
 			}
 
 
 			hkQuaternion q(mUp,angle);
 			mSide.setRotatedDir(q, mSide);
 			mSide.normalize3();
-		}
+		//}
 	}
 
 	hkRotation newOrientation;
