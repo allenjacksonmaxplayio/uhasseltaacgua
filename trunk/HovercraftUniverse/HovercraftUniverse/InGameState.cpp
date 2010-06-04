@@ -179,13 +179,15 @@ namespace HovUni {
 		// Create skies
 		mSkyX = new SkyX::SkyX(Application::msSceneMgr, mRepresentationManager->getGameViews().at(0)->getCamera()->getCamera());
 		mSkyX->create();
+		//mSkyX->getCloudsManager()->add(SkyX::CloudLayer::Options());
+		SkyX::AtmosphereManager::Options skyXOptions = mSkyX->getAtmosphereManager()->getOptions();
+		skyXOptions.Time.x = 23.0f;
+		skyXOptions.Time.y = 10.0f;//sunRise
+		skyXOptions.Time.z = 10.0f;//sunSet (== sunrise so the sun NEVER SETS ;))
+		skyXOptions.WaveLength = Ogre::Vector3(0.1f, 0.1f, 0.1f);
+		mSkyX->getAtmosphereManager()->setOptions(skyXOptions);
 
-		// Add a basic cloud layer
-		mSkyX->getCloudsManager()->add(SkyX::CloudLayer::Options());
-		SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
-		SkyXOptions.Time.x = 21.0;
-		mSkyX->getAtmosphereManager()->setOptions(SkyXOptions);
-
+		
 		std::pair<int, int> size = GUIManager::getSingletonPtr()->scale(200, 100, 400, 200);
 		mCountdown = new Countdown("Countdown", "countdown.swf", size.first, size.second, Hikari::Center);
 
@@ -348,14 +350,7 @@ namespace HovUni {
 				}
 			}
 
-			// Get the sky options
-			SkyX::AtmosphereManager::Options SkyXOptions = mSkyX->getAtmosphereManager()->getOptions();
-			mSkyX->setTimeMultiplier(0.2f);
-			// Make sure we never quit night time
-			if ((SkyXOptions.Time.x > 4.0) && (SkyXOptions.Time.x < 5.0)) {
-				SkyXOptions.Time.x = 21.0;
-			}
-			mSkyX->getAtmosphereManager()->setOptions(SkyXOptions);
+			//Update the sky
 			mSkyX->update(evt.timeSinceLastFrame);
 
 			// Update representation manager
