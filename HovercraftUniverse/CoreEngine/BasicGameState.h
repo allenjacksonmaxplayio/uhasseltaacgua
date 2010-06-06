@@ -32,6 +32,16 @@ namespace HovUni {
 			BasicGameState();
 
 			/**
+			 * Basic functionality that will be executed on activation
+			 */
+			virtual void onActivate();
+
+			/**
+			 * FBasic functionality that will be executed on disable
+			 */
+			virtual void onDisable();
+
+			/**
 			 * Function called when the state gets activated
 			 */
 			virtual void activate() = 0;

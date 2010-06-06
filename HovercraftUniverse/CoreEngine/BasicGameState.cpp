@@ -7,6 +7,14 @@ namespace HovUni {
 		mInputManager = InputManager::getSingletonPtr();
 	}
 
+	void BasicGameState::onActivate() {
+		
+	}
+
+	void BasicGameState::onDisable() {
+		
+	}
+
 	void BasicGameState::setManager(GameStateManager* manager) {
 		mManager = manager;
 	}

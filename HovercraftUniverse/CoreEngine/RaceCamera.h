@@ -4,8 +4,13 @@
 #include <OgreSceneManager.h>
 #include "InputManager.h"
 #include "FreeroamCameraController.h"
-#include "ObjectTrackCameraController.h"
 
+/*
+#include <CCSCameraControlSystem.h>
+#include "CCSBasicCameraModes.h"
+#include "CCSFreeCameraMode.h"
+#include "CCSOrbitalCameraMode.h"
+*/
 namespace HovUni {
 
 /**
@@ -64,8 +69,11 @@ private:
 	/** The free roaming camera controller */
 	FreeroamCameraController * mFreeroamCameraController;
 
-	/** The tracking camera controller */
-	ObjectTrackCameraController * mObjectTrackCameraController;
+	//////////////////////////
+	//	NEW CAMERA SYSTEM	//
+	//////////////////////////
+	//CCS::CameraControlSystem* mCameraCS;
+	/////////// END //////////
 
 public:
 
