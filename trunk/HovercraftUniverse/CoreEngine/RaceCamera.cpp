@@ -15,12 +15,27 @@ RaceCamera::RaceCamera(Ogre::SceneManager * sceneMgr, int ID) : mSceneMgr(sceneM
 
 	// Create camera controllers
 	mFreeroamCameraController = new FreeroamCameraController();
-	mObjectTrackCameraController = new ObjectTrackCameraController();
 
 	// Create camera for this game view
 	mCamera = mSceneMgr->createCamera("Camera" + mID);
 	mCamera->setNearClipDistance(0.1f);
 	mCamera->setFarClipDistance(30000.0f);
+
+
+	//////////////////////////
+	//	NEW CAMERA SYSTEM	//
+	//////////////////////////
+	/*
+	mCameraCS = new CCS::CameraControlSystem(mSceneMgr, "CameraControlSystem", mCamera);
+
+	CCS::ChaseCameraMode* chaseCam;
+    chaseCam = new CCS::ChaseCameraMode(mCameraCS, Ogre::Vector3(0,20.0f,-200.0f));
+    mCameraCS->registerCameraMode("Chase",chaseCam);
+
+	//mCameraCS->setCameraTarget(headNode);
+    mCameraCS->setCurrentCameraMode(chaseCam);
+	*/
+	/////////// END //////////
 }
 
 void RaceCamera::reinitialize() {
@@ -177,7 +192,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 			newPosition = currEntity->getPosition() - (currEntity->getOrientation() * 20) + (currEntity->getUpVector() * 10);
 			
 			positionCam = CameraSpring::getInstance()->updateCameraSpring(mCamera->getPosition(), newPosition);
-			mCamera->setFixedYawAxis(true, mObjectTrackCameraController->getUpVector()); // Comment this line for super mario galaxy style!
+			mCamera->setFixedYawAxis(true, currEntity->getUpVector()); // Comment this line for super mario galaxy style!
 			mCamera->setPosition(positionCam);
 
 			//positionCam = CameraSpring::getInstance()->updateCameraSpring(mActiveViewpointNode->getPosition(), newPosition); //Smooth tracking
@@ -221,7 +236,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 
 			// Set position and direction to look at
 			mCamera->setPosition(positionCam);
-			mCamera->setOrientation(mObjectTrackCameraController->getOrientation());
+			mCamera->setOrientation(currEntity->getQuaternion());
 			mCamera->pitch(Ogre::Degree(-5.0f));
 
 			//mActiveViewpointNode->setPosition(positionCam);
@@ -237,7 +252,7 @@ void RaceCamera::update(Ogre::Real timeSinceLastFrame) {
 
 			// Set position and direction to look at
 			mCamera->setPosition(positionCam);
-			mCamera->setOrientation(back * mObjectTrackCameraController->getOrientation());
+			mCamera->setOrientation(back * currEntity->getQuaternion());
 
 
 			//mActiveViewpointNode->setPosition(positionCam);
