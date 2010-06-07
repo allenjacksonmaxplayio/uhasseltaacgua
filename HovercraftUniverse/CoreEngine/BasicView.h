@@ -15,74 +15,140 @@ namespace HovUni {
  * @author Nick De Frangh
  */
 class BasicView {
-protected:
-	/** The Ogre render window */
-	Ogre::RenderWindow* mRenderWindow;
+	protected:
+		/** The Ogre render window */
+		Ogre::RenderWindow* mRenderWindow;
 
-	/** The Ogre scene manager */
-	Ogre::SceneManager* mSceneManager;
+		/** The Ogre scene manager */
+		Ogre::SceneManager* mSceneManager;
 
-	/** The name of this view */
-	Ogre::String mViewName;
+		/** The name of this view */
+		Ogre::String mViewName;
 
-	/** The Ogre camera of the view */
-	Ogre::Camera * mOgreCamera;
+		/** The Ogre camera of the view */
+		Ogre::Camera * mOgreCamera;
 
-	/** A viewport associated with this view */
-	Ogre::Viewport* mViewport;
+		/** A viewport associated with this view */
+		Ogre::Viewport* mViewport;
 
-public:
+		/** Boolean to check if this view is activated or not */
+		bool mActivated;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param hud the hud to draw for the player
-	 * @param sceneMgr the Ogre scene manager
-	 */
-	BasicView(Ogre::RenderWindow* renderWindow, Ogre::SceneManager* sceneManager, const Ogre::String& name);
+		/** Position of the near clipping pane */
+		float mNearClipDistance;
 
-	/**
-	 * Destructor.
-	 */
-	virtual ~BasicView();
+		/** Position of he far clipping pane */
+		float mFarClipDistance;
 
-	/**
-	 * Draw the game view.
-	 *
-	 * @param timeSinceLastFrame the time since the last frame
-	 */
-	void draw(Ogre::Real timeSinceLastFrame);
+		/** The relative order of the viewport with others on the target. */
+		int mZOrder;
 
-	/**
-	 * Returns the scene manager associated with this view.
-	 *
-	 * @return the scenemanager
-	 */
-	Ogre::SceneManager* getSceneManager() { return mSceneManager; }
+		/** The relative position of the left of the viewport on the target, as a value between 0 and 1. */
+		float mLeft;
 
-	/**
-	 * Returns the name of this view.
-	 *
-	 * @return the name
-	 */
-	Ogre::String getViewName() { return mViewName; }
+		/** The relative position of the top of the viewport on the target, as a value between 0 and 1. */
+		float mTop;
 
-	/**
-	 * Returns the camera associated with this view.
-	 *
-	 * @return the camera
-	 */
-	Ogre::Camera* getCamera() { return mOgreCamera; }
+		/** The relative width of the viewport on the target, as a value between 0 and 1. */
+		float mWidth;
 
-	/**
-	 * Returns the viewport associated with this view.
-	 *
-	 * @return the viewport
-	 */
-	Ogre::Viewport* getViewport() { return mViewport; }
+		/** The relative height of the viewport on the target, as a value between 0 and 1. */
+		float mHeight;
 
-};
+	public:
 
+		/**
+		 * Constructor
+		 * @param renderWindow		The render window this view uses
+		 * @param sceneManager		The sceneManager this view will use
+		 * @param name				The name of this view
+		 * @param nearClipDistance	Position of the near clipping pane
+		 * @param farClipDistance	Position of the far clipping pane
+		 * @param ZOrder 			The relative order of the viewport with others on the target (allows overlapping viewports i.e. picture-in-picture). Higher ZOrders are on top of lower ones. The actual number is irrelevant, only the relative ZOrder matters (you can leave gaps in the numbering)
+		 * @param left 				The relative position of the left of the viewport on the target, as a value between 0 and 1.
+		 * @param top 				The relative position of the top of the viewport on the target, as a value between 0 and 1.
+		 * @param width				The relative width of the viewport on the target, as a value between 0 and 1.
+		 * @param height 			The relative height of the viewport on the target, as a value between 0 and 1. 
+		 */
+		BasicView(Ogre::RenderWindow* renderWindow, Ogre::SceneManager* sceneManager, const Ogre::String& name, float nearClipDistance = 0.1f, float farClipDistance = 30000.0f, int zOrder = 0, float left = 0.0f, float top = 0.0f, float width = 1.0f, float height = 1.0f);
+
+		/**
+		 * Destructor.
+		 */
+		virtual ~BasicView();
+
+	private:
+		/**
+		 * General initialisation function
+		 */
+		void init();
+
+		/**
+		 * Activate this view
+		 */
+		void activate();
+
+		/**
+		 * Deactivate this view
+		 */
+		void deactivate();
+
+	public:
+		/**
+		 * Optional pre activation function to be implemented by sub-classes
+		 */
+		virtual void preActivate() {};
+
+		/**
+		 * Optional post activation function to be implemented by sub-classes
+		 */
+		virtual void postActivate() {};
+
+		/**
+		 * Optional pre deactivation function to be implemented by sub-classes
+		 */
+		virtual void preDeactivate() {};
+
+		/**
+		 * Optional post deactivation function to be implemented by sub-classes
+		 */
+		virtual void postDeactivate() {};
+
+		/**
+		 * Returns the scene manager associated with this view.
+		 *
+		 * @return the scenemanager
+		 */
+		Ogre::SceneManager* getSceneManager() { return mSceneManager; }
+
+		/**
+		 * Returns the name of this view.
+		 *
+		 * @return the name
+		 */
+		Ogre::String getViewName() { return mViewName; }
+
+		/**
+		 * Returns the camera associated with this view.
+		 *
+		 * @return the camera
+		 */
+		Ogre::Camera* getCamera() { return mOgreCamera; }
+
+		/**
+		 * Returns the viewport associated with this view.
+		 *
+		 * @return the viewport
+		 */
+		Ogre::Viewport* getViewport() { return mViewport; }
+
+		/**
+		 * Check if this view is activated.
+		 *
+		 * @return True if the view is activated, false otherwise
+		 */
+		bool isActivated() { return mActivated; }
+	};
 }
 
 #endif //_BASICVIEW_H
