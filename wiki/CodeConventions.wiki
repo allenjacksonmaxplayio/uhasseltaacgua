@@ -27,6 +27,7 @@
   # Haken worden altijd als volgt gebruikt: {{{if (imCool) {} }}} en niet bijvoorbeeld {{{if( imCool ){} }}}
   # Gebruik exception handling om fouten op te vangen, geen returnwaarden.
   # Maak gebruik van assert().
+  # Interface classes get an "I" as prefix (ex. IResolution as interface class for Resolution)
 
 = Code Practices =
 
