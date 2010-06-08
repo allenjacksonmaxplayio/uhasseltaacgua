@@ -196,7 +196,7 @@ HOVUNI_EXCEPTION_DECLARE(UninitializedException, Exception)
 // GUI
 ////////////
 HOVUNI_EXCEPTION_DECLARE(OverlayNotActivatedException, Exception)
-
+HOVUNI_EXCEPTION_DECLARE(NoParentResolutionException, Exception)
 
 } // End of namespace
 
