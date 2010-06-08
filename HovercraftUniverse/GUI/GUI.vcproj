@@ -155,10 +155,6 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\BasicOverlay.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\GUIManager.cpp"
 					>
 				</File>
@@ -170,6 +166,26 @@
 					RelativePath=".\OverlayContainer.cpp"
 					>
 				</File>
+				<Filter
+					Name="Resolution"
+					>
+					<File
+						RelativePath=".\ScalingResolution.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Overlay"
+					>
+					<File
+						RelativePath=".\BasicOverlay.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\OverlayManager.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Overlays"
@@ -241,10 +257,6 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\BasicOverlay.h"
-					>
-				</File>
-				<File
 					RelativePath=".\GUIManager.h"
 					>
 				</File>
@@ -256,6 +268,38 @@
 					RelativePath=".\OverlayContainer.h"
 					>
 				</File>
+				<Filter
+					Name="Resolution"
+					>
+					<File
+						RelativePath=".\IResolution.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Resolution.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ScalingResolution.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Overlay"
+					>
+					<File
+						RelativePath=".\BasicOverlay.h"
+						>
+					</File>
+					<File
+						RelativePath=".\OverlayManager.h"
+						>
+					</File>
+					<File
+						RelativePath=".\OverlayParameters.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Overlays"

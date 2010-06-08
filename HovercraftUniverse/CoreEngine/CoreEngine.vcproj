@@ -411,6 +411,10 @@
 					RelativePath=".\BasicView.h"
 					>
 				</File>
+				<File
+					RelativePath=".\MenuView.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

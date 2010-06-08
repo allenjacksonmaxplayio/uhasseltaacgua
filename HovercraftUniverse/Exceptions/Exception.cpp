@@ -100,5 +100,6 @@ HOVUNI_EXCEPTION_DEFINITION(UninitializedException, Exception)
 // GUI
 ////////////
 HOVUNI_EXCEPTION_DEFINITION(OverlayNotActivatedException, Exception)
+HOVUNI_EXCEPTION_DEFINITION(NoParentResolutionException, Exception)
 
 }
