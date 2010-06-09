@@ -2,36 +2,48 @@
 
 namespace HovUni {
 
-ScalingResolution::ScalingResolution(IResolution* minResolution, IResolution* minScreenResolution, IResolution* maxResolution, IResolution* maxScreenResolution) 
-	: IResolution(), mMinResolution(minResolution), mMaxResolution(maxResolution), mMinScreenResolution(minScreenResolution), mMaxScreenResolution(maxScreenResolution) {
+ScalingResolution::ScalingResolution(boost::shared_ptr<IResolution> minResolution, boost::shared_ptr<IResolution> minScreenResolution, boost::shared_ptr<IResolution> maxResolution, boost::shared_ptr<IResolution> maxScreenResolution, bool arPreserving) 
+	: IResolution(), mMinResolution(minResolution), mMaxResolution(maxResolution), mMinScreenResolution(minScreenResolution), mMaxScreenResolution(maxScreenResolution), mPreserverAspectRatio(arPreserving) {
 
 }
 
-ScalingResolution::ScalingResolution(IResolution* resolution, IResolution* screenResolution) 
-	: IResolution(), mMinResolution(resolution), mMaxResolution(0), mMinScreenResolution(screenResolution), mMaxScreenResolution(0) {
+ScalingResolution::ScalingResolution(boost::shared_ptr<IResolution> resolution, boost::shared_ptr<IResolution> screenResolution, bool arPreserving) 
+	: IResolution(), mMinResolution(resolution), mMaxResolution(), mMinScreenResolution(screenResolution), mMaxScreenResolution(), mPreserverAspectRatio(arPreserving) {
 
 }
 
 int ScalingResolution::getWidth() {
 	//Is the parent resolution set?
-	if (mParentResolution == 0) {
+	if (mParentResolution.get() == 0) {
 		THROW(NoParentResolutionException, "A scaled resolution can only be calculated if the parent resolution is set");
 	}
 
+	int result;
 	//Calculate the scaled width
+	if (mMaxResolution.get() != 0) {
+		result = calculateDimension(mMinResolution->getWidth(), mMinScreenResolution->getWidth(), isWidthRelative(), mParentResolution->getWidth(), mMaxResolution->getWidth(), mMaxScreenResolution->getWidth());
+	} else {
+		result = calculateDimension(mMinResolution->getWidth(), mMinScreenResolution->getWidth(), isWidthRelative(), mParentResolution->getWidth());
+	}
 
-	return 1;
+	return result;
 }
 
 int ScalingResolution::getHeight() {
 	//Is the parent resolution set?
-	if (mParentResolution == 0) {
+	if (mParentResolution.get() == 0) {
 		THROW(NoParentResolutionException, "A scaled resolution can only be calculated if the parent resolution is set");
 	}
 
+	int result;
 	//Calculate the scaled height
+	if (mMaxResolution.get() != 0) {
+		result = calculateDimension(mMinResolution->getHeight(), mMinScreenResolution->getHeight(), isHeightRelative(), mParentResolution->getHeight(), mMaxResolution->getHeight(), mMaxScreenResolution->getHeight());
+	} else {
+		result = calculateDimension(mMinResolution->getHeight(), mMinScreenResolution->getHeight(), isHeightRelative(), mParentResolution->getHeight());
+	}
 
-	return 1;
+	return result;
 }
 
 int ScalingResolution::calculateDimension(int minSize, int minScreen, bool relSize, int parentSize, int maxSize, int maxScreen) {

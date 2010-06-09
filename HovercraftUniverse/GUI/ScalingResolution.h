@@ -13,14 +13,14 @@ namespace HovUni {
 	class ScalingResolution : public IResolution {
 		private:
 			/** The minimum resolution we want */
-			IResolution* mMinResolution;
+			boost::shared_ptr<IResolution> mMinResolution;
 			/** The maximum resolution we want */
-			IResolution* mMaxResolution;
+			boost::shared_ptr<IResolution> mMaxResolution;
 
 			/** The maximum screen resolution at which we want the minimum resolution */
-			IResolution* mMinScreenResolution;
+			boost::shared_ptr<IResolution> mMinScreenResolution;
 			/** The minimum screen resolution at which we want the maximum resolution */
-			IResolution* mMaxScreenResolution;
+			boost::shared_ptr<IResolution> mMaxScreenResolution;
 
 			/** Boolean to mark whether we want to preserve the aspect ratio or not */
 			bool mPreserverAspectRatio;
@@ -35,8 +35,9 @@ namespace HovUni {
 			 * @parem maxResolution The maximum resolution we want to have.
 			 * @param maxScreenResolution The maximum resolution at which we want to start using the
 			 *		maxResolution values.
+			 * @param arPreserving Boolean to toggle aspect ratio preservation on or off (true by default)
 			 */
-			ScalingResolution(IResolution* minResolution, IResolution* minScreenResolution, IResolution* maxResolution, IResolution* maxScreenResolution);
+			ScalingResolution(boost::shared_ptr<IResolution> minResolution, boost::shared_ptr<IResolution> minScreenResolution, boost::shared_ptr<IResolution> maxResolution, boost::shared_ptr<IResolution> maxScreenResolution, bool arPreserving = true);
 
 			/**
 			 * Constructor for a scaling resolution without a minimum and maximum resolution.
@@ -45,8 +46,9 @@ namespace HovUni {
 			 *		screen resolution
 			 * @param screenResolution The screen resolution that is linked to the given
 			 *		resolution and will be used to scale the result.
+			 * @param arPreserving Boolean to toggle aspect ratio preservation on or off (true by default)
 			 */
-			ScalingResolution(IResolution* resolution, IResolution* screenResolution);
+			ScalingResolution(boost::shared_ptr<IResolution> resolution, boost::shared_ptr<IResolution> screenResolution, bool arPreserving = true);
 
 			/**
 			 * Will check if the minimum (or only) resolution width is relative. And thus if

@@ -2,6 +2,7 @@
 #define _IRESOLUTION_H
 
 #include <Exception.h>
+#include <boost/shared_ptr.hpp>
 
 namespace HovUni {
 	/**
@@ -12,13 +13,13 @@ namespace HovUni {
 	class IResolution {
 		protected:
 			/** A parent resolution that this resolution might be linked to */
-			IResolution* mParentResolution;
+			boost::shared_ptr<IResolution> mParentResolution;
 
 		public:
 			/**
 			 * Constructor to initialise the parent resolution to null.
 			 */
-			IResolution() : mParentResolution(0) {}
+			IResolution() : mParentResolution() {}
 
 			/**
 			 * Ask if the defined width is relative or absolute
@@ -59,7 +60,7 @@ namespace HovUni {
 			 *
 			 * @param parent The parent resolution
 			 */
-			void setParentResolution(IResolution* parent) { mParentResolution = parent; }
+			void setParentResolution(boost::shared_ptr<IResolution> parent) { mParentResolution = parent; }
 	};
 }
 
