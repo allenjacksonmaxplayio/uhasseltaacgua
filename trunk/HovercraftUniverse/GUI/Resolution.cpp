@@ -11,7 +11,7 @@ int Resolution::getWidth() {
 		return mWidth;
 	} else {
 		//Is the parent resolution set?
-		if (mParentResolution == 0) {
+		if (mParentResolution.get() == 0) {
 			THROW(NoParentResolutionException, "A scaled resolution can only be calculated if the parent resolution is set");
 		}
 
@@ -24,7 +24,7 @@ int Resolution::getHeight() {
 		return mHeight;
 	} else {
 		//Is the parent resolution set?
-		if (mParentResolution == 0) {
+		if (mParentResolution.get() == 0) {
 			THROW(NoParentResolutionException, "A scaled resolution can only be calculated if the parent resolution is set");
 		}
 
