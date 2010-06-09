@@ -22,6 +22,9 @@ namespace HovUni {
 			/** The minimum screen resolution at which we want the maximum resolution */
 			IResolution* mMaxScreenResolution;
 
+			/** Boolean to mark whether we want to preserve the aspect ratio or not */
+			bool mPreserverAspectRatio;
+
 		public:
 			/**
 			 * Constructor for a scaling resolution.
@@ -46,11 +49,12 @@ namespace HovUni {
 			ScalingResolution(IResolution* resolution, IResolution* screenResolution);
 
 			/**
-			 * A scaling resolution is never relative so this function always returns false.
+			 * Will check if the minimum (or only) resolution width is relative. And thus if
+			 * the resulting width is dependent on the parent resolution.
 			 *
-			 * @return False because scaling widths are never relative.
+			 * @param return True if we have a relative width, false otherwise.
 			 */
-			virtual inline bool isWidthRelative() { return false; }
+			virtual inline bool isWidthRelative() { return mMinResolution->isWidthRelative(); }
 
 			/**
 			 * Get the width of this resultion, scaled to the parent resolution.
@@ -64,11 +68,12 @@ namespace HovUni {
 			virtual int getWidth();
 
 			/**
-			 * A scaling resolution is never relative so this function always returns false.
+			 * Will check if the minimum (or only) resolution height is relative. And thus if
+			 * the resulting height is dependent on the parent resolution.
 			 *
-			 * @return False because scaling heights are never relative.
+			 * @param return True if we have a relative height, false otherwise.
 			 */
-			virtual inline bool isHeightRelative() { return false; }
+			virtual inline bool isHeightRelative() { return mMinResolution->isHeightRelative(); }
 			
 			/**
 			 * Get the height of this resultion, scaled to the parent resolution.
@@ -80,6 +85,51 @@ namespace HovUni {
 			 *		was not set.
 			 */
 			virtual int getHeight();
+
+		private:
+			/**
+			 * Calculate the actual dimension we want to use for either width of height. The maxSize
+			 * and maxScreen values are optional. When not provided, the function will scale the
+			 * minSize value by using the minScreen and parentSize values.
+			 *
+			 * @param minSize The minimum size we want at the minScreen resolution.
+			 * @param minScree The minimum screen resolution at which we start to use minSize.
+			 * @param relSize Boolean to mark whether we are working with relative values.
+			 * @param parentSize The real size that is available.
+			 * @param maxSize The maximum size we want at the maxScreen resolution (Optional).
+			 * @param maxScree The maximum screen resolution at which we start to use maxSize (Optional).
+			 * @return The calculated dimension
+			 */
+			int calculateDimension(int minSize, int minScreen, bool relSize, int parentSize, int maxSize = -1, int maxScreen = -1);
+			
+			/**
+			 * Calculate a scaling factor from the minimum and maximum value and the current value we are at.
+			 *
+			 * @param min The minimum value.
+			 * @param max The maximum value.
+			 * @param curr The current vlaue.
+			 * @param normalize Normalize the scale between 0 and 1, default = true.
+			 * @return The calculated scale
+			 */
+			float calculateScale(int min, int max, int curr, bool normalize = true);
+
+			/**
+			 * Scale a value between min and max according to the given scale.
+			 *
+			 * @param minValue The minimum value we can get.
+			 * @param maxValue The maximum value we can het.
+			 * @param scale The scale we want to use [0-1].
+			 * @return The scaled value
+			 */
+			float scaleValue(float minValue, float maxValue, float scale);
+
+			/**
+			 * Request a scale that preserves the aspect ratio of the resolution
+			 *
+			 * @return A scale that should be used to scale both the widht and height
+			 *		to preserve the aspect ratio of the resolution.
+			 */
+			float getARScale();
 	};
 }
 
